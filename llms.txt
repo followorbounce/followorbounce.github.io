@@ -1,7 +1,20 @@
+# Knowledge Network
 
+> The author's personal website: a hand-maintained index of essays,
+> interactive experiments, media servers, art, and data analysis —
+> centred on space, time, perception, and scientific vision, often
+> approached through contested questions.
 
-## About
+Home: https://followorbounce.github.io/
 
-Personal website contains topics of the interest of the author.
-essays, interactive experiments, mediaservers, art and data analysys,
-space, time, perception, and scientific vision thruegh contraversial topics.
+## Sections
+
+- Aerospace — spaceflight history and engineering. Index: https://followorbounce.github.io/aerospace/
+- Maya Basics — Maya calendrical systems. Long Count: https://followorbounce.github.io/Maya-Calendar/
+- Radio & Electronics — FM & AM, media servers, experiments and observations (planned).
+- Philosophy — nature of time, consciousness, reality and perception, free will, ethics (planned).
+- Personal — notes, travel stories, ideas, books and references, useful tools, archive (planned).
+
+## Related
+
+- Different Vision trainings: https://designdivinefuture.wordpress.com/
