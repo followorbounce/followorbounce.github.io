@@ -10,7 +10,7 @@ Home: https://followorbounce.github.io/
 ## Sections
 
 - Aerospace — spaceflight history and engineering. Index: https://followorbounce.github.io/aerospace/
-- Maya Basics — Maya calendrical systems. Long Count: https://followorbounce.github.io/Maya-Calendar/
+- Maya Basics — Maya calendrical systems. Index: https://followorbounce.github.io/Maya-Calendar/
 - Radio & Electronics — FM & AM, media servers, experiments and observations (planned).
 - Philosophy — nature of time, consciousness, reality and perception, free will, ethics (planned).
 - Personal — notes, travel stories, ideas, books and references, useful tools, archive (planned).
