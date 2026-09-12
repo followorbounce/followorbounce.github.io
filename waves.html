@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Waves — Knowledge Network</title>
+<meta name="description" content="One idea in many disguises: how sound, light, seismic motion, and quantum matter waves are all the same phenomenon — a disturbance carrying energy, described by v = fλ.">
+<link rel="canonical" href="https://followorbounce.github.io/waves">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Waves — Knowledge Network">
+<meta property="og:description" content="Sound, light, seismic motion, and matter waves — one idea, described by v = fλ, showing up everywhere nature vibrates.">
+<meta property="og:url" content="https://followorbounce.github.io/waves">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --accent:#a13a2f;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 860px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em;
+  border:1px solid var(--ink); padding:6px 10px; display:inline-block;
+}
+header .back{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,88px); border-bottom:1px solid var(--ink);}
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--mid);
+  display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.0; margin-bottom:20px;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:640px; color:#28282a;}
+
+section.chapter{padding-block:clamp(44px,7vw,72px); border-bottom:1px solid var(--line);}
+.chapter .kicker{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid);
+  margin-bottom:10px;
+}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter p{margin-bottom:16px; max-width:640px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;}
+em{font-style:normal; color:var(--accent); font-weight:500;}
+
+.callout{
+  margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff;
+  display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.callout .tag{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid);
+  border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;
+}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+.callout a:hover{text-decoration-color:var(--ink);}
+
+/* --- motion diagrams --- */
+.motions{display:grid; grid-template-columns:repeat(auto-fit,minmax(190px,1fr)); gap:20px; margin-top:28px;}
+.motion-card{border:1px solid var(--line); background:#fff; padding:14px;}
+.motion-card svg{width:100%; height:auto; display:block;}
+.motion-card .m-label{font-family:var(--font-mono); font-size:11px; letter-spacing:0.05em; margin-top:10px; color:var(--mid);}
+.motion-card .m-label b{color:var(--ink); font-weight:600;}
+.mv-dot{fill:var(--accent);}
+.mv-line{stroke:var(--line); stroke-width:1; fill:none;}
+.mv-arrow{stroke:var(--ink); stroke-width:1.4; fill:none; marker-end:url(#arrow);}
+
+/* --- spectrum tracks --- */
+.track-wrap{margin-top:30px; margin-bottom:6px;}
+.track{position:relative; height:64px; border:1px solid var(--ink); background:#fff;}
+.band{position:absolute; top:0; bottom:0; border-right:1px solid var(--line); display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding:6px 8px; overflow:hidden;}
+.band:last-child{border-right:none;}
+.band .bname{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.03em; font-weight:600; white-space:nowrap;}
+.band .brange{font-family:var(--font-mono); font-size:9px; color:var(--mid); white-space:nowrap; margin-top:2px;}
+.band.b1{background:#efe9e3;}
+.band.b2{background:#e7ded3;}
+.band.b3{background:#e0d3c3;}
+.band.b4{background:#d8c8b3;}
+.band.b5{background:#d0bda3;}
+.band.b6{background:#c8b293;}
+.band.b7{background:#c0a783;}
+.track-axis{position:relative; height:20px; margin-top:4px;}
+.tick{position:absolute; top:0; font-family:var(--font-mono); font-size:9px; color:var(--mid); transform:translateX(-50%); white-space:nowrap;}
+.tick::before{content:''; position:absolute; left:50%; top:-4px; width:1px; height:4px; background:var(--line);}
+.marker{position:absolute; top:-9px; width:2px; background:var(--ink);}
+.marker-label{position:absolute; top:-30px; font-family:var(--font-mono); font-size:9.5px; white-space:nowrap; transform:translateX(-50%);}
+.marker-label::after{content:''; position:absolute; left:50%; bottom:-14px; width:1px; height:14px; background:var(--ink); opacity:.4;}
+.track-note{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:34px;}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:600px){
+  .two-col{grid-template-columns:1fr;}
+  .band{padding:6px 4px;}
+  .band .bname{font-size:9px; letter-spacing:0;}
+  .band .brange{font-size:8px;}
+}
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{font-size:0.95rem; margin-bottom:8px;}
+.two-col p{font-size:0.94rem;}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+ol.refs li a:hover{text-decoration-color:var(--ink);}
+
+footer{
+  border-top:1px solid var(--ink); padding-block:40px;
+  font-family:var(--font-mono); font-size:12px; color:var(--mid);
+}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Physics · Waves</div>
+    <h1>Waves</h1>
+    <p>Drop a stone in water, pluck a string, shine a light, or shake the ground hard enough — and the same equation describes all of it: <strong>v = fλ</strong>, speed equals frequency times wavelength. What differs from case to case is what's doing the vibrating, whether it needs something to vibrate <em>through</em>, and which direction it moves relative to where the energy is going. This is a walk through sound, light, the ground under your feet, and — if it exists in any other form — whatever's left.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">01 — One Idea, Many Disguises</div>
+    <h2>Three ways to wiggle</h2>
+    <p class="lede">A wave carries energy without carrying matter along with it (mostly — more on that later). But the material actually doing the moving can move three different ways relative to the wave's direction of travel:</p>
+    <p><strong>Longitudinal</strong> — particles move back and forth <em>along</em> the direction of travel, alternately compressing and stretching the medium. Sound in air is longitudinal: it's a moving pattern of pressure squeezed together and pulled apart. <strong>Transverse</strong> — particles (or, for light, the electric and magnetic fields) move <em>perpendicular</em> to the direction of travel, like a shaken rope. <strong>Orbital</strong> — a hybrid seen at the surface of water, where particles trace small circles, moving forward at the crest and backward in the trough, so the wave travels but the water itself mostly stays put.</p>
+    <div class="motions">
+      <div class="motion-card">
+        <svg viewBox="0 0 180 70" aria-hidden="true">
+          <defs><marker id="arrow" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ink)"/></marker></defs>
+          <path class="mv-arrow" d="M10,55 H160"/>
+          <g class="lg-dots"></g>
+        </svg>
+        <div class="m-label"><b>Longitudinal</b> — sound. Motion parallel to travel; medium compresses &amp; stretches.</div>
+      </div>
+      <div class="motion-card">
+        <svg viewBox="0 0 180 70" aria-hidden="true">
+          <path class="mv-arrow" d="M10,55 H160"/>
+          <g class="tr-dots"></g>
+        </svg>
+        <div class="m-label"><b>Transverse</b> — light, S-waves. Motion perpendicular to travel.</div>
+      </div>
+      <div class="motion-card">
+        <svg viewBox="0 0 180 70" aria-hidden="true">
+          <path class="mv-arrow" d="M10,55 H160"/>
+          <g class="orb-dots"></g>
+        </svg>
+        <div class="m-label"><b>Orbital</b> — water surface. Particles circle in place as the wave passes through.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">02 — Sound: Waves You Feel as Pressure</div>
+    <h2>A moving pattern of squeeze</h2>
+    <p class="lede">Sound is air (or water, or steel) being alternately compressed and rarefied by something vibrating — a vocal cord, a speaker cone, a struck bell. It needs a medium: no air, no sound, which is why space is silent no matter how loud the explosion. Human hearing runs roughly <strong>20 Hz to 20,000 Hz</strong>; below that is infrasound, above it ultrasound<sup>[1]</sup>. Other animals draw the line elsewhere — elephants communicate in rumbles below 20 Hz that people can't consciously hear, while dogs, bats, and dolphins hear well up past 20 kHz, bats and dolphins using frequencies around 100 kHz for echolocation.</p>
+    <div class="track-wrap">
+      <div class="track" id="hearing-track"></div>
+      <div class="track-axis" id="hearing-axis"></div>
+    </div>
+    <p class="track-note">Log scale, 1 Hz – 200,000 Hz. Markers show roughly where a few species' hearing sits.</p>
+    <div class="callout">
+      <span class="tag">Deep dive</span>
+      <span>Notes, octaves, string vibration, harmonics, and why a piano and a violin playing the same note still sound different — all of that lives in <a href="https://followorbounce.github.io/aerospace/mathematics-of-music">RESONANCE: The Mathematics of Music</a>, over on the Aerospace field guide.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">03 — Earth's Own Vibrations</div>
+    <h2>How a shockwave mapped the inside of the planet</h2>
+    <p class="lede">An earthquake sends out two kinds of body wave at once, and they disagree about liquids. <strong>P-waves</strong> ("primary") are longitudinal — a compression wave, exactly like sound, just moving through rock instead of air. <strong>S-waves</strong> ("secondary") are transverse — a shearing, side-to-side motion. P-waves arrive first because they're faster, and they can travel through anything compressible: solid, liquid, or gas. S-waves can't — a fluid has no shear strength to sustain that sideways motion, so they simply stop dead at any liquid boundary<sup>[2]</sup>.</p>
+    <p>That difference is how anyone found out Earth's outer core is liquid without drilling anywhere near it: seismographs on the far side of the planet from a big earthquake pick up the P-waves that punched straight through the core, but the S-waves never show up at all. A wave that refuses to go somewhere turned out to be as informative as one that does.</p>
+    <div class="two-col">
+      <div class="box">
+        <h3>P-wave</h3>
+        <p>Longitudinal, ~8 km/s through the outer core. Passes through solid, liquid, and gas.</p>
+      </div>
+      <div class="box">
+        <h3>S-wave</h3>
+        <p>Transverse, slower, needs rigidity. Vanishes at the liquid outer-core boundary — the evidence itself.</p>
+      </div>
+    </div>
+    <p style="margin-top:20px;">Water waves sit between the two: at the surface of the ocean, the orbital motion from Chapter 01 means the water is doing a bit of both, circling forward-and-up, then back-and-down, as the wave itself travels on without it.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">04 — Light: Waves That Need Nothing to Travel Through</div>
+    <h2>The one spectrum, cut seven ways</h2>
+    <p class="lede">Light is a transverse wave too, but of something stranger than matter: an oscillating electric field generating a magnetic one, and back again, neither needing a medium at all — which is the only reason sunlight can cross 150 million km of vacuum to reach a leaf. Radio, microwaves, infrared, visible light, ultraviolet, X-rays, and gamma rays are all exactly the same phenomenon; the names are just human labels drawn across one continuous range of wavelengths, all moving at the same speed <em>c</em> in a vacuum<sup>[3]</sup>.</p>
+    <div class="track-wrap">
+      <div class="track" id="em-track"></div>
+      <div class="track-axis" id="em-axis"></div>
+    </div>
+    <p class="track-note">Log scale of wavelength, 1 picometer – 1,000 m — 15 orders of magnitude in one strip. Visible light (400–700 nm) is genuinely that sliver in the middle<sup>[3]</sup>.</p>
+    <p style="margin-top:18px;">Past ultraviolet, wavelength gets so small that physicists mostly stop using it and switch to photon energy in electron-volts instead — ultraviolet runs a few eV to ~100 eV, X-rays 100 eV to 100,000 eV, and anything above that is gamma<sup>[3]</sup>. Same spectrum, different ruler, chosen for whichever end of it is easiest to measure.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">05 — And Otherwise, If It Exists: Matter Waves</div>
+    <h2>Everything is a wave, if you look close enough</h2>
+    <p class="lede">In 1924 Louis de Broglie proposed that it isn't just light that behaves like both a wave and a particle — anything with momentum does, including electrons, atoms, and (in principle, unmeasurably) you. The wavelength is <strong>λ = h/(mv)</strong>: Planck's constant divided by momentum<sup>[4]</sup>. Plug in an electron moving at 1% of the speed of light and you get a wavelength around <strong>0.24 nanometers</strong> — close to the spacing between atoms in a crystal lattice. That's not a coincidence you're meant to shrug off: a beam of electrons at that wavelength diffracts off a crystal exactly the way light diffracts off a grating, which is the entire operating principle behind an electron microscope. Shorter wavelength than visible light means finer resolution, all the way down to individual atoms.</p>
+    <p>Bigger, slower objects have de Broglie wavelengths absurdly smaller than anything that could ever be observed — a thrown baseball's wavelength is something like 10⁻³⁴ meters — which is the real answer to "why don't I see myself diffract when I walk through a doorway." The wave is there. It's just too small by a margin no instrument will ever close.</p>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">References</div>
+    <ol class="refs">
+      <li><a href="http://physics.bu.edu/~redner/211-sp06/class-oscillations/human_range.html" rel="external noopener" target="_blank">The Range of Human Hearing</a> — Boston University Physics.</li>
+      <li><a href="https://courses.lumenlearning.com/suny-geophysical/chapter/understanding-earths-interior/" rel="external noopener" target="_blank">Understanding Earth's Interior</a> — Lumen Learning / SUNY Physical Geography, on P- and S-waves and the liquid outer core.</li>
+      <li><a href="https://imagine.gsfc.nasa.gov/science/toolbox/emspectrum1.html" rel="external noopener" target="_blank">Introduction to the Electromagnetic Spectrum</a> — NASA "Imagine the Universe!"</li>
+      <li><a href="https://chem.libretexts.org/Bookshelves/Introductory_Chemistry/Introductory_Chemistry_(CK-12)/05:_Electrons_in_Atoms/5.08:_de_Broglie_Wave_Equation" rel="external noopener" target="_blank">The de Broglie Wave Equation</a> — LibreTexts Chemistry.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
+    <span><a href="/">Index</a> · <a href="https://followorbounce.github.io/aerospace/mathematics-of-music">RESONANCE →</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+
+  // ---- motion diagrams: build dots along the arrow, animate per-type ----
+  function buildDots(groupSel, n, type){
+    var g = document.querySelector(groupSel);
+    if(!g) return;
+    var dots = [];
+    for(var i=0;i<n;i++){
+      var el = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      el.setAttribute('r', 3.2);
+      el.setAttribute('class','mv-dot');
+      g.appendChild(el);
+      dots.push(el);
+    }
+    var x0 = 20, x1 = 150, baseY = 30;
+    function frame(t){
+      for(var i=0;i<n;i++){
+        var frac = i/(n-1);
+        var x = x0 + frac*(x1-x0);
+        if(type==='long'){
+          var shift = 7*Math.sin(t*0.0025 + frac*Math.PI*4);
+          dots[i].setAttribute('cx', x+shift);
+          dots[i].setAttribute('cy', baseY);
+        } else if(type==='trans'){
+          var y = baseY + 16*Math.sin(t*0.0025 + frac*Math.PI*4);
+          dots[i].setAttribute('cx', x);
+          dots[i].setAttribute('cy', y);
+        } else if(type==='orb'){
+          var ang = t*0.0025 + frac*Math.PI*4;
+          dots[i].setAttribute('cx', x + 6*Math.cos(ang));
+          dots[i].setAttribute('cy', baseY + 10*Math.sin(ang));
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  }
+  buildDots('.lg-dots', 9, 'long');
+  buildDots('.tr-dots', 9, 'trans');
+  buildDots('.orb-dots', 9, 'orb');
+
+  // ---- log-scale track builder ----
+  // domainMin/Max in same units as band/marker values (Hz for hearing, meters for EM)
+  function pct(val, min, max){
+    return (Math.log10(val)-Math.log10(min)) / (Math.log10(max)-Math.log10(min)) * 100;
+  }
+
+  function buildTrack(trackId, axisId, domainMin, domainMax, bands, ticks, markers){
+    var track = document.getElementById(trackId);
+    var axis = document.getElementById(axisId);
+    if(!track || !axis) return;
+
+    bands.forEach(function(b, i){
+      var left = Math.max(0, pct(b.from, domainMin, domainMax));
+      var right = Math.min(100, pct(b.to, domainMin, domainMax));
+      var div = document.createElement('div');
+      div.className = 'band b'+((i%7)+1);
+      div.style.left = left+'%';
+      div.style.width = Math.max(0, right-left)+'%';
+      var nameEl = document.createElement('div'); nameEl.className='bname'; nameEl.textContent=b.name;
+      var rangeEl = document.createElement('div'); rangeEl.className='brange'; rangeEl.textContent=b.range;
+      div.appendChild(nameEl); div.appendChild(rangeEl);
+      track.appendChild(div);
+    });
+
+    ticks.forEach(function(t){
+      var p = pct(t.val, domainMin, domainMax);
+      if(p<0||p>100) return;
+      var el = document.createElement('div');
+      el.className='tick';
+      el.style.left = p+'%';
+      el.textContent = t.label;
+      axis.appendChild(el);
+    });
+
+    (markers||[]).forEach(function(m, idx){
+      var p = pct(m.val, domainMin, domainMax);
+      if(p<0||p>100) return;
+      var line = document.createElement('div');
+      line.className='marker';
+      line.style.left = p+'%';
+      line.style.height = '9px';
+      track.appendChild(line);
+      var lbl = document.createElement('div');
+      lbl.className='marker-label';
+      lbl.style.left = p+'%';
+      // stagger alternating markers up/down so labels don't collide
+      lbl.style.top = (idx%2===0) ? '-30px' : '-46px';
+      lbl.textContent = m.label;
+      track.appendChild(lbl);
+    });
+  }
+
+  buildTrack('hearing-track','hearing-axis', 1, 200000,
+    [
+      {name:'INFRASOUND', range:'< 20 Hz', from:1, to:20},
+      {name:'AUDIBLE (HUMAN)', range:'20 Hz – 20 kHz', from:20, to:20000},
+      {name:'ULTRASOUND', range:'> 20 kHz', from:20000, to:200000}
+    ],
+    [
+      {val:1, label:'1 Hz'},{val:10,label:'10'},{val:100,label:'100'},
+      {val:1000,label:'1 kHz'},{val:10000,label:'10 kHz'},{val:100000,label:'100 kHz'}
+    ],
+    [
+      {val:15, label:'Elephant'},
+      {val:1000, label:'Speech'},
+      {val:30000, label:'Dog'},
+      {val:100000, label:'Bat / Dolphin'}
+    ]
+  );
+
+  buildTrack('em-track','em-axis', 1e-12, 1e3,
+    [
+      {name:'GAMMA', range:'< 0.01 nm', from:1e-12, to:1e-11},
+      {name:'X-RAY', range:'0.01 – 10 nm', from:1e-11, to:1e-8},
+      {name:'UV', range:'10 – 400 nm', from:1e-8, to:4e-7},
+      {name:'VISIBLE', range:'400–700 nm', from:4e-7, to:7e-7},
+      {name:'INFRARED', range:'700 nm – 1 mm', from:7e-7, to:1e-3},
+      {name:'MICROWAVE', range:'1 mm – 1 cm', from:1e-3, to:1e-2},
+      {name:'RADIO', range:'> 1 cm', from:1e-2, to:1e3}
+    ],
+    [
+      {val:1e-12, label:'1 pm'},{val:1e-9,label:'1 nm'},{val:1e-6,label:'1 µm'},
+      {val:1e-3,label:'1 mm'},{val:1,label:'1 m'},{val:1000,label:'1 km'}
+    ],
+    [
+      {val:3, label:'FM radio'},
+      {val:300, label:'AM radio'}
+    ]
+  );
+
+})();
+</script>
+
+</body>
+</html>
