@@ -1,0 +1,1022 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Radio Communications — Knowledge Network</title>
+<meta name="description" content="Radio is not one technology or one frequency — it's the invisible infrastructure behind speech, broadcasting, spacecraft telemetry, radar, navigation, and machine-to-machine communication. How frequency, bandwidth, modulation, propagation, antennas, power, and licensing determine what a radio system can do.">
+<link rel="canonical" href="https://followorbounce.github.io/radio-communications">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Radio Communications — Knowledge Network">
+<meta property="og:description" content="How frequency, bandwidth, modulation, propagation, antennas, power, and licensing turn electromagnetic waves into every kind of communication, from human speech to deep-space telemetry.">
+<meta property="og:url" content="https://followorbounce.github.io/radio-communications">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --accent:#a13a2f;
+  --accent2:#2f5aa1;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 900px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+sup{font-size:0.7em;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--paper); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em;
+  border:1px solid var(--ink); padding:6px 10px; display:inline-block;
+}
+header .back{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,88px); border-bottom:1px solid var(--ink);}
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--mid);
+  display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2rem, 5.6vw, 3.4rem); line-height:1.02; margin-bottom:20px;}
+.hero .sub{font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:clamp(1.05rem,2vw,1.3rem); color:var(--accent); margin-bottom:16px; display:block;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:680px; color:#28282a;}
+.hero blockquote{margin:22px 0 0; padding-left:16px; border-left:3px solid var(--ink); font-style:normal; font-size:1.05rem; max-width:640px;}
+
+section.chapter{padding-block:clamp(44px,7vw,72px); border-bottom:1px solid var(--line);}
+.chapter .kicker{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid);
+  margin-bottom:10px;
+}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter h3{font-size:0.95rem; margin:0 0 10px;}
+.chapter p{margin-bottom:16px; max-width:680px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;}
+em{font-style:normal; color:var(--accent); font-weight:500;}
+code{font-family:var(--font-mono); background:#eae5dd; padding:1px 5px; font-size:0.88em;}
+
+.callout{
+  margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff;
+  display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.callout.warn{border-color:var(--accent);}
+.callout .tag{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid);
+  border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;
+}
+.callout.warn .tag{color:var(--accent); border-color:var(--accent);}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+.callout a:hover{text-decoration-color:var(--ink);}
+
+/* --- flow / chain diagrams --- */
+.flow{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin-top:24px; margin-bottom:6px;}
+.flow .step{
+  border:1px solid var(--ink); background:#fff; padding:9px 12px;
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em;
+  text-align:center; white-space:nowrap;
+}
+.flow .arrow{padding:0 8px; color:var(--mid); font-size:14px;}
+.flow.wrap-tight{row-gap:10px;}
+.flow-note{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:10px;}
+
+.taglist{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.taglist span{
+  font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--line);
+  padding:5px 10px; background:#fff;
+}
+
+/* --- diagram cards (svg containers) --- */
+.diagram{border:1px solid var(--line); background:#fff; padding:18px; margin-top:24px;}
+.diagram svg{width:100%; height:auto; display:block;}
+.diagram-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:10px;}
+.diagram-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px;}
+@media (max-width:640px){.diagram-grid{grid-template-columns:1fr;}}
+.wv-line{stroke:var(--ink); stroke-width:1.6; fill:none;}
+.wv-line2{stroke:var(--accent); stroke-width:1.6; fill:none;}
+.wv-axis{stroke:var(--line); stroke-width:1; fill:none;}
+.wv-label{font-family:var(--font-mono); font-size:10px; fill:var(--mid);}
+
+/* --- spectrum tracks (reused pattern) --- */
+.track-wrap{margin-top:30px; margin-bottom:6px;}
+.track{position:relative; height:64px; border:1px solid var(--ink); background:#fff;}
+.band{position:absolute; top:0; bottom:0; border-right:1px solid var(--line); display:flex; flex-direction:column; align-items:flex-start; justify-content:center; padding:6px 8px; overflow:hidden; cursor:pointer;}
+.band:last-child{border-right:none;}
+.band .bname{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.03em; font-weight:600; white-space:nowrap;}
+.band .brange{font-family:var(--font-mono); font-size:9px; color:var(--mid); white-space:nowrap; margin-top:2px;}
+.band.b1{background:#efe9e3;} .band.b2{background:#e7ded3;} .band.b3{background:#e0d3c3;}
+.band.b4{background:#d8c8b3;} .band.b5{background:#d0bda3;} .band.b6{background:#c8b293;}
+.band.b7{background:#c0a783;} .band.b8{background:#b89c73;} .band.b9{background:#b09163;}
+.band.active{outline:2px solid var(--accent); outline-offset:-2px;}
+.track-axis{position:relative; height:20px; margin-top:4px;}
+.tick{position:absolute; top:0; font-family:var(--font-mono); font-size:9px; color:var(--mid); transform:translateX(-50%); white-space:nowrap;}
+.tick::before{content:''; position:absolute; left:50%; top:-4px; width:1px; height:4px; background:var(--line);}
+.marker{position:absolute; top:-9px; width:2px; background:var(--ink);}
+.marker-label{position:absolute; top:-30px; font-family:var(--font-mono); font-size:9.5px; white-space:nowrap; transform:translateX(-50%);}
+.track-note{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:34px;}
+.detail-panel{margin-top:16px; padding:14px 16px; border:1px dashed var(--line); font-size:0.92rem; min-height:26px;}
+.detail-panel b{font-family:var(--font-mono); font-size:12px; letter-spacing:0.04em;}
+
+@media (max-width:600px){
+  .band{padding:6px 4px;}
+  .band .bname{font-size:9px; letter-spacing:0;}
+  .band .brange{font-size:8px;}
+}
+
+/* --- pill buttons (allocation explorer / band-plan table) --- */
+.pills{display:flex; flex-wrap:wrap; gap:8px; margin-top:20px;}
+.pill{
+  font-family:var(--font-mono); font-size:11.5px; padding:7px 12px; border:1px solid var(--ink);
+  background:#fff; cursor:pointer; user-select:none;
+}
+.pill:hover{background:#eee9e1;}
+.pill.on{background:var(--ink); color:var(--paper);}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:600px){.two-col{grid-template-columns:1fr;}}
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{margin-bottom:8px;}
+.two-col p{font-size:0.94rem;}
+
+.icon-row{display:grid; grid-template-columns:repeat(auto-fill,minmax(150px,1fr)); gap:14px; margin-top:24px;}
+.icon-card{border:1px solid var(--line); background:#fff; padding:14px; text-align:left;}
+.icon-card .it{font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:0.85rem; margin-bottom:6px;}
+.icon-card .arrow-to{font-family:var(--font-mono); font-size:10.5px; color:var(--mid);}
+.icon-card .arrow-to em{color:var(--accent);}
+
+/* --- satellite link animation --- */
+.satlink{position:relative; height:230px;}
+.satlink svg{width:100%; height:100%;}
+.satlink .pkt{font-family:var(--font-mono); font-weight:600; font-size:12px;}
+
+/* --- doppler / waterfall canvases --- */
+.scope{border:1px solid var(--ink); background:#fff; padding:12px; margin-top:24px;}
+.scope canvas{width:100%; display:block; background:#0e0e10; image-rendering:pixelated;}
+.scope-controls{display:flex; align-items:center; gap:12px; margin-top:12px; flex-wrap:wrap; font-family:var(--font-mono); font-size:11.5px;}
+.scope-controls input[type=range]{width:160px;}
+.freq-readout{font-weight:600;}
+.freq-readout.up{color:#2f7a3a;} .freq-readout.down{color:var(--accent);}
+
+/* --- link budget slider --- */
+.linkbudget{border:1px solid var(--ink); background:#fff; padding:18px; margin-top:24px;}
+.lb-row{display:flex; align-items:center; gap:14px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12px;}
+.lb-row input[type=range]{flex:1; min-width:160px;}
+.lb-bar-wrap{margin-top:16px; height:18px; border:1px solid var(--line); background:#eee9e1; position:relative;}
+.lb-bar{position:absolute; top:0; left:0; bottom:0; background:var(--accent2); width:100%;}
+.lb-readout{margin-top:10px; font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.lb-readout b{color:var(--ink);}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+ol.refs li a:hover{text-decoration-color:var(--ink);}
+
+.stack-diagram{display:flex; flex-direction:column; gap:0; margin-top:20px; border:1px solid var(--ink);}
+.stack-diagram .layer{padding:10px 14px; font-family:var(--font-mono); font-size:12px; border-top:1px solid var(--line); background:#fff;}
+.stack-diagram .layer:first-child{border-top:none;}
+.stack-diagram .layer.rf{background:var(--ink); color:var(--paper); font-weight:600; letter-spacing:0.06em;}
+
+.closing{font-size:clamp(1.1rem,2.2vw,1.4rem); font-family:var(--font-display); font-weight:600; text-transform:none; line-height:1.3; max-width:680px;}
+.closing .q{color:var(--accent); font-weight:700;}
+
+footer{
+  border-top:1px solid var(--ink); padding-block:40px;
+  font-family:var(--font-mono); font-size:12px; color:var(--mid);
+}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Radio &amp; Electronics</div>
+    <span class="sub">The Invisible Infrastructure</span>
+    <h1>Radio Communications</h1>
+    <p>Radio is not a single technology or a single frequency range. It is a vast electromagnetic communication medium used for everything from human speech and broadcasting to spacecraft telemetry, radar, navigation, remote control, military systems, and machine-to-machine communication — a phone, a weather balloon, a Mars rover, and a shipping container's tracker are all, underneath, doing the same physical thing.</p>
+    <blockquote>Amateur ("ham") radio is one small, legally accessible window into this — not the thing itself.</blockquote>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">01 — What Is Radio?</div>
+    <h2>A Signal Is Not Automatically Information</h2>
+    <p class="lede">Radio communication uses electromagnetic waves — the same phenomenon as light, just at frequencies our eyes don't see — to move information through space without wires. But a radio wave by itself doesn't <em>contain</em> voice, data, or "the internet." It's a carrier. Something has to impose the information onto it, and something has to know how to take it back off.</p>
+    <div class="flow">
+      <div class="step">SOURCE</div><div class="arrow">→</div>
+      <div class="step">ENCODING</div><div class="arrow">→</div>
+      <div class="step">MODULATION</div><div class="arrow">→</div>
+      <div class="step">TRANSMITTER</div><div class="arrow">→</div>
+      <div class="step">ANTENNA</div><div class="arrow">→</div>
+      <div class="step">PROPAGATION</div><div class="arrow">→</div>
+      <div class="step">ANTENNA</div><div class="arrow">→</div>
+      <div class="step">RECEIVER</div><div class="arrow">→</div>
+      <div class="step">DEMODULATION</div><div class="arrow">→</div>
+      <div class="step">INFORMATION</div>
+    </div>
+    <p class="flow-note">Ten stages, always in this order, whether the payload is a sentence or a spacecraft's core temperature.</p>
+    <p style="margin-top:20px;"><strong>Source</strong> is whatever originates the message — a voice, a sensor, a keyboard. <strong>Encoding</strong> turns it into a signal shape (analog voltage, or a string of bits). <strong>Modulation</strong> impresses that shape onto a radio-frequency carrier by varying its amplitude, frequency, or phase. The <strong>transmitter</strong> amplifies the result to useful power; the <strong>antenna</strong> converts it into an actual electromagnetic wave. <strong>Propagation</strong> is the wave's trip through space, air, or vacuum — and the part nobody fully controls. A receiving <strong>antenna</strong> catches a tiny fraction of that energy back, the <strong>receiver</strong> amplifies and filters it, <strong>demodulation</strong> reverses the modulation step, and what's left — if everything worked — is the original information.</p>
+    <p>What travels this pipeline varies enormously:</p>
+    <div class="taglist">
+      <span>Voice</span><span>Music</span><span>Morse code</span><span>Digital data</span>
+      <span>Sensor measurements</span><span>Position</span><span>Images</span><span>Video</span>
+      <span>Telemetry</span><span>Telecommand</span><span>Network packets</span>
+      <span>Identification signals</span><span>Timing information</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">02 — The Spectrum</div>
+    <h2>One Continuous Range, Cut Into Named Boxes</h2>
+    <p class="lede">The electromagnetic spectrum used for radio is physically continuous — there's no seam at 30 MHz. The ITU divides it into nine decade-wide bands purely for engineering and regulatory convenience, each one covering exactly a factor of ten in frequency<sup>[1]</sup>. Nothing physically changes at a boundary; a wave at 299 MHz and one at 301 MHz behave almost identically, they just fall on different sides of a filing-cabinet label.</p>
+    <div class="track-wrap">
+      <div class="track" id="itu-track"></div>
+      <div class="track-axis" id="itu-axis"></div>
+    </div>
+    <p class="track-note">Log scale, 3 Hz – 300 GHz. Click a band for a quick description.</p>
+    <div class="detail-panel" id="itu-detail">Click any band above — for example <b>HF</b> — to see what it's typically used for.</div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">03 — Frequency, Channels &amp; Bandwidth</div>
+    <h2>"145 MHz" Is a Point. A Channel Is a Range.</h2>
+    <p class="lede">A radio doesn't transmit on an infinitely thin frequency — it occupies a band of frequencies clustered around a <strong>center (carrier) frequency</strong>. That width is the <strong>bandwidth</strong>. A voice channel might be 2.5 kHz wide; a Wi-Fi channel might be 20 or 40 MHz wide — both are "a frequency," but one carries a sentence and the other a video call.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 560 130" role="img" aria-label="Bandwidth diagram around a center frequency">
+        <line x1="40" y1="90" x2="520" y2="90" class="wv-axis"/>
+        <line x1="200" y1="30" x2="200" y2="100" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="360" y1="30" x2="360" y2="100" stroke="var(--line)" stroke-width="1" stroke-dasharray="3,3"/>
+        <line x1="200" y1="45" x2="360" y2="45" stroke="var(--ink)" stroke-width="1.4"/>
+        <line x1="200" y1="38" x2="200" y2="52" stroke="var(--ink)" stroke-width="1.4"/>
+        <line x1="360" y1="38" x2="360" y2="52" stroke="var(--ink)" stroke-width="1.4"/>
+        <text x="280" y="35" text-anchor="middle" class="wv-label">OCCUPIED BANDWIDTH</text>
+        <line x1="280" y1="90" x2="280" y2="108" stroke="var(--ink)" stroke-width="1.4"/>
+        <text x="280" y="122" text-anchor="middle" class="wv-label" font-weight="600">145 MHz — CENTER FREQUENCY</text>
+      </svg>
+      <div class="diagram-cap">Everything inside the bracket is "the channel." Everything outside it should, ideally, be silence.</div>
+    </div>
+    <p style="margin-top:20px;">Related but distinct terms: <strong>carrier frequency</strong> (the center point), <strong>symbol rate</strong> (how many discrete signal states are sent per second), and <strong>data rate</strong> (how many bits per second those symbols ultimately represent — which can exceed the symbol rate if each symbol encodes several bits at once). More bandwidth generally allows more information per second, but it also demands more spectrum, tighter engineering, and — almost always — a license or an allocation that permits it.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">04 — AM vs FM</div>
+    <h2>Two Ways to Hide a Signal Inside a Wave</h2>
+    <p class="lede">A carrier wave has three properties you can vary: amplitude, frequency, and phase. The two oldest, simplest strategies each pick one.</p>
+    <div class="diagram-grid">
+      <div class="diagram">
+        <svg viewBox="0 0 300 150" id="am-svg" role="img" aria-label="Amplitude modulation diagram"></svg>
+        <div class="diagram-cap"><strong>AM</strong> — the message rides on the carrier's <em>amplitude</em>. The envelope (dotted) traces the message shape.</div>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 300 150" id="fm-svg" role="img" aria-label="Frequency modulation diagram"></svg>
+        <div class="diagram-cap"><strong>FM</strong> — amplitude stays constant; the message rides on <em>how fast the carrier oscillates</em>.</div>
+      </div>
+    </div>
+    <div class="two-col">
+      <div class="box">
+        <h3>AM — Amplitude Modulation</h3>
+        <p>Conceptually the simplest form of modulation, and historically the first. Still everywhere: AM broadcast radio, most HF communication, and — notably — civil aviation VHF voice. Aviation keeps AM largely because of how it fails: when two AM transmissions overlap, both are still audible (garbled together); with FM, the stronger one silences the weaker completely (the "capture effect"). For air traffic control, hearing that <em>someone</em> is transmitting — even garbled — beats being cleanly cut off by whoever keyed up first<sup>[2]</sup>.</p>
+      </div>
+      <div class="box">
+        <h3>FM — Frequency Modulation</h3>
+        <p>Keeps a constant amplitude "envelope," which makes it naturally resistant to the amplitude noise (static, electrical interference) that plagues AM. That's why it became the standard for VHF/UHF voice: land-mobile radios, amateur radio repeaters, broadcast FM, and many satellite voice links.</p>
+      </div>
+    </div>
+    <p style="margin-top:20px;">Neither is "better" in general — AM and FM are just the two most intuitive starting points. Real systems today mostly use richer digital schemes described next, chosen for spectral efficiency, robustness, or compatibility rather than either extreme.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">05 — Digital Radio</div>
+    <h2>Not "Analog vs. Digital Frequency" — a Different Question Entirely</h2>
+    <p class="lede">Digital radio isn't a frequency range or a single technique — it's modulation applied to discrete symbols instead of a continuous message. The carrier still only has amplitude, frequency, and phase to work with; digital schemes just use combinations of those to represent bits.</p>
+    <div class="taglist">
+      <span>ASK</span><span>FSK</span><span>PSK</span><span>QPSK</span><span>QAM</span>
+      <span>OFDM</span><span>Spread spectrum</span><span>Direct-sequence spread spectrum</span>
+      <span>Frequency-hopping</span>
+    </div>
+    <div class="diagram-grid" style="margin-top:24px;">
+      <div class="diagram">
+        <svg viewBox="0 0 220 220" role="img" aria-label="QPSK constellation diagram">
+          <line x1="20" y1="110" x2="200" y2="110" class="wv-axis"/>
+          <line x1="110" y1="20" x2="110" y2="200" class="wv-axis"/>
+          <circle cx="160" cy="60" r="5" fill="var(--accent)"/><circle cx="60" cy="60" r="5" fill="var(--accent)"/>
+          <circle cx="160" cy="160" r="5" fill="var(--accent)"/><circle cx="60" cy="160" r="5" fill="var(--accent)"/>
+          <text x="170" y="55" class="wv-label">01</text><text x="30" y="55" class="wv-label">00</text>
+          <text x="170" y="175" class="wv-label">11</text><text x="30" y="175" class="wv-label">10</text>
+        </svg>
+        <div class="diagram-cap">QPSK: 4 phase positions, each standing for 2 bits at once.</div>
+      </div>
+      <div class="diagram">
+        <svg viewBox="0 0 220 220" role="img" aria-label="16-QAM constellation diagram" id="qam-svg"></svg>
+        <div class="diagram-cap">16-QAM: 16 combined amplitude/phase points, 4 bits per symbol — denser, but less noise-tolerant.</div>
+      </div>
+    </div>
+    <p style="margin-top:20px;">A full digital chain adds several stages the AM/FM picture skips:</p>
+    <div class="flow wrap-tight">
+      <div class="step">INFORMATION</div><div class="arrow">→</div><div class="step">DIGITAL ENCODING</div><div class="arrow">→</div>
+      <div class="step">ERROR CORRECTION</div><div class="arrow">→</div><div class="step">SYMBOL MAPPING</div><div class="arrow">→</div>
+      <div class="step">MODULATION</div><div class="arrow">→</div><div class="step">RF TRANSMISSION</div>
+    </div>
+    <div class="flow wrap-tight" style="margin-top:16px;">
+      <div class="step">RF</div><div class="arrow">→</div><div class="step">DEMODULATION</div><div class="arrow">→</div>
+      <div class="step">SYMBOL RECOVERY</div><div class="arrow">→</div><div class="step">ERROR CORRECTION</div><div class="arrow">→</div>
+      <div class="step">DIGITAL DATA</div>
+    </div>
+    <p style="margin-top:20px;">Error correction is the quiet workhorse here: it lets a receiver reconstruct bits that arrived damaged, without asking for a retransmission. Combined with efficient symbol mapping, this is why digital radio can pack more reliable data into the same spectrum than an equivalent analog signal — and why it underlies modern networking, encryption/authentication (where legally applicable), and machine-to-machine communication.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">06 — Propagation</div>
+    <h2>Radio Waves Do Not All Travel the Same Way</h2>
+    <p class="lede">How far and how reliably a signal travels depends heavily on its frequency and what's in its path.</p>
+    <div class="diagram">
+      <svg viewBox="0 0 560 220" role="img" aria-label="Propagation paths diagram">
+        <path d="M20,200 A280,280 0 0 1 540,200" class="wv-axis" stroke-dasharray="2,4"/>
+        <path d="M20,200 A280,190 0 0 1 540,200" class="wv-axis" stroke-dasharray="2,4"/>
+        <text x="280" y="150" text-anchor="middle" class="wv-label">IONOSPHERE</text>
+        <path d="M60,196 Q280,60 500,196" class="wv-line2" stroke-dasharray="5,4"/>
+        <text x="280" y="80" text-anchor="middle" class="wv-label" fill="var(--accent)">SKYWAVE (HF)</text>
+        <path d="M60,198 Q280,188 500,198" class="wv-line"/>
+        <text x="280" y="215" text-anchor="middle" class="wv-label">GROUND WAVE (LF/MF)</text>
+        <line x1="150" y1="196" x2="330" y2="140" class="wv-line" stroke-dasharray="3,3"/>
+        <text x="340" y="135" class="wv-label">LINE-OF-SIGHT (VHF/UHF+)</text>
+        <circle cx="60" cy="198" r="4" fill="var(--ink)"/><circle cx="500" cy="198" r="4" fill="var(--ink)"/>
+        <circle cx="150" cy="197" r="4" fill="var(--ink)"/><circle cx="330" cy="140" r="4" fill="var(--ink)"/>
+      </svg>
+      <div class="diagram-cap">Same planet, three different journeys, depending on frequency.</div>
+    </div>
+    <p style="margin-top:20px;"><strong>Ground wave</strong> hugs the Earth's curvature — effective at LF/MF, which is why AM broadcast can reach well past the horizon. <strong>Skywave</strong> bounces off the ionosphere and back down, letting HF signals sometimes cross oceans on a few watts. <strong>Line-of-sight</strong> dominates at VHF and up — if you can't "see" the other antenna (accounting for Earth's curve), the signal is weak or absent, which is why VHF/UHF radios often rely on repeaters on hills or towers. At microwave frequencies, links become more sensitive to physical obstacles, rain attenuation, and atmospheric conditions, while also offering far more usable bandwidth — the eternal trade in radio engineering. Diffraction, reflection, and scattering all still apply everywhere, bending and bouncing signals around obstacles to varying degrees; none of this is an absolute rule, just a set of tendencies that gets stronger as frequency rises.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">07 — Spacecraft Communications</div>
+    <h2>The Only Wire Long Enough to Reach Another Planet</h2>
+    <p class="lede">A spacecraft's connection to Earth is, underneath everything else, the same ten-stage pipeline from Chapter 01 — just stretched across a distance where "line-of-sight" is measured in light-minutes.</p>
+    <div class="satlink">
+      <svg viewBox="0 0 560 230" role="img" aria-label="Ground station to spacecraft radio link" id="satlink-svg">
+        <path id="sat-arc" d="M60,200 Q280,20 500,60" class="wv-axis" stroke-dasharray="4,4"/>
+        <g id="ground-icon" transform="translate(40,190)">
+          <polygon points="0,20 20,0 40,20" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+          <line x1="20" y1="0" x2="20" y2="-18" stroke="var(--ink)" stroke-width="1.6"/>
+          <circle cx="20" cy="-18" r="3" fill="var(--ink)"/>
+          <text x="20" y="36" text-anchor="middle" class="wv-label">GROUND STATION</text>
+        </g>
+        <g id="sat-icon" transform="translate(480,40)">
+          <rect x="-6" y="-6" width="12" height="12" fill="none" stroke="var(--ink)" stroke-width="1.6"/>
+          <rect x="-26" y="-3" width="16" height="6" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+          <rect x="10" y="-3" width="16" height="6" fill="none" stroke="var(--ink)" stroke-width="1.2"/>
+          <text x="0" y="26" text-anchor="middle" class="wv-label">SPACECRAFT</text>
+        </g>
+        <circle id="pkt-dot" r="5" fill="var(--accent)"/>
+        <text id="pkt-label" x="280" y="130" text-anchor="middle" class="pkt" fill="var(--accent)">TM</text>
+      </svg>
+    </div>
+    <p class="track-note" style="margin-top:0;">TM (telemetry) travels down; TC (telecommand) travels up — watch the label switch as the packet changes direction.</p>
+    <p style="margin-top:20px;">Real spacecraft separate their radio traffic into distinct functions rather than sending one undifferentiated stream:</p>
+    <div class="two-col">
+      <div class="box">
+        <h3>TM — Telemetry (spacecraft → ground)</h3>
+        <p>Temperature, voltage, current, battery state, attitude, position, propulsion state, instrument measurements, system status — the spacecraft continuously reporting on itself.</p>
+      </div>
+      <div class="box">
+        <h3>TC — Telecommand (ground → spacecraft)</h3>
+        <p>Change configuration, activate an instrument, change operating mode, upload parameters, execute a scheduled operation — the ground telling the spacecraft what to do.</p>
+      </div>
+    </div>
+    <p style="margin-top:20px;">Alongside TM/TC, missions also handle <strong>tracking</strong>, <strong>navigation</strong>, <strong>ranging</strong> (measuring distance from signal travel time), and separate <strong>science/payload data</strong> channels — usually with carefully engineered protocols (like CCSDS standards) rather than raw sensor values thrown onto the carrier.</p>
+
+    <h3 style="margin-top:32px;">Spacecraft frequency bands</h3>
+    <p>"S-band" or "X-band" name a microwave <em>region</em>, not one frequency. NASA's Deep Space Network, for example, has used S-band (~2–4 GHz) since the earliest missions, added X-band (~8–12 GHz) for more data capacity, and now uses Ka-band (~27–40 GHz) for the highest rates<sup>[3]</sup> — with VHF and UHF still common for near-Earth missions like CubeSats. These are mission- and regulator-specific choices, not universal rules.</p>
+    <div class="two-col">
+      <div class="box">
+        <h3>Lower frequency (e.g. VHF, S-band)</h3>
+        <p>Needs a larger antenna for the same beam narrowness, often has more forgiving propagation, but offers limited bandwidth.</p>
+      </div>
+      <div class="box">
+        <h3>Higher frequency (e.g. X, Ku, Ka-band)</h3>
+        <p>Can carry far more bandwidth through a smaller antenna, at the cost of a narrower beam that's less forgiving of pointing error and more sensitive to the atmosphere.</p>
+      </div>
+    </div>
+
+    <h3 style="margin-top:32px;">Why radio, specifically</h3>
+    <p>Radio is fundamental to spaceflight because it's the one thing that reliably crosses hundreds of millions of kilometers of vacuum. But distance is brutal: received power falls off with the <em>square</em> of distance, so a signal from Mars can arrive fantastically weaker than one from a nearby cell tower. Engineers fight this with transmit power, antenna gain and pointing, receiver sensitivity, careful coding, and patience — the sum of all of it is called a <strong>link budget</strong>: a running tally of every gain and loss between transmitter and receiver, checked to make sure what's left over is still readable above the noise<sup>[3]</sup>.</p>
+    <div class="linkbudget">
+      <div class="lb-row">
+        <label for="lb-dist">Relative distance:</label>
+        <input type="range" id="lb-dist" min="0" max="3" step="0.02" value="0">
+        <span id="lb-dist-val">1×</span>
+      </div>
+      <div class="lb-bar-wrap"><div class="lb-bar" id="lb-bar"></div></div>
+      <div class="lb-readout">Received power falls as <b>1 / distance²</b> — move the slider to <b id="lb-mult">1,000×</b> the distance and see roughly <b id="lb-db">0 dB</b> weaker signal (illustrative — a real link budget also weighs antenna gain, transmit power, noise, and coding.)</div>
+    </div>
+
+    <h3 style="margin-top:32px;">Doppler shift</h3>
+    <p>A spacecraft moving toward you shifts its signal to a slightly higher frequency; moving away, slightly lower — the same effect as a passing ambulance siren, just applied to radio. It's not interference, it's a direct readout of relative velocity, and it matters for tracking satellites, deep-space navigation, radar, and amateur satellite work alike.</p>
+    <div class="scope">
+      <canvas id="doppler-canvas" width="900" height="220"></canvas>
+      <div class="scope-controls">
+        <label>Source speed:</label>
+        <input type="range" id="doppler-speed" min="0" max="4" step="0.1" value="2">
+        <span>Observer sees: <span id="doppler-freq" class="freq-readout">—</span></span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">08 — Telemetry &amp; Telecommand, Everywhere</div>
+    <h2>Telemetry Is Not a Space Technology</h2>
+    <p class="lede">"Telemetry" just means measuring something remotely and sending the measurement elsewhere. Spacecraft made the word famous; almost everything with a sensor and a radio does it now.</p>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">Spacecraft</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+      <div class="icon-card"><div class="it">Aircraft</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+      <div class="icon-card"><div class="it">Weather station</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+      <div class="icon-card"><div class="it">Drone</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+      <div class="icon-card"><div class="it">Industrial machine</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+      <div class="icon-card"><div class="it">Car</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+      <div class="icon-card"><div class="it">IoT sensor</div><div class="arrow-to">→ <em>telemetry</em></div></div>
+    </div>
+    <p style="margin-top:24px;">Telemetry and telecommand are the two halves of remote operation, and they say opposite things:</p>
+    <div class="two-col">
+      <div class="box"><h3>Telemetry</h3><p>"Here is what I am measuring."</p></div>
+      <div class="box"><h3>Telecommand</h3><p>"Do this."</p></div>
+    </div>
+    <p style="margin-top:20px;">Telecommand shows up everywhere alongside telemetry — spacecraft, aircraft, drones, industrial equipment, remote sensors, robotics, satellites. Because a wrong or spoofed "do this" can be dangerous, safety-critical systems generally wrap commands in multiple layers: authentication, validation, redundancy, and fault handling, so a single corrupted or malicious message can't simply be obeyed.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">09 — Military &amp; Specialized Communications</div>
+    <h2>Conceptual Only — No Operational Detail Here</h2>
+    <p class="lede">Militaries are major users of the radio spectrum, across essentially every band discussed so far — HF, VHF, UHF, SHF, microwave links, satellite communications, and radar. Their use spans tactical communications, command and control, satellite links, radar, navigation, identification, electronic warfare, data links, and aircraft and maritime communications.</p>
+    <p>What tends to distinguish military systems conceptually, rather than any specific frequency, is an emphasis on <strong>reliability</strong>, <strong>mobility</strong>, <strong>anti-jamming techniques</strong>, <strong>secure communications</strong>, <strong>frequency agility</strong> (fast-switching or spread-spectrum methods that resist jamming and interception), <strong>network resilience</strong>, sometimes <strong>low probability of detection or interception</strong>, and built-in <strong>redundancy</strong>. This page stays at that conceptual level deliberately — no operational frequencies, classified details, or techniques for defeating communications belong here, or anywhere educational.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">10 — Radio, the Internet, and IoT</div>
+    <h2>The Internet's Last Mile Is Usually Wireless</h2>
+    <p class="lede">The Internet doesn't replace radio — in most everyday paths, radio <em>is</em> the physical connection into the network.</p>
+    <div class="flow wrap-tight"><div class="step">PHONE</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">CELLULAR RADIO</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">BASE STATION</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">FIBER / MICROWAVE / INTERNET</div></div>
+
+    <div class="flow wrap-tight" style="margin-top:20px;"><div class="step">SENSOR</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">LoRa / Wi-Fi / BLE / OTHER RADIO</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">GATEWAY</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">INTERNET</div></div>
+
+    <div class="flow wrap-tight" style="margin-top:20px;"><div class="step">SPACECRAFT</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">RF LINK</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">GROUND STATION</div><div class="arrow">↓</div></div>
+    <div class="flow wrap-tight"><div class="step">INTERNET / MISSION NETWORK</div></div>
+
+    <p style="margin-top:24px;">This is also the whole idea behind the Internet of Things: radio lets extremely small, cheap devices report tiny amounts of information without a wire. Temperature sensors, GPS trackers, environmental sensors, industrial sensors, smart meters, agricultural systems, ocean monitoring buoys, wearable devices — none of them need much bandwidth, but all of them need a radio.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">11 — Who Decides Who Uses Which Frequency?</div>
+    <h2>Spectrum Is Managed, Not Owned</h2>
+    <p class="lede">Frequency allocation isn't "someone owns 144 MHz." The International Telecommunication Union (ITU) maintains a global Table of Frequency Allocations, splitting the usable spectrum (8.3 kHz up to hundreds of GHz) among more than forty defined types of radio service, region by region<sup>[4]</sup>. National regulators (the FCC in the US, Ofcom in the UK, and equivalents elsewhere) then implement and license those allocations domestically, sometimes adding their own restrictions.</p>
+    <p>Within a shared band, services can hold <strong>primary</strong> status (protected from interference) or <strong>secondary</strong> status (must not interfere with primary users, and gets no protection in return) — amateur radio, for instance, is often secondary in bands it shares with other services<sup>[4]</sup>. Allocations differ by country and region, which is why a frequency legal to transmit on in one place may be restricted or reserved elsewhere.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">12 — Amateur Radio: the Public Window Into RF</div>
+    <h2>One Small, Legally Accessible Slice</h2>
+    <p class="lede">A licensed amateur ("ham") radio operator can legally transmit within specific bands set aside for the amateur service, under the rules of their license and jurisdiction. It's the most direct, hands-on way for an individual to actually go operate — not just observe — the radio spectrum: voice, Morse code, digital modes, satellites, APRS position/data reporting, packet radio, Earth-Moon-Earth (bouncing signals off the Moon), amateur television, emergency communication, and open-ended antenna and propagation experimentation<sup>[5]</sup>.</p>
+    <div class="callout warn">
+      <span class="tag">Important</span>
+      <span><strong>Listening ≠ transmitting.</strong> In many places, simply receiving radio signals is broadly permitted, but transmitting is regulated and usually requires a license — rules vary sharply by country and by frequency/service. Always verify the applicable regulations before transmitting.</span>
+    </div>
+
+    <h3 style="margin-top:32px;">Ham radio is not "radio"</h3>
+    <p>Toggle a service below to see roughly which ITU band(s) it typically lives in. Amateur radio is the small, scattered highlight — one part of a much larger, busier spectrum shared with broadcasting, aviation, maritime, public safety, cellular, satellite, science, and more.</p>
+    <div class="pills" id="alloc-pills"></div>
+    <div class="track-wrap">
+      <div class="track" id="alloc-track"></div>
+      <div class="track-axis" id="alloc-axis"></div>
+    </div>
+    <p class="track-note">Approximate and illustrative — actual allocations are far more detailed, vary by country/region, and are set by the ITU Table of Frequency Allocations, not this chart<sup>[4]</sup>.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">13 — SDR: Seeing the Invisible</div>
+    <h2>A Computer Can Be a Radio Laboratory</h2>
+    <p class="lede">A Software Defined Radio (SDR) does most of a receiver's work in software instead of dedicated analog circuitry, turning an ordinary computer into a real-time window onto the spectrum.</p>
+    <div class="flow wrap-tight">
+      <div class="step">ANTENNA</div><div class="arrow">↓</div><div class="step">RF FRONT END</div><div class="arrow">↓</div>
+      <div class="step">ADC</div><div class="arrow">↓</div><div class="step">DIGITAL SIGNAL PROCESSING</div><div class="arrow">↓</div><div class="step">COMPUTER</div>
+    </div>
+    <p style="margin-top:20px;">The classic SDR display is a <strong>waterfall</strong>: frequency across the horizontal axis, signal strength as brightness, and time scrolling down the screen — so a steady transmission looks like a bright vertical stripe, and a hopping or bursty one looks like broken segments drifting through it.</p>
+    <div class="scope">
+      <canvas id="waterfall-canvas" width="900" height="220"></canvas>
+      <div class="scope-controls"><span>Simulated waterfall — illustrative, not a live capture.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">14 — Radio as a Physical Layer</div>
+    <h2>Where the Network Stack Meets Physics</h2>
+    <p class="lede">To a computer scientist, radio is the bottom layer everything else stands on.</p>
+    <div class="stack-diagram">
+      <div class="layer">APPLICATION</div>
+      <div class="layer">DATA</div>
+      <div class="layer">NETWORK</div>
+      <div class="layer">LINK</div>
+      <div class="layer">PHYSICAL</div>
+      <div class="layer rf">RADIO</div>
+    </div>
+    <div class="diagram-grid" style="margin-top:24px;">
+      <div class="diagram">
+        <div class="flow-note" style="margin-bottom:10px;">A web request, physically:</div>
+        <div class="flow wrap-tight" style="margin-top:0;">
+          <div class="step">INTERNET PACKET</div><div class="arrow">↓</div>
+        </div>
+        <div class="flow wrap-tight"><div class="step">WI-FI FRAME</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">OFDM SYMBOLS</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">RF WAVEFORM</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">ELECTROMAGNETIC WAVE</div></div>
+      </div>
+      <div class="diagram">
+        <div class="flow-note" style="margin-bottom:10px;">A spacecraft reading, physically:</div>
+        <div class="flow wrap-tight" style="margin-top:0;"><div class="step">MEASUREMENT</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">TELEMETRY PACKET</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">PROTOCOL</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">MODULATION</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">RF CARRIER</div><div class="arrow">↓</div></div>
+        <div class="flow wrap-tight"><div class="step">ANTENNA → SPACE → GROUND STATION</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">15 — The Core Idea</div>
+    <h2>Information Rides on Waves</h2>
+    <p class="lede closing">A radio wave is a physical phenomenon. A bit is an abstraction. A radio system is the engineering that connects the two: turn information into a physical signal, send it through an imperfect environment, recover it at the other end, and work out whether what arrived is actually correct.</p>
+    <p style="margin-top:20px;">That single problem, solved with different frequencies, different modulation, different antennas, different protocols, different power levels, and different regulations, is what quietly connects a person to another person, a phone to a base station, a sensor to a gateway, an aircraft to air traffic infrastructure, a satellite to Earth, and a spacecraft to a dish on the other side of the solar system.</p>
+    <p class="closing" style="margin-top:20px;">Every one of them is really answering the same question: <span class="q">how do we move information through physical space?</span></p>
+
+    <div class="kicker" style="margin-top:56px;">References</div>
+    <ol class="refs">
+      <li><a href="https://www.itu.int/dms_pubrec/itu-r/rec/v/r-rec-v.431-8-201508-i!!pdf-e.pdf" rel="external noopener" target="_blank">Recommendation ITU-R V.431 — Nomenclature of the Frequency and Wavelength Bands</a> — International Telecommunication Union.</li>
+      <li><a href="https://www.rtl-sdr.com/demonstrating-the-fm-capture-effect-why-aircraft-use-am/" rel="external noopener" target="_blank">Demonstrating the FM Capture Effect — Why Aircraft Use AM</a> — RTL-SDR.com.</li>
+      <li><a href="https://www.astronomy.com/space-exploration/what-frequencies-does-nasa-use-to-communicate-with-spacecraft/" rel="external noopener" target="_blank">What Frequencies Does NASA Use to Communicate With Spacecraft?</a> — Astronomy.com.</li>
+      <li><a href="https://rfessentials.com/rf-knowledge-base/how-does-the-itu-allocate-frequency-bands-for-different-services-globally/" rel="external noopener" target="_blank">How the ITU Allocates Frequency Bands for Different Services Globally</a> — RF Essentials.</li>
+      <li><a href="https://www.arrl.org/getting-licensed" rel="external noopener" target="_blank">Getting Licensed</a> — ARRL, the National Association for Amateur Radio.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
+    <span><a href="/">Index</a> · <a href="/waves">Waves →</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+
+  function pct(val, min, max){
+    return (Math.log10(val)-Math.log10(min)) / (Math.log10(max)-Math.log10(min)) * 100;
+  }
+
+  function buildTrack(trackId, axisId, domainMin, domainMax, bands, ticks, markers){
+    var track = document.getElementById(trackId);
+    var axis = document.getElementById(axisId);
+    if(!track || !axis) return {bandEls:[]};
+    var bandEls = [];
+    bands.forEach(function(b, i){
+      var left = Math.max(0, pct(b.from, domainMin, domainMax));
+      var right = Math.min(100, pct(b.to, domainMin, domainMax));
+      var div = document.createElement('div');
+      div.className = 'band b'+((i%9)+1);
+      div.style.left = left+'%';
+      div.style.width = Math.max(0, right-left)+'%';
+      var nameEl = document.createElement('div'); nameEl.className='bname'; nameEl.textContent=b.name;
+      var rangeEl = document.createElement('div'); rangeEl.className='brange'; rangeEl.textContent=b.range;
+      div.appendChild(nameEl); div.appendChild(rangeEl);
+      div.dataset.info = b.info || '';
+      div.dataset.name = b.name;
+      track.appendChild(div);
+      bandEls.push(div);
+    });
+    ticks.forEach(function(t){
+      var p = pct(t.val, domainMin, domainMax);
+      if(p<0||p>100) return;
+      var el = document.createElement('div');
+      el.className='tick'; el.style.left = p+'%'; el.textContent = t.label;
+      axis.appendChild(el);
+    });
+    (markers||[]).forEach(function(m, idx){
+      var p = pct(m.val, domainMin, domainMax);
+      if(p<0||p>100) return;
+      var line = document.createElement('div');
+      line.className='marker'; line.style.left = p+'%'; line.style.height='9px';
+      track.appendChild(line);
+      var lbl = document.createElement('div');
+      lbl.className='marker-label'; lbl.style.left = p+'%';
+      lbl.style.top = (idx%2===0) ? '-30px' : '-46px';
+      lbl.textContent = m.label;
+      track.appendChild(lbl);
+    });
+    return {bandEls:bandEls};
+  }
+
+  // ---- 02: ITU band chart, clickable ----
+  var itu = buildTrack('itu-track','itu-axis', 3, 3e11,
+    [
+      {name:'ELF', range:'3–30 Hz', from:3, to:30, info:'Extremely Low Frequency. Wavelengths in the thousands of km. Used for submarine communication, where its ability to penetrate seawater matters more than its glacial data rate.'},
+      {name:'VLF', range:'3–30 kHz', from:30, to:3e4, info:'Very Low Frequency. Long-range navigation beacons and submarine communication; propagates by hugging the Earth-ionosphere waveguide.'},
+      {name:'LF', range:'30–300 kHz', from:3e4, to:3e5, info:'Low Frequency. Longwave broadcasting in some regions, time signals, and some navigation beacons.'},
+      {name:'MF', range:'300 kHz–3 MHz', from:3e5, to:3e6, info:'Medium Frequency. Home of AM broadcast radio; ground-wave propagation gives it reliable regional reach.'},
+      {name:'HF', range:'3–30 MHz', from:3e6, to:3e7, info:'High Frequency. Skywave propagation off the ionosphere lets HF cross oceans on modest power — used for long-distance amateur radio, maritime, aviation, and international broadcasting.'},
+      {name:'VHF', range:'30–300 MHz', from:3e7, to:3e8, info:'Very High Frequency. FM broadcast, TV, aviation voice, most land-mobile and amateur repeater traffic — mostly line-of-sight.'},
+      {name:'UHF', range:'300 MHz–3 GHz', from:3e8, to:3e9, info:'Ultra High Frequency. Cellular networks, Wi-Fi, GPS, Bluetooth, most modern IoT, and much of satellite communication.'},
+      {name:'SHF', range:'3–30 GHz', from:3e9, to:3e10, info:'Super High Frequency (microwave). Satellite uplinks/downlinks (C, X, Ku bands), radar, point-to-point microwave links.'},
+      {name:'EHF', range:'30–300 GHz', from:3e10, to:3e11, info:'Extremely High Frequency (millimeter wave). Very high bandwidth, very short range, used in some 5G, satellite Ka-band, and radio astronomy.'}
+    ],
+    [
+      {val:3,label:'3 Hz'},{val:3e4,label:'30 kHz'},{val:3e6,label:'3 MHz'},
+      {val:3e8,label:'300 MHz'},{val:3e11,label:'300 GHz'}
+    ], []
+  );
+  var ituDetail = document.getElementById('itu-detail');
+  itu.bandEls.forEach(function(el){
+    el.addEventListener('click', function(){
+      itu.bandEls.forEach(function(e){e.classList.remove('active');});
+      el.classList.add('active');
+      ituDetail.innerHTML = '<b>'+el.dataset.name+'</b> — '+el.dataset.info;
+    });
+  });
+
+  // ---- 04: AM / FM waveform diagrams ----
+  function pathFrom(fn, w, h, mid, n){
+    var d = 'M';
+    for(var i=0;i<=n;i++){
+      var x = (i/n)*w;
+      var y = mid - fn(i/n)* (h*0.42);
+      d += (i===0?'':'L') + x.toFixed(1) + ',' + y.toFixed(1) + ' ';
+    }
+    return d;
+  }
+  function setupModSvg(id, type){
+    var svg = document.getElementById(id);
+    if(!svg) return;
+    var w=300,h=150,mid=75;
+    var carrierFreq = 14, msgFreq = 1.3;
+    var axis = document.createElementNS('http://www.w3.org/2000/svg','line');
+    axis.setAttribute('x1',0); axis.setAttribute('x2',w); axis.setAttribute('y1',mid); axis.setAttribute('y2',mid);
+    axis.setAttribute('class','wv-axis'); svg.appendChild(axis);
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('class','wv-line');
+    var env1 = document.createElementNS('http://www.w3.org/2000/svg','path');
+    env1.setAttribute('class','wv-axis'); env1.setAttribute('stroke-dasharray','3,3');
+    var env2 = env1.cloneNode();
+    svg.appendChild(env1); svg.appendChild(env2); svg.appendChild(path);
+    var n = 400;
+    if(type==='am'){
+      path.setAttribute('d', pathFrom(function(t){
+        var msg = 0.5 + 0.5*Math.sin(2*Math.PI*msgFreq*t);
+        return msg * Math.sin(2*Math.PI*carrierFreq*t);
+      }, w, h, mid, n));
+      env1.setAttribute('d', pathFrom(function(t){ return 0.5+0.5*Math.sin(2*Math.PI*msgFreq*t); }, w, h, mid, n));
+      env2.setAttribute('d', pathFrom(function(t){ return -(0.5+0.5*Math.sin(2*Math.PI*msgFreq*t)); }, w, h, mid, n));
+    } else {
+      var kf = 6;
+      path.setAttribute('d', (function(){
+        var d='M', phase=0, dt=1/n;
+        for(var i=0;i<=n;i++){
+          var t=i/n;
+          var instFreq = carrierFreq + kf*Math.sin(2*Math.PI*msgFreq*t);
+          phase += 2*Math.PI*instFreq*dt;
+          var x=t*w, y=mid-Math.sin(phase)*(h*0.42);
+          d += (i===0?'':'L')+x.toFixed(1)+','+y.toFixed(1)+' ';
+        }
+        return d;
+      })());
+      env1.setAttribute('d','');
+      env2.setAttribute('d','');
+    }
+  }
+  setupModSvg('am-svg','am');
+  setupModSvg('fm-svg','fm');
+
+  // ---- 05: 16-QAM constellation ----
+  (function(){
+    var svg = document.getElementById('qam-svg');
+    if(!svg) return;
+    var axisH = document.createElementNS('http://www.w3.org/2000/svg','line');
+    axisH.setAttribute('x1',20); axisH.setAttribute('x2',200); axisH.setAttribute('y1',110); axisH.setAttribute('y2',110);
+    axisH.setAttribute('class','wv-axis'); svg.appendChild(axisH);
+    var axisV = document.createElementNS('http://www.w3.org/2000/svg','line');
+    axisV.setAttribute('x1',110); axisV.setAttribute('x2',110); axisV.setAttribute('y1',20); axisV.setAttribute('y2',200);
+    axisV.setAttribute('class','wv-axis'); svg.appendChild(axisV);
+    var levels = [50,85,135,170];
+    levels.forEach(function(x){
+      levels.forEach(function(y){
+        var c = document.createElementNS('http://www.w3.org/2000/svg','circle');
+        c.setAttribute('cx',x); c.setAttribute('cy',y); c.setAttribute('r',4); c.setAttribute('fill','var(--accent)');
+        svg.appendChild(c);
+      });
+    });
+  })();
+
+  // ---- 07: satellite TM/TC animation ----
+  (function(){
+    var arc = document.getElementById('sat-arc');
+    var dot = document.getElementById('pkt-dot');
+    var label = document.getElementById('pkt-label');
+    if(!arc || !dot) return;
+    var len = arc.getTotalLength();
+    var t0 = null, dir = 1, dur = 3200;
+    function frame(ts){
+      if(t0===null) t0 = ts;
+      var elapsed = (ts - t0) % dur;
+      var frac = elapsed/dur;
+      var travel = dir>0 ? frac : (1-frac);
+      var pt = arc.getPointAtLength(travel*len);
+      dot.setAttribute('cx', pt.x); dot.setAttribute('cy', pt.y);
+      label.setAttribute('x', pt.x); label.setAttribute('y', pt.y-14);
+      label.textContent = dir>0 ? 'TC ↑' : 'TM ↓';
+      if(elapsed < 16) dir = dir>0 && Math.floor(ts/dur)%2===1 ? -1 : dir;
+      requestAnimationFrame(frame);
+    }
+    function loopSwap(){
+      dir = dir>0 ? -1 : 1;
+    }
+    setInterval(loopSwap, dur);
+    requestAnimationFrame(frame);
+  })();
+
+  // ---- 07: link budget slider ----
+  (function(){
+    var slider = document.getElementById('lb-dist');
+    var bar = document.getElementById('lb-bar');
+    var distVal = document.getElementById('lb-dist-val');
+    var multEl = document.getElementById('lb-mult');
+    var dbEl = document.getElementById('lb-db');
+    if(!slider) return;
+    function update(){
+      var exp = parseFloat(slider.value); // 0..3 -> distance multiplier 1..1000
+      var mult = Math.pow(10, exp);
+      var db = 20*Math.log10(mult);
+      var barPct = Math.max(1, 100/(mult*mult)*100); // relative power, floor for visibility
+      barPct = Math.max(1, Math.min(100, 100/Math.pow(mult,2)));
+      bar.style.width = barPct+'%';
+      distVal.textContent = (mult<10? mult.toFixed(1) : Math.round(mult).toLocaleString())+'×';
+      multEl.textContent = (mult<10? mult.toFixed(1) : Math.round(mult).toLocaleString())+'×';
+      dbEl.textContent = '−'+db.toFixed(0)+' dB';
+    }
+    slider.addEventListener('input', update);
+    update();
+  })();
+
+  // ---- 07: doppler canvas ----
+  (function(){
+    var canvas = document.getElementById('doppler-canvas');
+    var speedInput = document.getElementById('doppler-speed');
+    var freqReadout = document.getElementById('doppler-freq');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var waves = [];
+    var srcX = 40, srcY = H/2, dir = 1;
+    var lastEmit = 0, emitInterval = 26;
+    var t = 0;
+    var observerX = W-60;
+    function step(){
+      t++;
+      var speed = parseFloat(speedInput.value);
+      srcX += speed*dir;
+      if(srcX > W-30 || srcX < 30) dir *= -1;
+      if(t-lastEmit > emitInterval){
+        waves.push({x:srcX, y:srcY, r:0});
+        lastEmit = t;
+      }
+      ctx.fillStyle = '#0e0e10';
+      ctx.fillRect(0,0,W,H);
+      ctx.strokeStyle = '#3a3a3f';
+      ctx.beginPath(); ctx.moveTo(observerX,0); ctx.lineTo(observerX,H); ctx.stroke();
+      ctx.fillStyle='#7a7a74'; ctx.font='11px monospace'; ctx.fillText('OBSERVER', observerX-46, 16);
+      waves.forEach(function(w){ w.r += 1.6; });
+      waves = waves.filter(function(w){ return w.r < W; });
+      ctx.strokeStyle = '#c9a373';
+      waves.forEach(function(w){
+        ctx.beginPath(); ctx.arc(w.x, w.y, w.r, 0, Math.PI*2); ctx.stroke();
+      });
+      ctx.fillStyle = '#a13a2f';
+      ctx.beginPath(); ctx.arc(srcX, srcY, 5, 0, Math.PI*2); ctx.fill();
+
+      // estimate perceived frequency at observer via nearest ring spacing crossing observer line
+      var crossing = waves.filter(function(w){ return Math.abs(w.x-observerX) < w.r && w.r > Math.abs(w.x-observerX); });
+      var approaching = (dir>0 && srcX < observerX) || (dir<0 && srcX < observerX && false);
+      var movingToward = dir>0 && srcX < observerX;
+      var shiftLabel = movingToward ? 'higher ↑' : (srcX>observerX ? '(passed)' : 'lower ↓');
+      freqReadout.textContent = speed<0.05 ? 'no shift (stationary)' : shiftLabel;
+      freqReadout.className = 'freq-readout ' + (movingToward ? 'up' : (speed<0.05?'':'down'));
+      requestAnimationFrame(step);
+    }
+    requestAnimationFrame(step);
+  })();
+
+  // ---- 13: SDR waterfall simulation ----
+  (function(){
+    var canvas = document.getElementById('waterfall-canvas');
+    if(!canvas) return;
+    var ctx = canvas.getContext('2d');
+    var W = canvas.width, H = canvas.height;
+    var signals = [
+      {cx:0.2, w:0.01, drift:0.00002, phase:Math.random()*10},
+      {cx:0.5, w:0.03, drift:-0.00001, phase:Math.random()*10},
+      {cx:0.75, w:0.005, drift:0, phase:Math.random()*10}
+    ];
+    var tstep=0;
+    function drawRow(){
+      // shift everything down by 1px
+      ctx.drawImage(canvas, 0, 0, W, H-1, 0, 1, W, H-1);
+      tstep++;
+      var row = ctx.createImageData(W,1);
+      for(var x=0;x<W;x++){
+        var f = x/W;
+        var intensity = Math.random()*22;
+        signals.forEach(function(s){
+          var cx = s.cx + s.drift*tstep + 0.02*Math.sin(tstep*0.01+s.phase);
+          var d = Math.abs(f-cx);
+          if(d < s.w){
+            intensity += (1-d/s.w) * (170 + Math.random()*60);
+          }
+        });
+        intensity = Math.min(255, intensity);
+        var idx = x*4;
+        row.data[idx] = Math.min(255, intensity*1.0);
+        row.data[idx+1] = Math.min(255, intensity*0.55);
+        row.data[idx+2] = Math.min(255, intensity*0.15);
+        row.data[idx+3] = 255;
+      }
+      ctx.putImageData(row, 0, 0);
+      requestAnimationFrame(drawRow);
+    }
+    ctx.fillStyle = '#0e0e10'; ctx.fillRect(0,0,W,H);
+    requestAnimationFrame(drawRow);
+  })();
+
+  // ---- 12: allocation explorer ----
+  (function(){
+    var pillsEl = document.getElementById('alloc-pills');
+    if(!pillsEl) return;
+    var domainMin=3, domainMax=3e11;
+    var services = {
+      'Broadcasting':[[3e5,3e6],[3e7,3e8]],
+      'Aviation':[[3e6,3e7],[3e7,3e8],[3e8,3e9]],
+      'Maritime':[[3e5,3e6],[3e6,3e7],[3e7,3e8]],
+      'Public safety':[[3e7,3e8],[3e8,3e9]],
+      'Cellular':[[3e8,3e9],[3e9,3e10]],
+      'Satellite':[[3e8,3e9],[3e9,3e10],[3e10,3e11]],
+      'Radio astronomy':[[3,30],[3e4,3e5],[3e8,3e9],[3e10,3e11]],
+      'Navigation (GPS etc.)':[[3e8,3e9]],
+      'Radar':[[3e8,3e9],[3e9,3e10],[3e10,3e11]],
+      'Military':[[3e6,3e7],[3e7,3e8],[3e8,3e9],[3e9,3e10]],
+      'Industrial / ISM':[[3e8,3e9],[3e9,3e10]],
+      'Short-range / IoT':[[3e8,3e9],[3e9,3e10]],
+      'Amateur radio':[[3e5,3e6],[3e6,3e7],[3e7,3e8],[3e8,3e9],[3e9,3e10]]
+    };
+    var track = document.createElement('div');
+    var axis;
+    var built = buildTrackBase();
+    function buildTrackBase(){
+      var t = document.getElementById('alloc-track');
+      var a = document.getElementById('alloc-axis');
+      var bands = [
+        {name:'ELF',from:3,to:30},{name:'VLF',from:30,to:3e4},{name:'LF',from:3e4,to:3e5},
+        {name:'MF',from:3e5,to:3e6},{name:'HF',from:3e6,to:3e7},{name:'VHF',from:3e7,to:3e8},
+        {name:'UHF',from:3e8,to:3e9},{name:'SHF',from:3e9,to:3e10},{name:'EHF',from:3e10,to:3e11}
+      ];
+      bands.forEach(function(b,i){
+        var left = pct(b.from, domainMin, domainMax), right = pct(b.to, domainMin, domainMax);
+        var div = document.createElement('div');
+        div.className = 'band b'+((i%9)+1);
+        div.style.left = left+'%'; div.style.width = (right-left)+'%';
+        var n = document.createElement('div'); n.className='bname'; n.textContent=b.name;
+        div.appendChild(n);
+        t.appendChild(div);
+      });
+      [3,3e4,3e6,3e8,3e11].forEach(function(v){
+        var p = pct(v,domainMin,domainMax);
+        var el = document.createElement('div'); el.className='tick'; el.style.left=p+'%';
+        el.textContent = v>=1e9? (v/1e9)+' GHz' : v>=1e6 ? (v/1e6)+' MHz' : v>=1e3 ? (v/1e3)+' kHz' : v+' Hz';
+        a.appendChild(el);
+      });
+      return t;
+    }
+    var overlays = [];
+    function clearOverlays(){ overlays.forEach(function(o){o.remove();}); overlays=[]; }
+    function highlight(name){
+      clearOverlays();
+      var ranges = services[name];
+      if(!ranges) return;
+      ranges.forEach(function(r){
+        var left = pct(r[0], domainMin, domainMax), right = pct(r[1], domainMin, domainMax);
+        var ov = document.createElement('div');
+        ov.style.position='absolute'; ov.style.top='-6px'; ov.style.height='6px';
+        ov.style.left=left+'%'; ov.style.width=(right-left)+'%';
+        ov.style.background='var(--accent)';
+        built.appendChild(ov);
+        overlays.push(ov);
+      });
+    }
+    Object.keys(services).forEach(function(name){
+      var p = document.createElement('div');
+      p.className='pill'; p.textContent=name;
+      p.addEventListener('click', function(){
+        var isOn = p.classList.contains('on');
+        pillsEl.querySelectorAll('.pill').forEach(function(x){x.classList.remove('on');});
+        if(!isOn){ p.classList.add('on'); highlight(name); }
+        else { clearOverlays(); }
+      });
+      pillsEl.appendChild(p);
+    });
+  })();
+
+})();
+</script>
+
+</body>
+</html>
