@@ -9,6 +9,7 @@ Home: https://followorbounce.github.io/
 
 ## Sections
 
+- Sound & Music — Music Is Mathematics (string physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, nine-tool audio lab): https://followorbounce.github.io/music-mathematics. Also acoustics of instruments, audio engineering (planned).
 - Aerospace — spaceflight history and engineering. Index: https://followorbounce.github.io/aerospace/
   - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
 - Maya Basics — Maya calendrical systems. Index: https://followorbounce.github.io/Maya-Calendar/
