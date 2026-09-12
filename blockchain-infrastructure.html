@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blockchain Infrastructure — Knowledge Network</title>
+<meta name="description" content="Blockchain Infrastructure: Decentralized Systems, Smart Contracts, and the Future of Trust. A neutral, technical walk through distributed consensus, cryptographic verification, programmable contracts, governance, and the engineering trade-offs behind decentralized infrastructure — with real cryptographic demos, not marketing.">
+<link rel="canonical" href="https://followorbounce.github.io/blockchain-infrastructure">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Blockchain Infrastructure — Decentralized Systems, Smart Contracts, and the Future of Trust">
+<meta property="og:description" content="How can a global network of computers establish trust without a central authority? A neutral, engineering-first walk through distributed consensus, cryptography, smart contracts, and governance.">
+<meta property="og:url" content="https://followorbounce.github.io/blockchain-infrastructure">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c; --paper:#f6f6f2; --line:#c9c9c1; --mid:#7a7a74;
+  --accent:#a13a2f; --accent2:#2f5aa1; --good:#2f7a3a; --warn:#a1791a;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 920px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:28px 28px; background-position:-1px -1px; background-attachment:local;
+}
+body{ background-color:var(--paper); }
+@media (prefers-reduced-motion:no-preference){ body{ background-image:none; } }
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;} sup{font-size:0.7em;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--paper); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px;}
+header .back{font-family:var(--font-mono); font-size:12px; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,92px); border-bottom:1px solid var(--ink); background:var(--paper);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2rem, 5vw, 3.2rem); line-height:1.03; margin-bottom:20px;}
+.hero .sub{font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:clamp(1.05rem,2vw,1.3rem); color:var(--accent); margin-bottom:16px; display:block;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:700px; color:#28282a;}
+.hero .question{margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:var(--paper); max-width:700px; font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:1.08rem;}
+
+nav.toc{border-bottom:1px solid var(--ink); padding-block:14px; background:#efe9e1;}
+nav.toc .wrap{display:flex; flex-wrap:wrap; gap:5px 12px;}
+nav.toc a{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.02em; text-decoration:none; color:var(--mid); white-space:nowrap;}
+nav.toc a:hover{color:var(--ink); text-decoration:underline;}
+
+section.chapter{padding-block:clamp(40px,7vw,72px); border-bottom:1px solid var(--line); background:var(--paper); scroll-margin-top:56px;}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid); margin-bottom:10px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter h3{font-size:0.92rem; margin:0 0 10px;}
+.chapter p{margin-bottom:16px; max-width:700px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;} em{font-style:normal; color:var(--accent); font-weight:500;}
+code{font-family:var(--font-mono); background:#eae5dd; padding:1px 5px; font-size:0.85em; word-break:break-all;}
+
+.flow{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin-top:22px;}
+.flow .step{border:1px solid var(--ink); background:#fff; padding:9px 12px; font-family:var(--font-mono); font-size:11px; text-align:center; white-space:nowrap;}
+.flow .arrow{padding:0 8px; color:var(--mid); font-size:14px;}
+.flow.wrap-tight{row-gap:10px;}
+
+.taglist{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.taglist span{font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--line); padding:5px 10px; background:#fff;}
+
+.diagram{border:1px solid var(--line); background:#fff; padding:18px; margin-top:24px;}
+.diagram svg,.diagram canvas{width:100%; height:auto; display:block;}
+.diagram-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:10px;}
+.diagram-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:24px;}
+@media (max-width:640px){.diagram-grid{grid-template-columns:1fr;}}
+.wv-line{stroke:var(--ink); stroke-width:1.6; fill:none;}
+.wv-axis{stroke:var(--line); stroke-width:1; fill:none;}
+.wv-label{font-family:var(--font-mono); font-size:10px; fill:var(--mid);}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:600px){.two-col{grid-template-columns:1fr;}}
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{margin-bottom:8px;} .two-col p{font-size:0.94rem;}
+
+.callout{margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.callout.warn{border-color:var(--accent);}
+.callout .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid); border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;}
+.callout.warn .tag{color:var(--accent); border-color:var(--accent);}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+
+.icon-row{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:14px; margin-top:24px;}
+.icon-card{border:1px solid var(--line); background:#fff; padding:14px;}
+.icon-card .it{font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:0.85rem; margin-bottom:8px;}
+.icon-card p{font-size:0.86rem; margin:0;}
+
+/* controls */
+.controls{margin-top:22px; border:1px solid var(--ink); background:#fff; padding:18px;}
+.ctrl-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12.5px; margin-bottom:14px;}
+.ctrl-row:last-child{margin-bottom:0;}
+.ctrl-row label{flex:0 0 auto; min-width:120px;}
+.ctrl-row input[type=range]{flex:1; min-width:120px;}
+.ctrl-row .readout{font-weight:600; min-width:40px; text-align:right;}
+.btn{font-family:var(--font-mono); font-size:12px; padding:9px 14px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer;}
+.btn:hover{background:#333;}
+.btn.ghost{background:#fff; color:var(--ink);}
+.btn.ghost:hover{background:#eee9e1;}
+select,input[type=text],input[type=number]{font-family:var(--font-mono); font-size:12.5px; padding:6px 9px; border:1px solid var(--ink); background:#fff;}
+.checkline{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:12.5px; margin-bottom:8px;}
+
+/* blockchain visualizer */
+.chain-row{display:flex; gap:10px; overflow-x:auto; padding-bottom:8px; margin-top:22px;}
+.block-card{flex:0 0 220px; border:2px solid var(--ink); background:#fff; padding:12px; font-family:var(--font-mono); font-size:10.5px;}
+.block-card.invalid{border-color:var(--accent); background:#fdf1ef;}
+.block-card .bidx{font-weight:700; font-size:12px; margin-bottom:8px;}
+.block-card label{display:block; color:var(--mid); margin-top:8px; margin-bottom:3px;}
+.block-card textarea{width:100%; height:44px; font-family:var(--font-mono); font-size:10px; border:1px solid var(--line); resize:none; padding:4px;}
+.block-card .hashval{word-break:break-all; font-size:9.5px; line-height:1.4; padding:4px; background:var(--paper); border:1px solid var(--line);}
+.block-card.invalid .hashval{color:var(--accent);}
+.chain-link{display:flex; align-items:center; font-size:18px; color:var(--mid); flex:0 0 auto;}
+
+/* node network */
+.netcanvas{border:1px solid var(--ink); background:#fff; width:100%; display:block;}
+
+/* consensus sim */
+.validator-row{display:flex; flex-wrap:wrap; gap:10px; margin-top:16px;}
+.validator{border:1px solid var(--line); background:#fff; padding:10px; font-family:var(--font-mono); font-size:11px; flex:1; min-width:110px; text-align:center;}
+.validator.winner{border-color:var(--good); background:#f0f8f1;}
+.validator input[type=range]{width:100%; margin-top:6px;}
+
+/* contract flow */
+.rule-line{display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12.5px; margin-bottom:10px;}
+.exec-log{border:1px dashed var(--line); padding:12px 14px; font-family:var(--font-mono); font-size:11.5px; margin-top:14px; min-height:40px; white-space:pre-wrap;}
+
+/* dao sim */
+.vote-bar-wrap{height:24px; background:#e5e0d6; border:1px solid var(--line); display:flex; overflow:hidden; margin-top:14px;}
+.vote-bar{height:100%;}
+.vote-bar.yes{background:var(--good);} .vote-bar.no{background:var(--accent);} .vote-bar.abstain{background:var(--mid);}
+.vote-legend{display:flex; gap:16px; margin-top:8px; font-family:var(--font-mono); font-size:11px;}
+.vote-legend span::before{content:'■ '; }
+.vote-legend .yes{color:var(--good);} .vote-legend .no{color:var(--accent);} .vote-legend .abstain{color:var(--mid);}
+
+/* privacy toggle */
+.privacy-view{border:1px solid var(--ink); background:#fff; padding:16px; margin-top:18px; font-family:var(--font-mono); font-size:12px;}
+.privacy-row{display:flex; justify-content:space-between; padding:6px 0; border-top:1px solid var(--line);}
+.privacy-row:first-child{border-top:none;}
+.privacy-row .redacted{background:var(--ink); color:var(--ink); user-select:none;}
+
+/* hash/sig tools */
+.mono-output{font-family:var(--font-mono); font-size:12px; word-break:break-all; padding:12px 14px; border:1px solid var(--line); background:var(--paper); margin-top:10px; min-height:20px;}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+
+.closing{font-size:clamp(1.1rem,2.2vw,1.4rem); font-family:var(--font-display); font-weight:600; text-transform:none; line-height:1.3; max-width:700px;}
+.closing .q{color:var(--accent); font-weight:700;}
+.principles{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.principles span{font-family:var(--font-mono); font-size:12px; border:1px solid var(--ink); padding:8px 14px; background:#fff;}
+
+footer{border-top:1px solid var(--ink); padding-block:40px; font-family:var(--font-mono); font-size:12px; color:var(--mid); background:var(--paper);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Technology · Distributed Systems</div>
+    <span class="sub">Decentralized Systems, Smart Contracts, and the Future of Trust</span>
+    <h1>Blockchain Infrastructure</h1>
+    <p>Set aside price charts and speculation. Underneath the noise is an engineering question with real substance: how do you get a network of computers that don't trust each other, run by no one in particular, to agree on a single shared history — and keep agreeing, forever, even when some of them are lying? This is a walk through the actual infrastructure: distributed systems, cryptographic verification, consensus algorithms, programmable contracts, governance, and where this class of technology plausibly goes next.</p>
+    <div class="question">Core question: how can a global network of computers establish trust without a central authority?</div>
+  </div>
+</section>
+
+<nav class="toc" aria-label="Section navigation">
+  <div class="wrap">
+    <a href="#centralization">01 Centralization</a><a href="#distributed">02 Distributed Systems</a>
+    <a href="#what-is">03 What Is a Blockchain</a><a href="#crypto">04 Cryptography</a>
+    <a href="#consensus">05 Consensus</a><a href="#contracts">06 Smart Contracts</a>
+    <a href="#privacy">07 Transparency/Privacy</a><a href="#infra">08 Infrastructure</a>
+    <a href="#environment">09 Environment</a><a href="#governance">10 Governance</a>
+    <a href="#tokens">11 Tokens</a><a href="#beyond">12 Beyond Finance</a>
+    <a href="#envsystems">13 Environmental Systems</a><a href="#space">14 Space</a>
+    <a href="#risks">15 Risks</a><a href="#future">16 Future</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="chapter" id="centralization">
+  <div class="wrap">
+    <div class="kicker">01 — The Problem of Centralization</div>
+    <h2>One Database, One Point of Failure</h2>
+    <p class="lede">Most digital systems you rely on today funnel through a single authoritative record, held by one operator: a bank's ledger, a government registry, a social platform's server, a cloud provider's disk array. This is efficient — one place to update, one place to trust — and that's exactly the problem.</p>
+    <div class="flow">
+      <div class="step">USER</div><div class="arrow">→</div>
+      <div class="step">CENTRAL AUTHORITY</div><div class="arrow">→</div>
+      <div class="step">DATABASE</div>
+    </div>
+    <p style="margin-top:20px;">Whoever controls that box in the middle can, in principle, alter records, deny access, go offline, get hacked once and lose everything, or simply change the rules — and every user downstream has no way to independently verify anything without trusting them. Banks, governments, social media platforms, cloud providers, and traditional payment rails all share this shape, and all share this exposure: a <strong>single point of failure</strong>, whether that failure is technical (an outage), adversarial (a breach), or institutional (a policy change or an act of censorship).</p>
+    <div class="two-col">
+      <div class="box"><h3>Strengths</h3><p>Fast, simple, efficient. One party can optimize, moderate, and iterate quickly. Accountability is clear — there's exactly one entity to hold responsible.</p></div>
+      <div class="box"><h3>Weaknesses</h3><p>Users must trust that entity completely: that it won't misuse its position, won't be compromised, and won't disappear. History shows all three happen.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="distributed">
+  <div class="wrap">
+    <div class="kicker">02 — Distributed Systems</div>
+    <h2>The Same Record, on Thousands of Machines</h2>
+    <p class="lede">The distributed-systems answer to a single point of failure is to stop having a single copy at all. In a <strong>peer-to-peer network</strong>, every participant (or a large, open subset of them) holds a full copy of the same data, and <strong>replication</strong> keeps those copies synchronized. Lose any one machine — or a thousand of them — and the network keeps functioning, because <strong>redundancy</strong> means no single copy was ever load-bearing.</p>
+    <p>This isn't free: keeping thousands of independent copies consistent, without anyone in charge, is a genuinely hard coordination problem — the subject of the next few sections. But it buys real <strong>fault tolerance</strong>: a network can survive machines crashing, disconnecting, or actively lying, as long as enough of the rest agree on what's true.</p>
+    <div class="diagram">
+      <canvas id="netcanvas" class="netcanvas" width="700" height="260"></canvas>
+      <div class="diagram-cap" id="netcanvas-cap">Centralized topology — every node depends on the one in the middle. Click to toggle.</div>
+    </div>
+    <div class="controls"><div class="ctrl-row"><button class="btn" id="net-toggle">Toggle: Show Decentralized Mesh</button><button class="btn ghost" id="net-broadcast">▶ Simulate a broadcast</button></div></div>
+  </div>
+</section>
+
+<section class="chapter" id="what-is">
+  <div class="wrap">
+    <div class="kicker">03 — What Is a Blockchain?</div>
+    <h2>A Chain Made of Its Own History</h2>
+    <p class="lede">A blockchain is a specific way of structuring a replicated database: records are grouped into <strong>blocks</strong> (each holding a batch of transactions and a timestamp), and each block includes the cryptographic <strong>hash</strong> — a fixed-length fingerprint — of the block before it. That single design choice is the whole trick.</p>
+    <div class="flow">
+      <div class="step">BLOCK N</div><div class="arrow">→</div><div class="step">BLOCK N+1</div><div class="arrow">→</div><div class="step">BLOCK N+2</div>
+    </div>
+    <p style="margin-top:20px;">A hash function takes any input and deterministically produces a fixed-length output that looks random, where changing even one character of the input completely scrambles the output. Because each block embeds the previous block's hash, changing anything in an old block changes its hash — which no longer matches what the next block recorded — which breaks that block's hash too, cascading all the way to the end of the chain. Rewriting history means recomputing every single block after your edit, which gets exponentially harder the more of the network has already agreed on (and kept extending) the original chain.</p>
+
+    <h3 style="margin-top:28px;">Try it: edit a block, watch the chain break</h3>
+    <p>Each card below is a tiny block holding editable data and a live <strong>SHA-256</strong> hash (computed for real, in your browser, via the Web Crypto API — not a simulation). Change any block's data and every block after it turns red.</p>
+    <div class="chain-row" id="chain-row"></div>
+    <div class="controls"><div class="ctrl-row"><button class="btn ghost" id="chain-reset">↻ Reset chain</button></div></div>
+
+    <h3 style="margin-top:28px;">Standalone hash generator</h3>
+    <div class="controls">
+      <div class="ctrl-row"><label for="hash-input">Text</label><input type="text" id="hash-input" value="hello world" style="flex:1; min-width:160px;"></div>
+    </div>
+    <div class="mono-output" id="hash-output">—</div>
+    <p class="diagram-cap" style="margin-top:8px;">SHA-256, computed live via <code>crypto.subtle.digest</code>. Try adding a single space — the output changes completely, with no visible pattern connecting the two.</p>
+  </div>
+</section>
+
+<section class="chapter" id="crypto">
+  <div class="wrap">
+    <div class="kicker">04 — Cryptography and Trust</div>
+    <h2>Proving Ownership Without an Office to Ask</h2>
+    <p class="lede">Hashing proves data hasn't changed. A second cryptographic tool, <strong>public-key cryptography</strong>, proves <em>who</em> authorized something — without any central identity office. Each participant holds a mathematically linked pair of keys: a <strong>private key</strong>, kept secret, and a <strong>public key</strong>, shared freely. Anything signed with the private key can be verified by anyone using only the public key — and that verification mathematically fails if even one bit of the signed message changes, or if the signature came from a different private key.</p>
+    <p>This is how "ownership" works on a blockchain: an address is really just a public key (or something derived from one), and "spending" from it means producing a valid signature that only the matching private key could have produced. No one needs to check your ID — the mathematics either checks out or it doesn't.</p>
+
+    <h3 style="margin-top:28px;">Try it: generate a real keypair, sign, and verify</h3>
+    <p>This generates an actual ECDSA keypair in your browser (Web Crypto API, P-256 curve) — the same family of elliptic-curve signatures used across most modern blockchains. Nothing here is transmitted anywhere.</p>
+    <div class="controls">
+      <div class="ctrl-row"><button class="btn" id="keygen-btn">1. Generate keypair</button></div>
+      <div class="ctrl-row"><label for="sig-message">Message</label><input type="text" id="sig-message" value="Transfer 1 unit to Alice" style="flex:1; min-width:160px;"></div>
+      <div class="ctrl-row"><button class="btn" id="sign-btn" disabled>2. Sign with private key</button><button class="btn" id="verify-btn" disabled>3. Verify with public key</button></div>
+      <div class="ctrl-row"><button class="btn ghost" id="tamper-btn" disabled>Tamper with the message, then re-verify</button></div>
+    </div>
+    <div class="mono-output" id="sig-output">Generate a keypair to begin.</div>
+    <div class="callout">
+      <span class="tag">Note</span>
+      <span>For a hands-on look at where the underlying randomness in these keys actually comes from, see the <a href="/password-generator">Password &amp; Passphrase Generator</a> — same <code>crypto.getRandomValues()</code> foundation.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="consensus">
+  <div class="wrap">
+    <div class="kicker">05 — Consensus Mechanisms</div>
+    <h2>How Do Strangers Agree on One Version of Reality?</h2>
+    <p class="lede">Replicated copies are only useful if they stay identical. <strong>Consensus mechanisms</strong> are the rules a decentralized network uses to agree on which new block gets added next — without a referee, and without letting a dishonest minority rewrite the outcome. This is a direct, practical answer to the <a href="https://lamport.azurewebsites.net/pubs/byz.pdf" rel="external noopener" target="_blank">Byzantine Generals Problem</a>: how do you reach reliable agreement when some participants might be faulty or actively malicious<sup>[1]</sup>?</p>
+    <div class="two-col">
+      <div class="box"><h3>Proof of Work (PoW)</h3><p>Validators ("miners") compete to solve a costly computational puzzle. Winning costs real energy, which is the point: rewriting history means outrunning the entire honest network's computing power. Secure and battle-tested; energy-intensive.</p></div>
+      <div class="box"><h3>Proof of Stake (PoS)</h3><p>Validators lock up ("stake") the network's own asset as collateral; the chance of being chosen to propose the next block scales with stake, and dishonesty gets that stake destroyed. Comparable security properties to PoW in practice, at a small fraction of the energy cost.</p></div>
+      <div class="box"><h3>Delegated Proof of Stake (DPoS)</h3><p>Token holders vote for a smaller set of trusted delegates who do the actual validating. Faster and cheaper, at the cost of more centralization among the elected delegates.</p></div>
+      <div class="box"><h3>Practical Byzantine Fault Tolerance (PBFT)</h3><p>A known, fixed set of validators exchange multiple rounds of messages until a supermajority agrees. Very fast finality; scales poorly past a modest validator count due to message overhead.</p></div>
+    </div>
+    <p style="margin-top:20px;"><strong>Proof of Authority (PoA)</strong> sits at the centralized end of this spectrum: a small set of pre-approved, identified validators simply take turns. Fast and cheap, but only as trustworthy as that fixed validator set — useful for private/consortium networks, not for a permissionless public one.</p>
+
+    <h3 style="margin-top:28px;">Try it: a simplified consensus race</h3>
+    <p>Each simulated validator's chance of winning a round is proportional to its resource slider — hashpower for a PoW-style race, staked balance for a PoS-style one. Run it repeatedly and watch how, over many rounds, outcomes track the sliders on average without ever guaranteeing any single round.</p>
+    <div class="validator-row" id="validator-row"></div>
+    <div class="controls"><div class="ctrl-row"><button class="btn" id="consensus-run">▶ Run one round</button><span id="consensus-result" style="font-family:var(--font-mono); font-size:12px;"></span></div></div>
+  </div>
+</section>
+
+<section class="chapter" id="contracts">
+  <div class="wrap">
+    <div class="kicker">06 — Smart Contracts</div>
+    <h2>Agreements That Execute Themselves</h2>
+    <p class="lede">A smart contract is autonomous software running on a decentralized network: code whose execution is enforced by consensus itself, not by a court or a company. If the conditions written into it are met, the outcome happens — automatically, identically, on every node, with the result recorded on the same public ledger as everything else.</p>
+    <div class="taglist"><span>Escrow</span><span>Voting systems</span><span>Insurance payouts</span><span>Asset transfers</span><span>Automated agreements</span></div>
+    <div class="diagram-grid" style="margin-top:24px;">
+      <div class="diagram">
+        <div class="flow-note" style="font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;">Traditional contract</div>
+        <div class="flow wrap-tight" style="margin-top:0;"><div class="step">DRAFT</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">SIGN</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">TRUST COUNTERPARTY</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">DISPUTE?</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">COURT / ARBITRATION</div></div>
+      </div>
+      <div class="diagram">
+        <div class="flow-note" style="font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-bottom:10px;">Smart contract</div>
+        <div class="flow wrap-tight" style="margin-top:0;"><div class="step">CODE THE RULES</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">DEPLOY</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">CONDITIONS MET?</div><div class="arrow">→</div></div>
+        <div class="flow wrap-tight"><div class="step">EXECUTES AUTOMATICALLY</div></div>
+      </div>
+    </div>
+    <p style="margin-top:20px;">The key shift is from a <em>process</em> (draft, sign, hope, maybe litigate) to a <em>deterministic function</em>: the same inputs always produce the same outcome, visible to anyone who wants to check the code in advance. That transparency is also the risk — see Chapter 15 on smart contract bugs.</p>
+
+    <h3 style="margin-top:28px;">Try it: a minimal escrow contract</h3>
+    <div class="controls">
+      <div class="rule-line"><input type="checkbox" id="cond-buyer"> <label for="cond-buyer">Buyer confirms delivery</label></div>
+      <div class="rule-line"><input type="checkbox" id="cond-seller"> <label for="cond-seller">Seller confirms shipment</label></div>
+      <div class="rule-line"><input type="checkbox" id="cond-deadline"> <label for="cond-deadline">Deadline has passed</label></div>
+      <div class="ctrl-row"><button class="btn" id="contract-eval">Evaluate contract</button></div>
+    </div>
+    <div class="exec-log" id="contract-log">Rule: release funds to seller IF (buyer confirms AND seller confirms) OR deadline has passed. Otherwise, funds stay in escrow.</div>
+  </div>
+</section>
+
+<section class="chapter" id="privacy">
+  <div class="wrap">
+    <div class="kicker">07 — Transparency vs Privacy</div>
+    <h2>The Ledger Everyone Can Read Is a Feature and a Problem</h2>
+    <p class="lede">A public ledger gives you real <strong>auditability</strong> (anyone can check the books), <strong>accountability</strong> (actions are attributable to an address), and <strong>traceability</strong> (funds and data can be followed end to end). It also means every transaction is, by default, visible forever — a serious problem for financial privacy, confidential business data, and anything that shouldn't be permanent.</p>
+    <p><strong>Zero-knowledge proofs</strong> are the main answer: cryptographic techniques that let one party prove a statement is true (e.g. "I have enough funds," "I am over 18," "this transaction is valid") without revealing the underlying data at all. Combined with <strong>selective disclosure</strong> (revealing specific facts to specific parties, and nothing else), privacy-preserving protocols let a network keep its integrity guarantees without publishing everyone's entire history in plain view.</p>
+    <h3 style="margin-top:28px;">Try it: same transaction, two views</h3>
+    <div class="controls"><div class="ctrl-row"><button class="btn" id="privacy-toggle">Toggle: Public Ledger View / Zero-Knowledge View</button></div></div>
+    <div class="privacy-view" id="privacy-view"></div>
+  </div>
+</section>
+
+<section class="chapter" id="infra">
+  <div class="wrap">
+    <div class="kicker">08 — Decentralized Infrastructure</div>
+    <h2>Beyond Ledgers: Decentralizing Everything Else</h2>
+    <p class="lede">Once you have a network that can agree on shared state without a central operator, the same idea extends past simple transaction records.</p>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">Storage</div><p>Files split, encrypted, and spread across many independent operators instead of one company's data center.</p></div>
+      <div class="icon-card"><div class="it">Computation</div><p>Networks that let anyone rent out spare compute, verified by the same consensus logic as a ledger.</p></div>
+      <div class="icon-card"><div class="it">Identity</div><p>Credentials a person controls directly (via their own keys) rather than ones a single provider can revoke.</p></div>
+      <div class="icon-card"><div class="it">Communication</div><p>Peer-to-peer messaging and coordination protocols with no central server to shut down or subpoena. See <a href="/radio-communications">Radio Communications</a> for the physical-layer side of decentralized comms.</p></div>
+      <div class="icon-card"><div class="it">Governance</div><p>Rule-changes and resource allocation decided by transparent, on-chain voting rather than a board — explored further in Chapter 10.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="environment">
+  <div class="wrap">
+    <div class="kicker">09 — Environmental and Operational Considerations</div>
+    <h2>The Energy Question, Handled Honestly</h2>
+    <p class="lede">Proof of Work is genuinely energy-intensive by design — the cost <em>is</em> the security. Independent researchers estimate Bitcoin's network consumes on the order of 100–180 terawatt-hours per year, in the same range as a mid-sized industrialized country's total electricity use<sup>[2]</sup>. That framing needs a caveat its own source stresses: naive country comparisons are easy to misread, since national electricity profiles differ enormously in ways a single number obscures<sup>[2]</sup>.</p>
+    <p>Proof of Stake is the clearest counterexample to "blockchain is inherently wasteful": when Ethereum switched from PoW to PoS in September 2022 (an event called "the Merge"), its energy consumption dropped by roughly <strong>99.95%</strong> overnight, because validators no longer need specialized hardware racing to solve puzzles — they just need to hold and lock up stake<sup>[3]</sup>.</p>
+    <div class="two-col">
+      <div class="box"><h3>Proof of Work</h3><p>Energy cost scales with network security and total hashpower. Specialized hardware (ASICs) creates real e-waste as equipment becomes obsolete.</p></div>
+      <div class="box"><h3>Proof of Stake</h3><p>Energy cost is closer to that of running ordinary servers. Security comes from economic stake at risk, not physical energy expenditure.</p></div>
+    </div>
+    <p style="margin-top:20px;">For comparison, conventional data centers and the traditional financial system also consume very large amounts of energy running banking infrastructure, card networks, and cloud services — a fully honest comparison has to weigh transactions-per-watt across all of these systems, not just point at the newest one.</p>
+  </div>
+</section>
+
+<section class="chapter" id="governance">
+  <div class="wrap">
+    <div class="kicker">10 — Governance Without Central Control</div>
+    <h2>Who Decides, When No One's in Charge?</h2>
+    <p class="lede">A <strong>DAO</strong> (Decentralized Autonomous Organization) is an attempt to run an organization's decision-making through code and on-chain voting instead of a traditional management hierarchy: <strong>proposals</strong> are submitted publicly, token- or membership-weighted <strong>votes</strong> decide them, and an on-chain <strong>treasury</strong> executes whatever passes — all visible, auditable, and (in principle) resistant to a single person overriding the outcome.</p>
+    <div class="controls">
+      <h3 style="margin-bottom:12px;">Try it: a simple DAO vote</h3>
+      <div class="ctrl-row"><label for="dao-yes">Yes voting power</label><input type="range" id="dao-yes" min="0" max="100" value="45"><span class="readout" id="dao-yes-val">45</span></div>
+      <div class="ctrl-row"><label for="dao-no">No voting power</label><input type="range" id="dao-no" min="0" max="100" value="30"><span class="readout" id="dao-no-val">30</span></div>
+      <div class="ctrl-row"><label for="dao-abstain">Abstain</label><input type="range" id="dao-abstain" min="0" max="100" value="10"><span class="readout" id="dao-abstain-val">10</span></div>
+    </div>
+    <div class="vote-bar-wrap" id="dao-bar"></div>
+    <div class="vote-legend"><span class="yes">Yes</span><span class="no">No</span><span class="abstain">Abstain</span></div>
+    <div class="exec-log" id="dao-result"></div>
+    <p style="margin-top:20px;">This is also where the limits show up fastest. In 2016, a DAO called simply "The DAO" raised roughly $150M in ETH from over 11,000 participants — and lost about a third of it within months to a reentrancy bug in its own code, forcing Ethereum's community into a contentious hard fork that split the chain into Ethereum and Ethereum Classic<sup>[4]</sup>. Code enforcing the rules perfectly is only as good as the rules being correct in the first place — and a majority vote can still be a wrong, rushed, or captured one.</p>
+  </div>
+</section>
+
+<section class="chapter" id="tokens">
+  <div class="wrap">
+    <div class="kicker">11 — Tokenized Systems</div>
+    <h2>Tokens as Programmable Assets, Not Just Prices</h2>
+    <p class="lede">Set aside market value entirely: functionally, a token is a unit of programmable digital ownership that a smart contract can check, transfer, and condition other logic on.</p>
+    <div class="two-col">
+      <div class="box"><h3>Utility tokens</h3><p>Grant access to a specific service or function within a network — closer to a metered API key than a currency.</p></div>
+      <div class="box"><h3>Governance tokens</h3><p>Represent voting weight in a DAO's decisions (Chapter 10) — a share of say, not necessarily a share of profit.</p></div>
+      <div class="box"><h3>Stablecoins</h3><p>Tokens designed to track the value of an external reference (typically a fiat currency), via collateral or algorithmic mechanisms — infrastructure for using a blockchain without volatility exposure.</p></div>
+      <div class="box"><h3>Asset-backed tokens</h3><p>A digital representation of a claim on a real-world asset (a property share, a commodity, a bond) — the token is a record of ownership, not the asset itself.</p></div>
+    </div>
+    <p style="margin-top:20px;"><strong>Non-fungible tokens (NFTs)</strong> are the odd one out structurally: instead of interchangeable units, each token is unique and individually tracked, making the category useful for anything where provenance and specific identity matter more than fungibility — a certificate, a ticket, a title, a specific piece of media's ownership record.</p>
+  </div>
+</section>
+
+<section class="chapter" id="beyond">
+  <div class="wrap">
+    <div class="kicker">12 — Blockchain Beyond Finance</div>
+    <h2>Every Domain That Needs a Shared, Tamper-Evident Record</h2>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">Supply chains</div><p>Tracking a physical good's custody chain so provenance claims can be checked, not just asserted.</p></div>
+      <div class="icon-card"><div class="it">Scientific research</div><p>Timestamped, tamper-evident records of datasets and results, useful for reproducibility and priority disputes.</p></div>
+      <div class="icon-card"><div class="it">Environmental monitoring</div><p>See Chapter 13.</p></div>
+      <div class="icon-card"><div class="it">Public records</div><p>Land titles, certifications, and registries that citizens can verify without asking the registrar's permission.</p></div>
+      <div class="icon-card"><div class="it">Identity systems</div><p>Credentials under an individual's own control (Chapter 08).</p></div>
+      <div class="icon-card"><div class="it">Voting systems</div><p>Verifiable tallies — a genuinely hard problem, since voting also needs privacy guarantees ledgers don't naturally provide (Chapter 07).</p></div>
+      <div class="icon-card"><div class="it">Energy grids</div><p>Peer-to-peer trading of locally generated power, settled automatically between neighbors (Chapter 13).</p></div>
+      <div class="icon-card"><div class="it">Machine-to-machine</div><p>Devices autonomously paying each other for data, bandwidth, or compute without a human or a bank in the loop.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="envsystems">
+  <div class="wrap">
+    <div class="kicker">13 — Decentralized Environmental Systems</div>
+    <h2>Transparent Data as Environmental Infrastructure</h2>
+    <p class="lede">Several environmental problems are fundamentally trust and coordination problems wearing an ecological costume: does a reported carbon offset actually correspond to a real, un-double-counted reduction? Did a shared resource pool get allocated fairly? A tamper-evident, publicly auditable ledger is a plausible piece of the answer.</p>
+    <div class="taglist">
+      <span>Community-owned energy networks</span><span>Carbon accounting systems</span>
+      <span>Environmental monitoring networks</span><span>Distributed sensor infrastructure</span>
+      <span>Conservation tracking</span><span>Resource management</span>
+    </div>
+    <p style="margin-top:20px;">A distributed sensor network reporting air quality, water levels, or emissions directly on-chain removes a single operator's ability to quietly edit inconvenient readings after the fact. This is a real, still-maturing application area — worth distinguishing from marketing claims that overstate how solved it already is.</p>
+  </div>
+</section>
+
+<section class="chapter" id="space">
+  <div class="wrap">
+    <div class="kicker">14 — Blockchain and Space Infrastructure</div>
+    <h2>Coordination Without a Ground-Based Referee</h2>
+    <p class="lede">Space systems already face a decentralization-shaped problem: multiple operators, multiple countries, and propagation delays that make waiting for a central authority's sign-off impractical once you're minutes or hours away by radio. A constellation of satellites coordinating orbital slots, a network of ground stations verifying whose data is whose, or machines negotiating shared resources without waiting on Earth-based approval are all natural fits for consensus-based coordination.</p>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">Satellite coordination</div><p>Shared, verifiable scheduling of orbital slots and communication windows across independent operators.</p></div>
+      <div class="icon-card"><div class="it">Distributed communications</div><p>See <a href="/radio-communications">Radio Communications</a> for how the physical radio link itself works — the TM/TC concepts there compose naturally with on-chain verification of what was actually sent and received.</p></div>
+      <div class="icon-card"><div class="it">Global sensor networks</div><p>Environmental and space-weather sensors run by many independent parties, cross-verifying each other's readings.</p></div>
+      <div class="icon-card"><div class="it">Space resource management</div><p>Tracking claims on finite resources (orbital slots, spectrum, eventually lunar/asteroid material) transparently across jurisdictions.</p></div>
+      <div class="icon-card"><div class="it">Autonomous machine economies</div><p>Spacecraft or rovers transacting for data, relay bandwidth, or compute directly with each other.</p></div>
+      <div class="icon-card"><div class="it">Interplanetary data verification</div><p>Cryptographic proof that data relayed across multiple hops (and possibly light-minutes of delay) hasn't been altered en route — the same hash-chain principle from Chapter 03, just applied over a much longer round-trip.</p></div>
+    </div>
+    <p style="margin-top:20px;">None of this is deployed space infrastructure today — it's a reasonable extrapolation of the same coordination primitives covered above, not a claim about current missions. See the <a href="https://followorbounce.github.io/aerospace/">Aerospace field guide</a> and <a href="https://followorbounce.github.io/aerospace/cascade-physical-computing">CASCADE: Physical Computing</a> for the hardware and communications context this would build on.</p>
+  </div>
+</section>
+
+<section class="chapter" id="risks">
+  <div class="wrap">
+    <div class="kicker">15 — Risks and Challenges</div>
+    <h2>What This Technology Does Not Solve</h2>
+    <p class="lede">None of the above is a reason for uncritical enthusiasm. Real, unresolved problems include:</p>
+    <div class="two-col">
+      <div class="box"><h3>Scalability</h3><p>More decentralization and more security typically cost throughput — most base-layer networks process far fewer transactions per second than a centralized database.</p></div>
+      <div class="box"><h3>Governance disputes</h3><p>"Code is law" collides with the reality that communities disagree, sometimes irreconcilably (Chapter 10's DAO fork).</p></div>
+      <div class="box"><h3>Security vulnerabilities</h3><p>The network layer can be extremely secure while a specific application built on it is not.</p></div>
+      <div class="box"><h3>Smart contract bugs</h3><p>Deployed code is often difficult or impossible to patch — a bug isn't a bug you fix quietly, it's a permanent, exploitable fact until the community intervenes.</p></div>
+      <div class="box"><h3>Regulatory uncertainty</h3><p>Laws written for centralized intermediaries don't map cleanly onto systems with no clear intermediary to regulate.</p></div>
+      <div class="box"><h3>Network fragmentation</h3><p>Disagreements can split a single network into incompatible chains, each claiming to be the "real" continuation.</p></div>
+    </div>
+    <p style="margin-top:20px;">And underneath all of it: <strong>human factors</strong>. Lost private keys are unrecoverable by design. Social engineering targets people, not protocols. A perfectly trustless system still runs on wallets, exchanges, and interfaces built and operated by fallible humans and organizations. Technology can remove the need to trust a central database — it cannot remove the need for good judgment.</p>
+  </div>
+</section>
+
+<section class="chapter" id="future">
+  <div class="wrap">
+    <div class="kicker">16 — Future Directions</div>
+    <h2>Where the Engineering Is Headed</h2>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">Layer 2 systems</div><p>Networks built on top of a base blockchain that batch and compress activity before settling back to it, trading a little decentralization for much higher throughput.</p></div>
+      <div class="icon-card"><div class="it">Cross-chain interoperability</div><p>Protocols letting independent chains verify and act on each other's state, instead of existing as isolated islands.</p></div>
+      <div class="icon-card"><div class="it">Decentralized AI coordination</div><p>Using consensus and token incentives to coordinate distributed machine-learning training or inference across untrusted participants.</p></div>
+      <div class="icon-card"><div class="it">Machine economies</div><p>Autonomous software agents and devices transacting directly with each other, at machine speed, without a human approving each exchange.</p></div>
+      <div class="icon-card"><div class="it">Global public ledgers</div><p>Shared infrastructure for facts that many independent parties need to agree on, without any one of them controlling it.</p></div>
+      <div class="icon-card"><div class="it">Digital commons</div><p>Resources — data, compute, bandwidth — governed collectively by their users rather than owned by a single platform.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">The Core Idea</div>
+    <h2>Verifiable Shared Truth</h2>
+    <p class="closing">A blockchain is not, at its core, "digital money." It's a system for producing <span class="q">verifiable shared truth</span> across participants who have no reason to trust each other individually — using redundancy instead of a single authority, cryptography instead of an ID office, consensus instead of a referee, and code instead of a courtroom, wherever those trade-offs actually make sense.</p>
+    <div class="principles">
+      <span>A distributed database.</span><span>A cryptographic trust system.</span><span>A decentralized coordination mechanism.</span>
+      <span>A transparent record-keeping infrastructure.</span><span>A programmable governance platform.</span>
+      <span>A possible foundation for future digital and physical systems.</span>
+    </div>
+    <p style="margin-top:24px;">It is not a replacement for good judgment, good governance, or good law — and it is not free. Every property described in this page was bought with some trade-off: energy, speed, complexity, or convenience. Understanding blockchain well means holding both halves at once: real, novel infrastructure for coordination without central control, and a technology with hard, unresolved limits.</p>
+
+    <div class="kicker" style="margin-top:56px;">Cross-links</div>
+    <div class="taglist">
+      <span><a href="/password-generator">Password &amp; Passphrase Generator</a></span>
+      <span><a href="/radio-communications">Radio Communications</a></span>
+      <span><a href="/waves">Waves</a></span>
+      <span><a href="https://followorbounce.github.io/aerospace/">Aerospace field guide</a></span>
+      <span><a href="https://followorbounce.github.io/aerospace/cascade-physical-computing">CASCADE — Physical Computing</a></span>
+    </div>
+
+    <div class="kicker" style="margin-top:40px;">References</div>
+    <ol class="refs">
+      <li><a href="https://lamport.azurewebsites.net/pubs/byz.pdf" rel="external noopener" target="_blank">The Byzantine Generals Problem</a> — Lamport, Shostak &amp; Pease, ACM Transactions on Programming Languages and Systems, 1982.</li>
+      <li><a href="https://ccaf.io/cbnsi/cbeci/comparisons" rel="external noopener" target="_blank">Cambridge Bitcoin Electricity Consumption Index — Comparisons</a> — Cambridge Centre for Alternative Finance.</li>
+      <li><a href="https://ethereum.org/en/roadmap/merge/" rel="external noopener" target="_blank">The Merge</a> — ethereum.org, on the ~99.95% energy reduction from switching to proof of stake.</li>
+      <li><a href="https://www.gemini.com/cryptopedia/the-dao-hack-makerdao" rel="external noopener" target="_blank">The DAO Hack</a> — Gemini Cryptopedia, on the 2016 reentrancy exploit and the Ethereum/Ethereum Classic fork.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a></span>
+    <span>This page explains infrastructure and mechanisms. Nothing here is financial advice, and no specific token, project, or investment is recommended or evaluated.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var $ = function(id){ return document.getElementById(id); };
+var subtle = window.crypto && window.crypto.subtle;
+
+function toHex(buf){
+  return Array.from(new Uint8Array(buf)).map(function(b){ return b.toString(16).padStart(2,'0'); }).join('');
+}
+function sha256Hex(str){
+  var enc = new TextEncoder().encode(str);
+  return subtle.digest('SHA-256', enc).then(toHex);
+}
+
+/* ===== 02: node network ===== */
+(function(){
+  var canvas = $('netcanvas'), cctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var decentralized = false;
+  var nodes = [];
+  var n = 10;
+  for(var i=0;i<n;i++){
+    var ang = (i/n)*Math.PI*2;
+    nodes.push({x: W/2 + Math.cos(ang)*100, y: H/2 + Math.sin(ang)*95});
+  }
+  var centerNode = {x:W/2, y:H/2};
+  var broadcasting = false, broadcastT = 0;
+
+  function draw(){
+    cctx.fillStyle = '#fff'; cctx.fillRect(0,0,W,H);
+    cctx.strokeStyle = '#c9c9c1'; cctx.lineWidth = 1;
+    if(!decentralized){
+      nodes.forEach(function(node){
+        cctx.beginPath(); cctx.moveTo(centerNode.x, centerNode.y); cctx.lineTo(node.x, node.y); cctx.stroke();
+      });
+    } else {
+      nodes.forEach(function(a, i){
+        nodes.forEach(function(b, j){
+          if(j>i){ cctx.beginPath(); cctx.moveTo(a.x,a.y); cctx.lineTo(b.x,b.y); cctx.stroke(); }
+        });
+      });
+    }
+    if(!decentralized){
+      cctx.fillStyle = 'var(--accent)'.replace('var(--accent)','#a13a2f');
+      cctx.beginPath(); cctx.arc(centerNode.x, centerNode.y, 9, 0, Math.PI*2); cctx.fill();
+    }
+    nodes.forEach(function(node){
+      cctx.fillStyle = '#0b0b0c';
+      cctx.beginPath(); cctx.arc(node.x, node.y, 6, 0, Math.PI*2); cctx.fill();
+    });
+    if(broadcasting){
+      broadcastT += 0.035;
+      var origin = decentralized ? nodes[0] : centerNode;
+      nodes.forEach(function(node){
+        if(node===origin) return;
+        var dx=node.x-origin.x, dy=node.y-origin.y;
+        var dist = Math.sqrt(dx*dx+dy*dy);
+        var t = Math.min(1, broadcastT);
+        var px = origin.x + dx*t, py = origin.y + dy*t;
+        cctx.fillStyle = '#2f5aa1';
+        cctx.beginPath(); cctx.arc(px, py, 4, 0, Math.PI*2); cctx.fill();
+      });
+      if(broadcastT >= 1.3) broadcasting = false;
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+  $('net-toggle').addEventListener('click', function(){
+    decentralized = !decentralized;
+    this.textContent = decentralized ? 'Toggle: Show Centralized Star' : 'Toggle: Show Decentralized Mesh';
+    $('netcanvas-cap').textContent = decentralized
+      ? 'Decentralized mesh — every node talks to every other node. No single point of failure, more messages overall.'
+      : 'Centralized topology — every node depends on the one in the middle. Click to toggle.';
+  });
+  $('net-broadcast').addEventListener('click', function(){ broadcasting = true; broadcastT = 0; });
+})();
+
+/* ===== 03: blockchain visualizer ===== */
+var chainData = [
+  {data:'Genesis block'},
+  {data:'Alice pays Bob 2 units'},
+  {data:'Bob pays Carol 1 unit'},
+  {data:'Carol pays Dave 0.5 units'}
+];
+function renderChain(){
+  var row = $('chain-row'); row.innerHTML='';
+  var prevHash = '0'.repeat(64);
+  var promise = Promise.resolve();
+  chainData.forEach(function(block, i){
+    promise = promise.then(function(){
+      return sha256Hex(prevHash + block.data).then(function(hash){
+        block.hash = hash;
+        block.prevHash = prevHash;
+        block.invalid = false;
+        prevHash = hash;
+      });
+    });
+  });
+  promise.then(function(){
+    chainData.forEach(function(block, i){
+      var card = document.createElement('div'); card.className = 'block-card';
+      card.innerHTML =
+        '<div class="bidx">Block '+i+'</div>'+
+        '<label>Data</label>'+
+        '<textarea data-idx="'+i+'">'+block.data+'</textarea>'+
+        '<label>Prev hash</label><div class="hashval" data-prev="'+i+'">'+block.prevHash.slice(0,24)+'…</div>'+
+        '<label>This hash</label><div class="hashval" data-hash="'+i+'">'+block.hash.slice(0,24)+'…</div>';
+      row.appendChild(card);
+      if(i < chainData.length-1){
+        var link = document.createElement('div'); link.className='chain-link'; link.textContent='→';
+        row.appendChild(link);
+      }
+    });
+    row.querySelectorAll('textarea').forEach(function(ta){
+      ta.addEventListener('input', function(){
+        var idx = parseInt(this.dataset.idx);
+        chainData[idx].data = this.value;
+        recomputeFrom(idx);
+      });
+    });
+  });
+}
+function recomputeFrom(startIdx){
+  // Only blocks from startIdx onward can have changed: each depends on the
+  // previous block's (possibly now-different) hash, cascading forward.
+  var promise = Promise.resolve();
+  for(var i=startIdx;i<chainData.length;i++){
+    (function(i){
+      promise = promise.then(function(){
+        var block = chainData[i];
+        var inputPrev = i===0 ? '0'.repeat(64) : chainData[i-1].hash;
+        return sha256Hex(inputPrev + block.data).then(function(newHash){
+          block.prevHash = inputPrev;
+          block.hash = newHash;
+        });
+      });
+    })(i);
+  }
+  promise.then(function(){
+    var row = $('chain-row');
+    chainData.forEach(function(block, i){
+      var card = row.children[i*2]; // account for link separators
+      var invalid = i >= startIdx;
+      block.invalid = invalid;
+      if(card){
+        card.classList.toggle('invalid', invalid);
+        var hEl = card.querySelector('[data-hash="'+i+'"]');
+        var pEl = card.querySelector('[data-prev="'+i+'"]');
+        if(hEl) hEl.textContent = block.hash.slice(0,24)+'…';
+        if(pEl) pEl.textContent = block.prevHash.slice(0,24)+'…';
+      }
+    });
+  });
+}
+renderChain();
+$('chain-reset').addEventListener('click', function(){
+  chainData = [
+    {data:'Genesis block'},
+    {data:'Alice pays Bob 2 units'},
+    {data:'Bob pays Carol 1 unit'},
+    {data:'Carol pays Dave 0.5 units'}
+  ];
+  renderChain();
+});
+
+/* standalone hash tool */
+function updateHashTool(){
+  sha256Hex($('hash-input').value).then(function(hex){ $('hash-output').textContent = hex; });
+}
+$('hash-input').addEventListener('input', updateHashTool);
+updateHashTool();
+
+/* ===== 04: keypair sign/verify ===== */
+(function(){
+  var keyPair = null, signature = null, originalMessage = '';
+  function setOut(msg){ $('sig-output').textContent = msg; }
+  $('keygen-btn').addEventListener('click', function(){
+    subtle.generateKey({name:'ECDSA', namedCurve:'P-256'}, true, ['sign','verify']).then(function(kp){
+      keyPair = kp;
+      setOut('Keypair generated (ECDSA P-256). Public and private keys exist only in this tab\'s memory.');
+      $('sign-btn').disabled = false;
+    }).catch(function(e){ setOut('Key generation failed: '+e.message); });
+  });
+  $('sign-btn').addEventListener('click', function(){
+    if(!keyPair) return;
+    originalMessage = $('sig-message').value;
+    var data = new TextEncoder().encode(originalMessage);
+    subtle.sign({name:'ECDSA', hash:'SHA-256'}, keyPair.privateKey, data).then(function(sig){
+      signature = sig;
+      setOut('Signed. Signature (hex, truncated): '+toHex(sig).slice(0,48)+'…');
+      $('verify-btn').disabled = false;
+      $('tamper-btn').disabled = false;
+    });
+  });
+  $('verify-btn').addEventListener('click', function(){
+    if(!keyPair || !signature) return;
+    var data = new TextEncoder().encode($('sig-message').value);
+    subtle.verify({name:'ECDSA', hash:'SHA-256'}, keyPair.publicKey, signature, data).then(function(valid){
+      setOut(valid ? '✓ VALID — this signature matches this exact message and this public key.' : '✗ INVALID — the message has changed since it was signed, or the key doesn\'t match.');
+    });
+  });
+  $('tamper-btn').addEventListener('click', function(){
+    $('sig-message').value = originalMessage + ' [tampered]';
+  });
+})();
+
+/* ===== 05: consensus simulator ===== */
+(function(){
+  var validators = [
+    {name:'Validator A', power:40},
+    {name:'Validator B', power:25},
+    {name:'Validator C', power:20},
+    {name:'Validator D', power:15}
+  ];
+  var row = $('validator-row');
+  function render(){
+    row.innerHTML = '';
+    validators.forEach(function(v, i){
+      var el = document.createElement('div'); el.className = 'validator';
+      el.innerHTML = '<div>'+v.name+'</div><div>'+v.power+'%</div><input type="range" min="1" max="80" value="'+v.power+'" data-i="'+i+'">';
+      row.appendChild(el);
+    });
+    row.querySelectorAll('input').forEach(function(inp){
+      inp.addEventListener('input', function(){
+        validators[parseInt(this.dataset.i)].power = parseInt(this.value);
+        this.previousElementSibling.textContent = this.value+'%';
+        render_labels();
+      });
+    });
+  }
+  function render_labels(){
+    row.querySelectorAll('.validator').forEach(function(el,i){
+      el.children[1].textContent = validators[i].power+'%';
+    });
+  }
+  render();
+  $('consensus-run').addEventListener('click', function(){
+    var total = validators.reduce(function(s,v){return s+v.power;},0);
+    var r = Math.random()*total;
+    var acc = 0, winnerIdx = 0;
+    for(var i=0;i<validators.length;i++){ acc += validators[i].power; if(r <= acc){ winnerIdx = i; break; } }
+    row.querySelectorAll('.validator').forEach(function(el,i){ el.classList.toggle('winner', i===winnerIdx); });
+    $('consensus-result').textContent = validators[winnerIdx].name + ' proposed this round\'s block.';
+  });
+})();
+
+/* ===== 06: contract flow ===== */
+$('contract-eval').addEventListener('click', function(){
+  var buyer = $('cond-buyer').checked, seller = $('cond-seller').checked, deadline = $('cond-deadline').checked;
+  var release = (buyer && seller) || deadline;
+  var log = 'Checking conditions...\n';
+  log += '  buyer confirms: ' + buyer + '\n';
+  log += '  seller confirms: ' + seller + '\n';
+  log += '  deadline passed: ' + deadline + '\n';
+  log += release ? 'RESULT: release() called — funds sent to seller automatically.' : 'RESULT: condition not met — funds remain in escrow.';
+  $('contract-log').textContent = log;
+});
+
+/* ===== 07: privacy toggle ===== */
+(function(){
+  var publicView = true;
+  var tx = {from:'0x71C...9e2A', to:'0x4Fb...11Cd', amount:'2.5 units', balance:'118.2 units', purpose:'Invoice #4471 payment'};
+  function render(){
+    var el = $('privacy-view');
+    if(publicView){
+      el.innerHTML = ['from','to','amount','balance','purpose'].map(function(k){
+        return '<div class="privacy-row"><span>'+k+'</span><span>'+tx[k]+'</span></div>';
+      }).join('');
+    } else {
+      el.innerHTML =
+        '<div class="privacy-row"><span>validity</span><span style="color:var(--good); font-weight:600;">✓ PROOF VALID</span></div>'+
+        '<div class="privacy-row"><span>from</span><span class="redacted">██████████</span></div>'+
+        '<div class="privacy-row"><span>to</span><span class="redacted">██████████</span></div>'+
+        '<div class="privacy-row"><span>amount</span><span class="redacted">████</span></div>'+
+        '<div class="privacy-row"><span>balance sufficient?</span><span style="color:var(--good);">yes (proven, not revealed)</span></div>';
+    }
+  }
+  render();
+  $('privacy-toggle').addEventListener('click', function(){ publicView = !publicView; render(); });
+})();
+
+/* ===== 10: DAO vote ===== */
+(function(){
+  function render(){
+    var y = parseInt($('dao-yes').value), n = parseInt($('dao-no').value), a = parseInt($('dao-abstain').value);
+    $('dao-yes-val').textContent = y; $('dao-no-val').textContent = n; $('dao-abstain-val').textContent = a;
+    var total = y+n+a || 1;
+    $('dao-bar').innerHTML =
+      '<div class="vote-bar yes" style="width:'+(y/total*100)+'%"></div>'+
+      '<div class="vote-bar no" style="width:'+(n/total*100)+'%"></div>'+
+      '<div class="vote-bar abstain" style="width:'+(a/total*100)+'%"></div>';
+    var quorum = total >= 50;
+    var passed = quorum && y > n;
+    $('dao-result').textContent = 'Quorum (≥50 total voting power): '+(quorum?'met':'NOT met')+'. '+
+      (quorum ? ('Proposal ' + (passed ? 'PASSES' : 'FAILS') + ' (' + y + ' yes vs ' + n + ' no).') : 'Proposal cannot be finalized without quorum.');
+  }
+  ['dao-yes','dao-no','dao-abstain'].forEach(function(id){ $(id).addEventListener('input', render); });
+  render();
+})();
+
+})();
+</script>
+
+</body>
+</html>

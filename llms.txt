@@ -16,6 +16,7 @@ Home: https://followorbounce.github.io/
 - Machinery — heavy machinery explained through engineering, physics, and mathematics. Index: https://followorbounce.github.io/machinery/
 - Radio & Electronics — Radio Communications (frequency, modulation, propagation, spacecraft links, spectrum management): https://followorbounce.github.io/radio-communications. Also media servers, experiments and observations (planned).
 - Instruments — Password & Passphrase Generator (client-side only, Web Crypto API, BIP-39 wordlist, no network calls): https://followorbounce.github.io/password-generator
+- Technology — Blockchain Infrastructure (distributed systems, consensus mechanisms, cryptography, smart contracts, DAOs, tokenization, neutral/non-speculative, with real crypto.subtle hashing and ECDSA sign/verify demos): https://followorbounce.github.io/blockchain-infrastructure
 - Philosophy — nature of time, consciousness, reality and perception, free will, ethics (planned).
 - Personal — notes, travel stories, ideas, books and references, useful tools, archive (planned).
 
