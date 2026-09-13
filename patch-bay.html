@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Patch Bay — Knowledge Network</title>
+<meta name="description" content="A real, playable generative modular synthesizer in the browser — patch cables between oscillator, filter, LFO and envelope modules, in the visual language of Pure Data, vvvv and TouchDesigner, with a Teenage Engineering-style hardware interface.">
+<link rel="canonical" href="https://followorbounce.github.io/patch-bay">
+<meta name="theme-color" content="#eae6dc">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --chassis:#eae6dc; --chassis2:#ded9cb; --panel:#f4f1e9; --ink:#1c1b19; --ink-soft:#57534a;
+  --line:#c9c3b3;
+  --orange:#ff5a36; --blue:#2f6fed; --yellow:#f2c53d; --teal:#1fa77e; --pink:#e0507a; --purple:#8a5cf6;
+  --audio-c:#ff5a36; --cv-c:#2f6fed; --trig-c:#f2c53d;
+  --font-display:'Archivo', sans-serif; --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --chassis:#171613; --chassis2:#201f1b; --panel:#211f1a; --ink:#f0ede3; --ink-soft:#a9a396; --line:#3a362c; }
+}
+:root[data-theme="dark"]{ --chassis:#171613; --chassis2:#201f1b; --panel:#211f1a; --ink:#f0ede3; --ink-soft:#a9a396; --line:#3a362c; }
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0; background:var(--chassis); color:var(--ink); font-family:var(--font-mono); font-size:13px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:900;}
+a{color:inherit;}
+button{font-family:inherit;}
+
+header{border-bottom:2px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--chassis); z-index:20;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:12px; letter-spacing:0.14em; border:2px solid var(--ink); padding:6px 10px;}
+header .back{font-size:12px; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(30px,6vw,52px) 20px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;}
+.hero h1{font-size:clamp(2rem,5.5vw,3.4rem); line-height:0.98; letter-spacing:-0.01em; text-transform:uppercase;}
+.hero p{margin-top:14px; max-width:660px; font-size:13.5px; color:var(--ink-soft); line-height:1.7;}
+
+/* ===== transport ===== */
+.transport{position:sticky; top:49px; z-index:19; background:var(--chassis2); border-block:2px solid var(--ink); padding-block:10px;}
+.transport .wrap{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.tbtn{font-family:var(--font-display); font-weight:900; font-size:13px; text-transform:uppercase; letter-spacing:0.03em; padding:10px 18px; border:2px solid var(--ink); background:var(--panel); color:var(--ink); cursor:pointer; border-radius:3px;}
+.tbtn:active{transform:translateY(1px);}
+.tbtn.play{background:var(--orange); color:#fff;}
+.tbtn.play.on{background:var(--teal);}
+.tbtn.random{background:var(--yellow);}
+.tstat{font-size:11px; color:var(--ink-soft); margin-left:auto;}
+.tstat b{color:var(--ink);}
+
+/* ===== rack ===== */
+.rackwrap{padding-block:26px; position:relative;}
+.rack{position:relative; display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;}
+@media (max-width:900px){ .rack{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:520px){ .rack{grid-template-columns:1fr;} }
+#cableSvg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:5; overflow:visible;}
+
+.module{background:var(--panel); border:2px solid var(--ink); border-radius:6px; padding:12px; position:relative; box-shadow:3px 3px 0 var(--ink);}
+.module .mhead{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:10px; padding-bottom:8px; border-bottom:2px solid var(--ink);}
+.module .mname{font-family:var(--font-display); font-weight:900; font-size:13px; letter-spacing:0.02em;}
+.module .mtag{font-size:9px; color:var(--ink-soft);}
+/* solid fallback first for browsers without color-mix() (pre-2023 Safari), nicer tint after */
+.module.c-orange .mhead{color:#fff;} .module.c-orange{background:var(--orange); background:color-mix(in srgb, var(--orange) 88%, var(--panel));}
+.module.c-blue{background:#dbe4fb; background:color-mix(in srgb, var(--blue) 14%, var(--panel));}
+.module.c-yellow{background:#f8e8b8; background:color-mix(in srgb, var(--yellow) 30%, var(--panel));}
+.module.c-teal{background:#c9ece1; background:color-mix(in srgb, var(--teal) 20%, var(--panel));}
+.module.c-pink{background:#f6d7e1; background:color-mix(in srgb, var(--pink) 20%, var(--panel));}
+.module.c-purple{background:#e2d8fc; background:color-mix(in srgb, var(--purple) 18%, var(--panel));}
+.module.c-dark{background:var(--ink); color:#f0ede3;}
+.module.c-dark .mtag{color:#a9a396;}
+
+.row{display:flex; align-items:center; gap:10px; margin-bottom:9px;}
+.row:last-child{margin-bottom:0;}
+.jackrow{display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:9px; border-top:1px dashed var(--line);}
+.jackgroup{display:flex; flex-direction:column; gap:6px;}
+.jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; cursor:pointer;}
+.jack.out{flex-direction:row-reverse;}
+.jack .nub{width:13px; height:13px; border-radius:50%; border:2px solid var(--ink); background:#fff; flex:none;}
+.jack[data-kind="audio"] .nub{background:var(--audio-c);}
+.jack[data-kind="cv"] .nub{background:var(--cv-c);}
+.jack[data-kind="trig"] .nub{background:var(--trig-c);}
+.jack.filled .nub{box-shadow:0 0 0 3px rgba(0,0,0,0.15) inset;}
+.jack.dragtarget .nub{outline:3px solid var(--ink); outline-offset:1px;}
+
+.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
+.knob{width:46px; height:46px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff, #ccc 70%); border:2px solid var(--ink); position:relative; cursor:grab;}
+.knob:active{cursor:grabbing;}
+.knob .ind{position:absolute; left:50%; top:4px; width:3px; height:16px; background:var(--ink); transform-origin:50% 19px; margin-left:-1.5px; border-radius:2px;}
+.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-soft);}
+.kval{font-size:9px; color:var(--ink);}
+
+select.wave{font-family:var(--font-mono); font-size:10px; padding:4px 6px; border:2px solid var(--ink); border-radius:3px; background:#fff;}
+
+.steps{display:grid; grid-template-columns:repeat(8,1fr); gap:4px; margin-top:8px;}
+.step{aspect-ratio:1; border:2px solid var(--ink); border-radius:3px; background:#fff; cursor:pointer;}
+.step.on{background:var(--ink);}
+.step.playing{outline:3px solid var(--orange); outline-offset:1px;}
+
+.scopewrap{margin-top:8px; border:2px solid var(--ink); border-radius:3px; overflow:hidden; background:#0c0b09;}
+.scopewrap canvas{display:block; width:100%; height:60px;}
+
+/* ===== legend ===== */
+.legend{display:flex; gap:16px; flex-wrap:wrap; margin-top:18px; font-size:10.5px; color:var(--ink-soft);}
+.legend span{display:inline-flex; align-items:center; gap:6px;}
+.legend .dot{width:11px; height:11px; border-radius:50%; border:2px solid var(--ink);}
+
+/* ===== about ===== */
+section.about{padding-block:clamp(30px,6vw,52px); border-top:2px solid var(--ink);}
+section.about h2{font-size:1.1rem; text-transform:uppercase; margin-bottom:12px;}
+section.about p{max-width:680px; font-size:13px; color:var(--ink-soft); line-height:1.75; margin-bottom:12px;}
+section.about p:last-child{margin-bottom:0;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:2px solid var(--ink); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-soft);}
+footer a{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Instrument · Generative Modular Synthesis</div>
+    <h1>Patch Bay</h1>
+    <p>A small, real modular synthesizer, patched by hand instead of pre-wired — boxes, jacks, and cables in the visual language Pure Data made ordinary and TouchDesigner and vvvv still use for real-time media, in a chassis borrowed from Teenage Engineering's playful hardware. Drag between the colored nubs to route audio, drag a knob to turn it, hit Random for a new pattern. Every cable here is a real Web Audio connection, not a diagram of one.</p>
+  </div>
+</section>
+
+<div class="transport">
+  <div class="wrap">
+    <button class="tbtn play" id="playBtn">▶ Play</button>
+    <button class="tbtn random" id="randomBtn">⟲ Random</button>
+    <span class="tstat">BPM <b id="bpmVal">96</b> · <span id="stepIndicator">step 1/8</span></span>
+  </div>
+</div>
+
+<div class="rackwrap wrap">
+  <div class="rack" id="rack">
+    <svg id="cableSvg"></svg>
+
+    <!-- CLOCK -->
+    <div class="module c-yellow" data-mod="clock">
+      <div class="mhead"><span class="mname">Clock</span><span class="mtag">sequencer</span></div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="clock.bpm" data-min="40" data-max="220" data-default="96"><div class="ind"></div></div><span class="klabel">bpm</span><span class="kval" data-kval="clock.bpm">96</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="clock.chance" data-min="0" data-max="100" data-default="85"><div class="ind"></div></div><span class="klabel">chance</span><span class="kval" data-kval="clock.chance">85</span></div>
+      </div>
+      <div class="steps" id="stepsGrid"></div>
+      <div class="jackrow">
+        <span></span>
+        <div class="jackgroup"><div class="jack out" data-jack="clock.trig.out" data-kind="trig"><span class="nub"></span>trig</div></div>
+      </div>
+    </div>
+
+    <!-- NOISE -->
+    <div class="module c-dark" data-mod="noise">
+      <div class="mhead"><span class="mname">Noise</span><span class="mtag">source</span></div>
+      <div class="row"><div class="knobwrap"><div class="knob" data-knob="noise.level" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="noise.level">35</span></div></div>
+      <div class="jackrow">
+        <span></span>
+        <div class="jackgroup"><div class="jack out" data-jack="noise.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- OSC -->
+    <div class="module c-orange" data-mod="osc">
+      <div class="mhead"><span class="mname">Osc</span><span class="mtag">vco</span></div>
+      <div class="row">
+        <select class="wave" data-select="osc.wave"><option value="sawtooth">saw</option><option value="square">sqr</option><option value="triangle">tri</option><option value="sine">sin</option></select>
+        <div class="knobwrap"><div class="knob" data-knob="osc.tune" data-min="-12" data-max="12" data-default="0"><div class="ind"></div></div><span class="klabel">tune</span><span class="kval" data-kval="osc.tune">0</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="osc.oct" data-min="-2" data-max="2" data-default="0" data-step="1"><div class="ind"></div></div><span class="klabel">oct</span><span class="kval" data-kval="osc.oct">0</span></div>
+      </div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="osc.fm.in" data-kind="cv"><span class="nub"></span>fm</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="osc.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- LFO -->
+    <div class="module c-teal" data-mod="lfo">
+      <div class="mhead"><span class="mname">LFO</span><span class="mtag">modulator</span></div>
+      <div class="row">
+        <select class="wave" data-select="lfo.wave"><option value="sine">sin</option><option value="triangle">tri</option><option value="square">sqr</option></select>
+        <div class="knobwrap"><div class="knob" data-knob="lfo.rate" data-min="0.05" data-max="20" data-default="2"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="lfo.rate">2.0</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="lfo.depth" data-min="0" data-max="100" data-default="55"><div class="ind"></div></div><span class="klabel">depth</span><span class="kval" data-kval="lfo.depth">55</span></div>
+      </div>
+      <div class="jackrow">
+        <span></span>
+        <div class="jackgroup"><div class="jack out" data-jack="lfo.cv.out" data-kind="cv"><span class="nub"></span>cv</div></div>
+      </div>
+    </div>
+
+    <!-- FILTER -->
+    <div class="module c-pink" data-mod="filter">
+      <div class="mhead"><span class="mname">Filter</span><span class="mtag">vcf</span></div>
+      <div class="row">
+        <select class="wave" data-select="filter.type"><option value="lowpass">lo</option><option value="highpass">hi</option><option value="bandpass">band</option></select>
+        <div class="knobwrap"><div class="knob" data-knob="filter.cutoff" data-min="60" data-max="8000" data-default="1400" data-log="1"><div class="ind"></div></div><span class="klabel">cutoff</span><span class="kval" data-kval="filter.cutoff">1400</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="filter.res" data-min="0" data-max="25" data-default="6"><div class="ind"></div></div><span class="klabel">res</span><span class="kval" data-kval="filter.res">6</span></div>
+      </div>
+      <div class="jackrow">
+        <div class="jackgroup">
+          <div class="jack in" data-jack="filter.in" data-kind="audio"><span class="nub"></span>in</div>
+          <div class="jack in" data-jack="filter.cv.in" data-kind="cv"><span class="nub"></span>cv</div>
+        </div>
+        <div class="jackgroup"><div class="jack out" data-jack="filter.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- ENV -->
+    <div class="module c-purple" data-mod="env">
+      <div class="mhead"><span class="mname">Env</span><span class="mtag">a·d·s·r</span></div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="env.attack" data-min="0.001" data-max="1" data-default="0.01"><div class="ind"></div></div><span class="klabel">atk</span><span class="kval" data-kval="env.attack">0.01</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="env.decay" data-min="0.02" data-max="1.2" data-default="0.28"><div class="ind"></div></div><span class="klabel">dec</span><span class="kval" data-kval="env.decay">0.28</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="env.sustain" data-min="0" data-max="100" data-default="20"><div class="ind"></div></div><span class="klabel">sus</span><span class="kval" data-kval="env.sustain">20</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="env.release" data-min="0.02" data-max="2" data-default="0.35"><div class="ind"></div></div><span class="klabel">rel</span><span class="kval" data-kval="env.release">0.35</span></div>
+      </div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="env.trig.in" data-kind="trig"><span class="nub"></span>trig</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="env.cv.out" data-kind="cv"><span class="nub"></span>cv</div></div>
+      </div>
+    </div>
+
+    <!-- VCA -->
+    <div class="module c-blue" data-mod="vca">
+      <div class="mhead"><span class="mname">VCA</span><span class="mtag">amp</span></div>
+      <div class="row"><div class="knobwrap"><div class="knob" data-knob="vca.level" data-min="0" data-max="100" data-default="90"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="vca.level">90</span></div></div>
+      <div class="jackrow">
+        <div class="jackgroup">
+          <div class="jack in" data-jack="vca.in" data-kind="audio"><span class="nub"></span>in</div>
+          <div class="jack in" data-jack="vca.cv.in" data-kind="cv"><span class="nub"></span>cv</div>
+        </div>
+        <div class="jackgroup"><div class="jack out" data-jack="vca.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="module c-dark" data-mod="output">
+      <div class="mhead"><span class="mname">Output</span><span class="mtag">master</span></div>
+      <div class="row"><div class="knobwrap"><div class="knob" data-knob="output.volume" data-min="0" data-max="100" data-default="70"><div class="ind"></div></div><span class="klabel">volume</span><span class="kval" data-kval="output.volume">70</span></div></div>
+      <div class="scopewrap"><canvas id="scope" width="240" height="60"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="output.in" data-kind="audio"><span class="nub"></span>in</div></div>
+        <span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="legend">
+    <span><span class="dot" style="background:var(--audio-c)"></span>Audio signal</span>
+    <span><span class="dot" style="background:var(--cv-c)"></span>CV / modulation</span>
+    <span><span class="dot" style="background:var(--trig-c)"></span>Trigger</span>
+  </div>
+</div>
+
+<section class="about wrap">
+  <h2>What this actually is</h2>
+  <p>The default patch on load: <strong>Clock → Env</strong> (trig), <strong>Osc → Filter → VCA → Output</strong> (audio), <strong>LFO → Filter</strong> (cv, modulating cutoff), <strong>Env → VCA</strong> (cv, modulating gain). That's a standard subtractive-synth voice with a moving filter, playing whatever pattern is lit in the Clock's 8 steps. Unplug the Env→VCA cable and the sound drones instead of pulsing; unplug Osc→Filter and patch Noise→Filter instead for a hi-hat-like texture; turn the Clock's <strong>chance</strong> knob down and the pattern starts skipping steps unpredictably instead of repeating exactly — that's the generative part: the same 8 lit steps produce a different actual rhythm most times it loops.</p>
+  <p>The interface borrows its grammar from three real tools rather than inventing a new one: the boxes-and-cords patching language <strong>Pure Data</strong> made ordinary for audio in the late 1990s, the real-time node graphs <strong>vvvv</strong> and <strong>TouchDesigner</strong> still use for interactive visuals today, and the bold, playful, slightly toy-like hardware language of <strong>Teenage Engineering</strong>'s synthesizers — chunky knobs, flat saturated color per function, a light industrial chassis. Every cable drawn between two nubs is a real connection in the browser's Web Audio graph: audio-colored cables call <code>.connect()</code> between actual audio nodes, and CV-colored cables connect a modulation source's output directly into another module's <code>AudioParam</code> — the same technique real modular synthesizers use, just electrons instead of voltage.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/mediaservers">Media Servers</a> · <a href="/music-mathematics">Music Is Mathematics</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== iOS audio fix (ring switch + gesture unlock) ===================== */
+var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+var actx = null;
+function ctx(){ if(!actx) actx = new AudioCtxClass(); if(actx.state==='suspended') actx.resume(); return actx; }
+function unlockAudioForIOS(){
+  var c = ctx();
+  if(c.state==='suspended'){ c.resume(); }
+  var buffer = c.createBuffer(1, 1, 22050);
+  var src = c.createBufferSource();
+  src.buffer = buffer; src.connect(c.destination);
+  if(src.start) src.start(0); else if(src.noteOn) src.noteOn(0);
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+  if(!document.getElementById('ios-silent-unmute')){
+    var a = document.createElement('audio');
+    a.id = 'ios-silent-unmute';
+    a.setAttribute('x-webkit-airplay','deny'); a.setAttribute('playsinline','');
+    a.preload = 'auto'; a.loop = true;
+    a.src = 'data:audio/wav;base64,UklGRmQGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUAGAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.play().catch(function(){});
+  }
+}
+['touchstart','touchend','click'].forEach(function(evt){
+  document.addEventListener(evt, unlockAudioForIOS, {capture:true, once:true, passive:true});
+});
+
+/* ===================== module graph ===================== */
+var nodes = {}; // moduleId -> { audioNodes..., outs:{jack: AudioNode or fn}, params:{} }
+var lastNote = 220;
+
+function build(){
+  var c = ctx();
+
+  // CLOCK: no audio nodes, pure JS scheduler (built below)
+
+  // NOISE
+  var noiseBuf = c.createBuffer(1, c.sampleRate*2, c.sampleRate);
+  var nd = noiseBuf.getChannelData(0);
+  for(var i=0;i<nd.length;i++) nd[i] = Math.random()*2-1;
+  var noiseSrc = c.createBufferSource(); noiseSrc.buffer = noiseBuf; noiseSrc.loop = true;
+  var noiseGain = c.createGain(); noiseGain.gain.value = 0.35;
+  noiseSrc.connect(noiseGain);
+  noiseSrc.start();
+  nodes.noise = { gain: noiseGain, outNode: noiseGain };
+
+  // OSC
+  var osc = c.createOscillator(); osc.type='sawtooth'; osc.frequency.value = 220;
+  var oscGain = c.createGain(); oscGain.gain.value = 0.5;
+  osc.connect(oscGain); osc.start();
+  nodes.osc = { osc:osc, gain:oscGain, outNode:oscGain, tune:0, oct:0, baseFreq:220 };
+
+  // LFO
+  var lfo = c.createOscillator(); lfo.type='sine'; lfo.frequency.value = 2;
+  var lfoDepth = c.createGain(); lfoDepth.gain.value = 800; // scaled Hz swing
+  lfo.connect(lfoDepth); lfo.start();
+  nodes.lfo = { osc:lfo, depth:lfoDepth, outNode:lfoDepth };
+
+  // FILTER
+  var filt = c.createBiquadFilter(); filt.type='lowpass'; filt.frequency.value = 1400; filt.Q.value = 6;
+  nodes.filter = { node:filt, outNode:filt };
+
+  // ENV — a ConstantSource(1) through a Gain we automate, so its output can patch into any AudioParam
+  var envConst = c.createConstantSource(); envConst.offset.value = 1; envConst.start();
+  var envGain = c.createGain(); envGain.gain.value = 0;
+  envConst.connect(envGain);
+  nodes.env = { gain:envGain, outNode:envGain, a:0.01, d:0.28, s:0.2, r:0.35 };
+
+  // VCA — gain node driven by patched CV, in series with a level-scaling stage the knob controls
+  var vcaGain = c.createGain(); vcaGain.gain.value = 0;
+  var vcaLevel = c.createGain(); vcaLevel.gain.value = 0.9;
+  vcaGain.connect(vcaLevel);
+  nodes.vca = { node:vcaGain, levelNode:vcaLevel, outNode:vcaLevel, level:0.9 };
+
+  // OUTPUT
+  var master = c.createGain(); master.gain.value = 0.7;
+  var analyser = c.createAnalyser(); analyser.fftSize = 1024;
+  master.connect(analyser); analyser.connect(c.destination);
+  nodes.output = { node:master, analyser:analyser };
+}
+
+/* ===================== patch connections ===================== */
+var JACKS = {
+  'clock.trig.out': {dir:'out', kind:'trig'},
+  'noise.out': {dir:'out', kind:'audio', get:function(){ return nodes.noise.outNode; }},
+  'osc.fm.in': {dir:'in', kind:'cv', param:function(){ return nodes.osc.osc.frequency; }},
+  'osc.out': {dir:'out', kind:'audio', get:function(){ return nodes.osc.outNode; }},
+  'lfo.cv.out': {dir:'out', kind:'cv', get:function(){ return nodes.lfo.outNode; }},
+  'filter.in': {dir:'in', kind:'audio', target:function(){ return nodes.filter.node; }},
+  'filter.cv.in': {dir:'in', kind:'cv', param:function(){ return nodes.filter.node.frequency; }},
+  'filter.out': {dir:'out', kind:'audio', get:function(){ return nodes.filter.outNode; }},
+  'env.trig.in': {dir:'in', kind:'trig'},
+  'env.cv.out': {dir:'out', kind:'cv', get:function(){ return nodes.env.outNode; }},
+  'vca.in': {dir:'in', kind:'audio', target:function(){ return nodes.vca.node; }},
+  'vca.cv.in': {dir:'in', kind:'cv', param:function(){ return nodes.vca.node.gain; }},
+  'vca.out': {dir:'out', kind:'audio', get:function(){ return nodes.vca.outNode; }},
+  'output.in': {dir:'in', kind:'audio', target:function(){ return nodes.output.node; }}
+};
+
+var connections = []; // {from, to}
+var trigListeners = {}; // toJack -> [fn]
+
+function connect(from, to){
+  if(connections.some(function(cn){ return cn.from===from && cn.to===to; })) return;
+  var fj = JACKS[from], tj = JACKS[to];
+  if(!fj || !tj || fj.dir!=='out' || tj.dir!=='in' || fj.kind!==tj.kind) return;
+  connections.push({from:from, to:to});
+  if(fj.kind==='audio' || fj.kind==='cv'){
+    var srcNode = fj.get();
+    if(tj.param){ srcNode.connect(tj.param()); }
+    else if(tj.target){ srcNode.connect(tj.target()); }
+  } else if(fj.kind==='trig'){
+    trigListeners[to] = trigListeners[to] || [];
+  }
+  renderCables();
+}
+function disconnect(from, to){
+  var idx = connections.findIndex(function(cn){ return cn.from===from && cn.to===to; });
+  if(idx===-1) return;
+  connections.splice(idx,1);
+  var fj = JACKS[from], tj = JACKS[to];
+  if(fj.kind==='audio' || fj.kind==='cv'){
+    try{
+      var srcNode = fj.get();
+      if(tj.param){ srcNode.disconnect(tj.param()); } else if(tj.target){ srcNode.disconnect(tj.target()); }
+    }catch(e){}
+  }
+  renderCables();
+}
+function fireTrig(jackId){
+  (trigListeners[jackId]||[]).forEach(function(fn){ fn(); });
+}
+
+/* ===================== envelope trigger ===================== */
+function triggerEnv(){
+  var c = ctx(), g = nodes.env.gain.gain, now = c.currentTime;
+  var peak = 1, sus = peak*(nodes.env.s);
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(g.value, now);
+  g.linearRampToValueAtTime(peak, now+Math.max(0.001,nodes.env.a));
+  g.linearRampToValueAtTime(sus, now+nodes.env.a+Math.max(0.01,nodes.env.d));
+  g.setTargetAtTime(0, now+nodes.env.a+nodes.env.d+0.05, Math.max(0.02,nodes.env.r)/3);
+}
+trigListeners['env.trig.in'] = [triggerEnv];
+
+/* ===================== clock / sequencer (lookahead scheduling) ===================== */
+var STEP_COUNT = 8;
+var steps = [true,false,true,false,true,true,false,false];
+var bpm = 96, chance = 85;
+var playing = false, currentStep = 0, nextStepTime = 0;
+var lookahead = 25, scheduleAhead = 0.1, timerId = null;
+
+function stepDuration(){ return 60/bpm/2; }
+function scheduler(){
+  var c = ctx();
+  while(nextStepTime < c.currentTime + scheduleAhead){
+    scheduleStep(currentStep, nextStepTime);
+    nextStepTime += stepDuration();
+    currentStep = (currentStep+1)%STEP_COUNT;
+  }
+  timerId = setTimeout(scheduler, lookahead);
+}
+var visualStep = 0;
+function scheduleStep(i, time){
+  var delay = Math.max(0, (time - ctx().currentTime)*1000);
+  setTimeout(function(){
+    visualStep = i;
+    updateStepUI();
+    if(steps[i] && Math.random()*100 < chance){ fireTrig('clock.trig.out'); }
+  }, delay);
+}
+function updateStepUI(){
+  document.querySelectorAll('.step').forEach(function(el,idx){ el.classList.toggle('playing', idx===visualStep); });
+  document.getElementById('stepIndicator').textContent = 'step '+(visualStep+1)+'/'+STEP_COUNT;
+}
+
+/* ===================== knobs ===================== */
+function paramSet(path, val){
+  var parts = path.split('.');
+  if(path==='clock.bpm'){ bpm = val; document.getElementById('bpmVal').textContent = Math.round(val); }
+  else if(path==='clock.chance'){ chance = val; }
+  else if(path==='noise.level'){ nodes.noise.gain.gain.value = val/100*0.8; }
+  else if(path==='osc.tune'){ nodes.osc.tune = val; applyOscFreq(); }
+  else if(path==='osc.oct'){ nodes.osc.oct = val; applyOscFreq(); }
+  else if(path==='lfo.rate'){ nodes.lfo.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='lfo.depth'){ nodes.lfo.depth.gain.setTargetAtTime(val/100*2000, ctx().currentTime, 0.01); }
+  else if(path==='filter.cutoff'){ nodes.filter.node.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='filter.res'){ nodes.filter.node.Q.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='env.attack'){ nodes.env.a = val; }
+  else if(path==='env.decay'){ nodes.env.d = val; }
+  else if(path==='env.sustain'){ nodes.env.s = val/100; }
+  else if(path==='env.release'){ nodes.env.r = val; }
+  else if(path==='vca.level'){ nodes.vca.level = val/100; nodes.vca.levelNode.gain.setTargetAtTime(nodes.vca.level, ctx().currentTime, 0.01); }
+  else if(path==='output.volume'){ nodes.output.node.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); }
+}
+function applyOscFreq(){ nodes.osc.osc.frequency.setTargetAtTime(nodes.osc.baseFreq*Math.pow(2, nodes.osc.oct + nodes.osc.tune/12), ctx().currentTime, 0.01); }
+
+function initKnob(el){
+  var path = el.getAttribute('data-knob');
+  var min = parseFloat(el.getAttribute('data-min')), max = parseFloat(el.getAttribute('data-max'));
+  var isLog = el.getAttribute('data-log')==='1';
+  var stepQ = el.getAttribute('data-step');
+  var val = parseFloat(el.getAttribute('data-default'));
+  var ind = el.querySelector('.ind');
+  var kval = document.querySelector('[data-kval="'+path+'"]');
+
+  function toAngle(v){
+    var t = isLog ? (Math.log(v/min)/Math.log(max/min)) : (v-min)/(max-min);
+    return -135 + t*270;
+  }
+  function render(){
+    ind.style.transform = 'rotate('+toAngle(val)+'deg)';
+    kval.textContent = (Math.abs(val)<10 && val%1!==0) ? val.toFixed(2) : Math.round(val*100)/100;
+  }
+  function setVal(v){
+    v = Math.min(max, Math.max(min, v));
+    if(stepQ) v = Math.round(v);
+    val = v; render(); paramSet(path, val);
+  }
+  render(); paramSet(path, val);
+
+  var dragging=false, startY=0, startVal=0;
+  el.addEventListener('pointerdown', function(e){
+    dragging=true; startY=e.clientY; startVal=val; el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    var dy = startY - e.clientY, newVal;
+    if(isLog){
+      var t0 = Math.log(startVal/min)/Math.log(max/min);
+      newVal = min*Math.pow(max/min, t0 + dy/150);
+    } else {
+      newVal = startVal + (dy/150)*(max-min);
+    }
+    setVal(newVal);
+  });
+  ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
+  el._setVal = setVal; el._getRange = {min:min,max:max,isLog:isLog,stepQ:stepQ};
+}
+
+/* ===================== cable drawing / patching UI ===================== */
+var svg = document.getElementById('cableSvg');
+var rack = document.getElementById('rack');
+var CABLE_COLORS = {audio:'var(--audio-c)', cv:'var(--cv-c)', trig:'var(--trig-c)'};
+
+function jackCenter(jackId){
+  var el = document.querySelector('[data-jack="'+jackId+'"] .nub');
+  if(!el) return null;
+  var r = el.getBoundingClientRect(), rr = rack.getBoundingClientRect();
+  return { x: r.left+r.width/2-rr.left, y: r.top+r.height/2-rr.top };
+}
+function pathBetween(p1,p2){
+  var dx = Math.max(40, Math.abs(p2.x-p1.x)*0.5);
+  return 'M '+p1.x+' '+p1.y+' C '+(p1.x+dx)+' '+p1.y+', '+(p2.x-dx)+' '+p2.y+', '+p2.x+' '+p2.y;
+}
+function renderCables(tempEnd){
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  document.querySelectorAll('.jack').forEach(function(j){ j.classList.remove('filled'); });
+  connections.forEach(function(cn){
+    var p1 = jackCenter(cn.from), p2 = jackCenter(cn.to);
+    if(!p1||!p2) return;
+    var kind = JACKS[cn.from].kind;
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', pathBetween(p1,p2));
+    path.setAttribute('stroke', CABLE_COLORS[kind]);
+    path.setAttribute('stroke-width','3.5');
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke-linecap','round');
+    path.style.pointerEvents='stroke';
+    path.style.cursor='pointer';
+    path.addEventListener('click', function(){ disconnect(cn.from, cn.to); });
+    svg.appendChild(path);
+    document.querySelector('[data-jack="'+cn.from+'"]').classList.add('filled');
+    document.querySelector('[data-jack="'+cn.to+'"]').classList.add('filled');
+  });
+  if(tempEnd && tempEnd.from){
+    var p1 = jackCenter(tempEnd.from);
+    if(p1){
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', pathBetween(p1, tempEnd.pos));
+      path.setAttribute('stroke', CABLE_COLORS[JACKS[tempEnd.from].kind]);
+      path.setAttribute('stroke-width','3.5'); path.setAttribute('fill','none'); path.setAttribute('stroke-dasharray','2 5');
+      svg.appendChild(path);
+    }
+  }
+}
+
+var dragFrom = null;
+document.querySelectorAll('.jack').forEach(function(j){
+  j.addEventListener('pointerdown', function(e){
+    var id = j.getAttribute('data-jack');
+    if(JACKS[id].dir!=='out') return;
+    dragFrom = id;
+    e.preventDefault();
+  });
+});
+/* The cable SVG paints above the module grid (it has to, so cables stay
+   traceable over module edges), which means a cable can sit visually
+   between the cursor and a jack it happens to cross. elementFromPoint()
+   would only ever see the topmost hit — the cable — and never reach the
+   jack underneath it, so drag-connect would silently fail near existing
+   cables. elementsFromPoint() returns the whole stack; find a jack in it. */
+function jackUnderPoint(x,y){
+  var stack = document.elementsFromPoint(x,y);
+  for(var i=0;i<stack.length;i++){
+    var j = stack[i].closest && stack[i].closest('.jack');
+    if(j) return j;
+  }
+  return null;
+}
+window.addEventListener('pointermove', function(e){
+  if(!dragFrom) return;
+  var rr = rack.getBoundingClientRect();
+  renderCables({from:dragFrom, pos:{x:e.clientX-rr.left, y:e.clientY-rr.top}});
+  var jackEl = jackUnderPoint(e.clientX, e.clientY);
+  document.querySelectorAll('.jack.dragtarget').forEach(function(x){x.classList.remove('dragtarget');});
+  if(jackEl && JACKS[jackEl.getAttribute('data-jack')] && JACKS[jackEl.getAttribute('data-jack')].dir==='in') jackEl.classList.add('dragtarget');
+});
+window.addEventListener('pointerup', function(e){
+  if(!dragFrom) return;
+  var jackEl = jackUnderPoint(e.clientX, e.clientY);
+  if(jackEl){
+    var to = jackEl.getAttribute('data-jack');
+    if(JACKS[to] && JACKS[to].dir==='in') connect(dragFrom, to);
+  }
+  dragFrom = null;
+  document.querySelectorAll('.jack.dragtarget').forEach(function(x){x.classList.remove('dragtarget');});
+  renderCables();
+});
+
+/* ===================== steps UI ===================== */
+function buildStepsUI(){
+  var grid = document.getElementById('stepsGrid');
+  grid.innerHTML='';
+  steps.forEach(function(on,i){
+    var d = document.createElement('div');
+    d.className = 'step'+(on?' on':'');
+    d.addEventListener('click', function(){ steps[i] = !steps[i]; d.classList.toggle('on'); });
+    grid.appendChild(d);
+  });
+}
+
+/* ===================== random ===================== */
+function randomize(){
+  steps = steps.map(function(){ return Math.random() < 0.5; });
+  buildStepsUI();
+  document.querySelectorAll('.knob').forEach(function(el){
+    var path = el.getAttribute('data-knob');
+    if(['lfo.rate','lfo.depth','filter.cutoff','filter.res','env.decay','env.release','clock.chance'].indexOf(path)===-1) return;
+    var r = el._getRange;
+    var v = r.isLog ? r.min*Math.pow(r.max/r.min, Math.random()) : r.min + Math.random()*(r.max-r.min);
+    el._setVal(v);
+  });
+}
+
+/* ===================== oscilloscope ===================== */
+function drawScope(){
+  var canvas = document.getElementById('scope'), sctx = canvas.getContext('2d');
+  var data = new Uint8Array(nodes.output.analyser.fftSize);
+  function loop(){
+    requestAnimationFrame(loop);
+    if(!playing) return;
+    nodes.output.analyser.getByteTimeDomainData(data);
+    sctx.fillStyle = '#0c0b09'; sctx.fillRect(0,0,canvas.width,canvas.height);
+    sctx.strokeStyle = '#ff5a36'; sctx.lineWidth = 2; sctx.beginPath();
+    for(var i=0;i<data.length;i++){
+      var x = i/data.length*canvas.width, y = (data[i]/255)*canvas.height;
+      if(i===0) sctx.moveTo(x,y); else sctx.lineTo(x,y);
+    }
+    sctx.stroke();
+  }
+  loop();
+}
+
+/* ===================== default patch ===================== */
+function wireDefaultPatch(){
+  connect('clock.trig.out','env.trig.in');
+  connect('osc.out','filter.in');
+  connect('lfo.cv.out','filter.cv.in');
+  connect('filter.out','vca.in');
+  connect('env.cv.out','vca.cv.in');
+  connect('vca.out','output.in');
+}
+
+/* ===================== boot =====================
+   Build the audio graph immediately on load — creating nodes and calling
+   .start() on oscillators doesn't itself produce sound (nothing reaches
+   destination yet, and gain-driven stages start at 0), so this doesn't
+   need to wait for a user gesture. Only actually hearing anything does,
+   which is what the Play button's unlockAudioForIOS()+resume() is for.
+   Knob init runs *after* build(), since paramSet() touches real audio
+   nodes for its initial value and would throw if they didn't exist yet. */
+build();
+wireDefaultPatch();
+document.querySelectorAll('.knob').forEach(initKnob);
+document.querySelectorAll('select.wave').forEach(function(sel){
+  sel.addEventListener('change', function(){
+    var path = sel.getAttribute('data-select');
+    if(path==='osc.wave') nodes.osc.osc.type = sel.value;
+    if(path==='lfo.wave') nodes.lfo.osc.type = sel.value;
+    if(path==='filter.type') nodes.filter.node.type = sel.value;
+  });
+});
+buildStepsUI();
+renderCables();
+drawScope();
+
+document.getElementById('playBtn').addEventListener('click', function(){
+  unlockAudioForIOS();
+  playing = !playing;
+  this.classList.toggle('on', playing);
+  this.textContent = playing ? '■ Stop' : '▶ Play';
+  if(playing){ nextStepTime = ctx().currentTime + 0.05; currentStep = 0; scheduler(); }
+  else { clearTimeout(timerId); }
+});
+document.getElementById('randomBtn').addEventListener('click', randomize);
+window.addEventListener('resize', function(){ renderCables(); });
+
+})();
+</script>
+</body>
+</html>
