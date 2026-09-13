@@ -420,7 +420,9 @@ function disconnect(from, to){
   renderCables();
 }
 function fireTrig(jackId){
-  (trigListeners[jackId]||[]).forEach(function(fn){ fn(); });
+  connections.forEach(function(cn){
+    if(cn.from===jackId){ (trigListeners[cn.to]||[]).forEach(function(fn){ fn(); }); }
+  });
 }
 
 /* ===================== envelope trigger ===================== */
