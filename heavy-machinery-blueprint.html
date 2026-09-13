@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Heavy Machinery: The Blueprint — Knowledge Network</title>
+<meta name="description" content="An interactive blueprint comparing 20 real machines from the Heavy Machinery Encyclopedia by height, weight, engine power, and load capacity — with every figure translated into a human-scale equivalent.">
+<link rel="canonical" href="https://followorbounce.github.io/heavy-machinery-blueprint">
+<meta name="theme-color" content="#0a0f14">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Heavy Machinery: The Blueprint">
+<meta property="og:description" content="20 real machines, ranked by height, weight, power, and capacity — every figure translated into how many humans that actually means.">
+<meta property="og:url" content="https://followorbounce.github.io/heavy-machinery-blueprint">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#eaf2f7; --paper:#0a0f14; --line:#1c2c38; --mid:#7893a3;
+  --accent:#00d2ff; --accent2:#00ff88; --panel:#0d151c; --panel2:#101c26;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 980px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
+  background-image:linear-gradient(var(--line) 1px, transparent 1px), linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size:28px 28px; background-position:-1px -1px;
+}
+a{color:var(--accent);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em; color:#fff;}
+p{margin:0;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--line); padding-block:14px; position:sticky; top:0; background:rgba(10,15,20,0.92); backdrop-filter:blur(6px); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--accent); color:var(--accent); padding:6px 10px;}
+header .back{font-family:var(--font-mono); font-size:12px; text-decoration:none; color:var(--mid);}
+header .back:hover{color:var(--accent);}
+
+.hero{padding-block:clamp(48px,9vw,92px); border-bottom:1px solid var(--line);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--accent); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--accent);}
+.hero h1{font-size:clamp(2rem, 5vw, 3.4rem); line-height:1.03; margin-bottom:20px;}
+.hero .sub{font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:clamp(1.05rem,2vw,1.3rem); color:var(--accent2); margin-bottom:16px; display:block;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:700px; color:#b7c6d1;}
+.hero .question{margin-top:24px; padding:18px 20px; border:1px solid var(--accent); background:rgba(0,210,255,0.06); max-width:700px; font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:1.08rem; color:#fff;}
+
+nav.toc{border-bottom:1px solid var(--line); padding-block:14px; background:var(--panel);}
+nav.toc .wrap{display:flex; flex-wrap:wrap; gap:5px 12px;}
+nav.toc a{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.02em; text-decoration:none; color:var(--mid); white-space:nowrap;}
+nav.toc a:hover{color:var(--accent);}
+
+section.chapter{padding-block:clamp(40px,7vw,72px); border-bottom:1px solid var(--line); scroll-margin-top:56px;}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--accent); margin-bottom:10px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter p{margin-bottom:16px; max-width:720px; color:#c4d2db;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem; color:#dbe6ec;}
+strong{font-weight:600; color:#fff;} em{font-style:normal; color:var(--accent2); font-weight:500;}
+code{font-family:var(--font-mono); background:var(--panel2); padding:1px 5px; font-size:0.85em; color:var(--accent2);}
+
+/* comparator */
+.tabs{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:24px;}
+.tab{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; padding:9px 16px; border:1px solid var(--line); background:var(--panel); color:var(--mid); cursor:pointer; border-radius:2px;}
+.tab:hover{border-color:var(--accent); color:var(--ink);}
+.tab.active{border-color:var(--accent); color:#0a0f14; background:var(--accent);}
+.metric-note{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); margin-bottom:22px; border-left:2px solid var(--accent); padding-left:10px;}
+.rows{display:flex; flex-direction:column; gap:14px;}
+.row{border:1px solid var(--line); background:var(--panel); padding:14px 16px; border-radius:2px;}
+.row-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; flex-wrap:wrap; margin-bottom:8px;}
+.row-head a{color:#fff; text-decoration:none; font-weight:600; font-family:var(--font-display); text-transform:uppercase; font-size:0.92rem; letter-spacing:0.01em;}
+.row-head a:hover{color:var(--accent);}
+.row-val{font-family:var(--font-mono); font-size:12.5px; color:var(--accent2); white-space:nowrap;}
+.bar-track{height:10px; background:var(--panel2); border:1px solid var(--line); border-radius:1px; overflow:hidden; margin-bottom:9px;}
+.bar-fill{height:100%; background:linear-gradient(90deg, var(--accent), var(--accent2)); min-width:2%;}
+.humans-line{font-family:var(--font-mono); font-size:11.5px; color:var(--mid); display:flex; align-items:center; gap:8px; flex-wrap:wrap;}
+.pictogram{display:flex; flex-wrap:wrap; gap:1px; max-width:100%;}
+.pictogram svg{width:9px; height:12px; flex:none;}
+.pictogram svg path{fill:var(--accent);}
+.pictogram svg circle{fill:var(--accent);}
+
+/* data table */
+.table-scroll{overflow-x:auto; border:1px solid var(--line);}
+table.spec{border-collapse:collapse; width:100%; min-width:720px; font-family:var(--font-mono); font-size:12.5px;}
+table.spec th, table.spec td{padding:9px 12px; border-bottom:1px solid var(--line); text-align:left; white-space:nowrap;}
+table.spec th{color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; font-size:11px; background:var(--panel);}
+table.spec td{color:#c4d2db;}
+table.spec td a{color:var(--accent2); text-decoration:none;}
+table.spec td a:hover{text-decoration:underline;}
+table.spec tr:hover td{background:var(--panel2);}
+.dash{color:#3a4a56;}
+
+.const-grid{display:grid; grid-template-columns:repeat(auto-fit, minmax(200px,1fr)); gap:14px; margin-top:18px;}
+.const-box{border:1px solid var(--line); background:var(--panel); padding:14px 16px;}
+.const-box .k{font-family:var(--font-mono); font-size:11px; color:var(--accent); text-transform:uppercase; letter-spacing:0.06em; margin-bottom:6px; display:block;}
+.const-box .v{font-family:var(--font-display); font-size:1.1rem; color:#fff; font-weight:700;}
+
+footer{padding-block:28px; text-align:center;}
+footer .wrap{display:flex; flex-direction:column; gap:8px; align-items:center;}
+footer span{font-family:var(--font-mono); font-size:11.5px; color:var(--mid);}
+footer a{color:var(--accent);}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Machinery · Comparative Engineering</div>
+    <span class="sub">20 machines, four metrics, one human reference</span>
+    <h1>Heavy Machinery: The Blueprint</h1>
+    <p>Every machine page in the <a href="/machinery/">Heavy Machinery Encyclopedia</a> already draws its subject next to a human figure, to scale — because a number like "800 tonnes" or "4,000 horsepower" means very little until it's measured against something the eye already understands. This page takes that idea and puts all 20 machines on one blueprint: ranked side by side by height, weight, engine power, and load capacity, with every figure translated into how many people that number actually represents.</p>
+    <div class="question">Core idea: the machine is drawn once, at full scale. It's the human reference that shrinks or multiplies to show you what the number means.</div>
+  </div>
+</section>
+
+<nav class="toc" aria-label="Section navigation">
+  <div class="wrap">
+    <a href="#reading">01 Reading The Blueprint</a>
+    <a href="#comparator">02 The Comparator</a>
+    <a href="#table">03 Full Data Table</a>
+    <a href="#methodology">04 Methodology</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="chapter" id="reading">
+  <div class="wrap">
+    <div class="kicker">01 — Reading The Blueprint</div>
+    <h2>Why Compare By Human Scale</h2>
+    <p class="lede">Raw specifications don't stack up against each other on their own terms. A bucket-wheel excavator's 14,200 tonnes and a motor grader's 65.8 tonnes are both just "weight" until you have a common unit to convert them into — and the most legible common unit anyone carries around is their own body.</p>
+    <p>So every number on this page gets two treatments: a <strong>ranked bar</strong> against the other 19 machines (on a log scale, since the range between the smallest and largest machine here spans several orders of magnitude), and a <strong>human-equivalent count</strong> — how many average adults it would take, stacked, weighed, or powered, to equal that one machine. The pictogram rows make that count visible directly: each small figure represents a fixed number of people, shared across every machine in that category, so the length of the row of figures is itself a comparison.</p>
+  </div>
+</section>
+
+<section class="chapter" id="comparator">
+  <div class="wrap">
+    <div class="kicker">02 — The Comparator</div>
+    <h2>Rank By Height, Weight, Power, Or Capacity</h2>
+    <p class="lede">Pick a metric. Only machines with a documented, unambiguous figure for that metric are shown — see <a href="#methodology">Methodology</a> for what was excluded and why.</p>
+    <div class="tabs" role="tablist" aria-label="Comparison metric">
+      <button class="tab active" data-metric="height">Height</button>
+      <button class="tab" data-metric="weight">Weight</button>
+      <button class="tab" data-metric="power">Power</button>
+      <button class="tab" data-metric="capacity">Capacity</button>
+    </div>
+    <p class="metric-note" id="metric-note"></p>
+    <div class="rows" id="rows"></div>
+  </div>
+</section>
+
+<section class="chapter" id="table">
+  <div class="wrap">
+    <div class="kicker">03 — Full Data Table</div>
+    <h2>Every Machine, Every Figure</h2>
+    <p class="lede">The complete set behind the comparator above, including the machines each single metric had to leave out. A dash means that figure isn't documented on the machine's own page as a distinct, comparable number (see Methodology).</p>
+    <div class="table-scroll">
+      <table class="spec">
+        <thead><tr><th>Machine</th><th>Height</th><th>Weight</th><th>Power</th><th>Capacity</th></tr></thead>
+        <tbody id="table-body"></tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="methodology">
+  <div class="wrap">
+    <div class="kicker">04 — Methodology</div>
+    <h2>What The Human-Equivalent Numbers Actually Mean</h2>
+    <p class="lede">These conversions are illustrative, not scientific claims — they exist to make magnitude legible, not to model how 200,000 people would actually be arranged next to a bucket-wheel excavator.</p>
+    <div class="const-grid">
+      <div class="const-box"><span class="k">Reference body mass</span><span class="v">70 kg</span></div>
+      <div class="const-box"><span class="k">Reference body volume</span><span class="v">0.075 m³</span></div>
+      <div class="const-box"><span class="k">Sustained human power output</span><span class="v">0.1 hp (~75 W)</span></div>
+    </div>
+    <p style="margin-top:22px;">Weight converts at 70 kg per person. Capacity converts at 0.075 m³ per person (a rough packing volume for an average adult body, not a claim about how people would actually fit). Power converts against 0.1 hp — roughly the power a person can put out <em>continuously</em>, not a short sprint or lift, which can be several times higher.</p>
+    <p><strong>Height</strong> figures and their human-multiples are taken directly from each machine's own scale-comparison diagram in the <a href="/machinery/">Heavy Machinery Encyclopedia</a>, and mix genuinely different reference points by necessity: some are the machine's transport or operating height, others are a crane's maximum boom height or a drill's mast height at full extension — the individual machine page always specifies which.</p>
+    <p><strong>Weight</strong> only includes machines whose own page states the machine's <em>own</em> operating weight as a distinct figure — not a payload, lift capacity, or load it carries. That excludes machines like the Caterpillar 797F (a payload rating, not the truck's own weight) and the Sarens SGC-250 (a 5,000 t <em>lift</em> capacity, not the crane's own mass).</p>
+    <p><strong>Power</strong> only includes a stated engine or installed power figure. The Spartacus dredger's 44,180 kW installed electrical power is converted to horsepower (×1.341) for comparability with the diesel-rated machines; everything else already uses each page's own hp figure.</p>
+    <p><strong>Capacity</strong> groups every machine whose page states a bucket, blade, dipper, or tank capacity as a single volume figure, converting litres and cubic yards to cubic metres. These are physically different kinds of containers (an excavator dipper vs. a combine's grain tank vs. a dozer blade) grouped only because they share a unit — the full table above lists which is which.</p>
+    <p>Full specifications, sourcing, and engineering context for each machine live on its own page in the <a href="/machinery/">Heavy Machinery Encyclopedia</a>.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/machinery/">Heavy Machinery Encyclopedia</a></span>
+    <span>Human-equivalent figures are illustrative approximations for scale, not engineering or biometric claims.</span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+var MACHINES = [
+  {slug:"bagger-293", title:"TAKRAF Bagger 293", height_m:96, height_x:53, weight_t:14200, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"bertha-tbm", title:"Bertha (Hitachi Zosen TBM)", height_m:17.5, height_x:9.7, weight_t:6700, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"big-muskie-dragline", title:"Bucyrus-Erie 4250-W “Big Muskie”", height_m:68, height_x:38, weight_t:13000, power_hp:null, cap_m3:170, cap_label:"Bucket"},
+  {slug:"caterpillar-24m", title:"Caterpillar 24 Motor Grader", height_m:4.5, height_x:2.5, weight_t:65.8, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"caterpillar-797f", title:"Caterpillar 797F", height_m:7.4, height_x:4.1, weight_t:null, power_hp:4000, cap_m3:null, cap_label:null},
+  {slug:"caterpillar-994k", title:"Caterpillar 994K", height_m:7.1, height_x:3.9, weight_t:243, power_hp:1739, cap_m3:24.5, cap_label:"Bucket"},
+  {slug:"caterpillar-d11", title:"Caterpillar D11", height_m:4.5, height_x:2.5, weight_t:112.7, power_hp:850, cap_m3:43.6, cap_label:"Blade"},
+  {slug:"epiroc-pv351", title:"Epiroc Pit Viper 351", height_m:19.8, height_x:11, weight_t:null, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"jcb-541-70", title:"JCB 541-70", height_m:7.0, height_x:3.9, weight_t:null, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"john-deere-9rx", title:"John Deere 9RX", height_m:3.9, height_x:2.2, weight_t:null, power_hp:830, cap_m3:null, cap_label:null},
+  {slug:"john-deere-r4045", title:"John Deere R4045", height_m:4.0, height_x:2.2, weight_t:null, power_hp:346, cap_m3:4.542, cap_label:"Spray tank"},
+  {slug:"john-deere-x9-1100", title:"John Deere X9 1100", height_m:3.5, height_x:1.9, weight_t:null, power_hp:690, cap_m3:16.21, cap_label:"Grain tank"},
+  {slug:"kalmar-dcg330", title:"Kalmar DCG330", height_m:4.5, height_x:2.5, weight_t:null, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"komatsu-4100xpc", title:"Komatsu P&H 4100XPC", height_m:10.2, height_x:5.7, weight_t:null, power_hp:null, cap_m3:68, cap_label:"Dipper"},
+  {slug:"konecranes-rtg", title:"Konecranes RTG", height_m:25, height_x:14, weight_t:null, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"liebherr-r9800", title:"Liebherr R 9800", height_m:10.3, height_x:5.7, weight_t:800, power_hp:4000, cap_m3:42, cap_label:"Bucket"},
+  {slug:"m1150-abv", title:"M1150 Assault Breacher Vehicle", height_m:3.0, height_x:1.7, weight_t:72, power_hp:1500, cap_m3:null, cap_label:null},
+  {slug:"ponsse-bear", title:"Ponsse Bear", height_m:3.9, height_x:2.1, weight_t:null, power_hp:354, cap_m3:null, cap_label:null},
+  {slug:"sarens-sgc-250", title:"Sarens SGC-250 “Big Carl”", height_m:250, height_x:139, weight_t:null, power_hp:null, cap_m3:null, cap_label:null},
+  {slug:"spartacus-dredger", title:"Spartacus (Cutter Suction Dredger)", height_m:10, height_x:5.6, weight_t:null, power_hp:59246, cap_m3:null, cap_label:null}
+];
+
+var KG_PER_PERSON = 70;
+var M3_PER_PERSON = 0.075;
+var HP_PER_PERSON = 0.1;
+
+function niceRound(x){
+  if(x<=0) return 1;
+  var mag = Math.pow(10, Math.floor(Math.log(x)/Math.LN10));
+  var f = x/mag;
+  var nf = f<1.5?1:(f<3.5?2:(f<7.5?5:10));
+  return nf*mag;
+}
+function fmt(n){
+  if(n>=1000) return n.toLocaleString('en-US', {maximumFractionDigits:0});
+  return (Math.round(n*100)/100).toString();
+}
+function personIcon(){
+  return '<svg viewBox="0 0 9 12" xmlns="http://www.w3.org/2000/svg"><circle cx="4.5" cy="2" r="1.7"/><path d="M1.5 5 C1.5 4 2.5 3.6 4.5 3.6 C6.5 3.6 7.5 4 7.5 5 L7.2 11.5 L5.6 11.5 L5.1 6.8 L4.5 6.8 L3.9 6.8 L3.4 11.5 L1.8 11.5 Z"/></svg>';
+}
+
+var METRICS = {
+  height: {
+    label: "Height / max extension (m)",
+    note: "Every machine has a stated height figure — mixing operating height, transport height, and (for cranes/rigs) maximum boom or mast extension; see Methodology.",
+    unit: "m",
+    getVal: function(m){ return m.height_m; },
+    getSub: function(m){ return m.height_x ? (m.height_x + "× an average adult (1.8 m)") : null; },
+    pictogram: false
+  },
+  weight: {
+    label: "Operating weight (t)",
+    note: "Only machines whose page states their own operating weight as a distinct figure — not a payload or lift capacity.",
+    unit: "t",
+    getVal: function(m){ return m.weight_t; },
+    getSub: function(m){ return null; },
+    pictogram: function(m){ return (m.weight_t*1000)/KG_PER_PERSON; }
+  },
+  power: {
+    label: "Engine / installed power (hp)",
+    note: "Only machines with a stated engine or installed power figure. Spartacus's 44,180 kW installed electrical power is converted at ×1.341.",
+    unit: "hp",
+    getVal: function(m){ return m.power_hp; },
+    getSub: function(m){ return null; },
+    pictogram: function(m){ return m.power_hp/HP_PER_PERSON; }
+  },
+  capacity: {
+    label: "Bucket / blade / tank capacity (m³)",
+    note: "Groups physically different containers (bucket, blade, dipper, tank) that share a volume unit — the full table lists which is which.",
+    unit: "m³",
+    getVal: function(m){ return m.cap_m3; },
+    getSub: function(m){ return m.cap_label; },
+    pictogram: function(m){ return m.cap_m3/M3_PER_PERSON; }
+  }
+};
+
+var rowsEl = document.getElementById('rows');
+var noteEl = document.getElementById('metric-note');
+var tabs = document.querySelectorAll('.tab');
+
+function render(metricKey){
+  var cfg = METRICS[metricKey];
+  noteEl.textContent = cfg.note;
+  var list = MACHINES.filter(function(m){ return cfg.getVal(m)!=null; })
+    .map(function(m){ return {m:m, val:cfg.getVal(m)}; })
+    .sort(function(a,b){ return b.val-a.val; });
+
+  var maxLog = Math.log(list[0].val);
+  var minLog = Math.log(list[list.length-1].val);
+  var range = maxLog-minLog || 1;
+
+  var sharedUnit = null;
+  if(cfg.pictogram){
+    var maxHumans = Math.max.apply(null, list.map(function(r){ return cfg.pictogram(r.m); }));
+    sharedUnit = niceRound(maxHumans/50);
+  }
+
+  rowsEl.innerHTML = list.map(function(r){
+    var m = r.m, val = r.val;
+    var pct = 8 + ((Math.log(val)-minLog)/range)*92;
+    var sub = cfg.getSub(m);
+    var subHtml = sub ? '<span>' + sub + '</span>' : '';
+    var picHtml = '';
+    if(cfg.pictogram){
+      var humans = cfg.pictogram(m);
+      var count = Math.max(1, Math.round(humans/sharedUnit));
+      var icons = '';
+      for(var i=0;i<count;i++){ icons += personIcon(); }
+      picHtml = '<div class="humans-line"><span>≈ ' + fmt(humans) + ' people' + (sharedUnit>=1?(' (each figure ≈ ' + fmt(sharedUnit) + ')'):'') + '</span></div>' +
+                '<div class="pictogram">' + icons + '</div>';
+    } else if(subHtml){
+      picHtml = '<div class="humans-line">' + subHtml + '</div>';
+    }
+    return '<div class="row">' +
+      '<div class="row-head"><a href="/machinery/machines/' + m.slug + '/">' + m.title + '</a>' +
+      '<span class="row-val">' + fmt(val) + ' ' + cfg.unit + (sub && cfg.pictogram===false ? '' : '') + '</span></div>' +
+      '<div class="bar-track"><div class="bar-fill" style="width:' + pct + '%"></div></div>' +
+      picHtml +
+    '</div>';
+  }).join('');
+}
+
+tabs.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    tabs.forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    render(btn.getAttribute('data-metric'));
+  });
+});
+
+render('height');
+
+/* full table */
+var tbody = document.getElementById('table-body');
+var sorted = MACHINES.slice().sort(function(a,b){ return b.height_m-a.height_m; });
+tbody.innerHTML = sorted.map(function(m){
+  function cell(v, unit, label){
+    if(v==null) return '<td class="dash">—</td>';
+    return '<td>' + fmt(v) + ' ' + unit + (label?(' <span style="color:#3a4a56">(' + label + ')</span>'):'') + '</td>';
+  }
+  return '<tr>' +
+    '<td><a href="/machinery/machines/' + m.slug + '/">' + m.title + '</a></td>' +
+    cell(m.height_m, 'm', m.height_x?(m.height_x+'× adult'):null) +
+    cell(m.weight_t, 't') +
+    cell(m.power_hp, 'hp') +
+    cell(m.cap_m3, 'm³', m.cap_label) +
+  '</tr>';
+}).join('');
+
+})();
+</script>
+</body>
+</html>
