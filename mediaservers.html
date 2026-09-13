@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Servers — Knowledge Network</title>
+<meta name="description" content="Media Servers: Where Mathematics Becomes Light, Sound, and Experience. How real-time computational engines transform data, algorithms, and signals into immersive visual and auditory environments — generative art, GLSL shaders, projection mapping, audio-reactive visuals, and the tools (TouchDesigner, Notch, openFrameworks) that build them.">
+<link rel="canonical" href="https://followorbounce.github.io/mediaservers">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Media Servers — Where Mathematics Becomes Light, Sound, and Experience">
+<meta property="og:description" content="How does a media server convert mathematics, algorithms, and information into immersive visual realities? Generative systems, real-time rendering, signal processing, and projection mapping.">
+<meta property="og:url" content="https://followorbounce.github.io/mediaservers">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c; --paper:#f6f6f2; --line:#c9c9c1; --mid:#7a7a74;
+  --accent:#a13a2f; --accent2:#2f5aa1; --accent3:#3a7a4f;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 920px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;} sup{font-size:0.7em;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--paper); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px;}
+header .back{font-family:var(--font-mono); font-size:12px; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,92px); border-bottom:1px solid var(--ink);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2rem, 5vw, 3.2rem); line-height:1.03; margin-bottom:20px;}
+.hero .sub{font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:clamp(1.05rem,2vw,1.3rem); color:var(--accent); margin-bottom:16px; display:block;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:700px; color:#28282a;}
+.hero .question{margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff; max-width:700px; font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:1.08rem;}
+
+nav.toc{border-bottom:1px solid var(--ink); padding-block:14px; background:#efe9e1;}
+nav.toc .wrap{display:flex; flex-wrap:wrap; gap:5px 12px;}
+nav.toc a{font-family:var(--font-mono); font-size:10.5px; text-decoration:none; color:var(--mid); white-space:nowrap;}
+nav.toc a:hover{color:var(--ink); text-decoration:underline;}
+
+section.chapter{padding-block:clamp(40px,7vw,72px); border-bottom:1px solid var(--line); scroll-margin-top:56px;}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid); margin-bottom:10px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter h3{font-size:0.92rem; margin:0 0 10px;}
+.chapter p{margin-bottom:16px; max-width:700px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;} em{font-style:normal; color:var(--accent); font-weight:500;}
+code{font-family:var(--font-mono); background:#eae5dd; padding:1px 5px; font-size:0.85em;}
+
+.flow{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin-top:20px;}
+.flow .step{border:1px solid var(--ink); background:#fff; padding:9px 12px; font-family:var(--font-mono); font-size:11px; text-align:center; white-space:nowrap;}
+.flow .arrow{padding:0 8px; color:var(--mid); font-size:14px;}
+
+.taglist{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.taglist span{font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--line); padding:5px 10px; background:#fff;}
+
+.diagram{border:1px solid var(--line); background:#fff; padding:18px; margin-top:22px;}
+.diagram svg,.diagram canvas{width:100%; height:auto; display:block; background:#fff;}
+.diagram canvas.dark{background:#0e0e10;}
+.diagram-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:10px;}
+.diagram-grid{display:grid; grid-template-columns:1fr 1fr; gap:20px; margin-top:22px;}
+@media (max-width:640px){.diagram-grid{grid-template-columns:1fr;}}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:600px){.two-col{grid-template-columns:1fr;}}
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{margin-bottom:8px;} .two-col p{font-size:0.94rem;}
+
+.callout{margin-top:22px; padding:16px 18px; border:1px solid var(--ink); background:#fff; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.callout .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid); border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+
+.icon-row{display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr)); gap:14px; margin-top:22px;}
+.icon-card{border:1px solid var(--line); background:#fff; padding:14px;}
+.icon-card .it{font-family:var(--font-display); font-weight:700; text-transform:uppercase; font-size:0.85rem; margin-bottom:8px;}
+.icon-card p{font-size:0.86rem; margin:0;}
+
+.controls{margin-top:20px; border:1px solid var(--ink); background:#fff; padding:16px;}
+.ctrl-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12.5px; margin-bottom:12px;}
+.ctrl-row:last-child{margin-bottom:0;}
+.ctrl-row label{flex:0 0 auto; min-width:120px;}
+.ctrl-row input[type=range]{flex:1; min-width:120px;}
+.ctrl-row .readout{font-weight:600; min-width:50px; text-align:right;}
+.btn{font-family:var(--font-mono); font-size:12px; padding:9px 14px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer;}
+.btn:hover{background:#333;}
+.btn.ghost{background:#fff; color:var(--ink);}
+.btn.ghost:hover{background:#eee9e1;}
+select{font-family:var(--font-mono); font-size:12.5px; padding:6px 9px; border:1px solid var(--ink); background:#fff;}
+
+.pillrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+.pill{font-family:var(--font-mono); font-size:11.5px; padding:7px 12px; border:1px solid var(--ink); background:#fff; cursor:pointer;}
+.pill.on{background:var(--ink); color:var(--paper);}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+
+.closing{font-size:clamp(1.1rem,2.2vw,1.4rem); font-family:var(--font-display); font-weight:600; text-transform:none; line-height:1.3; max-width:700px;}
+.closing .q{color:var(--accent); font-weight:700;}
+.principles{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.principles span{font-family:var(--font-mono); font-size:12px; border:1px solid var(--ink); padding:8px 14px; background:#fff;}
+
+footer{border-top:1px solid var(--ink); padding-block:40px; font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Radio &amp; Electronics · Creative Technology</div>
+    <span class="sub">Where Mathematics Becomes Light, Sound, and Experience</span>
+    <h1>Media Servers</h1>
+    <p>A media server is not a video player. It's a real-time computational engine that takes in data, mathematics, sound, sensors, and human movement, and turns them — continuously, live, dozens of times a second — into evolving light and sound. Nature does the same trick with simpler ingredients: a handful of physical rules, run over and over, produce clouds, rivers, coral, and galaxies. This page treats the media server as the same kind of machine, built on purpose.</p>
+    <div class="question">Core question: how does a media server convert mathematics, algorithms, and information into immersive visual realities?</div>
+  </div>
+</section>
+
+<nav class="toc" aria-label="Section navigation">
+  <div class="wrap">
+    <a href="#what-is">01 What Is It</a><a href="#pipeline">02 Data → Experience</a>
+    <a href="#generative">03 Generative Paradigm</a><a href="#math">04 Math in Every Frame</a>
+    <a href="#nature">05 Nature's Media Server</a><a href="#realtime">06 Real-Time Rendering</a>
+    <a href="#signals">07 Signal Processor</a><a href="#sound">08 Sound as Data</a>
+    <a href="#mapping">09 Projection Mapping</a><a href="#interactive">10 Interactive Systems</a>
+    <a href="#tools">11 Tool Ecosystem</a><a href="#applications">12 Real World</a>
+    <a href="#sync">13 Sync</a><a href="#ecosystems">14 Digital Ecosystems</a>
+    <a href="#future">15 Future</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="chapter" id="what-is">
+  <div class="wrap">
+    <div class="kicker">01 — What Is a Media Server?</div>
+    <h2>Not a Player. An Engine.</h2>
+    <p class="lede">A video player decodes a fixed file and shows it back, identically, every time. A <strong>media server</strong> is a different category of machine: a real-time graphics and show-control system that generates, combines, and transforms visual and audio content <em>live</em> — driven by generative rules, incoming signals, audience behavior, or all three at once — and routes the result to whatever physical hardware (projectors, LED walls, lasers, speakers) is on the other end.</p>
+    <div class="two-col">
+      <div class="box"><h3>Video player</h3><p>Decodes and displays a fixed file. Input and output are the same, every time.</p></div>
+      <div class="box"><h3>Rendering engine</h3><p>Turns a 3D scene description into pixels — the computational core a media server usually builds on.</p></div>
+      <div class="box"><h3>Media server</h3><p>A rendering engine plus show control: it listens to signals, runs generative logic, and drives real hardware in real time.</p></div>
+      <div class="box"><h3>Real-time simulation system</h3><p>Models a physical or generative process (fluid, particles, crowds) continuously, frame by frame, rather than pre-computing it once.</p></div>
+    </div>
+    <p style="margin-top:20px;">In practice, a modern media server is usually all four at once: it plays back pre-made footage, renders live 3D and 2D graphics, projection-maps the result onto real architecture, and runs interactive, generative content that never repeats the same way twice.</p>
+  </div>
+</section>
+
+<section class="chapter" id="pipeline">
+  <div class="wrap">
+    <div class="kicker">02 — Information Becomes Experience</div>
+    <h2>From Numbers to Photons</h2>
+    <p class="lede">Every image a media server produces travels the same pipeline, whether it's a corporate logo or a fully generative galaxy simulation:</p>
+    <div class="flow">
+      <div class="step">DATA</div><div class="arrow">→</div><div class="step">MATHEMATICS</div><div class="arrow">→</div>
+      <div class="step">ALGORITHMS</div><div class="arrow">→</div><div class="step">RENDERING</div><div class="arrow">→</div>
+      <div class="step">LIGHT</div><div class="arrow">→</div><div class="step">HUMAN PERCEPTION</div>
+    </div>
+    <p style="margin-top:20px;">"Data" can be a sensor reading, an audio spectrum, a mouse position, or a random seed. "Mathematics" turns it into numbers a computer can act on — a sine value, a vector, a matrix. "Algorithms" apply rules over time. "Rendering" is the GPU turning that math into a grid of colored pixels (Chapter 06). "Light" is a projector or LED panel converting those pixel values into actual photons leaving a physical surface. And "human perception" is where the pipeline actually ends: a brain interpreting a pattern of light as motion, depth, rhythm, or meaning. Every generative visual you have ever seen made this exact trip.</p>
+  </div>
+</section>
+
+<section class="chapter" id="generative">
+  <div class="wrap">
+    <div class="kicker">03 — The Generative Paradigm</div>
+    <h2>Designing the System, Not the Picture</h2>
+    <p class="lede">A generative artist increasingly doesn't draw a specific image — they write a <strong>system</strong>: a set of rules, behaviors, and parameters, then let it run. In an interview on Derivative's TouchDesigner community site, the artist Introdima put it directly: <em>"The beauty lies in building a system, a third force that dominates the Artist and the work itself."</em> The algorithm becomes a collaborator whose output the artist shapes but doesn't fully dictate<sup>[1]</sup>.</p>
+    <div class="taglist"><span>Rules</span><span>Behaviors</span><span>Emergence</span><span>Procedural generation</span><span>Controlled randomness</span></div>
+    <p style="margin-top:20px;"><strong>Emergence</strong> is the payoff: complexity that was never explicitly written into the code, arising anyway from simple rules interacting over many iterations. The same interview grounds this directly in nature — <em>"All natural phenomena — rain, snow, fire... are working altogether in constant change and interaction"</em> — which is exactly the model generative systems borrow<sup>[1]</sup>.</p>
+    <h3 style="margin-top:24px;">Try it: one rule, one dimension, real complexity</h3>
+    <p>Elementary cellular automata are the cleanest possible demonstration: each new row is computed from the row above using one tiny rule, applied identically to every cell. Some rules (like 90) make tidy fractals; others (like 30, used as an actual random-number generator in Mathematica) generate structure that looks almost chaotic.</p>
+    <div class="diagram">
+      <canvas id="ca-canvas" class="dark" width="700" height="260"></canvas>
+    </div>
+    <div class="controls">
+      <div class="ctrl-row"><label for="ca-rule">Rule number</label><input type="range" id="ca-rule" min="0" max="255" step="1" value="30"><span class="readout" id="ca-rule-val">30</span></div>
+      <div class="ctrl-row"><button class="btn" id="ca-restart">↻ Restart</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="math">
+  <div class="wrap">
+    <div class="kicker">04 — Mathematics Inside Every Frame</div>
+    <h2>The Same Handful of Tools, Every Time</h2>
+    <p class="lede">Underneath almost any real-time visual, a small toolbox does nearly all the work: <strong>trigonometry</strong> (sine and cosine driving anything cyclical), <strong>vectors</strong> (position, velocity, direction), <strong>matrices</strong> (rotating, scaling, and projecting geometry in one operation), <strong>noise functions</strong> (smooth pseudo-randomness — Perlin and Simplex noise are the industry standards — used anywhere something should look organic rather than jittery), <strong>fractals</strong> (self-similar structure at every zoom level), and <strong>particle systems</strong> (thousands of simple independent points, each following the same few rules).</p>
+    <h3 style="margin-top:24px;">Try it: parametric motion</h3>
+    <div class="diagram"><canvas id="motion-canvas" width="700" height="260"></canvas></div>
+    <div class="controls">
+      <div class="ctrl-row"><label for="motion-mode">Mode</label>
+        <select id="motion-mode">
+          <option value="sine">Sine wave</option>
+          <option value="circle">Circular motion</option>
+          <option value="spiral">Spiral growth</option>
+        </select>
+      </div>
+      <div class="ctrl-row"><label for="motion-speed">Speed</label><input type="range" id="motion-speed" min="0.2" max="3" step="0.1" value="1"><span class="readout" id="motion-speed-val">1.0×</span></div>
+    </div>
+    <h3 style="margin-top:32px;">Try it: flocking</h3>
+    <p>Boids — invented by Craig Reynolds in 1986 — show organic group motion from three purely local rules, each agent reacting only to its nearest neighbors: <strong>separation</strong> (don't crowd neighbors), <strong>alignment</strong> (match their heading), and <strong>cohesion</strong> (steer toward their average position). No agent knows about "the flock" as a whole; the flock is an illusion built entirely from local rules.</p>
+    <div class="diagram"><canvas id="boids-canvas" width="700" height="260"></canvas></div>
+  </div>
+</section>
+
+<section class="chapter" id="nature">
+  <div class="wrap">
+    <div class="kicker">05 — Nature as the Original Media Server</div>
+    <h2>Every Generative Artist's Real Reference Library</h2>
+    <p class="lede">Fire, water, clouds, tree growth, coral structures, swarms, and galaxies are all complex forms produced by strikingly simple, locally-applied physical rules run over vast numbers of iterations — which is exactly why generative artists study them so closely. A tree doesn't have a master plan for its final shape; each branch just follows the same local growth rule, and the overall form emerges. A flock of starlings doesn't have a choreographer; it has the same three boid rules from Chapter 04, running on birds instead of pixels.</p>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">Fire</div><p>Turbulent fluid dynamics plus combustion chemistry, endlessly re-simulated — one of the hardest things to fake convincingly, and one of the most common noise-function test cases.</p></div>
+      <div class="icon-card"><div class="it">Water</div><p>Wave interference and fluid pressure rules, applied at every point in a grid simultaneously (see <a href="/waves">Waves</a>).</p></div>
+      <div class="icon-card"><div class="it">Clouds</div><p>Noise functions layered at multiple scales (fractal/"octave" noise) are the standard technique for faking convincing cloud and terrain shapes.</p></div>
+      <div class="icon-card"><div class="it">Tree growth</div><p>L-systems — recursive string-rewriting rules — generate branching structures nearly identical to real botanical growth patterns.</p></div>
+      <div class="icon-card"><div class="it">Coral structures</div><p>Simple local growth-and-competition rules, iterated, produce the same class of branching form as trees and lightning.</p></div>
+      <div class="icon-card"><div class="it">Swarms</div><p>Boids-style local rules (Chapter 04) — no central controller required.</p></div>
+      <div class="icon-card"><div class="it">Galaxies</div><p>Gravity, applied identically to every particle, at galactic scale — see <a href="/universal-waves">Universal Waves</a> for orbital resonance and cosmic-scale rhythm.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="realtime">
+  <div class="wrap">
+    <div class="kicker">06 — Real-Time Rendering</div>
+    <h2>Millions of Calculations, Every Single Frame</h2>
+    <p class="lede">To feel "live," a media server typically has to compute a full new image at least 30–60 times per second — a hard deadline that shapes everything about how the graphics are computed. A <strong>GPU</strong> (graphics processing unit) is built for exactly this: instead of one powerful core doing work in sequence, it runs thousands of small cores in parallel, each handling one pixel, vertex, or particle at once.</p>
+    <div class="flow">
+      <div class="step">GEOMETRY</div><div class="arrow">→</div><div class="step">VERTEX SHADER</div><div class="arrow">→</div>
+      <div class="step">RASTERIZATION</div><div class="arrow">→</div><div class="step">FRAGMENT/PIXEL SHADER</div><div class="arrow">→</div>
+      <div class="step">FRAME BUFFER</div>
+    </div>
+    <p style="margin-top:20px;">A <strong>shader</strong> is a small program, usually written in <strong>GLSL</strong> (OpenGL Shading Language) or an equivalent, that runs once per vertex or once per pixel — millions of times a frame — computing exactly one thing (a position, a color) very fast. <strong>Rasterization</strong>, the dominant real-time technique, converts 3D geometry into 2D pixels by testing which triangles cover which screen positions; <strong>ray tracing</strong> instead simulates individual light rays bouncing through a scene, producing much more physically accurate reflections and shadows at a much higher computational cost — only recently become fast enough for real-time use on consumer GPUs.</p>
+  </div>
+</section>
+
+<section class="chapter" id="signals">
+  <div class="wrap">
+    <div class="kicker">07 — Media Servers as Signal Processors</div>
+    <h2>Everything In, Everything Out, Is a Signal</h2>
+    <p class="lede">A media server sits in the middle of a much larger signal chain — see <a href="/radio-communications">Radio Communications</a> for the physical-layer version of this same idea applied to the electromagnetic spectrum.</p>
+    <div class="diagram-grid">
+      <div class="diagram">
+        <div class="diagram-cap" style="margin-bottom:10px;">INPUTS</div>
+        <div class="taglist" style="margin-top:0;"><span>Audio</span><span>MIDI</span><span>OSC</span><span>DMX</span><span>Sensors</span><span>Cameras</span><span>Tracking systems</span><span>APIs</span></div>
+      </div>
+      <div class="diagram">
+        <div class="diagram-cap" style="margin-bottom:10px;">OUTPUTS</div>
+        <div class="taglist" style="margin-top:0;"><span>Projectors</span><span>LED walls</span><span>Lasers</span><span>Lighting fixtures</span><span>Screens</span><span>Audio systems</span></div>
+      </div>
+    </div>
+    <p style="margin-top:20px;"><strong>MIDI</strong> and <strong>OSC</strong> (Open Sound Control) carry real-time control messages between creative software and hardware — OSC in particular was designed for exactly this kind of high-precision, flexible show-control routing. <strong>DMX512</strong> is the standard lighting-control protocol, addressing up to 512 channels per universe to drive fixtures, LED panels, and moving lights. A media server's real job is translating between all of these — turning a DMX fader move into a shader parameter, or a camera's tracked position into a particle system's center of gravity.</p>
+  </div>
+</section>
+
+<section class="chapter" id="sound">
+  <div class="wrap">
+    <div class="kicker">08 — Sound as Data</div>
+    <h2>Turning a Waveform Into a Control Signal</h2>
+    <p class="lede">Sound is just numbers over time (see <a href="/music-mathematics">Music Is Mathematics</a>), which means anything you can measure about it — <strong>frequency</strong>, <strong>amplitude</strong>, and its full <strong>spectral</strong> breakdown via a live <strong>FFT</strong> (Fourier transform) — can drive a visual parameter directly. In practice, bass frequencies commonly drive large, slow-changing parameters (particle emission rate, overall scale, camera shake), while high frequencies drive fast, fine-grained ones (color shifts, sharp geometric detail) — simply because that maps well to how those frequency ranges are perceived.</p>
+    <h3 style="margin-top:24px;">Try it: real audio driving real visuals</h3>
+    <p>Live Web Audio analysis (the same <code>AnalyserNode</code> technique from the Music Is Mathematics lab) driving a particle field in real time. Nothing plays until you press play.</p>
+    <div class="diagram"><canvas id="audio-canvas" class="dark" width="700" height="260"></canvas></div>
+    <div class="controls">
+      <div class="ctrl-row"><button class="btn" id="audio-play">▶ Play test tone + noise</button><button class="btn ghost" id="audio-stop">■ Stop</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="mapping">
+  <div class="wrap">
+    <div class="kicker">09 — Projection Mapping</div>
+    <h2>Making Light Conform to Physical Reality</h2>
+    <p class="lede">Projection mapping fits visual content precisely onto a real, often irregular, physical surface — a building facade, a sculpture, a room. Doing this requires a <strong>spatial calibration</strong> step: mathematically describing where the projector actually sits relative to the surface, then warping the output image (via a <strong>coordinate-system transform</strong> and <strong>geometry correction</strong>) so it lands exactly where intended despite the projector's angle, distance, and lens distortion.</p>
+    <h3 style="margin-top:24px;">Try it: corner-pin geometry correction</h3>
+    <p>Drag any corner. This is the exact transform (a projective/homography warp) that lets a flat rectangular image conform to an off-axis or irregular surface — the mathematical core of every projection-mapping tool.</p>
+    <div class="diagram"><svg id="warp-svg" viewBox="0 0 700 320" role="img" aria-label="Draggable corner-pin projection mapping demo"></svg></div>
+    <div class="controls"><div class="ctrl-row"><button class="btn ghost" id="warp-reset">↻ Reset corners</button></div></div>
+  </div>
+</section>
+
+<section class="chapter" id="interactive">
+  <div class="wrap">
+    <div class="kicker">10 — Interactive Systems</div>
+    <h2>When the Audience Becomes an Input</h2>
+    <p class="lede">Once a media server can accept live signals (Chapter 07), the audience itself becomes a controller. <strong>Motion tracking</strong> and <strong>computer vision</strong> (camera-based analysis — detecting skeletons, blobs of movement, or specific gestures) let visuals respond to where people are and how they're moving. <strong>LiDAR</strong> (Light Detection and Ranging — pulsing laser light and timing its reflection) adds real depth data, distinguishing a person's exact distance and shape rather than just a flat camera silhouette. Increasingly, <strong>AI-assisted interaction</strong> (pose estimation, object recognition, and gesture classification models running locally in real time) lets installations react to specific, meaningful human behavior rather than just raw motion.</p>
+  </div>
+</section>
+
+<section class="chapter" id="tools">
+  <div class="wrap">
+    <div class="kicker">11 — The Ecosystem of Tools</div>
+    <h2>What Practitioners Actually Build With</h2>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">TouchDesigner</div><p>Node-based visual programming built specifically for real-time media, show control, and interactive installations.</p></div>
+      <div class="icon-card"><div class="it">Notch</div><p>Real-time node-based visual effects, widely used in broadcast graphics and concert visuals for its GPU-accelerated particle and simulation tools.</p></div>
+      <div class="icon-card"><div class="it">Processing</div><p>A beginner-friendly creative-coding language and IDE (built on Java) that popularized teaching generative art through code.</p></div>
+      <div class="icon-card"><div class="it">openFrameworks</div><p>A C++ creative-coding toolkit for artists who need lower-level control and raw performance.</p></div>
+      <div class="icon-card"><div class="it">Unreal Engine / Unity</div><p>Game engines increasingly repurposed for real-time visualization, virtual production, and large-venue live visuals.</p></div>
+      <div class="icon-card"><div class="it">vvvv</div><p>A node-based visual programming environment for real-time video and physical computing, popular in European media art.</p></div>
+      <div class="icon-card"><div class="it">Pure Data</div><p>A visual programming language for real-time audio and multimedia, and a direct ancestor of much of today's node-based creative software.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="applications">
+  <div class="wrap">
+    <div class="kicker">12 — Media Servers in the Real World</div>
+    <h2>Where This Actually Ships</h2>
+    <div class="taglist">
+      <span>Concerts</span><span>Museums</span><span>Theaters</span><span>Theme parks</span>
+      <span>Science centers</span><span>Public installations</span><span>Planetariums</span><span>Interactive architecture</span>
+    </div>
+    <p style="margin-top:20px;">Every one of these venues has the same underlying requirement: reliable, synchronized, real-time visual and audio output running for hours at a time, often across many physical displays at once — which is exactly the problem Chapter 13 covers.</p>
+  </div>
+</section>
+
+<section class="chapter" id="sync">
+  <div class="wrap">
+    <div class="kicker">13 — Networks and Synchronization</div>
+    <h2>Hundreds of Devices, One Shared Clock</h2>
+    <p class="lede">A single screen only needs to stay consistent with itself. A show spanning dozens of projectors, LED processors, and audio devices needs all of them agreeing on <em>exactly</em> the same instant, or the illusion of one seamless environment falls apart visibly.</p>
+    <div class="two-col">
+      <div class="box"><h3>Timecode / SMPTE</h3><p>A running hours:minutes:seconds:frames signal, originally developed for film and broadcast, that every synchronized device can read and follow.</p></div>
+      <div class="box"><h3>NTP</h3><p>Network Time Protocol — keeps every networked machine's system clock aligned to a shared reference, foundational infrastructure for any multi-device show.</p></div>
+      <div class="box"><h3>Distributed rendering</h3><p>Splitting one enormous image (a wraparound dome, a huge LED wall) across multiple render machines, each computing its own slice in lockstep.</p></div>
+      <div class="box"><h3>Multi-machine sync</h3><p>Genlock and frame-sync protocols ensure every output device switches frames at the identical moment, not just the same rate.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ecosystems">
+  <div class="wrap">
+    <div class="kicker">14 — From Generative Art to Digital Ecosystems</div>
+    <h2>When a Rule Outgrows Its Frame</h2>
+    <p class="lede">The same generative logic from Chapter 03, given enough inputs, enough time, and enough physical infrastructure, stops being a single artwork and starts becoming something closer to a living system: a <strong>visual identity</strong> that regenerates itself differently for every context; an <strong>autonomous installation</strong> that runs unattended for months, continuously responding to its environment; an <strong>interactive environment</strong> that develops something like a memory of how visitors have used it; a full <strong>digital ecosystem</strong> where multiple generative systems feed each other's inputs and outputs. The throughline is the same idea from Chapter 03's cited source: build the system and the rules, then let emergence do the rest.</p>
+  </div>
+</section>
+
+<section class="chapter" id="future">
+  <div class="wrap">
+    <div class="kicker">15 — Future Media Servers</div>
+    <h2>Where the Discipline Is Headed</h2>
+    <div class="icon-row">
+      <div class="icon-card"><div class="it">AI-assisted generation</div><p>Machine-learning models generating or modifying content live, as one more input into the same pipeline.</p></div>
+      <div class="icon-card"><div class="it">Real-time simulation</div><p>Physically accurate fluid, cloth, and crowd simulation running fast enough for live interactive use, not just pre-rendered film.</p></div>
+      <div class="icon-card"><div class="it">Digital twins</div><p>A live, continuously updated virtual replica of a real physical space or system, driven by real sensor data.</p></div>
+      <div class="icon-card"><div class="it">XR environments</div><p>Extended reality — AR, VR, and mixed reality — extending the media server's output beyond a flat screen into 3D space itself.</p></div>
+      <div class="icon-card"><div class="it">Spatial computing</div><p>Systems that understand and react to the physical geometry of a room in real time, not just a flat 2D input.</p></div>
+      <div class="icon-card"><div class="it">Adaptive architecture</div><p>Buildings and physical structures whose surfaces themselves become programmable, responsive display and light.</p></div>
+      <div class="icon-card"><div class="it">Autonomous creative systems</div><p>Generative pipelines that make higher-level creative decisions on their own, with a human setting direction rather than every parameter.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">Conclusion</div>
+    <h2>The Convergence Machine</h2>
+    <p class="closing">A media server is where <span class="q">mathematics, physics, computer science, signal processing, art, design, and human perception</span> all have to work correctly at once, thirty to sixty times every second. It is a machine built to do, on purpose, what nature does by accident: turn a small set of abstract rules into something a person can stand in front of and feel.</p>
+    <div class="principles">
+      <span>Mathematics.</span><span>Physics.</span><span>Computer science.</span><span>Signal processing.</span><span>Art.</span><span>Design.</span><span>Human perception.</span>
+    </div>
+
+    <div class="kicker" style="margin-top:56px;">Explore further</div>
+    <div class="taglist">
+      <span><a href="/music-mathematics">Music Is Mathematics</a></span>
+      <span><a href="/universal-waves">Universal Waves</a></span>
+      <span><a href="/radio-communications">Radio Communications</a></span>
+      <span><a href="/waves">Waves</a></span>
+    </div>
+
+    <div class="kicker" style="margin-top:40px;">References</div>
+    <ol class="refs">
+      <li><a href="https://derivative.ca/community-post/generative-art-101-surprising-connection-between-math-art-and-nature" rel="external noopener" target="_blank">Generative Art 101: The Surprising Connection Between Math, Art and Nature</a> — Introdima, interviewed by Al Pankow, on Derivative (TouchDesigner).</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a></span>
+    <span><a href="/music-mathematics">Music →</a> · <a href="/universal-waves">Waves →</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var $ = function(id){ return document.getElementById(id); };
+
+/* ===== 03: elementary cellular automaton ===== */
+(function(){
+  var canvas = $('ca-canvas'), cctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var cols = 140, cellSize = W/cols;
+  var rows = Math.floor(H/cellSize);
+  var ruleEl = $('ca-rule');
+  var state, ruleBits, row = 0;
+
+  function computeRule(n){
+    var bits = [];
+    for(var i=0;i<8;i++) bits.push((n>>i)&1);
+    return bits; // bits[0..7] correspond to neighborhoods 000..111
+  }
+  function reset(){
+    state = new Array(cols).fill(0);
+    state[Math.floor(cols/2)] = 1;
+    ruleBits = computeRule(parseInt(ruleEl.value));
+    row = 0;
+    cctx.fillStyle = '#0e0e10'; cctx.fillRect(0,0,W,H);
+  }
+  function step(){
+    if(row >= rows){ reset(); return; }
+    cctx.fillStyle = '#c9a373';
+    for(var i=0;i<cols;i++){
+      if(state[i]){ cctx.fillRect(i*cellSize, row*cellSize, cellSize, cellSize); }
+    }
+    var next = new Array(cols).fill(0);
+    for(var j=0;j<cols;j++){
+      var l = state[(j-1+cols)%cols], c = state[j], r = state[(j+1)%cols];
+      var idx = (l<<2)|(c<<1)|r;
+      next[j] = ruleBits[idx];
+    }
+    state = next;
+    row++;
+  }
+  ruleEl.addEventListener('input', function(){ $('ca-rule-val').textContent = this.value; reset(); });
+  $('ca-restart').addEventListener('click', reset);
+  reset();
+  setInterval(step, 60);
+})();
+
+/* ===== 04: parametric motion ===== */
+(function(){
+  var canvas = $('motion-canvas'), cctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height, cx=W/2, cy=H/2;
+  var modeEl = $('motion-mode'), speedEl = $('motion-speed');
+  var t = 0, trail = [];
+  function draw(){
+    t += 0.02 * parseFloat(speedEl.value);
+    $('motion-speed-val').textContent = parseFloat(speedEl.value).toFixed(1)+'×';
+    var mode = modeEl.value;
+    var x,y;
+    if(mode==='sine'){ x = (t*40)%(W); y = cy - Math.sin(t*2)*80; }
+    else if(mode==='circle'){ x = cx + Math.cos(t*2)*90; y = cy + Math.sin(t*2)*90; }
+    else { var r = (t*8)%110; x = cx + Math.cos(t*3)*r; y = cy + Math.sin(t*3)*r; }
+    trail.push({x:x,y:y});
+    if(trail.length>120) trail.shift();
+    cctx.fillStyle='#fff'; cctx.fillRect(0,0,W,H);
+    cctx.strokeStyle='#a13a2f'; cctx.lineWidth=2; cctx.beginPath();
+    trail.forEach(function(p,i){ if(i===0) cctx.moveTo(p.x,p.y); else cctx.lineTo(p.x,p.y); });
+    cctx.stroke();
+    cctx.fillStyle='#0b0b0c'; cctx.beginPath(); cctx.arc(x,y,4,0,Math.PI*2); cctx.fill();
+    requestAnimationFrame(draw);
+  }
+  modeEl.addEventListener('change', function(){ trail=[]; t=0; });
+  requestAnimationFrame(draw);
+})();
+
+/* ===== 04: boids flocking ===== */
+(function(){
+  var canvas = $('boids-canvas'), cctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var N = 60;
+  var boids = [];
+  for(var i=0;i<N;i++){
+    boids.push({x:Math.random()*W, y:Math.random()*H, vx:(Math.random()-0.5)*2, vy:(Math.random()-0.5)*2});
+  }
+  function step(){
+    boids.forEach(function(b){
+      var sepX=0,sepY=0,aliX=0,aliY=0,cohX=0,cohY=0,count=0;
+      boids.forEach(function(o){
+        if(o===b) return;
+        var dx=o.x-b.x, dy=o.y-b.y, d=Math.sqrt(dx*dx+dy*dy);
+        if(d<40 && d>0){
+          sepX -= dx/d; sepY -= dy/d;
+          aliX += o.vx; aliY += o.vy;
+          cohX += o.x; cohY += o.y;
+          count++;
+        }
+      });
+      if(count>0){
+        aliX/=count; aliY/=count; cohX = cohX/count - b.x; cohY = cohY/count - b.y;
+        b.vx += sepX*0.05 + aliX*0.02 + cohX*0.001;
+        b.vy += sepY*0.05 + aliY*0.02 + cohY*0.001;
+      }
+      var sp = Math.sqrt(b.vx*b.vx+b.vy*b.vy);
+      var maxSp = 2.4;
+      if(sp>maxSp){ b.vx = b.vx/sp*maxSp; b.vy = b.vy/sp*maxSp; }
+      b.x += b.vx; b.y += b.vy;
+      if(b.x<0) b.x+=W; if(b.x>W) b.x-=W;
+      if(b.y<0) b.y+=H; if(b.y>H) b.y-=H;
+    });
+    cctx.fillStyle='#fff'; cctx.fillRect(0,0,W,H);
+    cctx.fillStyle='#2f5aa1';
+    boids.forEach(function(b){
+      var ang = Math.atan2(b.vy,b.vx);
+      cctx.save(); cctx.translate(b.x,b.y); cctx.rotate(ang);
+      cctx.beginPath(); cctx.moveTo(6,0); cctx.lineTo(-5,3.5); cctx.lineTo(-5,-3.5); cctx.closePath(); cctx.fill();
+      cctx.restore();
+    });
+    requestAnimationFrame(step);
+  }
+  requestAnimationFrame(step);
+})();
+
+/* ===== 08: audio-reactive particles ===== */
+(function(){
+  var canvas = $('audio-canvas'), cctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height, cx=W/2, cy=H/2;
+  var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+  var actx=null, analyser=null, nodes=[];
+  var particles = [];
+  for(var i=0;i<80;i++){ particles.push({ang:Math.random()*Math.PI*2, r:20+Math.random()*80, speed:0.002+Math.random()*0.01}); }
+  var buf = new Uint8Array(64);
+  function ctx(){ if(!actx) actx = new AudioCtxClass(); return actx; }
+  $('audio-play').addEventListener('click', function(){
+    var c = ctx();
+    if(analyser) return;
+    analyser = c.createAnalyser(); analyser.fftSize = 128;
+    buf = new Uint8Array(analyser.frequencyBinCount);
+    var osc = c.createOscillator(); osc.type='sine'; osc.frequency.value=90;
+    var gain = c.createGain(); gain.gain.value = 0.15;
+    var noiseBuf = c.createBuffer(1, c.sampleRate*2, c.sampleRate);
+    var data = noiseBuf.getChannelData(0);
+    for(var i=0;i<data.length;i++) data[i] = (Math.random()*2-1)*0.15;
+    var noise = c.createBufferSource(); noise.buffer = noiseBuf; noise.loop = true;
+    var noiseGain = c.createGain(); noiseGain.gain.value = 0.06;
+    osc.connect(gain); gain.connect(analyser);
+    noise.connect(noiseGain); noiseGain.connect(analyser);
+    analyser.connect(c.destination);
+    osc.start(); noise.start();
+    nodes = [osc, gain, noise, noiseGain];
+  });
+  $('audio-stop').addEventListener('click', function(){
+    nodes.forEach(function(n){ try{n.stop();}catch(e){} try{n.disconnect();}catch(e){} });
+    nodes = []; analyser = null;
+  });
+  function draw(){
+    cctx.fillStyle='rgba(14,14,16,0.25)'; cctx.fillRect(0,0,W,H);
+    var bass=40, treble=40;
+    if(analyser){
+      analyser.getByteFrequencyData(buf);
+      bass = buf.slice(0,8).reduce(function(a,b){return a+b;},0)/8;
+      treble = buf.slice(30,64).reduce(function(a,b){return a+b;},0)/34;
+    }
+    particles.forEach(function(p){
+      p.ang += p.speed*(1+bass/80);
+      var rad = p.r + treble*0.3;
+      var x = cx+Math.cos(p.ang)*rad, y = cy+Math.sin(p.ang)*rad;
+      cctx.fillStyle = 'hsl('+(200+treble)+',70%,60%)';
+      cctx.beginPath(); cctx.arc(x,y, 2+bass/40, 0, Math.PI*2); cctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+  cctx.fillStyle='#0e0e10'; cctx.fillRect(0,0,W,H);
+  requestAnimationFrame(draw);
+})();
+
+/* ===== 09: corner-pin warp ===== */
+(function(){
+  var svg = $('warp-svg');
+  var NS = 'http://www.w3.org/2000/svg';
+  var defaultCorners = [{x:80,y:40},{x:620,y:40},{x:620,y:280},{x:80,y:280}];
+  var corners = defaultCorners.map(function(c){return {x:c.x,y:c.y};});
+  var gridN = 8;
+
+  function render(){
+    svg.innerHTML='';
+    function bilerp(u,v){
+      var top = { x: corners[0].x + (corners[1].x-corners[0].x)*u, y: corners[0].y + (corners[1].y-corners[0].y)*u };
+      var bot = { x: corners[3].x + (corners[2].x-corners[3].x)*u, y: corners[3].y + (corners[2].y-corners[3].y)*u };
+      return { x: top.x + (bot.x-top.x)*v, y: top.y + (bot.y-top.y)*v };
+    }
+    for(var i=0;i<=gridN;i++){
+      var d='M', u=i/gridN;
+      for(var j=0;j<=gridN;j++){ var p=bilerp(u,j/gridN); d+=(j===0?'':'L')+p.x.toFixed(1)+','+p.y.toFixed(1)+' '; }
+      var path = document.createElementNS(NS,'path'); path.setAttribute('d',d); path.setAttribute('stroke','#c9c9c1'); path.setAttribute('fill','none'); svg.appendChild(path);
+    }
+    for(var j2=0;j2<=gridN;j2++){
+      var d2='M', v=j2/gridN;
+      for(var i2=0;i2<=gridN;i2++){ var p2=bilerp(i2/gridN,v); d2+=(i2===0?'':'L')+p2.x.toFixed(1)+','+p2.y.toFixed(1)+' '; }
+      var path2 = document.createElementNS(NS,'path'); path2.setAttribute('d',d2); path2.setAttribute('stroke','#c9c9c1'); path2.setAttribute('fill','none'); svg.appendChild(path2);
+    }
+    var outline='M'+corners.map(function(c){return c.x+','+c.y;}).join('L')+'Z';
+    var op = document.createElementNS(NS,'path'); op.setAttribute('d',outline); op.setAttribute('stroke','#a13a2f'); op.setAttribute('stroke-width','2'); op.setAttribute('fill','none'); svg.appendChild(op);
+
+    corners.forEach(function(c, idx){
+      var handle = document.createElementNS(NS,'circle');
+      handle.setAttribute('cx',c.x); handle.setAttribute('cy',c.y); handle.setAttribute('r',9);
+      handle.setAttribute('fill','#0b0b0c'); handle.style.cursor='grab';
+      handle.addEventListener('pointerdown', function(e){
+        e.preventDefault();
+        function move(ev){
+          var rect = svg.getBoundingClientRect();
+          var scaleX = 700/rect.width, scaleY = 320/rect.height;
+          corners[idx].x = (ev.clientX-rect.left)*scaleX;
+          corners[idx].y = (ev.clientY-rect.top)*scaleY;
+          render();
+        }
+        function up(){ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up); }
+        window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
+      });
+      svg.appendChild(handle);
+    });
+  }
+  $('warp-reset').addEventListener('click', function(){ corners = defaultCorners.map(function(c){return {x:c.x,y:c.y};}); render(); });
+  render();
+})();
+
+})();
+</script>
+
+</body>
+</html>
