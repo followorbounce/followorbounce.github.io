@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Servers II: Shaders &amp; Spatial Mapping — Knowledge Network</title>
+<meta name="description" content="Media Servers, Part Two: Shaders, Spatial Mapping, and the Vector Field. A real compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, reaction-diffusion chemistry, curl-noise flow fields, and the unifying idea that a sampled wave is just a vector — and every wave family in nature maps to a real rendering technique.">
+<link rel="canonical" href="https://followorbounce.github.io/mediaservers-shaders">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Media Servers II — Shaders, Spatial Mapping &amp; the Vector Field">
+<meta property="og:description" content="A live compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, reaction-diffusion chemistry, and the idea that every wave, sampled, is just a vector.">
+<meta property="og:url" content="https://followorbounce.github.io/mediaservers-shaders">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c; --paper:#f6f6f2; --line:#c9c9c1; --mid:#7a7a74;
+  --accent:#a13a2f; --accent2:#2f5aa1; --accent3:#3a7a4f;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 920px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;} sup{font-size:0.7em;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--paper); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px;}
+header .back{font-family:var(--font-mono); font-size:12px; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,92px); border-bottom:1px solid var(--ink);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(1.8rem, 4.6vw, 2.9rem); line-height:1.05; margin-bottom:20px;}
+.hero .sub{font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:clamp(1.05rem,2vw,1.3rem); color:var(--accent); margin-bottom:16px; display:block;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:700px; color:#28282a;}
+.hero .question{margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff; max-width:700px; font-family:var(--font-display); font-weight:600; text-transform:none; letter-spacing:0; font-size:1.05rem;}
+
+nav.toc{border-bottom:1px solid var(--ink); padding-block:14px; background:#efe9e1;}
+nav.toc .wrap{display:flex; flex-wrap:wrap; gap:5px 12px;}
+nav.toc a{font-family:var(--font-mono); font-size:10.5px; text-decoration:none; color:var(--mid); white-space:nowrap;}
+nav.toc a:hover{color:var(--ink); text-decoration:underline;}
+
+section.chapter{padding-block:clamp(40px,7vw,72px); border-bottom:1px solid var(--line); scroll-margin-top:56px;}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid); margin-bottom:10px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter h3{font-size:0.92rem; margin:0 0 10px;}
+.chapter p{margin-bottom:16px; max-width:700px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;} em{font-style:normal; color:var(--accent); font-weight:500;}
+code{font-family:var(--font-mono); background:#eae5dd; padding:1px 5px; font-size:0.85em;}
+
+.flow{display:flex; flex-wrap:wrap; align-items:center; gap:0; margin-top:20px;}
+.flow .step{border:1px solid var(--ink); background:#fff; padding:9px 12px; font-family:var(--font-mono); font-size:11px; text-align:center; white-space:nowrap;}
+.flow .arrow{padding:0 8px; color:var(--mid); font-size:14px;}
+
+.taglist{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.taglist span{font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--line); padding:5px 10px; background:#fff;}
+
+.diagram{border:1px solid var(--line); background:#fff; padding:18px; margin-top:22px;}
+.diagram svg,.diagram canvas{width:100%; height:auto; display:block; background:#fff;}
+.diagram canvas.dark{background:#0e0e10;}
+.diagram-cap{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:10px;}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:600px){.two-col{grid-template-columns:1fr;}}
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{margin-bottom:8px;} .two-col p{font-size:0.94rem;}
+
+.callout{margin-top:22px; padding:16px 18px; border:1px solid var(--ink); background:#fff; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.callout.big{border-width:2px; padding:20px 22px;}
+.callout .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid); border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+
+.controls{margin-top:20px; border:1px solid var(--ink); background:#fff; padding:16px;}
+.ctrl-row{display:flex; align-items:center; gap:12px; flex-wrap:wrap; font-family:var(--font-mono); font-size:12.5px; margin-bottom:12px;}
+.ctrl-row:last-child{margin-bottom:0;}
+.ctrl-row label{flex:0 0 auto; min-width:120px;}
+.ctrl-row input[type=range]{flex:1; min-width:120px;}
+.ctrl-row .readout{font-weight:600; min-width:50px; text-align:right;}
+.btn{font-family:var(--font-mono); font-size:12px; padding:9px 14px; border:1px solid var(--ink); background:var(--ink); color:var(--paper); cursor:pointer;}
+.btn:hover{background:#333;}
+.btn.ghost{background:#fff; color:var(--ink);}
+.btn.ghost:hover{background:#eee9e1;}
+
+.pillrow{display:flex; gap:8px; flex-wrap:wrap; margin-top:14px;}
+.pill{font-family:var(--font-mono); font-size:11.5px; padding:7px 12px; border:1px solid var(--ink); background:#fff; cursor:pointer;}
+.pill.on{background:var(--ink); color:var(--paper);}
+
+/* 3D projector scene */
+.proj-stage{perspective:900px; height:320px; background:#e7e2d8; border:1px solid var(--ink); position:relative; overflow:hidden;}
+.proj-scene{width:100%; height:100%; position:relative; transform-style:preserve-3d;}
+.proj-building{position:absolute; left:50%; top:50%; width:260px; height:180px; transform-style:preserve-3d;}
+.proj-face{position:absolute; background:#fff; border:1px solid var(--line); background-size:26px 26px;}
+.proj-face.front{width:260px; height:180px; transform:translateZ(80px);}
+.proj-face.left{width:160px; height:180px; transform:rotateY(-90deg) translateZ(80px); left:-160px;}
+.proj-face.right{width:160px; height:180px; transform:rotateY(90deg) translateZ(80px); left:260px;}
+.proj-cone{position:absolute; width:0; height:0; pointer-events:none;}
+.proj-handle{position:absolute; width:22px; height:22px; border-radius:50%; background:var(--accent); border:2px solid #fff; cursor:grab; touch-action:none; z-index:3;}
+
+/* table */
+.wtable{width:100%; border-collapse:collapse; margin-top:22px; font-size:0.92rem;}
+.wtable th,.wtable td{border:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+.wtable th{background:#efe9e1; font-family:var(--font-mono); font-size:11px; text-transform:uppercase; letter-spacing:0.04em;}
+.wtable td:first-child{font-weight:600; white-space:nowrap;}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+
+.closing{font-size:clamp(1.1rem,2.2vw,1.4rem); font-family:var(--font-display); font-weight:600; text-transform:none; line-height:1.3; max-width:700px;}
+.closing .q{color:var(--accent); font-weight:700;}
+.principles{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.principles span{font-family:var(--font-mono); font-size:12px; border:1px solid var(--ink); padding:8px 14px; background:#fff;}
+
+footer{border-top:1px solid var(--ink); padding-block:40px; font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Radio &amp; Electronics · Creative Technology · Part Two</div>
+    <span class="sub">Shaders, Spatial Mapping, and the Vector Field</span>
+    <h1>Media Servers II</h1>
+    <p><a href="/mediaservers">Part One</a> treated the media server as an engine that turns rules into light. This half goes underneath the hood, to the level where it actually happens: real compiled GPU programs, real 3D perspective math, and the single idea that ties the whole subject together — a wave, once you sample it, <em>is</em> a vector, and every rendering trick on this page is really just vector math wearing a costume.</p>
+    <div class="question">Every hands-on demo below runs the real underlying mathematics live — a compiled GLSL shader, an actual reaction-diffusion PDE, real Gerstner wave equations — not a simulated approximation of one.</div>
+  </div>
+</section>
+
+<nav class="toc" aria-label="Section navigation">
+  <div class="wrap">
+    <a href="#shaders">01 Shaders, For Real</a><a href="#mapping3d">02 3D Spatial Mapping</a>
+    <a href="#ocean">03 The Ocean Is a Sum of Sines</a><a href="#spectral">04 Any Dimension, Same Transform</a>
+    <a href="#fields">05 Vector Fields You Can See</a><a href="#reaction">06 Chemistry Draws Itself</a>
+    <a href="#allwaves">07 Every Wave, One Renderer</a><a href="#vectors">08 Higher-Dimensional Vectors</a>
+  </div>
+</nav>
+
+<main>
+
+<section class="chapter" id="shaders">
+  <div class="wrap">
+    <div class="kicker">01 — Shaders, For Real</div>
+    <h2>A Program That Runs Once Per Pixel</h2>
+    <p class="lede">A <strong>shader</strong> is a small program compiled to run directly on the GPU: a <strong>vertex shader</strong> runs once per vertex (typically deciding where a point ends up on screen), a <strong>fragment shader</strong> runs once per pixel (typically deciding that pixel's color), and both run for every vertex or pixel <em>simultaneously</em> across thousands of GPU cores. The canvas below is running an actual compiled <strong>GLSL</strong> fragment shader — the classic demoscene "plasma" effect, built from nothing but summed sine waves evaluated at every pixel, every frame, on your GPU right now.</p>
+    <div class="diagram">
+      <canvas id="plasma-canvas" width="700" height="320"></canvas>
+      <div class="diagram-cap" id="plasma-status">Compiling shader…</div>
+    </div>
+    <div class="controls">
+      <div class="ctrl-row"><label for="plasma-speed">Speed</label><input type="range" id="plasma-speed" min="0.1" max="3" step="0.1" value="1"><span class="readout" id="plasma-speed-val">1.0×</span></div>
+      <div class="ctrl-row"><label for="plasma-scale">Scale</label><input type="range" id="plasma-scale" min="2" max="20" step="0.5" value="8"><span class="readout" id="plasma-scale-val">8.0</span></div>
+    </div>
+    <p style="margin-top:20px;">The whole visible pattern is just <code>sin(x) + sin(y) + sin(x+y) + sin(√(x²+y²))</code>, evaluated at every point and mapped to color — no textures, no geometry, no lookup images, just trigonometry running fast enough, at enough points, to look like liquid light. It's the same wave equation from <a href="/universal-waves">Universal Waves</a>, doing pixel duty instead of describing sound or light.</p>
+  </div>
+</section>
+
+<section class="chapter" id="mapping3d">
+  <div class="wrap">
+    <div class="kicker">02 — From Flat to Spatial: 3D Projection Mapping</div>
+    <h2>The Projector Doesn't Know It's Hitting a Corner</h2>
+    <p class="lede">Part One's corner-pin demo warped a flat image to fit a flat (if tilted) rectangle. Real architectural projection mapping is harder: the surface is a real 3D object — a building with multiple faces at different angles and depths — and the projector is a real point in 3D space throwing light along diverging rays. Move the projector, and every face's distortion changes independently, in a way flat 2D warping can't capture; the software has to model the actual <strong>camera projection matrix</strong> (a real light source's position, direction, and lens field-of-view) and compute, per pixel, exactly where each face's texture should land.</p>
+    <h3 style="margin-top:24px;">Try it: move the projector</h3>
+    <p>Drag the red dot to move the virtual projector. Watch the grid "light" on each face of the building stretch and skew independently — the actual geometry of projecting from a single point onto a 3D object with multiple faces.</p>
+    <div class="diagram">
+      <div class="proj-stage" id="proj-stage">
+        <div class="proj-scene" id="proj-scene">
+          <div class="proj-building" id="proj-building">
+            <div class="proj-face front"></div>
+            <div class="proj-face left"></div>
+            <div class="proj-face right"></div>
+          </div>
+        </div>
+        <div class="proj-handle" id="proj-handle" style="left:50px; top:40px;"></div>
+      </div>
+      <div class="diagram-cap">Real <code>perspective</code>/<code>transform3d</code> projection — the same math a media server uses to keystone-correct onto architecture, just running in CSS instead of a shader.</div>
+    </div>
+    <p style="margin-top:20px;">Real-world calibration usually automates this with <strong>structured light</strong>: the system projects a sequence of known patterns (stripes, grids, gradients) onto the surface, films the result with a camera, and solves for the exact 3D geometry and projector position that would produce what the camera just saw — turning "where exactly is this building, relative to this projector" into a problem a computer can answer in seconds instead of an installer manually nudging keystone sliders for an hour.</p>
+  </div>
+</section>
+
+<section class="chapter" id="ocean">
+  <div class="wrap">
+    <div class="kicker">03 — The Ocean Is a Sum of Sines</div>
+    <h2>Real Waves, Built From the Same Wave Equation</h2>
+    <p class="lede">Trace a media server's most literal wave-to-3D pipeline: ocean rendering. A <strong>Gerstner wave</strong> — first described mathematically in 1802 — displaces each point on a flat grid both vertically <em>and</em> horizontally, tracing a circular (trochoidal) path rather than a simple up-down bob, which is what gives real Gerstner waves their sharper crests and broader troughs<sup>[1]</sup>. Real-time computer graphics has used exactly this since 1986, and the modern standard technique — formalized in Jerry Tessendorf's widely-cited 2001 course notes — sums just 4 to 8 of these waves, at different directions, wavelengths, and amplitudes, directly in a vertex shader to produce a convincing ocean surface in real time<sup>[1]</sup>.</p>
+    <h3 style="margin-top:24px;">Try it: build an ocean from sine waves</h3>
+    <div class="diagram"><canvas id="ocean-canvas" width="700" height="320"></canvas></div>
+    <div class="controls">
+      <div class="ctrl-row"><label for="ocean-waves">Number of waves</label><input type="range" id="ocean-waves" min="1" max="8" step="1" value="1"><span class="readout" id="ocean-waves-val">1</span></div>
+      <div class="ctrl-row"><label for="ocean-steep">Steepness</label><input type="range" id="ocean-steep" min="0" max="1" step="0.05" value="0.5"><span class="readout" id="ocean-steep-val">0.50</span></div>
+    </div>
+    <p style="margin-top:18px;">At 1 wave, you're looking at a single, obviously-fake corrugated sheet. By 6–8, with each wave contributing a different direction and wavelength, the same grid of 3D points reads as genuinely turbulent, unrepeating open water — the entire illusion built from nothing but sine functions and vector addition, per vertex, per frame.</p>
+  </div>
+</section>
+
+<section class="chapter" id="spectral">
+  <div class="wrap">
+    <div class="kicker">04 — Any Dimension, the Same Transform</div>
+    <h2>A Shape Is Just a Wave With Extra Dimensions</h2>
+    <p class="lede">A microphone's 1D signal decomposes into a sum of sine waves at different frequencies — that's the <strong>Fourier transform</strong>, covered from the audio side in <a href="/music-mathematics">Music Is Mathematics</a>. The exact same idea, one dimension up, decomposes a 2D image into 2D spatial frequencies (the basis of JPEG compression), and one dimension up again, decomposes the surface of a 3D shape — or the pattern of light arriving from every direction around a point — into <strong>spherical harmonics</strong>: the 3D, spherical-surface equivalent of a Fourier series, and the real technique behind fast, realistic real-time lighting in modern game and film rendering. It's the same transform each time. Only the number of dimensions changes.</p>
+    <h3 style="margin-top:24px;">Try it: build a shape from pure sine waves</h3>
+    <p>A square wave, like any repeating shape, can be built entirely from a sum of sine harmonics — the 1D version of exactly the same decomposition spherical harmonics do in 3D.</p>
+    <div class="diagram"><canvas id="fourier-canvas" width="700" height="240"></canvas></div>
+    <div class="controls">
+      <div class="ctrl-row"><label for="fourier-n">Harmonics</label><input type="range" id="fourier-n" min="1" max="25" step="1" value="1"><span class="readout" id="fourier-n-val">1</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="fields">
+  <div class="wrap">
+    <div class="kicker">05 — Vector Fields You Can See</div>
+    <h2>A Grid of Arrows Is Also a Wave</h2>
+    <p class="lede">A <strong>vector field</strong> assigns a direction and magnitude to every point in space — wind speed across a map, water flow through a pipe, or a purely mathematical field built for a visual effect. <strong>Curl noise</strong> — taking the curl (a measure of local rotation) of a smoothly-varying noise field — produces a vector field that never has any "sources" or "sinks," which makes it the standard technique for believable, turbulent-looking particle flow: smoke, ink in water, or a purely abstract flow-field artwork. The particles below don't know about "the field" as a global shape; each one just reads the direction at its current position and moves, every frame — a vector field is nothing more than an enormous set of tiny, local wave-like oscillators, sampled at your particle's exact location.</p>
+    <div class="diagram"><canvas id="flow-canvas" class="dark" width="700" height="300"></canvas></div>
+  </div>
+</section>
+
+<section class="chapter" id="reaction">
+  <div class="wrap">
+    <div class="kicker">06 — Chemistry Draws Itself</div>
+    <h2>Two Chemicals, Diffusing, Are a Media Server</h2>
+    <p class="lede">The <strong>Gray-Scott model</strong> simulates two virtual chemicals — one "feeds" the system, the other "kills" the first — diffusing across a grid and reacting where they meet. Depending on just two numbers (the feed and kill rates), the exact same equation produces wildly different patterns: coral-like branching, mitosis-like splitting spots, fingerprint whorls, or traveling worms — the same class of self-organizing chemical wave introduced in <a href="/universal-waves">Universal Waves</a>' chapter on chemical waves, and the mathematical basis of naturally-occurring Turing patterns in real animal markings.</p>
+    <div class="diagram"><canvas id="rd-canvas" width="500" height="500" style="max-width:500px; margin:0 auto;"></canvas></div>
+    <div class="pillrow" id="rd-presets"></div>
+    <div class="controls"><div class="ctrl-row"><button class="btn ghost" id="rd-reset">↻ Reseed</button></div></div>
+  </div>
+</section>
+
+<section class="chapter" id="allwaves">
+  <div class="wrap">
+    <div class="kicker">07 — Every Wave, One Renderer</div>
+    <h2>Every Family From Universal Waves Has a Real Technique Here</h2>
+    <p class="lede">None of these connections are loose metaphors — each is a real, named technique used in production creative-technology work.</p>
+    <table class="wtable">
+      <tr><th>Wave family</th><th>Real-time technique</th></tr>
+      <tr><td>Mechanical</td><td>Gerstner ocean waves (Ch. 03); raw audio waveforms driving visuals (Part One, Ch. 08)</td></tr>
+      <tr><td>Electromagnetic</td><td>Every pixel a shader outputs is, literally, a specified color of light — the entire discipline is EM-wave output</td></tr>
+      <tr><td>Plasma</td><td>The classic "plasma" demoscene effect (Ch. 01) — named after the physical phenomenon for a reason: both are interference patterns from summed waves</td></tr>
+      <tr><td>Matter</td><td>Quantum-inspired stochastic noise fields used as an aesthetic reference in generative work, though the physics itself isn't simulated</td></tr>
+      <tr><td>Gravitational</td><td>Gravitational-lensing shaders — a real, named post-processing effect that bends background pixels around a screen-space point</td></tr>
+      <tr><td>Chemical</td><td>Gray-Scott reaction-diffusion (Ch. 06)</td></tr>
+      <tr><td>Biological</td><td>Bio-signal-reactive art — heart rate or EEG data (Part One, Ch. 07 input list) driving the same shader parameters as audio</td></tr>
+      <tr><td>Information</td><td>Data sonification and data-driven visualization — network or API data (Part One, Ch. 07) mapped directly to color, motion, or sound</td></tr>
+      <tr><td>Astronomical</td><td>Procedural starfields and orbital-period-driven show timing, using the same particle systems as Part One, Ch. 04</td></tr>
+    </table>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;" id="vectors">
+  <div class="wrap">
+    <div class="kicker">08 — Higher-Dimensional Vectors</div>
+    <h2>The Idea Underneath Everything on This Page</h2>
+    <p class="lede">A color is a vector with 3 components (red, green, blue). A single point on a 3D mesh usually carries a position, a normal, a UV coordinate, and a color — a vector with 10 or more components. A 512-bin audio spectrum, sampled once, is a single vector living in a 512-dimensional space. An AI image model's internal representation of a picture is a vector with thousands of dimensions. None of these are metaphors for vectors — they are, mathematically, exactly vectors, full stop, just living in spaces too large to draw.</p>
+    <p>And a <strong>wave</strong>, the moment you sample it at a finite number of points — which is the only way a computer can ever store one — becomes exactly the same kind of object: a vector, with one number per sample. The Fourier transform, the spherical-harmonic decomposition, the FFT running under the plasma shader above — every one of them is nothing more exotic than <em>rotating that vector into a different, more useful set of coordinate axes</em>, the same way you might rotate a 2D point's (x, y) coordinates into a rotated frame. That single idea — a wave is a vector, and a transform is a change of basis — is the actual mathematics connecting every demo on this page, and everything on <a href="/universal-waves">Universal Waves</a>, to each other.</p>
+
+    <div class="kicker" style="margin-top:56px;">Back to Part One, and beyond</div>
+    <div class="taglist">
+      <span><a href="/mediaservers">← Media Servers, Part One</a></span>
+      <span><a href="/universal-waves">Universal Waves</a></span>
+      <span><a href="/music-mathematics">Music Is Mathematics</a></span>
+      <span><a href="/radio-communications">Radio Communications</a></span>
+    </div>
+
+    <div class="kicker" style="margin-top:40px;">References</div>
+    <ol class="refs">
+      <li><a href="https://people.computing.clemson.edu/~jtessen/reports/papers_files/coursenotes2004.pdf" rel="external noopener" target="_blank">Simulating Ocean Water</a> — Jerry Tessendorf, SIGGRAPH course notes, on Gerstner/trochoidal waves and the sum-of-sines technique.</li>
+      <li><a href="https://www.karlsims.com/rd.html" rel="external noopener" target="_blank">Reaction-Diffusion Tutorial</a> — Karl Sims, on the Gray-Scott model and its named pattern presets.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a></span>
+    <span><a href="/mediaservers">← Part One</a> · <a href="/universal-waves">Waves →</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var $ = function(id){ return document.getElementById(id); };
+
+/* ===== 01: real WebGL plasma shader ===== */
+(function(){
+  var canvas = $('plasma-canvas');
+  var status = $('plasma-status');
+  var glAttribs = {preserveDrawingBuffer: true};
+  var gl = canvas.getContext('webgl', glAttribs) || canvas.getContext('experimental-webgl', glAttribs);
+  if(!gl){ status.textContent = 'WebGL is not available in this browser — shader demo disabled.'; return; }
+
+  var vsSrc = 'attribute vec2 a_pos; void main(){ gl_Position = vec4(a_pos,0.0,1.0); }';
+  var fsSrc =
+    'precision mediump float;' +
+    'uniform vec2 u_resolution; uniform float u_time; uniform float u_scale;' +
+    'void main(){' +
+    '  vec2 uv = (gl_FragCoord.xy / u_resolution.xy) * u_scale;' +
+    '  float v = sin(uv.x + u_time);' +
+    '  v += sin(uv.y + u_time*0.7);' +
+    '  v += sin(uv.x + uv.y + u_time*1.3);' +
+    '  float cx = uv.x + 0.5*sin(u_time*0.4);' +
+    '  float cy = uv.y + 0.5*cos(u_time*0.5);' +
+    '  v += sin(sqrt(cx*cx+cy*cy) + u_time);' +
+    '  v = v * 0.25;' +
+    '  vec3 col = vec3(0.5+0.5*sin(v*3.14159+0.0), 0.5+0.5*sin(v*3.14159+2.094), 0.5+0.5*sin(v*3.14159+4.188));' +
+    '  gl_FragColor = vec4(col, 1.0);' +
+    '}';
+
+  function compile(type, src){
+    var s = gl.createShader(type);
+    gl.shaderSource(s, src);
+    gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)){
+      status.textContent = 'Shader compile error: ' + gl.getShaderInfoLog(s);
+      return null;
+    }
+    return s;
+  }
+  var vs = compile(gl.VERTEX_SHADER, vsSrc);
+  var fs = compile(gl.FRAGMENT_SHADER, fsSrc);
+  if(!vs || !fs) return;
+  var prog = gl.createProgram();
+  gl.attachShader(prog, vs); gl.attachShader(prog, fs); gl.linkProgram(prog);
+  if(!gl.getProgramParameter(prog, gl.LINK_STATUS)){
+    status.textContent = 'Shader link error: ' + gl.getProgramInfoLog(prog);
+    return;
+  }
+  gl.useProgram(prog);
+
+  var buf = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buf);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, -1,1, 1,-1, 1,1]), gl.STATIC_DRAW);
+  var posLoc = gl.getAttribLocation(prog, 'a_pos');
+  gl.enableVertexAttribArray(posLoc);
+  gl.vertexAttribPointer(posLoc, 2, gl.FLOAT, false, 0, 0);
+
+  var resLoc = gl.getUniformLocation(prog, 'u_resolution');
+  var timeLoc = gl.getUniformLocation(prog, 'u_time');
+  var scaleLoc = gl.getUniformLocation(prog, 'u_scale');
+  gl.viewport(0,0,canvas.width, canvas.height);
+  status.textContent = 'Live GLSL fragment shader, compiled and running on your GPU (WebGL ' + gl.getParameter(gl.VERSION) + ').';
+
+  var speedEl = $('plasma-speed'), scaleEl = $('plasma-scale');
+  var t = 0;
+  function draw(){
+    t += 0.016 * parseFloat(speedEl.value);
+    $('plasma-speed-val').textContent = parseFloat(speedEl.value).toFixed(1)+'×';
+    $('plasma-scale-val').textContent = parseFloat(scaleEl.value).toFixed(1);
+    gl.uniform2f(resLoc, canvas.width, canvas.height);
+    gl.uniform1f(timeLoc, t);
+    gl.uniform1f(scaleLoc, parseFloat(scaleEl.value));
+    gl.drawArrays(gl.TRIANGLES, 0, 6);
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ===== 02: 3D projector drag ===== */
+(function(){
+  var stage = $('proj-stage'), scene = $('proj-scene'), handle = $('proj-handle');
+  var faces = document.querySelectorAll('.proj-face');
+  var gridURI = 'data:image/svg+xml;utf8,' + encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" width="26" height="26"><rect width="26" height="26" fill="none" stroke="%232f5aa1" stroke-width="1"/></svg>'
+  );
+  faces.forEach(function(f){ f.style.backgroundImage = 'url(\''+gridURI+'\')'; });
+
+  function update(px, py){
+    var rect = stage.getBoundingClientRect();
+    var relX = (px - rect.width/2) / (rect.width/2);
+    var relY = (py - rect.height/2) / (rect.height/2);
+    var rotY = relX * 35;
+    var rotX = -relY * 20;
+    scene.style.transform = 'rotateX('+rotX+'deg) rotateY('+rotY+'deg)';
+  }
+  handle.addEventListener('pointerdown', function(e){
+    e.preventDefault();
+    function move(ev){
+      var rect = stage.getBoundingClientRect();
+      var x = Math.max(0, Math.min(rect.width, ev.clientX-rect.left));
+      var y = Math.max(0, Math.min(rect.height, ev.clientY-rect.top));
+      handle.style.left = x+'px'; handle.style.top = y+'px';
+      update(x,y);
+    }
+    function up(){ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up); }
+    window.addEventListener('pointermove',move); window.addEventListener('pointerup',up);
+  });
+  update(50,40);
+})();
+
+/* ===== 03: Gerstner ocean ===== */
+(function(){
+  var canvas = $('ocean-canvas'), cctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  var wavesEl=$('ocean-waves'), steepEl=$('ocean-steep');
+  var gridN = 18;
+  var waveDefs = [
+    {dx:1,dy:0.2,len:90,amp:10},{dx:-0.6,dy:0.8,len:60,amp:7},{dx:0.3,dy:-0.9,len:45,amp:5},
+    {dx:0.9,dy:0.9,len:120,amp:12},{dx:-1,dy:-0.3,len:35,amp:4},{dx:0.2,dy:1,len:70,amp:6},
+    {dx:-0.7,dy:-0.7,len:25,amp:3},{dx:1,dy:-0.4,len:150,amp:14}
+  ];
+  var t=0;
+  function gerstner(x0,y0,n,steep){
+    var x=x0, y=y0, z=0;
+    for(var i=0;i<n;i++){
+      var w = waveDefs[i];
+      var k = 2*Math.PI/w.len;
+      var d = Math.sqrt(w.dx*w.dx+w.dy*w.dy);
+      var dx=w.dx/d, dy=w.dy/d;
+      var phase = k*(dx*x0+dy*y0) + t*Math.sqrt(9.8*k);
+      var Q = steep/(k*w.amp*n);
+      x += Q*w.amp*dx*Math.cos(phase);
+      y += Q*w.amp*dy*Math.cos(phase);
+      z += w.amp*Math.sin(phase);
+    }
+    return {x:x,y:y,z:z};
+  }
+  function project(x,y,z){
+    var isoX = (x-y)*0.7;
+    var isoY = (x+y)*0.35 - z;
+    return {x: W/2+isoX, y: H/2+isoY*0.9 };
+  }
+  function draw(){
+    t += 0.03;
+    var n = parseInt(wavesEl.value), steep = parseFloat(steepEl.value);
+    $('ocean-waves-val').textContent = n;
+    $('ocean-steep-val').textContent = steep.toFixed(2);
+    cctx.fillStyle='#fff'; cctx.fillRect(0,0,W,H);
+    var pts = [];
+    var span = 260;
+    for(var i=0;i<=gridN;i++){
+      pts.push([]);
+      for(var j=0;j<=gridN;j++){
+        var gx = (i/gridN-0.5)*span, gy=(j/gridN-0.5)*span;
+        var p = gerstner(gx,gy,n,steep);
+        pts[i].push(project(p.x,p.y,p.z));
+      }
+    }
+    cctx.strokeStyle='#2f5aa1'; cctx.lineWidth=1;
+    for(var i2=0;i2<=gridN;i2++){
+      cctx.beginPath();
+      for(var j2=0;j2<=gridN;j2++){ var p2=pts[i2][j2]; if(j2===0) cctx.moveTo(p2.x,p2.y); else cctx.lineTo(p2.x,p2.y); }
+      cctx.stroke();
+    }
+    for(var j3=0;j3<=gridN;j3++){
+      cctx.beginPath();
+      for(var i3=0;i3<=gridN;i3++){ var p3=pts[i3][j3]; if(i3===0) cctx.moveTo(p3.x,p3.y); else cctx.lineTo(p3.x,p3.y); }
+      cctx.stroke();
+    }
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ===== 04: Fourier square wave ===== */
+(function(){
+  var canvas = $('fourier-canvas'), cctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height, mid=H/2;
+  var nEl = $('fourier-n');
+  function draw(){
+    var n = parseInt(nEl.value);
+    $('fourier-n-val').textContent = n;
+    cctx.fillStyle='#fff'; cctx.fillRect(0,0,W,H);
+    cctx.strokeStyle='#c9c9c1'; cctx.beginPath(); cctx.moveTo(0,mid); cctx.lineTo(W,mid); cctx.stroke();
+    cctx.strokeStyle='#a13a2f'; cctx.lineWidth=2; cctx.beginPath();
+    for(var x=0;x<=W;x++){
+      var xx = (x/W)*Math.PI*4;
+      var sum=0;
+      for(var k=1;k<=n;k++){
+        var harmonic = 2*k-1;
+        sum += Math.sin(harmonic*xx)/harmonic;
+      }
+      var y = mid - sum*(H*0.35);
+      if(x===0) cctx.moveTo(x,y); else cctx.lineTo(x,y);
+    }
+    cctx.stroke();
+  }
+  nEl.addEventListener('input', draw);
+  draw();
+})();
+
+/* ===== 05: curl-noise-ish flow field ===== */
+(function(){
+  var canvas = $('flow-canvas'), cctx = canvas.getContext('2d');
+  var W=canvas.width, H=canvas.height;
+  function potential(x,y,t){
+    return Math.sin(x*0.02+t*0.3)*Math.cos(y*0.025-t*0.2) + Math.sin((x+y)*0.015+t*0.15);
+  }
+  function curl(x,y,t){
+    var eps=1;
+    var dPdy = (potential(x,y+eps,t)-potential(x,y-eps,t))/(2*eps);
+    var dPdx = (potential(x+eps,y,t)-potential(x-eps,y,t))/(2*eps);
+    return {x: dPdy, y: -dPdx};
+  }
+  var particles = [];
+  for(var i=0;i<250;i++) particles.push({x:Math.random()*W, y:Math.random()*H, life:Math.random()*100});
+  var t=0;
+  cctx.fillStyle='#0e0e10'; cctx.fillRect(0,0,W,H);
+  function draw(){
+    t += 1;
+    cctx.fillStyle='rgba(14,14,16,0.06)'; cctx.fillRect(0,0,W,H);
+    particles.forEach(function(p){
+      var v = curl(p.x,p.y,t*0.02);
+      p.x += v.x*4; p.y += v.y*4; p.life--;
+      if(p.x<0||p.x>W||p.y<0||p.y>H||p.life<0){ p.x=Math.random()*W; p.y=Math.random()*H; p.life=100+Math.random()*100; }
+      cctx.fillStyle = '#c9a373';
+      cctx.fillRect(p.x, p.y, 1.6, 1.6);
+    });
+    requestAnimationFrame(draw);
+  }
+  requestAnimationFrame(draw);
+})();
+
+/* ===== 06: Gray-Scott reaction-diffusion ===== */
+(function(){
+  var canvas = $('rd-canvas'), cctx = canvas.getContext('2d');
+  var size = 120;
+  canvas.width = 500; canvas.height = 500;
+  var dA=1.0, dB=0.5;
+  var f=0.0545, k=0.0620;
+  var A = new Float32Array(size*size).fill(1);
+  var B = new Float32Array(size*size).fill(0);
+  function idx(x,y){ return (((y+size)%size)*size + ((x+size)%size)); }
+  function seed(){
+    A.fill(1); B.fill(0);
+    for(var s=0;s<6;s++){
+      var cx = size*(0.2+0.6*Math.random()), cy = size*(0.2+0.6*Math.random());
+      for(var y=-5;y<5;y++) for(var x=-5;x<5;x++){
+        if(x*x+y*y<20){ B[idx(Math.floor(cx+x),Math.floor(cy+y))] = 1; }
+      }
+    }
+  }
+  seed();
+  var presets = {
+    'Coral':[0.0545,0.0620], 'Mitosis':[0.0280,0.0620], 'Fingerprint':[0.0370,0.0600],
+    'Worms':[0.0630,0.0610], 'Spots':[0.0220,0.0590]
+  };
+  var pillsEl = $('rd-presets');
+  Object.keys(presets).forEach(function(name, i){
+    var p = document.createElement('div'); p.className='pill'+(i===0?' on':''); p.textContent=name;
+    p.addEventListener('click', function(){
+      pillsEl.querySelectorAll('.pill').forEach(function(x){x.classList.remove('on');});
+      p.classList.add('on');
+      f = presets[name][0]; k = presets[name][1];
+      seed();
+    });
+    pillsEl.appendChild(p);
+  });
+  $('rd-reset').addEventListener('click', seed);
+
+  var nextA = new Float32Array(size*size), nextB = new Float32Array(size*size);
+  function step(){
+    for(var y=0;y<size;y++){
+      for(var x=0;x<size;x++){
+        var i = idx(x,y);
+        var lapA = A[idx(x-1,y)]+A[idx(x+1,y)]+A[idx(x,y-1)]+A[idx(x,y+1)] - 4*A[i];
+        var lapB = B[idx(x-1,y)]+B[idx(x+1,y)]+B[idx(x,y-1)]+B[idx(x,y+1)] - 4*B[i];
+        var a=A[i], b=B[i];
+        var reaction = a*b*b;
+        // This simple unweighted 4-neighbor Laplacian is only stable with a
+        // smaller-than-1 timestep (dt below); at dt=1 it either blows up to
+        // NaN (which Uint8ClampedArray then silently renders as solid black)
+        // or, once state is clamped to [0,1], saturates and freezes solid
+        // within a few frames instead of evolving. dt=0.2 keeps it stable
+        // and slow enough to visibly evolve frame to frame.
+        var dt = 0.2;
+        nextA[i] = Math.min(1, Math.max(0, a + (dA*lapA - reaction + f*(1-a))*dt));
+        nextB[i] = Math.min(1, Math.max(0, b + (dB*lapB + reaction - (k+f)*b)*dt));
+      }
+    }
+    var tmpA=A; A=nextA; nextA=tmpA;
+    var tmpB=B; B=nextB; nextB=tmpB;
+  }
+  var imgData = cctx.createImageData(size,size);
+  var tmpCanvas = document.createElement('canvas'); tmpCanvas.width=size; tmpCanvas.height=size;
+  var tmpCtx = tmpCanvas.getContext('2d');
+  function renderScaled(){
+    for(var i=0;i<size*size;i++){
+      var v = Math.max(0, Math.min(1, A[i]-B[i]));
+      var c = Math.floor(v*255);
+      imgData.data[i*4] = 30+c*0.7;
+      imgData.data[i*4+1] = 20+c*0.75;
+      imgData.data[i*4+2] = 55+c*0.6;
+      imgData.data[i*4+3] = 255;
+    }
+    tmpCtx.putImageData(imgData,0,0);
+    cctx.imageSmoothingEnabled = false;
+    cctx.drawImage(tmpCanvas, 0, 0, canvas.width, canvas.height);
+  }
+  function loop(){
+    for(var s=0;s<12;s++) step();
+    renderScaled();
+    requestAnimationFrame(loop);
+  }
+  requestAnimationFrame(loop);
+})();
+
+})();
+</script>
+
+</body>
+</html>

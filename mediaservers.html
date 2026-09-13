@@ -150,6 +150,10 @@ footer a{text-decoration:underline;}
     <h1>Media Servers</h1>
     <p>A media server is not a video player. It's a real-time computational engine that takes in data, mathematics, sound, sensors, and human movement, and turns them — continuously, live, dozens of times a second — into evolving light and sound. Nature does the same trick with simpler ingredients: a handful of physical rules, run over and over, produce clouds, rivers, coral, and galaxies. This page treats the media server as the same kind of machine, built on purpose.</p>
     <div class="question">Core question: how does a media server convert mathematics, algorithms, and information into immersive visual realities?</div>
+    <div class="callout" style="margin-top:20px; background:transparent;">
+      <span class="tag">Part Two</span>
+      <span>This page stays conceptual. For the actual mechanics underneath — a real compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, reaction-diffusion chemistry, and the idea that every wave is secretly a vector — continue to <a href="/mediaservers-shaders">Media Servers II: Shaders, Spatial Mapping &amp; the Vector Field</a>.</span>
+    </div>
   </div>
 </section>
 
@@ -267,6 +271,10 @@ footer a{text-decoration:underline;}
       <div class="step">FRAME BUFFER</div>
     </div>
     <p style="margin-top:20px;">A <strong>shader</strong> is a small program, usually written in <strong>GLSL</strong> (OpenGL Shading Language) or an equivalent, that runs once per vertex or once per pixel — millions of times a frame — computing exactly one thing (a position, a color) very fast. <strong>Rasterization</strong>, the dominant real-time technique, converts 3D geometry into 2D pixels by testing which triangles cover which screen positions; <strong>ray tracing</strong> instead simulates individual light rays bouncing through a scene, producing much more physically accurate reflections and shadows at a much higher computational cost — only recently become fast enough for real-time use on consumer GPUs.</p>
+    <div class="callout">
+      <span class="tag">Go deeper</span>
+      <span><a href="/mediaservers-shaders">Media Servers II</a> runs an actual compiled GLSL fragment shader live, right on your GPU.</span>
+    </div>
   </div>
 </section>
 
@@ -312,6 +320,10 @@ footer a{text-decoration:underline;}
     <p>Drag any corner. This is the exact transform (a projective/homography warp) that lets a flat rectangular image conform to an off-axis or irregular surface — the mathematical core of every projection-mapping tool.</p>
     <div class="diagram"><svg id="warp-svg" viewBox="0 0 700 320" role="img" aria-label="Draggable corner-pin projection mapping demo"></svg></div>
     <div class="controls"><div class="ctrl-row"><button class="btn ghost" id="warp-reset">↻ Reset corners</button></div></div>
+    <div class="callout">
+      <span class="tag">Go deeper</span>
+      <span>This is flat corner-pinning. <a href="/mediaservers-shaders">Media Servers II</a> extends it to a real 3D building with a draggable virtual projector.</span>
+    </div>
   </div>
 </section>
 
@@ -400,6 +412,7 @@ footer a{text-decoration:underline;}
 
     <div class="kicker" style="margin-top:56px;">Explore further</div>
     <div class="taglist">
+      <span><a href="/mediaservers-shaders">Media Servers II: Shaders &amp; Spatial Mapping →</a></span>
       <span><a href="/music-mathematics">Music Is Mathematics</a></span>
       <span><a href="/universal-waves">Universal Waves</a></span>
       <span><a href="/radio-communications">Radio Communications</a></span>

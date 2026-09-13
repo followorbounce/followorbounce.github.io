@@ -16,7 +16,9 @@ Home: https://followorbounce.github.io/
   - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
 - Maya Basics — Maya calendrical systems. Index: https://followorbounce.github.io/Maya-Calendar/
 - Machinery — heavy machinery explained through engineering, physics, and mathematics. Index: https://followorbounce.github.io/machinery/
-- Radio & Electronics — Radio Communications (frequency, modulation, propagation, spacecraft links, spectrum management): https://followorbounce.github.io/radio-communications. Media Servers (generative art, real-time rendering, GLSL shaders, projection mapping, signal processing, TouchDesigner/Notch/openFrameworks ecosystem): https://followorbounce.github.io/mediaservers. Also experiments and observations (planned).
+- Radio & Electronics — Radio Communications (frequency, modulation, propagation, spacecraft links, spectrum management): https://followorbounce.github.io/radio-communications. Media Servers (generative art, real-time rendering, GLSL shaders, projection mapping, signal processing, TouchDesigner/Notch/openFrameworks ecosystem): https://followorbounce.github.io/mediaservers.
+  - Media Servers II — a real compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, Gray-Scott reaction-diffusion, curl-noise flow fields, and every Universal Waves family mapped to a real rendering technique: https://followorbounce.github.io/mediaservers-shaders
+  Also experiments and observations (planned).
 - Instruments — Password & Passphrase Generator (client-side only, Web Crypto API, BIP-39 wordlist, no network calls): https://followorbounce.github.io/password-generator
 - Technology — Blockchain Infrastructure (distributed systems, consensus mechanisms, cryptography, smart contracts, DAOs, tokenization, neutral/non-speculative, with real crypto.subtle hashing and ECDSA sign/verify demos): https://followorbounce.github.io/blockchain-infrastructure
 - Philosophy — nature of time, consciousness, reality and perception, free will, ethics (planned).
