@@ -471,12 +471,17 @@ var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
 var actx = null;
 function ctx(){ if(!actx) actx = new AudioCtxClass(); if(actx.state==='suspended') actx.resume(); return actx; }
 
-/* iOS Safari keeps a freshly-created AudioContext silently locked even
-   after resume() is called from inside a button's own click handler —
-   it only reliably unlocks on the very first touch/click on the page,
-   and only if that unlock plays a real (silent) buffer through it.
-   Do that once, as early as possible (capture phase, before any
-   button-specific handler runs), so every play button downstream just works. */
+/* iOS Safari has two separate, unrelated audio problems, both fixed here
+   together on the very first touch/click (capture phase, before any
+   button-specific handler runs):
+   1) A freshly-created AudioContext stays silently locked until resume()
+      runs inside a real user gesture AND a real buffer is played through it.
+   2) createOscillator()/createBufferSource() output — unlike an <audio>
+      element — is muted by the phone's physical ring/silent switch. The
+      fix is to also keep a real, looping, genuinely-silent <audio> element
+      playing for the rest of the page's life, which puts the whole page's
+      audio session in the "playback" category the switch doesn't affect.
+      (https://bugs.webkit.org/show_bug.cgi?id=237322) */
 function unlockAudioForIOS(){
   var c = ctx();
   if(c.state==='suspended'){ c.resume(); }
@@ -485,6 +490,20 @@ function unlockAudioForIOS(){
   src.buffer = buffer;
   src.connect(c.destination);
   if(src.start) src.start(0); else if(src.noteOn) src.noteOn(0);
+
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+  if(!document.getElementById('ios-silent-unmute')){
+    var a = document.createElement('audio');
+    a.id = 'ios-silent-unmute';
+    a.setAttribute('x-webkit-airplay','deny');
+    a.setAttribute('playsinline','');
+    a.preload = 'auto';
+    a.loop = true;
+    a.src = 'data:audio/wav;base64,UklGRmQGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUAGAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.play().catch(function(){});
+  }
 }
 ['touchstart','touchend','click'].forEach(function(evt){
   document.addEventListener(evt, unlockAudioForIOS, {capture:true, once:true, passive:true});

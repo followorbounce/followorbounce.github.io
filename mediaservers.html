@@ -440,6 +440,42 @@ footer a{text-decoration:underline;}
 'use strict';
 var $ = function(id){ return document.getElementById(id); };
 
+/* iOS Safari: createOscillator()/createBufferSource() output — unlike an
+   <audio> element — is muted by the phone's physical ring/silent switch,
+   and a freshly-created AudioContext also stays locked until resume()
+   runs inside a real gesture with a real buffer played through it.
+   Fix both on the very first touch/click, capture phase.
+   (https://bugs.webkit.org/show_bug.cgi?id=237322) */
+function unlockAudioForIOS(){
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC) return;
+  if(!window.__sharedAudioUnlockCtx) window.__sharedAudioUnlockCtx = new AC();
+  var c = window.__sharedAudioUnlockCtx;
+  if(c.state==='suspended'){ c.resume(); }
+  var buffer = c.createBuffer(1, 1, 22050);
+  var src = c.createBufferSource();
+  src.buffer = buffer;
+  src.connect(c.destination);
+  if(src.start) src.start(0); else if(src.noteOn) src.noteOn(0);
+
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+  if(!document.getElementById('ios-silent-unmute')){
+    var a = document.createElement('audio');
+    a.id = 'ios-silent-unmute';
+    a.setAttribute('x-webkit-airplay','deny');
+    a.setAttribute('playsinline','');
+    a.preload = 'auto';
+    a.loop = true;
+    a.src = 'data:audio/wav;base64,UklGRmQGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUAGAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.play().catch(function(){});
+  }
+}
+['touchstart','touchend','click'].forEach(function(evt){
+  document.addEventListener(evt, unlockAudioForIOS, {capture:true, once:true, passive:true});
+});
+
 /* ===== 03: elementary cellular automaton ===== */
 (function(){
   var canvas = $('ca-canvas'), cctx = canvas.getContext('2d');
