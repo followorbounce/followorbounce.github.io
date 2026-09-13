@@ -51,6 +51,15 @@ header .back:hover{text-decoration:underline;}
 .hero .hint-coarse{display:none;}
 @media (pointer:coarse){ .hero .hint-fine{display:none;} .hero .hint-coarse{display:inline;} }
 
+/* ===== mobile-recommends-desktop notice ===== */
+.mobileNotice{display:none;}
+@media (pointer:coarse){
+  .mobileNotice:not(.dismissed){ display:block; background:var(--chassis2); border-bottom:2px solid var(--ink); }
+  .mobileNotice .wrap{ display:flex; align-items:center; gap:10px; padding-block:8px; }
+  .mobileNotice span{ flex:1; font-size:11px; color:var(--ink-soft); line-height:1.5; }
+  .mobileNotice button{ font-family:var(--font-display); font-weight:900; font-size:16px; line-height:1; background:none; border:2px solid var(--ink); border-radius:3px; width:26px; height:26px; cursor:pointer; color:var(--ink); flex:none; }
+}
+
 /* ===== transport ===== */
 .transport{position:sticky; top:49px; z-index:19; background:var(--chassis2); border-block:2px solid var(--ink); padding-block:10px;}
 .transport .wrap{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
@@ -189,6 +198,25 @@ footer a{color:var(--ink);}
   </div>
 </header>
 
+<div class="mobileNotice" id="mobileNotice">
+  <div class="wrap">
+    <span>Patch Bay is built for a mouse and a big screen — the touch version works, but the full instrument is richer on desktop.</span>
+    <button type="button" id="mobileNoticeClose" aria-label="Dismiss">×</button>
+  </div>
+</div>
+<script>
+(function(){
+  var notice = document.getElementById('mobileNotice');
+  var closeBtn = document.getElementById('mobileNoticeClose');
+  if(!notice || !closeBtn) return;
+  try{ if(localStorage.getItem('pb_hideMobileNotice')==='1') notice.classList.add('dismissed'); }catch(e){}
+  closeBtn.addEventListener('click', function(){
+    notice.classList.add('dismissed');
+    try{ localStorage.setItem('pb_hideMobileNotice','1'); }catch(e){}
+  });
+})();
+</script>
+
 <section class="hero">
   <div class="wrap">
     <div class="eyebrow">Instrument · Generative Modular Synthesis</div>
@@ -238,10 +266,73 @@ footer a{color:var(--ink);}
     <!-- NOISE -->
     <div class="module c-dark" data-mod="noise">
       <div class="mhead"><span class="mname">Noise</span><span class="mtag">source</span></div>
-      <div class="row"><div class="knobwrap"><div class="knob" data-knob="noise.level" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="noise.level">35</span></div></div>
+      <div class="row">
+        <select class="wave" data-select="noise.type"><option value="white">white</option><option value="swell">swell</option><option value="strobe">strobe</option><option value="beacon">beacon</option></select>
+        <div class="knobwrap"><div class="knob" data-knob="noise.level" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="noise.level">35</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="noise.rate" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="noise.rate">40</span></div>
+      </div>
       <div class="jackrow">
         <span></span>
         <div class="jackgroup"><div class="jack out" data-jack="noise.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- SONAR -->
+    <div class="module c-blue" data-mod="sonar">
+      <div class="mhead"><span class="mname">Sonar</span><span class="mtag">ping generator</span></div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="sonar.rate" data-min="0" data-max="100" data-default="50"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="sonar.rate">50</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar.tone" data-min="150" data-max="3000" data-default="900" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="sonar.tone">900</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar.echo" data-min="0" data-max="70" data-default="35"><div class="ind"></div></div><span class="klabel">echo</span><span class="kval" data-kval="sonar.echo">35</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="sonarScope" width="240" height="60"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="sonar.trig.in" data-kind="trig"><span class="nub"></span>trig</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="sonar.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- TRILL -->
+    <div class="module c-yellow" data-mod="trill">
+      <div class="mhead"><span class="mname">Trill</span><span class="mtag">chirp generator</span></div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="trill.pitch" data-min="600" data-max="4200" data-default="1800" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="trill.pitch">1800</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="trill.warble" data-min="0" data-max="200" data-default="60"><div class="ind"></div></div><span class="klabel">warble</span><span class="kval" data-kval="trill.warble">60</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="trill.density" data-min="0" data-max="100" data-default="50"><div class="ind"></div></div><span class="klabel">density</span><span class="kval" data-kval="trill.density">50</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="trillScope" width="240" height="60"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="trill.trig.in" data-kind="trig"><span class="nub"></span>trig</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="trill.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- MANGLE -->
+    <div class="module c-purple" data-mod="mangle">
+      <div class="mhead"><span class="mname">Mangle</span><span class="mtag">ring mod · crush</span></div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="mangle.freq" data-min="20" data-max="2000" data-default="220" data-log="1"><div class="ind"></div></div><span class="klabel">ring</span><span class="kval" data-kval="mangle.freq">220</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="mangle.crush" data-min="0" data-max="100" data-default="0"><div class="ind"></div></div><span class="klabel">crush</span><span class="kval" data-kval="mangle.crush">0</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="mangleScope" width="240" height="60"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="mangle.in" data-kind="audio"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="mangle.out" data-kind="audio"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- ECHO -->
+    <div class="module c-pink" data-mod="echo">
+      <div class="mhead"><span class="mname">Echo</span><span class="mtag">delay</span></div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="echo.time" data-min="0.02" data-max="1.2" data-default="0.3"><div class="ind"></div></div><span class="klabel">time</span><span class="kval" data-kval="echo.time">0.3</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="echo.feedback" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">fb</span><span class="kval" data-kval="echo.feedback">40</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="echo.mix" data-min="0" data-max="100" data-default="50"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="echo.mix">50</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="echoScope" width="240" height="60"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="echo.in" data-kind="audio"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="echo.out" data-kind="audio"><span class="nub"></span>out</div></div>
       </div>
     </div>
 
@@ -390,15 +481,69 @@ function build(){
 
   // CLOCK: no audio nodes, pure JS scheduler (built below)
 
-  // NOISE
+  // NOISE — a level stage (knob) feeding a modulation stage (type: white/swell/strobe/beacon)
   var noiseBuf = c.createBuffer(1, c.sampleRate*2, c.sampleRate);
   var nd = noiseBuf.getChannelData(0);
   for(var i=0;i<nd.length;i++) nd[i] = Math.random()*2-1;
   var noiseSrc = c.createBufferSource(); noiseSrc.buffer = noiseBuf; noiseSrc.loop = true;
-  var noiseGain = c.createGain(); noiseGain.gain.value = 0.35;
-  noiseSrc.connect(noiseGain);
+  var noiseLevelGain = c.createGain(); noiseLevelGain.gain.value = 0.35;
+  var noiseModGain = c.createGain(); noiseModGain.gain.value = 1;
+  noiseSrc.connect(noiseLevelGain); noiseLevelGain.connect(noiseModGain);
   noiseSrc.start();
-  nodes.noise = { gain: noiseGain, outNode: noiseGain };
+  nodes.noise = { levelGain:noiseLevelGain, modGain:noiseModGain, outNode:noiseModGain, type:'white', rate:40, modNodes:[], timer:null };
+
+  // SONAR — a self-pinging sine burst through a short feedback delay
+  var sonarOsc = c.createOscillator(); sonarOsc.type='sine'; sonarOsc.frequency.value = 900;
+  var sonarEnvGain = c.createGain(); sonarEnvGain.gain.value = 0;
+  sonarOsc.connect(sonarEnvGain); sonarOsc.start();
+  var sonarDelay = c.createDelay(1.0); sonarDelay.delayTime.value = 0.22;
+  var sonarFeedback = c.createGain(); sonarFeedback.gain.value = 0.3;
+  var sonarMix = c.createGain(); sonarMix.gain.value = 1;
+  sonarEnvGain.connect(sonarMix);
+  sonarEnvGain.connect(sonarDelay); sonarDelay.connect(sonarFeedback); sonarFeedback.connect(sonarDelay); sonarDelay.connect(sonarMix);
+  var sonarAnalyser = c.createAnalyser(); sonarAnalyser.fftSize = 512;
+  sonarMix.connect(sonarAnalyser);
+  nodes.sonar = { osc:sonarOsc, envGain:sonarEnvGain, feedback:sonarFeedback, outNode:sonarMix, analyser:sonarAnalyser, rate:50, tone:900, echo:35, timer:null };
+
+  // TRILL — a vibrato-modulated carrier gated into short randomized chirp bursts
+  var trillCarrier = c.createOscillator(); trillCarrier.type='sine'; trillCarrier.frequency.value = 1800;
+  var trillVibrato = c.createOscillator(); trillVibrato.type='sine'; trillVibrato.frequency.value = 28;
+  var trillVibratoDepth = c.createGain(); trillVibratoDepth.gain.value = 60;
+  trillVibrato.connect(trillVibratoDepth); trillVibratoDepth.connect(trillCarrier.frequency);
+  trillVibrato.start();
+  var trillGate = c.createGain(); trillGate.gain.value = 0;
+  trillCarrier.connect(trillGate); trillCarrier.start();
+  var trillAnalyser = c.createAnalyser(); trillAnalyser.fftSize = 512;
+  trillGate.connect(trillAnalyser);
+  nodes.trill = { carrier:trillCarrier, vibratoDepth:trillVibratoDepth, gate:trillGate, outNode:trillGate, analyser:trillAnalyser, pitch:1800, warble:60, density:50, timer:null };
+
+  // MANGLE — ring modulator (carrier feeding the gain AudioParam multiplies the signal) into a bitcrush waveshaper
+  var mangleIn = c.createGain(); mangleIn.gain.value = 1;
+  var mangleCarrier = c.createOscillator(); mangleCarrier.type='sine'; mangleCarrier.frequency.value = 220;
+  var mangleRing = c.createGain(); mangleRing.gain.value = 0;
+  mangleIn.connect(mangleRing);
+  mangleCarrier.connect(mangleRing.gain);
+  mangleCarrier.start();
+  var mangleShaper = c.createWaveShaper(); mangleShaper.curve = buildCrushCurve(0); mangleShaper.oversample = '2x';
+  mangleRing.connect(mangleShaper);
+  var mangleOut = c.createGain(); mangleOut.gain.value = 1;
+  mangleShaper.connect(mangleOut);
+  var mangleAnalyser = c.createAnalyser(); mangleAnalyser.fftSize = 512;
+  mangleOut.connect(mangleAnalyser);
+  nodes.mangle = { inNode:mangleIn, carrier:mangleCarrier, shaper:mangleShaper, outNode:mangleOut, analyser:mangleAnalyser, freq:220, crush:0 };
+
+  // ECHO — delay with feedback, mixed with dry signal
+  var echoIn = c.createGain(); echoIn.gain.value = 1;
+  var echoDelay = c.createDelay(2.0); echoDelay.delayTime.value = 0.3;
+  var echoFeedback = c.createGain(); echoFeedback.gain.value = 0.4;
+  var echoWet = c.createGain(); echoWet.gain.value = 0.5;
+  var echoDry = c.createGain(); echoDry.gain.value = 0.5;
+  var echoOut = c.createGain(); echoOut.gain.value = 1;
+  echoIn.connect(echoDry); echoDry.connect(echoOut);
+  echoIn.connect(echoDelay); echoDelay.connect(echoFeedback); echoFeedback.connect(echoDelay); echoDelay.connect(echoWet); echoWet.connect(echoOut);
+  var echoAnalyser = c.createAnalyser(); echoAnalyser.fftSize = 512;
+  echoOut.connect(echoAnalyser);
+  nodes.echo = { inNode:echoIn, delay:echoDelay, feedback:echoFeedback, wet:echoWet, dry:echoDry, outNode:echoOut, analyser:echoAnalyser };
 
   // OSC
   var osc = c.createOscillator(); osc.type='sawtooth'; osc.frequency.value = 220;
@@ -433,6 +578,10 @@ function build(){
   var analyser = c.createAnalyser(); analyser.fftSize = 1024;
   master.connect(analyser); analyser.connect(c.destination);
   nodes.output = { node:master, analyser:analyser };
+
+  applyNoiseType('white');
+  scheduleSonar();
+  scheduleTrill();
 }
 
 /* ===================== patch connections ===================== */
@@ -450,7 +599,15 @@ var JACKS = {
   'vca.in': {dir:'in', kind:'audio', target:function(){ return nodes.vca.node; }},
   'vca.cv.in': {dir:'in', kind:'cv', param:function(){ return nodes.vca.node.gain; }},
   'vca.out': {dir:'out', kind:'audio', get:function(){ return nodes.vca.outNode; }},
-  'output.in': {dir:'in', kind:'audio', target:function(){ return nodes.output.node; }}
+  'output.in': {dir:'in', kind:'audio', target:function(){ return nodes.output.node; }},
+  'sonar.trig.in': {dir:'in', kind:'trig'},
+  'sonar.out': {dir:'out', kind:'audio', get:function(){ return nodes.sonar.outNode; }},
+  'trill.trig.in': {dir:'in', kind:'trig'},
+  'trill.out': {dir:'out', kind:'audio', get:function(){ return nodes.trill.outNode; }},
+  'mangle.in': {dir:'in', kind:'audio', target:function(){ return nodes.mangle.inNode; }},
+  'mangle.out': {dir:'out', kind:'audio', get:function(){ return nodes.mangle.outNode; }},
+  'echo.in': {dir:'in', kind:'audio', target:function(){ return nodes.echo.inNode; }},
+  'echo.out': {dir:'out', kind:'audio', get:function(){ return nodes.echo.outNode; }}
 };
 
 var connections = []; // {from, to}
@@ -501,6 +658,138 @@ function triggerEnv(){
 }
 trigListeners['env.trig.in'] = [triggerEnv];
 
+/* ===================== sonar ping ===================== */
+function triggerSonarPing(){
+  var c = ctx(), now = c.currentTime;
+  var tone = nodes.sonar.tone;
+  var f = nodes.sonar.osc.frequency;
+  f.cancelScheduledValues(now);
+  f.setValueAtTime(tone*1.6, now);
+  f.exponentialRampToValueAtTime(Math.max(40, tone*0.7), now+0.35);
+  var g = nodes.sonar.envGain.gain;
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(0, now);
+  g.linearRampToValueAtTime(0.7, now+0.008);
+  g.setTargetAtTime(0, now+0.02, 0.12);
+}
+trigListeners['sonar.trig.in'] = [triggerSonarPing];
+function scheduleSonar(){
+  triggerSonarPing();
+  var speed = nodes.sonar.rate/100;
+  var interval = (2400 - speed*2100) + Math.random()*200;
+  nodes.sonar.timer = setTimeout(scheduleSonar, interval);
+}
+
+/* ===================== trill chirp ===================== */
+function triggerTrillChirp(){
+  var c = ctx(), now = c.currentTime;
+  var burstLen = 0.03 + Math.random()*0.09;
+  var g = nodes.trill.gate.gain;
+  g.cancelScheduledValues(now);
+  g.setValueAtTime(0, now);
+  g.linearRampToValueAtTime(0.55, now+0.006);
+  g.setTargetAtTime(0, now+burstLen, 0.02);
+  var base = nodes.trill.pitch, f = nodes.trill.carrier.frequency;
+  f.cancelScheduledValues(now);
+  f.setValueAtTime(base*0.85, now);
+  f.exponentialRampToValueAtTime(base*1.15, now+burstLen);
+}
+trigListeners['trill.trig.in'] = [triggerTrillChirp];
+function scheduleTrill(){
+  var clusterSize = 1 + Math.floor(Math.random()*3), i = 0;
+  function fireCluster(){
+    triggerTrillChirp();
+    i++;
+    if(i < clusterSize){ nodes.trill.timer = setTimeout(fireCluster, 60 + Math.random()*60); }
+    else {
+      var density = nodes.trill.density/100;
+      var pause = (2200 - density*1900) + Math.random()*400;
+      nodes.trill.timer = setTimeout(scheduleTrill, pause);
+    }
+  }
+  fireCluster();
+}
+
+/* ===================== mangle waveshaper curve ===================== */
+function buildCrushCurve(amount){
+  var steps = Math.max(2, Math.round(500 - (amount/100)*498));
+  var n = 1024, curve = new Float32Array(n);
+  for(var i=0;i<n;i++){
+    var x = i/(n-1)*2-1;
+    curve[i] = Math.round(x*steps)/steps;
+  }
+  return curve;
+}
+
+/* ===================== noise type / pattern generator =====================
+   "white" is the buffer's raw output, unmodulated. The other three types
+   drive a second gain stage (nodes.noise.modGain, 0..1) in series after the
+   level knob's gain, so the level knob still sets peak volume regardless of
+   which type is selected. */
+function buildGatePattern(str){
+  var CODE = {W:'.--', H:'....', '6':'-....', I:'..', S:'...'};
+  var events = [];
+  str.split('').forEach(function(ch, ci){
+    var sym = CODE[ch];
+    if(!sym) return;
+    sym.split('').forEach(function(mark, mi){
+      events.push({on:true, units: mark==='-' ? 3 : 1});
+      if(mi < sym.length-1) events.push({on:false, units:1});
+    });
+    events.push({on:false, units: ci < str.length-1 ? 3 : 7});
+  });
+  return events;
+}
+var NOISE_GATE_SEQUENCE = buildGatePattern('WH6HIS');
+
+function stopNoiseModulation(){
+  if(nodes.noise.timer){ clearTimeout(nodes.noise.timer); nodes.noise.timer = null; }
+  nodes.noise.modNodes.forEach(function(n){ try{ n.stop && n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} });
+  nodes.noise.modNodes = [];
+}
+function applyNoiseType(type){
+  stopNoiseModulation();
+  var c = ctx(), now = c.currentTime, g = nodes.noise.modGain.gain;
+  g.cancelScheduledValues(now);
+  nodes.noise.type = type;
+  if(type==='swell'){
+    var rateHz = 0.03 + (nodes.noise.rate/100)*0.6;
+    var osc = c.createOscillator(); osc.type='sine'; osc.frequency.value = rateHz;
+    var shift = c.createConstantSource(); shift.offset.value = 0.5;
+    var scale = c.createGain(); scale.gain.value = 0.5;
+    osc.connect(scale); scale.connect(g); shift.connect(g);
+    g.setValueAtTime(0, now);
+    osc.start(); shift.start();
+    nodes.noise.modNodes = [osc, shift, scale];
+  } else if(type==='strobe'){
+    g.setValueAtTime(1, now);
+    (function tick(){
+      var lvl = Math.random() < 0.5 ? 0 : (0.4 + Math.random()*0.6);
+      var gg = nodes.noise.modGain.gain, t = ctx().currentTime;
+      gg.cancelScheduledValues(t);
+      gg.setTargetAtTime(lvl, t, 0.004);
+      var speed = nodes.noise.rate/100;
+      var interval = (260 - speed*220) + Math.random()*80;
+      nodes.noise.timer = setTimeout(tick, interval);
+    })();
+  } else if(type==='beacon'){
+    g.setValueAtTime(0, now);
+    var idx = 0;
+    (function tick(){
+      var ev = NOISE_GATE_SEQUENCE[idx % NOISE_GATE_SEQUENCE.length];
+      idx++;
+      var gg = nodes.noise.modGain.gain, t = ctx().currentTime;
+      gg.cancelScheduledValues(t);
+      gg.setTargetAtTime(ev.on ? 1 : 0, t, 0.003);
+      var speed = nodes.noise.rate/100;
+      var unitMs = 150 - speed*100;
+      nodes.noise.timer = setTimeout(tick, ev.units*unitMs);
+    })();
+  } else {
+    g.setValueAtTime(1, now);
+  }
+}
+
 /* ===================== clock / sequencer (lookahead scheduling) ===================== */
 var STEP_COUNT = 8;
 var steps = [true,false,true,false,true,true,false,false];
@@ -537,7 +826,19 @@ function paramSet(path, val){
   var parts = path.split('.');
   if(path==='clock.bpm'){ bpm = val; document.getElementById('bpmVal').textContent = Math.round(val); }
   else if(path==='clock.chance'){ chance = val; }
-  else if(path==='noise.level'){ nodes.noise.gain.gain.value = val/100*0.8; }
+  else if(path==='noise.level'){ nodes.noise.levelGain.gain.value = val/100*0.8; }
+  else if(path==='noise.rate'){ nodes.noise.rate = val; }
+  else if(path==='sonar.rate'){ nodes.sonar.rate = val; }
+  else if(path==='sonar.tone'){ nodes.sonar.tone = val; }
+  else if(path==='sonar.echo'){ nodes.sonar.echo = val; nodes.sonar.feedback.gain.setTargetAtTime(val/100*0.85, ctx().currentTime, 0.02); }
+  else if(path==='trill.pitch'){ nodes.trill.pitch = val; }
+  else if(path==='trill.warble'){ nodes.trill.warble = val; nodes.trill.vibratoDepth.gain.setTargetAtTime(val, ctx().currentTime, 0.02); }
+  else if(path==='trill.density'){ nodes.trill.density = val; }
+  else if(path==='mangle.freq'){ nodes.mangle.freq = val; nodes.mangle.carrier.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='mangle.crush'){ nodes.mangle.crush = val; nodes.mangle.shaper.curve = buildCrushCurve(val); }
+  else if(path==='echo.time'){ nodes.echo.delay.delayTime.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='echo.feedback'){ nodes.echo.feedback.gain.setTargetAtTime(val/100*0.9, ctx().currentTime, 0.02); }
+  else if(path==='echo.mix'){ nodes.echo.wet.gain.setTargetAtTime(val/100, ctx().currentTime, 0.02); nodes.echo.dry.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.02); }
   else if(path==='osc.tune'){ nodes.osc.tune = val; applyOscFreq(); }
   else if(path==='osc.oct'){ nodes.osc.oct = val; applyOscFreq(); }
   else if(path==='lfo.rate'){ nodes.lfo.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
@@ -823,21 +1124,26 @@ function randomize(){
   buildStepsUI();
   document.querySelectorAll('.knob').forEach(function(el){
     var path = el.getAttribute('data-knob');
-    if(['lfo.rate','lfo.depth','filter.cutoff','filter.res','env.decay','env.release','clock.chance'].indexOf(path)===-1) return;
+    if(['lfo.rate','lfo.depth','filter.cutoff','filter.res','env.decay','env.release','clock.chance','noise.rate','sonar.rate','sonar.tone','trill.warble','trill.density','mangle.crush','echo.feedback','echo.mix'].indexOf(path)===-1) return;
     var r = el._getRange;
     var v = r.isLog ? r.min*Math.pow(r.max/r.min, Math.random()) : r.min + Math.random()*(r.max-r.min);
     el._setVal(v);
   });
 }
 
-/* ===================== oscilloscope ===================== */
-function drawScope(){
-  var canvas = document.getElementById('scope'), sctx = canvas.getContext('2d');
-  var data = new Uint8Array(nodes.output.analyser.fftSize);
-  function loop(){
-    requestAnimationFrame(loop);
-    if(!playing) return;
-    nodes.output.analyser.getByteTimeDomainData(data);
+/* ===================== oscilloscopes =====================
+   Every module with its own sound-shaping worth seeing (not just the final
+   mix) taps an AnalyserNode off its output — a passive fan-out that doesn't
+   touch the signal path. One shared rAF loop redraws all of them, and it
+   runs continuously (not gated on the sequencer's Play state) since several
+   of these modules make sound on their own without the Clock/transport. */
+function makeScopeDrawer(canvasId, analyser){
+  var canvas = document.getElementById(canvasId);
+  if(!canvas || !analyser) return function(){};
+  var sctx = canvas.getContext('2d');
+  var data = new Uint8Array(analyser.fftSize);
+  return function(){
+    analyser.getByteTimeDomainData(data);
     sctx.fillStyle = '#0c0b09'; sctx.fillRect(0,0,canvas.width,canvas.height);
     sctx.strokeStyle = '#ff5a36'; sctx.lineWidth = 2; sctx.beginPath();
     for(var i=0;i<data.length;i++){
@@ -845,6 +1151,19 @@ function drawScope(){
       if(i===0) sctx.moveTo(x,y); else sctx.lineTo(x,y);
     }
     sctx.stroke();
+  };
+}
+function drawScopes(){
+  var draws = [
+    makeScopeDrawer('scope', nodes.output.analyser),
+    makeScopeDrawer('sonarScope', nodes.sonar.analyser),
+    makeScopeDrawer('trillScope', nodes.trill.analyser),
+    makeScopeDrawer('mangleScope', nodes.mangle.analyser),
+    makeScopeDrawer('echoScope', nodes.echo.analyser)
+  ];
+  function loop(){
+    requestAnimationFrame(loop);
+    draws.forEach(function(fn){ fn(); });
   }
   loop();
 }
@@ -896,11 +1215,12 @@ document.querySelectorAll('select.wave').forEach(function(sel){
     if(path==='osc.wave') nodes.osc.osc.type = sel.value;
     if(path==='lfo.wave') nodes.lfo.osc.type = sel.value;
     if(path==='filter.type') nodes.filter.node.type = sel.value;
+    if(path==='noise.type') applyNoiseType(sel.value);
   });
 });
 buildStepsUI();
 initConnectionsPanel();
-if(audioReady){ renderCables(); drawScope(); } else { renderConnList(); }
+if(audioReady){ renderCables(); drawScopes(); } else { renderConnList(); }
 
 document.getElementById('playBtn').addEventListener('click', function(){
   if(!audioReady){ return; }
