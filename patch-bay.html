@@ -101,11 +101,6 @@ header .back:hover{text-decoration:underline;}
 .jack.filled .nub{box-shadow:0 0 0 3px rgba(0,0,0,0.15) inset;}
 .jack.dragtarget .nub{outline:3px solid var(--ink); outline-offset:1px;}
 .jack.selected .nub{outline:3px dashed var(--ink); outline-offset:2px;}
-@media (pointer:coarse){
-  .jack .nub{width:20px; height:20px;}
-  .jack{gap:7px;}
-  .knob{width:56px; height:56px;}
-}
 
 .knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
 .knob{width:46px; height:46px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff, #ccc 70%); border:2px solid var(--ink); position:relative; cursor:grab; touch-action:none;}
@@ -114,7 +109,51 @@ header .back:hover{text-decoration:underline;}
 .klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-soft);}
 .kval{font-size:9px; color:var(--ink);}
 
+.krange{display:none;}
+
 select.wave{font-family:var(--font-mono); font-size:10px; padding:4px 6px; border:2px solid var(--ink); border-radius:3px; background:#fff;}
+
+/* ===== touch (mobile) rework =====
+   On a coarse pointer, spatial cable-dragging can't work at all — starting a
+   drag on a jack has to suspend page scroll for that gesture, which then
+   makes an off-screen destination jack unreachable mid-drag. Rather than
+   patch around that, touch gets a different interaction entirely: the
+   spatial jacks/cables are replaced by the Connections list+form (below the
+   transport), and each knob's drag gesture is replaced by a native <input
+   type=range>, which a touchscreen already handles reliably. Fine-pointer
+   (mouse) devices are untouched. */
+.connectionsPanel{display:none;}
+@media (pointer:coarse){
+  .connectionsPanel{display:block;}
+  .jackrow{display:none;}
+  #cableSvg{display:none;}
+  .knob{display:none;}
+  .krange{display:block; width:100%;}
+  .row{flex-direction:column; align-items:stretch;}
+  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
+  .klabel{order:-1; width:56px; flex:none;}
+  .krange{order:0;}
+  .kval{order:1; width:34px; flex:none; text-align:right;}
+  select.wave{width:100%; padding:10px 8px; font-size:12px;}
+}
+.krange{-webkit-appearance:none; appearance:none; background:transparent; height:28px; margin:0;}
+.krange::-webkit-slider-runnable-track{height:6px; background:var(--line); border-radius:3px;}
+.krange::-webkit-slider-thumb{-webkit-appearance:none; width:22px; height:22px; margin-top:-8px; border-radius:50%; background:var(--ink); border:2px solid var(--panel); box-shadow:0 0 0 1px var(--ink);}
+.krange::-moz-range-track{height:6px; background:var(--line); border-radius:3px;}
+.krange::-moz-range-thumb{width:22px; height:22px; border-radius:50%; background:var(--ink); border:2px solid var(--panel); box-shadow:0 0 0 1px var(--ink);}
+
+.connectionsPanel .wrap{padding-block:14px;}
+.connectionsPanel h3{font-size:12px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px;}
+.connList{display:flex; flex-direction:column; gap:6px; margin-bottom:12px;}
+.connChip{display:flex; align-items:center; gap:8px; background:var(--panel); border:2px solid var(--ink); border-radius:4px; padding:8px 10px; font-size:11px;}
+.connChip .dot{width:10px; height:10px; border-radius:50%; border:2px solid var(--ink); flex:none;}
+.connChip .lbl{flex:1; min-width:0;}
+.connChip .connRm{font-family:var(--font-display); font-weight:900; font-size:14px; line-height:1; background:none; border:2px solid var(--ink); border-radius:3px; width:26px; height:26px; cursor:pointer; color:var(--ink); flex:none;}
+.connEmpty{font-size:11px; color:var(--ink-soft); padding:8px 2px;}
+.addCable{display:flex; flex-direction:column; gap:8px; border-top:1px dashed var(--line); padding-top:12px;}
+.addCable .fld{display:flex; flex-direction:column; gap:4px;}
+.addCable label{font-size:9px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft);}
+.addCable select{font-family:var(--font-mono); font-size:12px; padding:10px 8px; border:2px solid var(--ink); border-radius:3px; background:#fff; width:100%;}
 
 .steps{display:grid; grid-template-columns:repeat(8,1fr); gap:4px; margin-top:8px;}
 .step{aspect-ratio:1; border:2px solid var(--ink); border-radius:3px; background:#fff; cursor:pointer;}
@@ -154,7 +193,7 @@ footer a{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Generative Modular Synthesis</div>
     <h1>Patch Bay</h1>
-    <p>A small, real modular synthesizer, patched by hand instead of pre-wired — boxes, jacks, and cables in the visual language Pure Data made ordinary and TouchDesigner and vvvv still use for real-time media, in a chassis borrowed from Teenage Engineering's playful hardware. <span class="hint-fine">Drag between the colored nubs to route audio, drag a knob to turn it, hit Random for a new pattern.</span><span class="hint-coarse">Tap a colored nub, then tap another to patch a cable between them — tap a plugged nub to unplug it, or tap the same nub twice to cancel. Drag a knob up or down to turn it, hit Random for a new pattern.</span> Every cable here is a real Web Audio connection, not a diagram of one.</p>
+    <p>A small, real modular synthesizer, patched by hand instead of pre-wired — boxes, jacks, and cables in the visual language Pure Data made ordinary and TouchDesigner and vvvv still use for real-time media, in a chassis borrowed from Teenage Engineering's playful hardware. <span class="hint-fine">Drag between the colored nubs to route audio, drag a knob to turn it, hit Random for a new pattern.</span><span class="hint-coarse">Patch cables in the Connections list below the transport — pick a From and a To jack and hit Connect, tap × to unplug one. Drag a slider to shape a sound, hit Random for a new pattern.</span> Every cable here is a real Web Audio connection, not a diagram of one.</p>
   </div>
 </section>
 
@@ -163,6 +202,18 @@ footer a{color:var(--ink);}
     <button class="tbtn play" id="playBtn">▶ Play</button>
     <button class="tbtn random" id="randomBtn">⟲ Random</button>
     <span class="tstat">BPM <b id="bpmVal">96</b> · <span id="stepIndicator">step 1/8</span></span>
+  </div>
+</div>
+
+<div class="connectionsPanel">
+  <div class="wrap">
+    <h3>Connections</h3>
+    <div class="connList" id="connList"></div>
+    <div class="addCable">
+      <div class="fld"><label for="connFrom">From</label><select id="connFrom"></select></div>
+      <div class="fld"><label for="connTo">To</label><select id="connTo"></select></div>
+      <button type="button" class="tbtn" id="connAddBtn">+ Connect</button>
+    </div>
   </div>
 </div>
 
@@ -511,19 +562,31 @@ function initKnob(el){
   var ind = el.querySelector('.ind');
   var kval = document.querySelector('[data-kval="'+path+'"]');
 
-  function toAngle(v){
-    var t = isLog ? (Math.log(v/min)/Math.log(max/min)) : (v-min)/(max-min);
-    return -135 + t*270;
-  }
+  /* A dragged knob (angle + vertical pointer motion) is unreliable on a
+     touchscreen, so every knob also gets a native range input wired to the
+     same value — CSS shows only one of the two depending on pointer type. */
+  var range = document.createElement('input');
+  range.type='range'; range.className='krange'; range.min='0'; range.max='1';
+  range.step = stepQ ? String(1/(max-min)) : '0.001';
+  range.setAttribute('aria-label', path);
+  el.insertAdjacentElement('afterend', range);
+
+  function toT(v){ return isLog ? (Math.log(v/min)/Math.log(max/min)) : (v-min)/(max-min); }
+  function toAngle(v){ return -135 + toT(v)*270; }
   function render(){
     ind.style.transform = 'rotate('+toAngle(val)+'deg)';
     kval.textContent = (Math.abs(val)<10 && val%1!==0) ? val.toFixed(2) : Math.round(val*100)/100;
+    range.value = toT(val);
   }
   function setVal(v){
     v = Math.min(max, Math.max(min, v));
     if(stepQ) v = Math.round(v);
     val = v; render(); paramSet(path, val);
   }
+  range.addEventListener('input', function(){
+    var t = parseFloat(range.value);
+    setVal(isLog ? min*Math.pow(max/min, t) : min + t*(max-min));
+  });
   render(); paramSet(path, val);
 
   var dragging=false, startY=0, startVal=0;
@@ -590,6 +653,7 @@ function renderCables(tempEnd){
       svg.appendChild(path);
     }
   }
+  renderConnList();
 }
 
 /* Dragging a cable across a module boundary doesn't work on a touchscreen —
@@ -681,6 +745,65 @@ window.addEventListener('pointerup', function(e){
   if(!dragMoved){ setPending(from); }
   renderCables();
 });
+
+/* ===================== connections panel (touch patching) =====================
+   Spatial cable-dragging is replaced on a coarse pointer by this list: pick a
+   From/To jack from two selects and hit Connect, or tap × on an existing
+   cable to unplug it. It stays in sync with the spatial UI too — renderCables()
+   calls renderConnList() below, so a cable patched by mouse-drag on a
+   fine-pointer device still shows up here (and vice versa) on a hybrid device. */
+function jackLabel(id){
+  var el = document.querySelector('[data-jack="'+id+'"]');
+  if(!el) return id;
+  var mod = el.closest('.module');
+  var modName = mod ? mod.querySelector('.mname').textContent : '';
+  return modName+' '+el.textContent.trim()+' · '+JACKS[id].kind;
+}
+var connFromSel = document.getElementById('connFrom');
+var connToSel = document.getElementById('connTo');
+function refreshConnTo(){
+  if(!connFromSel.value) return;
+  var kind = JACKS[connFromSel.value].kind;
+  connToSel.innerHTML = '';
+  Object.keys(JACKS).filter(function(id){ return JACKS[id].dir==='in' && JACKS[id].kind===kind; }).forEach(function(id){
+    var o = document.createElement('option'); o.value = id; o.textContent = jackLabel(id);
+    connToSel.appendChild(o);
+  });
+}
+function initConnectionsPanel(){
+  Object.keys(JACKS).filter(function(id){ return JACKS[id].dir==='out'; }).forEach(function(id){
+    var o = document.createElement('option'); o.value = id; o.textContent = jackLabel(id);
+    connFromSel.appendChild(o);
+  });
+  refreshConnTo();
+  connFromSel.addEventListener('change', refreshConnTo);
+  document.getElementById('connAddBtn').addEventListener('click', function(){
+    if(connFromSel.value && connToSel.value) connect(connFromSel.value, connToSel.value);
+  });
+}
+function renderConnList(){
+  var list = document.getElementById('connList');
+  if(!list) return;
+  list.innerHTML = '';
+  if(!connections.length){
+    var empty = document.createElement('div');
+    empty.className = 'connEmpty';
+    empty.textContent = 'Nothing patched — everything is silent until you connect something.';
+    list.appendChild(empty);
+    return;
+  }
+  connections.forEach(function(cn){
+    var chip = document.createElement('div'); chip.className = 'connChip';
+    var dot = document.createElement('span'); dot.className = 'dot';
+    dot.style.background = 'var(--'+JACKS[cn.from].kind+'-c)';
+    var lbl = document.createElement('span'); lbl.className = 'lbl';
+    lbl.textContent = jackLabel(cn.from)+' → '+jackLabel(cn.to);
+    var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'connRm'; rm.textContent = '×';
+    rm.addEventListener('click', function(){ disconnect(cn.from, cn.to); });
+    chip.appendChild(dot); chip.appendChild(lbl); chip.appendChild(rm);
+    list.appendChild(chip);
+  });
+}
 
 /* ===================== steps UI ===================== */
 function buildStepsUI(){
@@ -776,7 +899,8 @@ document.querySelectorAll('select.wave').forEach(function(sel){
   });
 });
 buildStepsUI();
-if(audioReady){ renderCables(); drawScope(); }
+initConnectionsPanel();
+if(audioReady){ renderCables(); drawScope(); } else { renderConnList(); }
 
 document.getElementById('playBtn').addEventListener('click', function(){
   if(!audioReady){ return; }
