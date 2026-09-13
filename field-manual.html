@@ -1,0 +1,1422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Field Manual — Knowledge Network</title>
+<meta name="description" content="A practical handbook for finding, verifying, and preserving information across the web, archives, and scientific literature — research methodology, OSINT, web archives, and scientific-literature navigation in one reference.">
+<link rel="canonical" href="https://followorbounce.github.io/field-manual">
+<meta name="theme-color" content="#ECF0F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="The Verification Field Manual">
+<meta property="og:description" content="A practical handbook for finding, verifying, and preserving information across the web, archives, and scientific literature.">
+<meta property="og:url" content="https://followorbounce.github.io/field-manual">
+<style>
+:root{
+  --paper:#ECF0F1; --paper-raised:#F8FAF9; --paper-sunken:#DEE5E5;
+  --ink:#1A2027; --ink-soft:#4E5A63; --ink-faint:#7C8891;
+  --line:#C7D0D1; --line-strong:#A7B2B4;
+  --accent:#2C4A6E; --accent-soft:#DCE5EC; --accent-ink:#F3F6F9;
+  --flag:#8A5A17; --flag-soft:#EFE1CB;
+  --conf-1:#1F7A4C; --conf-2:#4C8B4A; --conf-3:#8A8B3E; --conf-4:#8A5A17; --conf-5:#6B7280; --conf-6:#A23B2E;
+  --font-display:'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --font-body:'Source Serif 4', Georgia, 'Times New Roman', serif;
+  --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --rail-w:272px; --header-h:49px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#10141A; --paper-raised:#171C23; --paper-sunken:#0B0E12;
+    --ink:#DFE5E8; --ink-soft:#A6B0B8; --ink-faint:#727D85;
+    --line:#2B333B; --line-strong:#3C454E;
+    --accent:#7FA8D4; --accent-soft:#1C2732; --accent-ink:#0C1219;
+    --flag:#D99B4E; --flag-soft:#2E2419;
+    --conf-1:#5FC996; --conf-2:#8FC96E; --conf-3:#C9C766; --conf-4:#D99B4E; --conf-5:#96A2AC; --conf-6:#E0685A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#10141A; --paper-raised:#171C23; --paper-sunken:#0B0E12;
+  --ink:#DFE5E8; --ink-soft:#A6B0B8; --ink-faint:#727D85;
+  --line:#2B333B; --line-strong:#3C454E;
+  --accent:#7FA8D4; --accent-soft:#1C2732; --accent-ink:#0C1219;
+  --flag:#D99B4E; --flag-soft:#2E2419;
+  --conf-1:#5FC996; --conf-2:#8FC96E; --conf-3:#C9C766; --conf-4:#D99B4E; --conf-5:#96A2AC; --conf-6:#E0685A;
+}
+
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16.5px; line-height:1.62;}
+::selection{background:var(--accent); color:var(--accent-ink);}
+a{color:var(--accent);}
+code, kbd{font-family:var(--font-mono); font-size:0.86em; background:var(--paper-sunken); padding:0.08em 0.36em; border-radius:2px; color:var(--ink);}
+h1,h2,h3,h4{font-family:var(--font-display); font-weight:700; text-wrap:balance; color:var(--ink); margin:0;}
+p{margin:0 0 1em; max-width:70ch;}
+strong{color:var(--ink); font-weight:700;}
+
+/* ===== layout shell ===== */
+.shell{display:flex; min-height:100vh;}
+.rail{
+  width:var(--rail-w); flex:none; position:fixed; top:var(--header-h); left:0; bottom:0;
+  background:var(--paper-raised); border-right:1px solid var(--line);
+  overflow-y:auto; padding:22px 0 16px; z-index:40;
+}
+.rail-brand{display:flex; align-items:center; gap:10px; padding:0 20px 18px; border-bottom:1px solid var(--line); margin-bottom:6px;}
+.rail-mark{font-size:20px;}
+.rail-name{font-family:var(--font-display); font-weight:700; font-size:12px; letter-spacing:0.14em; color:var(--ink);}
+.rail-sub{display:block; font-family:var(--font-mono); font-size:9.5px; color:var(--ink-faint); letter-spacing:0.08em; margin-top:2px;}
+.rail-list{list-style:none; margin:0; padding:6px 10px;}
+.rail-list a{
+  display:flex; align-items:baseline; gap:10px; text-decoration:none; color:var(--ink-soft);
+  padding:7px 10px; border-radius:2px; font-size:12.5px; line-height:1.3;
+  border-left:3px solid transparent;
+}
+.rail-list a:hover{background:var(--accent-soft); color:var(--ink);}
+.rail-list a.active{background:var(--accent-soft); color:var(--ink); border-left-color:var(--accent);}
+.rail-num{font-family:var(--font-mono); font-weight:700; color:var(--accent); font-size:11px; flex:none; width:18px;}
+.rail-label{font-family:var(--font-mono);}
+.rail-foot{padding:14px 20px 0; border-top:1px solid var(--line); margin-top:10px;}
+.rail-foot a{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); text-decoration:none;}
+.rail-foot a:hover{color:var(--accent);}
+
+.content{margin-left:var(--rail-w); flex:1; min-width:0; padding:0;}
+.gutter{max-width:920px; margin:0 auto; padding-inline:56px;}
+
+/* ===== site header (shared "Knowledge Network" chrome) ===== */
+header.site{height:var(--header-h); display:flex; align-items:center; border-bottom:1px solid var(--line-strong); position:sticky; top:0; background:var(--paper-raised); z-index:50;}
+header.site .wrap{width:100%; padding-inline:24px; display:flex; align-items:center; justify-content:space-between; gap:14px;}
+header.site .brand{font-family:var(--font-display); font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); flex:0 1 auto; min-width:0; overflow:hidden; white-space:nowrap; text-overflow:ellipsis;}
+header.site .back{flex:none;}
+header.site .navToggle{
+  display:none; font-family:var(--font-display); font-weight:700; font-size:11px; letter-spacing:0.05em;
+  background:var(--paper); color:var(--ink); border:1px solid var(--line-strong);
+  padding:7px 12px; border-radius:3px; cursor:pointer; margin-left:auto; flex:none; white-space:nowrap;
+}
+header.site .back{font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); text-decoration:none;}
+header.site .back:hover{color:var(--accent);}
+
+.backdrop{display:none;}
+
+@media (max-width:900px){
+  .rail{transform:translateX(-100%); transition:transform .22s ease; box-shadow:2px 0 24px rgba(0,0,0,0.25);}
+  body.nav-open .rail{transform:translateX(0);}
+  .content{margin-left:0;}
+  header.site .navToggle{display:block;}
+  .gutter{padding-inline:20px;}
+  body.nav-open .backdrop{display:block; position:fixed; top:var(--header-h); left:0; right:0; bottom:0; background:rgba(0,0,0,0.35); z-index:35;}
+}
+@media (max-width:520px){ body{font-size:15.5px;} header.site .wrap{padding-inline:16px;} }
+
+/* ===== cover ===== */
+.cover{padding:70px 0 46px; border-bottom:1px solid var(--line);}
+.cover .eyebrow{font-family:var(--font-mono); font-size:11px; letter-spacing:0.18em; text-transform:uppercase; color:var(--flag); margin-bottom:16px;}
+.cover h1{font-size:clamp(2rem,4.4vw,3.1rem); line-height:1.05; letter-spacing:-0.01em; max-width:16ch;}
+.cover .role-line{font-family:var(--font-mono); font-size:12.5px; color:var(--ink-soft); margin-top:20px; line-height:1.8; max-width:62ch;}
+.card{
+  background:var(--paper-raised); border:1px solid var(--line); border-left:3px solid var(--accent);
+  padding:18px 22px; margin-top:26px; border-radius:2px;
+}
+.card p{margin-bottom:0.7em; max-width:none;}
+.card p:last-child{margin-bottom:0;}
+.howto{margin-top:22px;}
+.howto h2{font-size:12px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.howto ul{margin:0; padding-left:1.2em;}
+.howto li{margin-bottom:0.5em;}
+
+.toc-grid{display:grid; grid-template-columns:1fr 1fr; gap:2px 28px; margin-top:34px;}
+@media (max-width:640px){ .toc-grid{grid-template-columns:1fr;} }
+.toc-grid a{
+  display:flex; gap:12px; align-items:baseline; text-decoration:none; color:var(--ink);
+  padding:9px 0; border-bottom:1px solid var(--line); font-size:14.5px;
+}
+.toc-grid a:hover .toc-title{color:var(--accent);}
+.toc-num{font-family:var(--font-mono); font-weight:700; color:var(--flag); font-size:12px; flex:none; width:20px;}
+.toc-title{font-family:var(--font-mono); font-size:12.5px;}
+
+/* ===== parts ===== */
+.part{padding:56px 0 10px; border-bottom:1px solid var(--line);}
+.part:last-of-type{border-bottom:none;}
+.part-eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; color:var(--flag);}
+.part h2{font-size:clamp(1.5rem,3vw,2.1rem); margin-top:8px; letter-spacing:-0.01em; text-transform:uppercase;}
+.part-rule{height:2px; background:var(--ink); width:56px; margin-top:18px;}
+
+.sub{margin-top:44px;}
+.sub h3{font-size:1.05rem; letter-spacing:0.01em; display:flex; align-items:baseline; gap:10px;}
+.sub h3 .snum{color:var(--accent); font-size:0.85em;}
+.sub > p, .sub > ul, .sub > ol{margin-top:14px;}
+.sub h4{font-family:var(--font-body); font-weight:700; font-style:italic; font-size:1.08rem; margin-top:22px; margin-bottom:8px; color:var(--ink);}
+
+ul,ol{padding-left:1.3em; margin:0 0 1em; max-width:70ch;}
+li{margin-bottom:0.42em;}
+li:last-child{margin-bottom:0;}
+
+/* ===== tables (ledger) ===== */
+.tablewrap{overflow-x:auto; margin:18px 0 8px;}
+table.ledger{border-collapse:collapse; width:100%; min-width:560px; font-size:14.5px;}
+table.ledger th{
+  font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.07em; text-transform:uppercase;
+  color:var(--ink-faint); text-align:left; padding:0 14px 10px 0; border-bottom:2px solid var(--ink);
+}
+table.ledger td{padding:12px 14px 12px 0; border-bottom:1px solid var(--line); vertical-align:top;}
+table.ledger tr:last-child td{border-bottom:1px solid var(--line-strong);}
+table.ledger td:first-child, table.ledger th:first-child{padding-left:2px;}
+table.ledger td strong{font-family:var(--font-mono); font-size:0.95em;}
+
+/* ===== source cards (Part 6 catalog style) ===== */
+.srcname{font-family:var(--font-mono); font-weight:700; font-size:15px; margin-top:26px; padding-bottom:8px; border-bottom:1px dashed var(--line-strong); display:flex; align-items:baseline; gap:10px;}
+.srcname .tag{font-family:var(--font-mono); font-size:9.5px; color:var(--ink-faint); letter-spacing:0.06em; text-transform:uppercase; font-weight:400;}
+dl.spec{margin:12px 0 0; display:grid; grid-template-columns:120px 1fr; gap:6px 16px;}
+@media (max-width:560px){ dl.spec{grid-template-columns:1fr;} }
+dl.spec dt{font-family:var(--font-mono); font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--flag); padding-top:2px;}
+dl.spec dd{margin:0; font-size:15px;}
+
+/* ===== diagrams ===== */
+.diagram{
+  position:relative; background:var(--paper-sunken); border:1px solid var(--line-strong);
+  padding:22px 18px 18px; margin:20px 0; overflow-x:auto; border-radius:2px;
+}
+.diagram::before{
+  content:attr(data-fig); position:absolute; top:-1px; left:14px; transform:translateY(-50%);
+  background:var(--ink); color:var(--paper); font-family:var(--font-mono); font-size:9.5px;
+  letter-spacing:0.08em; padding:3px 8px; text-transform:uppercase;
+}
+.diagram pre{margin:0; font-family:var(--font-mono); font-size:12px; line-height:1.5; color:var(--ink); white-space:pre;}
+
+/* ===== callouts ===== */
+.note{border:1px solid var(--line); border-left:3px solid var(--flag); background:var(--flag-soft); padding:14px 18px; margin:20px 0; border-radius:2px;}
+.note p{margin-bottom:0.5em;}
+.note p:last-child{margin-bottom:0;}
+.note .note-label{font-family:var(--font-mono); font-size:10px; letter-spacing:0.1em; text-transform:uppercase; color:var(--flag); display:block; margin-bottom:6px;}
+
+/* ===== checklists ===== */
+ul.checklist{list-style:none; padding-left:0; margin:16px 0;}
+ul.checklist li{position:relative; padding-left:30px; margin-bottom:9px;}
+ul.checklist li::before{
+  content:''; position:absolute; left:0; top:0.32em; width:14px; height:14px;
+  border:2px solid var(--ink-soft); border-radius:2px;
+}
+
+/* ===== confidence legend ===== */
+.conf-dot{display:inline-block; width:9px; height:9px; border-radius:50%; margin-right:8px; flex:none;}
+.conf-1{background:var(--conf-1);} .conf-2{background:var(--conf-2);} .conf-3{background:var(--conf-3);}
+.conf-4{background:var(--conf-4);} .conf-5{background:var(--conf-5);} .conf-6{background:var(--conf-6);}
+.conf-cell{display:flex; align-items:baseline;}
+
+/* ===== workflow cards (Part 11) ===== */
+.wf{border:1px solid var(--line); border-radius:2px; margin:22px 0; overflow:hidden;}
+.wf-head{background:var(--paper-raised); padding:12px 18px; border-bottom:1px solid var(--line); font-family:var(--font-mono); font-weight:700; font-size:13px; letter-spacing:0.03em;}
+.wf-body{padding:16px 18px 4px;}
+
+.dossier-block{background:var(--paper-sunken); border:1px solid var(--line-strong); border-radius:2px; padding:18px 20px; margin:18px 0; font-family:var(--font-mono); font-size:12.5px; line-height:1.75; white-space:pre-wrap;}
+
+/* ===== appendix quick cards ===== */
+.qcard-grid{display:grid; grid-template-columns:repeat(2,1fr); gap:18px; margin-top:24px;}
+@media (max-width:700px){ .qcard-grid{grid-template-columns:1fr;} }
+.qcard{border:1px solid var(--line); padding:16px 18px; border-radius:2px; background:var(--paper-raised);}
+.qcard h4{font-family:var(--font-display); font-size:12px; letter-spacing:0.06em; text-transform:uppercase; margin-bottom:10px; color:var(--accent); font-style:normal;}
+.qcard ol, .qcard ul{margin:0; padding-left:1.15em; font-size:13.5px;}
+.qcard li{margin-bottom:0.4em;}
+
+/* ===== colophon ===== */
+.colophon{padding:50px 0 90px;}
+.colophon p{font-style:italic; color:var(--ink-soft); font-size:14.5px; max-width:60ch; border-top:1px solid var(--line); padding-top:22px;}
+
+/* ===== site footer (shared chrome) ===== */
+.site-footer{border-top:1px solid var(--line-strong); margin-left:var(--rail-w);}
+.site-footer-wrap{padding:22px 56px; font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);}
+.site-footer-wrap a{color:var(--ink-soft);}
+.site-footer-wrap a:hover{color:var(--accent);}
+@media (max-width:900px){ .site-footer{margin-left:0;} .site-footer-wrap{padding:18px 20px;} }
+
+@media print{
+  .rail, header.site .navToggle, .backdrop, .site-footer{display:none !important;}
+  .content{margin-left:0;}
+  body{background:#fff; color:#000;}
+}
+</style>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600;8..60,700&display=swap" rel="stylesheet">
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <button class="navToggle" id="navToggle">☰ Contents</button>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+<div class="backdrop" id="backdrop"></div>
+
+<div class="shell">
+  <nav class="rail" id="rail">
+    <div class="rail-brand">
+      <span class="rail-mark">🗂️</span>
+      <span>
+        <span class="rail-name">FIELD MANUAL</span>
+        <span class="rail-sub">Rev. 1 · Public Edition</span>
+      </span>
+    </div>
+    <ol class="rail-list">
+      <li><a href="#cover"><span class="rail-num">—</span><span class="rail-label">Cover</span></a></li>
+      <li><a href="#part-1"><span class="rail-num">01</span><span class="rail-label">Understanding Information</span></a></li>
+      <li><a href="#part-2"><span class="rail-num">02</span><span class="rail-label">Search Engines</span></a></li>
+      <li><a href="#part-3"><span class="rail-num">03</span><span class="rail-label">Structure of the Internet</span></a></li>
+      <li><a href="#part-4"><span class="rail-num">04</span><span class="rail-label">Internet History</span></a></li>
+      <li><a href="#part-5"><span class="rail-num">05</span><span class="rail-label">Web Archives</span></a></li>
+      <li><a href="#part-6"><span class="rail-num">06</span><span class="rail-label">Scientific Systems</span></a></li>
+      <li><a href="#part-7"><span class="rail-num">07</span><span class="rail-label">Open Data &amp; Records</span></a></li>
+      <li><a href="#part-8"><span class="rail-num">08</span><span class="rail-label">Advanced Methods</span></a></li>
+      <li><a href="#part-9"><span class="rail-num">09</span><span class="rail-label">Knowledge Organization</span></a></li>
+      <li><a href="#part-10"><span class="rail-num">10</span><span class="rail-label">AI &amp; Discovery</span></a></li>
+      <li><a href="#part-11"><span class="rail-num">11</span><span class="rail-label">Practical Workflows</span></a></li>
+      <li><a href="#part-12"><span class="rail-num">12</span><span class="rail-label">Ethics &amp; Legality</span></a></li>
+      <li><a href="#part-13"><span class="rail-num">13</span><span class="rail-label">Appendix / Checklists</span></a></li>
+    </ol>
+    <div class="rail-foot"><a href="#cover">↑ back to cover</a></div>
+  </nav>
+
+  <main class="content" id="content">
+    <header class="cover" id="cover">
+      <div class="gutter">
+        <div class="eyebrow">Research Handbook · OSINT Reference · Archivist's Manual</div>
+        <h1>The Information Discovery, Verification &amp; Knowledge Navigation Guide</h1>
+        <div class="role-line">Research handbook · intelligence-analyst training manual · academic methodology guide · digital archivist manual · OSINT reference · internet history encyclopedia · scientific literature navigation guide</div>
+
+        <div class="card">
+          <p><strong>Purpose:</strong> give any researcher, analyst, journalist, archivist, or student a single working reference for <strong>finding</strong>, <strong>evaluating</strong>, <strong>preserving</strong>, <strong>cross-referencing</strong>, and <strong>understanding</strong> information across the modern internet, the historical internet, academic archives, public records, scientific literature, and digital knowledge systems.</p>
+          <p><strong>Core commitments:</strong> accuracy over speed, verifiability over authority, transparency of sourcing, reproducibility of method, explicit uncertainty, and ethical collection. Nothing in this guide describes how to bypass authorization, security controls, or paywalls. Every technique here is a technique of finding what is <em>legitimately findable</em> and judging it well.</p>
+        </div>
+
+        <div class="howto">
+          <h2>How to use this guide</h2>
+          <ul>
+            <li>Treat it as a reference, not a novel — jump to the Part you need via the index.</li>
+            <li>Every source listed should be verified against its live homepage before use — tools, URLs, and ownership change. Treat every named tool/database as <em>illustrative of a category of instrument</em>, not a permanent endorsement.</li>
+            <li>Checklists are meant to be copied into an actual case file or lab notebook.</li>
+            <li>"Confidence," in this guide, is always stated, never implied. If you cannot state your confidence in a claim and why, you are not done researching it.</li>
+          </ul>
+        </div>
+
+        <nav class="toc-grid" aria-label="Table of contents">
+          <a href="#part-1"><span class="toc-num">01</span><span class="toc-title">Understanding Information</span></a>
+          <a href="#part-2"><span class="toc-num">02</span><span class="toc-title">How Search Engines Work</span></a>
+          <a href="#part-3"><span class="toc-num">03</span><span class="toc-title">Structure of the Internet</span></a>
+          <a href="#part-4"><span class="toc-num">04</span><span class="toc-title">Internet History &amp; Digital Archaeology</span></a>
+          <a href="#part-5"><span class="toc-num">05</span><span class="toc-title">Web Archives</span></a>
+          <a href="#part-6"><span class="toc-num">06</span><span class="toc-title">Scientific Knowledge Systems</span></a>
+          <a href="#part-7"><span class="toc-num">07</span><span class="toc-title">Open Data &amp; Public Records</span></a>
+          <a href="#part-8"><span class="toc-num">08</span><span class="toc-title">Advanced Research Methods</span></a>
+          <a href="#part-9"><span class="toc-num">09</span><span class="toc-title">Knowledge Organization</span></a>
+          <a href="#part-10"><span class="toc-num">10</span><span class="toc-title">AI &amp; Information Discovery</span></a>
+          <a href="#part-11"><span class="toc-num">11</span><span class="toc-title">Practical Research Workflows</span></a>
+          <a href="#part-12"><span class="toc-num">12</span><span class="toc-title">Ethics &amp; Legality</span></a>
+          <a href="#part-13"><span class="toc-num">13</span><span class="toc-title">Appendix: Checklists</span></a>
+        </nav>
+      </div>
+    </header>
+
+    <!-- ============ PART 1 ============ -->
+    <section class="part" id="part-1"><div class="gutter">
+      <div class="part-eyebrow">PART · 01</div>
+      <h2>Understanding Information</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s1-1">
+        <h3><span class="snum">1.1</span> What Information Is</h3>
+        <p><strong>Data</strong> is raw, uninterpreted signal: a number, a timestamp, a pixel value, a sensor reading. It has no meaning on its own.</p>
+        <p><strong>Information</strong> is data given context and structure — data that answers a question ("the temperature was 21°C at 14:02 on the roof sensor"). Information is what most search and retrieval systems traffic in.</p>
+        <p><strong>Knowledge</strong> is information that has been integrated into a model of the world — connected to other information, tested, and made actionable ("this sensor consistently reads 2°C high, so 21°C actually means ~19°C, and that matters because the greenhouse threshold is 20°C"). Knowledge implies understanding of relationships, causes, and limits.</p>
+        <p><strong>Wisdom</strong> (a fourth, often-omitted layer) is knowing <em>when and how</em> to apply knowledge — judgment under uncertainty, including knowing what you don't know.</p>
+        <div class="diagram" data-fig="Fig. 1.1 — the pyramid"><pre>        ▲
+        │      WISDOM      "when/whether to act on it, and what could be wrong"
+        │  ────────────
+        │    KNOWLEDGE     "how it connects, why it's true, what it predicts"
+        │  ────────────
+        │    INFORMATION   "data + context: what, who, when, where"
+        │  ────────────
+        │       DATA       raw signal, no interpretation
+        └───────────────────────────────────────────────►
+                 increasing interpretation &amp; structure</pre></div>
+        <p>This matters practically: a search engine gives you <em>information</em>. Your job as a researcher is to turn it into <em>knowledge</em> — which requires provenance, corroboration, and context that the raw hit rarely carries with it.</p>
+      </div>
+
+      <div class="sub" id="s1-2">
+        <h3><span class="snum">1.2</span> Primary, Secondary, and Tertiary Sources</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Tier</th><th>Definition</th><th>Examples</th><th>Research role</th></tr>
+          <tr><td><strong>Primary</strong></td><td>Direct, first-hand evidence created at the time of the event/finding by a participant or original author</td><td>Raw datasets, lab notebooks, court filings, original legislation, a paper's own results section, a photograph, an eyewitness account, an interview transcript, an artifact</td><td>The bedrock of a claim; closest to the event</td></tr>
+          <tr><td><strong>Secondary</strong></td><td>Analysis, interpretation, or synthesis of primary sources by someone not directly involved</td><td>Review articles, textbooks, news analysis, meta-analyses, biographies, documentaries</td><td>Useful for context and synthesis, but one interpretive step removed</td></tr>
+          <tr><td><strong>Tertiary</strong></td><td>Compilations/summaries of secondary sources</td><td>Encyclopedias (including Wikipedia), textbooks, almanacs, indexes, bibliographies</td><td>Excellent for orientation and for <em>finding</em> sources via citations — weak as a final citation for a load-bearing claim</td></tr>
+        </table></div>
+        <p>Practical rule: <strong>tertiary sources are a map, not a destination.</strong> Use Wikipedia, an encyclopedia entry, or an AI summary to locate the primary/secondary sources in its citation list, then verify the claim against those.</p>
+        <p>A single artifact can be primary for one question and secondary for another — a newspaper article is a primary source <em>about media coverage of an event</em> but a secondary source <em>about the event itself</em>.</p>
+      </div>
+
+      <div class="sub" id="s1-3">
+        <h3><span class="snum">1.3</span> Authority and Credibility</h3>
+        <p>Authority and credibility are <strong>not the same thing</strong> and must be evaluated separately:</p>
+        <ul>
+          <li><strong>Authority</strong> = institutional standing, credentials, position (a government agency, a peer-reviewed journal, a named expert).</li>
+          <li><strong>Credibility</strong> = track record of being <em>correct</em>, transparent about method, and honest about uncertainty — independent of title.</li>
+        </ul>
+        <p>A source can have high authority and low credibility (an official body shown to misreport), or low authority and high credibility (an anonymous but rigorously-sourced dataset that has been independently reproduced). Evaluate both axes, never substitute one for the other.</p>
+        <p><strong>CRAAP-style evaluation</strong> (a widely used checklist, extended here):</p>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Test</th><th>Ask</th></tr>
+          <tr><td><strong>C</strong>urrency</td><td>When was it published/updated? Is the field fast-moving?</td></tr>
+          <tr><td><strong>R</strong>elevance</td><td>Does it actually address your question, or just something adjacent?</td></tr>
+          <tr><td><strong>A</strong>uthority</td><td>Who created it? What is their track record, funding, and expertise?</td></tr>
+          <tr><td><strong>A</strong>ccuracy</td><td>Can the claims be checked against other independent sources? Are methods disclosed?</td></tr>
+          <tr><td><strong>P</strong>urpose</td><td>Why does this exist — inform, sell, persuade, entertain, propagandize?</td></tr>
+          <tr><td>(ext.) <strong>Provenance</strong></td><td>Can you trace this exact artifact to its origin, or is it a copy/screenshot that's lost its chain of custody?</td></tr>
+          <tr><td>(ext.) <strong>Independence</strong></td><td>Is this actually a second source, or the same original claim re-reported?</td></tr>
+        </table></div>
+      </div>
+
+      <div class="sub" id="s1-4">
+        <h3><span class="snum">1.4</span> Scientific Evidence Hierarchy</h3>
+        <p>Not all evidence carries equal weight, even within legitimate science:</p>
+        <div class="diagram" data-fig="Fig. 1.2 — evidence ladder"><pre>STRONGEST  ┌──────────────────────────────────────────────┐
+           │ Systematic reviews &amp; meta-analyses            │
+           │ (of high-quality studies)                     │
+           ├──────────────────────────────────────────────┤
+           │ Randomized controlled trials (RCTs)           │
+           ├──────────────────────────────────────────────┤
+           │ Cohort studies (prospective)                  │
+           ├──────────────────────────────────────────────┤
+           │ Case-control studies                          │
+           ├──────────────────────────────────────────────┤
+           │ Cross-sectional studies                       │
+           ├──────────────────────────────────────────────┤
+           │ Case series / case reports                    │
+           ├──────────────────────────────────────────────┤
+           │ Expert opinion / editorials                   │
+           ├──────────────────────────────────────────────┤
+           │ Anecdote, testimonial                         │
+WEAKEST    └──────────────────────────────────────────────┘</pre></div>
+        <p>This hierarchy is domain-specific (clinical/epidemiological research) but the underlying logic generalizes: <strong>designs that control for confounding and are replicated independently outrank designs that don't</strong>, regardless of field. A single preprint, however dramatic, sits far below a replicated, peer-reviewed, meta-analyzed result — and <em>pre-registration</em> and <em>open data/code</em> push a study up in practical trustworthiness independent of where it sits on this ladder.</p>
+        <p>Also weigh: <strong>sample size, effect size, replication status, pre-registration, conflicts of interest, and whether the result has been independently reproduced.</strong> A "significant" result in one small, non-replicated study is evidence, not proof.</p>
+      </div>
+
+      <div class="sub" id="s1-5">
+        <h3><span class="snum">1.5</span> Reliability vs. Popularity</h3>
+        <p>Search rankings, social shares, view counts, and "trending" status measure <strong>engagement</strong>, not <strong>accuracy</strong>. These frequently diverge:</p>
+        <ul>
+          <li>Content optimized for engagement (novelty, outrage, confirmation of existing belief) outcompetes accurate-but-boring content in ranking/virality systems.</li>
+          <li>A highly-cited paper is not automatically correct — citation can mean "built upon," "refuted by," or even "cited as an example of bad practice."</li>
+          <li>Domain age, backlink count, and follower count are <em>reputation proxies</em>, not <em>truth proxies</em>.</li>
+        </ul>
+        <p>Treat "top result" and "most shared" as <strong>candidates to investigate</strong>, never as <strong>conclusions</strong>.</p>
+      </div>
+
+      <div class="sub" id="s1-6">
+        <h3><span class="snum">1.6</span> Truth, Uncertainty, and Confidence Levels</h3>
+        <p>Rarely does research yield binary true/false. Adopt an explicit confidence vocabulary and use it in your notes:</p>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Confidence</th><th>Meaning</th><th>Typical basis</th></tr>
+          <tr><td class="conf-cell"><span class="conf-dot conf-1"></span><strong>Confirmed</strong></td><td>Verified via multiple independent primary sources</td><td>Corroborated primary evidence</td></tr>
+          <tr><td class="conf-cell"><span class="conf-dot conf-2"></span><strong>Well-supported</strong></td><td>Consistent with converging evidence, no credible contradiction found</td><td>Multiple secondary sources agree, or one strong primary source</td></tr>
+          <tr><td class="conf-cell"><span class="conf-dot conf-3"></span><strong>Plausible</strong></td><td>Consistent with what's known, but not independently verified</td><td>Single source, no contradiction found (yet)</td></tr>
+          <tr><td class="conf-cell"><span class="conf-dot conf-4"></span><strong>Contested</strong></td><td>Credible sources disagree</td><td>Conflicting primary/secondary sources</td></tr>
+          <tr><td class="conf-cell"><span class="conf-dot conf-5"></span><strong>Unverified</strong></td><td>Claim located, but no corroborating source found</td><td>Claim exists "in the wild" only</td></tr>
+          <tr><td class="conf-cell"><span class="conf-dot conf-6"></span><strong>Disputed / Debunked</strong></td><td>Contradicted by stronger evidence</td><td>Fact-checks, retractions, replication failures</td></tr>
+        </table></div>
+        <p>Write the confidence level <em>next to every claim</em> in a research dossier. An unlabeled claim is treated by anyone reading your work as more certain than you intended.</p>
+      </div>
+
+      <div class="sub" id="s1-7">
+        <h3><span class="snum">1.7</span> Cognitive Biases That Distort Research</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Bias</th><th>What it does</th><th>Mitigation</th></tr>
+          <tr><td><strong>Confirmation bias</strong></td><td>You search for, notice, and weigh evidence that supports what you already believe</td><td>Actively search for the strongest counter-evidence first; write the counter-case first</td></tr>
+          <tr><td><strong>Anchoring</strong></td><td>The first number/claim you see distorts your judgment of everything after</td><td>Seek the range of estimates before settling, not just the first one</td></tr>
+          <tr><td><strong>Availability heuristic</strong></td><td>Recent or vivid examples feel more probable than they are</td><td>Ask for base rates / systematic counts, not anecdotes</td></tr>
+          <tr><td><strong>Authority bias</strong></td><td>Trusting a claim because of who said it, not its evidence</td><td>Ask "what is the evidence," not just "who said it"</td></tr>
+          <tr><td><strong>Bandwagon / social proof</strong></td><td>Trusting what's popular/shared</td><td>Check the primary source itself, independent of share count</td></tr>
+          <tr><td><strong>Survivorship bias</strong></td><td>Only seeing the cases that "made it"</td><td>Ask what's missing — failed experiments, delisted sites, unpublished data</td></tr>
+          <tr><td><strong>Motivated reasoning</strong></td><td>Reasoning backward from a desired conclusion</td><td>Pre-register your own research question and what would falsify it</td></tr>
+          <tr><td><strong>Automation / algorithm bias</strong></td><td>Over-trusting a ranked list or AI output because it's "systematic"</td><td>Treat rankings and AI answers as one more source to verify, not a verdict</td></tr>
+        </table></div>
+      </div>
+
+      <div class="sub" id="s1-8">
+        <h3><span class="snum">1.8</span> Misinformation, Disinformation, Propaganda &amp; Information Warfare</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Term</th><th>Definition</th><th>Intent</th></tr>
+          <tr><td><strong>Misinformation</strong></td><td>False or inaccurate information</td><td>Not necessarily deliberate — can be an honest mistake</td></tr>
+          <tr><td><strong>Disinformation</strong></td><td>False information spread deliberately</td><td>Deliberate deception</td></tr>
+          <tr><td><strong>Malinformation</strong></td><td><em>True</em> information shared with intent to harm</td><td>Deliberate harm, not falsity</td></tr>
+          <tr><td><strong>Propaganda</strong></td><td>Information deployed systematically to shape opinion/behavior</td><td>Persuasion at scale, often state- or organization-driven</td></tr>
+          <tr><td><strong>Information warfare</strong></td><td>Coordinated, often covert campaigns using the above to affect beliefs/trust</td><td>Strategic, long-horizon, multi-platform</td></tr>
+        </table></div>
+        <div class="note"><span class="note-label">Detection signal</span><p>Coordinated inauthentic behavior: near-simultaneous posting across many accounts, templated phrasing, implausible account-creation-date clustering, disproportionate amplification relative to organic engagement, cross-platform messages identical down to typos, and networks that share infrastructure (registrars, ad IDs, hosting) despite claiming to be independent. Verifying this requires the network-analysis techniques in <a href="#s8-3">Part 8.3</a>, not a single-post read.</p></div>
+      </div>
+
+      <div class="sub" id="s1-9">
+        <h3><span class="snum">1.9</span> Algorithmic Influence</h3>
+        <p>Feed ranking, recommendation, and personalization systems are themselves an information-shaping force, independent of any single piece of content:</p>
+        <ul>
+          <li><strong>Filter bubbles / echo chambers</strong> — personalization narrows the range of what you see over time based on past engagement.</li>
+          <li><strong>Engagement optimization</strong> — systems trained to maximize watch-time/clicks systematically favor emotionally activating content, which correlates with — but is not identical to — misinformation.</li>
+          <li><strong>Search-as-a-battleground</strong> (SEO / "answer engine optimization") — content is increasingly produced <em>to rank</em>, not to inform, including at scale via generative AI.</li>
+          <li><strong>Zero-click answers</strong> — when a search engine or assistant answers directly, the user often never evaluates the underlying source. Deliberately click through when the claim matters.</li>
+        </ul>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 2 ============ -->
+    <section class="part" id="part-2"><div class="gutter">
+      <div class="part-eyebrow">PART · 02</div>
+      <h2>How Search Engines Work</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s2-1">
+        <h3><span class="snum">2.1</span> The Core Pipeline</h3>
+        <div class="diagram" data-fig="Fig. 2.1 — the pipeline"><pre>┌───────────┐     ┌───────────┐     ┌───────────┐     ┌───────────┐     ┌───────────┐
+│  CRAWL    │ ──► │  PARSE /  │ ──► │   INDEX   │ ──► │   RANK    │ ──► │  SERVE     │
+│ (spiders/ │     │  EXTRACT  │     │ (inverted │     │ (query-   │     │ (results,  │
+│  bots)    │     │  content  │     │  index +  │     │  time     │     │  snippets, │
+│           │     │  &amp; links) │     │  vectors) │     │  scoring) │     │  answers)  │
+└───────────┘     └───────────┘     └───────────┘     └───────────┘     └───────────┘</pre></div>
+        <h4>Crawling (spiders / bots)</h4>
+        <p>Automated programs start from seed URLs and known sitemaps, fetch each page, extract outbound links, and queue those for future crawling. Crawl behavior is governed (voluntarily) by <code>robots.txt</code> and <code>&lt;meta name="robots"&gt;</code> directives, crawl-rate limits, and <code>sitemap.xml</code> files. Crawlers prioritize by estimated importance and change frequency.</p>
+        <h4>Parsing / extraction</h4>
+        <p>Fetched HTML (and increasingly rendered JavaScript, PDFs, OCR'd images, video transcripts) is parsed into visible text, title/meta tags, structured data (schema.org/JSON-LD), the link graph, and — for image/video — extracted metadata and learned embeddings.</p>
+        <h4>Indexing</h4>
+        <p>Text becomes an <strong>inverted index</strong>: term → documents containing it, with position/frequency/field data. Modern systems layer a <strong>vector index</strong> alongside this — every document and query becomes a dense numeric <strong>embedding</strong>, enabling semantic matching without exact keyword overlap.</p>
+        <h4>Ranking</h4>
+        <p>Candidate documents are scored on hundreds of signals:</p>
+        <ul>
+          <li><strong>Relevance</strong> — term match, proximity, field weighting, embedding similarity.</li>
+          <li><strong>Authority</strong> — link-based measures, domain trust/history, E-E-A-T signals for health/finance/legal queries.</li>
+          <li><strong>Quality/spam</strong> — thin/duplicate content detection, ad density, manipulated-link detection.</li>
+          <li><strong>User signals</strong> — click-through rate, dwell time, reformulation rate.</li>
+          <li><strong>Freshness</strong> — recency weighted heavily for time-sensitive queries.</li>
+          <li><strong>Personalization</strong> — location, language, device, history.</li>
+        </ul>
+        <h4>Link analysis and PageRank</h4>
+        <p><strong>PageRank</strong> (Google's original algorithm, now one signal among many) models the web as a graph and computes each page's importance from how many pages link to it and the importance of those linking pages, recursively. A link from a high-authority page counts far more than one from an obscure page — resistant, though not immune, to simple link-count spam.</p>
+        <h4>Semantic search, vector search, and embeddings</h4>
+        <p>Keyword search fails when a query and a document use different words for the same concept ("heart attack" vs. "myocardial infarction"). Embeddings map text to a vector such that similar meaning lands nearby in vector space; <strong>vector search</strong> finds nearest neighbors there; modern engines blend lexical and vector scores as "hybrid search," since each catches failure modes the other misses.</p>
+        <h4>AI-powered search / generative answers</h4>
+        <p>Newer search UIs retrieve candidate documents, then feed them to a language model to synthesize a direct answer with inline citations — a form of <strong>Retrieval-Augmented Generation</strong> (see <a href="#part-10">Part 10</a>). New failure modes: synthesis errors, citation mismatch, and disagreement between sources getting masked by a single confident answer.</p>
+        <h4>Search quality evaluation</h4>
+        <p>Engines are tuned using human relevance raters against published guidelines, live A/B experiments, and offline metrics like nDCG and precision/recall at k. You can informally replicate this: run the same query across engines and score each top-10 for relevance, authority, and source diversity — the fastest way to learn an engine's blind spots.</p>
+      </div>
+
+      <div class="sub" id="s2-2">
+        <h3><span class="snum">2.2</span> Comparing Major Search Engines</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Engine</th><th>Index approach</th><th>Notable strengths</th><th>Notable weaknesses</th></tr>
+          <tr><td><strong>Google</strong></td><td>Largest general index; heavy ML/AI ranking, AI Overviews</td><td>Broadest coverage, best NL and local/map integration, strongest spam-fighting</td><td>Zero-click answers reduce source visibility; heavy personalization</td></tr>
+          <tr><td><strong>Bing</strong></td><td>Large independent index; powers several "meta" engines via syndication</td><td>Strong image search, generative chat answers</td><td>Historically weaker query understanding for long-tail/colloquial queries</td></tr>
+          <tr><td><strong>Yandex</strong></td><td>Russia-based; strongest for Russian/CIS content</td><td>Best Cyrillic-script coverage; strong reverse image search</td><td>Weaker outside its core region; governance considerations for sensitive research</td></tr>
+          <tr><td><strong>Baidu</strong></td><td>China-based; dominant for Chinese-language web</td><td>Best coverage of the Chinese web</td><td>Heavily filtered per PRC regulation; weak elsewhere</td></tr>
+          <tr><td><strong>DuckDuckGo</strong></td><td>Syndicates Bing + own crawler + hundreds of source APIs</td><td>Strong privacy posture; useful <code>!bang</code> shortcuts</td><td>Index breadth bounded by syndication partners</td></tr>
+          <tr><td><strong>Brave Search</strong></td><td>Independent index + opt-in browser signal</td><td>Independent of Google/Bing; privacy-respecting</td><td>Smaller index; more variance on obscure queries</td></tr>
+          <tr><td><strong>Kagi</strong></td><td>Paid, no ads, user-controllable ranking</td><td>Highest user control (boost/block domains); not ad-funded</td><td>Subscription cost; smaller independent crawl</td></tr>
+          <tr><td><strong>Mojeek</strong></td><td>Fully independent crawler/index (UK)</td><td>True independence for verifying ranking artifacts; no tracking</td><td>Much smaller index; weaker on long-tail queries</td></tr>
+          <tr><td><strong>SearXNG</strong></td><td>Self-hostable metasearch — aggregates many engines live</td><td>No single ranking bias; highly configurable; self-hostable</td><td>Only as good as upstream sources; can be rate-limited</td></tr>
+        </table></div>
+        <p><strong>Practical rule: never rely on a single engine.</strong> Run the same query across at least one of {Google, Bing} and one independent index {Mojeek, Brave, Yandex if regionally relevant}, plus a metasearch pass. Divergence between engines is itself a signal — censorship, SEO manipulation, regional blocking, or an indexing gap.</p>
+      </div>
+
+      <div class="sub" id="s2-3">
+        <h3><span class="snum">2.3</span> Search Operators and Advanced Syntax</h3>
+        <p>These vary by engine — test each on the engine you're using, support changes over time:</p>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Operator</th><th>Effect</th><th>Example</th></tr>
+          <tr><td><code>"exact phrase"</code></td><td>Exact phrase match</td><td><code>"information warfare"</code></td></tr>
+          <tr><td><code>site:</code></td><td>Restrict to a domain/subdomain</td><td><code>site:nasa.gov</code></td></tr>
+          <tr><td><code>-term</code></td><td>Exclude a term</td><td><code>jaguar -car</code></td></tr>
+          <tr><td><code>filetype:</code></td><td>Restrict to a file type</td><td><code>filetype:pdf annual report</code></td></tr>
+          <tr><td><code>intitle:</code></td><td>Term must appear in the title</td><td><code>intitle:"research methodology"</code></td></tr>
+          <tr><td><code>inurl:</code></td><td>Term must appear in the URL</td><td><code>inurl:archive</code></td></tr>
+          <tr><td><code>intext:</code></td><td>Term must appear in body text</td><td><code>intext:"confidential"</code></td></tr>
+          <tr><td><code>related:</code></td><td>Pages related to a domain</td><td><code>related:example.com</code></td></tr>
+          <tr><td><code>OR</code> / <code>|</code></td><td>Logical OR between terms</td><td><code>python OR javascript</code></td></tr>
+          <tr><td><code>AROUND(n)</code> (Bing)</td><td>Terms within n words</td><td><code>climate AROUND(5) policy</code></td></tr>
+          <tr><td><code>*</code></td><td>Wildcard in a phrase</td><td><code>"the * of the internet"</code></td></tr>
+        </table></div>
+        <p>Combine operators for precision: <code>site:.gov filetype:pdf intitle:"environmental impact" 2023</code> — a core OSINT technique sometimes called "Google dorking" when applied systematically. Legitimate use: finding public documents that are indexed but not linked from a site's navigation. <strong>Never</strong> for accessing anything not intended to be public — see <a href="#part-12">Part 12</a>.</p>
+      </div>
+
+      <div class="sub" id="s2-4">
+        <h3><span class="snum">2.4</span> Reverse Image and Video Search</h3>
+        <p><strong>Reverse image search</strong> finds where else an image (or a visually similar one) appears online, revealing its earliest known appearance, original context, and manipulated reuses.</p>
+        <ol>
+          <li>Extract the image — get the highest-resolution original you can, not a screenshot of a screenshot.</li>
+          <li>Search it across multiple engines: Google Images, Bing Visual Search, Yandex Images (strong at faces/landscapes), TinEye (exact/near-duplicate match with earliest-found date).</li>
+          <li>Compare all appearances by date to find the earliest, and read the original caption/context.</li>
+          <li>Check manipulation cues: cloned regions, inconsistent shadows/reflections, compression-artifact mismatches, inconsistent metadata.</li>
+        </ol>
+        <p><strong>Reverse video search</strong> is harder — indexes are shallower:</p>
+        <ul>
+          <li>Extract representative key frames and reverse-image-search those individually.</li>
+          <li>Search the exact caption text and any burned-in text/timestamps.</li>
+          <li>Check the platform's own "similar videos" / re-upload detection.</li>
+          <li>Use frame-level or hash-based provenance tools where you have legitimate access.</li>
+        </ul>
+      </div>
+
+      <div class="sub" id="s2-5">
+        <h3><span class="snum">2.5</span> Metadata Analysis</h3>
+        <ul>
+          <li><strong>Images</strong> — EXIF can include camera model, timestamp, GPS, software used, but is frequently stripped on upload; absence isn't itself suspicious.</li>
+          <li><strong>Documents</strong> — author name, organization, creation/edit software and dates, revision history, or leftover hidden text — a classic technique for finding an author's real name behind an "anonymized" PDF.</li>
+          <li><strong>Web pages</strong> — HTTP headers, source comments, and structured data can reveal CMS, hosting, or publication workflow.</li>
+          <li><strong>Caveat</strong> — metadata is easy to spoof or strip; treat it as corroborating, never as sole proof.</li>
+        </ul>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 3 ============ -->
+    <section class="part" id="part-3"><div class="gutter">
+      <div class="part-eyebrow">PART · 03</div>
+      <h2>Structure of the Internet</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s3-1">
+        <h3><span class="snum">3.1</span> Surface, Deep, and Dark Web</h3>
+        <div class="diagram" data-fig="Fig. 3.1 — three layers"><pre> ┌───────────────────────────────────────────────────────────┐
+ │  SURFACE WEB  — publicly indexed by general search engines │
+ │  news sites, public wikis, public social posts, blogs      │
+ └───────────────────────────────────────────────────────────┘
+                              │
+ ┌───────────────────────────────────────────────────────────┐
+ │  DEEP WEB — online, but not indexed by general crawlers    │
+ │  paywalled journals, logged-in social content, private     │
+ │  cloud docs, most databases behind a search form, most     │
+ │  corporate intranets, academic subscription content,       │
+ │  medical records, banking portals                          │
+ └───────────────────────────────────────────────────────────┘
+                              │
+ ┌───────────────────────────────────────────────────────────┐
+ │  DARK WEB — requires special software/protocols (e.g. Tor  │
+ │  hidden services); a small subset of the deep web,         │
+ │  intentionally not discoverable via normal DNS/browsing    │
+ └───────────────────────────────────────────────────────────┘</pre></div>
+        <p>Two clarifications researchers routinely get wrong:</p>
+        <ol>
+          <li><strong>"Deep web" ≠ "dark web."</strong> The deep web is overwhelmingly mundane — simply <em>not crawled</em>, usually because it sits behind a login, a paywall, or a search form a crawler can't fill in. The dark web is a small, specific subset requiring specific software (most commonly Tor) to reach <code>.onion</code> addresses that don't resolve via ordinary DNS.</li>
+          <li><strong>Size estimates from the 2000s ("500× larger") are folklore at this point</strong> — the web's structure has changed too much (APIs, SPAs, mobile apps with no crawlable equivalent) for that number to mean anything precise today.</li>
+        </ol>
+      </div>
+
+      <div class="sub" id="s3-2">
+        <h3><span class="snum">3.2</span> Public vs. Private Systems</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>System type</th><th>Who can normally reach it</th><th>Indexed by search engines?</th></tr>
+          <tr><td>Public website</td><td>Anyone</td><td>Usually yes</td></tr>
+          <tr><td>Password-protected member area</td><td>Registered users</td><td>No — login wall blocks crawlers</td></tr>
+          <tr><td>Enterprise intranet</td><td>Employees on the corporate network/VPN</td><td>No</td></tr>
+          <tr><td>Extranet</td><td>Approved external partners</td><td>No</td></tr>
+          <tr><td>Academic subscription resource</td><td>Enrolled students/staff (IP range or login)</td><td>Partially — metadata/abstracts, rarely full text</td></tr>
+          <tr><td>Government database (public-facing)</td><td>Anyone, sometimes via a search form</td><td>Often partial; deep records behind the form usually aren't</td></tr>
+          <tr><td>Cloud storage (private)</td><td>Account owner and explicit shares</td><td>No, unless misconfigured to public</td></tr>
+          <tr><td>Remote desktop / internal admin panel</td><td>Authorized operators only</td><td>No, and should never be reachable by design</td></tr>
+          <tr><td>Distributed/peer-to-peer systems</td><td>Participants in that network/protocol</td><td>Not via conventional crawlers</td></tr>
+        </table></div>
+        <p><strong>What is publicly searchable:</strong> content a site owner has exposed without authentication, not blocked via <code>robots.txt</code>/<code>noindex</code>, and reached by a crawler.</p>
+        <p><strong>What is not indexed:</strong> content blocked by <code>robots.txt</code>, marked <code>noindex</code>, session-generated, behind a search form with no linkable URL, or simply never discovered.</p>
+        <p><strong>What is inaccessible without authorization:</strong> anything behind a login, paywall, VPN, or network boundary requiring credentials you have not been legitimately granted.</p>
+        <div class="note"><span class="note-label">Boundary, stated plainly</span><p>This guide only describes finding and evaluating information that is intentionally public, or accessed through channels you are authorized to use (a subscription, a public-records/FOIA request, a public API within its terms). <strong>It does not, and will not, provide methods for bypassing authentication, exploiting misconfigurations, evading paywalls, or accessing systems without authorization.</strong> Where a question requires access you don't have, the correct next step is a legitimate request — never a technical workaround.</p></div>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 4 ============ -->
+    <section class="part" id="part-4"><div class="gutter">
+      <div class="part-eyebrow">PART · 04</div>
+      <h2>Internet History &amp; Digital Archaeology</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s4-1">
+        <h3><span class="snum">4.1</span> Timeline of Internet Indexing &amp; Discovery Tools</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Year</th><th>System</th><th>What it was</th></tr>
+          <tr><td>1990</td><td><strong>Archie</strong></td><td>First tool to index anonymous FTP contents — arguably the first "search engine," predating the Web</td></tr>
+          <tr><td>1991</td><td><strong>Gopher</strong></td><td>Menu-driven document-retrieval protocol predating the Web's hyperlink model</td></tr>
+          <tr><td>1992</td><td><strong>Veronica</strong></td><td>A search engine for Gopher space, indexing menu titles across servers</td></tr>
+          <tr><td>1993</td><td><strong>Jughead</strong></td><td>A similar Gopher-search tool, typically scoped to one server</td></tr>
+          <tr><td>1993</td><td><strong>World Wide Web Wanderer</strong></td><td>Among the first bots to crawl the nascent Web and measure its size</td></tr>
+          <tr><td>1994</td><td><strong>Yahoo! Directory</strong></td><td>Human-curated hierarchical directory — the dominant early discovery model</td></tr>
+          <tr><td>1994</td><td><strong>WebCrawler, Lycos</strong></td><td>Early full-text web search engines</td></tr>
+          <tr><td>1994–95</td><td><strong>Excite</strong></td><td>Early concept-based (not just keyword) retrieval</td></tr>
+          <tr><td>1995</td><td><strong>AltaVista</strong></td><td>First fast, comprehensive full-text search of a large fraction of the Web</td></tr>
+          <tr><td>1996</td><td><strong>Ask Jeeves</strong></td><td>Marketed around natural-language question answering</td></tr>
+          <tr><td>1996</td><td><strong>Inktomi</strong></td><td>Powered back-end results for several major portals</td></tr>
+          <tr><td>1998</td><td><strong>Google</strong></td><td>Introduced PageRank-based link-authority ranking</td></tr>
+          <tr><td>2004</td><td><strong>Wikipedia</strong></td><td>Reaches broad mainstream adoption as a first-stop tertiary source</td></tr>
+          <tr><td>2009</td><td><strong>Bing</strong></td><td>Launches, successor to MSN/Live Search</td></tr>
+          <tr><td>2008–2010s</td><td>Social search</td><td>Algorithmic feeds rise as a parallel discovery layer</td></tr>
+          <tr><td>2010s</td><td>Knowledge-graph search</td><td>Begins answering questions directly, not just linking to pages</td></tr>
+          <tr><td>2020s</td><td>Generative/AI-answer search</td><td>RAG-based assistants begin to partially replace the ranked-list paradigm</td></tr>
+        </table></div>
+      </div>
+
+      <div class="sub" id="s4-2">
+        <h3><span class="snum">4.2</span> Why This History Matters to a Researcher</h3>
+        <ul>
+          <li><strong>Directories vs. crawlers</strong> reflect two discovery philosophies — curated-by-humans vs. discovered-by-machine — a tension that recurs today in AI-curated vs. crawler-ranked results.</li>
+          <li>Pre-Google relevance relied on <strong>keyword frequency/density</strong>, which is why early-2000s SEO was keyword stuffing — a useful dating signal for outdated pages.</li>
+          <li><strong>Gopher</strong> still technically exists and is occasionally revived by hobbyists; dedicated clients/gateways exist to browse a <code>gopher://</code> reference.</li>
+        </ul>
+      </div>
+
+      <div class="sub" id="s4-3">
+        <h3><span class="snum">4.3</span> How Historical Internet Research Is Performed</h3>
+        <ol>
+          <li><strong>Establish the object of study</strong> — a specific page, a site's evolution, a defunct service, a claim about "what the internet looked like."</li>
+          <li><strong>Triangulate across archive systems</strong> (Part 5) — no single archive has full coverage.</li>
+          <li><strong>Use secondary historical sources</strong> — contemporaneous news, Usenet archives, digitized old magazines, academic papers on internet history.</li>
+          <li><strong>Corroborate with technical artifacts</strong> — WHOIS history, DNS history, SSL certificate-transparency logs, archived <code>robots.txt</code>/<code>sitemap.xml</code>.</li>
+          <li><strong>Respect the limits of memory-by-proxy</strong> — personal recollection is primary evidence about perception, not proof of fact.</li>
+        </ol>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 5 ============ -->
+    <section class="part" id="part-5"><div class="gutter">
+      <div class="part-eyebrow">PART · 05</div>
+      <h2>Web Archives</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s5-1">
+        <h3><span class="snum">5.1</span> Major Web Archives</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Archive</th><th>What it does</th><th>Notes</th></tr>
+          <tr><td><strong>Internet Archive / Wayback Machine</strong></td><td>Largest general web archive; automated crawls plus user-submitted snapshots since 1996</td><td>Coverage uneven — driven by crawl discovery and (historically) target-site <code>robots.txt</code></td></tr>
+          <tr><td><strong>Archive.today</strong></td><td>On-demand, user-triggered full-page snapshots, independent of the Internet Archive</td><td>Excellent for capturing a page right now; does not crawl proactively</td></tr>
+          <tr><td><strong>National web archives</strong></td><td>Many countries run one (e.g. UK Web Archive/British Library)</td><td>Often scoped to a ccTLD; full text sometimes restricted to on-site terminals</td></tr>
+          <tr><td><strong>University/library archives</strong></td><td>Special collections digitize institutionally significant content</td><td>Often the only copy of niche/local material</td></tr>
+          <tr><td><strong>Common Crawl</strong></td><td>Large, open, periodic web crawl released as a public dataset</td><td>Bulk/programmatic data, not a browsable snapshot viewer</td></tr>
+          <tr><td><strong>Domain-specific archives</strong></td><td>e.g. Usenet via Google Groups, archived software repos</td><td>Check whether the specific platform runs its own archive first</td></tr>
+        </table></div>
+      </div>
+
+      <div class="sub" id="s5-2">
+        <h3><span class="snum">5.2</span> How Wayback Machine Snapshots Work</h3>
+        <ul>
+          <li>A crawl or manual "Save Page Now" request fetches the page and stores it as a <strong>snapshot</strong>, keyed by exact URL and timestamp.</li>
+          <li>The <strong>calendar view</strong> shows all captures over time — dot density means crawl frequency, not change frequency.</li>
+          <li>Captures may have broken sub-resources even when the text content was faithfully captured.</li>
+          <li>Only what's linked (or submitted) gets crawled — deep, unlinked, or login-gated pages typically have no snapshot.</li>
+        </ul>
+      </div>
+
+      <div class="sub" id="s5-3">
+        <h3><span class="snum">5.3</span> Archive Limitations</h3>
+        <ul>
+          <li><strong><code>robots.txt</code> impact</strong> — historically a site could retroactively hide already-captured history; policy has shifted since — check current behavior.</li>
+          <li><strong>Missing content</strong> — JS-heavy SPAs and anything behind authentication are frequently incompletely captured.</li>
+          <li><strong>Snapshot gaps</strong> — absence of a snapshot is not evidence the page didn't exist.</li>
+          <li><strong>Redirect/takedown artifacts</strong> — some captures reflect a legal request, not the page's actual historical content.</li>
+        </ul>
+      </div>
+
+      <div class="sub" id="s5-4">
+        <h3><span class="snum">5.4</span> Recovering Historical Pages — Practical Method</h3>
+        <ol>
+          <li>Try the exact URL in the Wayback calendar; if empty, try variants (http/https, trailing slash, www).</li>
+          <li>Try Archive.today's own search — independent capture history.</li>
+          <li>If the page moved, search the site broadly in Wayback for the content under a new path.</li>
+          <li>Check for lingering cached-text remnants in search snippets.</li>
+          <li>Search for mirrors and reposts — forum quotes, RSS aggregators, email newsletters.</li>
+          <li>For images/PDFs, check whether the file itself was separately crawled.</li>
+        </ol>
+      </div>
+
+      <div class="sub" id="s5-5">
+        <h3><span class="snum">5.5</span> Tracking a Website's Evolution Over Time</h3>
+        <ul>
+          <li>Pull the full snapshot calendar and sample at meaningful intervals rather than reading every capture.</li>
+          <li>Diff structure (navigation, headings) separately from content (body text) — structural change often marks a strategic shift.</li>
+          <li>Cross-reference against historical domain ownership to see whether content shifts correlate with ownership changes.</li>
+          <li><strong>Historical ownership</strong> — WHOIS has grown less transparent (privacy-proxy registration, GDPR redaction); corroborate with certificate-transparency logs, DNS-history aggregators, and archived WHOIS snapshots.</li>
+        </ul>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 6 ============ -->
+    <section class="part" id="part-6"><div class="gutter">
+      <div class="part-eyebrow">PART · 06</div>
+      <h2>Scientific Knowledge Systems</h2>
+      <div class="part-rule"></div>
+      <p>For every source: coverage, strengths, weaknesses, search strategy, citation tracking, and verification method.</p>
+
+      <div class="sub" id="s6-1">
+        <h3><span class="snum">6.1</span> General Science / Cross-Disciplinary</h3>
+
+        <div class="srcname">Google Scholar <span class="tag">general</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Broadest cross-disciplinary index of scholarly literature, including preprints, theses, patents, grey literature.</dd>
+          <dt>Strengths</dt><dd>Very high recall, free, "Cited by" counts, clusters preprint + published versions, full-text search inside PDFs.</dd>
+          <dt>Weaknesses</dt><dd>No quality filter — indexes predatory journals alongside rigorous work; citation counts can be inflated; no bulk API.</dd>
+          <dt>Search strategy</dt><dd>Quotes for exact phrases, the <code>author:</code> operator, year-range filter; sort by date or relevance.</dd>
+          <dt>Citation tracking</dt><dd>"Cited by N" opens the full citing-literature list; "Related articles" for near-neighbors.</dd>
+          <dt>Verification</dt><dd>Click through to the actual publisher/repository page; check the venue independently for legitimacy.</dd>
+        </dl>
+
+        <div class="srcname">Semantic Scholar <span class="tag">general</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>AI-enhanced index, originally CS/biomedical-focused, now broader.</dd>
+          <dt>Strengths</dt><dd>Distinguishes citation context (background vs. building-block vs. dispute), TLDR summaries, good API.</dd>
+          <dt>Weaknesses</dt><dd>AI summaries can misrepresent nuance — verify against the full text.</dd>
+          <dt>Verification</dt><dd>Use the citation-context feature to see how a paper was cited, not just that it was.</dd>
+        </dl>
+
+        <div class="srcname">OpenAlex <span class="tag">general</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Fully open scholarly graph — works, authors, institutions, venues, concepts.</dd>
+          <dt>Strengths</dt><dd>Free open API and full data dumps, transparent methodology, good institutional/funding metadata.</dd>
+          <dt>Weaknesses</dt><dd>Entity disambiguation is imperfect, as with any large automated graph.</dd>
+          <dt>Verification</dt><dd>Cross-check author/institution disambiguation manually for high-stakes bibliometric claims.</dd>
+        </dl>
+
+        <div class="srcname">Lens.org <span class="tag">general + patents</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Scholarly literature and global patent data in one graph.</dd>
+          <dt>Strengths</dt><dd>Strong for "who patented what, citing which papers" workflows; institutional/funder analytics.</dd>
+          <dt>Weaknesses</dt><dd>Less commonly used than Scholar/OpenAlex; smaller community corrections.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-2">
+        <h3><span class="snum">6.2</span> Medicine and Life Sciences</h3>
+        <div class="srcname">PubMed / PubMed Central <span class="tag">medicine · NLM/NIH</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>The authoritative biomedical literature index (MEDLINE); PMC holds full-text open-access articles.</dd>
+          <dt>Strengths</dt><dd>Rigorous MeSH controlled-vocabulary tagging (see Part 9), authoritative, free.</dd>
+          <dt>Weaknesses</dt><dd>Abstract-only for many entries; MeSH search has a learning curve.</dd>
+          <dt>Search strategy</dt><dd>Use MeSH terms (<code>"Myocardial Infarction"[MeSH]</code>) for recall; combine with field tags.</dd>
+          <dt>Citation tracking</dt><dd>NCBI "Similar articles" and external tools — limited native citation browsing.</dd>
+          <dt>Verification</dt><dd>Check whether a claim has been picked up in a systematic review before treating a single study as settled.</dd>
+        </dl>
+        <div class="srcname">Europe PMC <span class="tag">medicine</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Europe's biomedical aggregator, overlapping PubMed with broader preprint coverage (bioRxiv/medRxiv integrated).</dd>
+          <dt>Strengths</dt><dd>Strong full-text search, preprint-to-published-version linking, text-mined annotations.</dd>
+          <dt>Verification</dt><dd>Check whether a preprint has since been peer-reviewed, and whether conclusions changed.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-3">
+        <h3><span class="snum">6.3</span> Physics</h3>
+        <div class="srcname">arXiv <span class="tag">physics · math · cs · q-bio</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>The dominant preprint server for physics (also math, CS, q-bio, econ, stats).</dd>
+          <dt>Strengths</dt><dd>Immediate free access; full version history preserved (v1, v2…).</dd>
+          <dt>Weaknesses</dt><dd><strong>Not peer-reviewed</strong> at posting — treat as provisional until reviewed or replicated.</dd>
+          <dt>Verification</dt><dd>Check version history for corrections, whether a later version was published, and citation trackers for critical responses.</dd>
+        </dl>
+        <div class="srcname">INSPIRE-HEP <span class="tag">high-energy physics</span></div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Specialized literature/citation database for high-energy physics.</dd>
+          <dt>Strengths</dt><dd>Deep physics-specific citation network and author-disambiguation; tracks conference proceedings.</dd>
+          <dt>Verification</dt><dd>Citation-graph view shows whether a result was built upon or contradicted by its own sub-community.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-4">
+        <h3><span class="snum">6.4</span> Mathematics</h3>
+        <div class="srcname">arXiv (Mathematics)</div>
+        <p>Same platform, <code>math.*</code> categories — the provisional-until-reviewed caveat applies strongly, since subtle proof errors can take years to surface.</p>
+        <div class="srcname">zbMATH Open</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Comprehensive reviewing/abstracting database for mathematics.</dd>
+          <dt>Strengths</dt><dd>Expert-written reviews — a critical comment can flag a flawed proof long before retraction.</dd>
+          <dt>Weaknesses</dt><dd>Review coverage lags new publications by months.</dd>
+        </dl>
+        <div class="srcname">MathSciNet (AMS)</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>The AMS's parallel review/abstract database.</dd>
+          <dt>Weaknesses</dt><dd>Subscription-based; institutional access typically required.</dd>
+          <dt>Verification (both)</dt><dd>Read the review, not just the abstract — a terse or hedging review is itself a signal.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-5">
+        <h3><span class="snum">6.5</span> Computer Science</h3>
+        <div class="srcname">arXiv (cs.*)</div>
+        <p>The dominant preprint venue for ML/AI — much of the most-cited recent AI research appears here first, often never in a traditional journal (conferences are the CS norm instead).</p>
+        <div class="srcname">DBLP</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Near-exhaustive bibliography of CS publications, journals + conference proceedings.</dd>
+          <dt>Strengths</dt><dd>Extremely reliable metadata; authoritative venue lists for spotting a pay-to-present mill.</dd>
+          <dt>Weaknesses</dt><dd>No abstracts/full text — link out to arXiv/publisher.</dd>
+          <dt>Verification</dt><dd>Cross-check a claimed venue name against DBLP's venue list to detect fabricated conferences.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-6">
+        <h3><span class="snum">6.6</span> Engineering</h3>
+        <div class="srcname">IEEE Xplore</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Major index/full-text repository for EE, electronics, computer engineering.</dd>
+          <dt>Strengths</dt><dd>Authoritative for standards-adjacent and applied-engineering literature.</dd>
+          <dt>Weaknesses</dt><dd>Subscription/paywall for full text; institutional access usually required.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-7">
+        <h3><span class="snum">6.7</span> Life Sciences Preprints</h3>
+        <div class="srcname">bioRxiv / medRxiv</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Dominant preprint servers for biology and clinical/health research (Cold Spring Harbor Laboratory).</dd>
+          <dt>Strengths</dt><dd>Fast dissemination — notably valuable during infectious-disease outbreaks.</dd>
+          <dt>Weaknesses</dt><dd><strong>medRxiv is explicitly not peer-reviewed</strong> — never use it to guide clinical practice directly.</dd>
+          <dt>Verification</dt><dd>Check for a published, peer-reviewed version before treating a health claim as actionable.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-8">
+        <h3><span class="snum">6.8</span> Chemistry</h3>
+        <div class="srcname">ChemRxiv</div>
+        <p>The chemistry preprint server (ACS-partnered). Same provisional-status caveats as other preprints — check for the peer-reviewed version.</p>
+      </div>
+
+      <div class="sub" id="s6-9">
+        <h3><span class="snum">6.9</span> Earth Sciences</h3>
+        <div class="srcname">EarthArXiv</div>
+        <p>Preprint server for earth/planetary/environmental sciences — community-run, transparent moderation, useful for fast-moving events. Same provisional-preprint caveat.</p>
+      </div>
+
+      <div class="sub" id="s6-10">
+        <h3><span class="snum">6.10</span> Social Sciences</h3>
+        <div class="srcname">SSRN</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Huge preprint/working-paper repository across economics, law, management, social sciences.</dd>
+          <dt>Strengths</dt><dd>Economics and legal scholarship circulate here well before journal publication.</dd>
+          <dt>Weaknesses</dt><dd>No peer review at posting; heterogeneous quality.</dd>
+          <dt>Verification</dt><dd>Check author affiliation and whether it's part of a recognized series (e.g. NBER); search for the eventual publication.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-11">
+        <h3><span class="snum">6.11</span> Humanities</h3>
+        <div class="srcname">JSTOR</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Massive digitized archive of humanities/social-science journals, books, primary sources.</dd>
+          <dt>Strengths</dt><dd>Excellent historical journal runs; strong full-text search.</dd>
+          <dt>Weaknesses</dt><dd>Paywalled; a "moving wall" delays the most recent issues entirely.</dd>
+        </dl>
+        <div class="srcname">Project MUSE</div>
+        <dl class="spec">
+          <dt>Coverage</dt><dd>Full-text humanities/social-science journals and books, university-press focused.</dd>
+          <dt>Strengths</dt><dd>Strong current-issue coverage, high curation quality.</dd>
+          <dt>Weaknesses</dt><dd>Paywalled; smaller than JSTOR.</dd>
+        </dl>
+      </div>
+
+      <div class="sub" id="s6-12">
+        <h3><span class="snum">6.12</span> Spotting Predatory or Low-Quality Venues</h3>
+        <p>Checklist for any journal/conference you haven't heard of:</p>
+        <ul class="checklist">
+          <li>Is it indexed in DBLP / MEDLINE / a recognized field-specific index — not just claimed on its own website?</li>
+          <li>Does it have a real, checkable editorial board?</li>
+          <li>Is peer-review turnaround implausibly fast for the claimed rigor?</li>
+          <li>Does the publisher appear on current, actively-maintained "predatory publisher" watch-lists?</li>
+          <li>Does it solicit submissions via unsolicited mass email with flattering, generic language?</li>
+          <li>Is the claimed "impact factor" independently verifiable, or self-reported?</li>
+        </ul>
+      </div>
+
+      <div class="sub" id="s6-13">
+        <h3><span class="snum">6.13</span> General Citation-Tracking Method</h3>
+        <ol>
+          <li><strong>Forward citation search</strong> — who cited this paper since (Scholar, Semantic Scholar, Web of Science, Scopus).</li>
+          <li><strong>Backward citation search</strong> — what it's built on; check whether claims trace to primary data or to "citation laundering."</li>
+          <li>Look for a systematic review or meta-analysis already aggregating the sub-field.</li>
+          <li>Check retraction status (Retraction Watch and the journal's own site).</li>
+          <li>Check for an independent replication.</li>
+        </ol>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 7 ============ -->
+    <section class="part" id="part-7"><div class="gutter">
+      <div class="part-eyebrow">PART · 07</div>
+      <h2>Open Data &amp; Public Records</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s7-1">
+        <h3><span class="snum">7.1</span> Government Open-Data Portals</h3>
+        <div class="tablewrap"><table class="ledger">
+          <tr><th>Region</th><th>Portal</th><th>Focus</th></tr>
+          <tr><td>United States</td><td><code>data.gov</code></td><td>Federal open datasets across agencies</td></tr>
+          <tr><td>European Union</td><td><code>data.europa.eu</code></td><td>Pan-EU and member-state open data</td></tr>
+          <tr><td>United Kingdom</td><td><code>data.gov.uk</code></td><td>UK national/local government data</td></tr>
+          <tr><td>Canada</td><td><code>open.canada.ca</code></td><td>Federal open data</td></tr>
+          <tr><td>India</td><td><code>data.gov.in</code></td><td>National open data</td></tr>
+          <tr><td>Various cities</td><td>e.g. NYC Open Data, data.london.gov.uk</td><td>Municipal-level records</td></tr>
+        </table></div>
+        <p><em>Treat these as examples of a category — nearly every national government and many major cities run some form of open-data portal.</em></p>
+      </div>
+
+      <div class="sub" id="s7-2">
+        <h3><span class="snum">7.2</span> Census &amp; Demographic Data</h3>
+        <p>National statistical agencies publish population, economic, and household data with methodology documentation — always read the definitions page, since terms like "unemployment" or "poverty" are defined differently across agencies and time periods.</p>
+      </div>
+
+      <div class="sub" id="s7-3">
+        <h3><span class="snum">7.3</span> Geographic Data &amp; Satellite Imagery</h3>
+        <ul>
+          <li><strong>OpenStreetMap</strong> — crowd-sourced map data with an auditable edit history.</li>
+          <li><strong>National mapping agencies</strong> (USGS, Ordnance Survey, etc.) — authoritative topographic data.</li>
+          <li><strong>Satellite imagery</strong> (Sentinel/Copernicus, Landsat) supports change-detection research; OSINT geolocation combines imagery with landmarks, shadow-angle analysis, signage, and terrain cues.</li>
+        </ul>
+      </div>
+
+      <div class="sub" id="s7-4">
+        <h3><span class="snum">7.4</span> Economic Databases</h3>
+        <p>World Bank Open Data, IMF, OECD.Stat, national central banks and statistical agencies. Always check the base-year/methodology vintage — rebasing changes historical series retroactively.</p>
+      </div>
+
+      <div class="sub" id="s7-5">
+        <h3><span class="snum">7.5</span> Legislative Databases</h3>
+        <p>National legislature sites (congress.gov, UK Parliament's Hansard, the EU's EUR-Lex) — primary sources for what a law actually says, versus news paraphrase.</p>
+      </div>
+
+      <div class="sub" id="s7-6">
+        <h3><span class="snum">7.6</span> Court Records</h3>
+        <p>Public court-record systems (PACER for U.S. federal courts, national equivalents) — treat docket entries as primary but remember filings are allegations, not established fact, until adjudicated.</p>
+      </div>
+
+      <div class="sub" id="s7-7">
+        <h3><span class="snum">7.7</span> Corporate Registries</h3>
+        <p>National/regional company registries (UK Companies House, EU business registers, U.S. Secretary-of-State systems) — foundational for ownership research, though beneficial-ownership transparency varies enormously by jurisdiction.</p>
+      </div>
+
+      <div class="sub" id="s7-8">
+        <h3><span class="snum">7.8</span> Patent &amp; Trademark Databases</h3>
+        <p><strong>Patents</strong> — national offices (USPTO, EPO), WIPO's PATENTSCOPE, Google Patents, Lens.org. <strong>Trademarks</strong> — national databases (USPTO TESS/TSDR), WIPO's Global Brand Database. Useful for corroborating a company's real activity independent of its own marketing.</p>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 8 ============ -->
+    <section class="part" id="part-8"><div class="gutter">
+      <div class="part-eyebrow">PART · 08</div>
+      <h2>Advanced Research Methods</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s8-1">
+        <h3><span class="snum">8.1</span> Cross-Source Verification &amp; Triangulation</h3>
+        <p><strong>Triangulation</strong>: establishing a fact via at least two (ideally three) <em>independent</em> sources with different methods, incentives, or vantage points. Independence matters more than count — three outlets re-reporting one press release are one source, not three.</p>
+        <div class="diagram" data-fig="Fig. 8.1 — triangulation"><pre>             Source A (primary data)
+                    \
+                     \___ Do they converge
+             Source B (independent          on the same fact?
+             methodology) __/               │
+                    /                       YES → well-supported
+             Source C (different            NO  → contested;
+             vantage point/incentive)              investigate the
+                                                    discrepancy itself</pre></div>
+      </div>
+
+      <div class="sub" id="s8-2">
+        <h3><span class="snum">8.2</span> Citation Tracing</h3>
+        <p>Follow a claim backward through its citation chain until reaching the primary data, or the point where the trail breaks — an assertion with no source, or a citation that on inspection doesn't say what's claimed. Actually opening the cited source catches a large share of circulating misinformation.</p>
+      </div>
+
+      <div class="sub" id="s8-3">
+        <h3><span class="snum">8.3</span> Network Analysis</h3>
+        <p>Map relationships (who links to/cites/funds/employs/co-authors with whom) as a graph to reveal structure invisible from any single node — coordinated networks, funding clusters, or the small number of hub sources a whole narrative traces back to. Manual diagrams for small cases; graph software (e.g. Gephi) for larger ones.</p>
+      </div>
+
+      <div class="sub" id="s8-4">
+        <h3><span class="snum">8.4</span> Timeline &amp; Event Reconstruction</h3>
+        <ol>
+          <li>Collect every dated artifact touching the event.</li>
+          <li>Normalize all timestamps to one timezone/format.</li>
+          <li>Order them; look explicitly for <strong>gaps</strong> (flag, don't fill with assumption) and <strong>contradictions</strong>.</li>
+          <li>Distinguish <strong>event time</strong>, <strong>report time</strong>, and <strong>index time</strong> — conflating these is a common error.</li>
+        </ol>
+      </div>
+
+      <div class="sub" id="s8-5">
+        <h3><span class="snum">8.5</span> Historical Reconstruction &amp; Source Mapping</h3>
+        <p>For "what really happened" questions spanning years: build a <strong>source map</strong> listing every source, its type, its independence from every other source, and its confidence contribution to each specific sub-claim — the discipline that separates rigorous history from a well-written but under-sourced narrative.</p>
+      </div>
+
+      <div class="sub" id="s8-6">
+        <h3><span class="snum">8.6</span> How Professionals Verify Claims — Synthesis</h3>
+        <ol>
+          <li>State the specific, falsifiable claim.</li>
+          <li>Identify what would confirm or refute it, before searching.</li>
+          <li>Search broadly across source types.</li>
+          <li>Separate primary from secondary/tertiary; prioritize primary.</li>
+          <li>Actively seek disconfirming evidence.</li>
+          <li>Assess independence, authority, and credibility separately.</li>
+          <li>Assign an explicit confidence level and document why.</li>
+          <li>Record the full source trail so the work is reproducible.</li>
+        </ol>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 9 ============ -->
+    <section class="part" id="part-9"><div class="gutter">
+      <div class="part-eyebrow">PART · 09</div>
+      <h2>Knowledge Organization</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s9-1">
+        <h3><span class="snum">9.1</span> Taxonomies</h3>
+        <p>A hierarchical classification scheme (broader → narrower), like a library's subject tree or species classification. Simple and readable, but rigid — an item often genuinely belongs in more than one branch.</p>
+      </div>
+      <div class="sub" id="s9-2">
+        <h3><span class="snum">9.2</span> Ontologies</h3>
+        <p>Formally define not just categories but the relationships and constraints between them (e.g. "a Person <em>worksFor</em> an Organization"), typically machine-readable (RDF/OWL) — letting software infer new facts from stated ones.</p>
+      </div>
+      <div class="sub" id="s9-3">
+        <h3><span class="snum">9.3</span> Knowledge Graphs</h3>
+        <p>A large, populated instance of an ontology-like structure: real entities as nodes, real relationships as edges. Search engines' Knowledge Panels are a public-facing view onto an internal graph, increasingly the retrieval layer behind AI assistants.</p>
+      </div>
+      <div class="sub" id="s9-4">
+        <h3><span class="snum">9.4</span> Wikidata</h3>
+        <p>The largest fully open, collaboratively edited knowledge graph — structured facts with cited sources per statement, each item carrying a stable Q-number independent of language. Verification check: does a given statement actually have a reference attached? Many don't.</p>
+      </div>
+      <div class="sub" id="s9-5">
+        <h3><span class="snum">9.5</span> Linked Open Data</h3>
+        <p>The practice of publishing structured data with shared identifiers (URIs) so datasets from unrelated publishers can be automatically cross-referenced — the infrastructure behind "everything is connected" in modern digital libraries.</p>
+      </div>
+      <div class="sub" id="s9-6">
+        <h3><span class="snum">9.6</span> Controlled Vocabularies &amp; Metadata Systems</h3>
+        <ul>
+          <li><strong>Controlled vocabularies</strong> (MeSH, LC Subject Headings) enforce one standard term so search doesn't miss synonyms — why PubMed's MeSH search beats free-text keywords.</li>
+          <li><strong>Metadata standards</strong> (Dublin Core, MARC, schema.org, EXIF/IPTC) define what descriptive fields an item carries, so systems can interoperate.</li>
+        </ul>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 10 ============ -->
+    <section class="part" id="part-10"><div class="gutter">
+      <div class="part-eyebrow">PART · 10</div>
+      <h2>AI &amp; Information Discovery</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s10-1">
+        <h3><span class="snum">10.1</span> LLMs as a Discovery Layer</h3>
+        <p>LLMs generate fluent text by predicting likely continuations — they do not, by default, "look anything up" at answer time. This is the source of their central research risk: a fluent, confident-sounding answer is not evidence that it's correct.</p>
+      </div>
+      <div class="sub" id="s10-2">
+        <h3><span class="snum">10.2</span> Retrieval Systems and RAG</h3>
+        <p><strong>Retrieval-Augmented Generation</strong> pairs an LLM with a live retrieval step, feeding retrieved documents into the model's context so it can ground its answer in checkable sources. RAG substantially reduces — but does not eliminate — fabrication.</p>
+        <div class="diagram" data-fig="Fig. 10.1 — RAG loop"><pre>   User question
+        │
+        ▼
+  ┌───────────┐     retrieve top-k     ┌──────────────┐
+  │  Query →  │ ─────────────────────► │  Document /   │
+  │ embedding │                        │  vector index │
+  └───────────┘ ◄───────────────────── └──────────────┘
+        │           relevant passages
+        ▼
+  ┌────────────────────────────┐
+  │  LLM generates answer using │
+  │  retrieved passages as      │
+  │  grounding context          │
+  └────────────────────────────┘
+        │
+        ▼
+  Answer + citations  ← you must still open and check these</pre></div>
+      </div>
+      <div class="sub" id="s10-3">
+        <h3><span class="snum">10.3</span> Embeddings, Revisited</h3>
+        <p>The same embedding technology underlies RAG's retrieval, semantic deduplication, clustering, and recommendation — why an AI tool can retrieve an on-topic document sharing no keywords with your query, and, conversely, a superficially similar but substantively wrong one.</p>
+      </div>
+      <div class="sub" id="s10-4">
+        <h3><span class="snum">10.4</span> Knowledge Graphs in AI Systems</h3>
+        <p>Some systems query a structured knowledge graph directly for entity facts — generally more reliable for discrete facts (dates, relationships, numbers) than free-text generation, because it's a lookup, not a guess.</p>
+      </div>
+      <div class="sub" id="s10-5">
+        <h3><span class="snum">10.5</span> AI Hallucinations</h3>
+        <p>A fluent, confident output that is factually wrong or fabricated. Risk factors: very recent events, obscure topics, requests for precise numbers/quotations, and long reasoning chains where an early error compounds.</p>
+        <div class="note"><span class="note-label">Rule</span><p>Never treat an AI-generated citation as located until you have actually opened it and confirmed it exists and says what's claimed.</p></div>
+      </div>
+      <div class="sub" id="s10-6">
+        <h3><span class="snum">10.6</span> Verification Workflows for AI-Assisted Research</h3>
+        <ol>
+          <li>Use AI to generate leads and structure, not as a final citation.</li>
+          <li>Demand inline sources for every load-bearing claim.</li>
+          <li>Open every cited source — confirm it exists, says what's claimed, and is characterized fairly.</li>
+          <li>Cross-check any specific number, date, quote, or name independently.</li>
+          <li>Re-ask in a different phrasing/tool; treat inconsistency as a flag to dig deeper.</li>
+        </ol>
+      </div>
+      <div class="sub" id="s10-7">
+        <h3><span class="snum">10.7</span> Human-in-the-Loop Validation</h3>
+        <p>Treat AI output as a first-pass draft requiring verification proportional to stakes: a quick sanity check for low-stakes questions; the full workflow above — with a named accountable human — for anything health, legal, financial, safety-related, or destined for publication.</p>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 11 ============ -->
+    <section class="part" id="part-11"><div class="gutter">
+      <div class="part-eyebrow">PART · 11</div>
+      <h2>Practical Research Workflows</h2>
+      <div class="part-rule"></div>
+      <p>Each workflow is a checklist-style sequence. Adapt depth to stakes.</p>
+
+      <div class="wf" id="s11-1">
+        <div class="wf-head">11.1 · Investigating a Company</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Corporate registry lookup: legal name, incorporation date/jurisdiction, officers, filing history.</li>
+          <li>Trace beneficial ownership as far as the jurisdiction allows; note explicitly where it goes opaque.</li>
+          <li>Financial filings (SEC EDGAR or equivalent) or, for private firms, flagged press/trade estimates.</li>
+          <li>Patent/trademark portfolio as a proxy for real R&amp;D vs. marketing claims.</li>
+          <li>Domain/website history via Wayback to see how positioning has shifted.</li>
+          <li>News archive search for litigation/regulatory action — verify against the primary filing.</li>
+          <li>Employee-review and professional-network data as culture/scale signals, weighted cautiously.</li>
+          <li>Cross-reference everything; write a source map before concluding anything reputational.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-2">
+        <div class="wf-head">11.2 · Investigating a Technology</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Find the original technical source — the paper, patent, or standard — not the press release.</li>
+          <li>Check for independent replication/benchmarking beyond the originating team's own claims.</li>
+          <li>Trace forward citations for critiques, extensions, or refutations.</li>
+          <li>Check the maturity signal: prototype vs. peer-reviewed vs. standardized vs. widely deployed.</li>
+          <li>Look for a survey paper summarizing the sub-field's consensus.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-3">
+        <div class="wf-head">11.3 · Investigating a Scientific Claim</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Locate the primary study; read the methods and results, not just the abstract or news summary.</li>
+          <li>Check study design against the evidence hierarchy.</li>
+          <li>Check for a systematic review/meta-analysis on the same question.</li>
+          <li>Check replication and retraction status.</li>
+          <li>Check funding source/conflicts of interest.</li>
+          <li>Check whether news coverage accurately reflects the paper's actual, often more hedged, conclusion.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-4">
+        <div class="wf-head">11.4 · Investigating a Historical Event</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Assemble primary sources before reading secondary narratives.</li>
+          <li>Build a timeline, explicitly noting evidence gaps.</li>
+          <li>Cross-check secondary accounts against the primary timeline for discrepancies.</li>
+          <li>Note whose perspective each primary source represents.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-5">
+        <div class="wf-head">11.5 · Investigating a Person (Ethical OSINT)</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Use only information made publicly available, or accessed through a legitimate, authorized channel — never account compromise, impersonation, or pretexting.</li>
+          <li>Corroborate identity carefully — common names create false-match risk.</li>
+          <li>Separate verified public-record facts from unverified social-media self-presentation.</li>
+          <li>Consider proportionality before publishing — does it serve a legitimate purpose? (See Part 12.)</li>
+          <li>Never aggregate and publish in a way designed to enable harassment ("doxxing"), regardless of whether each fact was individually public.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-6">
+        <div class="wf-head">11.6 · Tracking Citations</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Start from the target paper/claim.</li>
+          <li>Forward-trace who cites it.</li>
+          <li>Backward-trace what it cites, for its evidentiary basis.</li>
+          <li>Flag any chain that terminates in an uncited assertion rather than primary data.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-7">
+        <div class="wf-head">11.7 · Finding Original Sources</div>
+        <div class="wf-body"><ul class="checklist">
+          <li>Search the exact wording of a secondhand claim to find the earliest attributed instance.</li>
+          <li>Check that instance's own sourcing — primary, or also secondhand?</li>
+          <li>Use Wayback/Archive.today if the live trail has gone dead.</li>
+          <li>If no primary source is ever found, label the claim unverified explicitly.</li>
+        </ul></div>
+      </div>
+
+      <div class="wf" id="s11-8">
+        <div class="wf-head">11.8 · Recovering Historical Web Content</div>
+        <div class="wf-body"><p>See Part 5.4 in full: check Wayback → check Archive.today → search site-wide in Wayback → check mirrors/reposts → check binary-asset-specific captures.</p></div>
+      </div>
+
+      <div class="sub" id="s11-9">
+        <h3><span class="snum">11.9</span> Building a Research Dossier</h3>
+        <p>A reproducible dossier should contain, at minimum:</p>
+        <div class="dossier-block">1. RESEARCH QUESTION — stated precisely, falsifiably
+2. METHOD — what sources/tools were searched, in what order, with what queries
+3. FINDINGS — each claim, with:
+     - the claim itself
+     - source(s), each labeled primary/secondary/tertiary
+     - independence assessment between sources
+     - confidence level (Part 1.6)
+     - date accessed / archived copy link (Part 5)
+4. CONTRADICTIONS / GAPS — explicitly listed, not smoothed over
+5. WHAT WOULD CHANGE THIS CONCLUSION — stated up front
+6. FULL SOURCE LIST — every source consulted, including rejected ones (and why)</div>
+        <p>This structure is what makes a dossier <strong>reproducible</strong>: someone else, given only this document, should be able to retrace your path and reach the same — or a specifically disputable — conclusion.</p>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 12 ============ -->
+    <section class="part" id="part-12"><div class="gutter">
+      <div class="part-eyebrow">PART · 12</div>
+      <h2>Ethics &amp; Legality</h2>
+      <div class="part-rule"></div>
+
+      <div class="sub" id="s12-1">
+        <h3><span class="snum">12.1</span> Responsible Research — Core Principles</h3>
+        <ul>
+          <li><strong>Minimize harm</strong> — weigh public-interest value against the harm of compiling/publishing.</li>
+          <li><strong>Necessity and proportionality</strong> — collect only what the question actually requires.</li>
+          <li><strong>Transparency of method</strong> — a reproducible method is also an accountable one.</li>
+          <li><strong>Right of reply</strong> — seek a subject's response before publication where feasible.</li>
+        </ul>
+      </div>
+      <div class="sub" id="s12-2">
+        <h3><span class="snum">12.2</span> Privacy</h3>
+        <p>A legal ability to find information is distinct from an ethical justification to compile, publish, or act on it. Aggregating many individually-public facts about a private individual can itself constitute a privacy harm — the "mosaic effect" — even where no single fact was secret.</p>
+      </div>
+      <div class="sub" id="s12-3">
+        <h3><span class="snum">12.3</span> Copyright &amp; Fair Use</h3>
+        <ul>
+          <li>Archiving, quoting, and citing for research/criticism generally falls within fair use/fair dealing, but specifics vary by jurisdiction — this is not legal advice.</li>
+          <li>A personal archival copy for research is on safer ground than republishing/redistributing it.</li>
+          <li>Respect explicit licensing terms on datasets/APIs — "technically accessible" isn't "licensed for your use case."</li>
+        </ul>
+      </div>
+      <div class="sub" id="s12-4">
+        <h3><span class="snum">12.4</span> Data Protection</h3>
+        <p>Jurisdiction-specific law (GDPR and analogues) can impose obligations even on researchers who didn't collect data directly from the subject — around retention, further processing, and republication. Route sensitive-data research through institutional ethics review where applicable.</p>
+      </div>
+      <div class="sub" id="s12-5">
+        <h3><span class="snum">12.5</span> Public vs. Private Information</h3>
+        <p>"Publicly accessible" and "intended for public consumption" are not identical. When in doubt about whether information was meant to be found and used this way, treat it as more sensitive, not less.</p>
+      </div>
+      <div class="sub" id="s12-6">
+        <h3><span class="snum">12.6</span> Ethical OSINT — Boundaries</h3>
+        <ul>
+          <li>Legitimate OSINT uses only overtly available information and authorized access.</li>
+          <li>It does <strong>not</strong> involve credential theft, pretexting, exploiting misconfigurations, bypassing paywalls, or impersonation.</li>
+          <li>When access is genuinely required but unavailable, the answer is a legitimate request path — never a technical workaround.</li>
+        </ul>
+      </div>
+      <div class="sub" id="s12-7">
+        <h3><span class="snum">12.7</span> Research Boundaries — When to Stop and Ask</h3>
+        <div class="note"><span class="note-label">Stop and seek review</span><p>When a task involves minors, victims of crime, medical/health status, precise real-time location of a private individual, financial account details, sensitive-category data, or any plan to publish a dossier about a private individual. These are not this guide's call to authorize.</p></div>
+      </div>
+    </div></section>
+
+    <!-- ============ PART 13 / APPENDIX ============ -->
+    <section class="part" id="part-13"><div class="gutter">
+      <div class="part-eyebrow">APPENDIX</div>
+      <h2>Master Checklists &amp; Quick-Reference Cards</h2>
+      <div class="part-rule"></div>
+
+      <div class="qcard-grid">
+        <div class="qcard">
+          <h4>A.1 · Universal Source Evaluation</h4>
+          <ul class="checklist">
+            <li>Primary, secondary, or tertiary?</li>
+            <li>Currency, Relevance, Authority, Accuracy, Purpose checked?</li>
+            <li>Independent from my other sources?</li>
+            <li>Confidence level assigned and written down?</li>
+            <li>Archived a copy in case it changes or disappears?</li>
+          </ul>
+        </div>
+        <div class="qcard">
+          <h4>A.2 · Pre-Publication Ethics</h4>
+          <ul class="checklist">
+            <li>Every compiled fact from a legitimate, authorized source?</li>
+            <li>Personal information minimized to only what's needed?</li>
+            <li>Considered the mosaic effect of aggregation?</li>
+            <li>Sought right-of-reply where a party is implicated?</li>
+            <li>Checked copyright/licensing terms on anything republished?</li>
+          </ul>
+        </div>
+        <div class="qcard">
+          <h4>A.3 · Quick Multi-Engine Search</h4>
+          <ol>
+            <li>Primary engine (Google or Bing) for breadth.</li>
+            <li>One independent engine (Mojeek/Brave).</li>
+            <li>Region-specific engine if regionally concentrated.</li>
+            <li>Metasearch (SearXNG) for a fast union view.</li>
+            <li>Reverse-image search across ≥2 engines if images involved.</li>
+            <li>Wayback/Archive.today if the page might have changed.</li>
+          </ol>
+        </div>
+        <div class="qcard">
+          <h4>A.4 · Quick Scientific-Claim Verification</h4>
+          <ol>
+            <li>Find the primary study, not the press release.</li>
+            <li>Check study design against the evidence hierarchy.</li>
+            <li>Check for a systematic review/meta-analysis.</li>
+            <li>Check retraction/replication status.</li>
+            <li>Check funding/conflict-of-interest disclosure.</li>
+            <li>Assign confidence; note what would change it.</li>
+          </ol>
+        </div>
+      </div>
+
+      <div class="sub" id="s-a5" style="margin-top:34px;">
+        <h3><span class="snum">A.5</span> Confidence-Level Quick Reference</h3>
+        <p style="font-family:var(--font-mono); font-size:13.5px; display:flex; align-items:center; flex-wrap:wrap; gap:6px;">
+          <span class="conf-dot conf-1"></span>Confirmed <span style="color:var(--ink-faint);">&gt;</span>
+          <span class="conf-dot conf-2"></span>Well-supported <span style="color:var(--ink-faint);">&gt;</span>
+          <span class="conf-dot conf-3"></span>Plausible <span style="color:var(--ink-faint);">&gt;</span>
+          <span class="conf-dot conf-4"></span>Contested <span style="color:var(--ink-faint);">&gt;</span>
+          <span class="conf-dot conf-5"></span>Unverified <span style="color:var(--ink-faint);">&gt;</span>
+          <span class="conf-dot conf-6"></span>Disputed/Debunked
+        </p>
+        <p>Always state which one, and why.</p>
+      </div>
+    </div></section>
+
+    <footer class="colophon"><div class="gutter">
+      <p>This guide describes methods for finding and evaluating information that is legitimately public or legitimately accessible to the researcher. It does not include, and will not be extended to include, instructions for unauthorized access to private systems, credential compromise, paywall circumvention, or deceptive information-gathering. Verifiability and ethics are not in tension with thoroughness — they are what make thoroughness worth trusting.</p>
+    </div></footer>
+  </main>
+</div>
+
+<footer class="site-footer">
+  <div class="site-footer-wrap">KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/mediaservers">Media Servers</a> · <a href="/music-mathematics">Music Is Mathematics</a> · <a href="/patch-bay">Patch Bay</a></div>
+</footer>
+
+<script>
+(function(){
+  var toggle = document.getElementById('navToggle');
+  var backdrop = document.getElementById('backdrop');
+  function closeNav(){ document.body.classList.remove('nav-open'); }
+  if(toggle){ toggle.addEventListener('click', function(){ document.body.classList.toggle('nav-open'); }); }
+  if(backdrop){ backdrop.addEventListener('click', closeNav); }
+  document.querySelectorAll('.rail-list a').forEach(function(a){
+    a.addEventListener('click', closeNav);
+  });
+
+  var links = Array.prototype.slice.call(document.querySelectorAll('.rail-list a'));
+  var sections = links.map(function(a){
+    var id = a.getAttribute('href').slice(1);
+    return document.getElementById(id);
+  });
+  if('IntersectionObserver' in window){
+    var observer = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(!entry.isIntersecting) return;
+        var idx = sections.indexOf(entry.target);
+        if(idx===-1) return;
+        links.forEach(function(l){ l.classList.remove('active'); });
+        links[idx].classList.add('active');
+      });
+    }, {rootMargin:'-10% 0px -75% 0px', threshold:0});
+    sections.forEach(function(s){ if(s) observer.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
