@@ -48,6 +48,8 @@ header .back:hover{text-decoration:underline;}
 .hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-soft); margin-bottom:14px;}
 .hero h1{font-size:clamp(2rem,5.5vw,3.4rem); line-height:0.98; letter-spacing:-0.01em; text-transform:uppercase;}
 .hero p{margin-top:14px; max-width:660px; font-size:13.5px; color:var(--ink-soft); line-height:1.7;}
+.hero .hint-coarse{display:none;}
+@media (pointer:coarse){ .hero .hint-fine{display:none;} .hero .hint-coarse{display:inline;} }
 
 /* ===== transport ===== */
 .transport{position:sticky; top:49px; z-index:19; background:var(--chassis2); border-block:2px solid var(--ink); padding-block:10px;}
@@ -84,8 +86,8 @@ header .back:hover{text-decoration:underline;}
 .row{display:flex; align-items:center; gap:10px; margin-bottom:9px;}
 .row:last-child{margin-bottom:0;}
 .jackrow{display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:9px; border-top:1px dashed var(--line);}
-.jackgroup{display:flex; flex-direction:column; gap:6px;}
-.jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; cursor:pointer;}
+.jackgroup{display:flex; flex-direction:column; gap:10px;}
+.jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; cursor:pointer; touch-action:none; padding-block:6px; margin-block:-6px;}
 .jack.out{flex-direction:row-reverse;}
 .jack .nub{width:13px; height:13px; border-radius:50%; border:2px solid var(--ink); background:#fff; flex:none;}
 .jack[data-kind="audio"] .nub{background:var(--audio-c);}
@@ -93,9 +95,15 @@ header .back:hover{text-decoration:underline;}
 .jack[data-kind="trig"] .nub{background:var(--trig-c);}
 .jack.filled .nub{box-shadow:0 0 0 3px rgba(0,0,0,0.15) inset;}
 .jack.dragtarget .nub{outline:3px solid var(--ink); outline-offset:1px;}
+.jack.selected .nub{outline:3px dashed var(--ink); outline-offset:2px;}
+@media (pointer:coarse){
+  .jack .nub{width:20px; height:20px;}
+  .jack{gap:7px;}
+  .knob{width:56px; height:56px;}
+}
 
 .knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
-.knob{width:46px; height:46px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff, #ccc 70%); border:2px solid var(--ink); position:relative; cursor:grab;}
+.knob{width:46px; height:46px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #fff, #ccc 70%); border:2px solid var(--ink); position:relative; cursor:grab; touch-action:none;}
 .knob:active{cursor:grabbing;}
 .knob .ind{position:absolute; left:50%; top:4px; width:3px; height:16px; background:var(--ink); transform-origin:50% 19px; margin-left:-1.5px; border-radius:2px;}
 .klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-soft);}
@@ -141,7 +149,7 @@ footer a{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Generative Modular Synthesis</div>
     <h1>Patch Bay</h1>
-    <p>A small, real modular synthesizer, patched by hand instead of pre-wired — boxes, jacks, and cables in the visual language Pure Data made ordinary and TouchDesigner and vvvv still use for real-time media, in a chassis borrowed from Teenage Engineering's playful hardware. Drag between the colored nubs to route audio, drag a knob to turn it, hit Random for a new pattern. Every cable here is a real Web Audio connection, not a diagram of one.</p>
+    <p>A small, real modular synthesizer, patched by hand instead of pre-wired — boxes, jacks, and cables in the visual language Pure Data made ordinary and TouchDesigner and vvvv still use for real-time media, in a chassis borrowed from Teenage Engineering's playful hardware. <span class="hint-fine">Drag between the colored nubs to route audio, drag a knob to turn it, hit Random for a new pattern.</span><span class="hint-coarse">Tap a colored nub, then tap another to patch a cable between them — tap a plugged nub to unplug it, or tap the same nub twice to cancel. Drag a knob up or down to turn it, hit Random for a new pattern.</span> Every cable here is a real Web Audio connection, not a diagram of one.</p>
   </div>
 </section>
 
@@ -579,15 +587,36 @@ function renderCables(tempEnd){
   }
 }
 
-var dragFrom = null;
-document.querySelectorAll('.jack').forEach(function(j){
-  j.addEventListener('pointerdown', function(e){
-    var id = j.getAttribute('data-jack');
-    if(JACKS[id].dir!=='out') return;
-    dragFrom = id;
-    e.preventDefault();
+/* Dragging a cable across a module boundary doesn't work on a touchscreen —
+   starting a drag on a jack has to disable page scroll for that gesture
+   (else the browser just scrolls the page), which also makes it impossible
+   to scroll to an off-screen destination jack mid-drag. So alongside the
+   original mouse drag-to-connect, jacks also support tap-to-connect: tap an
+   out jack (arms it), tap an in jack (completes the cable) — each tap is a
+   separate gesture, so scrolling in between works fine. Tapping a plugged
+   jack with nothing armed unplugs it; that also replaces "click the cable"
+   as the way to disconnect, since a 3.5px SVG stroke is a poor touch target. */
+var dragFrom = null, dragStart = null, dragMoved = false;
+var pendingFrom = null;
+
+function setPending(id){
+  clearPending();
+  pendingFrom = id;
+  var el = document.querySelector('[data-jack="'+id+'"]');
+  if(el) el.classList.add('selected');
+}
+function clearPending(){
+  if(!pendingFrom) return;
+  var el = document.querySelector('[data-jack="'+pendingFrom+'"]');
+  if(el) el.classList.remove('selected');
+  pendingFrom = null;
+}
+function disconnectAllAt(jackId){
+  connections.slice().forEach(function(cn){
+    if(cn.from===jackId || cn.to===jackId) disconnect(cn.from, cn.to);
   });
-});
+}
+
 /* The cable SVG paints above the module grid (it has to, so cables stay
    traceable over module edges), which means a cable can sit visually
    between the cursor and a jack it happens to cross. elementFromPoint()
@@ -602,8 +631,32 @@ function jackUnderPoint(x,y){
   }
   return null;
 }
+
+document.querySelectorAll('.jack').forEach(function(j){
+  j.addEventListener('pointerdown', function(e){
+    var id = j.getAttribute('data-jack');
+    var dir = JACKS[id].dir;
+
+    if(pendingFrom){
+      if(id===pendingFrom){ clearPending(); renderCables(); e.preventDefault(); return; }
+      if(dir==='in'){ var from=pendingFrom; clearPending(); connect(from, id); e.preventDefault(); return; }
+      clearPending();
+    }
+
+    if(dir==='in'){
+      if(j.classList.contains('filled')) disconnectAllAt(id);
+      e.preventDefault();
+      return;
+    }
+
+    dragFrom = id; dragMoved = false; dragStart = {x:e.clientX, y:e.clientY};
+    try{ j.setPointerCapture(e.pointerId); }catch(err){}
+    e.preventDefault();
+  });
+});
 window.addEventListener('pointermove', function(e){
   if(!dragFrom) return;
+  if(Math.hypot(e.clientX-dragStart.x, e.clientY-dragStart.y) > 6) dragMoved = true;
   var rr = rack.getBoundingClientRect();
   renderCables({from:dragFrom, pos:{x:e.clientX-rr.left, y:e.clientY-rr.top}});
   var jackEl = jackUnderPoint(e.clientX, e.clientY);
@@ -612,13 +665,15 @@ window.addEventListener('pointermove', function(e){
 });
 window.addEventListener('pointerup', function(e){
   if(!dragFrom) return;
+  var from = dragFrom;
+  dragFrom = null;
   var jackEl = jackUnderPoint(e.clientX, e.clientY);
+  document.querySelectorAll('.jack.dragtarget').forEach(function(x){x.classList.remove('dragtarget');});
   if(jackEl){
     var to = jackEl.getAttribute('data-jack');
-    if(JACKS[to] && JACKS[to].dir==='in') connect(dragFrom, to);
+    if(JACKS[to] && JACKS[to].dir==='in'){ connect(from, to); renderCables(); return; }
   }
-  dragFrom = null;
-  document.querySelectorAll('.jack.dragtarget').forEach(function(x){x.classList.remove('dragtarget');});
+  if(!dragMoved){ setPending(from); }
   renderCables();
 });
 
