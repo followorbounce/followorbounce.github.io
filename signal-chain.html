@@ -11,7 +11,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Signal Chain — Knowledge Network</title>
-<meta name="description" content="A generative synthesizer built on one rule: every pedal is both an input and an output. Oscillator, sonar, birdsong, filter, drive, chorus and echo — any node can bypass, chain, split, or feed back into any other.">
+<meta name="description" content="A generative synthesizer built on one rule: every pedal is both an input and an output. Oscillator, noise, twin sonar pulse units, filter, drive, chorus and echo — any node can bypass, chain, split, or feed back into any other.">
 <link rel="canonical" href="https://followorbounce.github.io/signal-chain">
 <meta name="theme-color" content="#17171A">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
@@ -28,7 +28,7 @@
   --ink:#F1EFE8; --ink-soft:#A6A39A; --ink-faint:#6E6B63;
   --line:#37373C; --line-strong:#4B4B52;
   --led-off:#3A3A3F; --led-on:#7CFF6B; --led-glow:rgba(124,255,107,0.45);
-  --c-osc:#E8B84B; --c-sonar:#33C2C2; --c-aviary:#9ED84B; --c-filter:#9B6BE0;
+  --c-osc:#E8B84B; --c-sonar:#33C2C2; --c-sonar2:#5FE0D0; --c-noise:#9AA3AD; --c-filter:#9B6BE0;
   --c-drive:#FF6A3D; --c-shimmer:#E85BB0; --c-echo:#4E8FE0; --c-output:#C9C6BC;
   --font-display:'Bebas Neue', 'Arial Narrow', sans-serif;
   --font-mono:'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
@@ -84,7 +84,7 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 
 .module{background:var(--board2); border:1px solid var(--line-strong); border-radius:8px 8px 4px 4px; padding:12px; position:relative; box-shadow:0 3px 0 rgba(0,0,0,0.35);}
 .module::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px; background:var(--acc);}
-.module.n-osc{--acc:var(--c-osc);} .module.n-sonar{--acc:var(--c-sonar);} .module.n-aviary{--acc:var(--c-aviary);}
+.module.n-osc{--acc:var(--c-osc);} .module.n-sonar{--acc:var(--c-sonar);} .module.n-sonar2{--acc:var(--c-sonar2);} .module.n-noise{--acc:var(--c-noise);}
 .module.n-filter{--acc:var(--c-filter);} .module.n-drive{--acc:var(--c-drive);} .module.n-shimmer{--acc:var(--c-shimmer);}
 .module.n-echo{--acc:var(--c-echo);} .module.n-output{--acc:var(--c-output);}
 .module .mhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; padding-top:4px;}
@@ -206,7 +206,7 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Universal-Node Synthesis</div>
     <h1>Signal Chain</h1>
-    <p>A pedalboard built on one rule instead of many: <strong>every unit is both an input and an output</strong>. There's no fixed role for "source" or "effect" — an oscillator, a sonar-ping generator, a birdsong generator, a filter, a drive, a chorus and an echo all carry the same two jacks and the same footswitch, so any of them can sit anywhere in the chain, run in parallel, split into two paths, or feed back into an earlier one. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Everything is a real Web Audio graph — turning a knob on the Oscillator redraws its own scope in real time.</p>
+    <p>A pedalboard built on one rule instead of many: <strong>every unit is both an input and an output</strong>. There's no fixed role for "source" or "effect" — an oscillator, a noise generator, two Ryoji Ikeda-leaning precision-pulse units, a filter, a drive, a chorus and an echo all carry the same two jacks and the same footswitch, so any of them can sit anywhere in the chain, run in parallel, split into two paths, or feed back into an earlier one. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Everything is a real Web Audio graph — turning a knob on the Oscillator redraws its own scope in real time.</p>
   </div>
 </section>
 
@@ -272,19 +272,37 @@ footer a:hover{color:var(--ink);}
       </div>
     </div>
 
-    <!-- AVIARY -->
-    <div class="module n-aviary" data-mod="aviary">
-      <div class="mhead"><span class="mname">Aviary</span><button class="fswitch engaged" data-bypass="aviary" aria-label="Bypass Aviary"><span class="led"></span></button></div>
-      <span class="mtag">chirp generator · edge-triggered</span>
+    <!-- SONAR II -->
+    <div class="module n-sonar2" data-mod="sonar2">
+      <div class="mhead"><span class="mname">Sonar II</span><button class="fswitch engaged" data-bypass="sonar2" aria-label="Bypass Sonar II"><span class="led"></span></button></div>
+      <span class="mtag">precision pulse · edge-triggered</span>
       <div class="row">
-        <div class="knobwrap"><div class="knob" data-knob="aviary.pitch" data-min="600" data-max="4200" data-default="1800" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="aviary.pitch">1800</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="aviary.warble" data-min="0" data-max="200" data-default="60"><div class="ind"></div></div><span class="klabel">warble</span><span class="kval" data-kval="aviary.warble">60</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="aviary.density" data-min="0" data-max="100" data-default="50"><div class="ind"></div></div><span class="klabel">density</span><span class="kval" data-kval="aviary.density">50</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar2.rate" data-min="0" data-max="100" data-default="65"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="sonar2.rate">65</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar2.tone" data-min="150" data-max="3000" data-default="1600" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="sonar2.tone">1600</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar2.echo" data-min="0" data-max="60" data-default="15"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="sonar2.echo">15</span></div>
       </div>
-      <div class="scopewrap"><canvas id="aviaryScope" width="380" height="90"></canvas></div>
+      <div class="scopewrap"><canvas id="sonar2Scope" width="380" height="90"></canvas></div>
       <div class="jackrow">
-        <div class="jackgroup"><div class="jack in" data-jack="aviary.in"><span class="nub"></span>in</div></div>
-        <div class="jackgroup"><div class="jack out" data-jack="aviary.out"><span class="nub"></span>out</div></div>
+        <div class="jackgroup"><div class="jack in" data-jack="sonar2.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="sonar2.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- NOISE -->
+    <div class="module n-noise" data-mod="noise">
+      <div class="mhead"><span class="mname">Noise</span><button class="fswitch engaged" data-bypass="noise" aria-label="Bypass Noise"><span class="led"></span></button></div>
+      <span class="mtag">source · white / swell / strobe / beacon</span>
+      <div class="row">
+        <select class="wave" data-select="noise.type"><option value="white">white</option><option value="swell">swell</option><option value="strobe">strobe</option><option value="beacon">beacon</option></select>
+      </div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="noise.level" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="noise.level">35</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="noise.rate" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="noise.rate">40</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="noiseScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="noise.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="noise.out"><span class="nub"></span>out</div></div>
       </div>
     </div>
 
@@ -378,8 +396,8 @@ footer a:hover{color:var(--ink);}
   <h2>How this actually works</h2>
   <p><strong>One connector type, everywhere.</strong> Patch Bay (the site's other synth) uses three cable kinds — audio, CV, trigger — that can only join their own kind. Signal Chain has exactly one: every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, and any out can patch into any in. That's what "universal node" means here — there's no dedicated source module or dedicated effect module, just eight units that all speak the same connector.</p>
   <p><strong>The footswitch is a real bypass.</strong> Off, a unit is a plain wire: whatever reaches its <strong>in</strong> passes straight to its <strong>out</strong>, unprocessed, and its own sound (if it makes one) goes silent. On, the unit does its job — the Oscillator sings, the Filter splits the signal, the Drive saturates it. That symmetry is what lets any unit sit anywhere in the chain without special-casing.</p>
-  <p><strong>The default patch:</strong> <strong>Oscillator → Filter → Drive → Shimmer → Echo → Output</strong>, with <strong>Sonar</strong> layered straight into Output and <strong>Aviary</strong> feeding into Echo alongside the main line. Every one of the eight units is doing something audible from the moment you hit Power.</p>
-  <p><strong>Extra logic per unit, since not every jack should behave the same way.</strong> The Oscillator's <code>in</code> isn't audio — it's FM: whatever you patch there modulates its pitch instead of getting mixed in, so a slow square-wave Oscillator patched into another Oscillator's <code>in</code> makes it warble. Sonar and Aviary watch their own <code>in</code> for a rising edge and fire a ping or chirp on it — patch a pulsing source into either and they lock to its rhythm, on top of their own internal clock. The Filter has <strong>two outputs</strong> from one cutoff knob: <code>out</code> is the selected band, <code>comp</code> is its exact complement (lowpass ⇄ highpass, or a notch when set to bandpass) — a two-way crossover for free. The Oscillator's second output, <code>sub</code>, is the same waveform one octave down.</p>
+  <p><strong>The default patch:</strong> <strong>Oscillator + Noise → Filter → Drive → Shimmer → Echo → Output</strong>, with <strong>Sonar</strong> and <strong>Sonar II</strong> both layered straight into Output. Every one of the eight units is doing something audible from the moment you hit Power.</p>
+  <p><strong>Extra logic per unit, since not every jack should behave the same way.</strong> The Oscillator's <code>in</code> isn't audio — it's FM: whatever you patch there modulates its pitch instead of getting mixed in, so a slow square-wave Oscillator patched into another Oscillator's <code>in</code> makes it warble. Sonar and Sonar II watch their own <code>in</code> for a rising edge and fire an extra pulse on it — patch a pulsing source into either and it locks to that rhythm, on top of its own internal clock. Noise isn't just white noise: its own selector switches between a plain hiss, a slow rise-and-fall swell, a strobing random-level glitch, and a fixed on/off timing pattern. The Filter has <strong>two outputs</strong> from one cutoff knob: <code>out</code> is the selected band, <code>comp</code> is its exact complement (lowpass ⇄ highpass, or a notch when set to bandpass) — a two-way crossover for free. The Oscillator's second output, <code>sub</code>, is the same waveform one octave down.</p>
   <p><strong>Feedback loops are allowed, on purpose.</strong> Because outputs can feed backward as easily as forward — including Output's own <code>out</code>, tapped straight from the master bus — you can patch the end of the chain back into its beginning and get a self-sustaining, evolving drone. The Output module always runs through a compressor and a hard limiter before the speakers, specifically so that kind of experiment stays loud, not dangerous. Start any feedback patch with low levels.</p>
 </section>
 
@@ -526,27 +544,66 @@ function build(){
     rate:45, tone:900, echo:25, timer:null, bypassed:false
   };
 
-  /* ---- AVIARY ---- */
-  var aviaryCarrier = c.createOscillator(); aviaryCarrier.type='sine'; aviaryCarrier.frequency.value = 1800;
-  var aviaryVibrato = c.createOscillator(); aviaryVibrato.type='sine'; aviaryVibrato.frequency.value = 28;
-  var aviaryVibratoDepth = c.createGain(); aviaryVibratoDepth.gain.value = 60;
-  aviaryVibrato.connect(aviaryVibratoDepth); aviaryVibratoDepth.connect(aviaryCarrier.frequency);
-  aviaryVibrato.start();
-  var aviaryIn = c.createGain(); aviaryIn.gain.value = 1;
-  var aviaryGate = c.createGain(); aviaryGate.gain.value = 0;
-  aviaryCarrier.connect(aviaryGate); aviaryCarrier.start();
-  var aviaryBypassGain = c.createGain(); aviaryBypassGain.gain.value = 0;
-  var aviaryWetGain = c.createGain(); aviaryWetGain.gain.value = 1;
-  aviaryIn.connect(aviaryBypassGain); aviaryGate.connect(aviaryWetGain);
-  var aviaryOut = c.createGain();
-  aviaryBypassGain.connect(aviaryOut); aviaryWetGain.connect(aviaryOut);
-  var aviaryInAnalyser = c.createAnalyser(); aviaryInAnalyser.fftSize = 256; aviaryIn.connect(aviaryInAnalyser);
-  var aviaryAnalyser = c.createAnalyser(); aviaryAnalyser.fftSize = 512; aviaryOut.connect(aviaryAnalyser);
-  nodes.aviary = {
-    inNode:aviaryIn, carrier:aviaryCarrier, vibratoDepth:aviaryVibratoDepth, gate:aviaryGate,
-    bypassGain:aviaryBypassGain, wetGain:aviaryWetGain, outNode:aviaryOut,
-    analyser:aviaryAnalyser, inAnalyser:aviaryInAnalyser, prevPeak:0, lastTrig:0,
-    pitch:1800, warble:60, density:50, timer:null, bypassed:false
+  /* ---- SONAR II ---- (a second, independent unit of the same design as
+     Sonar, tuned brighter/faster/drier by default so the two layer as a
+     pair rather than doubling each other exactly) */
+  var sonar2In = c.createGain(); sonar2In.gain.value = 1;
+
+  var sonar2Osc = c.createOscillator(); sonar2Osc.type='sine'; sonar2Osc.frequency.value = 1600;
+  var sonar2ToneEnv = c.createGain(); sonar2ToneEnv.gain.value = 0;
+  sonar2Osc.connect(sonar2ToneEnv); sonar2Osc.start();
+
+  var click2Buf = c.createBuffer(1, c.sampleRate, c.sampleRate);
+  var c2d = click2Buf.getChannelData(0);
+  for(var c2i=0; c2i<c2d.length; c2i++) c2d[c2i] = Math.random()*2-1;
+  var click2Src = c.createBufferSource(); click2Src.buffer = click2Buf; click2Src.loop = true;
+  var click2Filter = c.createBiquadFilter(); click2Filter.type='highpass'; click2Filter.frequency.value = 6000;
+  click2Src.connect(click2Filter); click2Src.start();
+  var sonar2ClickEnv = c.createGain(); sonar2ClickEnv.gain.value = 0;
+  click2Filter.connect(sonar2ClickEnv);
+
+  var sonar2Delay = c.createDelay(0.5); sonar2Delay.delayTime.value = 0.05;
+  var sonar2Feedback = c.createGain(); sonar2Feedback.gain.value = 0.1;
+  var sonar2Mix = c.createGain();
+  sonar2ToneEnv.connect(sonar2Mix); sonar2ClickEnv.connect(sonar2Mix);
+  sonar2ToneEnv.connect(sonar2Delay); sonar2ClickEnv.connect(sonar2Delay);
+  sonar2Delay.connect(sonar2Feedback); sonar2Feedback.connect(sonar2Delay); sonar2Delay.connect(sonar2Mix);
+
+  var sonar2BypassGain = c.createGain(); sonar2BypassGain.gain.value = 0;
+  var sonar2WetGain = c.createGain(); sonar2WetGain.gain.value = 1;
+  sonar2In.connect(sonar2BypassGain); sonar2Mix.connect(sonar2WetGain);
+  var sonar2Out = c.createGain();
+  sonar2BypassGain.connect(sonar2Out); sonar2WetGain.connect(sonar2Out);
+  var sonar2InAnalyser = c.createAnalyser(); sonar2InAnalyser.fftSize = 256; sonar2In.connect(sonar2InAnalyser);
+  var sonar2Analyser = c.createAnalyser(); sonar2Analyser.fftSize = 512; sonar2Out.connect(sonar2Analyser);
+  nodes.sonar2 = {
+    inNode:sonar2In, osc:sonar2Osc, toneEnv:sonar2ToneEnv, clickEnv:sonar2ClickEnv, feedback:sonar2Feedback,
+    bypassGain:sonar2BypassGain, wetGain:sonar2WetGain, outNode:sonar2Out,
+    analyser:sonar2Analyser, inAnalyser:sonar2InAnalyser, prevPeak:0, lastTrig:0,
+    rate:65, tone:1600, echo:15, timer:null, bypassed:false
+  };
+
+  /* ---- NOISE ---- (white / swell / strobe / beacon — same design as the
+     Noise module in Patch Bay, wrapped in this instrument's universal
+     in/out/bypass shell) */
+  var noiseIn = c.createGain(); noiseIn.gain.value = 1;
+  var noiseBuf = c.createBuffer(1, c.sampleRate*2, c.sampleRate);
+  var nd = noiseBuf.getChannelData(0);
+  for(var ni=0; ni<nd.length; ni++) nd[ni] = Math.random()*2-1;
+  var noiseSrc = c.createBufferSource(); noiseSrc.buffer = noiseBuf; noiseSrc.loop = true;
+  var noiseLevelGain = c.createGain(); noiseLevelGain.gain.value = 0.35;
+  var noiseModGain = c.createGain(); noiseModGain.gain.value = 1;
+  noiseSrc.connect(noiseLevelGain); noiseLevelGain.connect(noiseModGain); noiseSrc.start();
+  var noiseBypassGain = c.createGain(); noiseBypassGain.gain.value = 0;
+  var noiseWetGain = c.createGain(); noiseWetGain.gain.value = 1;
+  noiseIn.connect(noiseBypassGain); noiseModGain.connect(noiseWetGain);
+  var noiseOut = c.createGain();
+  noiseBypassGain.connect(noiseOut); noiseWetGain.connect(noiseOut);
+  var noiseAnalyser = c.createAnalyser(); noiseAnalyser.fftSize = 512; noiseOut.connect(noiseAnalyser);
+  nodes.noise = {
+    inNode:noiseIn, levelGain:noiseLevelGain, modGain:noiseModGain,
+    bypassGain:noiseBypassGain, wetGain:noiseWetGain, outNode:noiseOut,
+    analyser:noiseAnalyser, type:'white', rate:40, modNodes:[], timer:null, bypassed:false
   };
 
   /* ---- FILTER (a 2-output crossover: main band + its exact complement) ---- */
@@ -648,6 +705,8 @@ function build(){
   var monitorOut = c.createGain();
   safety.connect(monitorOut);
   nodes.output = { inNode:outMix, limiter:limiter, ceiling:ceiling, powerGate:powerGate, outNode:monitorOut, analyser:outAnalyser, powered:false };
+
+  applyNoiseType('white');
 }
 
 /* ===================== patch connections (one universal jack kind) ===================== */
@@ -657,8 +716,10 @@ var JACKS = {
   'osc.out2':{dir:'out', get:function(){ return nodes.osc.outNode2; }},
   'sonar.in':{dir:'in', target:function(){ return nodes.sonar.inNode; }},
   'sonar.out':{dir:'out', get:function(){ return nodes.sonar.outNode; }},
-  'aviary.in':{dir:'in', target:function(){ return nodes.aviary.inNode; }},
-  'aviary.out':{dir:'out', get:function(){ return nodes.aviary.outNode; }},
+  'sonar2.in':{dir:'in', target:function(){ return nodes.sonar2.inNode; }},
+  'sonar2.out':{dir:'out', get:function(){ return nodes.sonar2.outNode; }},
+  'noise.in':{dir:'in', target:function(){ return nodes.noise.inNode; }},
+  'noise.out':{dir:'out', get:function(){ return nodes.noise.outNode; }},
   'filter.in':{dir:'in', target:function(){ return nodes.filter.inNode; }},
   'filter.out':{dir:'out', get:function(){ return nodes.filter.outNode; }},
   'filter.out2':{dir:'out', get:function(){ return nodes.filter.outNode2; }},
@@ -677,7 +738,7 @@ var JACKS = {
    it can't substitute a var() reference; an unresolvable value is silently
    ignored, leaving every scope drawn in whatever color was set previously. */
 var MODULE_COLOR = {
-  osc:'#E8B84B', sonar:'#33C2C2', aviary:'#9ED84B', filter:'#9B6BE0',
+  osc:'#E8B84B', sonar:'#33C2C2', sonar2:'#5FE0D0', noise:'#9AA3AD', filter:'#9B6BE0',
   drive:'#FF6A3D', shimmer:'#E85BB0', echo:'#4E8FE0', output:'#C9C6BC'
 };
 function moduleOf(jackId){ return jackId.split('.')[0]; }
@@ -720,7 +781,7 @@ document.querySelectorAll('.fswitch').forEach(function(btn){
   });
 });
 
-/* ===================== sonar ping / aviary chirp ===================== */
+/* ===================== sonar pulses (twin units) ===================== */
 /* A static test tone, not a swept "ping" — the frequency is set once, flat,
    and the envelope is a near-instant attack into a fast decay, so the pulse
    reads as a precise, cold click rather than a soft, wandering blip. */
@@ -741,32 +802,26 @@ function scheduleSonar(){
   var interval = 900 - speed*820;
   nodes.sonar.timer = setTimeout(scheduleSonar, interval);
 }
-function triggerAviaryChirp(){
+/* Sonar II — the same precision-pulse design as Sonar, run as a fully
+   independent second unit so the two can layer at different rates/tones. */
+function triggerSonar2Ping(){
   var c = ctx(), now = c.currentTime;
-  var burstLen = 0.03 + Math.random()*0.09;
-  var g = nodes.aviary.gate.gain;
-  g.cancelScheduledValues(now); g.setValueAtTime(0, now); g.linearRampToValueAtTime(0.55, now+0.006); g.setTargetAtTime(0, now+burstLen, 0.02);
-  var base = nodes.aviary.pitch, f = nodes.aviary.carrier.frequency;
-  f.cancelScheduledValues(now); f.setValueAtTime(base*0.85, now); f.exponentialRampToValueAtTime(base*1.15, now+burstLen);
+  nodes.sonar2.osc.frequency.setValueAtTime(nodes.sonar2.tone, now);
+  var tg = nodes.sonar2.toneEnv.gain;
+  tg.cancelScheduledValues(now); tg.setValueAtTime(0, now); tg.linearRampToValueAtTime(0.85, now+0.0006); tg.setTargetAtTime(0, now+0.006, 0.012);
+  var cg = nodes.sonar2.clickEnv.gain;
+  cg.cancelScheduledValues(now); cg.setValueAtTime(0, now); cg.linearRampToValueAtTime(0.5, now+0.0003); cg.setTargetAtTime(0, now+0.0015, 0.006);
 }
-function scheduleAviary(){
-  var clusterSize = 1 + Math.floor(Math.random()*3), i = 0;
-  function fireCluster(){
-    if(!nodes.aviary.bypassed) triggerAviaryChirp();
-    i++;
-    if(i < clusterSize){ nodes.aviary.timer = setTimeout(fireCluster, 60 + Math.random()*60); }
-    else {
-      var density = nodes.aviary.density/100;
-      var pause = (2400 - density*2000) + Math.random()*400;
-      nodes.aviary.timer = setTimeout(scheduleAviary, pause);
-    }
-  }
-  fireCluster();
+function scheduleSonar2(){
+  if(!nodes.sonar2.bypassed) triggerSonar2Ping();
+  var speed = nodes.sonar2.rate/100;
+  var interval = 900 - speed*820;
+  nodes.sonar2.timer = setTimeout(scheduleSonar2, interval);
 }
-/* Any signal patched into Sonar's or Aviary's own "in" is watched for a
-   rising edge and fires an extra ping/chirp on top of the auto-clock above —
-   the same jack that's a plain audio-through when the unit is bypassed
-   doubles as a rhythm input when it's engaged. */
+/* Any signal patched into Sonar's or Sonar II's own "in" is watched for a
+   rising edge and fires an extra pulse on top of the auto-clock above — the
+   same jack that's a plain audio-through when the unit is bypassed doubles
+   as a rhythm input when it's engaged. */
 function checkEdgeTrigger(state, analyser, triggerFn){
   if(!state._buf) state._buf = new Uint8Array(analyser.fftSize);
   analyser.getByteTimeDomainData(state._buf);
@@ -778,6 +833,75 @@ function checkEdgeTrigger(state, analyser, triggerFn){
     state.lastTrig = now;
   }
   state.prevPeak = peak;
+}
+
+/* ===================== noise type / pattern generator =====================
+   Ported from Patch Bay's Noise module. "white" is the raw buffer output,
+   unmodulated. The other three types drive a second gain stage
+   (nodes.noise.modGain, 0..1) in series after the level knob's gain, so the
+   level knob still sets peak volume regardless of which type is selected. */
+function buildGatePattern(str){
+  var CODE = {W:'.--', H:'....', '6':'-....', I:'..', S:'...'};
+  var events = [];
+  str.split('').forEach(function(ch, ci){
+    var sym = CODE[ch];
+    if(!sym) return;
+    sym.split('').forEach(function(mark, mi){
+      events.push({on:true, units: mark==='-' ? 3 : 1});
+      if(mi < sym.length-1) events.push({on:false, units:1});
+    });
+    events.push({on:false, units: ci < str.length-1 ? 3 : 7});
+  });
+  return events;
+}
+var NOISE_GATE_SEQUENCE = buildGatePattern('WH6HIS');
+
+function stopNoiseModulation(){
+  if(nodes.noise.timer){ clearTimeout(nodes.noise.timer); nodes.noise.timer = null; }
+  nodes.noise.modNodes.forEach(function(n){ try{ n.stop && n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} });
+  nodes.noise.modNodes = [];
+}
+function applyNoiseType(type){
+  stopNoiseModulation();
+  var c = ctx(), now = c.currentTime, g = nodes.noise.modGain.gain;
+  g.cancelScheduledValues(now);
+  nodes.noise.type = type;
+  if(type==='swell'){
+    var rateHz = 0.03 + (nodes.noise.rate/100)*0.6;
+    var osc = c.createOscillator(); osc.type='sine'; osc.frequency.value = rateHz;
+    var shift = c.createConstantSource(); shift.offset.value = 0.5;
+    var scale = c.createGain(); scale.gain.value = 0.5;
+    osc.connect(scale); scale.connect(g); shift.connect(g);
+    g.setValueAtTime(0, now);
+    osc.start(); shift.start();
+    nodes.noise.modNodes = [osc, shift, scale];
+  } else if(type==='strobe'){
+    g.setValueAtTime(1, now);
+    (function tick(){
+      var lvl = Math.random() < 0.5 ? 0 : (0.4 + Math.random()*0.6);
+      var gg = nodes.noise.modGain.gain, t = ctx().currentTime;
+      gg.cancelScheduledValues(t);
+      gg.setTargetAtTime(lvl, t, 0.004);
+      var speed = nodes.noise.rate/100;
+      var interval = (260 - speed*220) + Math.random()*80;
+      nodes.noise.timer = setTimeout(tick, interval);
+    })();
+  } else if(type==='beacon'){
+    g.setValueAtTime(0, now);
+    var idx = 0;
+    (function tick(){
+      var ev = NOISE_GATE_SEQUENCE[idx % NOISE_GATE_SEQUENCE.length];
+      idx++;
+      var gg = nodes.noise.modGain.gain, t = ctx().currentTime;
+      gg.cancelScheduledValues(t);
+      gg.setTargetAtTime(ev.on ? 1 : 0, t, 0.003);
+      var speed = nodes.noise.rate/100;
+      var unitMs = 150 - speed*100;
+      nodes.noise.timer = setTimeout(tick, ev.units*unitMs);
+    })();
+  } else {
+    g.setValueAtTime(1, now);
+  }
 }
 
 /* ===================== cable drawing / patching UI ===================== */
@@ -953,9 +1077,11 @@ function paramSet(path, val){
   else if(path==='sonar.rate'){ nodes.sonar.rate = val; }
   else if(path==='sonar.tone'){ nodes.sonar.tone = val; }
   else if(path==='sonar.echo'){ nodes.sonar.echo = val; nodes.sonar.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
-  else if(path==='aviary.pitch'){ nodes.aviary.pitch = val; }
-  else if(path==='aviary.warble'){ nodes.aviary.warble = val; nodes.aviary.vibratoDepth.gain.setTargetAtTime(val, ctx().currentTime, 0.02); }
-  else if(path==='aviary.density'){ nodes.aviary.density = val; }
+  else if(path==='sonar2.rate'){ nodes.sonar2.rate = val; }
+  else if(path==='sonar2.tone'){ nodes.sonar2.tone = val; }
+  else if(path==='sonar2.echo'){ nodes.sonar2.echo = val; nodes.sonar2.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
+  else if(path==='noise.level'){ nodes.noise.levelGain.gain.value = val/100*0.8; }
+  else if(path==='noise.rate'){ nodes.noise.rate = val; }
   else if(path==='filter.cutoff'){ nodes.filter.main.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.filter.comp.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
   else if(path==='filter.res'){ nodes.filter.main.Q.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.filter.comp.Q.setTargetAtTime(val, ctx().currentTime, 0.01); }
   else if(path==='drive.drive'){ nodes.drive.shaper.curve = buildDriveCurve(val); }
@@ -1044,7 +1170,8 @@ function drawScopes(){
   var draws = [
     makeScopeDrawer('oscScope', nodes.osc.analyser, MODULE_COLOR.osc),
     makeScopeDrawer('sonarScope', nodes.sonar.analyser, MODULE_COLOR.sonar),
-    makeScopeDrawer('aviaryScope', nodes.aviary.analyser, MODULE_COLOR.aviary),
+    makeScopeDrawer('sonar2Scope', nodes.sonar2.analyser, MODULE_COLOR.sonar2),
+    makeScopeDrawer('noiseScope', nodes.noise.analyser, MODULE_COLOR.noise),
     makeScopeDrawer('filterScope', nodes.filter.analyser, MODULE_COLOR.filter),
     makeScopeDrawer('driveScope', nodes.drive.analyser, MODULE_COLOR.drive),
     makeScopeDrawer('shimmerScope', nodes.shimmer.analyser, MODULE_COLOR.shimmer),
@@ -1055,14 +1182,14 @@ function drawScopes(){
     requestAnimationFrame(loop);
     draws.forEach(function(fn){ fn(); });
     checkEdgeTrigger(nodes.sonar, nodes.sonar.inAnalyser, triggerSonarPing);
-    checkEdgeTrigger(nodes.aviary, nodes.aviary.inAnalyser, triggerAviaryChirp);
+    checkEdgeTrigger(nodes.sonar2, nodes.sonar2.inAnalyser, triggerSonar2Ping);
   }
   loop();
 }
 
 /* ===================== random ===================== */
 var RANDOM_KNOBS = ['osc.pitch','osc.shape','osc.level','sonar.rate','sonar.tone','sonar.echo',
-  'aviary.pitch','aviary.warble','aviary.density','filter.cutoff','filter.res',
+  'sonar2.rate','sonar2.tone','sonar2.echo','noise.rate','filter.cutoff','filter.res',
   'drive.drive','drive.tone','drive.mix','shimmer.rate','shimmer.depth','shimmer.mix',
   'echo.time','echo.feedback','echo.mix'];
 function randomize(){
@@ -1078,12 +1205,13 @@ function randomize(){
 /* ===================== default patch ===================== */
 function wireDefaultPatch(){
   connect('osc.out','filter.in');
+  connect('noise.out','filter.in');
   connect('filter.out','drive.in');
   connect('drive.out','shimmer.in');
   connect('shimmer.out','echo.in');
   connect('echo.out','output.in');
   connect('sonar.out','output.in');
-  connect('aviary.out','echo.in');
+  connect('sonar2.out','output.in');
 }
 
 /* ===================== legend ===================== */
@@ -1128,11 +1256,12 @@ document.querySelectorAll('select.wave').forEach(function(sel){
     var path = sel.getAttribute('data-select');
     if(path==='osc.wave'){ nodes.osc.osc.type = sel.value; nodes.osc.subOsc.type = sel.value; }
     if(path==='filter.type'){ nodes.filter.main.type = sel.value; nodes.filter.comp.type = FILTER_COMPLEMENT[sel.value]; }
+    if(path==='noise.type'){ applyNoiseType(sel.value); }
   });
 });
 initConnectionsPanel();
 buildLegend();
-if(audioReady){ renderCables(); drawScopes(); scheduleSonar(); scheduleAviary(); }
+if(audioReady){ renderCables(); drawScopes(); scheduleSonar(); scheduleSonar2(); }
 
 document.getElementById('powerBtn').addEventListener('click', function(){
   if(!audioReady) return;
