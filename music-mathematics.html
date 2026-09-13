@@ -470,6 +470,26 @@ footer a{text-decoration:underline;}
 var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
 var actx = null;
 function ctx(){ if(!actx) actx = new AudioCtxClass(); if(actx.state==='suspended') actx.resume(); return actx; }
+
+/* iOS Safari keeps a freshly-created AudioContext silently locked even
+   after resume() is called from inside a button's own click handler —
+   it only reliably unlocks on the very first touch/click on the page,
+   and only if that unlock plays a real (silent) buffer through it.
+   Do that once, as early as possible (capture phase, before any
+   button-specific handler runs), so every play button downstream just works. */
+function unlockAudioForIOS(){
+  var c = ctx();
+  if(c.state==='suspended'){ c.resume(); }
+  var buffer = c.createBuffer(1, 1, 22050);
+  var src = c.createBufferSource();
+  src.buffer = buffer;
+  src.connect(c.destination);
+  if(src.start) src.start(0); else if(src.noteOn) src.noteOn(0);
+}
+['touchstart','touchend','click'].forEach(function(evt){
+  document.addEventListener(evt, unlockAudioForIOS, {capture:true, once:true, passive:true});
+});
+
 var activeNodes = [];
 function stopAll(){
   activeNodes.forEach(function(n){ try{ n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} });
