@@ -120,7 +120,7 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 select.wave{font-family:var(--font-mono); font-size:10px; padding:5px 6px; border:1px solid var(--line-strong); border-radius:3px; background:var(--sunken); color:var(--ink); width:100%;}
 
 .scopewrap{margin-top:8px; border:1px solid var(--line-strong); border-radius:3px; overflow:hidden; background:#000;}
-.scopewrap canvas{display:block; width:100%; height:52px;}
+.scopewrap canvas{display:block; width:100%; height:90px;}
 
 .legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:18px; font-size:10px; color:var(--ink-faint); font-family:var(--font-mono);}
 .legend span{display:inline-flex; align-items:center; gap:6px;}
@@ -246,7 +246,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="osc.shape" data-min="0" data-max="100" data-default="0"><div class="ind"></div></div><span class="klabel">shape</span><span class="kval" data-kval="osc.shape">0</span></div>
         <div class="knobwrap"><div class="knob" data-knob="osc.level" data-min="0" data-max="100" data-default="70"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="osc.level">70</span></div>
       </div>
-      <div class="scopewrap"><canvas id="oscScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="oscScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="osc.in"><span class="nub"></span>in · fm</div></div>
         <div class="jackgroup">
@@ -259,13 +259,13 @@ footer a:hover{color:var(--ink);}
     <!-- SONAR -->
     <div class="module n-sonar" data-mod="sonar">
       <div class="mhead"><span class="mname">Sonar</span><button class="fswitch engaged" data-bypass="sonar" aria-label="Bypass Sonar"><span class="led"></span></button></div>
-      <span class="mtag">ping generator · edge-triggered</span>
+      <span class="mtag">precision pulse · edge-triggered</span>
       <div class="row">
         <div class="knobwrap"><div class="knob" data-knob="sonar.rate" data-min="0" data-max="100" data-default="45"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="sonar.rate">45</span></div>
         <div class="knobwrap"><div class="knob" data-knob="sonar.tone" data-min="150" data-max="3000" data-default="900" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="sonar.tone">900</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="sonar.echo" data-min="0" data-max="70" data-default="35"><div class="ind"></div></div><span class="klabel">echo</span><span class="kval" data-kval="sonar.echo">35</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar.echo" data-min="0" data-max="60" data-default="25"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="sonar.echo">25</span></div>
       </div>
-      <div class="scopewrap"><canvas id="sonarScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="sonarScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="sonar.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="sonar.out"><span class="nub"></span>out</div></div>
@@ -281,7 +281,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="aviary.warble" data-min="0" data-max="200" data-default="60"><div class="ind"></div></div><span class="klabel">warble</span><span class="kval" data-kval="aviary.warble">60</span></div>
         <div class="knobwrap"><div class="knob" data-knob="aviary.density" data-min="0" data-max="100" data-default="50"><div class="ind"></div></div><span class="klabel">density</span><span class="kval" data-kval="aviary.density">50</span></div>
       </div>
-      <div class="scopewrap"><canvas id="aviaryScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="aviaryScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="aviary.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="aviary.out"><span class="nub"></span>out</div></div>
@@ -299,7 +299,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="filter.cutoff" data-min="60" data-max="8000" data-default="1200" data-log="1"><div class="ind"></div></div><span class="klabel">cutoff</span><span class="kval" data-kval="filter.cutoff">1200</span></div>
         <div class="knobwrap"><div class="knob" data-knob="filter.res" data-min="0" data-max="25" data-default="6"><div class="ind"></div></div><span class="klabel">res</span><span class="kval" data-kval="filter.res">6</span></div>
       </div>
-      <div class="scopewrap"><canvas id="filterScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="filterScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="filter.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup">
@@ -318,7 +318,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="drive.tone" data-min="400" data-max="8000" data-default="3000" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="drive.tone">3000</span></div>
         <div class="knobwrap"><div class="knob" data-knob="drive.mix" data-min="0" data-max="100" data-default="100"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="drive.mix">100</span></div>
       </div>
-      <div class="scopewrap"><canvas id="driveScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="driveScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="drive.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="drive.out"><span class="nub"></span>out</div></div>
@@ -334,7 +334,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="shimmer.depth" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">depth</span><span class="kval" data-kval="shimmer.depth">40</span></div>
         <div class="knobwrap"><div class="knob" data-knob="shimmer.mix" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="shimmer.mix">35</span></div>
       </div>
-      <div class="scopewrap"><canvas id="shimmerScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="shimmerScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="shimmer.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="shimmer.out"><span class="nub"></span>out</div></div>
@@ -350,7 +350,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="echo.feedback" data-min="0" data-max="100" data-default="38"><div class="ind"></div></div><span class="klabel">fb</span><span class="kval" data-kval="echo.feedback">38</span></div>
         <div class="knobwrap"><div class="knob" data-knob="echo.mix" data-min="0" data-max="100" data-default="30"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="echo.mix">30</span></div>
       </div>
-      <div class="scopewrap"><canvas id="echoScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="echoScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="echo.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="echo.out"><span class="nub"></span>out</div></div>
@@ -362,7 +362,7 @@ footer a:hover{color:var(--ink);}
       <div class="mhead"><span class="mname">Output</span><span style="font-family:var(--font-mono); font-size:9px; color:var(--ink-faint);">limiter&nbsp;on</span></div>
       <span class="mtag">master · feedback tap</span>
       <div class="row"><div class="knobwrap"><div class="knob" data-knob="output.volume" data-min="0" data-max="100" data-default="75"><div class="ind"></div></div><span class="klabel">volume</span><span class="kval" data-kval="output.volume">75</span></div></div>
-      <div class="scopewrap"><canvas id="outputScope" width="240" height="52"></canvas></div>
+      <div class="scopewrap"><canvas id="outputScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="output.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="output.out"><span class="nub"></span>out</div></div>
@@ -476,23 +476,42 @@ function build(){
   var oscOut2 = c.createGain();
   oscBypassGain2.connect(oscOut2); oscWetGain2.connect(oscOut2);
 
-  var oscAnalyser = c.createAnalyser(); oscAnalyser.fftSize = 1024; oscOut.connect(oscAnalyser);
+  var oscAnalyser = c.createAnalyser(); oscAnalyser.fftSize = 512; oscOut.connect(oscAnalyser);
   nodes.osc = {
     inNode:oscIn, osc:osc, subOsc:subOsc, shaper:oscShaper, subShaper:subShaper, level:oscLevel, subLevel:subLevel,
     bypassGain:oscBypassGain, wetGain:oscWetGain, bypassGain2:oscBypassGain2, wetGain2:oscWetGain2,
     outNode:oscOut, outNode2:oscOut2, analyser:oscAnalyser, bypassed:false, pitch:220, shape:0
   };
 
-  /* ---- SONAR ---- */
+  /* ---- SONAR ----
+     Reworked toward a Ryoji Ikeda-style precision-pulse aesthetic: a
+     static, cold sine test-tone (no pitch sweep) layered with a short
+     broadband "tick" from a highpassed noise source, both gated by a
+     near-instant attack / fast decay envelope, repeated on a short exact
+     delay (a tight digital stutter, not a diffuse reverb wash) — see
+     scheduleSonar() below for the equally exact, unjittered timing. */
   var sonarIn = c.createGain(); sonarIn.gain.value = 1;
+
   var sonarOsc = c.createOscillator(); sonarOsc.type='sine'; sonarOsc.frequency.value = 900;
-  var sonarEnvGain = c.createGain(); sonarEnvGain.gain.value = 0;
-  sonarOsc.connect(sonarEnvGain); sonarOsc.start();
-  var sonarDelay = c.createDelay(1.0); sonarDelay.delayTime.value = 0.22;
-  var sonarFeedback = c.createGain(); sonarFeedback.gain.value = 0.3;
+  var sonarToneEnv = c.createGain(); sonarToneEnv.gain.value = 0;
+  sonarOsc.connect(sonarToneEnv); sonarOsc.start();
+
+  var clickBuf = c.createBuffer(1, c.sampleRate, c.sampleRate);
+  var cd = clickBuf.getChannelData(0);
+  for(var ci=0; ci<cd.length; ci++) cd[ci] = Math.random()*2-1;
+  var clickSrc = c.createBufferSource(); clickSrc.buffer = clickBuf; clickSrc.loop = true;
+  var clickFilter = c.createBiquadFilter(); clickFilter.type='highpass'; clickFilter.frequency.value = 5000;
+  clickSrc.connect(clickFilter); clickSrc.start();
+  var sonarClickEnv = c.createGain(); sonarClickEnv.gain.value = 0;
+  clickFilter.connect(sonarClickEnv);
+
+  var sonarDelay = c.createDelay(0.5); sonarDelay.delayTime.value = 0.07;
+  var sonarFeedback = c.createGain(); sonarFeedback.gain.value = 0.18;
   var sonarMix = c.createGain();
-  sonarEnvGain.connect(sonarMix);
-  sonarEnvGain.connect(sonarDelay); sonarDelay.connect(sonarFeedback); sonarFeedback.connect(sonarDelay); sonarDelay.connect(sonarMix);
+  sonarToneEnv.connect(sonarMix); sonarClickEnv.connect(sonarMix);
+  sonarToneEnv.connect(sonarDelay); sonarClickEnv.connect(sonarDelay);
+  sonarDelay.connect(sonarFeedback); sonarFeedback.connect(sonarDelay); sonarDelay.connect(sonarMix);
+
   var sonarBypassGain = c.createGain(); sonarBypassGain.gain.value = 0;
   var sonarWetGain = c.createGain(); sonarWetGain.gain.value = 1;
   sonarIn.connect(sonarBypassGain); sonarMix.connect(sonarWetGain);
@@ -501,10 +520,10 @@ function build(){
   var sonarInAnalyser = c.createAnalyser(); sonarInAnalyser.fftSize = 256; sonarIn.connect(sonarInAnalyser);
   var sonarAnalyser = c.createAnalyser(); sonarAnalyser.fftSize = 512; sonarOut.connect(sonarAnalyser);
   nodes.sonar = {
-    inNode:sonarIn, osc:sonarOsc, envGain:sonarEnvGain, feedback:sonarFeedback,
+    inNode:sonarIn, osc:sonarOsc, toneEnv:sonarToneEnv, clickEnv:sonarClickEnv, feedback:sonarFeedback,
     bypassGain:sonarBypassGain, wetGain:sonarWetGain, outNode:sonarOut,
     analyser:sonarAnalyser, inAnalyser:sonarInAnalyser, prevPeak:0, lastTrig:0,
-    rate:45, tone:900, echo:35, timer:null, bypassed:false
+    rate:45, tone:900, echo:25, timer:null, bypassed:false
   };
 
   /* ---- AVIARY ---- */
@@ -624,7 +643,7 @@ function build(){
   var powerGate = c.createGain(); powerGate.gain.value = 0;
   var safety = c.createWaveShaper(); safety.curve = buildHardClipCurve();
   outMix.connect(limiter); limiter.connect(ceiling); ceiling.connect(powerGate); powerGate.connect(safety);
-  var outAnalyser = c.createAnalyser(); outAnalyser.fftSize = 1024;
+  var outAnalyser = c.createAnalyser(); outAnalyser.fftSize = 512;
   safety.connect(outAnalyser); outAnalyser.connect(c.destination);
   var monitorOut = c.createGain();
   safety.connect(monitorOut);
@@ -702,18 +721,24 @@ document.querySelectorAll('.fswitch').forEach(function(btn){
 });
 
 /* ===================== sonar ping / aviary chirp ===================== */
+/* A static test tone, not a swept "ping" — the frequency is set once, flat,
+   and the envelope is a near-instant attack into a fast decay, so the pulse
+   reads as a precise, cold click rather than a soft, wandering blip. */
 function triggerSonarPing(){
   var c = ctx(), now = c.currentTime;
-  var tone = nodes.sonar.tone;
-  var f = nodes.sonar.osc.frequency;
-  f.cancelScheduledValues(now); f.setValueAtTime(tone*1.6, now); f.exponentialRampToValueAtTime(Math.max(40, tone*0.7), now+0.35);
-  var g = nodes.sonar.envGain.gain;
-  g.cancelScheduledValues(now); g.setValueAtTime(0, now); g.linearRampToValueAtTime(0.7, now+0.008); g.setTargetAtTime(0, now+0.02, 0.12);
+  nodes.sonar.osc.frequency.setValueAtTime(nodes.sonar.tone, now);
+  var tg = nodes.sonar.toneEnv.gain;
+  tg.cancelScheduledValues(now); tg.setValueAtTime(0, now); tg.linearRampToValueAtTime(0.85, now+0.0006); tg.setTargetAtTime(0, now+0.006, 0.012);
+  var cg = nodes.sonar.clickEnv.gain;
+  cg.cancelScheduledValues(now); cg.setValueAtTime(0, now); cg.linearRampToValueAtTime(0.5, now+0.0003); cg.setTargetAtTime(0, now+0.0015, 0.006);
 }
+/* No random jitter on the interval — the pulse lands on an exact, silent
+   grid instead of a vaguely-timed drift, which is most of what read as
+   "random" before. */
 function scheduleSonar(){
   if(!nodes.sonar.bypassed) triggerSonarPing();
   var speed = nodes.sonar.rate/100;
-  var interval = (2600 - speed*2300) + Math.random()*200;
+  var interval = 900 - speed*820;
   nodes.sonar.timer = setTimeout(scheduleSonar, interval);
 }
 function triggerAviaryChirp(){
@@ -927,7 +952,7 @@ function paramSet(path, val){
   else if(path==='osc.level'){ nodes.osc.level.gain.setTargetAtTime(val/100*0.7, ctx().currentTime, 0.01); nodes.osc.subLevel.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.01); }
   else if(path==='sonar.rate'){ nodes.sonar.rate = val; }
   else if(path==='sonar.tone'){ nodes.sonar.tone = val; }
-  else if(path==='sonar.echo'){ nodes.sonar.echo = val; nodes.sonar.feedback.gain.setTargetAtTime(val/100*0.85, ctx().currentTime, 0.02); }
+  else if(path==='sonar.echo'){ nodes.sonar.echo = val; nodes.sonar.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
   else if(path==='aviary.pitch'){ nodes.aviary.pitch = val; }
   else if(path==='aviary.warble'){ nodes.aviary.warble = val; nodes.aviary.vibratoDepth.gain.setTargetAtTime(val, ctx().currentTime, 0.02); }
   else if(path==='aviary.density'){ nodes.aviary.density = val; }
