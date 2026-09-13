@@ -67,6 +67,11 @@ header .back:hover{text-decoration:underline;}
 .rack{position:relative; display:grid; grid-template-columns:repeat(4, 1fr); gap:16px;}
 @media (max-width:900px){ .rack{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:520px){ .rack{grid-template-columns:1fr;} }
+/* Cables paint above the modules (z-index:5) so a curve stays visible where it
+   crosses a module edge — but every cable ends exactly at its jack's center,
+   so without .jack sitting above it too (see .jack z-index below), a tap
+   aimed at a plugged jack's nub would hit the cable's stroke instead and
+   never reach the jack element underneath it. */
 #cableSvg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:5; overflow:visible;}
 
 .module{background:var(--panel); border:2px solid var(--ink); border-radius:6px; padding:12px; position:relative; box-shadow:3px 3px 0 var(--ink);}
@@ -87,7 +92,7 @@ header .back:hover{text-decoration:underline;}
 .row:last-child{margin-bottom:0;}
 .jackrow{display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:9px; border-top:1px dashed var(--line);}
 .jackgroup{display:flex; flex-direction:column; gap:10px;}
-.jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; cursor:pointer; touch-action:none; padding-block:6px; margin-block:-6px;}
+.jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; cursor:pointer; touch-action:none; padding-block:6px; margin-block:-6px; position:relative; z-index:6;}
 .jack.out{flex-direction:row-reverse;}
 .jack .nub{width:13px; height:13px; border-radius:50%; border:2px solid var(--ink); background:#fff; flex:none;}
 .jack[data-kind="audio"] .nub{background:var(--audio-c);}
