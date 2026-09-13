@@ -9,6 +9,9 @@ Home: https://followorbounce.github.io/
 
 ## Sections
 
+- Waves — Universal Waves (master index of every wave family in nature: mechanical, electromagnetic, matter, plasma, gravitational, chemical, biological, information, astronomical, plus the shared mathematics): https://followorbounce.github.io/universal-waves
+  - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
+  - Music Is Mathematics — string physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, nine-tool audio lab: https://followorbounce.github.io/music-mathematics
 - Sound & Music — Music Is Mathematics (string physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, nine-tool audio lab): https://followorbounce.github.io/music-mathematics. Also acoustics of instruments, audio engineering (planned).
 - Aerospace — spaceflight history and engineering. Index: https://followorbounce.github.io/aerospace/
   - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
