@@ -13,7 +13,6 @@ Home: https://followorbounce.github.io/
   - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
   - Music Is Mathematics — string physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, nine-tool audio lab: https://followorbounce.github.io/music-mathematics
 - Aerospace — spaceflight history and engineering. Index: https://followorbounce.github.io/aerospace/
-  - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
 - Maya Basics — Maya calendrical systems. Index: https://followorbounce.github.io/Maya-Calendar/
 - Machinery — heavy machinery explained through engineering, physics, and mathematics. Index: https://followorbounce.github.io/machinery/
 - Radio & Electronics — Radio Communications (frequency, modulation, propagation, spacecraft links, spectrum management): https://followorbounce.github.io/radio-communications. Media Servers (generative art, real-time rendering, GLSL shaders, projection mapping, signal processing, TouchDesigner/Notch/openFrameworks ecosystem): https://followorbounce.github.io/mediaservers.
