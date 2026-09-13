@@ -675,18 +675,38 @@ function wireDefaultPatch(){
 }
 
 /* ===================== boot =====================
-   Build the audio graph immediately on load — creating nodes and calling
-   .start() on oscillators doesn't itself produce sound (nothing reaches
-   destination yet, and gain-driven stages start at 0), so this doesn't
-   need to wait for a user gesture. Only actually hearing anything does,
-   which is what the Play button's unlockAudioForIOS()+resume() is for.
-   Knob init runs *after* build(), since paramSet() touches real audio
-   nodes for its initial value and would throw if they didn't exist yet. */
-build();
-wireDefaultPatch();
-document.querySelectorAll('.knob').forEach(initKnob);
+   Everything below MUST run regardless of whether the Web Audio graph
+   builds successfully — a previous version called build() unguarded at
+   top level, and any exception inside it (a missing API, anything)
+   silently killed the rest of this script, including every button's
+   event listener. That produces exactly "nothing responds at all,"
+   which is worse than "no sound": the whole interface goes dead with no
+   sign of why. Audio setup is now isolated in its own try/catch, with
+   the actual error surfaced on-screen — the UI wiring after it runs
+   either way. */
+var audioReady = false, buildError = null;
+try{
+  build();
+  wireDefaultPatch();
+  audioReady = true;
+}catch(err){
+  buildError = err;
+  console.error('Patch Bay: Web Audio setup failed —', err);
+}
+if(!audioReady){
+  var banner = document.createElement('div');
+  banner.style.cssText = 'background:#e0507a;color:#fff;padding:12px 16px;font-family:'+
+    "'IBM Plex Mono',monospace"+';font-size:12px;border-bottom:2px solid var(--ink);';
+  banner.textContent = 'Audio couldn\'t start in this browser (' + (buildError && buildError.message ? buildError.message : 'unknown error') + '). The rack below still works for looking around, but nothing will play — sorry.';
+  document.body.insertBefore(banner, document.body.firstChild);
+}
+
+document.querySelectorAll('.knob').forEach(function(el){
+  try{ initKnob(el); }catch(e){ console.error('knob init failed for', el.getAttribute('data-knob'), e); }
+});
 document.querySelectorAll('select.wave').forEach(function(sel){
   sel.addEventListener('change', function(){
+    if(!audioReady) return;
     var path = sel.getAttribute('data-select');
     if(path==='osc.wave') nodes.osc.osc.type = sel.value;
     if(path==='lfo.wave') nodes.lfo.osc.type = sel.value;
@@ -694,10 +714,10 @@ document.querySelectorAll('select.wave').forEach(function(sel){
   });
 });
 buildStepsUI();
-renderCables();
-drawScope();
+if(audioReady){ renderCables(); drawScope(); }
 
 document.getElementById('playBtn').addEventListener('click', function(){
+  if(!audioReady){ return; }
   unlockAudioForIOS();
   playing = !playing;
   this.classList.toggle('on', playing);
@@ -705,8 +725,8 @@ document.getElementById('playBtn').addEventListener('click', function(){
   if(playing){ nextStepTime = ctx().currentTime + 0.05; currentStep = 0; scheduler(); }
   else { clearTimeout(timerId); }
 });
-document.getElementById('randomBtn').addEventListener('click', randomize);
-window.addEventListener('resize', function(){ renderCables(); });
+document.getElementById('randomBtn').addEventListener('click', function(){ if(audioReady) randomize(); });
+window.addEventListener('resize', function(){ if(audioReady) renderCables(); });
 
 })();
 </script>
