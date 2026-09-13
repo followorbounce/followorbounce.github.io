@@ -1,0 +1,785 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dictionary of Inner Experience — Knowledge Network</title>
+<meta name="description" content="An authored vocabulary for 77 inner states — emotions, moods, and existential experiences — distinguished by real psychological criteria, not treated as interchangeable synonyms.">
+<link rel="canonical" href="https://followorbounce.github.io/dictionary-of-inner-experience/">
+<meta name="theme-color" content="#f6f4f1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600;8..60,700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#201c1c; --paper:#f6f4f1; --paper-raised:#ffffff; --ink-muted:#635b58; --ink-faint:#9c928c;
+  --line:#e0dbd2; --line-strong:#c9c1b5;
+  --int:#7a2b3d; --int-soft:#f3e2e5;
+  --font-display:'Source Serif 4', Georgia, serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --ink:#eee9e4; --paper:#161311; --paper-raised:#1e1a17; --ink-muted:#a89e97; --ink-faint:#726862; --line:#2e2925; --line-strong:#403933; --int:#e08a9c; --int-soft:#3a1e24; }
+}
+:root[data-theme="dark"]{ --ink:#eee9e4; --paper:#161311; --paper-raised:#1e1a17; --ink-muted:#a89e97; --ink-faint:#726862; --line:#2e2925; --line-strong:#403933; --int:#e08a9c; --int-soft:#3a1e24; }
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-display); font-size:15px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+a{color:inherit;}
+svg{display:block; width:100%; height:100%;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700;}
+.mono{font-family:var(--font-mono);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--paper); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px;}
+header .back{font-family:var(--font-mono); font-size:12px; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+header .pair{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);}
+header .pair a{color:var(--int); text-decoration:none;}
+
+.hero{padding-block:clamp(36px,7vw,64px) 28px; border-bottom:1px solid var(--ink);}
+.hero .eyebrow{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:16px;}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem); line-height:1.02; letter-spacing:-0.01em; max-width:780px;}
+.hero p{margin-top:16px; max-width:640px; font-size:1.02rem; color:var(--ink-muted); line-height:1.65;}
+
+.controls{position:sticky; top:49px; z-index:4; background:var(--paper); border-bottom:1px solid var(--line); padding-block:12px;}
+.controls .wrap{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+#search{font-family:var(--font-mono); font-size:13px; padding:8px 12px; border:1px solid var(--ink); background:var(--paper-raised); color:var(--ink); flex:1; min-width:160px; max-width:280px;}
+.catbtn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.02em; padding:7px 11px; border:1px solid var(--line-strong); border-radius:12px; background:var(--paper-raised); color:var(--ink-muted); cursor:pointer;}
+.catbtn span{color:var(--ink-faint);}
+.catbtn.active{border-color:var(--int); color:var(--int); background:var(--int-soft);}
+.count{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-left:auto;}
+
+main{padding-block:32px;}
+.regnote{font-family:var(--font-mono); font-size:11.5px; color:var(--ink-faint); border-left:2px solid var(--line-strong); padding-left:10px; margin-bottom:16px; max-width:640px; display:none;}
+.regnote.show{display:block;}
+.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(240px,1fr)); gap:14px;}
+.card{background:var(--paper-raised); border:1px solid var(--line); border-radius:10px; display:flex; flex-direction:column; overflow:hidden; scroll-margin-top:110px;}
+.card[hidden]{display:none;}
+.card-art{aspect-ratio:4/3; border-bottom:1px solid var(--line); padding:10px;}
+.card-body{padding:13px 15px 16px; flex:1;}
+.card-head{display:flex; align-items:baseline; gap:8px; margin-bottom:6px;}
+.card-head h3{font-size:1.02rem;}
+.badge{font-family:var(--font-mono); font-size:9px; letter-spacing:0.04em; text-transform:uppercase; background:var(--int-soft); color:var(--int); padding:1px 6px; border-radius:8px;}
+.def{font-size:0.86rem; color:var(--ink-muted); line-height:1.55; margin:0;}
+.dims{margin-top:8px; display:flex; gap:8px; flex-wrap:wrap;}
+.dims span{font-family:var(--font-mono); font-size:9.5px; text-transform:uppercase; letter-spacing:0.04em; color:var(--ink-faint); border:1px solid var(--line); border-radius:8px; padding:1px 7px;}
+.rels{margin-top:9px; display:flex; gap:6px; flex-wrap:wrap;}
+.rel{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px dotted var(--line-strong);}
+.rel:hover{color:var(--int);}
+
+.empty{padding:60px 0; text-align:center; color:var(--ink-faint); font-size:13px; display:none;}
+.empty.show{display:block;}
+
+footer{border-top:1px solid var(--ink); padding-block:24px; text-align:center;}
+footer span{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint);}
+footer a{color:var(--int);}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <span class="pair">Design of inner experience · paired with <a href="/dictionary-of-design/">Dictionary of Design →</a></span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Dictionary · Emotional Cartography · 77 Terms</div>
+    <h1>Dictionary of Inner Experience</h1>
+    <p>Not every word for a feeling names the same kind of thing. This dictionary distinguishes emotions from moods, self-conscious states from existential ones, and a felt experience from a regulation strategy applied to it — and gives each entry a visual built from the same small set of abstract forms, so what changes between two related feelings is genuinely visible, not just described. Rewritten and substantially expanded from an earlier 28-term version at Design Divine Future.</p>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="wrap">
+    <input id="search" type="text" placeholder="Search terms…">
+    <button class="catbtn active" data-cat="all">All <span>77</span></button>
+    <button class="catbtn" data-cat="basic">Basic Emotions <span>6</span></button><button class="catbtn" data-cat="complex">Complex & Blended <span>23</span></button><button class="catbtn" data-cat="self-conscious">Self-Conscious <span>6</span></button><button class="catbtn" data-cat="mood">Moods <span>11</span></button><button class="catbtn" data-cat="interpersonal">Interpersonal & Relational <span>14</span></button><button class="catbtn" data-cat="existential">Existential <span>13</span></button><button class="catbtn" data-cat="regulation">Regulation Strategies <span>4</span></button>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <p class="regnote" id="regnote">Regulation strategies aren't feelings — they're things a person does with a feeling (suppress it, avoid its trigger, ruminate on it). Kept separate from the main vocabulary above rather than mixed in as if they were another kind of emotion.</p>
+  <div class="grid" id="grid">
+    <article class="card" id="anger" data-cat="basic" data-name="anger">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="28" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><circle cx="72" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><path d="M44 30 L52 38 L44 46 M56 30 L48 38 L56 46" stroke="var(--int)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Anger</h3><span class="badge">New</span></div>
+    <p class="def">A response to a perceived wrong, obstacle, or violation, oriented toward confrontation.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#frustration" class="rel">Frustration</a><a href="#indignation" class="rel">Indignation</a><a href="#rage" class="rel">Rage</a></div>
+  </div>
+</article><article class="card" id="disgust" data-cat="basic" data-name="disgust">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="65" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><path d="M50 38 H35" stroke="var(--int)" stroke-width="2" marker-end="url(#rc)"/><defs><marker id="rc" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--int)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Disgust</h3></div>
+    <p class="def">A visceral aversive reaction to something perceived as contaminating or unacceptable, with a genuinely bodily signature distinguishing it from Contempt&#x27;s coolness.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#contempt" class="rel">Contempt</a><a href="#antipathy" class="rel">Antipathy</a></div>
+  </div>
+</article><article class="card" id="fear" data-cat="basic" data-name="fear">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="9" fill="var(--int)"/><path d="M42 38 H80" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><path d="M72 32 L82 38 L72 44" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Fear</h3><span class="badge">New</span></div>
+    <p class="def">A rapid response to a perceived immediate, identifiable threat.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#anxiety" class="rel">Anxiety</a><a href="#dread" class="rel">Dread</a><a href="#panic" class="rel">Panic</a></div>
+  </div>
+</article><article class="card" id="joy" data-cat="basic" data-name="joy">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="42" r="8" fill="var(--int)"/><circle cx="50" cy="42" r="20" fill="none" stroke="var(--int)" stroke-width="1.3" opacity="0.5"/><circle cx="50" cy="42" r="30" fill="none" stroke="var(--int)" stroke-width="1" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Joy</h3><span class="badge">New</span></div>
+    <p class="def">A response to something appraised as good, moderate to high in activation, and tied to a specific moment rather than sustained.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#delight" class="rel">Delight</a><a href="#happiness" class="rel">Happiness</a><a href="#euphoria" class="rel">Euphoria</a></div>
+  </div>
+</article><article class="card" id="sadness" data-cat="basic" data-name="sadness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="24" r="10" fill="var(--int)" opacity="0.5"/><path d="M50 34 V58" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><circle cx="50" cy="62" r="6" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Sadness</h3><span class="badge">New</span></div>
+    <p class="def">A response to loss or an unmet want, broad in cause and duration.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#grief" class="rel">Grief</a><a href="#disappointment" class="rel">Disappointment</a><a href="#sorrow" class="rel">Sorrow</a></div>
+  </div>
+</article><article class="card" id="surprise" data-cat="basic" data-name="surprise">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="26" r="9" fill="var(--int)"/><circle cx="50" cy="42" r="6" fill="var(--int)" opacity="0.7"/><circle cx="68" cy="24" r="4" fill="var(--int)" opacity="0.4"/><circle cx="70" cy="52" r="3" fill="var(--int)" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Surprise</h3><span class="badge">New</span></div>
+    <p class="def">A brief orienting reaction to an unexpected event, valence-neutral until appraisal resolves it toward pleasant or unpleasant. Its status as a true emotion versus a pre-emotional reflex is genuinely disputed in the literature.</p>
+    <div class="dims"><span>ambivalent</span><span>high activation</span></div>
+    <div class="rels"><a href="#bewilderment" class="rel">Bewilderment</a><a href="#perplexity" class="rel">Perplexity</a></div>
+  </div>
+</article><article class="card" id="antipathy" data-cat="complex" data-name="antipathy">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="9" fill="var(--int)"/><path d="M42 38 H80" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><path d="M72 32 L82 38 L72 44" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Antipathy</h3></div>
+    <p class="def">A settled dislike or aversion toward someone or something, milder and more passive than Hatred.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#hatred" class="rel">Hatred</a><a href="#contempt" class="rel">Contempt</a></div>
+  </div>
+</article><article class="card" id="anxiety" data-cat="complex" data-name="anxiety">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 38 Q30 15 45 38 Q60 61 75 38 Q83 26 90 38" fill="none" stroke="var(--int)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Anxiety</h3></div>
+    <p class="def">A sustained state of tension and worry without one clear, immediate object — diffuse, future-oriented, and cognitively elaborated, unlike Fear&#x27;s sharp present focus.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#unease" class="rel">Unease</a><a href="#dread" class="rel">Dread</a><a href="#worry" class="rel">Worry</a></div>
+  </div>
+</article><article class="card" id="apprehension" data-cat="complex" data-name="apprehension">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M25 42 Q40 28 55 42 Q68 54 78 42" fill="none" stroke="var(--int)" stroke-width="1.5" opacity="0.7"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Apprehension</h3><span class="badge">New</span></div>
+    <p class="def">Dread&#x27;s quieter sibling — a low-intensity anticipatory discomfort about a known-ish upcoming event.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#dread" class="rel">Dread</a></div>
+  </div>
+</article><article class="card" id="contempt" data-cat="complex" data-name="contempt">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="65" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><path d="M50 38 H35" stroke="var(--int)" stroke-width="2" marker-end="url(#rc)"/><defs><marker id="rc" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--int)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Contempt</h3></div>
+    <p class="def">A cool, dismissive sense of superiority toward someone judged unworthy — low activation compared to Anger, defined by distance rather than heat.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#disgust" class="rel">Disgust</a><a href="#indignation" class="rel">Indignation</a></div>
+  </div>
+</article><article class="card" id="delight" data-cat="complex" data-name="delight">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="42" r="8" fill="var(--int)"/><circle cx="50" cy="42" r="20" fill="none" stroke="var(--int)" stroke-width="1.3" opacity="0.5"/><circle cx="50" cy="42" r="30" fill="none" stroke="var(--int)" stroke-width="1" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Delight</h3></div>
+    <p class="def">Joy intensified by a violated positive expectation — something better than hoped for.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#joy" class="rel">Joy</a><a href="#excitement" class="rel">Excitement</a></div>
+  </div>
+</article><article class="card" id="disappointment" data-cat="complex" data-name="disappointment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="24" r="10" fill="var(--int)" opacity="0.5"/><path d="M50 34 V58" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><circle cx="50" cy="62" r="6" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Disappointment</h3></div>
+    <p class="def">Sadness from an expectation that was violated — inherently comparative between what happened and what was expected.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#sadness" class="rel">Sadness</a><a href="#regret" class="rel">Regret</a></div>
+  </div>
+</article><article class="card" id="dread" data-cat="complex" data-name="dread">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="72" cy="38" r="5" fill="var(--int)"/><path d="M20 38 H62" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><path d="M52 32 L62 38 L52 44" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><path d="M50 20 L50 56" stroke="var(--ink-faint)" stroke-width="0.8" stroke-dasharray="1 3" opacity="0.4"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Dread</h3><span class="badge">New</span></div>
+    <p class="def">Fear&#x27;s anticipatory register — the threat is specific and identified, only its timing is still to come.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#fear" class="rel">Fear</a><a href="#apprehension" class="rel">Apprehension</a></div>
+  </div>
+</article><article class="card" id="envy" data-cat="complex" data-name="envy">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="42" r="10" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="66" cy="30" r="16" fill="var(--int)"/><path d="M40 40 H50" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Envy</h3><span class="badge">New</span></div>
+    <p class="def">Wanting a quality, possession, or standing that someone else has, with no existing relationship at stake — the pain is purely comparative, unlike Jealousy.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#jealousy" class="rel">Jealousy</a><a href="#admiration" class="rel">Admiration</a></div>
+  </div>
+</article><article class="card" id="euphoria" data-cat="complex" data-name="euphoria">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="42" r="8" fill="var(--int)"/><circle cx="50" cy="42" r="20" fill="none" stroke="var(--int)" stroke-width="1.3" opacity="0.5"/><circle cx="50" cy="42" r="30" fill="none" stroke="var(--int)" stroke-width="1" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Euphoria</h3><span class="badge">New</span></div>
+    <p class="def">Joy at an intensity that can feel disorienting, often driven by exertion, relief, or a physiological cause rather than an ordinary event.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#joy" class="rel">Joy</a></div>
+  </div>
+</article><article class="card" id="excitement" data-cat="complex" data-name="excitement">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="42" r="8" fill="var(--int)"/><circle cx="50" cy="42" r="20" fill="none" stroke="var(--int)" stroke-width="1.3" opacity="0.5"/><circle cx="50" cy="42" r="30" fill="none" stroke="var(--int)" stroke-width="1" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Excitement</h3><span class="badge">New</span></div>
+    <p class="def">High-activation positive anticipation, forward-looking rather than reactive.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#thrill" class="rel">Thrill</a><a href="#joy" class="rel">Joy</a></div>
+  </div>
+</article><article class="card" id="frustration" data-cat="complex" data-name="frustration">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="38" r="9" fill="var(--int)"/><path d="M35 38 H55" stroke="var(--int)" stroke-width="2"/><rect x="55" y="20" width="6" height="36" fill="var(--ink-faint)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Frustration</h3><span class="badge">New</span></div>
+    <p class="def">Tension from a blocked goal specifically — the appraisal is &#x27;something is stopping me,&#x27; not &#x27;someone wronged me,&#x27; and can occur with no other person involved.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#anger" class="rel">Anger</a><a href="#impatience" class="rel">Impatience</a></div>
+  </div>
+</article><article class="card" id="hatred" data-cat="complex" data-name="hatred">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="28" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><circle cx="72" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><path d="M44 30 L52 38 L44 46 M56 30 L48 38 L56 46" stroke="var(--int)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Hatred</h3></div>
+    <p class="def">An intense, sustained aversion toward a person or thing, combining anger and disgust with a wish for their harm or removal.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#antipathy" class="rel">Antipathy</a><a href="#contempt" class="rel">Contempt</a><a href="#rage" class="rel">Rage</a></div>
+  </div>
+</article><article class="card" id="impatience" data-cat="complex" data-name="impatience">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="10" fill="var(--int)"/><path d="M42 38 H86" stroke="var(--int)" stroke-width="2" marker-end="url(#di)"/><defs><marker id="di" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--int)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Impatience</h3></div>
+    <p class="def">A low tolerance for delay — an impulse state rather than a discrete emotion, oriented toward wanting time itself to move faster.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#frustration" class="rel">Frustration</a></div>
+  </div>
+</article><article class="card" id="indignation" data-cat="complex" data-name="indignation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="10" fill="var(--int)"/><path d="M42 38 H86" stroke="var(--int)" stroke-width="2" marker-end="url(#di)"/><defs><marker id="di" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--int)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Indignation</h3></div>
+    <p class="def">Anger specifically about a perceived moral violation — a fairness or rule breach — which is why it can be felt on someone else&#x27;s behalf, unlike Irritation.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#anger" class="rel">Anger</a><a href="#contempt" class="rel">Contempt</a></div>
+  </div>
+</article><article class="card" id="irritation" data-cat="complex" data-name="irritation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="38" r="9" fill="var(--int)"/><path d="M35 38 H55" stroke="var(--int)" stroke-width="2"/><rect x="55" y="20" width="6" height="36" fill="var(--ink-faint)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Irritation</h3></div>
+    <p class="def">Anger at low intensity, usually triggered by repeated minor friction rather than one clear wrong.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#anger" class="rel">Anger</a><a href="#impatience" class="rel">Impatience</a></div>
+  </div>
+</article><article class="card" id="jealousy" data-cat="complex" data-name="jealousy">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="32" cy="34" r="10" fill="var(--int)" opacity="0.5"/><circle cx="48" cy="34" r="10" fill="var(--int)" opacity="0.5"/><circle cx="76" cy="46" r="8" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><path d="M64 42 L70 44" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Jealousy</h3></div>
+    <p class="def">A blend of fear of loss, anger, and insecurity, requiring a third party who threatens an existing relationship or possession.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#envy" class="rel">Envy</a><a href="#insecurity" class="rel">Insecurity</a></div>
+  </div>
+</article><article class="card" id="panic" data-cat="complex" data-name="panic">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="10" fill="var(--int)"/><g stroke="var(--int)" stroke-width="1.5"><line x1="50" y1="18" x2="50" y2="10"/><line x1="50" y1="58" x2="50" y2="66"/><line x1="30" y1="38" x2="22" y2="38"/><line x1="70" y1="38" x2="78" y2="38"/><line x1="36" y1="24" x2="30" y2="18"/><line x1="64" y1="24" x2="70" y2="18"/><line x1="36" y1="52" x2="30" y2="58"/><line x1="64" y1="52" x2="70" y2="58"/></g></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Panic</h3><span class="badge">New</span></div>
+    <p class="def">An acute fear response defined by intensity and physiological override, often disproportionate to or disconnected from the actual threat level.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#fear" class="rel">Fear</a><a href="#dread" class="rel">Dread</a></div>
+  </div>
+</article><article class="card" id="rage" data-cat="complex" data-name="rage">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="28" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><circle cx="72" cy="38" r="14" fill="none" stroke="var(--int)" stroke-width="2"/><path d="M44 30 L52 38 L44 46 M56 30 L48 38 L56 46" stroke="var(--int)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Rage</h3></div>
+    <p class="def">Anger at an intensity that overrides self-control.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#anger" class="rel">Anger</a><a href="#indignation" class="rel">Indignation</a></div>
+  </div>
+</article><article class="card" id="rejection" data-cat="complex" data-name="rejection">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="38" r="9" fill="var(--int)"/><circle cx="74" cy="38" r="9" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Rejection</h3></div>
+    <p class="def">The painful appraisal of having been excluded or refused by someone whose acceptance mattered.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#loneliness" class="rel">Loneliness</a><a href="#shame" class="rel">Shame</a></div>
+  </div>
+</article><article class="card" id="relief" data-cat="complex" data-name="relief">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="50" r="18" fill="var(--int)" opacity="0.15" stroke="var(--int)" stroke-width="1.3"/><circle cx="50" cy="24" r="7" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Relief</h3></div>
+    <p class="def">A release following the resolution or removal of a sustained threat or burden — it structurally requires a preceding negative state, and is often mixed with sadness or guilt.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#calm" class="rel">Calm</a></div>
+  </div>
+</article><article class="card" id="resentment" data-cat="complex" data-name="resentment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="35" cy="38" r="9" fill="var(--int)"/><circle cx="66" cy="38" r="6" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><path d="M44 38 H58" stroke="var(--int)" stroke-width="1" stroke-dasharray="1 3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Resentment</h3><span class="badge">New</span></div>
+    <p class="def">Anger that has moved from a single episode into a lasting disposition, usually directed at a specific person with a sense of accumulated unfairness.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#anger" class="rel">Anger</a><a href="#indignation" class="rel">Indignation</a></div>
+  </div>
+</article><article class="card" id="thrill" data-cat="complex" data-name="thrill">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="10" fill="var(--int)"/><path d="M42 38 H86" stroke="var(--int)" stroke-width="2" marker-end="url(#di)"/><defs><marker id="di" markerWidth="7" markerHeight="7" refX="3.5" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="var(--int)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Thrill</h3><span class="badge">New</span></div>
+    <p class="def">Excitement&#x27;s narrower, risk- or adrenaline-specific variant.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#excitement" class="rel">Excitement</a></div>
+  </div>
+</article><article class="card" id="unease" data-cat="complex" data-name="unease">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M25 42 Q40 28 55 42 Q68 54 78 42" fill="none" stroke="var(--int)" stroke-width="1.5" opacity="0.7"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Unease</h3><span class="badge">New</span></div>
+    <p class="def">Anxiety&#x27;s least cognitively elaborated cousin — a bodily signal felt before it is understood.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#anxiety" class="rel">Anxiety</a></div>
+  </div>
+</article><article class="card" id="absurdity" data-cat="existential" data-name="absurdity">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="30" width="24" height="24" fill="var(--int)"/><circle cx="70" cy="30" r="14" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" transform="rotate(20 70 30)"/><path d="M62 55 L78 60" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Absurdity</h3><span class="badge">New</span></div>
+    <p class="def">The felt clash between a search for meaning and a world that offers no confirming answer.</p>
+    <div class="dims"><span>ambivalent</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#meaninglessness" class="rel">Meaninglessness</a></div>
+  </div>
+</article><article class="card" id="awe" data-cat="existential" data-name="awe">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="56" r="5" fill="var(--int)"/><path d="M12 14 Q50 -6 88 14" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><path d="M20 24 Q50 8 80 24" fill="none" stroke="var(--ink-faint)" stroke-width="1" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Awe</h3><span class="badge">New</span></div>
+    <p class="def">A response to something perceived as vast, overwhelming one&#x27;s current frame of understanding — combining high valence with a genuine cognitive frame-shift.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#wonder" class="rel">Wonder</a><a href="#admiration" class="rel">Admiration</a></div>
+  </div>
+</article><article class="card" id="curiosity" data-cat="existential" data-name="curiosity">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="8" fill="var(--int)"/><path d="M40 34 Q55 20 68 30" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><circle cx="72" cy="34" r="4" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Curiosity</h3><span class="badge">New</span></div>
+    <p class="def">An orientation toward an unknown that motivates approach and inquiry rather than avoidance.</p>
+    <div class="dims"><span>ambivalent</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#wonder" class="rel">Wonder</a></div>
+  </div>
+</article><article class="card" id="despair" data-cat="existential" data-name="despair">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="20" r="9" fill="var(--int)" opacity="0.5"/><path d="M50 29 V54" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="50" cy="60" r="8" fill="var(--int)"/><rect x="20" y="66" width="60" height="3" fill="var(--ink-faint)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Despair</h3><span class="badge">New</span></div>
+    <p class="def">Sadness combined with the belief that the situation cannot improve — the hopelessness itself is what separates it from ordinary sadness.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#sadness" class="rel">Sadness</a><a href="#grief" class="rel">Grief</a></div>
+  </div>
+</article><article class="card" id="existential-dread" data-cat="existential" data-name="existential dread">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="24" r="10" fill="var(--int)" opacity="0.5"/><path d="M50 34 V58" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><circle cx="50" cy="62" r="6" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Existential Dread</h3><span class="badge">New</span></div>
+    <p class="def">Dread&#x27;s register when its object is one&#x27;s own finitude or the structure of existence itself, rather than a specific upcoming event.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#dread" class="rel">Dread</a><a href="#meaninglessness" class="rel">Meaninglessness</a></div>
+  </div>
+</article><article class="card" id="hope" data-cat="existential" data-name="hope">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="52" r="7" fill="var(--int)"/><path d="M30 45 Q30 15 75 20" fill="none" stroke="var(--int)" stroke-width="1.5" stroke-dasharray="3 3"/><circle cx="75" cy="20" r="4" fill="none" stroke="var(--int)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Hope</h3><span class="badge">New</span></div>
+    <p class="def">An orientation toward a desired future outcome perceived as possible, though not certain.</p>
+    <div class="dims"><span>pleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#trust" class="rel">Trust</a></div>
+  </div>
+</article><article class="card" id="longing" data-cat="existential" data-name="longing">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="22" cy="38" r="8" fill="var(--int)"/><path d="M32 38 Q55 38 55 20" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><circle cx="72" cy="16" r="5" fill="none" stroke="var(--int)" stroke-width="1.5" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Longing</h3><span class="badge">New</span></div>
+    <p class="def">A sustained wanting directed at something distant or unattainable, without Nostalgia&#x27;s specific orientation to the past.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#yearning" class="rel">Yearning</a><a href="#nostalgia" class="rel">Nostalgia</a></div>
+  </div>
+</article><article class="card" id="meaninglessness" data-cat="existential" data-name="meaninglessness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="20" width="60" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="3 3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Meaninglessness</h3><span class="badge">New</span></div>
+    <p class="def">A state in which one&#x27;s activities or existence are experienced as lacking purpose or significance.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#alienation" class="rel">Alienation</a><a href="#absurdity" class="rel">Absurdity</a></div>
+  </div>
+</article><article class="card" id="nostalgia" data-cat="existential" data-name="nostalgia">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="38" cy="38" r="16" fill="var(--int)" opacity="0.85"/><circle cx="58" cy="38" r="16" fill="var(--int)" opacity="0.35"/><circle cx="74" cy="38" r="16" fill="var(--int)" opacity="0.12"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Nostalgia</h3><span class="badge">New</span></div>
+    <p class="def">A bittersweet longing for a fondly remembered, simultaneously unavailable past — genuinely ambivalent, not reducible to either sadness or happiness.</p>
+    <div class="dims"><span>ambivalent</span><span>low activation</span></div>
+    <div class="rels"><a href="#longing" class="rel">Longing</a><a href="#melancholy" class="rel">Melancholy</a></div>
+  </div>
+</article><article class="card" id="transcendence" data-cat="existential" data-name="transcendence">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="35" y="46" width="16" height="16" fill="var(--int)" opacity="0.3"/><path d="M43 46 V14" stroke="var(--int)" stroke-width="1.5" stroke-dasharray="2 2"/><circle cx="43" cy="10" r="5" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Transcendence</h3><span class="badge">New</span></div>
+    <p class="def">A state in which ordinary self-boundaries feel temporarily dissolved or exceeded, often experienced as connection to something larger.</p>
+    <div class="dims"><span>pleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#awe" class="rel">Awe</a></div>
+  </div>
+</article><article class="card" id="void" data-cat="existential" data-name="void">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="20" width="60" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="3 3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Void</h3><span class="badge">Revised</span></div>
+    <p class="def">A chronic, existential absence of meaning — distinguished from Emptiness by having no proximate cause and no clear endpoint.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#emptiness" class="rel">Emptiness</a><a href="#meaninglessness" class="rel">Meaninglessness</a></div>
+  </div>
+</article><article class="card" id="wonder" data-cat="existential" data-name="wonder">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="35" cy="46" r="8" fill="var(--int)"/><path d="M35 38 Q35 15 60 20 Q75 24 68 40" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Wonder</h3><span class="badge">New</span></div>
+    <p class="def">Curiosity intensified by something that exceeds ordinary explanation, without Awe&#x27;s overwhelming scale.</p>
+    <div class="dims"><span>pleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#awe" class="rel">Awe</a><a href="#curiosity" class="rel">Curiosity</a></div>
+  </div>
+</article><article class="card" id="yearning" data-cat="existential" data-name="yearning">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="22" cy="38" r="8" fill="var(--int)"/><path d="M32 38 Q55 38 55 20" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><circle cx="72" cy="16" r="5" fill="none" stroke="var(--int)" stroke-width="1.5" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Yearning</h3><span class="badge">New</span></div>
+    <p class="def">Longing&#x27;s more intense, often bodily-felt register.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#longing" class="rel">Longing</a></div>
+  </div>
+</article><article class="card" id="affection" data-cat="interpersonal" data-name="affection">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="42" cy="38" r="12" fill="var(--int)" opacity="0.6"/><circle cx="60" cy="38" r="12" fill="var(--int)" opacity="0.6"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Affection</h3><span class="badge">New</span></div>
+    <p class="def">A lighter, warmer, lower-stakes fondness than Love, without requiring its depth or duration.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#love" class="rel">Love</a></div>
+  </div>
+</article><article class="card" id="alienation" data-cat="interpersonal" data-name="alienation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="20" cy="20" r="6" fill="var(--int)" opacity="0.6"/><circle cx="42" cy="18" r="6" fill="var(--int)" opacity="0.6"/><circle cx="64" cy="24" r="6" fill="var(--int)" opacity="0.6"/><circle cx="30" cy="60" r="7" fill="none" stroke="var(--int)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Alienation</h3><span class="badge">New</span></div>
+    <p class="def">A sense of estrangement from a group, place, or one&#x27;s own experience, broader and more existential than momentary Loneliness.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#isolation" class="rel">Isolation</a><a href="#meaninglessness" class="rel">Meaninglessness</a></div>
+  </div>
+</article><article class="card" id="attachment" data-cat="interpersonal" data-name="attachment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="42" cy="38" r="17" fill="var(--int)" opacity="0.55"/><circle cx="62" cy="38" r="17" fill="var(--int)" opacity="0.55"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Attachment</h3><span class="badge">New</span></div>
+    <p class="def">Security and bond rather than active positive feeling in the moment — you can be attached to someone you are currently angry at.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#love" class="rel">Love</a><a href="#belonging" class="rel">Belonging</a></div>
+  </div>
+</article><article class="card" id="belonging" data-cat="interpersonal" data-name="belonging">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="24" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="42" cy="34" r="6" fill="var(--int)" opacity="0.6"/><circle cx="58" cy="42" r="6" fill="var(--int)" opacity="0.6"/><circle cx="50" cy="46" r="6" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Belonging</h3><span class="badge">New</span></div>
+    <p class="def">A stable sense of being an accepted, secure part of a group or place — closer to a standing condition than a momentary connection.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#attachment" class="rel">Attachment</a><a href="#trust" class="rel">Trust</a></div>
+  </div>
+</article><article class="card" id="compassion" data-cat="interpersonal" data-name="compassion">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="35" cy="42" r="10" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="60" cy="34" r="10" fill="var(--int)"/><path d="M45 40 Q50 44 55 38" fill="none" stroke="var(--int)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Compassion</h3><span class="badge">New</span></div>
+    <p class="def">A feeling of concern for another&#x27;s suffering paired with a motivation to help.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#trust" class="rel">Trust</a></div>
+  </div>
+</article><article class="card" id="desire" data-cat="interpersonal" data-name="desire">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="72" cy="38" r="15" fill="var(--int)" opacity="0.35"/><circle cx="24" cy="38" r="7" fill="var(--int)"/><path d="M33 38 H55" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3" marker-end="url(#pt)"/><defs><marker id="pt" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ink-faint)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Desire</h3><span class="badge">New</span></div>
+    <p class="def">Wanting, which can exist with or without Love and is closer to an impulse than a discrete emotion.</p>
+    <div class="dims"><span>ambivalent</span><span>high activation</span></div>
+    <div class="rels"><a href="#infatuation" class="rel">Infatuation</a><a href="#love" class="rel">Love</a></div>
+  </div>
+</article><article class="card" id="devotion" data-cat="interpersonal" data-name="devotion">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="8" fill="var(--int)"/><path d="M40 38 H86" stroke="var(--int)" stroke-width="1.5"/><circle cx="86" cy="38" r="4" fill="none" stroke="var(--int)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Devotion</h3><span class="badge">New</span></div>
+    <p class="def">Sustained commitment and action toward someone or something, which can outlast the felt intensity of Love itself.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#love" class="rel">Love</a><a href="#pride" class="rel">Pride</a></div>
+  </div>
+</article><article class="card" id="gratitude" data-cat="interpersonal" data-name="gratitude">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="8" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><path d="M40 38 H60" stroke="var(--int)" stroke-width="1.5" marker-end="url(#gt)"/><defs><marker id="gt" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--int)"/></marker></defs><circle cx="70" cy="38" r="10" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Gratitude</h3><span class="badge">New</span></div>
+    <p class="def">A positive feeling toward a specific person or circumstance recognized as having given something of value.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#relief" class="rel">Relief</a><a href="#joy" class="rel">Joy</a></div>
+  </div>
+</article><article class="card" id="infatuation" data-cat="interpersonal" data-name="infatuation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="45" cy="38" r="18" fill="var(--int)"/><circle cx="45" cy="38" r="24" fill="none" stroke="var(--int)" stroke-width="1" opacity="0.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Infatuation</h3><span class="badge">New</span></div>
+    <p class="def">High-intensity, idealized, early-stage attraction — Love without the track record, usually short-lived.</p>
+    <div class="dims"><span>pleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#love" class="rel">Love</a><a href="#desire" class="rel">Desire</a></div>
+  </div>
+</article><article class="card" id="isolation" data-cat="interpersonal" data-name="isolation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="10" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><rect x="20" y="16" width="60" height="44" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 3" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Isolation</h3><span class="badge">New</span></div>
+    <p class="def">A circumstantial state of being separated from others, which can be neutral rather than painful — the objective condition Loneliness names the felt version of.</p>
+    <div class="dims"><span>ambivalent</span><span>low activation</span></div>
+    <div class="rels"><a href="#loneliness" class="rel">Loneliness</a><a href="#alienation" class="rel">Alienation</a></div>
+  </div>
+</article><article class="card" id="loneliness" data-cat="interpersonal" data-name="loneliness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="72" cy="30" r="6" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><circle cx="22" cy="52" r="4" fill="var(--int)"/><circle cx="32" cy="52" r="4" fill="var(--int)"/><circle cx="27" cy="60" r="4" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Loneliness</h3><span class="badge">New</span></div>
+    <p class="def">The painful, subjective sense of lacking wanted connection — unlike Isolation, which can be neutral, and Solitude, which can be chosen.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#isolation" class="rel">Isolation</a><a href="#alienation" class="rel">Alienation</a></div>
+  </div>
+</article><article class="card" id="love" data-cat="interpersonal" data-name="love">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="42" cy="38" r="17" fill="var(--int)" opacity="0.55"/><circle cx="62" cy="38" r="17" fill="var(--int)" opacity="0.55"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Love</h3></div>
+    <p class="def">A durable orientation combining care, valuing another&#x27;s existence, and — variably — desire, attachment, and devotion.</p>
+    <div class="dims"><span>pleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#attachment" class="rel">Attachment</a><a href="#affection" class="rel">Affection</a><a href="#devotion" class="rel">Devotion</a></div>
+  </div>
+</article><article class="card" id="solitude" data-cat="interpersonal" data-name="solitude">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="14" stroke="var(--int)" stroke-width="1.5" fill="none"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Solitude</h3><span class="badge">New</span></div>
+    <p class="def">A chosen, often restorative state of being alone, without the pain that defines Loneliness.</p>
+    <div class="dims"><span>ambivalent</span><span>low activation</span></div>
+    <div class="rels"><a href="#loneliness" class="rel">Loneliness</a></div>
+  </div>
+</article><article class="card" id="trust" data-cat="interpersonal" data-name="trust">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="35" cy="38" r="12" fill="var(--int)" opacity="0.5"/><circle cx="65" cy="38" r="12" fill="var(--int)" opacity="0.5"/><path d="M43 38 H57" stroke="var(--int)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Trust</h3><span class="badge">New</span></div>
+    <p class="def">A settled expectation that another person or system will not cause harm, allowing reliance without constant vigilance.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#belonging" class="rel">Belonging</a><a href="#attachment" class="rel">Attachment</a></div>
+  </div>
+</article><article class="card" id="bewilderment" data-cat="mood" data-name="bewilderment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="26" r="9" fill="var(--int)"/><circle cx="50" cy="42" r="6" fill="var(--int)" opacity="0.7"/><circle cx="68" cy="24" r="4" fill="var(--int)" opacity="0.4"/><circle cx="70" cy="52" r="3" fill="var(--int)" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Bewilderment</h3><span class="badge">Revised</span></div>
+    <p class="def">Confusion that blocks action or decision — you don&#x27;t know what to do next.</p>
+    <div class="dims"><span>ambivalent</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#perplexity" class="rel">Perplexity</a></div>
+  </div>
+</article><article class="card" id="boredom" data-cat="mood" data-name="boredom">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="34" width="60" height="8" fill="var(--int)" opacity="0.6"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Boredom</h3><span class="badge">New</span></div>
+    <p class="def">A genuinely distinct low-activation unpleasant state arising from a lack of engaging stimulation, not from any specific loss.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#low-mood" class="rel">Low Mood</a></div>
+  </div>
+</article><article class="card" id="contentment" data-cat="mood" data-name="contentment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="16" fill="var(--int)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Contentment</h3><span class="badge">New</span></div>
+    <p class="def">A low-activation, present-oriented satisfaction — closer to the absence of wanting than to Joy&#x27;s active positive charge.</p>
+    <div class="dims"><span>pleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#happiness" class="rel">Happiness</a><a href="#relief" class="rel">Relief</a></div>
+  </div>
+</article><article class="card" id="distress" data-cat="mood" data-name="distress">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 38 Q30 15 45 38 Q60 61 75 38 Q83 26 90 38" fill="none" stroke="var(--int)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Distress</h3><span class="badge">Revised</span></div>
+    <p class="def">A state of general suffering under pressure — its own thing, not merely a restatement of Disappointment or Grief.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#anxiety" class="rel">Anxiety</a></div>
+  </div>
+</article><article class="card" id="emptiness" data-cat="mood" data-name="emptiness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="38" r="9" fill="var(--int)"/><circle cx="74" cy="38" r="9" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Emptiness</h3><span class="badge">Revised</span></div>
+    <p class="def">A reactive, often post-intensity depletion — tired and hollow after something, with a proximate cause, unlike Void&#x27;s chronic and causeless register.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#void" class="rel">Void</a></div>
+  </div>
+</article><article class="card" id="grief" data-cat="mood" data-name="grief">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="46" width="18" height="14" fill="var(--int)"/><rect x="37" y="46" width="18" height="14" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><rect x="59" y="46" width="18" height="14" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Grief</h3></div>
+    <p class="def">Sustained emotional suffering with a specific loss — usually bereavement — as its cause, moving in waves rather than sitting at one constant level. Often mixed with relief, anger, or guilt in the same episode.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#sorrow" class="rel">Sorrow</a><a href="#despair" class="rel">Despair</a></div>
+  </div>
+</article><article class="card" id="happiness" data-cat="mood" data-name="happiness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="16" fill="var(--int)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Happiness</h3><span class="badge">New</span></div>
+    <p class="def">A sustained evaluation of one&#x27;s life or circumstances as good — closer to a mood or trait-like state than to Joy&#x27;s moment-to-moment spike.</p>
+    <div class="dims"><span>pleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#joy" class="rel">Joy</a><a href="#contentment" class="rel">Contentment</a></div>
+  </div>
+</article><article class="card" id="low-mood" data-cat="mood" data-name="low mood">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="34" width="60" height="8" fill="var(--int)" opacity="0.6"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Low Mood</h3></div>
+    <p class="def">A sustained, diffuse state of low energy and flat affect with an open causal story, distinguished from the regulation strategy of Suppression that the source dictionary had bundled into it.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#melancholy" class="rel">Melancholy</a><a href="#sorrow" class="rel">Sorrow</a></div>
+  </div>
+</article><article class="card" id="melancholy" data-cat="mood" data-name="melancholy">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="42" r="14" fill="var(--int)" opacity="0.35"/><path d="M20 60 Q50 50 80 60" fill="none" stroke="var(--ink-faint)" stroke-width="1" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Melancholy</h3><span class="badge">New</span></div>
+    <p class="def">Sadness without a clear proximate cause — reflective and low-activation, closer to a mood than an event-response.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#sorrow" class="rel">Sorrow</a><a href="#nostalgia" class="rel">Nostalgia</a></div>
+  </div>
+</article><article class="card" id="perplexity" data-cat="mood" data-name="perplexity">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="26" r="9" fill="var(--int)"/><circle cx="50" cy="42" r="6" fill="var(--int)" opacity="0.7"/><circle cx="68" cy="24" r="4" fill="var(--int)" opacity="0.4"/><circle cx="70" cy="52" r="3" fill="var(--int)" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Perplexity</h3><span class="badge">Revised</span></div>
+    <p class="def">Confusion combined with surprise — more intellectual puzzle than paralysis, unlike Bewilderment.</p>
+    <div class="dims"><span>ambivalent</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#bewilderment" class="rel">Bewilderment</a></div>
+  </div>
+</article><article class="card" id="sorrow" data-cat="mood" data-name="sorrow">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="24" r="10" fill="var(--int)" opacity="0.5"/><path d="M50 34 V58" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><circle cx="50" cy="62" r="6" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Sorrow</h3></div>
+    <p class="def">A quieter, more sustained register of Sadness, without Grief&#x27;s specific bereavement-related cause.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#sadness" class="rel">Sadness</a><a href="#grief" class="rel">Grief</a></div>
+  </div>
+</article><article class="card" id="awkwardness" data-cat="self-conscious" data-name="awkwardness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="34" r="12" fill="none" stroke="var(--int)" stroke-width="1.5" opacity="0.7"/><circle cx="50" cy="34" r="5" fill="var(--int)" opacity="0.6"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Awkwardness</h3></div>
+    <p class="def">A milder social friction than Embarrassment — discomfort from an interaction whose norms are unclear, rather than from a specific misstep.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#embarrassment" class="rel">Embarrassment</a></div>
+  </div>
+</article><article class="card" id="embarrassment" data-cat="self-conscious" data-name="embarrassment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="34" r="12" fill="none" stroke="var(--int)" stroke-width="1.5" opacity="0.7"/><circle cx="50" cy="34" r="5" fill="var(--int)" opacity="0.6"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Embarrassment</h3><span class="badge">New</span></div>
+    <p class="def">A light, socially-triggered discomfort from an imagined or actual observed misstep — inherently requires an audience, briefer and lower-stakes than Shame.</p>
+    <div class="dims"><span>unpleasant</span><span>low activation</span></div>
+    <div class="rels"><a href="#shame" class="rel">Shame</a><a href="#awkwardness" class="rel">Awkwardness</a></div>
+  </div>
+</article><article class="card" id="guilt" data-cat="self-conscious" data-name="guilt">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="70" cy="52" r="6" fill="var(--int)"/><path d="M70 46 C70 20 30 20 30 40" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" marker-end="url(#gr)"/><defs><marker id="gr" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ink-faint)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Guilt</h3><span class="badge">New</span></div>
+    <p class="def">A response to a specific action judged wrong, oriented toward repair rather than hiding.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#shame" class="rel">Shame</a><a href="#remorse" class="rel">Remorse</a></div>
+  </div>
+</article><article class="card" id="humiliation" data-cat="self-conscious" data-name="humiliation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="34" r="16" fill="none" stroke="var(--int)" stroke-width="2"/><circle cx="50" cy="34" r="6" fill="var(--int)"/><path d="M25 12 L36 22 M75 12 L64 22" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Humiliation</h3><span class="badge">New</span></div>
+    <p class="def">Shame imposed from outside by another&#x27;s action — involuntary, public, and other-caused, often carrying anger at the humiliator alongside the shame.</p>
+    <div class="dims"><span>unpleasant</span><span>high activation</span></div>
+    <div class="rels"><a href="#shame" class="rel">Shame</a></div>
+  </div>
+</article><article class="card" id="pride" data-cat="self-conscious" data-name="pride">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="46" r="12" fill="var(--int)"/><path d="M50 34 V16" stroke="var(--int)" stroke-width="1.5"/><path d="M44 22 L50 14 L56 22" fill="none" stroke="var(--int)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Pride</h3><span class="badge">New</span></div>
+    <p class="def">A sense of the self&#x27;s expansion or elevation following a valued achievement or quality, recognized as one&#x27;s own.</p>
+    <div class="dims"><span>pleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#devotion" class="rel">Devotion</a></div>
+  </div>
+</article><article class="card" id="shame" data-cat="self-conscious" data-name="shame">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="34" r="18" fill="none" stroke="var(--int)" stroke-width="2"/><path d="M50 52 V64" stroke="var(--ink-faint)" stroke-width="1.3"/><circle cx="50" cy="34" r="7" fill="var(--int)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Shame</h3></div>
+    <p class="def">A painful sense that the self as a whole is deficient, prompting a wish to hide — global and self-directed, unlike Guilt&#x27;s action-specific focus.</p>
+    <div class="dims"><span>unpleasant</span><span>moderate activation</span></div>
+    <div class="rels"><a href="#guilt" class="rel">Guilt</a><a href="#embarrassment" class="rel">Embarrassment</a><a href="#humiliation" class="rel">Humiliation</a></div>
+  </div>
+</article><article class="card" id="avoidance" data-cat="regulation" data-name="avoidance">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="9" fill="var(--int)"/><path d="M42 38 H80" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><path d="M72 32 L82 38 L72 44" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Avoidance</h3><span class="badge">New</span></div>
+    <p class="def">Steering away from a feared or uncomfortable situation, thought, or feeling — a behavioral strategy, not the fear itself.</p>
+    
+    <div class="rels"><a href="#fear" class="rel">Fear</a></div>
+  </div>
+</article><article class="card" id="emotional-detachment" data-cat="regulation" data-name="emotional detachment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="9" fill="var(--int)"/><path d="M42 38 H80" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/><path d="M72 32 L82 38 L72 44" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Emotional Detachment</h3><span class="badge">Not a feeling</span></div>
+    <p class="def">A sustained defensive stance of disengaging from felt emotion — an interpersonal style or coping strategy, not a discrete feeling in its own right.</p>
+    
+    <div class="rels"><a href="#suppression" class="rel">Suppression</a></div>
+  </div>
+</article><article class="card" id="rumination" data-cat="regulation" data-name="rumination">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 38 Q30 15 45 38 Q60 61 75 38 Q83 26 90 38" fill="none" stroke="var(--int)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Rumination</h3><span class="badge">New</span></div>
+    <p class="def">Repetitive, unresolved dwelling on a distressing thought or event, which sustains rather than processes the feeling behind it.</p>
+    
+    <div class="rels"><a href="#anxiety" class="rel">Anxiety</a><a href="#worry" class="rel">Worry</a></div>
+  </div>
+</article><article class="card" id="suppression" data-cat="regulation" data-name="suppression">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="12" fill="var(--int)" opacity="0.8"/><rect x="52" y="20" width="6" height="36" fill="var(--ink-faint)"/><path d="M30 38 H50" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Suppression</h3></div>
+    <p class="def">Deliberately inhibiting the outward expression of a felt emotion — a strategy applied to a feeling, not a feeling itself.</p>
+    
+    <div class="rels"><a href="#low-mood" class="rel">Low Mood</a></div>
+  </div>
+</article>
+  </div>
+  <div class="empty" id="empty">No terms match.</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/dictionary-of-design/">Dictionary of Design</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var grid = document.getElementById('grid');
+var cards = Array.prototype.slice.call(grid.children);
+var search = document.getElementById('search');
+var catBtns = Array.prototype.slice.call(document.querySelectorAll('.catbtn'));
+var empty = document.getElementById('empty');
+var countEl = document.getElementById('count');
+var regnote = document.getElementById('regnote');
+var activeCat = 'all';
+
+function apply(){
+  var q = search.value.trim().toLowerCase();
+  var visible = 0;
+  cards.forEach(function(card){
+    var matchesCat = activeCat==='all' || card.getAttribute('data-cat')===activeCat;
+    var matchesQ = !q || card.getAttribute('data-name').indexOf(q)!==-1;
+    var show = matchesCat && matchesQ;
+    card.hidden = !show;
+    if(show) visible++;
+  });
+  empty.classList.toggle('show', visible===0);
+  countEl.textContent = visible + ' shown';
+  regnote.classList.toggle('show', activeCat==='regulation');
+}
+
+catBtns.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    catBtns.forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeCat = btn.getAttribute('data-cat');
+    apply();
+  });
+});
+search.addEventListener('input', apply);
+apply();
+})();
+</script>
+</body>
+</html>

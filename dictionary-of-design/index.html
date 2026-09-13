@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dictionary of Design — Knowledge Network</title>
+<meta name="description" content="An authored, illustrated reference for 112 art and design terms — each one built from the same small vector visual grammar, not a stock-illustration glossary.">
+<link rel="canonical" href="https://followorbounce.github.io/dictionary-of-design/">
+<meta name="theme-color" content="#f4f4f1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#141414; --paper:#f4f4f1; --paper-raised:#ffffff; --ink-muted:#5c5c58; --ink-faint:#9a9892;
+  --line:#dcdbd4; --line-strong:#c3c1b8;
+  --ext:#2545c9; --ext-soft:#e3e7fa;
+  --font-display:'Archivo', system-ui, sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){ --ink:#eeece6; --paper:#141412; --paper-raised:#1c1b18; --ink-muted:#a5a39b; --ink-faint:#726f66; --line:#2c2a26; --line-strong:#3d3a34; --ext:#7c95f2; --ext-soft:#1b2340; }
+}
+:root[data-theme="dark"]{ --ink:#eeece6; --paper:#141412; --paper-raised:#1c1b18; --ink-muted:#a5a39b; --ink-faint:#726f66; --line:#2c2a26; --line-strong:#3d3a34; --ext:#7c95f2; --ext-soft:#1b2340; }
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:14px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+a{color:inherit;}
+svg{display:block; width:100%; height:100%;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700;}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px; position:sticky; top:0; background:var(--paper); z-index:5;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px;}
+header .back{font-size:12px; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+header .pair{font-size:11px; color:var(--ink-faint);}
+header .pair a{color:var(--ext); text-decoration:none;}
+
+.hero{padding-block:clamp(36px,7vw,64px) 28px; border-bottom:1px solid var(--ink);}
+.hero .eyebrow{font-size:11.5px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:16px;}
+.hero h1{font-size:clamp(2rem,5vw,3.2rem); line-height:1.02; letter-spacing:-0.01em; max-width:780px;}
+.hero p{margin-top:16px; max-width:640px; font-size:14px; color:var(--ink-muted); line-height:1.7;}
+
+.controls{position:sticky; top:49px; z-index:4; background:var(--paper); border-bottom:1px solid var(--line); padding-block:12px;}
+.controls .wrap{display:flex; gap:8px; flex-wrap:wrap; align-items:center;}
+#search{font-family:var(--font-mono); font-size:13px; padding:8px 12px; border:1px solid var(--ink); background:var(--paper-raised); color:var(--ink); flex:1; min-width:160px; max-width:280px;}
+.catbtn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.02em; padding:7px 11px; border:1px solid var(--line-strong); background:var(--paper-raised); color:var(--ink-muted); cursor:pointer;}
+.catbtn span{color:var(--ink-faint);}
+.catbtn.active{border-color:var(--ink); color:var(--ink); background:var(--ext-soft);}
+.count{font-size:11px; color:var(--ink-faint); margin-left:auto;}
+
+main{padding-block:32px;}
+.grid{display:grid; grid-template-columns:repeat(auto-fill, minmax(230px,1fr)); gap:1px; background:var(--line);}
+.card{background:var(--paper-raised); display:flex; flex-direction:column; scroll-margin-top:110px;}
+.card[hidden]{display:none;}
+.card-art{aspect-ratio:4/3; border-bottom:1px solid var(--line); padding:10px;}
+.card-body{padding:12px 14px 16px; flex:1;}
+.card-head{display:flex; align-items:baseline; gap:8px; margin-bottom:6px;}
+.card-head h3{font-size:0.92rem;}
+.badge{font-size:9px; letter-spacing:0.04em; text-transform:uppercase; background:var(--ext-soft); color:var(--ext); padding:1px 6px;}
+.def{font-size:12px; color:var(--ink-muted); line-height:1.55; margin:0;}
+.rels{margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;}
+.rel{font-size:10.5px; color:var(--ink-faint); text-decoration:none; border-bottom:1px dotted var(--line-strong);}
+.rel:hover{color:var(--ext);}
+
+.empty{padding:60px 0; text-align:center; color:var(--ink-faint); font-size:13px; display:none;}
+.empty.show{display:block;}
+
+footer{border-top:1px solid var(--ink); padding-block:24px; text-align:center;}
+footer span{font-size:11px; color:var(--ink-faint);}
+footer a{color:var(--ext);}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <span class="pair">Design of the external world · paired with <a href="/dictionary-of-inner-experience/">Dictionary of Inner Experience →</a></span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Dictionary · Visual System · 112 Terms</div>
+    <h1>Dictionary of Design</h1>
+    <p>An authored reference for how the external world gets shaped, not a stock-illustration glossary. Every term below is drawn from the same small vector grammar — circle, line, rectangle, one reserved accent color — composed differently to demonstrate what the word actually means, not to decorate it. Rewritten, merged, and expanded from an earlier version at Design Divine Future.</p>
+  </div>
+</section>
+
+<div class="controls">
+  <div class="wrap">
+    <input id="search" type="text" placeholder="Search terms…">
+    <button class="catbtn active" data-cat="all">All <span>112</span></button>
+    <button class="catbtn" data-cat="form-composition">Form & Composition <span>32</span></button><button class="catbtn" data-cat="color-light">Color & Light <span>6</span></button><button class="catbtn" data-cat="surface-material">Surface, Material & Pattern <span>6</span></button><button class="catbtn" data-cat="meaning-communication">Meaning & Communication <span>9</span></button><button class="catbtn" data-cat="typography-image">Typography & Image-Making <span>8</span></button><button class="catbtn" data-cat="systems-interaction">Systems & Interaction <span>13</span></button><button class="catbtn" data-cat="process-practice">Design Process & Practice <span>16</span></button><button class="catbtn" data-cat="digital-production">Digital Production <span>22</span></button>
+    <span class="count" id="count"></span>
+  </div>
+</div>
+
+<main class="wrap">
+  <div class="grid" id="grid">
+    <article class="card" id="color" data-cat="color-light" data-name="color">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="10" y="24" width="13" height="28" fill="var(--ext)" opacity="0.2"/><rect x="26" y="24" width="13" height="28" fill="var(--ext)" opacity="0.38"/><rect x="42" y="24" width="13" height="28" fill="var(--ext)" opacity="0.56"/><rect x="58" y="24" width="13" height="28" fill="var(--ext)" opacity="0.74"/><rect x="74" y="24" width="13" height="28" fill="var(--ext)" opacity="0.9199999999999999"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Color</h3></div>
+    <p class="def">Visual perception resulting from the spectral composition of light reflected or emitted by a surface.</p>
+    <div class="rels"><a href="#tone" class="rel">Tone</a><a href="#saturation" class="rel">Saturation</a><a href="#light" class="rel">Light</a></div>
+  </div>
+</article><article class="card" id="gradient" data-cat="color-light" data-name="gradient">
+  <div class="card-art"><svg viewBox="0 0 100 76"><defs><linearGradient id="gA23903" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="var(--ext)" stop-opacity="0.08"/><stop offset="1" stop-color="var(--ext)"/></linearGradient></defs><rect x="12" y="24" width="76" height="28" fill="url(#gA23903)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Gradient</h3></div>
+    <p class="def">A continuous, stepless transition between two visual states — most often color, value, or scale.</p>
+    <div class="rels"><a href="#tone" class="rel">Tone</a></div>
+  </div>
+</article><article class="card" id="light" data-cat="color-light" data-name="light">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="10" fill="var(--ext)"/><g stroke="var(--ext)" stroke-width="1.5" opacity="0.5"><line x1="50" y1="14" x2="50" y2="6"/><line x1="50" y1="62" x2="50" y2="70"/><line x1="26" y1="38" x2="18" y2="38"/><line x1="74" y1="38" x2="82" y2="38"/></g></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Light</h3></div>
+    <p class="def">The degree of illumination defining an object&#x27;s visibility, and its contrast against surrounding darkness.</p>
+    <div class="rels"><a href="#color" class="rel">Color</a><a href="#tone" class="rel">Tone</a></div>
+  </div>
+</article><article class="card" id="saturation" data-cat="color-light" data-name="saturation">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="16" cy="38" r="9" fill="var(--ext)" opacity="1.0"/><circle cx="33" cy="38" r="9" fill="var(--ext)" opacity="0.8"/><circle cx="50" cy="38" r="9" fill="var(--ext)" opacity="0.6"/><circle cx="67" cy="38" r="9" fill="var(--ext)" opacity="0.3999999999999999"/><circle cx="84" cy="38" r="9" fill="var(--ext)" opacity="0.19999999999999996"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Saturation</h3><span class="badge">Revised</span></div>
+    <p class="def">The purity or intensity of a hue, independent of how light or dark it is.</p>
+    <div class="rels"><a href="#tone" class="rel">Tone</a></div>
+  </div>
+</article><article class="card" id="spot-color-field" data-cat="color-light" data-name="spot (color field)">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="18" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Spot (Color Field)</h3></div>
+    <p class="def">An independent visual unit defined purely by color or material, without an outlined edge of its own.</p>
+    <div class="rels"><a href="#color" class="rel">Color</a><a href="#mass" class="rel">Mass</a></div>
+  </div>
+</article><article class="card" id="tone" data-cat="color-light" data-name="tone">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="10" y="24" width="13" height="28" fill="rgb(255,255,255)" opacity="1" stroke="var(--ink-faint)" stroke-width="0.5"/><rect x="26" y="24" width="13" height="28" fill="rgb(191,191,191)" opacity="1" stroke="var(--ink-faint)" stroke-width="0.5"/><rect x="42" y="24" width="13" height="28" fill="rgb(127,127,127)" opacity="1" stroke="var(--ink-faint)" stroke-width="0.5"/><rect x="58" y="24" width="13" height="28" fill="rgb(63,63,63)" opacity="1" stroke="var(--ink-faint)" stroke-width="0.5"/><rect x="74" y="24" width="13" height="28" fill="rgb(0,0,0)" opacity="1" stroke="var(--ink-faint)" stroke-width="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Tone</h3><span class="badge">Revised</span></div>
+    <p class="def">The relative lightness or darkness of a color or area, independent of its hue.</p>
+    <div class="rels"><a href="#saturation" class="rel">Saturation</a><a href="#contrast" class="rel">Contrast</a></div>
+  </div>
+</article><article class="card" id="api" data-cat="digital-production" data-name="api">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="30" width="26" height="16" rx="3" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="41" y="34" width="8" height="8" fill="var(--ext)"/><rect x="49" y="30" width="26" height="16" rx="3" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>API</h3></div>
+    <p class="def">An interface enabling one piece of software to interact with another — adjacent professional vocabulary a designer encounters, not a design concept in its own right.</p>
+    <div class="rels"><a href="#cms" class="rel">CMS</a><a href="#plugin" class="rel">Plugin</a></div>
+  </div>
+</article><article class="card" id="alpha-channel" data-cat="digital-production" data-name="alpha channel">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="14" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="34" y="14" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="56" y="14" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="23" y="26" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="45" y="26" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="67" y="26" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="12" y="38" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="34" y="38" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="56" y="38" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="23" y="50" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="45" y="50" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><rect x="67" y="50" width="11" height="12" fill="var(--ink-faint)" opacity="0.25"/><circle cx="50" cy="38" r="16" fill="var(--ext)" opacity="0.6"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Alpha Channel</h3></div>
+    <p class="def">A layer that stores transparency information for compositing or rendering.</p>
+    <div class="rels"><a href="#mask" class="rel">Mask</a></div>
+  </div>
+</article><article class="card" id="asset" data-cat="digital-production" data-name="asset">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="30" y="20" width="40" height="36" fill="var(--ext)" opacity="0.7"/><line x1="30" y1="62" x2="70" y2="62" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Asset</h3></div>
+    <p class="def">A single visual, typographic, or multimedia element used in the construction of a design project.</p>
+    <div class="rels"><a href="#asset-library" class="rel">Asset Library</a></div>
+  </div>
+</article><article class="card" id="asset-library" data-cat="digital-production" data-name="asset library">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="16" width="14" height="18" fill="none" stroke="var(--ext)" stroke-width="1.3" opacity="1"/><rect x="30" y="16" width="14" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.4"/><rect x="48" y="16" width="14" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.4"/><rect x="66" y="16" width="14" height="18" fill="none" stroke="var(--ext)" stroke-width="1.3" opacity="1"/><rect x="12" y="40" width="14" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.4"/><rect x="30" y="40" width="14" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.4"/><rect x="48" y="40" width="14" height="18" fill="none" stroke="var(--ext)" stroke-width="1.3" opacity="1"/><rect x="66" y="40" width="14" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.4"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Asset Library</h3></div>
+    <p class="def">An organized collection of visual or multimedia resources kept accessible across design projects.</p>
+    <div class="rels"><a href="#asset" class="rel">Asset</a><a href="#illustration-pack" class="rel">Illustration Pack</a></div>
+  </div>
+</article><article class="card" id="cms" data-cat="digital-production" data-name="cms">
+  <div class="card-art"><svg viewBox="0 0 100 76"><ellipse cx="50" cy="20" rx="24" ry="7" fill="none" stroke="var(--ext)" stroke-width="2"/><path d="M26 20 V52 A24 7 0 0 0 74 52 V20" fill="none" stroke="var(--ext)" stroke-width="2"/><ellipse cx="50" cy="36" rx="24" ry="7" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>CMS</h3></div>
+    <p class="def">A software platform for creating, managing, and publishing digital content — adjacent professional vocabulary.</p>
+    <div class="rels"><a href="#api" class="rel">API</a></div>
+  </div>
+</article><article class="card" id="clipping-path" data-cat="digital-production" data-name="clipping path">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="15" width="70" height="46" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/><path d="M35 25 Q50 15 65 25 Q75 40 60 52 Q45 58 35 45 Z" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Clipping Path</h3></div>
+    <p class="def">A vector path used to isolate part of an image for manipulation or compositing.</p>
+    <div class="rels"><a href="#mask" class="rel">Mask</a></div>
+  </div>
+</article><article class="card" id="composition-file" data-cat="digital-production" data-name="composition file">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="22" y="26" width="44" height="34" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><rect x="30" y="18" width="44" height="34" fill="none" stroke="var(--ink-faint)" stroke-width="1.3"/><rect x="38" y="10" width="44" height="34" fill="var(--ext)" opacity="0.7" stroke="var(--ext)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Composition File</h3></div>
+    <p class="def">An editable file containing organized layers and elements for manipulation within design software.</p>
+    <div class="rels"><a href="#layer" class="rel">Layer</a></div>
+  </div>
+</article><article class="card" id="dpi" data-cat="digital-production" data-name="dpi">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12.0" y="12.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="31.0" y="12.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="12.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="69.0" y="12.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="25.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="31.0" y="25.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="25.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="69.0" y="25.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="38.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="31.0" y="38.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="38.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="69.0" y="38.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="51.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="31.0" y="51.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="51.0" width="18.4" height="12.4" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="69.0" y="51.0" width="18.4" height="12.4" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>DPI</h3><span class="badge">Revised</span></div>
+    <p class="def">Dots per inch — a measure of a print or output device&#x27;s resolution.</p>
+    <div class="rels"><a href="#ppi" class="rel">PPI</a><a href="#resolution" class="rel">Resolution</a></div>
+  </div>
+</article><article class="card" id="digital-toolkit" data-cat="digital-production" data-name="digital toolkit">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="25" cy="30" r="8" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="45" y="22" width="16" height="16" fill="var(--ext)" opacity="0.7"/><polygon points="80,20 88,36 72,36" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Digital Toolkit</h3></div>
+    <p class="def">The suite of software, templates, and resources used to create, edit, and manage a digital design project — absorbs what the source separately, redundantly, called Graphic Editor.</p>
+    
+  </div>
+</article><article class="card" id="export-settings" data-cat="digital-production" data-name="export settings">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="20,15 80,15 55,40 55,58 45,58 45,40" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Export Settings</h3></div>
+    <p class="def">The configurations used to save or output a file at a specific format, size, or quality.</p>
+    <div class="rels"><a href="#resolution" class="rel">Resolution</a></div>
+  </div>
+</article><article class="card" id="frontend---backend" data-cat="digital-production" data-name="frontend / backend">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="14" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="34" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="54" y="20" width="16" height="36" fill="var(--ext)" opacity="0.15" stroke="var(--ext)" stroke-width="1.5"/><rect x="74" y="20" width="12" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Frontend / Backend</h3></div>
+    <p class="def">The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.</p>
+    
+  </div>
+</article><article class="card" id="layer" data-cat="digital-production" data-name="layer">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="16" width="60" height="16" fill="var(--ext)" opacity="0.8"/><rect x="20" y="36" width="60" height="24" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Layer</h3></div>
+    <p class="def">One editable element within a composition that can be manipulated independently of the others.</p>
+    <div class="rels"><a href="#composition-file" class="rel">Composition File</a><a href="#mask" class="rel">Mask</a></div>
+  </div>
+</article><article class="card" id="mask" data-cat="digital-production" data-name="mask">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="14" width="70" height="48" fill="var(--ext)" opacity="0.15"/><rect x="35" y="24" width="30" height="28" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Mask</h3></div>
+    <p class="def">A tool or layer that defines which areas of a composition are visible and which are hidden.</p>
+    <div class="rels"><a href="#layer" class="rel">Layer</a><a href="#clipping-path" class="rel">Clipping Path</a></div>
+  </div>
+</article><article class="card" id="pdf" data-cat="digital-production" data-name="pdf">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="30" y="10" width="40" height="56" fill="none" stroke="var(--ext)" stroke-width="2"/><polygon points="60,10 70,20 60,20" fill="var(--ext)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>PDF</h3></div>
+    <p class="def">Portable Document Format — preserves a document&#x27;s layout, typography, and graphics identically across platforms.</p>
+    
+  </div>
+</article><article class="card" id="ppi" data-cat="digital-production" data-name="ppi">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="15.0" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="15.0" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="21.6" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="28.1" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="34.7" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="41.3" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="47.9" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="54.4" r="1.3" fill="var(--ext)"/><circle cx="15.0" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="24.4" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="33.9" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="43.3" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="52.7" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="62.1" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="71.6" cy="61.0" r="1.3" fill="var(--ext)"/><circle cx="81.0" cy="61.0" r="1.3" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>PPI</h3><span class="badge">Revised</span></div>
+    <p class="def">Pixels per inch — a measure of an image&#x27;s own density, independent of the device it&#x27;s printed or displayed on.</p>
+    <div class="rels"><a href="#dpi" class="rel">DPI</a><a href="#resolution" class="rel">Resolution</a></div>
+  </div>
+</article><article class="card" id="plugin" data-cat="digital-production" data-name="plugin">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="26" width="34" height="24" rx="3" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="54" y="32" width="14" height="12" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Plugin</h3></div>
+    <p class="def">A software add-on that extends the functionality of a platform or design tool — adjacent professional vocabulary.</p>
+    <div class="rels"><a href="#api" class="rel">API</a></div>
+  </div>
+</article><article class="card" id="raw" data-cat="digital-production" data-name="raw">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="25" y="20" width="50" height="36" rx="4" fill="none" stroke="var(--ext)" stroke-width="2"/><circle cx="50" cy="38" r="12" fill="var(--ext)" opacity="0.4"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>RAW</h3><span class="badge">Revised</span></div>
+    <p class="def">An unprocessed camera sensor format retaining the maximum original image data, before any raster export decisions are applied.</p>
+    <div class="rels"><a href="#raster" class="rel">Raster</a></div>
+  </div>
+</article><article class="card" id="raster" data-cat="digital-production" data-name="raster">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12.0" y="12.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="12.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="12.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="12.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="12.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="12.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="12.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="12.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="12.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="12.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="17.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="17.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="17.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="17.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="17.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="17.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="17.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="17.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="17.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="17.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="22.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="22.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="22.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="22.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="22.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="22.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="22.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="22.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="22.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="22.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="27.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="27.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="27.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="27.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="27.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="27.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="27.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="27.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="27.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="27.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="32.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="32.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="32.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="32.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="32.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="32.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="32.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="32.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="32.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="32.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="38.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="38.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="38.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="38.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="38.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="38.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="38.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="38.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="38.0" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="38.0" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="43.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="43.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="43.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="43.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="43.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="43.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="43.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="43.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="43.2" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="43.2" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="48.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="48.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="48.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="48.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="48.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="48.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="48.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="48.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="48.4" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="48.4" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="53.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="53.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="53.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="53.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="53.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="53.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="53.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="53.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="53.6" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="53.6" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="12.0" y="58.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="19.6" y="58.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="27.2" y="58.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="34.8" y="58.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="42.4" y="58.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="50.0" y="58.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="57.6" y="58.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="65.2" y="58.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="72.8" y="58.8" width="7.0" height="4.6" fill="none" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/><rect x="80.4" y="58.8" width="7.0" height="4.6" fill="var(--ext)" opacity="0.6" stroke="var(--ink-faint)" stroke-width="0.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Raster</h3><span class="badge">Revised</span></div>
+    <p class="def">A pixel-based image format whose detail is fixed at capture or creation, distinguished from RAW by not necessarily being an unprocessed camera file.</p>
+    <div class="rels"><a href="#vector-file" class="rel">Vector File</a><a href="#raw" class="rel">RAW</a></div>
+  </div>
+</article><article class="card" id="render" data-cat="digital-production" data-name="render">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="20" width="30" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><rect x="58" y="20" width="30" height="36" fill="var(--ext)" opacity="0.85"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Render</h3></div>
+    <p class="def">The process of generating a final image or sequence from a digital file, incorporating lighting and physical properties.</p>
+    <div class="rels"><a href="#composition-file" class="rel">Composition File</a></div>
+  </div>
+</article><article class="card" id="resolution" data-cat="digital-production" data-name="resolution">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="15.0" cy="15.0" r="3" fill="var(--ext)"/><circle cx="48.0" cy="15.0" r="3" fill="var(--ext)"/><circle cx="81.0" cy="15.0" r="3" fill="var(--ext)"/><circle cx="15.0" cy="38.0" r="3" fill="var(--ext)"/><circle cx="48.0" cy="38.0" r="3" fill="var(--ext)"/><circle cx="81.0" cy="38.0" r="3" fill="var(--ext)"/><circle cx="15.0" cy="61.0" r="3" fill="var(--ext)"/><circle cx="48.0" cy="61.0" r="3" fill="var(--ext)"/><circle cx="81.0" cy="61.0" r="3" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Resolution</h3></div>
+    <p class="def">The measure of an image&#x27;s fixed detail, usually expressed as its PPI or the DPI of its output device.</p>
+    <div class="rels"><a href="#dpi" class="rel">DPI</a><a href="#ppi" class="rel">PPI</a></div>
+  </div>
+</article><article class="card" id="svg" data-cat="digital-production" data-name="svg">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="20,45 30,20 40,45" fill="none" stroke="var(--ext)" stroke-width="1.5"/><polygon points="55,52 72,10 89,52" fill="none" stroke="var(--ext)" stroke-width="2.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>SVG</h3></div>
+    <p class="def">A scalable vector graphic format that preserves sharp edges at any output size.</p>
+    <div class="rels"><a href="#vector-file" class="rel">Vector File</a></div>
+  </div>
+</article><article class="card" id="vector-file" data-cat="digital-production" data-name="vector file">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 50 Q30 15 50 30 Q70 45 85 15" fill="none" stroke="var(--ext)" stroke-width="2"/><circle cx="15" cy="50" r="3" fill="var(--ext)"/><circle cx="50" cy="30" r="3" fill="var(--ext)"/><circle cx="85" cy="15" r="3" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Vector File</h3></div>
+    <p class="def">A digital image built from geometric paths rather than pixels, which can be scaled without losing quality.</p>
+    <div class="rels"><a href="#svg" class="rel">SVG</a><a href="#raster" class="rel">Raster</a></div>
+  </div>
+</article><article class="card" id="abstraction" data-cat="form-composition" data-name="abstraction">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="12.2,26.0 22.6,32.0 22.6,44.0 12.2,50.0 1.9,44.0 1.9,32.0" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.6"/><polygon points="34.8,28.0 44.3,34.9 40.6,46.1 28.9,46.1 25.2,34.9" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.6"/><polygon points="57.2,30.0 65.2,38.0 57.2,46.0 49.2,38.0" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.6"/><polygon points="79.8,32.0 84.9,41.0 74.6,41.0" fill="none" stroke="var(--ext)" stroke-width="2" opacity="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Abstraction</h3></div>
+    <p class="def">Progressive simplification of a recognizable form into essential geometric shape, retaining what makes it identifiable while discarding surface detail.</p>
+    <div class="rels"><a href="#formalization" class="rel">Formalization</a><a href="#figurative" class="rel">Figurative</a></div>
+  </div>
+</article><article class="card" id="asymmetry" data-cat="form-composition" data-name="asymmetry">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="16" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" opacity="0.55"/><circle cx="70" cy="38" r="6" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Asymmetry</h3></div>
+    <p class="def">Intentional imbalance resolved through the position and scale of unequal elements rather than mirrored correspondence.</p>
+    <div class="rels"><a href="#balance" class="rel">Balance</a><a href="#symmetry" class="rel">Symmetry</a></div>
+  </div>
+</article><article class="card" id="balance" data-cat="form-composition" data-name="balance">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="28" cy="26" r="10" fill="var(--ext)" opacity="0.85"/><circle cx="72" cy="46" r="6" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><polygon points="50,58 44,68 56,68" fill="var(--ink-faint)"/><line x1="15" y1="52" x2="85" y2="40" stroke="var(--ink-faint)" stroke-width="1.2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Balance</h3></div>
+    <p class="def">Distribution of visual weight across a composition that reads as stable, whether achieved through symmetry or through offsetting asymmetry.</p>
+    <div class="rels"><a href="#symmetry" class="rel">Symmetry</a><a href="#asymmetry" class="rel">Asymmetry</a></div>
+  </div>
+</article><article class="card" id="composition" data-cat="form-composition" data-name="composition">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="17.0" y="18.0" width="19.333333333333332" height="18.0" fill="var(--ext)" stroke="var(--ink-faint)" stroke-width="1"/><rect x="40.33333333333333" y="18.0" width="19.333333333333332" height="18.0" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="63.666666666666664" y="18.0" width="19.333333333333332" height="18.0" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="17.0" y="40.0" width="19.333333333333332" height="18.0" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="40.33333333333333" y="40.0" width="19.333333333333332" height="18.0" fill="var(--ext)" stroke="var(--ink-faint)" stroke-width="1"/><rect x="63.666666666666664" y="40.0" width="19.333333333333332" height="18.0" fill="none" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Composition</h3></div>
+    <p class="def">The spatial and proportional organization of elements into a coherent whole.</p>
+    <div class="rels"><a href="#structure" class="rel">Structure</a><a href="#layout" class="rel">Layout</a></div>
+  </div>
+</article><article class="card" id="contrast" data-cat="form-composition" data-name="contrast">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="20" width="30" height="30" fill="var(--ext)"/><rect x="55" y="20" width="30" height="30" fill="none" stroke="var(--ink-faint)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Contrast</h3></div>
+    <p class="def">Juxtaposition of strongly opposing visual properties that sharpens the perceived identity of both.</p>
+    <div class="rels"><a href="#emphasis" class="rel">Emphasis</a><a href="#tone" class="rel">Tone</a></div>
+  </div>
+</article><article class="card" id="counterform-negative-space" data-cat="form-composition" data-name="counterform (negative space)">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 20 Q45 5 45 38 Q45 71 15 56 Z" fill="var(--ext)" opacity="0.85"/><path d="M85 20 Q55 5 55 38 Q55 71 85 56 Z" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Counterform (Negative Space)</h3></div>
+    <p class="def">A meaningful shape produced primarily by the empty area around or between positive forms, carrying real visual weight of its own.</p>
+    <div class="rels"><a href="#space" class="rel">Space</a><a href="#silhouette" class="rel">Silhouette</a></div>
+  </div>
+</article><article class="card" id="density" data-cat="form-composition" data-name="density">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="36.6" cy="19.8" r="2.4" fill="var(--ext)"/><circle cx="61.5" cy="15.8" r="2.4" fill="var(--ext)"/><circle cx="52.7" cy="31.0" r="2.4" fill="var(--ext)"/><circle cx="16.4" cy="38.4" r="2.4" fill="var(--ext)"/><circle cx="14.8" cy="34.5" r="2.4" fill="var(--ext)"/><circle cx="17.3" cy="16.7" r="2.4" fill="var(--ext)"/><circle cx="44.3" cy="55.0" r="2.4" fill="var(--ext)"/><circle cx="21.4" cy="23.6" r="2.4" fill="var(--ext)"/><circle cx="59.7" cy="61.3" r="2.4" fill="var(--ext)"/><circle cx="55.9" cy="32.6" r="2.4" fill="var(--ext)"/><circle cx="86.2" cy="14.4" r="2.4" fill="var(--ext)"/><circle cx="77.2" cy="27.1" r="2.4" fill="var(--ext)"/><circle cx="23.0" cy="18.1" r="2.4" fill="var(--ext)"/><circle cx="35.4" cy="54.4" r="2.4" fill="var(--ext)"/><circle cx="25.7" cy="42.2" r="2.4" fill="var(--ext)"/><circle cx="60.6" cy="31.4" r="2.4" fill="var(--ext)"/><circle cx="53.6" cy="15.3" r="2.4" fill="var(--ext)"/><circle cx="16.5" cy="22.7" r="2.4" fill="var(--ext)"/><circle cx="63.7" cy="34.2" r="2.4" fill="var(--ext)"/><circle cx="35.9" cy="42.4" r="2.4" fill="var(--ext)"/><circle cx="46.4" cy="27.6" r="2.4" fill="var(--ext)"/><circle cx="72.4" cy="48.3" r="2.4" fill="var(--ext)"/><circle cx="30.6" cy="41.9" r="2.4" fill="var(--ext)"/><circle cx="51.9" cy="57.5" r="2.4" fill="var(--ext)"/><circle cx="67.4" cy="27.0" r="2.4" fill="var(--ext)"/><circle cx="86.5" cy="18.1" r="2.4" fill="var(--ext)"/><circle cx="43.8" cy="51.4" r="2.4" fill="var(--ext)"/><circle cx="23.6" cy="37.4" r="2.4" fill="var(--ext)"/><circle cx="15.0" cy="46.7" r="2.4" fill="var(--ext)"/><circle cx="70.1" cy="41.8" r="2.4" fill="var(--ext)"/><circle cx="78.5" cy="28.3" r="2.4" fill="var(--ext)"/><circle cx="64.8" cy="42.9" r="2.4" fill="var(--ext)"/><circle cx="56.1" cy="35.7" r="2.4" fill="var(--ext)"/><circle cx="75.8" cy="61.1" r="2.4" fill="var(--ext)"/><circle cx="48.0" cy="46.5" r="2.4" fill="var(--ext)"/><circle cx="16.6" cy="48.5" r="2.4" fill="var(--ext)"/><circle cx="61.2" cy="63.6" r="2.4" fill="var(--ext)"/><circle cx="74.5" cy="26.8" r="2.4" fill="var(--ext)"/><circle cx="41.3" cy="46.8" r="2.4" fill="var(--ext)"/><circle cx="13.7" cy="36.0" r="2.4" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Density</h3></div>
+    <p class="def">The degree of visual saturation, sparse or crowded, within a given area of a composition.</p>
+    <div class="rels"><a href="#mass" class="rel">Mass</a><a href="#texture" class="rel">Texture</a></div>
+  </div>
+</article><article class="card" id="dynamics" data-cat="form-composition" data-name="dynamics">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 55 Q45 15 85 20" fill="none" stroke="var(--ext)" stroke-width="2"/><path d="M75 14 L85 20 L77 28" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Dynamics</h3></div>
+    <p class="def">Perceived movement within a static composition, implied by the direction, angle, or relationship of its forms.</p>
+    <div class="rels"><a href="#rhythm" class="rel">Rhythm</a><a href="#static" class="rel">Static</a></div>
+  </div>
+</article><article class="card" id="emphasis" data-cat="form-composition" data-name="emphasis">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="20" cy="45" r="5" fill="var(--ink-faint)" opacity="0.4"/><circle cx="35" cy="43" r="5" fill="var(--ink-faint)" opacity="0.4"/><circle cx="50" cy="41" r="5" fill="var(--ink-faint)" opacity="0.4"/><circle cx="65" cy="39" r="5" fill="var(--ink-faint)" opacity="0.4"/><circle cx="80" cy="30" r="10" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Emphasis</h3><span class="badge">New</span></div>
+    <p class="def">The deliberate creation of one dominant point of visual attention within a composition.</p>
+    <div class="rels"><a href="#visual-hierarchy" class="rel">Visual Hierarchy</a><a href="#contrast" class="rel">Contrast</a></div>
+  </div>
+</article><article class="card" id="figurative" data-cat="form-composition" data-name="figurative">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="35" cy="24" r="10" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="26" y="36" width="18" height="24" rx="4" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Figurative</h3></div>
+    <p class="def">The degree to which a form remains recognizable as, and referential to, a real-world object.</p>
+    <div class="rels"><a href="#abstraction" class="rel">Abstraction</a></div>
+  </div>
+</article><article class="card" id="form" data-cat="form-composition" data-name="form">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M35 15 Q55 15 55 32 Q55 42 45 45 L60 62 H30 L38 45 Q25 42 25 30 Q25 15 35 15Z" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Form</h3><span class="badge">Revised</span></div>
+    <p class="def">The perceived shape and structure of an object, independent of its color or surface texture.</p>
+    <div class="rels"><a href="#form-factor" class="rel">Form Factor</a><a href="#volume" class="rel">Volume</a></div>
+  </div>
+</article><article class="card" id="form-factor" data-cat="form-composition" data-name="form factor">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="25" y="18" width="50" height="40" rx="14" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="35" y="28" width="30" height="14" fill="none" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Form Factor</h3></div>
+    <p class="def">The physical shape and proportions of an object&#x27;s outer volume, especially its housing.</p>
+    <div class="rels"><a href="#form" class="rel">Form</a><a href="#volume" class="rel">Volume</a></div>
+  </div>
+</article><article class="card" id="formalization" data-cat="form-composition" data-name="formalization">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="16.0,26.0 27.4,34.3 23.1,47.7 8.9,47.7 4.6,34.3" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.6"/><polygon points="46.0,28.0 56.0,38.0 46.0,48.0 36.0,38.0" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" opacity="0.6"/><polygon points="76.0,30.0 82.9,42.0 69.1,42.0" fill="none" stroke="var(--ext)" stroke-width="2" opacity="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Formalization</h3></div>
+    <p class="def">The reduction of a complex reference to its essential forms, adapted to the constraints of the medium.</p>
+    <div class="rels"><a href="#abstraction" class="rel">Abstraction</a></div>
+  </div>
+</article><article class="card" id="line" data-cat="form-composition" data-name="line">
+  <div class="card-art"><svg viewBox="0 0 100 76"><line x1="15" y1="50" x2="85" y2="25" stroke="var(--ext)" stroke-width="2.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Line</h3></div>
+    <p class="def">A directional trace that defines movement, a boundary, or continuity between points.</p>
+    <div class="rels"><a href="#point" class="rel">Point</a><a href="#plane" class="rel">Plane</a></div>
+  </div>
+</article><article class="card" id="mass" data-cat="form-composition" data-name="mass">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="25" y="18" width="50" height="40" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Mass</h3></div>
+    <p class="def">The perceived visual or physical weight of a solid form.</p>
+    <div class="rels"><a href="#volume" class="rel">Volume</a><a href="#density" class="rel">Density</a></div>
+  </div>
+</article><article class="card" id="perspective" data-cat="form-composition" data-name="perspective">
+  <div class="card-art"><svg viewBox="0 0 100 76"><line x1="10" y1="60" x2="90" y2="60" stroke="var(--ink-faint)" stroke-width="1.2"/><line x1="10" y1="60" x2="50" y2="12" stroke="var(--ext)" stroke-width="2"/><line x1="90" y1="60" x2="50" y2="12" stroke="var(--ext)" stroke-width="2"/><line x1="30" y1="60" x2="50" y2="12" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/><line x1="70" y1="60" x2="50" y2="12" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Perspective</h3><span class="badge">Revised</span></div>
+    <p class="def">Representation of depth on a flat surface, typically through lines that converge toward one or more vanishing points.</p>
+    <div class="rels"><a href="#space" class="rel">Space</a><a href="#scale" class="rel">Scale</a></div>
+  </div>
+</article><article class="card" id="plane" data-cat="form-composition" data-name="plane">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="15,45 55,20 85,30 45,55" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Plane</h3></div>
+    <p class="def">A flat surface that organizes two-dimensional elements within a composition.</p>
+    <div class="rels"><a href="#point" class="rel">Point</a><a href="#line" class="rel">Line</a><a href="#volume" class="rel">Volume</a></div>
+  </div>
+</article><article class="card" id="plasticity" data-cat="form-composition" data-name="plasticity">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 45 Q20 15 45 25 Q65 33 40 55 Q20 65 15 45 Z" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="60" y="25" width="24" height="24" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Plasticity</h3><span class="badge">Revised</span></div>
+    <p class="def">The degree to which a form reads as pliable or moldable rather than rigid, judged from its contours and transitions.</p>
+    <div class="rels"><a href="#volume" class="rel">Volume</a><a href="#form" class="rel">Form</a></div>
+  </div>
+</article><article class="card" id="point" data-cat="form-composition" data-name="point">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="4" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Point</h3></div>
+    <p class="def">The minimal, indivisible visual unit — the origin from which line, plane, and spatial relationships extend.</p>
+    <div class="rels"><a href="#line" class="rel">Line</a><a href="#plane" class="rel">Plane</a></div>
+  </div>
+</article><article class="card" id="proportions" data-cat="form-composition" data-name="proportions">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="18" cy="60" r="6" fill="none" stroke="var(--ink-faint)" stroke-width="2"/><circle cx="46" cy="60" r="14" fill="none" stroke="var(--ink-faint)" stroke-width="2"/><circle cx="90" cy="60" r="22" fill="none" stroke="var(--ext)" stroke-width="2"/><line x1="10" y1="62" x2="90" y2="62" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Proportions</h3></div>
+    <p class="def">The size relationships between a whole and its parts, and between the parts themselves.</p>
+    <div class="rels"><a href="#scale" class="rel">Scale</a><a href="#balance" class="rel">Balance</a></div>
+  </div>
+</article><article class="card" id="repetition" data-cat="form-composition" data-name="repetition">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="24" width="10" height="28" fill="var(--ext)" opacity="0.85"/><rect x="30" y="24" width="10" height="28" fill="var(--ext)" opacity="0.85"/><rect x="45" y="24" width="10" height="28" fill="var(--ext)" opacity="0.85"/><rect x="60" y="24" width="10" height="28" fill="var(--ext)" opacity="0.85"/><rect x="75" y="24" width="10" height="28" fill="var(--ext)" opacity="0.85"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Repetition</h3><span class="badge">New</span></div>
+    <p class="def">Identical elements recurring at even intervals — the simpler, unvaried base case that Rhythm builds variation on top of.</p>
+    <div class="rels"><a href="#rhythm" class="rel">Rhythm</a><a href="#pattern" class="rel">Pattern</a></div>
+  </div>
+</article><article class="card" id="rhythm" data-cat="form-composition" data-name="rhythm">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="11" y="24" width="8" height="28" fill="var(--ext)" opacity="1"/><rect x="24" y="24" width="8" height="28" fill="var(--ink-faint)" opacity="0.5"/><rect x="44" y="24" width="8" height="28" fill="var(--ext)" opacity="1"/><rect x="57" y="24" width="8" height="28" fill="var(--ink-faint)" opacity="0.5"/><rect x="77" y="24" width="8" height="28" fill="var(--ext)" opacity="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Rhythm</h3></div>
+    <p class="def">Visual tempo produced by repeating elements with controlled variation in spacing, size, or form.</p>
+    <div class="rels"><a href="#repetition" class="rel">Repetition</a><a href="#pattern" class="rel">Pattern</a></div>
+  </div>
+</article><article class="card" id="scale" data-cat="form-composition" data-name="scale">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="18" cy="60" r="6" fill="none" stroke="var(--ink-faint)" stroke-width="2"/><circle cx="46" cy="60" r="14" fill="none" stroke="var(--ink-faint)" stroke-width="2"/><circle cx="90" cy="60" r="22" fill="none" stroke="var(--ext)" stroke-width="2"/><line x1="10" y1="62" x2="90" y2="62" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Scale</h3></div>
+    <p class="def">Perceived size, understood only through comparison against another object or a known reference, not as an absolute measure.</p>
+    <div class="rels"><a href="#proportions" class="rel">Proportions</a></div>
+  </div>
+</article><article class="card" id="space" data-cat="form-composition" data-name="space">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 15 H50 V60 H15 Z M50 15 A35 35 0 0 1 50 60 Z" fill="var(--ext)" opacity="0.15" stroke="var(--ext)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Space</h3></div>
+    <p class="def">The area, positive or empty, within and around a composition&#x27;s forms, perceived both visually and physically.</p>
+    <div class="rels"><a href="#counterform-negative-space" class="rel">Counterform (Negative Space)</a><a href="#volume" class="rel">Volume</a></div>
+  </div>
+</article><article class="card" id="spatial-forces" data-cat="form-composition" data-name="spatial forces">
+  <div class="card-art"><svg viewBox="0 0 100 76"><line x1="15" y1="15" x2="85" y2="5" stroke="var(--ink-faint)" stroke-width="1" opacity="0.5"/><line x1="15" y1="28" x2="85" y2="38" stroke="var(--ext)" stroke-width="2" opacity="1"/><line x1="15" y1="41" x2="85" y2="31" stroke="var(--ink-faint)" stroke-width="1" opacity="0.5"/><line x1="15" y1="54" x2="85" y2="64" stroke="var(--ink-faint)" stroke-width="1" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Spatial Forces</h3></div>
+    <p class="def">Directional relationships between elements that guide the eye and imply connection or tension across a composition.</p>
+    <div class="rels"><a href="#dynamics" class="rel">Dynamics</a><a href="#structure" class="rel">Structure</a></div>
+  </div>
+</article><article class="card" id="static" data-cat="form-composition" data-name="static">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="35" y="18" width="30" height="40" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Static</h3></div>
+    <p class="def">The absence of implied motion in a composition, conveying stability and rest.</p>
+    <div class="rels"><a href="#dynamics" class="rel">Dynamics</a></div>
+  </div>
+</article><article class="card" id="structure" data-cat="form-composition" data-name="structure">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="35" r="20" fill="none" stroke="var(--ext)" stroke-width="2"/><line x1="50" y1="15" x2="50" y2="55" stroke="var(--ink-faint)" stroke-width="1"/><line x1="30" y1="35" x2="70" y2="35" stroke="var(--ink-faint)" stroke-width="1"/><line x1="36" y1="21" x2="64" y2="49" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Structure</h3><span class="badge">Revised</span></div>
+    <p class="def">The internal organization holding one object&#x27;s or composition&#x27;s own parts together.</p>
+    <div class="rels"><a href="#system" class="rel">System</a><a href="#composition" class="rel">Composition</a></div>
+  </div>
+</article><article class="card" id="symmetry" data-cat="form-composition" data-name="symmetry">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="25,20 40,50 15,45" fill="none" stroke="var(--ext)" stroke-width="2"/><polygon points="75,20 60,50 85,45" fill="none" stroke="var(--ext)" stroke-width="2"/><line x1="50" y1="10" x2="50" y2="65" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Symmetry</h3></div>
+    <p class="def">Balance produced by exact mirrored correspondence across a central axis.</p>
+    <div class="rels"><a href="#balance" class="rel">Balance</a><a href="#asymmetry" class="rel">Asymmetry</a></div>
+  </div>
+</article><article class="card" id="system" data-cat="form-composition" data-name="system">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="22" cy="20" r="7" fill="none" stroke="var(--ext)" stroke-width="2"/><polygon points="52,13 63,26 41,26" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="70" y="13" width="14" height="14" fill="none" stroke="var(--ext)" stroke-width="2"/><circle cx="22" cy="52" r="5" fill="none" stroke="var(--ext)" stroke-width="1.5"/><polygon points="52,46 60,56 44,56" fill="none" stroke="var(--ext)" stroke-width="1.5"/><rect x="72" y="46" width="10" height="10" fill="none" stroke="var(--ext)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>System</h3><span class="badge">Revised</span></div>
+    <p class="def">A set of distinct components governed by one shared rule across a larger whole.</p>
+    <div class="rels"><a href="#structure" class="rel">Structure</a><a href="#module" class="rel">Module</a></div>
+  </div>
+</article><article class="card" id="unity" data-cat="form-composition" data-name="unity">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="72.0" cy="38.0" r="7" fill="var(--ext)" opacity="0.75"/><circle cx="61.0" cy="57.1" r="7" fill="var(--ext)" opacity="0.75"/><circle cx="39.0" cy="57.1" r="7" fill="var(--ext)" opacity="0.75"/><circle cx="28.0" cy="38.0" r="7" fill="var(--ext)" opacity="0.75"/><circle cx="39.0" cy="18.9" r="7" fill="var(--ext)" opacity="0.75"/><circle cx="61.0" cy="18.9" r="7" fill="var(--ext)" opacity="0.75"/><circle cx="50" cy="38" r="7" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Unity</h3><span class="badge">New</span></div>
+    <p class="def">The degree to which elements read as belonging to one coherent whole rather than as unrelated parts.</p>
+    <div class="rels"><a href="#balance" class="rel">Balance</a><a href="#pattern" class="rel">Pattern</a></div>
+  </div>
+</article><article class="card" id="visual-hierarchy" data-cat="form-composition" data-name="visual hierarchy">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="20" cy="30" r="14" fill="var(--ext)"/><circle cx="50" cy="42" r="9" fill="var(--ink-faint)" opacity="0.6"/><circle cx="76" cy="50" r="5" fill="var(--ink-faint)" opacity="0.35"/><line x1="20" y1="30" x2="76" y2="50" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Visual Hierarchy</h3><span class="badge">Recategorized</span></div>
+    <p class="def">The deliberate ranking of elements by visual weight so the eye is guided through a composition in a specific order.</p>
+    <div class="rels"><a href="#emphasis" class="rel">Emphasis</a><a href="#scale" class="rel">Scale</a></div>
+  </div>
+</article><article class="card" id="volume" data-cat="form-composition" data-name="volume">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="35,15 65,15 78,25 48,25" fill="none" stroke="var(--ext)" stroke-width="1.3"/><polygon points="35,15 48,25 48,55 35,45" fill="var(--ext)" opacity="0.5"/><polygon points="48,25 78,25 78,55 48,55" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Volume</h3></div>
+    <p class="def">A three-dimensional space defined by its boundaries, or implied by the relationships between the planes that suggest it.</p>
+    <div class="rels"><a href="#mass" class="rel">Mass</a><a href="#plane" class="rel">Plane</a></div>
+  </div>
+</article><article class="card" id="communication" data-cat="meaning-communication" data-name="communication">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="20" cy="38" r="8" fill="var(--ext)"/><circle cx="80" cy="38" r="8" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><line x1="30" y1="38" x2="70" y2="38" stroke="var(--ink-faint)" stroke-width="1.2" marker-end="url(#ar)"/><defs><marker id="ar" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ink-faint)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Communication</h3></div>
+    <p class="def">The conveying of meaning and intent through visual signs, symbols, and systems.</p>
+    <div class="rels"><a href="#semantics" class="rel">Semantics</a><a href="#graphic-design" class="rel">Graphic Design</a></div>
+  </div>
+</article><article class="card" id="decorativeness" data-cat="meaning-communication" data-name="decorativeness">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="18" width="50" height="34" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><circle cx="20" cy="18" r="3" fill="var(--ext)"/><circle cx="70" cy="18" r="3" fill="var(--ext)"/><circle cx="20" cy="52" r="3" fill="var(--ext)"/><circle cx="70" cy="52" r="3" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Decorativeness</h3></div>
+    <p class="def">The presence of non-essential visual additions that heighten emotional or aesthetic response beyond a form&#x27;s function.</p>
+    <div class="rels"><a href="#ornament" class="rel">Ornament</a></div>
+  </div>
+</article><article class="card" id="graphic-design" data-cat="meaning-communication" data-name="graphic design">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="12" fill="var(--ext)"/><text x="48" y="45" font-family="Archivo, sans-serif" font-weight="800" font-size="26" fill="var(--ink-faint)">Aa</text></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Graphic Design</h3></div>
+    <p class="def">The practice of visual communication through the coordinated use of typography, imagery, color, and composition.</p>
+    <div class="rels"><a href="#communication" class="rel">Communication</a><a href="#visual-identity" class="rel">Visual Identity</a></div>
+  </div>
+</article><article class="card" id="icon" data-cat="meaning-communication" data-name="icon">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="30" y="42" width="40" height="16" fill="var(--ext)"/><polygon points="50,14 62,32 38,32" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Icon</h3><span class="badge">Revised</span></div>
+    <p class="def">A form that represents a concept by resembling it directly, as opposed to a Symbol, which represents by convention.</p>
+    <div class="rels"><a href="#symbol" class="rel">Symbol</a></div>
+  </div>
+</article><article class="card" id="logo" data-cat="meaning-communication" data-name="logo">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="18" y="18" width="64" height="40" fill="none" stroke="var(--ink-faint)" stroke-width="1.2" stroke-dasharray="2 2"/><polygon points="50,26 62,50 38,50" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Logo</h3></div>
+    <p class="def">A graphic symbol or typographic mark that represents a brand, company, or project&#x27;s identity.</p>
+    <div class="rels"><a href="#visual-identity" class="rel">Visual Identity</a><a href="#icon" class="rel">Icon</a></div>
+  </div>
+</article><article class="card" id="metaphor" data-cat="meaning-communication" data-name="metaphor">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="35" cy="38" r="16" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><polygon points="65,22 82,50 48,50" fill="none" stroke="var(--ext)" stroke-width="2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Metaphor</h3></div>
+    <p class="def">A conceptual bridge in which one visual form is used to carry the meaning of another.</p>
+    <div class="rels"><a href="#symbol" class="rel">Symbol</a><a href="#semantics" class="rel">Semantics</a></div>
+  </div>
+</article><article class="card" id="semantics" data-cat="meaning-communication" data-name="semantics">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="30" cy="38" r="10" fill="var(--ext)"/><rect x="52" y="15" width="34" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.2" stroke-dasharray="2 2"/><rect x="52" y="45" width="34" height="18" fill="none" stroke="var(--ink-faint)" stroke-width="1.2" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Semantics</h3></div>
+    <p class="def">The meaning a visual sign or symbol generates through its context and use — absorbs what the source dictionary separately, redundantly, called Interpretation.</p>
+    <div class="rels"><a href="#symbol" class="rel">Symbol</a><a href="#icon" class="rel">Icon</a><a href="#metaphor" class="rel">Metaphor</a></div>
+  </div>
+</article><article class="card" id="symbol" data-cat="meaning-communication" data-name="symbol">
+  <div class="card-art"><svg viewBox="0 0 100 76"><polygon points="50,12 62,25 62,51 50,64 38,51 38,25" fill="none" stroke="var(--ext)" stroke-width="2"/><line x1="50" y1="24" x2="50" y2="42" stroke="var(--ext)" stroke-width="3"/><circle cx="50" cy="50" r="1.6" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Symbol</h3><span class="badge">New</span></div>
+    <p class="def">A form that stands for a concept by learned convention alone, without resembling it.</p>
+    <div class="rels"><a href="#icon" class="rel">Icon</a><a href="#semantics" class="rel">Semantics</a></div>
+  </div>
+</article><article class="card" id="visual-identity" data-cat="meaning-communication" data-name="visual identity">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="24" cy="24" r="9" fill="var(--ext)"/><rect x="45" y="16" width="12" height="16" fill="var(--ink-faint)" opacity="0.5"/><rect x="62" y="16" width="12" height="16" fill="var(--ink-faint)" opacity="0.3"/><text x="24" y="55" font-family="Archivo" font-weight="700" font-size="14" fill="var(--ink-faint)">Aa</text></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Visual Identity</h3></div>
+    <p class="def">The visual components of a brand or project — logo, color palette, typography, and imagery — forming one recognizable system.</p>
+    <div class="rels"><a href="#logo" class="rel">Logo</a><a href="#brandbook" class="rel">Brandbook</a></div>
+  </div>
+</article><article class="card" id="alignment" data-cat="process-practice" data-name="alignment">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="18" width="40" height="8" fill="var(--ext)" opacity="1"/><rect x="15" y="34" width="60" height="8" fill="var(--ink-faint)" opacity="0.5"/><rect x="15" y="50" width="30" height="8" fill="var(--ink-faint)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Alignment</h3></div>
+    <p class="def">The positioning of elements relative to one another — left, right, center, or justified — to create order and clarity.</p>
+    <div class="rels"><a href="#grid-system" class="rel">Grid System</a><a href="#layout" class="rel">Layout</a></div>
+  </div>
+</article><article class="card" id="brandbook" data-cat="process-practice" data-name="brandbook">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="16" width="60" height="10" fill="var(--ext)"/><rect x="20" y="30" width="60" height="10" fill="var(--ink-faint)" opacity="0.5"/><rect x="20" y="44" width="60" height="10" fill="var(--ink-faint)" opacity="0.25"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Brandbook</h3></div>
+    <p class="def">A comprehensive document defining a project&#x27;s visual identity, typography, color palette, and guidelines for consistent application.</p>
+    <div class="rels"><a href="#visual-identity" class="rel">Visual Identity</a></div>
+  </div>
+</article><article class="card" id="brief" data-cat="process-practice" data-name="brief">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="28" y="12" width="44" height="52" fill="none" stroke="var(--ext)" stroke-width="2"/><line x1="35" y1="24" x2="65" y2="24" stroke="var(--ink-faint)" stroke-width="1.5"/><line x1="35" y1="34" x2="65" y2="34" stroke="var(--ink-faint)" stroke-width="1.5"/><line x1="35" y1="44" x2="55" y2="44" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Brief</h3></div>
+    <p class="def">A concise document describing a project&#x27;s goals, requirements, constraints, and expectations.</p>
+    <div class="rels"><a href="#case-study" class="rel">Case Study</a></div>
+  </div>
+</article><article class="card" id="case-study" data-cat="process-practice" data-name="case study">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="20" width="30" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><rect x="58" y="20" width="30" height="36" fill="var(--ext)" opacity="0.85"/><path d="M46 38 H54" stroke="var(--ink-faint)" stroke-width="1.5" marker-end="url(#ar2)"/><defs><marker id="ar2" markerWidth="6" markerHeight="6" refX="3" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--ink-faint)"/></marker></defs></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Case Study</h3></div>
+    <p class="def">A documented design project that shows the original problem, the process taken, and the final solution.</p>
+    <div class="rels"><a href="#brief" class="rel">Brief</a><a href="#iteration" class="rel">Iteration</a></div>
+  </div>
+</article><article class="card" id="construction" data-cat="process-practice" data-name="construction">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="45" width="18" height="14" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="40" y="30" width="18" height="14" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="68" y="15" width="18" height="14" fill="var(--ext)"/><line x1="30" y1="52" x2="40" y2="37" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/><line x1="58" y1="37" x2="68" y2="22" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Construction</h3></div>
+    <p class="def">The method and logic by which parts are assembled into a functional or visual whole.</p>
+    <div class="rels"><a href="#structure" class="rel">Structure</a></div>
+  </div>
+</article><article class="card" id="deadline" data-cat="process-practice" data-name="deadline">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="22" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><path d="M50 38 L50 18 A20 20 0 0 1 68 30 Z" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Deadline</h3></div>
+    <p class="def">The final date or time by which a task or project must be completed.</p>
+    
+  </div>
+</article><article class="card" id="format" data-cat="process-practice" data-name="format">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="18" width="30" height="40" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="52" y="26" width="36" height="24" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Format</h3></div>
+    <p class="def">A mode of representation defined by an object&#x27;s size, proportions, or viewport.</p>
+    <div class="rels"><a href="#scale" class="rel">Scale</a></div>
+  </div>
+</article><article class="card" id="grading-career-grading" data-cat="process-practice" data-name="grading (career grading)">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="55" width="14" height="6" fill="var(--ink-faint)" opacity="0.5"/><rect x="31" y="44" width="14" height="17" fill="var(--ink-faint)" opacity="0.5"/><rect x="47" y="33" width="14" height="28" fill="var(--ink-faint)" opacity="0.5"/><rect x="63" y="22" width="14" height="39" fill="var(--ext)" opacity="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Grading (Career Grading)</h3></div>
+    <p class="def">A structured system defining professional levels, responsibilities, and skill growth within a discipline.</p>
+    
+  </div>
+</article><article class="card" id="grid-system" data-cat="process-practice" data-name="grid system">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="17.0" y="18.0" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="34.5" y="18.0" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="52.0" y="18.0" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="69.5" y="18.0" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="17.0" y="32.666666666666664" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="34.5" y="32.666666666666664" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="52.0" y="32.666666666666664" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="69.5" y="32.666666666666664" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="17.0" y="47.33333333333333" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="34.5" y="47.33333333333333" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="52.0" y="47.33333333333333" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/><rect x="69.5" y="47.33333333333333" width="13.5" height="10.666666666666666" fill="none" stroke="var(--ink-faint)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Grid System</h3></div>
+    <p class="def">A structural framework of rows and columns used to align and organize a layout&#x27;s content.</p>
+    <div class="rels"><a href="#alignment" class="rel">Alignment</a><a href="#module" class="rel">Module</a></div>
+  </div>
+</article><article class="card" id="iteration" data-cat="process-practice" data-name="iteration">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M30 20 A20 20 0 1 0 50 58" fill="none" stroke="var(--ext)" stroke-width="2"/><polygon points="26,14 34,22 22,26" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Iteration</h3></div>
+    <p class="def">A repeated design cycle focused on refinement through feedback rather than a single final pass.</p>
+    <div class="rels"><a href="#case-study" class="rel">Case Study</a></div>
+  </div>
+</article><article class="card" id="layout" data-cat="process-practice" data-name="layout">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="14" width="76" height="14" fill="var(--ext)" opacity="0.8"/><rect x="12" y="32" width="34" height="30" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="50" y="32" width="38" height="30" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Layout</h3></div>
+    <p class="def">The arrangement of text, images, and other elements within a design&#x27;s available space.</p>
+    <div class="rels"><a href="#composition" class="rel">Composition</a><a href="#grid-system" class="rel">Grid System</a></div>
+  </div>
+</article><article class="card" id="license" data-cat="process-practice" data-name="license">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="34" r="18" fill="none" stroke="var(--ext)" stroke-width="2"/><path d="M40 45 L45 62 L50 55 L55 62 L60 45" fill="none" stroke="var(--ext)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>License</h3></div>
+    <p class="def">Legal permission defining how a creative asset may be used, distributed, or modified.</p>
+    <div class="rels"><a href="#asset" class="rel">Asset</a></div>
+  </div>
+</article><article class="card" id="mind-map" data-cat="process-practice" data-name="mind map">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="50" cy="38" r="8" fill="var(--ext)"/><g stroke="var(--ink-faint)" stroke-width="1.2"><line x1="50" y1="30" x2="30" y2="15"/><line x1="50" y1="30" x2="70" y2="15"/><line x1="50" y1="46" x2="25" y2="55"/><line x1="50" y1="46" x2="75" y2="58"/></g><g fill="none" stroke="var(--ink-faint)" stroke-width="1.2"><circle cx="30" cy="15" r="4"/><circle cx="70" cy="15" r="4"/><circle cx="25" cy="55" r="4"/><circle cx="75" cy="58" r="4"/></g></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Mind Map</h3></div>
+    <p class="def">A visual diagram used to organize ideas, concepts, and the relationships between them.</p>
+    <div class="rels"><a href="#moodboard" class="rel">Moodboard</a></div>
+  </div>
+</article><article class="card" id="moodboard" data-cat="process-practice" data-name="moodboard">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="14" y="16" width="14" height="18" fill="var(--ext)" opacity="0.2"/><rect x="32" y="16" width="14" height="18" fill="var(--ext)" opacity="0.35"/><rect x="50" y="16" width="14" height="18" fill="var(--ext)" opacity="0.5"/><rect x="68" y="16" width="14" height="18" fill="var(--ext)" opacity="0.6499999999999999"/><rect x="14" y="40" width="14" height="18" fill="var(--ext)" opacity="0.8"/><rect x="32" y="40" width="14" height="18" fill="var(--ext)" opacity="0.2"/><rect x="50" y="40" width="14" height="18" fill="var(--ext)" opacity="0.35"/><rect x="68" y="40" width="14" height="18" fill="var(--ext)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Moodboard</h3></div>
+    <p class="def">A curated collection of visual references used to convey a project&#x27;s intended style, mood, and concept.</p>
+    <div class="rels"><a href="#mind-map" class="rel">Mind Map</a></div>
+  </div>
+</article><article class="card" id="scenario" data-cat="process-practice" data-name="scenario">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="10" y="30" width="14" height="14" rx="2" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><line x1="26" y1="37" x2="32" y2="37" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="32" y="30" width="14" height="14" rx="2" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><line x1="48" y1="37" x2="54" y2="37" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="54" y="30" width="14" height="14" rx="2" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><line x1="70" y1="37" x2="76" y2="37" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="76" y="30" width="14" height="14" rx="2" fill="none" stroke="var(--ext)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Scenario</h3><span class="badge">Revised</span></div>
+    <p class="def">A described situation used in design research to test or explain how a person moves through a product or interface — reframed here from a vaguer original definition into its actual working sense.</p>
+    <div class="rels"><a href="#storyboard" class="rel">Storyboard</a><a href="#user-experience-ux" class="rel">User Experience (UX)</a></div>
+  </div>
+</article><article class="card" id="template" data-cat="process-practice" data-name="template">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="18" y="14" width="64" height="48" fill="none" stroke="var(--ext)" stroke-width="2" stroke-dasharray="4 3"/><rect x="28" y="26" width="44" height="8" fill="var(--ink-faint)" opacity="0.2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Template</h3></div>
+    <p class="def">A pre-designed layout or framework used as a starting point for consistent production.</p>
+    <div class="rels"><a href="#grid-system" class="rel">Grid System</a></div>
+  </div>
+</article><article class="card" id="collage" data-cat="surface-material" data-name="collage">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="30" width="26" height="20" fill="none" stroke="var(--ink-faint)" stroke-width="1.2" transform="rotate(-8 28 40)"/><rect x="40" y="18" width="26" height="20" fill="var(--ext)" opacity="0.7" transform="rotate(6 53 28)"/><rect x="55" y="40" width="26" height="20" fill="none" stroke="var(--ext)" stroke-width="1.5" transform="rotate(-4 68 50)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Collage</h3></div>
+    <p class="def">A technique of combining diverse, often unrelated visual fragments into one new, unified composition.</p>
+    <div class="rels"><a href="#pattern" class="rel">Pattern</a><a href="#layer" class="rel">Layer</a></div>
+  </div>
+</article><article class="card" id="module" data-cat="surface-material" data-name="module">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="14" y="14" width="20" height="20" fill="none" stroke="var(--ext)" stroke-width="1.3"/><rect x="38" y="14" width="20" height="20" fill="none" stroke="var(--ext)" stroke-width="1.3"/><rect x="62" y="14" width="20" height="20" fill="none" stroke="var(--ext)" stroke-width="1.3"/><rect x="14" y="40" width="20" height="20" fill="none" stroke="var(--ext)" stroke-width="1.3"/><rect x="38" y="40" width="20" height="20" fill="none" stroke="var(--ext)" stroke-width="1.3"/><rect x="62" y="40" width="20" height="20" fill="none" stroke="var(--ext)" stroke-width="1.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Module</h3></div>
+    <p class="def">A single repeatable unit whose form determines the structure and proportions of a larger composition.</p>
+    <div class="rels"><a href="#pattern" class="rel">Pattern</a><a href="#system" class="rel">System</a></div>
+  </div>
+</article><article class="card" id="pattern" data-cat="surface-material" data-name="pattern">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="10" cy="14" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="26" cy="14" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="42" cy="14" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="58" cy="14" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="74" cy="14" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="18" cy="36" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="34" cy="36" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="50" cy="36" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="66" cy="36" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="82" cy="36" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="10" cy="58" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="26" cy="58" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="42" cy="58" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="58" cy="58" r="4" fill="var(--ext)" opacity="0.8"/><circle cx="74" cy="58" r="4" fill="var(--ext)" opacity="0.8"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Pattern</h3></div>
+    <p class="def">A repeating structural motif, distinguished from plain Repetition by having its own internal modular logic.</p>
+    <div class="rels"><a href="#module" class="rel">Module</a><a href="#texture" class="rel">Texture</a></div>
+  </div>
+</article><article class="card" id="silhouette" data-cat="surface-material" data-name="silhouette">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M35 15 Q55 15 55 32 Q55 42 45 45 L60 62 H30 L38 45 Q25 42 25 30 Q25 15 35 15Z" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Silhouette</h3></div>
+    <p class="def">The flattened outline of a volumetric object, shown without internal depth, detail, or texture.</p>
+    <div class="rels"><a href="#form" class="rel">Form</a><a href="#counterform-negative-space" class="rel">Counterform (Negative Space)</a></div>
+  </div>
+</article><article class="card" id="tectonics" data-cat="surface-material" data-name="tectonics">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M15 55 L30 25 L45 45 L60 20 L75 40 L85 55 Z" fill="none" stroke="var(--ext)" stroke-width="2" stroke-linejoin="round"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Tectonics</h3></div>
+    <p class="def">The expressive articulation of a structure&#x27;s logic through the treatment of its surface and form.</p>
+    <div class="rels"><a href="#structure" class="rel">Structure</a><a href="#texture" class="rel">Texture</a></div>
+  </div>
+</article><article class="card" id="texture-tactile-texture" data-cat="surface-material" data-name="texture (tactile texture)">
+  <div class="card-art"><svg viewBox="0 0 100 76"><line x1="29.9" y1="19.2" x2="32.9" y2="22.2" stroke="var(--ext)" stroke-width="1"/><line x1="42.1" y1="21.7" x2="45.1" y2="24.7" stroke="var(--ext)" stroke-width="1"/><line x1="17.1" y1="34.1" x2="20.1" y2="37.1" stroke="var(--ext)" stroke-width="1"/><line x1="81.8" y1="54.0" x2="84.8" y2="57.0" stroke="var(--ext)" stroke-width="1"/><line x1="70.2" y1="25.1" x2="73.2" y2="28.1" stroke="var(--ext)" stroke-width="1"/><line x1="52.8" y1="27.8" x2="55.8" y2="30.8" stroke="var(--ext)" stroke-width="1"/><line x1="25.1" y1="19.3" x2="28.1" y2="22.3" stroke="var(--ext)" stroke-width="1"/><line x1="28.3" y1="60.4" x2="31.3" y2="63.4" stroke="var(--ext)" stroke-width="1"/><line x1="75.0" y1="54.3" x2="78.0" y2="57.3" stroke="var(--ext)" stroke-width="1"/><line x1="72.8" y1="23.7" x2="75.8" y2="26.7" stroke="var(--ext)" stroke-width="1"/><line x1="35.5" y1="45.3" x2="38.5" y2="48.3" stroke="var(--ext)" stroke-width="1"/><line x1="67.6" y1="56.7" x2="70.6" y2="59.7" stroke="var(--ext)" stroke-width="1"/><line x1="78.9" y1="18.3" x2="81.9" y2="21.3" stroke="var(--ext)" stroke-width="1"/><line x1="58.0" y1="47.6" x2="61.0" y2="50.6" stroke="var(--ext)" stroke-width="1"/><line x1="50.5" y1="22.9" x2="53.5" y2="25.9" stroke="var(--ext)" stroke-width="1"/><line x1="48.0" y1="18.5" x2="51.0" y2="21.5" stroke="var(--ext)" stroke-width="1"/><line x1="83.0" y1="57.3" x2="86.0" y2="60.3" stroke="var(--ext)" stroke-width="1"/><line x1="53.6" y1="29.0" x2="56.6" y2="32.0" stroke="var(--ext)" stroke-width="1"/><line x1="81.1" y1="42.6" x2="84.1" y2="45.6" stroke="var(--ext)" stroke-width="1"/><line x1="79.1" y1="56.4" x2="82.1" y2="59.4" stroke="var(--ext)" stroke-width="1"/><line x1="50.6" y1="34.7" x2="53.6" y2="37.7" stroke="var(--ext)" stroke-width="1"/><line x1="57.5" y1="35.6" x2="60.5" y2="38.6" stroke="var(--ext)" stroke-width="1"/><line x1="24.3" y1="29.3" x2="27.3" y2="32.3" stroke="var(--ext)" stroke-width="1"/><line x1="73.8" y1="16.2" x2="76.8" y2="19.2" stroke="var(--ext)" stroke-width="1"/><line x1="15.5" y1="45.3" x2="18.5" y2="48.3" stroke="var(--ext)" stroke-width="1"/><line x1="33.3" y1="40.7" x2="36.3" y2="43.7" stroke="var(--ext)" stroke-width="1"/><line x1="47.8" y1="31.1" x2="50.8" y2="34.1" stroke="var(--ext)" stroke-width="1"/><line x1="87.8" y1="23.8" x2="90.8" y2="26.8" stroke="var(--ext)" stroke-width="1"/><line x1="43.4" y1="24.1" x2="46.4" y2="27.1" stroke="var(--ext)" stroke-width="1"/><line x1="60.1" y1="27.8" x2="63.1" y2="30.8" stroke="var(--ext)" stroke-width="1"/><line x1="39.0" y1="51.3" x2="42.0" y2="54.3" stroke="var(--ext)" stroke-width="1"/><line x1="36.4" y1="41.9" x2="39.4" y2="44.9" stroke="var(--ext)" stroke-width="1"/><line x1="80.7" y1="19.0" x2="83.7" y2="22.0" stroke="var(--ext)" stroke-width="1"/><line x1="16.7" y1="25.4" x2="19.7" y2="28.4" stroke="var(--ext)" stroke-width="1"/><line x1="70.2" y1="44.8" x2="73.2" y2="47.8" stroke="var(--ext)" stroke-width="1"/><line x1="30.0" y1="30.6" x2="33.0" y2="33.6" stroke="var(--ext)" stroke-width="1"/><line x1="25.5" y1="37.0" x2="28.5" y2="40.0" stroke="var(--ext)" stroke-width="1"/><line x1="15.3" y1="48.9" x2="18.3" y2="51.9" stroke="var(--ext)" stroke-width="1"/><line x1="80.1" y1="61.7" x2="83.1" y2="64.7" stroke="var(--ext)" stroke-width="1"/><line x1="67.9" y1="62.0" x2="70.9" y2="65.0" stroke="var(--ext)" stroke-width="1"/><line x1="13.4" y1="28.4" x2="16.4" y2="31.4" stroke="var(--ext)" stroke-width="1"/><line x1="85.4" y1="52.8" x2="88.4" y2="55.8" stroke="var(--ext)" stroke-width="1"/><line x1="43.2" y1="61.2" x2="46.2" y2="64.2" stroke="var(--ext)" stroke-width="1"/><line x1="59.2" y1="54.9" x2="62.2" y2="57.9" stroke="var(--ext)" stroke-width="1"/><line x1="34.3" y1="23.6" x2="37.3" y2="26.6" stroke="var(--ext)" stroke-width="1"/><line x1="45.8" y1="20.8" x2="48.8" y2="23.8" stroke="var(--ext)" stroke-width="1"/><line x1="41.0" y1="62.1" x2="44.0" y2="65.1" stroke="var(--ext)" stroke-width="1"/><line x1="37.2" y1="14.5" x2="40.2" y2="17.5" stroke="var(--ext)" stroke-width="1"/><line x1="15.4" y1="22.5" x2="18.4" y2="25.5" stroke="var(--ext)" stroke-width="1"/><line x1="71.6" y1="32.1" x2="74.6" y2="35.1" stroke="var(--ext)" stroke-width="1"/><line x1="34.1" y1="18.9" x2="37.1" y2="21.9" stroke="var(--ext)" stroke-width="1"/><line x1="86.6" y1="35.2" x2="89.6" y2="38.2" stroke="var(--ext)" stroke-width="1"/><line x1="27.8" y1="17.0" x2="30.8" y2="20.0" stroke="var(--ext)" stroke-width="1"/><line x1="16.2" y1="22.4" x2="19.2" y2="25.4" stroke="var(--ext)" stroke-width="1"/><line x1="63.4" y1="21.5" x2="66.4" y2="24.5" stroke="var(--ext)" stroke-width="1"/><line x1="15.1" y1="38.5" x2="18.1" y2="41.5" stroke="var(--ext)" stroke-width="1"/><line x1="30.9" y1="63.9" x2="33.9" y2="66.9" stroke="var(--ext)" stroke-width="1"/><line x1="21.3" y1="40.5" x2="24.3" y2="43.5" stroke="var(--ext)" stroke-width="1"/><line x1="70.8" y1="34.5" x2="73.8" y2="37.5" stroke="var(--ext)" stroke-width="1"/><line x1="87.1" y1="37.9" x2="90.1" y2="40.9" stroke="var(--ext)" stroke-width="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Texture (Tactile Texture)</h3></div>
+    <p class="def">A surface&#x27;s tangible structure, perceived visually or by touch, distinguished from Pattern by describing surface quality rather than a repeating motif.</p>
+    <div class="rels"><a href="#pattern" class="rel">Pattern</a><a href="#material" class="rel">Material</a></div>
+  </div>
+</article><article class="card" id="affordance" data-cat="systems-interaction" data-name="affordance">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="20" y="20" width="60" height="36" rx="4" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="70" y="30" width="18" height="16" rx="8" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Affordance</h3><span class="badge">New</span></div>
+    <p class="def">A property of a form&#x27;s shape that suggests, on its own, how it is meant to be used.</p>
+    <div class="rels"><a href="#interaction-design" class="rel">Interaction Design</a><a href="#forcing-function" class="rel">Forcing Function</a></div>
+  </div>
+</article><article class="card" id="animation-sequence" data-cat="systems-interaction" data-name="animation sequence">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="14" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="34" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="54" y="20" width="16" height="36" fill="var(--ext)" opacity="0.15" stroke="var(--ext)" stroke-width="1.5"/><rect x="74" y="20" width="12" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Animation Sequence</h3></div>
+    <p class="def">A series of frames or movements that together create the illusion of motion or narrative.</p>
+    <div class="rels"><a href="#motion-graphics" class="rel">Motion Graphics</a><a href="#storyboard" class="rel">Storyboard</a></div>
+  </div>
+</article><article class="card" id="forcing-function" data-cat="systems-interaction" data-name="forcing function">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="26" width="34" height="20" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="55" y="26" width="30" height="20" fill="var(--ext)" opacity="0.15" stroke="var(--ext)" stroke-width="2"/><line x1="49" y1="36" x2="55" y2="36" stroke="var(--ext)" stroke-width="2" stroke-dasharray="3 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Forcing Function</h3><span class="badge">New</span></div>
+    <p class="def">A design feature that makes a specific error physically impossible until a required step is completed — not in the source dictionary, added as a real gap in this category.</p>
+    <div class="rels"><a href="#affordance" class="rel">Affordance</a></div>
+  </div>
+</article><article class="card" id="interaction-design" data-cat="systems-interaction" data-name="interaction design">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="55" cy="38" r="16" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" stroke-dasharray="2 2"/><polygon points="20,20 34,50 38,36 52,32" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Interaction Design</h3></div>
+    <p class="def">The creation and structuring of interactive behavior between users and a digital or physical system.</p>
+    <div class="rels"><a href="#interface" class="rel">Interface</a><a href="#affordance" class="rel">Affordance</a></div>
+  </div>
+</article><article class="card" id="interface" data-cat="systems-interaction" data-name="interface">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="15" width="70" height="46" rx="4" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><circle cx="50" cy="38" r="9" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Interface</h3></div>
+    <p class="def">A designed mediator that enables interaction and communication between a system and its user.</p>
+    <div class="rels"><a href="#interaction-design" class="rel">Interaction Design</a><a href="#ui" class="rel">UI</a></div>
+  </div>
+</article><article class="card" id="mockup" data-cat="systems-interaction" data-name="mockup">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="18" y="14" width="64" height="48" rx="3" fill="none" stroke="var(--ext)" stroke-width="2"/><rect x="26" y="22" width="48" height="8" fill="var(--ink-faint)" opacity="0.4"/><rect x="26" y="34" width="30" height="18" fill="var(--ext)" opacity="0.3"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Mockup</h3></div>
+    <p class="def">A realistic visual representation of a design, used for presentation and evaluation before it is built.</p>
+    <div class="rels"><a href="#wireframe" class="rel">Wireframe</a><a href="#prototype" class="rel">Prototype</a></div>
+  </div>
+</article><article class="card" id="motion-graphics" data-cat="systems-interaction" data-name="motion graphics">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="20" cy="45" r="6" fill="var(--ext)" opacity="0.25"/><circle cx="40" cy="35" r="6" fill="var(--ext)" opacity="0.5"/><circle cx="60" cy="25" r="6" fill="var(--ext)" opacity="0.8"/><circle cx="78" cy="18" r="6" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Motion Graphics</h3></div>
+    <p class="def">Animated visual elements used to convey information, narrative, or aesthetic expression over time.</p>
+    <div class="rels"><a href="#animation-sequence" class="rel">Animation Sequence</a></div>
+  </div>
+</article><article class="card" id="prototype" data-cat="systems-interaction" data-name="prototype">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="16" width="70" height="44" fill="none" stroke="var(--ink-faint)" stroke-width="1.3" stroke-dasharray="2 2"/><rect x="22" y="23" width="40" height="8" fill="var(--ink-faint)" opacity="0.3"/><polygon points="60,42 72,58 65,56 60,64" fill="var(--ext)"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Prototype</h3></div>
+    <p class="def">An interactive or tangible model of a design used to test its functionality, flow, and user experience.</p>
+    <div class="rels"><a href="#wireframe" class="rel">Wireframe</a><a href="#mockup" class="rel">Mockup</a></div>
+  </div>
+</article><article class="card" id="responsive-design" data-cat="systems-interaction" data-name="responsive design">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="16" width="18" height="44" fill="none" stroke="var(--ext)" stroke-width="1.5"/><rect x="38" y="20" width="26" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="72" y="24" width="16" height="28" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Responsive Design</h3></div>
+    <p class="def">A design approach that keeps visual and functional consistency across devices and screen sizes of different proportions.</p>
+    <div class="rels"><a href="#wireframe" class="rel">Wireframe</a></div>
+  </div>
+</article><article class="card" id="storyboard" data-cat="systems-interaction" data-name="storyboard">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="12" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" opacity="0.6"/><rect x="32" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" opacity="0.6"/><rect x="52" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.5" opacity="0.6"/><rect x="72" y="20" width="16" height="36" fill="none" stroke="var(--ext)" stroke-width="1.5" opacity="1"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Storyboard</h3></div>
+    <p class="def">A sequential visual plan depicting scenes or interactions ahead of animation, video, or interface production.</p>
+    <div class="rels"><a href="#animation-sequence" class="rel">Animation Sequence</a><a href="#scenario" class="rel">Scenario</a></div>
+  </div>
+</article><article class="card" id="user-experience-ux" data-cat="systems-interaction" data-name="user experience (ux)">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="15" cy="55" r="6" fill="var(--ink-faint)" opacity="0.5"/><circle cx="38" cy="25" r="6" fill="var(--ink-faint)" opacity="0.5"/><line x1="15" y1="55" x2="38" y2="25" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/><circle cx="62" cy="48" r="6" fill="var(--ink-faint)" opacity="0.5"/><line x1="38" y1="25" x2="62" y2="48" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/><circle cx="85" cy="18" r="6" fill="var(--ext)" opacity="1"/><line x1="62" y1="48" x2="85" y2="18" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>User Experience (UX)</h3></div>
+    <p class="def">The overall experience and satisfaction of a person interacting with a product, system, or service, end to end.</p>
+    <div class="rels"><a href="#user-interface-ui" class="rel">User Interface (UI)</a><a href="#prototype" class="rel">Prototype</a></div>
+  </div>
+</article><article class="card" id="user-interface-ui" data-cat="systems-interaction" data-name="user interface (ui)">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="18" y="18" width="64" height="40" rx="3" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><circle cx="32" cy="38" r="6" fill="var(--ext)"/><rect x="48" y="30" width="24" height="6" fill="var(--ink-faint)" opacity="0.4"/><rect x="48" y="42" width="16" height="6" fill="var(--ink-faint)" opacity="0.4"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>User Interface (UI)</h3></div>
+    <p class="def">The design of the specific interactive elements through which a person engages with a digital system.</p>
+    <div class="rels"><a href="#user-experience-ux" class="rel">User Experience (UX)</a><a href="#interface" class="rel">Interface</a></div>
+  </div>
+</article><article class="card" id="wireframe" data-cat="systems-interaction" data-name="wireframe">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="16" width="70" height="10" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="15" y="32" width="30" height="24" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/><rect x="49" y="32" width="36" height="24" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Wireframe</h3></div>
+    <p class="def">A simplified visual guide showing a layout&#x27;s structure and hierarchy without detailed styling.</p>
+    <div class="rels"><a href="#mockup" class="rel">Mockup</a><a href="#prototype" class="rel">Prototype</a></div>
+  </div>
+</article><article class="card" id="illustration-pack" data-cat="typography-image" data-name="illustration pack">
+  <div class="card-art"><svg viewBox="0 0 100 76"><circle cx="26" cy="26" r="9" fill="var(--ext)"/><polygon points="55,16 66,32 44,32" fill="var(--ext)" opacity="0.7"/><rect x="65" y="42" width="16" height="16" fill="var(--ext)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Illustration Pack</h3></div>
+    <p class="def">A collection of related illustrations sharing one style and thematic language, used consistently across a project.</p>
+    <div class="rels"><a href="#asset-library" class="rel">Asset Library</a></div>
+  </div>
+</article><article class="card" id="infographic" data-cat="typography-image" data-name="infographic">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="35" width="10" height="25" fill="var(--ext)"/><rect x="30" y="20" width="10" height="40" fill="var(--ext)" opacity="0.7"/><rect x="45" y="45" width="10" height="15" fill="var(--ext)" opacity="0.5"/><circle cx="72" cy="34" r="16" fill="none" stroke="var(--ink-faint)" stroke-width="1.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Infographic</h3></div>
+    <p class="def">A visual representation of data or information — using charts, icons, and diagrams — designed for quick, clear understanding.</p>
+    <div class="rels"><a href="#typography-system" class="rel">Typography System</a></div>
+  </div>
+</article><article class="card" id="kerning-tracking-&-leading" data-cat="typography-image" data-name="kerning, tracking &amp; leading">
+  <div class="card-art"><svg viewBox="0 0 100 76"><text x="15" y="50" font-family="Archivo" font-weight="700" font-size="28" fill="var(--ext)">AV</text><line x1="43" y1="20" x2="43" y2="55" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="2 2"/><line x1="15" y1="60" x2="85" y2="60" stroke="var(--ink-faint)" stroke-width="1"/><line x1="15" y1="12" x2="15" y2="60" stroke="var(--ink-faint)" stroke-width="1" stroke-dasharray="1 2"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Kerning, Tracking &amp; Leading</h3><span class="badge">New</span></div>
+    <p class="def">The three basic units of typographic spacing: the space between one specific letter pair, the space applied evenly across a run of letters, and the vertical space between lines.</p>
+    <div class="rels"><a href="#typography" class="rel">Typography</a><a href="#typography-system" class="rel">Typography System</a></div>
+  </div>
+</article><article class="card" id="legibility" data-cat="typography-image" data-name="legibility">
+  <div class="card-art"><svg viewBox="0 0 100 76"><text x="15" y="50" font-family="Archivo" font-weight="700" font-size="30" letter-spacing="4" fill="var(--ext)">IlL1</text></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Legibility</h3><span class="badge">New</span></div>
+    <p class="def">Whether individual letterforms can be told apart from one another at a glance.</p>
+    <div class="rels"><a href="#readability" class="rel">Readability</a><a href="#typography" class="rel">Typography</a></div>
+  </div>
+</article><article class="card" id="lettering" data-cat="typography-image" data-name="lettering">
+  <div class="card-art"><svg viewBox="0 0 100 76"><path d="M20 55 Q20 15 50 15 Q80 15 78 40 Q76 60 55 55 L60 45" fill="none" stroke="var(--ext)" stroke-width="4" stroke-linecap="round"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Lettering</h3></div>
+    <p class="def">Custom-drawn letterforms that function as an independent visual image rather than as reusable type.</p>
+    <div class="rels"><a href="#typography" class="rel">Typography</a></div>
+  </div>
+</article><article class="card" id="readability" data-cat="typography-image" data-name="readability">
+  <div class="card-art"><svg viewBox="0 0 100 76"><rect x="15" y="14" width="70" height="5" fill="var(--ink-faint)" opacity="0.5"/><rect x="15" y="24" width="55" height="5" fill="var(--ink-faint)" opacity="0.5"/><rect x="15" y="34" width="70" height="5" fill="var(--ink-faint)" opacity="0.5"/><rect x="15" y="44" width="55" height="5" fill="var(--ink-faint)" opacity="0.5"/><rect x="15" y="54" width="70" height="5" fill="var(--ink-faint)" opacity="0.5"/></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Readability</h3><span class="badge">New</span></div>
+    <p class="def">Whether continuous text can be comfortably read over a passage, a property of a full block of type rather than of single letterforms.</p>
+    <div class="rels"><a href="#legibility" class="rel">Legibility</a></div>
+  </div>
+</article><article class="card" id="typography" data-cat="typography-image" data-name="typography">
+  <div class="card-art"><svg viewBox="0 0 100 76"><text x="12" y="55" font-family="Archivo, sans-serif" font-weight="800" font-size="14" fill="var(--ink-faint)">Aa</text><text x="27.400000000000002" y="55" font-family="Archivo, sans-serif" font-weight="800" font-size="20" fill="var(--ink-faint)">Aa</text><text x="49.400000000000006" y="55" font-family="Archivo, sans-serif" font-weight="800" font-size="28" fill="var(--ink-faint)">Aa</text><text x="80.20000000000002" y="55" font-family="Archivo, sans-serif" font-weight="800" font-size="38" fill="var(--ext)">Aa</text></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Typography</h3></div>
+    <p class="def">Letterforms treated as a visual system, balancing legibility, rhythm, and expressive form.</p>
+    <div class="rels"><a href="#lettering" class="rel">Lettering</a><a href="#legibility" class="rel">Legibility</a></div>
+  </div>
+</article><article class="card" id="typography-system" data-cat="typography-image" data-name="typography system">
+  <div class="card-art"><svg viewBox="0 0 100 76"><text x="12" y="55" font-family="Archivo" font-weight="700" font-size="12" fill="var(--ink-faint)">Aa</text><text x="24.6" y="55" font-family="Archivo" font-weight="700" font-size="16" fill="var(--ink-faint)">Aa</text><text x="41.400000000000006" y="55" font-family="Archivo" font-weight="700" font-size="22" fill="var(--ink-faint)">Aa</text><text x="64.5" y="55" font-family="Archivo" font-weight="700" font-size="30" fill="var(--ext)">Aa</text></svg></div>
+  <div class="card-body">
+    <div class="card-head"><h3>Typography System</h3></div>
+    <p class="def">The organized use of typefaces, styles, spacing, and hierarchy to communicate clearly and consistently across a project.</p>
+    <div class="rels"><a href="#typography" class="rel">Typography</a><a href="#grid-system" class="rel">Grid System</a></div>
+  </div>
+</article>
+  </div>
+  <div class="empty" id="empty">No terms match.</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/dictionary-of-inner-experience/">Dictionary of Inner Experience</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+var TERMS = [{"slug": "color", "name": "color", "cat": "color-light"}, {"slug": "gradient", "name": "gradient", "cat": "color-light"}, {"slug": "light", "name": "light", "cat": "color-light"}, {"slug": "saturation", "name": "saturation", "cat": "color-light"}, {"slug": "spot-color-field", "name": "spot (color field)", "cat": "color-light"}, {"slug": "tone", "name": "tone", "cat": "color-light"}, {"slug": "api", "name": "api", "cat": "digital-production"}, {"slug": "alpha-channel", "name": "alpha channel", "cat": "digital-production"}, {"slug": "asset", "name": "asset", "cat": "digital-production"}, {"slug": "asset-library", "name": "asset library", "cat": "digital-production"}, {"slug": "cms", "name": "cms", "cat": "digital-production"}, {"slug": "clipping-path", "name": "clipping path", "cat": "digital-production"}, {"slug": "composition-file", "name": "composition file", "cat": "digital-production"}, {"slug": "dpi", "name": "dpi", "cat": "digital-production"}, {"slug": "digital-toolkit", "name": "digital toolkit", "cat": "digital-production"}, {"slug": "export-settings", "name": "export settings", "cat": "digital-production"}, {"slug": "frontend---backend", "name": "frontend / backend", "cat": "digital-production"}, {"slug": "layer", "name": "layer", "cat": "digital-production"}, {"slug": "mask", "name": "mask", "cat": "digital-production"}, {"slug": "pdf", "name": "pdf", "cat": "digital-production"}, {"slug": "ppi", "name": "ppi", "cat": "digital-production"}, {"slug": "plugin", "name": "plugin", "cat": "digital-production"}, {"slug": "raw", "name": "raw", "cat": "digital-production"}, {"slug": "raster", "name": "raster", "cat": "digital-production"}, {"slug": "render", "name": "render", "cat": "digital-production"}, {"slug": "resolution", "name": "resolution", "cat": "digital-production"}, {"slug": "svg", "name": "svg", "cat": "digital-production"}, {"slug": "vector-file", "name": "vector file", "cat": "digital-production"}, {"slug": "abstraction", "name": "abstraction", "cat": "form-composition"}, {"slug": "asymmetry", "name": "asymmetry", "cat": "form-composition"}, {"slug": "balance", "name": "balance", "cat": "form-composition"}, {"slug": "composition", "name": "composition", "cat": "form-composition"}, {"slug": "contrast", "name": "contrast", "cat": "form-composition"}, {"slug": "counterform-negative-space", "name": "counterform (negative space)", "cat": "form-composition"}, {"slug": "density", "name": "density", "cat": "form-composition"}, {"slug": "dynamics", "name": "dynamics", "cat": "form-composition"}, {"slug": "emphasis", "name": "emphasis", "cat": "form-composition"}, {"slug": "figurative", "name": "figurative", "cat": "form-composition"}, {"slug": "form", "name": "form", "cat": "form-composition"}, {"slug": "form-factor", "name": "form factor", "cat": "form-composition"}, {"slug": "formalization", "name": "formalization", "cat": "form-composition"}, {"slug": "line", "name": "line", "cat": "form-composition"}, {"slug": "mass", "name": "mass", "cat": "form-composition"}, {"slug": "perspective", "name": "perspective", "cat": "form-composition"}, {"slug": "plane", "name": "plane", "cat": "form-composition"}, {"slug": "plasticity", "name": "plasticity", "cat": "form-composition"}, {"slug": "point", "name": "point", "cat": "form-composition"}, {"slug": "proportions", "name": "proportions", "cat": "form-composition"}, {"slug": "repetition", "name": "repetition", "cat": "form-composition"}, {"slug": "rhythm", "name": "rhythm", "cat": "form-composition"}, {"slug": "scale", "name": "scale", "cat": "form-composition"}, {"slug": "space", "name": "space", "cat": "form-composition"}, {"slug": "spatial-forces", "name": "spatial forces", "cat": "form-composition"}, {"slug": "static", "name": "static", "cat": "form-composition"}, {"slug": "structure", "name": "structure", "cat": "form-composition"}, {"slug": "symmetry", "name": "symmetry", "cat": "form-composition"}, {"slug": "system", "name": "system", "cat": "form-composition"}, {"slug": "unity", "name": "unity", "cat": "form-composition"}, {"slug": "visual-hierarchy", "name": "visual hierarchy", "cat": "form-composition"}, {"slug": "volume", "name": "volume", "cat": "form-composition"}, {"slug": "communication", "name": "communication", "cat": "meaning-communication"}, {"slug": "decorativeness", "name": "decorativeness", "cat": "meaning-communication"}, {"slug": "graphic-design", "name": "graphic design", "cat": "meaning-communication"}, {"slug": "icon", "name": "icon", "cat": "meaning-communication"}, {"slug": "logo", "name": "logo", "cat": "meaning-communication"}, {"slug": "metaphor", "name": "metaphor", "cat": "meaning-communication"}, {"slug": "semantics", "name": "semantics", "cat": "meaning-communication"}, {"slug": "symbol", "name": "symbol", "cat": "meaning-communication"}, {"slug": "visual-identity", "name": "visual identity", "cat": "meaning-communication"}, {"slug": "alignment", "name": "alignment", "cat": "process-practice"}, {"slug": "brandbook", "name": "brandbook", "cat": "process-practice"}, {"slug": "brief", "name": "brief", "cat": "process-practice"}, {"slug": "case-study", "name": "case study", "cat": "process-practice"}, {"slug": "construction", "name": "construction", "cat": "process-practice"}, {"slug": "deadline", "name": "deadline", "cat": "process-practice"}, {"slug": "format", "name": "format", "cat": "process-practice"}, {"slug": "grading-career-grading", "name": "grading (career grading)", "cat": "process-practice"}, {"slug": "grid-system", "name": "grid system", "cat": "process-practice"}, {"slug": "iteration", "name": "iteration", "cat": "process-practice"}, {"slug": "layout", "name": "layout", "cat": "process-practice"}, {"slug": "license", "name": "license", "cat": "process-practice"}, {"slug": "mind-map", "name": "mind map", "cat": "process-practice"}, {"slug": "moodboard", "name": "moodboard", "cat": "process-practice"}, {"slug": "scenario", "name": "scenario", "cat": "process-practice"}, {"slug": "template", "name": "template", "cat": "process-practice"}, {"slug": "collage", "name": "collage", "cat": "surface-material"}, {"slug": "module", "name": "module", "cat": "surface-material"}, {"slug": "pattern", "name": "pattern", "cat": "surface-material"}, {"slug": "silhouette", "name": "silhouette", "cat": "surface-material"}, {"slug": "tectonics", "name": "tectonics", "cat": "surface-material"}, {"slug": "texture-tactile-texture", "name": "texture (tactile texture)", "cat": "surface-material"}, {"slug": "affordance", "name": "affordance", "cat": "systems-interaction"}, {"slug": "animation-sequence", "name": "animation sequence", "cat": "systems-interaction"}, {"slug": "forcing-function", "name": "forcing function", "cat": "systems-interaction"}, {"slug": "interaction-design", "name": "interaction design", "cat": "systems-interaction"}, {"slug": "interface", "name": "interface", "cat": "systems-interaction"}, {"slug": "mockup", "name": "mockup", "cat": "systems-interaction"}, {"slug": "motion-graphics", "name": "motion graphics", "cat": "systems-interaction"}, {"slug": "prototype", "name": "prototype", "cat": "systems-interaction"}, {"slug": "responsive-design", "name": "responsive design", "cat": "systems-interaction"}, {"slug": "storyboard", "name": "storyboard", "cat": "systems-interaction"}, {"slug": "user-experience-ux", "name": "user experience (ux)", "cat": "systems-interaction"}, {"slug": "user-interface-ui", "name": "user interface (ui)", "cat": "systems-interaction"}, {"slug": "wireframe", "name": "wireframe", "cat": "systems-interaction"}, {"slug": "illustration-pack", "name": "illustration pack", "cat": "typography-image"}, {"slug": "infographic", "name": "infographic", "cat": "typography-image"}, {"slug": "kerning-tracking-&-leading", "name": "kerning, tracking & leading", "cat": "typography-image"}, {"slug": "legibility", "name": "legibility", "cat": "typography-image"}, {"slug": "lettering", "name": "lettering", "cat": "typography-image"}, {"slug": "readability", "name": "readability", "cat": "typography-image"}, {"slug": "typography", "name": "typography", "cat": "typography-image"}, {"slug": "typography-system", "name": "typography system", "cat": "typography-image"}];
+var grid = document.getElementById('grid');
+var cards = Array.prototype.slice.call(grid.children);
+var search = document.getElementById('search');
+var catBtns = Array.prototype.slice.call(document.querySelectorAll('.catbtn'));
+var empty = document.getElementById('empty');
+var countEl = document.getElementById('count');
+var activeCat = 'all';
+
+function apply(){
+  var q = search.value.trim().toLowerCase();
+  var visible = 0;
+  cards.forEach(function(card){
+    var matchesCat = activeCat==='all' || card.getAttribute('data-cat')===activeCat;
+    var matchesQ = !q || card.getAttribute('data-name').indexOf(q)!==-1;
+    var show = matchesCat && matchesQ;
+    card.hidden = !show;
+    if(show) visible++;
+  });
+  empty.classList.toggle('show', visible===0);
+  countEl.textContent = visible + ' shown';
+}
+
+catBtns.forEach(function(btn){
+  btn.addEventListener('click', function(){
+    catBtns.forEach(function(b){ b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeCat = btn.getAttribute('data-cat');
+    apply();
+  });
+});
+search.addEventListener('input', apply);
+apply();
+})();
+</script>
+</body>
+</html>

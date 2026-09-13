@@ -9,6 +9,8 @@ Home: https://followorbounce.github.io/
 
 ## Sections
 
+- Design & Experience — a paired system: the Dictionary of Design (112 art/design terms, "design of the external world") and the Dictionary of Inner Experience (77 emotion/mood/existential terms, "design of inner experience"), each illustrated by its own small reusable abstract-vector visual grammar rather than stock imagery. Dictionary of Design: https://followorbounce.github.io/dictionary-of-design/. Dictionary of Inner Experience: https://followorbounce.github.io/dictionary-of-inner-experience/
+
 - Waves — Universal Waves (master index of every wave family in nature: mechanical, electromagnetic, matter, plasma, gravitational, chemical, biological, information, astronomical, plus the shared mathematics): https://followorbounce.github.io/universal-waves
   - Waves — sound, light, seismic motion, and matter waves: https://followorbounce.github.io/waves
   - Music Is Mathematics — string physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, nine-tool audio lab: https://followorbounce.github.io/music-mathematics
