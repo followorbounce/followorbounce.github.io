@@ -7,7 +7,7 @@
 ## 1. Housekeeping
 
 - ✅ **`llms.txt` was stale — fixed in this pass.** It still described the pre-reorg nav (a "Technology — Blockchain Infrastructure" section that no longer exists, one undifferentiated "Instruments" list instead of the current Instruments/Audio synth/Video synth split, no mention of four of the five visual synths or the hub, and three already-published Philosophy essays mislabeled "(planned)"). Now matches `index.html`.
-- ⚠️ **`password-generator.html` is the only page on the site (of 23 checked) without the Google Analytics snippet.** That could be a deliberate stance — a security/privacy tool declining to track its own users — or it could be an oversight from whenever it was built. Worth a decision, not a silent fix either way.
+- ✅ **`password-generator.html` was the only page on the site (of 23 checked) without the Google Analytics snippet.** Decided: added, matching every other page.
 - **`_llm_code_req`** — a 0-byte file at the repo root. It's not stray cruft: git history shows it was deliberately emptied in a commit titled "Close out P0s: surface hidden Instruments, relink Philosophy, clear scratch note." Reads like a personal scratch file for handing task requests to an LLM assistant between sessions, currently empty because whatever was in it got done. Flagging only so it isn't mistaken for garbage and deleted.
 
 ---
@@ -80,7 +80,7 @@ Lower priority for an "implementation" roadmap, but worth naming so it isn't los
 
 | Order | Item | Why here |
 |---|---|---|
-| 1 | Decide the `password-generator.html` GA question | Two-minute decision, cheap to close out |
+| 1 | ✅ Decide the `password-generator.html` GA question | Done — added, matching every other page |
 | 2 | Personal → Useful Tools | Cheapest real content gap to close; no new code or writing, just curation |
 | 3 | Vectorscope (§4.1) | Smallest-effort new instrument; the renderer already exists |
 | 4 | Cryptography Lab hub (§4.3) | Small; consolidates two things that already exist |
