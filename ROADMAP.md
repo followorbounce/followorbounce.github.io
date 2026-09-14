@@ -75,17 +75,17 @@ Four instruments, each anchored in a distinct mathematical family, each mapping 
 **Net-new:** the whole 2D parametric engine, built.
 **Effort:** small–medium, pure Canvas 2D, no shader required — matched the estimate.
 
-### 4.3 Cymatics / Reaction-Diffusion Synth — *wave + form, audio-reactive* ✅ shipped as CPU canvas (`/audio-reactive-diffusion`)
+### 4.3 Cymatics / Reaction-Diffusion Synth — *wave + form, audio-reactive* ✅ shipped, now as a real WebGL shader (`/audio-reactive-diffusion`)
 **What:** Takes the existing Gray-Scott reaction-diffusion code out of its essay-page demo and turns it into a real instrument, with a genuinely new capability: bass/treble from a real `AnalyserNode` (mic, opt-in) or a built-in synthetic source bend the feed/kill rates live, and loud transients inject fresh chemical seeds. Colored via the palette engine (Ocean coefficients) instead of the original demo's fixed tint.
-**Reuses:** the Gray-Scott step function verbatim; its own Web Audio graph, built.
+**Reuses:** the Gray-Scott update rule verbatim, now as GLSL instead of JS; its own Web Audio graph, built.
 **Net-new:** real audio-reactivity, built (§4.3's audio-reactive requirement is met; done as feed/kill/seed modulation rather than the cymatics/Chladni framing originally described).
-**Effort:** medium in practice — **still runs as a CPU canvas loop, not a shader.** The WebGL port this section recommended for performance headroom at higher grid resolution was not done; current 120×120 grid is fine at its own resolution but the perf ceiling this section flagged is still there, unaddressed.
+**Effort:** medium in practice, but the WebGL port originally deferred here is now done: two textures ping-pong the simulation step (a fragment shader reads the current state texture, writes the next state via a framebuffer, they swap), and a second shader colors the result — the same technique this section's performance concern called for. Plain 8-bit textures, not float (no extension needed, coarser per-step precision, visually unaffected); wraparound done by hand via `fract()` since 120 isn't power-of-two. Not verified in a live browser — see the commit for the reasoning.
 
-### 4.4 Complex-Plane Mapper — *form* ✅ shipped as CPU canvas (`/complex-fractal-mapper`)
+### 4.4 Complex-Plane Mapper — *form* ✅ shipped, now as a real WebGL shader (`/complex-fractal-mapper`)
 **What:** A Mandelbrot/Julia explorer (generalized to `z → z^power + c`, not fixed at power 2). Dragging directly on the picture pans the view (Mandelbrot mode) or sets the complex parameter `c` to the point under the pointer (Julia mode) — the 2D-pad interaction this section called for, generalized from the corner-pin drag as intended — alongside, not instead of, View/Fractal knobs. Palette engine colors escape-iteration count.
-**Reuses:** the corner-pin drag math generalized to one point, done, but as a plain pointer handler over a CPU-computed field, not driving shader uniforms.
+**Reuses:** the corner-pin drag math generalized to one point; the plasma shader's compile/link/fallback boilerplate, directly.
 **Net-new:** escape-time math and the drag pad, both built.
-**Effort:** medium in practice — **not built as a fragment shader.** It's a low-res grid (220×147) computed in JS then upscaled (the same trick used in §4.3), which stays responsive at this resolution but doesn't get the deep-zoom, high-iteration headroom a real shader would; the "site's second fragment shader" this section anticipated hasn't been written.
+**Effort:** medium in practice, but now a real fragment shader as this section anticipated — every pixel of the full canvas is iterated on the GPU every frame, replacing the low-res-grid-then-upscale trick. The "site's second fragment shader" this section called for is written; not verified in a live browser — see the commit for the reasoning.
 
 ---
 
@@ -105,8 +105,8 @@ Four instruments, each anchored in a distinct mathematical family, each mapping 
 | 2 | Fourier / Additive Wave Sculptor | Fastest genuinely-new instrument; strongest thematic tie to existing content | ✅ shipped, incl. audio playback |
 | 3 | Lissajous / Harmonograph Synth | Pure Canvas 2D, no shader risk, high visual payoff for the effort | ✅ shipped |
 | 4 | Spectrum-bar mode on Patch Bay + Signal Chain | Small, cheap, immediately useful polish | ✅ shipped |
-| 5 | Cymatics / Reaction-Diffusion Synth | Medium-large; first real audio-reactive visual instrument | ✅ shipped, CPU canvas not WebGL |
-| 6 | Complex-Plane Mapper | Largest effort, highest ceiling; benefits from having a second shader author's-worth of WebGL experience already banked from earlier steps | ✅ shipped, CPU canvas not WebGL |
+| 5 | Cymatics / Reaction-Diffusion Synth | Medium-large; first real audio-reactive visual instrument | ✅ shipped, later upgraded to a real WebGL ping-pong shader |
+| 6 | Complex-Plane Mapper | Largest effort, highest ceiling; benefits from having a second shader author's-worth of WebGL experience already banked from earlier steps | ✅ shipped, later upgraded to a real WebGL shader |
 | — | Real waterfall on Radio Communications | Independent of the above, can slot in anytime as a quick win | ✅ shipped |
 
 All five §4 instruments shipped faster than sequenced (2–6 in one pass rather than incrementally), which is also why §2's "revisit at instrument #2" checkpoint got skipped — there was no natural pause between them to make that call, and it's still open. §4's spectrum-bar mode and the real waterfall (originally deferred because "nothing in the visual-synth work touched those files") were picked up in a later pass specifically to close that gap. §7's hub page is also now built.
@@ -117,4 +117,4 @@ All five §4 instruments shipped faster than sequenced (2–6 in one pass rather
 
 ---
 
-*This file is a working plan. Status as of the latest pass: all of §2, §4, §5, and §7 are shipped. The only thing still open is the §4.3/§4.4 WebGL rewrites this doc originally recommended for performance headroom — a bigger, riskier undertaking than anything else here, and not attempted.*
+*This file is a working plan. Status as of the latest pass: everything in it is shipped, including §4.3/§4.4's WebGL rewrites — the last item this doc had open. Neither shader has been checked in a live browser yet (no GPU available in the environment that built them); that's the one thing worth verifying before calling this doc fully closed.*

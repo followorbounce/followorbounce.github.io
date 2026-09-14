@@ -59,8 +59,8 @@ Every technical essay on this site pairs prose with at least one live demo — U
 Password Generator (Web Crypto, BIP-39) and Blockchain Infrastructure's Live Cryptography Demo (SHA-256, ECDSA) are both real, working crypto tools that currently read as unrelated entries under "Instruments." A small hub — same pattern as the dictionary pair and `visual-synths/` — would frame them as one applied-cryptography family. Worth adding one more cheap, real demo alongside them: a hash-avalanche visualizer (flip one input bit, watch the SHA-256 output scatter), which needs nothing beyond the `crypto.subtle` hashing already proven in `blockchain-infrastructure.html`.
 **Effort:** small for the hub alone; small–medium with the avalanche visualizer.
 
-### 4.4 WebGL rewrites — carried over, unchanged
-Still open from `ROADMAP.md` §4.3/§4.4: porting Reaction-Diffusion and the Fractal Mapper from CPU canvas loops to real fragment shaders. Not re-litigated here — it remains the single biggest-effort, highest-ceiling item on the table, and the site's one existing shader (`mediaservers-shaders.html`'s plasma) is the natural scaffolding to build from.
+### 4.4 WebGL rewrites — ✅ done
+Was carried over from `ROADMAP.md` §4.3/§4.4: porting Reaction-Diffusion and the Fractal Mapper from CPU canvas loops to real fragment shaders. Both now ship as WebGL — the Fractal Mapper as a straightforward per-pixel escape-time shader, Reaction-Diffusion as a ping-pong pair of shaders simulating the PDE on two textures. Built without a browser/GPU available to test in, so the JS control flow around them is verified (mocked-WebGL harness, every interactive path) but the GLSL itself is manually reviewed rather than compiler-checked — worth a live look once pushed.
 
 ---
 
@@ -86,7 +86,7 @@ Lower priority for an "implementation" roadmap, but worth naming so it isn't los
 | 4 | Cryptography Lab hub (§4.3) | Small; consolidates two things that already exist |
 | 5 | Nature of Time essay + instrument (§4.2) | Medium effort, but fills a real content gap the "Soon" tag has been carrying |
 | 6 | Oscilloscope/spectrum-drawer kit (§3) | Revisit once a third page needs a new scope mode, per the "third repetition" rule |
-| 7 | WebGL rewrites (§4.4) | Largest effort, highest ceiling; unchanged from the original roadmap |
+| 7 | ✅ WebGL rewrites (§4.4) | Done — see §4.4 |
 
 ---
 
@@ -98,4 +98,4 @@ Lower priority for an "implementation" roadmap, but worth naming so it isn't los
 
 ---
 
-*This file is a working plan, not a commitment — treat effort sizes as relative to each other, not calendar estimates. Nothing in §3 through §5 has been built yet.*
+*This file is a working plan, not a commitment — treat effort sizes as relative to each other, not calendar estimates. Rows 1 and 7 of §6 are done; §3, §4.1–4.3, and §5 have not been built yet.*
