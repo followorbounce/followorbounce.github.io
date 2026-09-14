@@ -15,6 +15,7 @@
 <link rel="canonical" href="https://followorbounce.github.io/complex-fractal-mapper">
 <meta name="theme-color" content="#F4F4F1">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/visual-synth-kit.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Complex-Plane Fractal Mapper — Knowledge Network">
 <meta property="og:description" content="Mandelbrot and Julia sets, live — pan, zoom, and change the escape exponent, colored with Palette Synth's cosine-gradient formula.">
@@ -29,6 +30,8 @@
   --line:#DAD8D0; --line-strong:#B7B4A9;
   --live:#7A6BB0; --wave:#3D6FD1;
   --knob-face-1:#FFFFFF; --knob-face-2:#CCCCCC;
+  --knob-size:38px; --knob-ind-h:13px; --knob-ind-origin:16px; /* smaller than the kit's 40px default — more knobs per card */
+  --klabel-align:center; --klabel-width:60px; /* longer labels ("julia re") than the kit's defaults fit */
   --font-display:'Manrope', sans-serif;
   --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
   --edge:clamp(16px,4vw,56px); --maxw:1180px;
@@ -88,28 +91,6 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .card::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px; background:var(--wave);}
 .card h3{font-size:13px; letter-spacing:0.08em; text-transform:uppercase; padding-top:5px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--line); color:var(--wave);}
 .knobrow{display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;}
-
-.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
-.knob{width:38px; height:38px; border-radius:50%; background:radial-gradient(circle at 35% 30%, var(--knob-face-1), var(--knob-face-2) 70%); border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;}
-.knob:active{cursor:grabbing;}
-.knob .ind{position:absolute; left:50%; top:3px; width:3px; height:13px; background:var(--ink); transform-origin:50% 16px; margin-left:-1.5px; border-radius:2px;}
-.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint); text-align:center;}
-.kval{font-size:9.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
-.krange{display:none;}
-@media (pointer:coarse){
-  .knob{display:none;}
-  .krange{display:block; width:100%;}
-  .knobrow{flex-direction:column; align-items:stretch;}
-  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
-  .klabel{order:-1; width:60px; flex:none;}
-  .krange{order:0;}
-  .kval{order:1; width:44px; flex:none; text-align:right;}
-}
-.krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
-.krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
-.krange::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6.5px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
-.krange::-moz-range-track{height:5px; background:var(--line-strong); border-radius:3px;}
-.krange::-moz-range-thumb{width:18px; height:18px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
 
 .exportblock{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:8px;}
 .exportblock .exphead{display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:var(--paper-raised); border-bottom:1px solid var(--line);}
@@ -188,29 +169,17 @@ footer a:hover{color:var(--ink);}
   </div>
 </footer>
 
+<script src="/assets/visual-synth-kit.js"></script>
 <script>
 (function(){
 'use strict';
 
 /* ===================== color engine =====================
-   Reused verbatim from Palette Synth: color(t)[i] = a[i] + b[i]*cos(2*PI*(c[i]*t+d[i])).
-   Same six coefficient sets too. */
-var PALETTES = [
-  {name:'Plasma',  a:[.5,.5,.5],   b:[.5,.5,.5],   c:[1,1,1],    d:[0,.33,.67]},
-  {name:'Sunset',  a:[.6,.4,.3],   b:[.4,.3,.2],   c:[1,1,1],    d:[0,.15,.3]},
-  {name:'Ocean',   a:[.3,.45,.55], b:[.25,.3,.35], c:[1,1.5,2],  d:[.5,.6,.7]},
-  {name:'Forest',  a:[.35,.4,.25], b:[.3,.35,.2],  c:[1,1,1],    d:[.1,.3,.15]},
-  {name:'Neon',    a:[.5,.5,.5],   b:[.5,.5,.5],   c:[2,3,1],    d:[0,.2,.5]},
-  {name:'Mono',    a:[.5,.5,.5],   b:[.4,.4,.4],   c:[1,1,1],    d:[0,0,0]}
-];
-function paletteColor(pal, t){
-  var out = [0,0,0];
-  for(var i=0;i<3;i++){
-    var v = pal.a[i] + pal.b[i]*Math.cos(2*Math.PI*(pal.c[i]*t + pal.d[i]));
-    out[i] = Math.max(0, Math.min(255, Math.round(v*255)));
-  }
-  return out;
-}
+   Palette Synth's cosine-gradient formula and its six named coefficient
+   sets, via the shared kit (assets/visual-synth-kit.js) rather than a
+   second independent copy. */
+var PALETTES = VisualSynthKit.PALETTES;
+var paletteColor = VisualSynthKit.paletteColor;
 
 /* ===================== fractal engine =====================
    z -> z^power + c, iterated per pixel over a low-res grid then
@@ -284,44 +253,8 @@ function computeField(){
   }
 }
 
-/* ===================== knob widget (same dual knob/range-slider
-   mechanic as the rest of the family). ===================== */
-function initKnob(el, min, max, defaultVal, onChange){
-  var val = defaultVal;
-  var ind = el.querySelector('.ind');
-  var kval = el.parentNode.querySelector('.kval');
-  var range = document.createElement('input');
-  range.type='range'; range.className='krange'; range.min='0'; range.max='1'; range.step='0.001';
-  el.insertAdjacentElement('afterend', range);
-
-  function toT(v){ return (v-min)/(max-min); }
-  function toAngle(v){ return -135 + toT(v)*270; }
-  function render(){
-    ind.style.transform = 'rotate('+toAngle(val)+'deg)';
-    kval.textContent = val.toFixed(2);
-    range.value = toT(val);
-  }
-  function setVal(v){
-    v = Math.min(max, Math.max(min, v));
-    val = v; render(); onChange(val);
-  }
-  range.addEventListener('input', function(){
-    setVal(min + parseFloat(range.value)*(max-min));
-  });
-  var dragging=false, startY=0, startVal=0;
-  el.addEventListener('pointerdown', function(e){
-    dragging=true; startY=e.clientY; startVal=val; el.setPointerCapture(e.pointerId);
-  });
-  el.addEventListener('pointermove', function(e){
-    if(!dragging) return;
-    setVal(startVal + ((startY-e.clientY)/150)*(max-min));
-  });
-  ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
-  render(); onChange(val);
-  el._setVal = setVal;
-  return el;
-}
-
+/* ===================== knob widget =====================
+   VisualSynthKit.initKnob, shared across the family. ===================== */
 var knobEls = {};
 function addKnob(row, key, label, recompute){
   var kw = document.createElement('div'); kw.className = 'knobwrap';
@@ -332,7 +265,7 @@ function addKnob(row, key, label, recompute){
   var kval = document.createElement('span'); kval.className = 'kval';
   kw.appendChild(knob); kw.appendChild(lab); kw.appendChild(kval);
   row.appendChild(kw);
-  knobEls[key] = initKnob(knob, RANGE[key].min, RANGE[key].max, state[key], function(val){
+  knobEls[key] = VisualSynthKit.initKnob(knob, RANGE[key].min, RANGE[key].max, state[key], function(val){
     state[key] = val;
     if(recompute) redraw(true); else redraw(false);
   });

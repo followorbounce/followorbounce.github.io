@@ -1,0 +1,50 @@
+/* ===================== Visual Synth Kit — knob styling =====================
+   Pairs with visual-synth-kit.js. Two things vary legitimately per page
+   (knob size, and the touch-mode label column width/alignment) — expose
+   those as custom properties with the most common defaults, and let a
+   page override only the ones it needs in its own <style>:
+
+     --knob-size        default 40px  (Lissajous Plotter and the Fractal
+                                        Mapper use 38px — more knobs per
+                                        card, less room)
+     --knob-ind-h        default 14px  (13px alongside a 38px knob)
+     --knob-ind-origin   default 17px  (16px alongside a 38px knob)
+     --klabel-align      default left  (Audio-Reactive Diffusion and the
+                                        Fractal Mapper center it — their
+                                        labels are longer: "bass→feed",
+                                        "julia re")
+     --klabel-width      default 52px  (60px on those same two pages, to
+                                        fit those longer labels in the
+                                        touch layout)
+
+   Everything else here is identical across all five instruments as of
+   this file's creation — that's what made it worth sharing. */
+
+.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
+.knob{
+  width:var(--knob-size,40px); height:var(--knob-size,40px); border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--knob-face-1), var(--knob-face-2) 70%);
+  border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;
+}
+.knob:active{cursor:grabbing;}
+.knob .ind{
+  position:absolute; left:50%; top:3px; width:3px; height:var(--knob-ind-h,14px);
+  background:var(--ink); transform-origin:50% var(--knob-ind-origin,17px); margin-left:-1.5px; border-radius:2px;
+}
+.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint); text-align:var(--klabel-align,left);}
+.kval{font-size:9.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+.krange{display:none;}
+@media (pointer:coarse){
+  .knob{display:none;}
+  .krange{display:block; width:100%;}
+  .knobrow{flex-direction:column; align-items:stretch;}
+  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
+  .klabel{order:-1; width:var(--klabel-width,52px); flex:none;}
+  .krange{order:0;}
+  .kval{order:1; width:44px; flex:none; text-align:right;}
+}
+.krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
+.krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6.5px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
+.krange::-moz-range-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-moz-range-thumb{width:18px; height:18px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}

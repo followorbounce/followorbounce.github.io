@@ -15,6 +15,7 @@
 <link rel="canonical" href="https://followorbounce.github.io/lissajous-plotter">
 <meta name="theme-color" content="#F4F4F1">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/visual-synth-kit.css">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Lissajous / Harmonograph Plotter — Knowledge Network">
 <meta property="og:description" content="Two axes, two sine sums each, plotted against each other live — Lissajous figures and decaying harmonograph rosettes from the same engine.">
@@ -29,6 +30,7 @@
   --line:#DAD8D0; --line-strong:#B7B4A9;
   --live:#7A6BB0; --wave:#3D6FD1; --wave-y:#D6483F;
   --knob-face-1:#FFFFFF; --knob-face-2:#CCCCCC;
+  --knob-size:38px; --knob-ind-h:13px; --knob-ind-origin:16px; /* smaller than the kit's 40px default — more knob-pairs per card here */
   --font-display:'Manrope', sans-serif;
   --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
   --edge:clamp(16px,4vw,56px); --maxw:1180px;
@@ -92,28 +94,6 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .termlabel{font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); margin:10px 0 6px;}
 .termlabel:first-child{margin-top:0;}
 .knobrow{display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;}
-
-.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
-.knob{width:38px; height:38px; border-radius:50%; background:radial-gradient(circle at 35% 30%, var(--knob-face-1), var(--knob-face-2) 70%); border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;}
-.knob:active{cursor:grabbing;}
-.knob .ind{position:absolute; left:50%; top:3px; width:3px; height:13px; background:var(--ink); transform-origin:50% 16px; margin-left:-1.5px; border-radius:2px;}
-.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint);}
-.kval{font-size:9.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
-.krange{display:none;}
-@media (pointer:coarse){
-  .knob{display:none;}
-  .krange{display:block; width:100%;}
-  .knobrow{flex-direction:column; align-items:stretch;}
-  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
-  .klabel{order:-1; width:52px; flex:none;}
-  .krange{order:0;}
-  .kval{order:1; width:44px; flex:none; text-align:right;}
-}
-.krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
-.krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
-.krange::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6.5px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
-.krange::-moz-range-track{height:5px; background:var(--line-strong); border-radius:3px;}
-.krange::-moz-range-thumb{width:18px; height:18px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
 
 .exportblock{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:8px;}
 .exportblock .exphead{display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:var(--paper-raised); border-bottom:1px solid var(--line);}
@@ -190,6 +170,7 @@ footer a:hover{color:var(--ink);}
   </div>
 </footer>
 
+<script src="/assets/visual-synth-kit.js"></script>
 <script>
 (function(){
 'use strict';
@@ -223,45 +204,9 @@ function axisAt(ax, t, drift){
   return ax.amp1*Math.sin(2*Math.PI*(ax.freq1*t+ax.phase1)) + ax.amp2*Math.sin(2*Math.PI*(ax.freq2*t+p2));
 }
 
-/* ===================== knob widget (same dual knob/range-slider
-   mechanic as Palette Synth / Additive Wave Sculptor — reused as-is). ===================== */
-function initKnob(el, min, max, defaultVal, onChange){
-  var val = defaultVal;
-  var ind = el.querySelector('.ind');
-  var kval = el.parentNode.querySelector('.kval');
-  var range = document.createElement('input');
-  range.type='range'; range.className='krange'; range.min='0'; range.max='1'; range.step='0.001';
-  el.insertAdjacentElement('afterend', range);
-
-  function toT(v){ return (v-min)/(max-min); }
-  function toAngle(v){ return -135 + toT(v)*270; }
-  function render(){
-    ind.style.transform = 'rotate('+toAngle(val)+'deg)';
-    kval.textContent = val.toFixed(2);
-    range.value = toT(val);
-  }
-  function setVal(v){
-    v = Math.min(max, Math.max(min, v));
-    val = v; render(); onChange(val);
-  }
-  range.addEventListener('input', function(){
-    setVal(min + parseFloat(range.value)*(max-min));
-  });
-  var dragging=false, startY=0, startVal=0;
-  el.addEventListener('pointerdown', function(e){
-    dragging=true; startY=e.clientY; startVal=val; el.setPointerCapture(e.pointerId);
-  });
-  el.addEventListener('pointermove', function(e){
-    if(!dragging) return;
-    setVal(startVal + ((startY-e.clientY)/150)*(max-min));
-  });
-  ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
-  render(); onChange(val);
-  el._setVal = setVal;
-  return el;
-}
-
-/* ===================== build the axis / trace cards ===================== */
+/* ===================== build the axis / trace cards =====================
+   Knob widget is VisualSynthKit.initKnob (assets/visual-synth-kit.js),
+   shared across the whole family. ===================== */
 var knobEls = {}; // "x.freq1" etc -> knob element
 
 function addKnob(row, ownerObj, key, label, range, onExtra){
@@ -273,7 +218,7 @@ function addKnob(row, ownerObj, key, label, range, onExtra){
   var kval = document.createElement('span'); kval.className = 'kval';
   kw.appendChild(knob); kw.appendChild(lab); kw.appendChild(kval);
   row.appendChild(kw);
-  var el = initKnob(knob, range.min, range.max, ownerObj[key], function(val){
+  var el = VisualSynthKit.initKnob(knob, range.min, range.max, ownerObj[key], function(val){
     ownerObj[key] = val;
     if(onExtra) onExtra(val);
     render();
@@ -323,21 +268,13 @@ var SCALE = 2.2;
 var POINTS = 5000;
 
 /* ===================== trail color =====================
-   Palette Synth's cosine-gradient formula, reused verbatim (Plasma
+   Palette Synth's cosine-gradient formula, via the shared kit (Plasma
    coefficients): instead of one flat stroke color, the trail is drawn
    in TRAIL_BUCKETS colored segments that sweep once through the
    gradient from the start of the trace to the end, so older and newer
    parts of the path visibly sit in different parts of the same
    gradient rather than all reading as one solid color. */
-var PLASMA = {a:[.5,.5,.5], b:[.5,.5,.5], c:[1,1,1], d:[0,.33,.67]};
-function paletteRGB(t){
-  var out = [];
-  for(var i=0;i<3;i++){
-    var v = PLASMA.a[i] + PLASMA.b[i]*Math.cos(2*Math.PI*(PLASMA.c[i]*t+PLASMA.d[i]));
-    out.push(Math.max(0, Math.min(255, Math.round(v*255))));
-  }
-  return out;
-}
+var PLASMA = VisualSynthKit.getPalette('Plasma');
 var TRAIL_BUCKETS = 48;
 function strokeGradientTrail(pts, width, alpha){
   traceCtx.lineWidth = width;
@@ -347,7 +284,7 @@ function strokeGradientTrail(pts, width, alpha){
     var end = Math.min(pts.length-1, start+bucketSize);
     if(start>=end) continue;
     var u = ((start+end)/2) / pts.length;
-    var rgb = paletteRGB(u);
+    var rgb = VisualSynthKit.paletteColor(PLASMA, u);
     traceCtx.strokeStyle = 'rgba('+rgb[0]+','+rgb[1]+','+rgb[2]+','+alpha+')';
     traceCtx.beginPath();
     for(var i=start;i<=end;i++){

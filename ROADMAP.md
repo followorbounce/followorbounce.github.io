@@ -39,7 +39,9 @@ Building "a bunch" of related visual synths will duplicate the same three things
 
 **Recommendation: B, scoped narrowly.** Not a general component library — just the three things that would otherwise be copy-pasted verbatim. If it ever needs a fourth thing, that's a signal to reconsider, not a green light to keep growing it. This is a call worth making deliberately rather than defaulting into either option mid-build.
 
-**Status:** still deferred, past the point this doc said to revisit it. All five instruments in §4 have since shipped, each self-contained — the knob/slider component is now duplicated verbatim five times, and the palette formula independently four times, both fully concrete rather than hypothetical. The decision itself (build `/assets/visual-synth-kit.js` now, or keep paying the duplication cost) hasn't been made — it's open, not resolved by inertia.
+**Status:** ✅ resolved — option B, built. `/assets/visual-synth-kit.js` + `/assets/visual-synth-kit.css` now hold the knob/range-slider dual control and the cosine-gradient color function + its six named palettes; all five §4 instruments load the shared file and call `VisualSynthKit.initKnob`/`.paletteColor`/`.getPalette` instead of carrying their own copies. Net effect: -314 lines across the five instrument pages. Not included: a canvas/WebGL setup helper (recommendation B's third item) — no instrument uses WebGL yet (see §4.3/§4.4's still-open status), so there's nothing concrete to extract; add it if/when that changes, not before. Also deliberately left alone: Patch Bay's and Signal Chain's own, separate, older knob implementation (data-attributes, log-scale support, a param-dispatch table) — a different API powering already-shipped audio instruments, and folding it in would be a larger, riskier refactor than this pass, not a rename.
+
+Two real per-page differences survived the extraction rather than being flattened: knob size (38px on Lissajous Plotter and the Fractal Mapper vs. the kit's 40px default, for denser knob layouts) and touch-mode label width/alignment (60px centered on Audio-Reactive Diffusion and the Fractal Mapper vs. 52px left-aligned, for longer labels like "bass→feed"). Both are exposed as CSS custom properties (`--knob-size`, `--knob-ind-h`, `--knob-ind-origin`, `--klabel-align`, `--klabel-width`) with the common values as defaults, overridden per page only where needed — sharing the mechanism without forcing one-size-fits-all.
 
 ---
 
@@ -115,4 +117,4 @@ All five §4 instruments shipped faster than sequenced (2–6 in one pass rather
 
 ---
 
-*This file is a working plan. Status as of the latest pass: all of §4, §5, and §7 are shipped. Still open: the §2 shared-kit decision, and the §4.3/§4.4 WebGL rewrites this doc originally recommended for performance headroom.*
+*This file is a working plan. Status as of the latest pass: all of §2, §4, §5, and §7 are shipped. The only thing still open is the §4.3/§4.4 WebGL rewrites this doc originally recommended for performance headroom — a bigger, riskier undertaking than anything else here, and not attempted.*
