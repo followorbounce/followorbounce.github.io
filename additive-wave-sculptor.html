@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Additive Wave Sculptor — Knowledge Network</title>
+<meta name="description" content="A live Fourier-series wave instrument — eight harmonic amplitude/phase knobs sum into a single periodic waveform in real time, the second instrument in the Palette Synth visual-synth family.">
+<link rel="canonical" href="https://followorbounce.github.io/additive-wave-sculptor">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Additive Wave Sculptor — Knowledge Network">
+<meta property="og:description" content="Eight harmonic knobs, one Fourier sum — tune amplitude and phase per harmonic to sculpt a waveform live, the same recipe behind square, saw, and triangle waves.">
+<meta property="og:url" content="https://followorbounce.github.io/additive-wave-sculptor">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#96938A;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#7A6BB0; --wave:#3D6FD1;
+  --knob-face-1:#FFFFFF; --knob-face-2:#CCCCCC;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+    --line:#332F29; --line-strong:#48443A;
+    --wave:#6690E0;
+    --knob-face-1:#4A4A48; --knob-face-2:#201F1C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+  --line:#332F29; --line-strong:#48443A;
+  --wave:#6690E0;
+  --knob-face-1:#4A4A48; --knob-face-2:#201F1C;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+button,select{font-family:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft);}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(28px,5vw,48px) 18px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem); line-height:1.02; letter-spacing:-0.01em; color:var(--ink); font-family:var(--font-display);}
+.hero p{margin-top:14px; max-width:680px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+.controlbar{position:sticky; top:48px; z-index:20; background:var(--paper-raised); border-block:1px solid var(--line-strong); padding-block:10px;}
+.controlbar .wrap{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.ctl-select{font-family:var(--font-mono); font-size:12px; padding:8px 10px; border:1px solid var(--line-strong); border-radius:3px; background:var(--paper); color:var(--ink);}
+.ctl-btn{font-family:var(--font-display); font-weight:700; font-size:13px; letter-spacing:0.02em; padding:9px 16px; border:1px solid var(--line-strong); background:var(--paper); color:var(--ink); cursor:pointer; border-radius:3px;}
+.ctl-btn:active{transform:translateY(1px);}
+.ctl-btn.on{background:var(--live); color:#fff; border-color:var(--live);}
+.ctl-stat{font-size:11px; color:var(--ink-faint); margin-left:auto;}
+
+.rackwrap{padding-block:26px;}
+
+.scopewrap{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:18px; background:var(--paper-sunken);}
+.scopewrap canvas{display:block; width:100%; height:200px;}
+
+.spectrumwrap{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:22px; background:var(--paper-raised);}
+.spectrumwrap h3{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); padding:10px 14px 0;}
+.spectrum{display:grid; grid-template-columns:repeat(8,1fr); gap:1px; padding:10px 14px 14px; height:90px; align-items:end; background:var(--line);}
+.specbar{position:relative; display:flex; flex-direction:column; justify-content:flex-end; height:100%; background:var(--paper-raised); cursor:pointer; border:none; padding:0;}
+.specbar .fill{width:100%; background:var(--wave); transition:height 0.05s linear;}
+.specbar .lbl{position:absolute; bottom:2px; left:0; right:0; text-align:center; font-size:8px; color:#fff; mix-blend-mode:difference;}
+.specbar:hover .fill{filter:brightness(1.15);}
+
+.harms{display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-bottom:22px;}
+@media (max-width:900px){ .harms{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:480px){ .harms{grid-template-columns:1fr;} }
+.harm{background:var(--paper-raised); border:1px solid var(--line-strong); border-radius:6px 6px 3px 3px; padding:14px; position:relative;}
+.harm::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px; background:var(--wave);}
+.harm h3{font-size:13px; letter-spacing:0.08em; text-transform:uppercase; padding-top:5px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--line); color:var(--wave);}
+.knobrow{display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;}
+
+.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
+.knob{width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 30%, var(--knob-face-1), var(--knob-face-2) 70%); border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;}
+.knob:active{cursor:grabbing;}
+.knob .ind{position:absolute; left:50%; top:3px; width:3px; height:14px; background:var(--ink); transform-origin:50% 17px; margin-left:-1.5px; border-radius:2px;}
+.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint);}
+.kval{font-size:9.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+.krange{display:none;}
+@media (pointer:coarse){
+  .knob{display:none;}
+  .krange{display:block; width:100%;}
+  .knobrow{flex-direction:column; align-items:stretch;}
+  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
+  .klabel{order:-1; width:52px; flex:none;}
+  .krange{order:0;}
+  .kval{order:1; width:44px; flex:none; text-align:right;}
+}
+.krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
+.krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6.5px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
+.krange::-moz-range-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-moz-range-thumb{width:18px; height:18px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
+
+.exportblock{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:8px;}
+.exportblock .exphead{display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:var(--paper-raised); border-bottom:1px solid var(--line);}
+.exportblock h3{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint);}
+.exportblock pre{margin:0; padding:14px; font-size:11.5px; line-height:1.7; overflow-x:auto; background:var(--paper-sunken); white-space:pre;}
+.copybtn{font-family:var(--font-mono); font-size:10.5px; padding:5px 10px; border:1px solid var(--line-strong); background:var(--paper); color:var(--ink); border-radius:3px; cursor:pointer;}
+.copybtn.copied{background:var(--live); color:#fff; border-color:var(--live);}
+
+section.about{padding-block:clamp(28px,5vw,48px); border-top:1px solid var(--line-strong);}
+section.about h2{font-size:1.15rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about p{max-width:700px; font-size:13px; color:var(--ink-soft); line-height:1.8; margin-bottom:12px; font-family:var(--font-display); font-weight:500;}
+section.about p:last-child{margin-bottom:0;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Instrument · Additive Synthesis</div>
+    <h1>Additive Wave Sculptor</h1>
+    <p>Eight harmonics, sixteen knobs, one waveform. Every shape here comes from <code>wave(t) = Σ a<sub>k</sub> · sin(2π(k·t + φ<sub>k</sub>))</code> — a sine per harmonic, each with its own amplitude and phase, summed into a single periodic wave. This is the same Fourier-series trick that makes square, sawtooth, and triangle waves out of nothing but sines — turn a knob and the spectrum bars and the scope trace update live.</p>
+  </div>
+</section>
+
+<div class="controlbar">
+  <div class="wrap">
+    <select class="ctl-select" id="presetSelect"></select>
+    <button class="ctl-btn" id="randomBtn">⟲ Randomize</button>
+    <button class="ctl-btn" id="animateBtn">▶ Animate</button>
+    <span class="ctl-stat" id="statText"></span>
+  </div>
+</div>
+
+<div class="rackwrap wrap">
+
+  <div class="scopewrap"><canvas id="scopeCanvas" width="960" height="200"></canvas></div>
+
+  <div class="spectrumwrap">
+    <h3>Spectrum</h3>
+    <div class="spectrum" id="spectrumRow"></div>
+  </div>
+
+  <div class="harms" id="harms">
+    <!-- populated by JS: one .harm per harmonic (1st..8th), 2 knobs each (amp, phase) -->
+  </div>
+
+  <div class="exportblock">
+    <div class="exphead"><h3>Export</h3><button class="copybtn" id="copyBtn">Copy</button></div>
+    <pre id="exportCode"></pre>
+  </div>
+
+</div>
+
+<section class="about wrap">
+  <h2>What this actually is</h2>
+  <p>This is <strong>additive synthesis</strong> — building a complex periodic wave out of nothing but sine waves at integer multiples of a fundamental frequency (harmonics), each scaled by its own <strong>amplitude</strong> and shifted by its own <strong>phase</strong>. It's the same idea a pipe organ uses stacking ranks of pipes, and it's exactly how a Fourier series describes any repeating shape: a square wave is just the odd harmonics falling off as 1/k, a sawtooth is every harmonic falling off as 1/k with alternating phase, and a triangle is the odd harmonics falling off as 1/k² with alternating phase. Pick a preset and watch the spectrum bars show you that recipe directly.</p>
+  <p>It's the second instrument in the family <a href="/palette-synth">Palette Synth</a> started — both sculpt a continuous shape by summing periodic terms with tunable coefficients, just in a different domain: Palette Synth sums <strong>cosines across three color channels</strong> to make a gradient, this one sums <strong>sines across eight harmonic channels</strong> to make a waveform. Same generative principle — offset/amplitude/frequency/phase-style coefficients feeding a trig sum — reused rather than reinvented, per the family's own rule.</p>
+  <p>Two more visual synths are still ahead in the roadmap: a <strong>Lissajous / harmonograph plotter</strong> — up next, tracing the (x,y) curve two of these same sine sums draw against each other — an <strong>audio-reactive reaction-diffusion instrument</strong>, and a <strong>complex-plane fractal mapper</strong>. This instrument's harmonic-sum engine is what the Lissajous plotter will reuse for each axis.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/palette-synth">Palette Synth</a> · <a href="/patch-bay">Patch Bay</a> · <a href="/signal-chain">Signal Chain</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== wave math =====================
+   wave(t) = sum_{k=1..8} amp[k] * sin( 2*PI * (k*t + phase[k]) )
+   A Fourier-series additive synth: harmonic k runs k times as fast as
+   the fundamental, amp/phase are per-harmonic coefficients. Classic
+   waveforms are just specific coefficient recipes — see the About
+   section and the PRESETS below. */
+var N = 8;
+var RANGE = { amp:{min:0,max:1}, phase:{min:0,max:1} };
+
+var state = {
+  amp:   [1,0,0,0,0,0,0,0],
+  phase: [0,0,0,0,0,0,0,0]
+};
+
+function fill(n, v){ var a=[]; for(var i=0;i<n;i++) a.push(v); return a; }
+function harmSeries(rule){ // rule(k 1-based) -> [amp,phase]
+  var amp=[], phase=[];
+  for(var k=1;k<=N;k++){ var r = rule(k); amp.push(r[0]); phase.push(r[1]); }
+  return {amp:amp, phase:phase};
+}
+var PRESETS = [
+  (function(){ var s=harmSeries(function(k){ return k===1 ? [1,0] : [0,0]; }); return {name:'Sine', amp:s.amp, phase:s.phase}; })(),
+  (function(){ var s=harmSeries(function(k){ return (k%2===1) ? [1/k,0] : [0,0]; }); return {name:'Square', amp:s.amp, phase:s.phase}; })(),
+  (function(){ var s=harmSeries(function(k){ return [1/k, (k%2===0)?0.5:0]; }); return {name:'Sawtooth', amp:s.amp, phase:s.phase}; })(),
+  (function(){ var s=harmSeries(function(k){ if(k%2===0) return [0,0]; var m=(k-1)/2; return [1/(k*k), (m%2===1)?0.5:0]; }); return {name:'Triangle', amp:s.amp, phase:s.phase}; })(),
+  {name:'Organ',   amp:[1,.6,.35,.2,.15,.08,.05,.03], phase:fill(8,0)},
+  {name:'Hollow (odd harmonics)', amp:[1,0,.5,0,.33,0,.25,0], phase:fill(8,0)}
+];
+
+var animating = false, driftPhase = 0;
+
+function waveAt(t){
+  var v = 0;
+  for(var i=0;i<N;i++){
+    var ph = state.phase[i] + (animating ? driftPhase*(i+1)*0.15 : 0);
+    v += state.amp[i]*Math.sin(2*Math.PI*((i+1)*t + ph));
+  }
+  return v;
+}
+
+/* ===================== knob widget (same dual knob/range-slider
+   mechanic as Palette Synth — deliberately reused as-is, per the
+   family's own "reuse the engine, don't reinvent it" rule). ===================== */
+function initKnob(el, min, max, defaultVal, onChange){
+  var val = defaultVal;
+  var ind = el.querySelector('.ind');
+  var kval = el.parentNode.querySelector('.kval');
+  var range = document.createElement('input');
+  range.type='range'; range.className='krange'; range.min='0'; range.max='1'; range.step='0.001';
+  el.insertAdjacentElement('afterend', range);
+
+  function toT(v){ return (v-min)/(max-min); }
+  function toAngle(v){ return -135 + toT(v)*270; }
+  function render(){
+    ind.style.transform = 'rotate('+toAngle(val)+'deg)';
+    kval.textContent = val.toFixed(2);
+    range.value = toT(val);
+  }
+  function setVal(v){
+    v = Math.min(max, Math.max(min, v));
+    val = v; render(); onChange(val);
+  }
+  range.addEventListener('input', function(){
+    setVal(min + parseFloat(range.value)*(max-min));
+  });
+  var dragging=false, startY=0, startVal=0;
+  el.addEventListener('pointerdown', function(e){
+    dragging=true; startY=e.clientY; startVal=val; el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    setVal(startVal + ((startY-e.clientY)/150)*(max-min));
+  });
+  ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
+  render(); onChange(val);
+  el._setVal = setVal;
+  return el;
+}
+
+/* ===================== build the harmonic racks ===================== */
+var ORD = ['1st','2nd','3rd','4th','5th','6th','7th','8th'];
+var knobEls = {}; // "3.amp" / "3.phase" -> knob element
+
+function buildHarmonics(){
+  var wrap = document.getElementById('harms');
+  for(var k=0;k<N;k++){
+    (function(k){
+      var card = document.createElement('div');
+      card.className = 'harm';
+      var h3 = document.createElement('h3'); h3.textContent = ORD[k]+' harmonic';
+      card.appendChild(h3);
+      var row = document.createElement('div'); row.className = 'knobrow';
+      ['amp','phase'].forEach(function(co){
+        var kw = document.createElement('div'); kw.className = 'knobwrap';
+        var knob = document.createElement('div'); knob.className = 'knob';
+        var ind = document.createElement('div'); ind.className = 'ind';
+        knob.appendChild(ind);
+        var label = document.createElement('span'); label.className = 'klabel'; label.textContent = co;
+        var kval = document.createElement('span'); kval.className = 'kval';
+        kw.appendChild(knob); kw.appendChild(label); kw.appendChild(kval);
+        row.appendChild(kw);
+        var path = k+'.'+co;
+        var arr = state[co];
+        knobEls[path] = initKnob(knob, RANGE[co].min, RANGE[co].max, arr[k], function(val){
+          arr[k] = val;
+          render();
+        });
+      });
+      card.appendChild(row);
+      wrap.appendChild(card);
+    })(k);
+  }
+}
+
+/* ===================== rendering ===================== */
+var scopeCanvas = document.getElementById('scopeCanvas'), scopeCtx = scopeCanvas.getContext('2d');
+var spectrumRow = document.getElementById('spectrumRow');
+var exportCode = document.getElementById('exportCode');
+var statText = document.getElementById('statText');
+
+var SCALE = 2.2; // fixed vertical scale: +/-SCALE maps to the canvas edges
+
+var specEls = [];
+function buildSpectrum(){
+  for(var k=0;k<N;k++){
+    (function(k){
+      var b = document.createElement('button');
+      b.type = 'button'; b.className = 'specbar';
+      var fill = document.createElement('div'); fill.className = 'fill';
+      var lbl = document.createElement('span'); lbl.className = 'lbl';
+      b.appendChild(fill); b.appendChild(lbl);
+      b.addEventListener('click', function(){
+        var text = 'H'+(k+1)+': amp '+state.amp[k].toFixed(3)+', phase '+state.phase[k].toFixed(3);
+        var done = function(){
+          var old = lbl.textContent;
+          lbl.textContent = 'copied';
+          setTimeout(function(){ lbl.textContent = old; }, 700);
+        };
+        try{ navigator.clipboard.writeText(text).then(done, done); }catch(e){ done(); }
+      });
+      spectrumRow.appendChild(b);
+      specEls.push({fill:fill, lbl:lbl});
+    })(k);
+  }
+}
+
+function render(){
+  // scope trace
+  var w = scopeCanvas.width, h = scopeCanvas.height, mid = h/2;
+  scopeCtx.clearRect(0,0,w,h);
+  scopeCtx.strokeStyle = getStyle('--line'); scopeCtx.lineWidth = 1;
+  scopeCtx.beginPath(); scopeCtx.moveTo(0,mid); scopeCtx.lineTo(w,mid); scopeCtx.stroke();
+  scopeCtx.strokeStyle = getStyle('--wave'); scopeCtx.lineWidth = 2.5;
+  scopeCtx.beginPath();
+  for(var x=0;x<w;x++){
+    var t = x/(w-1);
+    var v = waveAt(t);
+    var y = mid - (v/SCALE)*mid;
+    if(x===0) scopeCtx.moveTo(x,y); else scopeCtx.lineTo(x,y);
+  }
+  scopeCtx.stroke();
+
+  // spectrum bars
+  for(var i=0;i<N;i++){
+    var pct = Math.max(0, Math.min(1, state.amp[i])) * 100;
+    specEls[i].fill.style.height = pct+'%';
+    specEls[i].lbl.textContent = 'H'+(i+1);
+  }
+
+  // export block
+  function fmt3(arr){ return arr.map(function(v){ return v.toFixed(3); }).join(', '); }
+  exportCode.textContent =
+    '// Additive Wave Sculptor — Fourier-series coefficients\n' +
+    'const amp   = ['+fmt3(state.amp)+'];\n' +
+    'const phase = ['+fmt3(state.phase)+'];\n' +
+    '// wave(t) = sum_k amp[k] * sin( 2*PI * ((k+1)*t + phase[k]) )\n' +
+    'function wave(t){\n' +
+    '  var v = 0;\n' +
+    '  for(var k=0;k<amp.length;k++) v += amp[k]*Math.sin(2*Math.PI*((k+1)*t+phase[k]));\n' +
+    '  return v;\n' +
+    '}\n\n' +
+    '// GLSL\n' +
+    'float wave(float t){\n' +
+    '  float v = 0.0;\n' +
+    '  float amp[8]   = float[8]('+fmt3(state.amp)+');\n' +
+    '  float phase[8] = float[8]('+fmt3(state.phase)+');\n' +
+    '  for(int k=0;k<8;k++) v += amp[k]*sin(6.28318*(float(k+1)*t+phase[k]));\n' +
+    '  return v;\n' +
+    '}';
+
+  statText.textContent = animating ? 'animating' : 'static';
+}
+function getStyle(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+/* ===================== presets / randomize / animate ===================== */
+function applyPreset(p){
+  for(var k=0;k<N;k++){
+    ['amp','phase'].forEach(function(co){
+      var v = p[co][k];
+      state[co][k] = v;
+      var el = knobEls[k+'.'+co];
+      if(el && el._setVal) el._setVal(v);
+    });
+  }
+  render();
+}
+function buildPresetSelect(){
+  var sel = document.getElementById('presetSelect');
+  PRESETS.forEach(function(p, i){
+    var o = document.createElement('option'); o.value = i; o.textContent = p.name;
+    sel.appendChild(o);
+  });
+  sel.addEventListener('change', function(){ applyPreset(PRESETS[sel.value]); });
+}
+function randomize(){
+  for(var k=0;k<N;k++){
+    ['amp','phase'].forEach(function(co){
+      var r = RANGE[co];
+      var v = r.min + Math.random()*(r.max-r.min);
+      if(co==='amp') v *= (1/(k+1)); // bias toward a plausible, non-harsh spectrum
+      state[co][k] = v;
+      var el = knobEls[k+'.'+co];
+      if(el && el._setVal) el._setVal(v);
+    });
+  }
+  render();
+}
+function animLoop(){
+  if(!animating) return;
+  driftPhase += 0.0015;
+  render();
+  requestAnimationFrame(animLoop);
+}
+
+/* ===================== boot =====================
+   Build spectrum bars before harmonic knobs: each knob's onChange fires
+   once during setup and calls render(), which writes into specEls — so
+   specEls must already be populated before buildHarmonics() runs. */
+buildSpectrum();
+buildHarmonics();
+buildPresetSelect();
+render();
+
+document.getElementById('randomBtn').addEventListener('click', randomize);
+document.getElementById('animateBtn').addEventListener('click', function(){
+  animating = !animating;
+  this.classList.toggle('on', animating);
+  this.textContent = animating ? '■ Stop' : '▶ Animate';
+  if(animating) requestAnimationFrame(animLoop); else render();
+});
+document.getElementById('copyBtn').addEventListener('click', function(){
+  var btn = this;
+  var done = function(){
+    btn.classList.add('copied'); btn.textContent = 'Copied';
+    setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 900);
+  };
+  try{ navigator.clipboard.writeText(exportCode.textContent).then(done, done); }catch(e){ done(); }
+});
+
+})();
+</script>
+</body>
+</html>
