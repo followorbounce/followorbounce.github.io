@@ -91,7 +91,7 @@ Four instruments, each anchored in a distinct mathematical family, each mapping 
 
 - ✅ **Add a spectrum-bar mode to Patch Bay's and Signal Chain's existing scopes.** Done — a "Scopes: Wave/Spectrum" transport button on each toggles every scope between the original oscilloscope and a bar graph, reading `getByteFrequencyData` off the same `AnalyserNode` each scope already had (no new Web Audio wiring needed, exactly as this section predicted).
 - ✅ **Make the Radio Communications waterfall real.** Done — an opt-in "Use Microphone" button swaps the synthetic per-row math for real `getByteFrequencyData` off a live mic `AnalyserNode`; the original synthetic signal is kept (relabeled "internal test signal") as the permission-free default, and the scrolling-canvas technique itself is untouched, as this section anticipated.
-- Cross-link Patch Bay ↔ Signal Chain ↔ visual synths — **not done.** The visual-synths hub (§7, now built) links to Patch Bay and Signal Chain in its footer, but neither audio synth links back to the visual-synth family yet.
+- ✅ **Cross-link Patch Bay ↔ Signal Chain ↔ visual synths.** Done — both audio synths' footers now link to `/visual-synths/`, and the hub already linked back to both.
 
 ---
 
