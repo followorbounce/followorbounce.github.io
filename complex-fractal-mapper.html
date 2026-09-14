@@ -81,7 +81,7 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .layout{display:grid; grid-template-columns:1fr minmax(280px,420px); gap:20px; margin-bottom:22px;}
 @media (max-width:900px){ .layout{grid-template-columns:1fr;} }
 .fractalwrap{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; background:#000; align-self:start;}
-.fractalwrap canvas{display:block; width:100%; height:auto; aspect-ratio:3/2; cursor:crosshair;}
+.fractalwrap canvas{display:block; width:100%; height:auto; aspect-ratio:3/2; cursor:crosshair; touch-action:none;}
 
 .cards{display:flex; flex-direction:column; gap:16px;}
 .card{background:var(--paper-raised); border:1px solid var(--line-strong); border-radius:6px 6px 3px 3px; padding:14px; position:relative;}
@@ -143,7 +143,7 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Complex Dynamics</div>
     <h1>Complex-Plane Fractal Mapper</h1>
-    <p>One recurrence, <code>z → z<sup>power</sup> + c</code>, iterated at every point of the complex plane until it escapes or it doesn't. Where it doesn't escape is the <strong>Mandelbrot</strong> or <strong>Julia</strong> set; where — and how fast — it does is colored with <a href="/palette-synth">Palette Synth</a>'s own cosine-gradient formula. Pan, zoom, and change the exponent live.</p>
+    <p>One recurrence, <code>z → z<sup>power</sup> + c</code>, iterated at every point of the complex plane until it escapes or it doesn't. Where it doesn't escape is the <strong>Mandelbrot</strong> or <strong>Julia</strong> set; where — and how fast — it does is colored with <a href="/palette-synth">Palette Synth</a>'s own cosine-gradient formula. Pan, zoom, and change the exponent live — or just drag directly on the picture.</p>
   </div>
 </section>
 
@@ -178,6 +178,7 @@ footer a:hover{color:var(--ink);}
   <h2>What this actually is</h2>
   <p>Pick a point <strong>c</strong> in the complex plane, start with <strong>z = 0</strong>, and repeat <code>z = z<sup>power</sup> + c</code>. For most starting points z shoots off to infinity — some quickly, some after wandering for a while — but for others it stays bounded forever. Color every pixel of the plane by how many iterations it took to escape (and leave the never-escaping points a fixed dark color) and you get the <strong>Mandelbrot set</strong>: exponent 2 is the classic shape, exponent 3+ gives the "multibrot" variants with more-fold symmetry. Flip <strong>z</strong> and <strong>c</strong> — start z at the pixel and fix c at one chosen point (the <strong>Julia</strong> knobs) — and the same recurrence traces the Julia set for that point instead, a different picture for every c.</p>
   <p>The coloring is <a href="/palette-synth">Palette Synth</a>'s cosine-gradient formula, reused rather than reinvented: escape speed becomes <code>t</code>, <strong>bands</strong> and <strong>offset</strong> rescale it before it's fed through <code>a + b·cos(2π(c·t+d))</code>, and the palette picker borrows that instrument's own six presets directly. Escape-time and color are computed separately on purpose — dragging a view or fractal knob recomputes the expensive part (iterating every pixel), while <strong>Animate</strong> and the color controls just redraw the already-computed field through a shifting palette, which is why the picture keeps moving smoothly even though the fractal itself hasn't changed.</p>
+  <p>The picture itself is also a control, not just a display: drag on it and, in Mandelbrot mode, it pans the view; in Julia mode, it sets <strong>c</strong> to whatever point is under the pointer — a 2D pad generalized down from a single drag point. Either way it's driving the same <strong>View</strong> and <strong>Fractal</strong> knobs, not a separate code path, so the knobs and the drag never disagree.</p>
   <p>Fifth and last instrument in the visual-synth family that started with Palette Synth — after this one, all five from the original roadmap (color gradient, additive waveform, harmonograph, audio-reactive chemistry, and this fractal mapper) are built.</p>
 </section>
 
@@ -241,9 +242,14 @@ var PRESETS = [
   {name:'Julia Dust',         mode:'julia',      power:2, centerX:0, centerY:0, juliaRe:0.285,juliaIm:0.01, zoom:0, detail:100, palette:5}
 ];
 
-function computeField(){
+function getView(){
   var viewW = 3.0 / Math.pow(2, state.zoom);
   var viewH = viewW * (gridH/gridW);
+  return {w:viewW, h:viewH};
+}
+
+function computeField(){
+  var view = getView(), viewW = view.w, viewH = view.h;
   var pw = state.power, isSq = (pw===2);
   var maxIter = Math.max(1, Math.round(state.detail));
   var jr = state.juliaRe, ji = state.juliaIm;
@@ -487,6 +493,40 @@ document.getElementById('copyBtn').addEventListener('click', function(){
     setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 900);
   };
   try{ navigator.clipboard.writeText(exportCode.textContent).then(done, done); }catch(e){ done(); }
+});
+
+/* ===================== drag on the picture itself =====================
+   In Mandelbrot mode, dragging pans the view (centerX/centerY). In Julia
+   mode, dragging sets the Julia constant c directly to the point under
+   the pointer, instead of only turning the juliaRe/juliaIm knobs — a 2D
+   pad generalized from a single drag point, same idea as the corner-pin
+   drag interaction on Media Servers. Either way it just drives the same
+   knobs (via their own _setVal, which already redraws), so there's no
+   separate code path to keep in sync. */
+var dragState = null;
+fractalCanvas.addEventListener('pointerdown', function(e){
+  dragState = { startX:e.clientX, startY:e.clientY, startCenterX:state.centerX, startCenterY:state.centerY };
+  fractalCanvas.setPointerCapture(e.pointerId);
+});
+fractalCanvas.addEventListener('pointermove', function(e){
+  if(!dragState) return;
+  var rect = fractalCanvas.getBoundingClientRect();
+  var view = getView();
+  if(mode==='julia'){
+    var relX = (e.clientX-rect.left)/rect.width, relY = (e.clientY-rect.top)/rect.height;
+    var re = state.centerX + (relX-0.5)*view.w;
+    var im = state.centerY - (relY-0.5)*view.h;
+    if(knobEls.juliaRe && knobEls.juliaRe._setVal) knobEls.juliaRe._setVal(re);
+    if(knobEls.juliaIm && knobEls.juliaIm._setVal) knobEls.juliaIm._setVal(im);
+  } else {
+    var dxRel = (e.clientX-dragState.startX)/rect.width;
+    var dyRel = (e.clientY-dragState.startY)/rect.height;
+    if(knobEls.centerX && knobEls.centerX._setVal) knobEls.centerX._setVal(dragState.startCenterX - dxRel*view.w);
+    if(knobEls.centerY && knobEls.centerY._setVal) knobEls.centerY._setVal(dragState.startCenterY + dyRel*view.h);
+  }
+});
+['pointerup','pointercancel'].forEach(function(evt){
+  fractalCanvas.addEventListener(evt, function(){ dragState = null; });
 });
 
 })();

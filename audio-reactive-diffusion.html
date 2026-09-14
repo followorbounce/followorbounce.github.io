@@ -193,7 +193,8 @@ footer a:hover{color:var(--ink);}
   <h2>What this actually is</h2>
   <p>This is the same <strong>Gray-Scott reaction-diffusion</strong> model as the Shader Lab on Media Servers II — two virtual chemicals diffusing across a grid, one feeding the system, the other consuming it — reused rather than reimplemented, right down to the same feed/kill presets (Coral, Mitosis, Fingerprint, Worms, Spots). What's new is the input: every frame, the <strong>Chemistry</strong> knobs set a baseline feed and kill rate, and the <strong>Audio reactivity</strong> knobs decide how far live sound is allowed to push them — bass pushes feed up or down, treble does the same to kill, both always clamped back into the range where the simulation stays numerically stable.</p>
   <p>A sudden rise in volume above its own recent average — a beat, a clap, a word — drops a fresh blob of the second chemical into the dish at a random spot, sized by how far above baseline the sound was and how far the <strong>inject</strong> knob lets it go. With no sound at all the dish still evolves: an internal synthetic source (a few slow sine "instruments" plus a periodic pulse) drives the bands so the instrument is alive the moment it loads. Click <strong>Use Microphone</strong> to swap in real audio — nothing is sent anywhere, the analysis happens entirely in your browser.</p>
-  <p>Fourth instrument in the visual-synth family started by <a href="/palette-synth">Palette Synth</a>. The <a href="/complex-fractal-mapper">Complex-Plane Fractal Mapper</a> closes out the roadmap, borrowing Palette Synth's own cosine-gradient formula to color what it finds.</p>
+  <p>The dish's original fixed color tint is gone too — it's colored with Palette Synth's own cosine-gradient formula (its Ocean coefficients) instead, and the gradient's offset drifts slowly with the <strong>mid</strong> band, the one meter reading the Chemistry and Audio-reactivity knobs don't otherwise touch. So the pattern reacts to bass and treble, and its color breathes with the mids.</p>
+  <p>Fourth instrument in the visual-synth family started by <a href="/palette-synth">Palette Synth</a>. The <a href="/complex-fractal-mapper">Complex-Plane Fractal Mapper</a> closes out the roadmap, borrowing the same cosine-gradient formula to color what it finds.</p>
 </section>
 
 <footer>
@@ -411,17 +412,33 @@ function updateMeters(bands){
   meterEls[3].style.height = (bands.volume*100)+'%';
 }
 
+/* ===================== color =====================
+   Palette Synth's cosine-gradient formula, reused verbatim (Ocean
+   coefficients) in place of the original demo's fixed linear tint —
+   and the color offset drifts with the "mid" audio band, which the
+   meter already tracked but nothing previously used. */
+var OCEAN = {a:[.3,.45,.55], b:[.25,.3,.35], c:[1,1.5,2], d:[.5,.6,.7]};
+function paletteRGB(t){
+  var out = [];
+  for(var i=0;i<3;i++){
+    var v = OCEAN.a[i] + OCEAN.b[i]*Math.cos(2*Math.PI*(OCEAN.c[i]*t+OCEAN.d[i]));
+    out.push(Math.max(0, Math.min(255, Math.round(v*255))));
+  }
+  return out;
+}
+
 var rdCanvas = document.getElementById('rdCanvas'), rdCtx = rdCanvas.getContext('2d');
 var imgData = rdCtx.createImageData(size,size);
 var tmpCanvas = document.createElement('canvas'); tmpCanvas.width=size; tmpCanvas.height=size;
 var tmpCtx = tmpCanvas.getContext('2d');
-function renderScaled(){
+function renderScaled(colorOffset){
   for(var i=0;i<size*size;i++){
     var v = Math.max(0, Math.min(1, A[i]-B[i]));
-    var c = Math.floor(v*255);
-    imgData.data[i*4] = 30+c*0.7;
-    imgData.data[i*4+1] = 20+c*0.75;
-    imgData.data[i*4+2] = 55+c*0.6;
+    var tt = v + colorOffset; tt -= Math.floor(tt);
+    var rgb = paletteRGB(tt);
+    imgData.data[i*4] = rgb[0];
+    imgData.data[i*4+1] = rgb[1];
+    imgData.data[i*4+2] = rgb[2];
     imgData.data[i*4+3] = 255;
   }
   tmpCtx.putImageData(imgData,0,0);
@@ -448,7 +465,9 @@ function loop(){
 
   var steps = Math.max(1, Math.round(state.speed));
   for(var s=0;s<steps;s++) step();
-  renderScaled();
+  var colorOffset = t*0.015 + bands.mid*0.15;
+  colorOffset -= Math.floor(colorOffset);
+  renderScaled(colorOffset);
   requestAnimationFrame(loop);
 }
 

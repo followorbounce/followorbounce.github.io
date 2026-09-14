@@ -160,6 +160,7 @@ footer a:hover{color:var(--ink);}
     <select class="ctl-select" id="presetSelect"></select>
     <button class="ctl-btn" id="randomBtn">⟲ Randomize</button>
     <button class="ctl-btn" id="animateBtn">▶ Animate</button>
+    <button class="ctl-btn" id="playBtn">🔊 Play</button>
     <span class="ctl-stat" id="statText"></span>
   </div>
 </div>
@@ -187,7 +188,8 @@ footer a:hover{color:var(--ink);}
 <section class="about wrap">
   <h2>What this actually is</h2>
   <p>This is <strong>additive synthesis</strong> — building a complex periodic wave out of nothing but sine waves at integer multiples of a fundamental frequency (harmonics), each scaled by its own <strong>amplitude</strong> and shifted by its own <strong>phase</strong>. It's the same idea a pipe organ uses stacking ranks of pipes, and it's exactly how a Fourier series describes any repeating shape: a square wave is just the odd harmonics falling off as 1/k, a sawtooth is every harmonic falling off as 1/k with alternating phase, and a triangle is the odd harmonics falling off as 1/k² with alternating phase. Pick a preset and watch the spectrum bars show you that recipe directly.</p>
-  <p>It's the second instrument in the family <a href="/palette-synth">Palette Synth</a> started — both sculpt a continuous shape by summing periodic terms with tunable coefficients, just in a different domain: Palette Synth sums <strong>cosines across three color channels</strong> to make a gradient, this one sums <strong>sines across eight harmonic channels</strong> to make a waveform. Same generative principle — offset/amplitude/frequency/phase-style coefficients feeding a trig sum — reused rather than reinvented, per the family's own rule.</p>
+  <p>It's the second instrument in the family <a href="/palette-synth">Palette Synth</a> started — both sculpt a continuous shape by summing periodic terms with tunable coefficients, just in a different domain: Palette Synth sums <strong>cosines across three color channels</strong> to make a gradient, this one sums <strong>sines across eight harmonic channels</strong> to make a waveform. Same generative principle — offset/amplitude/frequency/phase-style coefficients feeding a trig sum — reused rather than reinvented, per the family's own rule. The reuse runs both directions: the scope trace, card accents, and spectrum bars are all colored by Palette Synth's own cosine-gradient formula, driven by the harmonic mix's spectral centroid — bass-heavy settings and treble-heavy settings land in different parts of the same gradient.</p>
+  <p>Click <strong>Play</strong> and the shape you're looking at is also the sound you're hearing: the amp/phase coefficients feed a Web Audio <code>PeriodicWave</code> directly — <code>amp·sin(2π(k·t+phase))</code> expands via the sine-of-a-sum identity into exactly the cosine/sine coefficient pairs <code>createPeriodicWave</code> expects — on a fixed-pitch oscillator, so every knob move retunes the tone live, not just the picture.</p>
   <p>The rest of the roadmap is built too: the <a href="/lissajous-plotter">Lissajous / Harmonograph Plotter</a> reuses this exact two-term harmonic sum for its X and Y axes, plotting them against each other instead of against time; the <a href="/audio-reactive-diffusion">Audio-Reactive Reaction-Diffusion</a> instrument and the <a href="/complex-fractal-mapper">Complex-Plane Fractal Mapper</a> close out the family.</p>
 </section>
 
@@ -347,7 +349,83 @@ function buildSpectrum(){
   }
 }
 
+/* ===================== harmonic-content color =====================
+   Palette Synth's cosine-gradient formula, reused verbatim (Plasma
+   coefficients) rather than a new color scheme: the spectral centroid
+   of the current harmonic mix (low harmonics dominant vs. high) drives
+   t, so the scope trace, harmonic-card accents, and spectrum bars all
+   shift hue with harmonic content instead of sitting at one fixed
+   color — the color-engine reuse the roadmap called for. */
+var PLASMA = {a:[.5,.5,.5], b:[.5,.5,.5], c:[1,1,1], d:[0,.33,.67]};
+function paletteRGB(t){
+  var out = [];
+  for(var i=0;i<3;i++){
+    var v = PLASMA.a[i] + PLASMA.b[i]*Math.cos(2*Math.PI*(PLASMA.c[i]*t+PLASMA.d[i]));
+    out.push(Math.max(0, Math.min(255, Math.round(v*255))));
+  }
+  return out;
+}
+function toHex(rgb){
+  return '#'+rgb.map(function(v){ var h=v.toString(16); return h.length<2?'0'+h:h; }).join('');
+}
+function updateAccentColor(){
+  var totalAmp=0, weighted=0;
+  for(var i=0;i<N;i++){ totalAmp += state.amp[i]; weighted += (i+1)*state.amp[i]; }
+  var centroid = totalAmp>0 ? (weighted/totalAmp - 1)/(N-1) : 0; // normalized 0..1 across harmonics 1..N
+  document.documentElement.style.setProperty('--wave', toHex(paletteRGB(centroid)));
+}
+
+/* ===================== audio playback =====================
+   "The shape you sculpt is the sound you hear": a PeriodicWave built
+   straight from the same amp/phase coefficients driving the visual,
+   played on a fixed-pitch oscillator. wave(t) = sum amp_k*sin(2*PI*(k*t+phase_k))
+   expands via sin(A+B) into cosine/sine terms at each harmonic k, which
+   is exactly the {real,imag} pair createPeriodicWave expects. */
+var PITCH = 220; // fixed fundamental (Hz) — keeps this a one-button instrument, not a keyboard
+var audioCtx = null, osc = null, gainNode = null, playing = false;
+function buildPeriodicWave(){
+  var real = new Float32Array(N+1), imag = new Float32Array(N+1);
+  for(var k=1;k<=N;k++){
+    var a = state.amp[k-1], ph = state.phase[k-1];
+    real[k] = a*Math.sin(2*Math.PI*ph);
+    imag[k] = a*Math.cos(2*Math.PI*ph);
+  }
+  return audioCtx.createPeriodicWave(real, imag, {disableNormalization:false});
+}
+function updateAudio(){
+  if(!playing || !osc) return;
+  osc.setPeriodicWave(buildPeriodicWave());
+}
+function togglePlay(){
+  var playBtn = document.getElementById('playBtn');
+  if(playing){
+    playing = false;
+    playBtn.classList.remove('on'); playBtn.textContent = '🔊 Play';
+    if(gainNode) gainNode.gain.setTargetAtTime(0, audioCtx.currentTime, 0.03);
+    var deadOsc = osc; osc = null;
+    setTimeout(function(){ if(deadOsc){ deadOsc.stop(); deadOsc.disconnect(); } }, 150);
+    return;
+  }
+  var AC = window.AudioContext || window.webkitAudioContext;
+  if(!AC){ document.getElementById('statText').textContent = 'Web Audio not supported here'; return; }
+  audioCtx = audioCtx || new AC();
+  if(audioCtx.state==='suspended') audioCtx.resume();
+  osc = audioCtx.createOscillator();
+  osc.frequency.value = PITCH;
+  osc.setPeriodicWave(buildPeriodicWave());
+  gainNode = audioCtx.createGain();
+  gainNode.gain.value = 0;
+  osc.connect(gainNode).connect(audioCtx.destination);
+  osc.start();
+  gainNode.gain.setTargetAtTime(0.18, audioCtx.currentTime, 0.05); // modest, click-free fade in
+  playing = true;
+  playBtn.classList.add('on'); playBtn.textContent = '■ Stop';
+}
+
 function render(){
+  updateAccentColor();
+  updateAudio();
+
   // scope trace
   var w = scopeCanvas.width, h = scopeCanvas.height, mid = h/2;
   scopeCtx.clearRect(0,0,w,h);
@@ -391,7 +469,7 @@ function render(){
     '  return v;\n' +
     '}';
 
-  statText.textContent = animating ? 'animating' : 'static';
+  statText.textContent = (animating ? 'animating' : 'static') + (playing ? ' · playing' : '');
 }
 function getStyle(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 
@@ -451,6 +529,7 @@ document.getElementById('animateBtn').addEventListener('click', function(){
   this.textContent = animating ? '■ Stop' : '▶ Animate';
   if(animating) requestAnimationFrame(animLoop); else render();
 });
+document.getElementById('playBtn').addEventListener('click', togglePlay);
 document.getElementById('copyBtn').addEventListener('click', function(){
   var btn = this;
   var done = function(){
