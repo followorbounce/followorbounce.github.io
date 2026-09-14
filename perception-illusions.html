@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Perception — Knowledge Network</title>
+<meta name="description" content="Why the same gray square looks like two different colors, why a rising tone can rise forever without going anywhere, and why none of that is a malfunction — a research-grounded tour of visual and auditory illusions, with live demonstrations.">
+<link rel="canonical" href="https://followorbounce.github.io/perception-illusions">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Perception — Knowledge Network">
+<meta property="og:description" content="Visual and auditory illusions as evidence, not error: the checker-shadow illusion, the Shepard tone, the missing fundamental, the McGurk effect, and what they all say about a brain that guesses.">
+<meta property="og:url" content="https://followorbounce.github.io/perception-illusions">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --accent:#a13a2f;
+  --accent2:#2f5aa1;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 860px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em;
+  border:1px solid var(--ink); padding:6px 10px; display:inline-block;
+}
+header .back{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,88px); border-bottom:1px solid var(--ink);}
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--mid);
+  display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.0; margin-bottom:20px;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:640px; color:#28282a;}
+
+section.chapter{padding-block:clamp(44px,7vw,72px); border-bottom:1px solid var(--line);}
+.chapter .kicker{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid);
+  margin-bottom:10px;
+}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter p{margin-bottom:16px; max-width:640px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;}
+em{font-style:normal; color:var(--accent); font-weight:500;}
+
+.callout{
+  margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff;
+  display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;
+}
+.callout .tag{
+  font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid);
+  border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;
+}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+.callout a:hover{text-decoration-color:var(--ink);}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:600px){ .two-col{grid-template-columns:1fr;} }
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{font-size:0.95rem; margin-bottom:8px;}
+.two-col p{font-size:0.94rem;}
+
+/* --- demo frames (shared by every interactive figure) --- */
+.demo{margin-top:26px; border:1px solid var(--ink); background:#fff;}
+.demo-canvas-wrap{padding:16px; background:#e9e7e0; display:flex; justify-content:center;}
+.demo-canvas-wrap canvas{display:block; max-width:100%; height:auto; background:#fff;}
+.demo-controls{display:flex; align-items:center; gap:12px; flex-wrap:wrap; padding:12px 16px; border-top:1px solid var(--line);}
+.demo-note{font-family:var(--font-mono); font-size:11px; color:var(--mid); padding:0 16px 14px;}
+.dbtn{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.03em; padding:8px 14px;
+  border:1px solid var(--ink); background:var(--paper); color:var(--ink); cursor:pointer;
+}
+.dbtn:hover{background:var(--ink); color:var(--paper);}
+.dbtn.on{background:var(--accent); border-color:var(--accent); color:#fff;}
+.dbtn:disabled{opacity:0.4; cursor:default;}
+.dbtn:disabled:hover{background:var(--paper); color:var(--ink);}
+.dctl{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--mid);}
+.dctl input[type=range]{width:120px;}
+.dstat{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-left:auto;}
+
+/* --- simultaneous-contrast pair (pure CSS) --- */
+.contrast-pair{display:grid; grid-template-columns:1fr 1fr; gap:0;}
+.contrast-panel{aspect-ratio:4/3; display:flex; align-items:center; justify-content:center;}
+.contrast-panel.dark{background:#2a2a28;}
+.contrast-panel.light{background:#e7e4db;}
+.contrast-swatch{width:22%; aspect-ratio:1/1; background:#9c9a92;}
+
+/* --- harmonic indicator dots (missing-fundamental demo) --- */
+.harm-row{display:flex; gap:10px; align-items:center;}
+.harm-dot{width:10px; height:10px; border-radius:50%; border:1.5px solid var(--ink); background:transparent; flex:none;}
+.harm-dot.active{background:var(--accent); border-color:var(--accent);}
+.harm-label{font-family:var(--font-mono); font-size:10px; color:var(--mid);}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+ol.refs li a:hover{text-decoration-color:var(--ink);}
+
+footer{
+  border-top:1px solid var(--ink); padding-block:40px;
+  font-family:var(--font-mono); font-size:12px; color:var(--mid);
+}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Neuroscience · Perception</div>
+    <h1>Perception</h1>
+    <p>Two squares of exactly the same gray can look like different colors. A tone can seem to rise in pitch forever without ever getting anywhere. A single flash of light can be seen twice if the right sound plays alongside it. None of this is your senses malfunctioning — it's what a brain that has to <strong>guess</strong> the world from incomplete, noisy signals looks like when the guess and the physical stimulus come apart. This is a tour of the illusions that make that guessing visible, grounded in the actual research behind each one, with a live demonstration wherever one can honestly be built in a browser.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">01 — The Brain Doesn't Record, It Guesses</div>
+    <h2>Perception as a hypothesis, not a photograph</h2>
+    <p class="lede">The intuitive model of vision and hearing is a camera and a microphone: light and sound arrive, and the brain simply displays them. That model is wrong, and has been known to be wrong since the 19th century. Hermann von Helmholtz argued that perception is a process of <strong>unconscious inference</strong> — the brain doesn't have direct access to the world, only to ambiguous patterns of retinal and cochlear activity, and it has to infer the most probable cause of that activity the same way a detective infers a culprit from incomplete evidence.</p>
+    <p>A century later, Richard Gregory made the analogy explicit and testable: perceptions, he argued, are <em>literally</em> hypotheses — provisional, revisable, built from prior knowledge of what the world is usually like, and just as capable of being wrong as any scientific hypothesis is<sup>[1]</sup>. The modern version of this idea is the <strong>Bayesian brain</strong> / <strong>predictive coding</strong> framework: the brain maintains a generative model of the world, continuously predicts the sensory input that model implies, and updates on whichever <em>prediction errors</em> — the mismatch between expectation and actual signal — turn out to be informative. Karl Friston's free-energy principle frames the entire nervous system, not just perception, as minimizing this prediction error over time<sup>[2]</sup>.</p>
+    <p>Everything that follows on this page is what happens when that machinery is shown a stimulus its priors weren't built for: an image with a shadow but no light source to check against, a tone sequence with no way to tell which octave it's actually in, a mouth shape that doesn't match the sound coming out of it. The <em>illusion</em> isn't a bug in the inference engine — it's the inference engine's ordinary process, caught in the act, on a case it wasn't built to handle cleanly.</p>
+    <div class="callout">
+      <span class="tag">Same idea, different domain</span>
+      <span>This is the same signal-vs-noise problem <a href="/radio-communications">Radio Communications</a> covers for a receiver pulling a weak transmission out of static — a brain doing sensory inference and an SDR doing demodulation are both estimating a hidden true signal from a corrupted observation of it.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">02 — Seeing What Isn't There: Brightness and Context</div>
+    <h2>The same gray, twice, looking nothing alike</h2>
+    <p class="lede">Vision doesn't measure absolute light intensity — it estimates <strong>reflectance</strong>, the actual color of a surface, by first discounting whatever it infers about the lighting falling on it. That's <em>lightness constancy</em>, and it's necessary: the same white shirt reflects wildly different amounts of light in noon sun versus a shadowed doorway, and you need to keep seeing it as the same white shirt in both. Edward Adelson's 1995 checker-shadow illusion (below) demonstrates the mechanism by exploiting it directly<sup>[3]</sup>: square A sits in plain light on a dark tile; square B sits inside a cast shadow on a light tile. The visual system, correctly inferring that the shadowed region is receiving less light, boosts its estimate of B's underlying reflectance to compensate — so aggressively that A and B are rendered as <em>identical shades of gray</em>, and still look completely different.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="checkerCanvas" width="420" height="320"></canvas></div>
+      <div class="demo-controls">
+        <button class="dbtn" id="checkerProofBtn">Prove it — connect A and B</button>
+        <span class="dstat">A and B are the same RGB value: <span id="checkerVal">100, 100, 100</span></span>
+      </div>
+      <div class="demo-note">Click the button to draw a bar of the same gray straight from A to B. Nothing changes except the context around it.</div>
+    </div>
+    <p style="margin-top:22px;">The same principle, without any need for a rendered scene at all, is <em>simultaneous contrast</em>: identical gray squares look lighter against a dark background and darker against a light one, because the visual system is reading each square's brightness relative to its surroundings, not in isolation.</p>
+    <div class="demo">
+      <div class="contrast-pair">
+        <div class="contrast-panel dark"><div class="contrast-swatch"></div></div>
+        <div class="contrast-panel light"><div class="contrast-swatch"></div></div>
+      </div>
+      <div class="demo-note">Both center squares are the exact same #9c9a92 gray.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">03 — Color That Isn't Fixed: "The Dress"</div>
+    <h2>When two people look at the same photograph and disagree about physics</h2>
+    <p class="lede">Color constancy runs the same trick as lightness constancy, one dimension up: the visual system estimates a surface's true color by first discounting the color <em>cast</em> of the ambient light — which is why a white page looks white under both yellowish incandescent bulbs and bluish daylight, even though the actual wavelengths reaching your eye are different in each case. In February 2015, a badly lit photograph of a blue-and-black dress went viral specifically because it removed the usual cues the brain uses to make that call, and different viewers' visual systems resolved the ambiguity in opposite directions — some assuming the dress was lit by a bluish light and discounting blue (seeing it as white and gold), others assuming a warm light and discounting yellow (seeing it as blue and black).</p>
+    <p>Researchers Rosa Lafer-Sousa, Katherine Hermann, and Bevil Conway surveyed over 1,400 people and confirmed the split was real, stable, and correlated with factors like age and habitual light exposure, not just a trick of individual monitor calibration<sup>[9]</sup>. It's the color-perception equivalent of the tritone paradox two chapters over: the same physical stimulus, two internally consistent but mutually exclusive interpretations, and no fact of the matter about which one is "correct" — because color, like pitch, was never a property of the light itself. It's an inference the brain runs on the light, and this was simply a case where two reasonable inference engines, given the same ambiguous input, landed on different answers.</p>
+    <div class="callout">
+      <span class="tag">Same formula, different job</span>
+      <span><a href="/palette-synth">Palette Synth</a> generates color from three numbers per channel with no reference to "the true color of a surface" at all — a reminder that color, on a screen, really is just a number the display outputs and your visual system interprets, no inference problem attached.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">04 — Motion From Nothing: Phi and Beta</div>
+    <h2>The illusion that launched a school of psychology</h2>
+    <p class="lede">In 1912, Max Wertheimer flashed two stationary lights in quick succession at slightly different positions and found that observers didn't see two lights blinking — they saw one light <em>moving</em> between the two positions. He called the strongest, most abstract version of this — a sense of motion with no object seen to be moving at all, produced only at very short intervals between flashes — the <strong>phi phenomenon</strong>, and the more common version most people actually experience with two flashing objects — a single object that appears to jump from one position to the other — <strong>beta movement</strong><sup>[5]</sup>. Wertheimer's 1912 monograph on this distinction is usually credited as the founding document of Gestalt psychology, because it demonstrated that a perceptual experience (motion) could exist without any corresponding change in the world — the whole (a moving object) was something the visual system supplied, not something present in either individual flash.</p>
+    <p>Every film, every flipbook, and the display you're reading this on all run on beta movement: a sequence of static frames, no motion physically present in any single one of them, perceived as continuous because the brain's motion-detection machinery fills the gap between frames that arrive close enough together in space and time.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="betaCanvas" width="420" height="140"></canvas></div>
+      <div class="demo-controls">
+        <button class="dbtn" id="betaPlayBtn">▶ Start</button>
+        <div class="dctl"><label for="betaSpeed">interval</label><input type="range" id="betaSpeed" min="40" max="600" value="220" step="10"><span id="betaSpeedVal">220 ms</span></div>
+      </div>
+      <div class="demo-note">Two dots, never both on at once. Below roughly 200–300 ms between flashes, most people stop seeing "two dots taking turns" and start seeing one dot jumping back and forth — beta movement, live.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">05 — Hearing What Isn't Playing: The Missing Fundamental</div>
+    <h2>The pitch your speakers never produced</h2>
+    <p class="lede">A musical tone isn't a single frequency — it's a fundamental plus a stack of harmonics at integer multiples of it, exactly the additive-synthesis model <a href="/additive-wave-sculptor">the Additive Wave Sculptor</a> builds waveforms from. Strip the fundamental itself out entirely and play only the 2nd, 3rd, and 4th harmonics, and something strange happens: you still hear the original pitch. Helmholtz's first explanation — that the ear was generating a physical "difference tone" through nonlinear distortion — turned out to be wrong. In 1940, J.F. Schouten showed experimentally that the reconstructed pitch, now generally called the <strong>missing fundamental</strong> or <strong>virtual pitch</strong>, survives conditions where a real difference tone couldn't form at all, and proposed instead that the auditory system is directly extracting the <em>repetition rate</em> shared by the remaining harmonics — the same rate the fundamental would have had, even though the fundamental itself was never in the signal<sup>[6]</sup>.</p>
+    <p>This is why a small phone speaker, physically incapable of reproducing the deep fundamental of a bass note, still lets you perceive that note as low — the harmonics it <em>can</em> reproduce carry enough periodicity information for the brain to reconstruct the missing piece.</p>
+    <div class="demo">
+      <div class="demo-controls">
+        <button class="dbtn" id="fundPlayBtn">▶ Play</button>
+        <button class="dbtn" id="fundToggleBtn">Fundamental: On</button>
+        <div class="harm-row" id="fundHarmRow"></div>
+      </div>
+      <div class="demo-note">220 Hz fundamental plus its 2nd–5th harmonics. Toggle the fundamental off — the lit dots show what's actually sounding — and listen for whether the perceived pitch of the note actually changes.</div>
+    </div>
+    <div class="callout">
+      <span class="tag">Deep dive</span>
+      <span>The harmonic series, equal temperament, and why a piano and a violin sound different playing the same written note live in <a href="/music-mathematics">Music Is Mathematics</a>.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">06 — The Tone That Never Stops Rising</div>
+    <h2>Shepard tones and the tritone paradox</h2>
+    <p class="lede">In 1964, Roger Shepard, then at Bell Labs, built a tone from a full stack of octave-spaced sine components, each weighted by a fixed bell-shaped envelope over frequency, and then shifted the whole stack upward together. Each individual component eventually rises out of the envelope's effective range and fades to silence — but by the time it does, another component an octave below has faded in to take its place, so the <em>total</em> sound never runs out of energy in the audible range. The result is a tone that appears to rise in pitch continuously and endlessly, arranged, as Shepard put it, in a circle rather than a line<sup>[7]</sup> — the auditory equivalent of a barber pole's stripes, which also appear to travel upward forever despite the pole itself only rotating in place.</p>
+    <div class="demo">
+      <div class="demo-controls">
+        <button class="dbtn" id="shepardPlayBtn">▶ Play</button>
+        <div class="dctl"><label for="shepardSpeed">rate</label><input type="range" id="shepardSpeed" min="-100" max="100" value="35" step="1"><span id="shepardSpeedVal">rising</span></div>
+        <span class="dstat" id="shepardStat"></span>
+      </div>
+      <div class="demo-note">Ten oscillators, one octave apart, under a fixed loudness envelope. Set the rate to zero and it just hums; away from zero it climbs (or falls) without limit. Turn the volume down before playing — this is a dense, loud stack of tones.</div>
+    </div>
+    <p style="margin-top:22px;">Diana Deutsch's <strong>tritone paradox</strong>, first reported in 1986, uses the same octave-ambiguous construction with a much sharper edge: play two Shepard-style tones exactly half an octave (a tritone) apart, one after the other, and ask whether the pitch went up or down. There's genuinely no fact of the matter from the stimulus alone — a tritone is exactly halfway around Shepard's circle in either direction — and Deutsch found that individual listeners judge it consistently one way or the other depending on the overall pitch range of their own native language or dialect, while <em>different</em> listeners can hear the identical pair going in opposite directions<sup>[8]</sup>.</p>
+    <div class="demo">
+      <div class="demo-controls">
+        <button class="dbtn" id="tritonePlayBtn">▶ Play the pair</button>
+        <span class="dstat" id="tritoneStat">C, then F♯ — six months later ask someone else and see if they agree with you</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">07 — When Senses Disagree, One of Them Loses</div>
+    <h2>McGurk, ventriloquism, rubber hands, and a flash that isn't there</h2>
+    <p class="lede">Perception doesn't process each sense independently and compare notes afterward — it fuses them before you're aware of any conflict, weighting each sense by how reliable the brain currently estimates it to be. Four results make the mechanics unusually visible. Harry McGurk and John MacDonald, dubbing audio of "ba" onto video of a mouth shaping "ga" for an unrelated study on infant speech perception, found that adult observers reported clearly hearing a third syllable, "da" — neither the audio nor the visual, but the brain's fused compromise between them, now called the <strong>McGurk effect</strong><sup>[10]</sup>. The far more mundane <strong>ventriloquist effect</strong> runs the same fusion in the other direction: heard sound is relocated toward its apparent visual source, which is the entire mechanism behind a ventriloquist act and also why film dialogue seems to come from an actor's mouth rather than the actual speaker location behind or beside the screen.</p>
+    <p>Vision and touch fuse the same way in Matthew Botvinick and Jonathan Cohen's <strong>rubber hand illusion</strong>: synchronously stroke a visible rubber hand and a person's hidden real hand, and the felt location of touch relocates toward the rubber hand — the brain resolving a vision/proprioception conflict by provisionally incorporating a fake limb into its model of the body<sup>[11]</sup>. And sound can override vision on something as basic as counting: Ladan Shams, Yukiyasu Kamitani, and Shinsuke Shimojo found that a single brief flash of light, accompanied by two quick beeps, is very often reported as <em>two</em> flashes — the <strong>sound-induced flash illusion</strong>, auditory information reaching into visual cortex and altering how many events are seen, not just how they're interpreted<sup>[12]</sup>.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">08 — What Never Reaches Awareness</div>
+    <h2>Attention as the bottleneck, not the eyes or ears</h2>
+    <p class="lede">A separate class of phenomena isn't about the senses being tricked at all — it's about how much of what the senses correctly register never makes it to conscious awareness, because attention, not raw sensitivity, is the actual bottleneck. In Daniel Simons and Christopher Chabris's best-known demonstration, observers asked to count basketball passes in a video reliably fail to notice a person in a full gorilla suit walking directly through the middle of the scene, thumping their chest, for a full nine seconds — <strong>inattentional blindness</strong>, the visual system registering the gorilla perfectly well while the attentional system, fully occupied with the counting task, never routes it to awareness<sup>[13]</sup>. Ronald Rensink, J. Kevin O'Regan, and James Clark demonstrated a close relative, <strong>change blindness</strong>: alternate two photographs that differ in one large, obvious respect (a jet engine that's simply gone, say), separated by a brief gray flash, and observers routinely take ten seconds or more to spot a difference that's immediately obvious once pointed out — because the masking flash removes the low-level motion signal that would otherwise flag the changed region automatically<sup>[14]</sup>.</p>
+    <p>The auditory equivalent is older and more familiar by name: Colin Cherry's 1953 <strong>cocktail-party effect</strong>, in which a listener tracking one conversation in a noisy room retains almost nothing about a simultaneous, equally audible second conversation — not its words, not its language, sometimes not even whether it stopped partway through — despite the sound reaching the ear exactly as clearly as the conversation being attended to<sup>[15]</sup>. In every case here, the raw signal was never in doubt. What failed was the far scarcer resource sitting downstream of it.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">09 — A 2018 Case Study: Yanny or Laurel</div>
+    <h2>The same ambiguity, one generation later</h2>
+    <p class="lede">In May 2018, a short, low-quality audio clip went viral for the same underlying reason "the dress" did three years earlier: an acoustically ambiguous stimulus, split cleanly down the middle by listeners' internal priors. Acoustic analysis of the clip showed energy consistent with the word "Laurel" concentrated in lower frequencies and energy consistent with "Yanny" concentrated higher, both genuinely present in the same recording — and which one a given listener reported hearing tracked which frequency band their own hearing and attention happened to weight more heavily, itself influenced by playback equipment, hearing sensitivity, and expectation<sup>[16]</sup>. It's the tritone paradox's structure again: not one listener right and another wrong, but one genuinely ambiguous signal and two internally consistent resolutions of it, playing out in public at viral scale instead of in a lab.</p>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">10 — Why None of This Is a Malfunction</div>
+    <h2>The interface, working as designed</h2>
+    <p class="lede">Every phenomenon on this page has the same shape: a generative model, built from a lifetime of mostly-reliable regularities (light usually comes from above, a pitch class usually repeats every octave, a sound and its visible source are usually in the same place, a hand you can see being touched is usually your own), meeting a stimulus engineered — by an artist, a researcher, or plain coincidence — to violate exactly the regularity the model depends on. The illusion is the readout of that collision, not a failure of the hardware underneath it. A checker-shadow illusion doesn't mean vision is broken; it means vision is running lightness constancy exactly as intended, on an image built specifically to expose the assumption.</p>
+    <p>That framing runs through the rest of this site's writing on the subject too: <a href="https://followorbounce.com/p/signal-noise">Signal &amp; Noise</a> takes the same signal-extraction problem to the scale of a whole information environment, and <a href="https://followorbounce.com/p/the-closed-door">The Closed Door</a> asks what happens when the brain's generative model is pushed, chemically, toward generating experience with even less sensory input constraining it than usual — the same predictive machinery from Chapter 01, with the balance between prior and evidence shifted hard toward the prior. <a href="https://followorbounce.com/p/humanity-as-functional-consciousness">Humanity as Functional Consciousness</a> asks the harder question this whole page has been dancing around: if perception is already a running inference rather than a direct window onto the world, how much of what feels like "just looking" or "just listening" is actually that same machinery, doing exactly what it's for.</p>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">References</div>
+    <ol class="refs">
+      <li><a href="https://royalsocietypublishing.org/doi/10.1098/rstb.1980.0090" rel="external noopener" target="_blank">Gregory, R.L. (1980). Perceptions as hypotheses.</a> Philosophical Transactions of the Royal Society of London B, 290(1038), 181–197.</li>
+      <li><a href="https://www.nature.com/articles/nrn2787" rel="external noopener" target="_blank">Friston, K. (2010). The free-energy principle: a unified brain theory?</a> Nature Reviews Neuroscience, 11, 127–138.</li>
+      <li><a href="https://persci.mit.edu/gallery/checkershadow" rel="external noopener" target="_blank">Adelson, E.H. Checkershadow Illusion.</a> MIT Perceptual Science Group.</li>
+      <li><a href="https://michaelbach.de/ot/sze-muelue/" rel="external noopener" target="_blank">Müller-Lyer Illusion (1889).</a> Michael Bach, Optical Illusions &amp; Visual Phenomena.</li>
+      <li><a href="https://www.britannica.com/topic/phi-phenomenon" rel="external noopener" target="_blank">Phi phenomenon.</a> Encyclopaedia Britannica — on Wertheimer's 1912 apparent-motion studies.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Missing_fundamental" rel="external noopener" target="_blank">Missing fundamental.</a> Overview of Schouten's 1940 residue-pitch findings and the modern account.</li>
+      <li><a href="https://michaelbach.de/ot/aud-ShepardTone/" rel="external noopener" target="_blank">Shepard, R.N. (1964). Circularity in judgments of relative pitch.</a> Journal of the Acoustical Society of America, 36(12), 2346–2353.</li>
+      <li><a href="https://deutsch.ucsd.edu/psychology/pages.php?i=206" rel="external noopener" target="_blank">Deutsch, D. The Tritone Paradox.</a> University of California San Diego.</li>
+      <li><a href="https://www.cell.com/fulltext/S0960-9822(15)00535-7" rel="external noopener" target="_blank">Lafer-Sousa, R., Hermann, K.L., Conway, B.R. (2015). Striking individual differences in color perception uncovered by 'the dress' photograph.</a> Current Biology, 25(13), R545–R546.</li>
+      <li><a href="https://www.nature.com/articles/264746a0" rel="external noopener" target="_blank">McGurk, H., MacDonald, J. (1976). Hearing lips and seeing voices.</a> Nature, 264, 746–748.</li>
+      <li><a href="https://www.nature.com/articles/35784" rel="external noopener" target="_blank">Botvinick, M., Cohen, J. (1998). Rubber hands 'feel' touch that eyes see.</a> Nature, 391, 756.</li>
+      <li><a href="https://www.illusionsindex.org/i/sound-induced-flash-illusion" rel="external noopener" target="_blank">Shams, L., Kamitani, Y., Shimojo, S. (2000). What you see is what you hear.</a> Nature, 408, 788 — via The Illusions Index.</li>
+      <li><a href="https://journals.sagepub.com/doi/10.1068/p281059" rel="external noopener" target="_blank">Simons, D.J., Chabris, C.F. (1999). Gorillas in our midst: sustained inattentional blindness for dynamic events.</a> Perception, 28(9), 1059–1074.</li>
+      <li><a href="https://www.millisecond.com/library/flickerparadigm" rel="external noopener" target="_blank">Rensink, R.A., O'Regan, J.K., Clark, J.J. (1997). To see or not to see: the need for attention to perceive changes in scenes.</a> Psychological Science, 8(5), 368–373 — flicker paradigm reference.</li>
+      <li><a href="https://www.audiology.org/the-cocktail-party-effect/" rel="external noopener" target="_blank">Cherry, E.C. (1953). Some experiments on the recognition of speech, with one and with two ears.</a> Journal of the Acoustical Society of America, 25(5), 975–979.</li>
+      <li><a href="https://irp.nih.gov/blog/post/2018/05/yanny-or-laurel-relax-everyones-a-winner" rel="external noopener" target="_blank">Yanny or Laurel? Relax. Everyone's a Winner.</a> NIH Intramural Research Program, 2018.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
+    <span><a href="/">Index</a> · <a href="/universal-waves">Universal Waves</a> · <a href="/music-mathematics">Music Is Mathematics</a> · <a href="/additive-wave-sculptor">Additive Wave Sculptor</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== 02: checker-shadow illusion ===================== */
+(function(){
+  var canvas = document.getElementById('checkerCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var cols = 8, rows = 6, cell = 40;
+  var originX = (W - cols*cell)/2, originY = (H - rows*cell)/2 - 20;
+
+  var LIGHT = 220, DARK = 100; // DARK = LIGHT*(1-SHADOW_ALPHA), see below
+  var SHADOW_ALPHA = 1 - DARK/LIGHT; // ≈ 0.545
+
+  // square A: a dark tile outside the shadow. square B: a light tile inside it.
+  var aCol = 1, aRow = 4;
+  var bCol = 5, bRow = 1;
+  var shadowCx = originX + 5.2*cell, shadowCy = originY + 2.3*cell, shadowR = 2.6*cell;
+
+  var showProof = false;
+
+  function cellCenter(col, row){
+    return { x: originX + col*cell + cell/2, y: originY + row*cell + cell/2 };
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    // checkerboard
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var isLight = (r+c)%2===0;
+        ctx.fillStyle = 'rgb('+(isLight?LIGHT:DARK)+','+(isLight?LIGHT:DARK)+','+(isLight?LIGHT:DARK)+')';
+        ctx.fillRect(originX+c*cell, originY+r*cell, cell, cell);
+      }
+    }
+    // cylinder (just a visual prop implying a light source and a caster)
+    ctx.fillStyle = '#6b8f6b';
+    ctx.beginPath();
+    ctx.ellipse(shadowCx - 1.4*cell, originY - 34, cell*0.55, 34, 0, 0, Math.PI*2);
+    ctx.fill();
+    // soft elliptical shadow
+    ctx.fillStyle = 'rgba(0,0,0,'+SHADOW_ALPHA+')';
+    ctx.beginPath();
+    ctx.ellipse(shadowCx, shadowCy, shadowR*1.15, shadowR*0.8, -0.15, 0, Math.PI*2);
+    ctx.fill();
+    // redraw the checkerboard cut to the shadow ellipse so squares under it look correctly shadowed
+    // (already handled by drawing the translucent ellipse on top of the flat colors above)
+
+    // labels
+    var aC = cellCenter(aCol, aRow), bC = cellCenter(bCol, bRow);
+    ctx.fillStyle = '#fff';
+    ctx.font = 'bold 15px IBM Plex Mono, monospace';
+    ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+    ctx.fillText('A', aC.x, aC.y);
+    ctx.fillText('B', bC.x, bC.y);
+
+    if(showProof){
+      ctx.strokeStyle = 'rgb('+DARK+','+DARK+','+DARK+')';
+      ctx.lineWidth = cell*0.62;
+      ctx.beginPath();
+      ctx.moveTo(aC.x, aC.y);
+      ctx.lineTo(aC.x, bC.y);
+      ctx.lineTo(bC.x, bC.y);
+      ctx.stroke();
+      ctx.fillStyle = '#fff';
+      ctx.fillText('A', aC.x, aC.y);
+      ctx.fillText('B', bC.x, bC.y);
+    }
+  }
+  draw();
+
+  document.getElementById('checkerProofBtn').addEventListener('click', function(){
+    showProof = !showProof;
+    this.textContent = showProof ? 'Hide the proof' : 'Prove it — connect A and B';
+    this.classList.toggle('on', showProof);
+    draw();
+  });
+  document.getElementById('checkerVal').textContent = DARK+', '+DARK+', '+DARK;
+})();
+
+/* ===================== 04: beta-movement apparent motion ===================== */
+(function(){
+  var canvas = document.getElementById('betaCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var W = canvas.width, H = canvas.height;
+  var leftX = W*0.32, rightX = W*0.68, cy = H/2, r = 16;
+  var playing = false, timer = null, showLeft = true, blank = false;
+
+  function drawDot(x){
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = '#c9c9c1'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(leftX,cy); ctx.lineTo(rightX,cy); ctx.stroke();
+    if(x!==null){
+      ctx.fillStyle = '#a13a2f';
+      ctx.beginPath(); ctx.arc(x, cy, r, 0, Math.PI*2); ctx.fill();
+    }
+  }
+  drawDot(leftX);
+
+  function tick(){
+    if(blank){ drawDot(null); }
+    else { drawDot(showLeft ? leftX : rightX); showLeft = !showLeft; }
+    blank = !blank;
+    var interval = parseInt(document.getElementById('betaSpeed').value, 10);
+    timer = setTimeout(tick, interval*0.55);
+  }
+
+  document.getElementById('betaPlayBtn').addEventListener('click', function(){
+    playing = !playing;
+    this.textContent = playing ? '■ Stop' : '▶ Start';
+    this.classList.toggle('on', playing);
+    if(playing){ blank=false; showLeft=true; tick(); }
+    else { if(timer) clearTimeout(timer); drawDot(leftX); showLeft = true; blank = false; }
+  });
+  document.getElementById('betaSpeed').addEventListener('input', function(){
+    document.getElementById('betaSpeedVal').textContent = this.value+' ms';
+  });
+})();
+
+/* ===================== shared Web Audio helper ===================== */
+var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+var actx = null;
+function actxGet(){ if(!actx) actx = new AudioCtxClass(); if(actx.state==='suspended') actx.resume(); return actx; }
+
+/* ===================== 05: missing fundamental ===================== */
+(function(){
+  var btn = document.getElementById('fundPlayBtn');
+  if(!btn) return;
+  var toggleBtn = document.getElementById('fundToggleBtn');
+  var row = document.getElementById('fundHarmRow');
+  var F0 = 220;
+  var N_HARM = 5; // fundamental + 4 overtones
+  var playing = false, nodes = null, fundamentalOn = true;
+  var dots = [];
+
+  for(var i=0;i<N_HARM;i++){
+    var wrap = document.createElement('div');
+    var dot = document.createElement('div'); dot.className = 'harm-dot active';
+    var lbl = document.createElement('span'); lbl.className = 'harm-label';
+    lbl.textContent = (i===0 ? '1×' : (i+1)+'×');
+    wrap.style.display = 'flex'; wrap.style.flexDirection = 'column'; wrap.style.alignItems='center'; wrap.style.gap='4px';
+    wrap.appendChild(dot); wrap.appendChild(lbl);
+    row.appendChild(wrap);
+    dots.push(dot);
+  }
+
+  function updateDots(){
+    dots[0].classList.toggle('active', fundamentalOn);
+    for(var i=1;i<N_HARM;i++) dots[i].classList.add('active');
+  }
+  updateDots();
+
+  function start(){
+    var c = actxGet();
+    var master = c.createGain(); master.gain.value = 0.18; master.connect(c.destination);
+    nodes = { master: master, oscs: [], gains: [] };
+    for(var i=0;i<N_HARM;i++){
+      var osc = c.createOscillator(); osc.type = 'sine'; osc.frequency.value = F0*(i+1);
+      var g = c.createGain(); g.gain.value = (i===0 ? (fundamentalOn?1:0) : 1) * (1/(i+1));
+      osc.connect(g); g.connect(master); osc.start();
+      nodes.oscs.push(osc); nodes.gains.push(g);
+    }
+  }
+  function stop(){
+    if(!nodes) return;
+    nodes.oscs.forEach(function(o){ try{ o.stop(); o.disconnect(); }catch(e){} });
+    nodes.gains.forEach(function(g){ try{ g.disconnect(); }catch(e){} });
+    try{ nodes.master.disconnect(); }catch(e){}
+    nodes = null;
+  }
+  btn.addEventListener('click', function(){
+    playing = !playing;
+    this.textContent = playing ? '■ Stop' : '▶ Play';
+    this.classList.toggle('on', playing);
+    if(playing) start(); else stop();
+  });
+  toggleBtn.addEventListener('click', function(){
+    fundamentalOn = !fundamentalOn;
+    this.textContent = 'Fundamental: ' + (fundamentalOn ? 'On' : 'Off');
+    this.classList.toggle('on', !fundamentalOn);
+    updateDots();
+    if(nodes) nodes.gains[0].gain.setTargetAtTime(fundamentalOn?1:0, actxGet().currentTime, 0.01);
+  });
+})();
+
+/* ===================== 06: Shepard tone + tritone paradox =====================
+   A bank of octave-spaced oscillators under a fixed Gaussian loudness
+   envelope over log-frequency. Sweeping the phase without bound and
+   periodically dropping any oscillator that has drifted out of range
+   back by N octaves — inaudibly, since the envelope is already ~0 out
+   there — is the standard Shepard-tone construction. */
+function buildOctaveBank(c, n, fBase){
+  var bank = { oscs:[], gains:[], expo:[] };
+  var master = c.createGain(); master.gain.value = 0.12; master.connect(c.destination);
+  bank.master = master;
+  for(var i=0;i<n;i++){
+    var osc = c.createOscillator(); osc.type = 'sine';
+    var g = c.createGain(); g.gain.value = 0;
+    osc.connect(g); g.connect(master); osc.start();
+    bank.oscs.push(osc); bank.gains.push(g); bank.expo.push(i);
+  }
+  bank.n = n; bank.fBase = fBase;
+  return bank;
+}
+function updateOctaveBank(bank, c, phase){
+  var n = bank.n;
+  for(var i=0;i<n;i++){
+    var expo = bank.expo[i] + phase;
+    if(expo > n) { bank.expo[i] -= n; expo -= n; }
+    if(expo < 0) { bank.expo[i] += n; expo += n; }
+    var freq = bank.fBase * Math.pow(2, expo);
+    var center = n/2, width = n/3.6;
+    var amp = Math.exp(-0.5*Math.pow((expo-center)/width, 2));
+    bank.oscs[i].frequency.setValueAtTime(freq, c.currentTime);
+    bank.gains[i].gain.setTargetAtTime(amp, c.currentTime, 0.02);
+  }
+}
+function stopOctaveBank(bank){
+  bank.oscs.forEach(function(o){ try{ o.stop(); o.disconnect(); }catch(e){} });
+  bank.gains.forEach(function(g){ try{ g.disconnect(); }catch(e){} });
+  try{ bank.master.disconnect(); }catch(e){}
+}
+
+(function(){
+  var btn = document.getElementById('shepardPlayBtn');
+  if(!btn) return;
+  var speedEl = document.getElementById('shepardSpeed');
+  var speedVal = document.getElementById('shepardSpeedVal');
+  var stat = document.getElementById('shepardStat');
+  var N = 10, FBASE = 27.5; // A0
+  var playing = false, bank = null, phase = 0, timer = null;
+
+  function loop(){
+    var c = actxGet();
+    var rate = parseFloat(speedEl.value)/100; // -1..1
+    phase += rate * 0.06;
+    updateOctaveBank(bank, c, phase);
+    timer = setTimeout(loop, 40);
+  }
+  btn.addEventListener('click', function(){
+    playing = !playing;
+    this.textContent = playing ? '■ Stop' : '▶ Play';
+    this.classList.toggle('on', playing);
+    if(playing){
+      var c = actxGet();
+      bank = buildOctaveBank(c, N, FBASE);
+      phase = 0;
+      loop();
+      stat.textContent = 'playing';
+    } else {
+      if(timer) clearTimeout(timer);
+      if(bank) stopOctaveBank(bank);
+      bank = null;
+      stat.textContent = '';
+    }
+  });
+  speedEl.addEventListener('input', function(){
+    var v = parseFloat(this.value);
+    speedVal.textContent = v>2 ? 'rising' : v<-2 ? 'falling' : 'holding';
+  });
+})();
+
+(function(){
+  var btn = document.getElementById('tritonePlayBtn');
+  if(!btn) return;
+  var stat = document.getElementById('tritoneStat');
+  var N = 10, FBASE = 27.5;
+  function playChord(semitoneOffset, duration){
+    return new Promise(function(resolve){
+      var c = actxGet();
+      var bank = buildOctaveBank(c, N, FBASE * Math.pow(2, semitoneOffset/12));
+      updateOctaveBank(bank, c, 0);
+      setTimeout(function(){ stopOctaveBank(bank); resolve(); }, duration);
+    });
+  }
+  btn.addEventListener('click', function(){
+    if(btn.disabled) return;
+    btn.disabled = true;
+    stat.textContent = 'playing C …';
+    playChord(0, 700).then(function(){
+      return new Promise(function(r){ setTimeout(r, 220); });
+    }).then(function(){
+      stat.textContent = 'playing F♯ …';
+      return playChord(6, 700);
+    }).then(function(){
+      stat.textContent = 'Higher, or lower? Both answers are common — that\'s the paradox.';
+      btn.disabled = false;
+    });
+  });
+})();
+
+})();
+</script>
+
+</body>
+</html>
