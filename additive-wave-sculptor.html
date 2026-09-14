@@ -188,12 +188,12 @@ footer a:hover{color:var(--ink);}
   <h2>What this actually is</h2>
   <p>This is <strong>additive synthesis</strong> — building a complex periodic wave out of nothing but sine waves at integer multiples of a fundamental frequency (harmonics), each scaled by its own <strong>amplitude</strong> and shifted by its own <strong>phase</strong>. It's the same idea a pipe organ uses stacking ranks of pipes, and it's exactly how a Fourier series describes any repeating shape: a square wave is just the odd harmonics falling off as 1/k, a sawtooth is every harmonic falling off as 1/k with alternating phase, and a triangle is the odd harmonics falling off as 1/k² with alternating phase. Pick a preset and watch the spectrum bars show you that recipe directly.</p>
   <p>It's the second instrument in the family <a href="/palette-synth">Palette Synth</a> started — both sculpt a continuous shape by summing periodic terms with tunable coefficients, just in a different domain: Palette Synth sums <strong>cosines across three color channels</strong> to make a gradient, this one sums <strong>sines across eight harmonic channels</strong> to make a waveform. Same generative principle — offset/amplitude/frequency/phase-style coefficients feeding a trig sum — reused rather than reinvented, per the family's own rule.</p>
-  <p>Two more visual synths are still ahead in the roadmap: a <strong>Lissajous / harmonograph plotter</strong> — up next, tracing the (x,y) curve two of these same sine sums draw against each other — an <strong>audio-reactive reaction-diffusion instrument</strong>, and a <strong>complex-plane fractal mapper</strong>. This instrument's harmonic-sum engine is what the Lissajous plotter will reuse for each axis.</p>
+  <p>The rest of the roadmap is built too: the <a href="/lissajous-plotter">Lissajous / Harmonograph Plotter</a> reuses this exact two-term harmonic sum for its X and Y axes, plotting them against each other instead of against time; the <a href="/audio-reactive-diffusion">Audio-Reactive Reaction-Diffusion</a> instrument and the <a href="/complex-fractal-mapper">Complex-Plane Fractal Mapper</a> close out the family.</p>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/palette-synth">Palette Synth</a> · <a href="/patch-bay">Patch Bay</a> · <a href="/signal-chain">Signal Chain</a></span>
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/palette-synth">Palette Synth</a> · <a href="/lissajous-plotter">Lissajous Plotter</a> · <a href="/audio-reactive-diffusion">Audio-Reactive Diffusion</a> · <a href="/complex-fractal-mapper">Fractal Mapper</a></span>
   </div>
 </footer>
 
