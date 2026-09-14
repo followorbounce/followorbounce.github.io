@@ -11,13 +11,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulse Train II — Knowledge Network</title>
-<meta name="description" content="A second precision/microsound synth on Pulse Train's universal-node rule — a companion sine generator, an infinite-freeze delay, a short-delay comb resonator, and a synthetic-impulse digital reverb. Same minimal/glitch palette, three new textures.">
+<meta name="description" content="A ten-unit precision/microsound synth on Pulse Train's universal-node rule — Tone, Rhythm, Crush, Ring, and Field ported over, plus a second Tone, an infinite-freeze delay, a short-delay comb resonator, and a synthetic-impulse digital reverb. Same minimal/glitch palette.">
 <link rel="canonical" href="https://followorbounce.github.io/pulse-train-ii">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pulse Train II — Knowledge Network">
-<meta property="og:description" content="A companion tone generator plus freeze, comb, and synthetic-reverb effects — Pulse Train's minimal/glitch palette, three new textures.">
+<meta property="og:description" content="Ten units on Pulse Train's universal-node rule — Tone, Rhythm, Crush, Ring, and Field, plus a second Tone, an infinite-freeze delay, a comb resonator, and a synthetic-impulse reverb.">
 <meta property="og:url" content="https://followorbounce.github.io/pulse-train-ii">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -28,7 +28,8 @@
   --ink:#F5F5F0; --ink-soft:#9A9A94; --ink-faint:#5C5C58;
   --line:#262626; --line-strong:#3A3A3A;
   --led-off:#2A2A2A; --led-on:#FF4136; --led-glow:rgba(255,65,54,0.5);
-  --c-tone2:#FF4136; --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0;
+  --c-tone:#FF8C42; --c-tone2:#FF4136; --c-rhythm:#D8D0C0; --c-crush:#39CCCC; --c-ring:#8B7FB8; --c-field:#6FA98A;
+  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0;
   --font-display:'Space Mono', ui-monospace, monospace;
   --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
   --font-body:'Space Mono', ui-monospace, monospace;
@@ -82,7 +83,9 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 
 .module{background:var(--board2); border:1px solid var(--line-strong); border-radius:8px 8px 4px 4px; padding:10px; position:relative; box-shadow:0 3px 0 rgba(0,0,0,0.5);}
 .module::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px; background:var(--acc);}
-.module.n-tone2{--acc:var(--c-tone2);} .module.n-freeze{--acc:var(--c-freeze);} .module.n-comb{--acc:var(--c-comb);}
+.module.n-tone{--acc:var(--c-tone);} .module.n-tone2{--acc:var(--c-tone2);} .module.n-rhythm{--acc:var(--c-rhythm);}
+.module.n-crush{--acc:var(--c-crush);} .module.n-ring{--acc:var(--c-ring);} .module.n-field{--acc:var(--c-field);}
+.module.n-freeze{--acc:var(--c-freeze);} .module.n-comb{--acc:var(--c-comb);}
 .module.n-space{--acc:var(--c-space);} .module.n-output{--acc:var(--c-output);}
 .module .mhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; padding-top:4px;}
 .module .mname{font-family:var(--font-display); font-weight:700; font-size:16px; letter-spacing:0.03em; text-transform:uppercase; color:var(--acc);}
@@ -200,7 +203,7 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Precision / Microsound Synthesis</div>
     <h1>Pulse Train II</h1>
-    <p>A second board in <a href="/pulse-train">Pulse Train</a>'s palette rather than more of the same units — a companion sine generator, and three effects that weren't there yet: a delay pushed toward <strong>infinite freeze</strong> instead of an echo, a short feedback delay tuned as a <strong>metallic comb resonator</strong>, and a digital reverb built from a synthesized impulse response instead of a recorded room. Same universal-node rule as Pulse Train and Signal Chain — <strong>every unit is both an input and an output</strong> — same minimal/glitch lineage. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span></p>
+    <p>A bigger board in <a href="/pulse-train">Pulse Train</a>'s palette: <strong>Tone</strong>, <strong>Rhythm</strong>, <strong>Crush</strong>, <strong>Ring</strong>, and <strong>Field</strong> carried over, alongside a second Tone and three effects that weren't there yet — a delay pushed toward <strong>infinite freeze</strong> instead of an echo, a short feedback delay tuned as a <strong>metallic comb resonator</strong>, and a digital reverb built from a synthesized impulse response instead of a recorded room. Same universal-node rule as Pulse Train and Signal Chain — <strong>every unit is both an input and an output</strong> — same minimal/glitch lineage. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span></p>
   </div>
 </section>
 
@@ -229,6 +232,88 @@ footer a:hover{color:var(--ink);}
 <div class="rackwrap wrap">
   <div class="rack" id="rack">
     <svg id="cableSvg"></svg>
+
+    <!-- TONE -->
+    <div class="module n-tone" data-mod="tone">
+      <div class="mhead"><span class="mname">Tone</span><button class="fswitch engaged" data-bypass="tone" aria-label="Bypass Tone"><span class="led"></span></button></div>
+      <span class="mtag">pure sine · fm input</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="tone.pitch" data-min="40" data-max="2000" data-default="220" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="tone.pitch">220</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="tone.ratio" data-min="0.25" data-max="2" data-default="0.5"><div class="ind"></div></div><span class="klabel">ratio</span><span class="kval" data-kval="tone.ratio">0.5</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="tone.level" data-min="0" data-max="100" data-default="70"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="tone.level">70</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="toneScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="tone.in"><span class="nub"></span>in · fm</div></div>
+        <div class="jackgroup">
+          <div class="jack out" data-jack="tone.out"><span class="nub"></span>out</div>
+          <div class="jack out" data-jack="tone.out2"><span class="nub"></span>ratio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- RHYTHM -->
+    <div class="module n-rhythm" data-mod="rhythm">
+      <div class="mhead"><span class="mname">Rhythm</span><button class="fswitch engaged" data-bypass="rhythm" aria-label="Bypass Rhythm"><span class="led"></span></button></div>
+      <span class="mtag">impulse · edge-triggered</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="rhythm.rate" data-min="0" data-max="100" data-default="50"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="rhythm.rate">50</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="rhythm.width" data-min="0" data-max="100" data-default="15"><div class="ind"></div></div><span class="klabel">width</span><span class="kval" data-kval="rhythm.width">15</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="rhythm.repeat" data-min="0" data-max="60" data-default="15"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="rhythm.repeat">15</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="rhythm.level" data-min="0" data-max="100" data-default="80"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="rhythm.level">80</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="rhythmScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="rhythm.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="rhythm.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- CRUSH -->
+    <div class="module n-crush" data-mod="crush">
+      <div class="mhead"><span class="mname">Crush</span><button class="fswitch engaged" data-bypass="crush" aria-label="Bypass Crush"><span class="led"></span></button></div>
+      <span class="mtag">bit reduction · gate</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="crush.bits" data-min="1" data-max="8" data-default="4" data-step="1"><div class="ind"></div></div><span class="klabel">bits</span><span class="kval" data-kval="crush.bits">4</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="crush.gate" data-min="0.5" data-max="200" data-default="20" data-log="1"><div class="ind"></div></div><span class="klabel">gate</span><span class="kval" data-kval="crush.gate">20</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="crush.mix" data-min="0" data-max="100" data-default="100"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="crush.mix">100</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="crushScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="crush.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="crush.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- RING -->
+    <div class="module n-ring" data-mod="ring">
+      <div class="mhead"><span class="mname">Ring</span><button class="fswitch engaged" data-bypass="ring" aria-label="Bypass Ring"><span class="led"></span></button></div>
+      <span class="mtag">ring modulation</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="ring.freq" data-min="20" data-max="2000" data-default="220" data-log="1"><div class="ind"></div></div><span class="klabel">freq</span><span class="kval" data-kval="ring.freq">220</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="ring.mix" data-min="0" data-max="100" data-default="100"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="ring.mix">100</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="ringScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="ring.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="ring.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- FIELD -->
+    <div class="module n-field" data-mod="field">
+      <div class="mhead"><span class="mname">Field</span><button class="fswitch engaged" data-bypass="field" aria-label="Bypass Field"><span class="led"></span></button></div>
+      <span class="mtag">stepped stereo panner</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="field.rate" data-min="0.05" data-max="10" data-default="0.8" data-log="1"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="field.rate">0.8</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="field.steps" data-min="2" data-max="8" data-default="2" data-step="1"><div class="ind"></div></div><span class="klabel">steps</span><span class="kval" data-kval="field.steps">2</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="fieldScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="field.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="field.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
 
     <!-- TONE II -->
     <div class="module n-tone2" data-mod="tone2">
@@ -316,9 +401,8 @@ footer a:hover{color:var(--ink);}
 
 <section class="about wrap">
   <h2>How this actually works</h2>
-  <p><strong>The same universal-node rule as <a href="/pulse-train">Pulse Train</a> and <a href="/signal-chain">Signal Chain</a>.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass. This board doesn't repeat Pulse Train's units — no second Click, no second Ring — it adds three effects that weren't in the family yet, plus a second <strong>Tone</strong> (identical design to Pulse Train's: an undistorted sine, hard-clipped only as a feedback-loop safety net, with a second output running at a knob-set frequency ratio instead of a fixed octave).</p>
-  <p><strong>Freeze</strong> is a delay pushed somewhere Signal Chain's Echo never goes: <code>feedback</code> runs up to 98%, not the usual 80-90%, so instead of a decaying repeat you get a loop that barely decays at all — whatever was in the delay line when you turned the knob up keeps cycling almost indefinitely. <strong>Comb</strong> uses the same feedback-delay idea at a completely different time scale: delay times short enough to be inaudible as separate echoes (down to half a millisecond) reinforce or cancel specific frequencies instead, the classic comb-filtering effect behind physical-modeling and Karplus-Strong-style synthesis — the <code>freq</code> knob sets delay time to <code>1/freq</code> internally, so it reads as a pitch, not a time.</p>
-  <p><strong>Space</strong> is the site's first use of a <code>ConvolverNode</code>: rather than recording a real room, it synthesizes its own impulse response on the fly — filtered noise shaped by an exponential decay envelope, regenerated whenever the <code>size</code> knob moves — and convolves the input against that. It's a real convolution reverb, just built from math instead of a microphone in a cathedral, which keeps it in the same "cold, precise, digital" register as everything else in this family rather than reaching for lush analog warmth.</p>
+  <p><strong>The same universal-node rule as <a href="/pulse-train">Pulse Train</a> and <a href="/signal-chain">Signal Chain</a>.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass. Ten units now: <strong>Tone</strong> and <strong>Tone II</strong> are a pair, identical design to Pulse Train's Tone (an undistorted sine, hard-clipped only as a feedback-loop safety net, with a second output running at a knob-set frequency ratio instead of a fixed octave). <strong>Rhythm</strong> is Pulse Train's Click ported over under a different name — the same pure impulse, edge-triggered via its own <code>in</code> the same way Click and Sonar are. <strong>Crush</strong> (bit-depth staircase quantization plus an audio-rate square gate), <strong>Ring</strong> (true ring modulation via an oscillator driving a gain node's own AudioParam), and <strong>Field</strong> (a panner whose LFO is quantized into 2-8 hard positions) are the same three units as Pulse Train, unchanged.</p>
+  <p>The three units that are new to this board: <strong>Freeze</strong> is a delay pushed somewhere Signal Chain's Echo never goes — <code>feedback</code> runs up to 98%, not the usual 80-90%, so instead of a decaying repeat you get a loop that barely decays at all, whatever was in the delay line when you turned the knob up cycling almost indefinitely. <strong>Comb</strong> uses the same feedback-delay idea at a completely different time scale: delay times short enough to be inaudible as separate echoes (down to half a millisecond) reinforce or cancel specific frequencies instead, the classic comb-filtering effect behind physical-modeling and Karplus-Strong-style synthesis — its <code>freq</code> knob sets delay time to <code>1/freq</code> internally, so it reads as a pitch, not a time. <strong>Space</strong> is the site's first use of a <code>ConvolverNode</code>: rather than recording a real room, it synthesizes its own impulse response on the fly — filtered noise shaped by an exponential decay envelope, regenerated whenever the <code>size</code> knob moves — and convolves the input against that, a real convolution reverb built from math instead of a microphone in a cathedral.</p>
   <p><strong>Feedback loops are allowed on purpose</strong>, same as Pulse Train and Signal Chain: Output's own <code>out</code> can patch back into the board, and the compressor and hard limiter before the speakers exist specifically so that stays loud, not dangerous. Freeze in particular can build up fast in a feedback patch — start low.</p>
 </section>
 
@@ -367,6 +451,19 @@ function buildHardClipCurve(){
   for(var i=0;i<n;i++){ var x = i/(n-1)*2-1; curve[i] = Math.max(-0.92, Math.min(0.92, x)); }
   return curve;
 }
+/* A staircase curve: quantizes a continuous input into `steps` flat bands —
+   ported from Pulse Train, where Crush uses it on the audio signal itself
+   (bit-depth reduction) and Field uses the same shape on an LFO to turn a
+   smooth sweep into a fixed number of discrete pan positions. */
+function buildStaircaseCurve(steps){
+  var n = 1024, curve = new Float32Array(n);
+  var levels = Math.max(1, Math.round(steps));
+  for(var i=0;i<n;i++){
+    var x = i/(n-1)*2-1;
+    curve[i] = Math.round(x*levels)/levels;
+  }
+  return curve;
+}
 /* A short synthetic impulse response: filtered noise under an exponential
    decay envelope, regenerated whenever `size` moves — a real convolution
    reverb built from math instead of a room recording. */
@@ -385,6 +482,141 @@ function buildImpulseResponse(c, seconds, decaySteep){
 
 function build(){
   var c = ctx();
+
+  /* ---- TONE (ported from Pulse Train, identical design) ---- */
+  var toneIn = c.createGain(); toneIn.gain.value = 1;
+  var toneOsc = c.createOscillator(); toneOsc.type='sine'; toneOsc.frequency.value = 220;
+  var toneFMDepth = c.createGain(); toneFMDepth.gain.value = 260;
+  toneIn.connect(toneFMDepth); toneFMDepth.connect(toneOsc.frequency);
+  var toneShaper = c.createWaveShaper(); toneShaper.curve = buildHardClipCurve();
+  toneOsc.connect(toneShaper); toneOsc.start();
+  var toneLevel = c.createGain(); toneLevel.gain.value = 0.7;
+  toneShaper.connect(toneLevel);
+  var toneBypassGain = c.createGain(); toneBypassGain.gain.value = 0;
+  var toneWetGain = c.createGain(); toneWetGain.gain.value = 1;
+  toneIn.connect(toneBypassGain); toneLevel.connect(toneWetGain);
+  var toneOut = c.createGain();
+  toneBypassGain.connect(toneOut); toneWetGain.connect(toneOut);
+
+  var toneRatioOsc = c.createOscillator(); toneRatioOsc.type='sine'; toneRatioOsc.frequency.value = 110;
+  var toneRatioShaper = c.createWaveShaper(); toneRatioShaper.curve = buildHardClipCurve();
+  toneRatioOsc.connect(toneRatioShaper); toneRatioOsc.start();
+  var toneRatioLevel = c.createGain(); toneRatioLevel.gain.value = 0.55;
+  toneRatioShaper.connect(toneRatioLevel);
+  var toneBypassGain2 = c.createGain(); toneBypassGain2.gain.value = 0;
+  var toneWetGain2 = c.createGain(); toneWetGain2.gain.value = 1;
+  toneIn.connect(toneBypassGain2); toneRatioLevel.connect(toneWetGain2);
+  var toneOut2 = c.createGain();
+  toneBypassGain2.connect(toneOut2); toneWetGain2.connect(toneOut2);
+
+  var toneAnalyser = c.createAnalyser(); toneAnalyser.fftSize = 512; toneOut.connect(toneAnalyser);
+  nodes.tone = {
+    inNode:toneIn, osc:toneOsc, ratioOsc:toneRatioOsc, level:toneLevel, ratioLevel:toneRatioLevel,
+    bypassGain:toneBypassGain, wetGain:toneWetGain, bypassGain2:toneBypassGain2, wetGain2:toneWetGain2,
+    outNode:toneOut, outNode2:toneOut2, analyser:toneAnalyser, bypassed:false, pitch:220, ratio:0.5
+  };
+
+  /* ---- RHYTHM (ported from Pulse Train's Click design) — a pure
+     impulse, not a tone: a highpassed noise burst gated by a near-
+     instant attack / fast decay envelope, repeated on a short exact
+     delay, edge-triggered via its own `in` the same way Click is. ---- */
+  var rhythmIn = c.createGain(); rhythmIn.gain.value = 1;
+  var rhythmBuf = c.createBuffer(1, c.sampleRate, c.sampleRate);
+  var rd = rhythmBuf.getChannelData(0);
+  for(var ri=0; ri<rd.length; ri++) rd[ri] = Math.random()*2-1;
+  var rhythmSrc = c.createBufferSource(); rhythmSrc.buffer = rhythmBuf; rhythmSrc.loop = true;
+  var rhythmHP = c.createBiquadFilter(); rhythmHP.type='highpass'; rhythmHP.frequency.value = 6000;
+  rhythmSrc.connect(rhythmHP); rhythmSrc.start();
+  var rhythmClickEnv = c.createGain(); rhythmClickEnv.gain.value = 0;
+  rhythmHP.connect(rhythmClickEnv);
+  var rhythmDelay = c.createDelay(0.5); rhythmDelay.delayTime.value = 0.06;
+  var rhythmFeedback = c.createGain(); rhythmFeedback.gain.value = 0.14;
+  var rhythmMix = c.createGain();
+  rhythmClickEnv.connect(rhythmMix); rhythmClickEnv.connect(rhythmDelay);
+  rhythmDelay.connect(rhythmFeedback); rhythmFeedback.connect(rhythmDelay); rhythmDelay.connect(rhythmMix);
+  var rhythmLevel = c.createGain(); rhythmLevel.gain.value = 0.8;
+  rhythmMix.connect(rhythmLevel);
+  var rhythmBypassGain = c.createGain(); rhythmBypassGain.gain.value = 0;
+  var rhythmWetGain = c.createGain(); rhythmWetGain.gain.value = 1;
+  rhythmIn.connect(rhythmBypassGain); rhythmLevel.connect(rhythmWetGain);
+  var rhythmOut = c.createGain();
+  rhythmBypassGain.connect(rhythmOut); rhythmWetGain.connect(rhythmOut);
+  var rhythmInAnalyser = c.createAnalyser(); rhythmInAnalyser.fftSize = 256; rhythmIn.connect(rhythmInAnalyser);
+  var rhythmAnalyser = c.createAnalyser(); rhythmAnalyser.fftSize = 512; rhythmOut.connect(rhythmAnalyser);
+  nodes.rhythm = {
+    inNode:rhythmIn, clickEnv:rhythmClickEnv, feedback:rhythmFeedback, level:rhythmLevel,
+    bypassGain:rhythmBypassGain, wetGain:rhythmWetGain, outNode:rhythmOut,
+    analyser:rhythmAnalyser, inAnalyser:rhythmInAnalyser, prevPeak:0, lastTrig:0,
+    rate:50, width:15, repeat:15, timer:null, bypassed:false
+  };
+
+  /* ---- CRUSH (ported from Pulse Train): bit-depth staircase + an
+     audio-rate square gate. ---- */
+  var crushIn = c.createGain(); crushIn.gain.value = 1;
+  var crushShaper = c.createWaveShaper(); crushShaper.curve = buildStaircaseCurve(16); crushShaper.oversample='none';
+  var crushGateOsc = c.createOscillator(); crushGateOsc.type='square'; crushGateOsc.frequency.value = 20;
+  var crushGateNode = c.createGain(); crushGateNode.gain.value = 0.5;
+  crushGateOsc.connect(crushGateNode.gain); crushGateOsc.start();
+  crushIn.connect(crushShaper); crushShaper.connect(crushGateNode);
+  var crushWetMix = c.createGain(); crushWetMix.gain.value = 1;
+  var crushDryMix = c.createGain(); crushDryMix.gain.value = 0;
+  crushGateNode.connect(crushWetMix); crushIn.connect(crushDryMix);
+  var crushSum = c.createGain(); crushWetMix.connect(crushSum); crushDryMix.connect(crushSum);
+  var crushBypassGain = c.createGain(); crushBypassGain.gain.value = 0;
+  var crushWetGain = c.createGain(); crushWetGain.gain.value = 1;
+  crushIn.connect(crushBypassGain); crushSum.connect(crushWetGain);
+  var crushOut = c.createGain();
+  crushBypassGain.connect(crushOut); crushWetGain.connect(crushOut);
+  var crushAnalyser = c.createAnalyser(); crushAnalyser.fftSize = 512; crushOut.connect(crushAnalyser);
+  nodes.crush = {
+    inNode:crushIn, shaper:crushShaper, gateOsc:crushGateOsc, wetMix:crushWetMix, dryMix:crushDryMix,
+    bypassGain:crushBypassGain, wetGain:crushWetGain, outNode:crushOut, analyser:crushAnalyser, bypassed:false
+  };
+
+  /* ---- RING (ported from Pulse Train): true ring modulation via an
+     oscillator driving a GainNode's own gain AudioParam. ---- */
+  var ringIn = c.createGain(); ringIn.gain.value = 1;
+  var ringOsc = c.createOscillator(); ringOsc.type='sine'; ringOsc.frequency.value = 220;
+  var ringModGain = c.createGain(); ringModGain.gain.value = 0;
+  ringOsc.connect(ringModGain.gain); ringOsc.start();
+  ringIn.connect(ringModGain);
+  var ringWetMix = c.createGain(); ringWetMix.gain.value = 1;
+  var ringDryMix = c.createGain(); ringDryMix.gain.value = 0;
+  ringModGain.connect(ringWetMix); ringIn.connect(ringDryMix);
+  var ringSum = c.createGain(); ringWetMix.connect(ringSum); ringDryMix.connect(ringSum);
+  var ringBypassGain = c.createGain(); ringBypassGain.gain.value = 0;
+  var ringWetGain = c.createGain(); ringWetGain.gain.value = 1;
+  ringIn.connect(ringBypassGain); ringSum.connect(ringWetGain);
+  var ringOut = c.createGain();
+  ringBypassGain.connect(ringOut); ringWetGain.connect(ringOut);
+  var ringAnalyser = c.createAnalyser(); ringAnalyser.fftSize = 512; ringOut.connect(ringAnalyser);
+  nodes.ring = {
+    inNode:ringIn, osc:ringOsc, wetMix:ringWetMix, dryMix:ringDryMix,
+    bypassGain:ringBypassGain, wetGain:ringWetGain, outNode:ringOut, analyser:ringAnalyser, bypassed:false
+  };
+
+  /* ---- FIELD (ported from Pulse Train): a panner whose LFO is
+     quantized through the same staircase curve Crush uses on audio, so
+     it jumps between a fixed number of hard positions. ---- */
+  var fieldIn = c.createGain(); fieldIn.gain.value = 1;
+  var fieldLFO = c.createOscillator(); fieldLFO.type='sine'; fieldLFO.frequency.value = 0.8;
+  var fieldStair = c.createWaveShaper(); fieldStair.curve = buildStaircaseCurve(2); fieldStair.oversample='none';
+  var fieldDepth = c.createGain(); fieldDepth.gain.value = 1;
+  var panner = c.createStereoPanner ? c.createStereoPanner() : null;
+  fieldLFO.connect(fieldStair);
+  if(panner){ fieldStair.connect(fieldDepth); fieldDepth.connect(panner.pan); fieldIn.connect(panner); }
+  fieldLFO.start();
+  var fieldWetOut = panner || fieldIn;
+  var fieldBypassGain = c.createGain(); fieldBypassGain.gain.value = 0;
+  var fieldWetGain = c.createGain(); fieldWetGain.gain.value = 1;
+  fieldIn.connect(fieldBypassGain); fieldWetOut.connect(fieldWetGain);
+  var fieldOut = c.createGain();
+  fieldBypassGain.connect(fieldOut); fieldWetGain.connect(fieldOut);
+  var fieldAnalyser = c.createAnalyser(); fieldAnalyser.fftSize = 512; fieldOut.connect(fieldAnalyser);
+  nodes.field = {
+    inNode:fieldIn, lfo:fieldLFO, stair:fieldStair, panner:panner,
+    bypassGain:fieldBypassGain, wetGain:fieldWetGain, outNode:fieldOut, analyser:fieldAnalyser, bypassed:false, steps:2
+  };
 
   /* ---- TONE II (identical design to Pulse Train's Tone) ---- */
   var tone2In = c.createGain(); tone2In.gain.value = 1;
@@ -511,6 +743,17 @@ function build(){
 
 /* ===================== patch connections (one universal jack kind) ===================== */
 var JACKS = {
+  'tone.in':{dir:'in', target:function(){ return nodes.tone.inNode; }},
+  'tone.out':{dir:'out', get:function(){ return nodes.tone.outNode; }},
+  'tone.out2':{dir:'out', get:function(){ return nodes.tone.outNode2; }},
+  'rhythm.in':{dir:'in', target:function(){ return nodes.rhythm.inNode; }},
+  'rhythm.out':{dir:'out', get:function(){ return nodes.rhythm.outNode; }},
+  'crush.in':{dir:'in', target:function(){ return nodes.crush.inNode; }},
+  'crush.out':{dir:'out', get:function(){ return nodes.crush.outNode; }},
+  'ring.in':{dir:'in', target:function(){ return nodes.ring.inNode; }},
+  'ring.out':{dir:'out', get:function(){ return nodes.ring.outNode; }},
+  'field.in':{dir:'in', target:function(){ return nodes.field.inNode; }},
+  'field.out':{dir:'out', get:function(){ return nodes.field.outNode; }},
   'tone2.in':{dir:'in', target:function(){ return nodes.tone2.inNode; }},
   'tone2.out':{dir:'out', get:function(){ return nodes.tone2.outNode; }},
   'tone2.out2':{dir:'out', get:function(){ return nodes.tone2.outNode2; }},
@@ -524,6 +767,7 @@ var JACKS = {
   'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }}
 };
 var MODULE_COLOR = {
+  tone:'#FF8C42', rhythm:'#D8D0C0', crush:'#39CCCC', ring:'#8B7FB8', field:'#6FA98A',
   tone2:'#FF4136', freeze:'#7FB8D8', comb:'#C9A227', space:'#6B6B8C', output:'#F5F5F0'
 };
 function moduleOf(jackId){ return jackId.split('.')[0]; }
@@ -565,6 +809,39 @@ document.querySelectorAll('.fswitch').forEach(function(btn){
     setBypass(id, !nodes[id].bypassed);
   });
 });
+
+/* ===================== rhythm pulse (ported from Pulse Train's Click) =====================
+   A static, cold envelope on an exact, unjittered interval — same
+   reasoning as Click/Sonar: a precise grid reads as more deliberate
+   than a "humanized" one here. */
+function triggerRhythm(){
+  var n = nodes.rhythm, c = ctx(), now = c.currentTime;
+  var decay = 0.001 + (n.width/100)*0.05;
+  var cg = n.clickEnv.gain;
+  cg.cancelScheduledValues(now); cg.setValueAtTime(0, now); cg.linearRampToValueAtTime(0.7, now+0.0003); cg.setTargetAtTime(0, now+0.0008, decay);
+}
+function scheduleRhythm(){
+  var n = nodes.rhythm;
+  if(!n.bypassed) triggerRhythm();
+  var speed = n.rate/100;
+  var interval = 900 - speed*820;
+  n.timer = setTimeout(scheduleRhythm, interval);
+}
+/* Any signal patched into Rhythm's own "in" is watched for a rising edge
+   and fires an extra pulse on top of its auto-clock — same technique as
+   Click/Sonar, reused verbatim. */
+function checkEdgeTrigger(state, analyser, triggerFn){
+  if(!state._buf) state._buf = new Uint8Array(analyser.fftSize);
+  analyser.getByteTimeDomainData(state._buf);
+  var peak = 0;
+  for(var i=0;i<state._buf.length;i++){ var d = Math.abs(state._buf[i]-128); if(d>peak) peak = d; }
+  var now = performance.now();
+  if(peak > 26 && state.prevPeak <= 26 && (now - state.lastTrig) > 90){
+    triggerFn();
+    state.lastTrig = now;
+  }
+  state.prevPeak = peak;
+}
 
 /* ===================== cable drawing / patching UI =====================
    Fully generic over JACKS/connections — identical to Patch Bay / Signal
@@ -735,7 +1012,21 @@ function renderConnList(){
 
 /* ===================== knobs ===================== */
 function paramSet(path, val){
-  if(path==='tone2.pitch'){ nodes.tone2.pitch = val; nodes.tone2.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.tone2.ratioOsc.frequency.setTargetAtTime(val*nodes.tone2.ratio, ctx().currentTime, 0.01); }
+  if(path==='tone.pitch'){ nodes.tone.pitch = val; nodes.tone.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.tone.ratioOsc.frequency.setTargetAtTime(val*nodes.tone.ratio, ctx().currentTime, 0.01); }
+  else if(path==='tone.ratio'){ nodes.tone.ratio = val; nodes.tone.ratioOsc.frequency.setTargetAtTime(nodes.tone.pitch*val, ctx().currentTime, 0.01); }
+  else if(path==='tone.level'){ nodes.tone.level.gain.setTargetAtTime(val/100*0.7, ctx().currentTime, 0.01); nodes.tone.ratioLevel.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.01); }
+  else if(path==='rhythm.rate'){ nodes.rhythm.rate = val; }
+  else if(path==='rhythm.width'){ nodes.rhythm.width = val; }
+  else if(path==='rhythm.repeat'){ nodes.rhythm.repeat = val; nodes.rhythm.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
+  else if(path==='rhythm.level'){ nodes.rhythm.level.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); }
+  else if(path==='crush.bits'){ nodes.crush.shaper.curve = buildStaircaseCurve(Math.pow(2, val)); }
+  else if(path==='crush.gate'){ nodes.crush.gateOsc.frequency.setTargetAtTime(val, ctx().currentTime, 0.005); }
+  else if(path==='crush.mix'){ nodes.crush.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.crush.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
+  else if(path==='ring.freq'){ nodes.ring.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='ring.mix'){ nodes.ring.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.ring.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
+  else if(path==='field.rate'){ nodes.field.lfo.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='field.steps'){ nodes.field.steps = val; nodes.field.stair.curve = buildStaircaseCurve(val/2); }
+  else if(path==='tone2.pitch'){ nodes.tone2.pitch = val; nodes.tone2.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.tone2.ratioOsc.frequency.setTargetAtTime(val*nodes.tone2.ratio, ctx().currentTime, 0.01); }
   else if(path==='tone2.ratio'){ nodes.tone2.ratio = val; nodes.tone2.ratioOsc.frequency.setTargetAtTime(nodes.tone2.pitch*val, ctx().currentTime, 0.01); }
   else if(path==='tone2.level'){ nodes.tone2.level.gain.setTargetAtTime(val/100*0.7, ctx().currentTime, 0.01); nodes.tone2.ratioLevel.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.01); }
   else if(path==='freeze.time'){ nodes.freeze.delay.delayTime.setTargetAtTime(val, ctx().currentTime, 0.01); }
@@ -840,6 +1131,11 @@ function makeScopeDrawer(canvasId, analyser, color){
 }
 function drawScopes(){
   var draws = [
+    makeScopeDrawer('toneScope', nodes.tone.analyser, MODULE_COLOR.tone),
+    makeScopeDrawer('rhythmScope', nodes.rhythm.analyser, MODULE_COLOR.rhythm),
+    makeScopeDrawer('crushScope', nodes.crush.analyser, MODULE_COLOR.crush),
+    makeScopeDrawer('ringScope', nodes.ring.analyser, MODULE_COLOR.ring),
+    makeScopeDrawer('fieldScope', nodes.field.analyser, MODULE_COLOR.field),
     makeScopeDrawer('tone2Scope', nodes.tone2.analyser, MODULE_COLOR.tone2),
     makeScopeDrawer('freezeScope', nodes.freeze.analyser, MODULE_COLOR.freeze),
     makeScopeDrawer('combScope', nodes.comb.analyser, MODULE_COLOR.comb),
@@ -849,12 +1145,15 @@ function drawScopes(){
   function loop(){
     requestAnimationFrame(loop);
     draws.forEach(function(fn){ fn(); });
+    checkEdgeTrigger(nodes.rhythm, nodes.rhythm.inAnalyser, triggerRhythm);
   }
   loop();
 }
 
 /* ===================== random ===================== */
-var RANDOM_KNOBS = ['tone2.pitch','tone2.ratio','tone2.level','freeze.time','freeze.feedback','freeze.mix',
+var RANDOM_KNOBS = ['tone.pitch','tone.ratio','tone.level','rhythm.rate','rhythm.width','rhythm.repeat',
+  'crush.bits','crush.gate','crush.mix','ring.freq','ring.mix','field.rate','field.steps',
+  'tone2.pitch','tone2.ratio','tone2.level','freeze.time','freeze.feedback','freeze.mix',
   'comb.freq','comb.res','comb.mix','space.size','space.tone','space.mix'];
 function randomize(){
   document.querySelectorAll('.knob').forEach(function(el){
@@ -868,9 +1167,14 @@ function randomize(){
 
 /* ===================== default patch ===================== */
 function wireDefaultPatch(){
-  connect('tone2.out','comb.in');
+  connect('tone.out','crush.in');
+  connect('crush.out','comb.in');
   connect('comb.out','space.in');
   connect('space.out','output.in');
+  connect('tone.out2','ring.in');
+  connect('ring.out','field.in');
+  connect('field.out','output.in');
+  connect('rhythm.out','output.in');
   connect('tone2.out2','freeze.in');
   connect('freeze.out','output.in');
 }
@@ -914,7 +1218,7 @@ document.querySelectorAll('.knob').forEach(function(el){
 });
 initConnectionsPanel();
 buildLegend();
-if(audioReady){ renderCables(); drawScopes(); }
+if(audioReady){ renderCables(); drawScopes(); scheduleRhythm(); }
 
 document.getElementById('powerBtn').addEventListener('click', function(){
   if(!audioReady) return;
