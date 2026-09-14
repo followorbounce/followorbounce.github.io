@@ -39,7 +39,7 @@ Building "a bunch" of related visual synths will duplicate the same three things
 
 **Recommendation: B, scoped narrowly.** Not a general component library — just the three things that would otherwise be copy-pasted verbatim. If it ever needs a fourth thing, that's a signal to reconsider, not a green light to keep growing it. This is a call worth making deliberately rather than defaulting into either option mid-build.
 
-**Status:** deferred, deliberately. Palette Synth (§4, first shipped) was built fully self-contained instead — extracting a shared kit from a single consumer risks guessing the wrong shared interface (the classic "wait for the third repetition" rule). Revisit this decision when building the second visual synth (the Fourier Sculptor), where the knob-component and palette-function duplication will be concrete rather than hypothetical.
+**Status:** still deferred, past the point this doc said to revisit it. All five instruments in §4 have since shipped, each self-contained — the knob/slider component is now duplicated verbatim five times, and the palette formula independently four times, both fully concrete rather than hypothetical. The decision itself (build `/assets/visual-synth-kit.js` now, or keep paying the duplication cost) hasn't been made — it's open, not resolved by inertia.
 
 ---
 
@@ -61,29 +61,29 @@ Four small vectors (`a,b,c,d`, one triplet each) define an entire smooth, cyclic
 
 Four instruments, each anchored in a distinct mathematical family, each mapping to one of "wave / color / form":
 
-### 4.1 Fourier / Additive Wave Sculptor — *wave*
+### 4.1 Fourier / Additive Wave Sculptor — *wave* ✅ shipped (`/additive-wave-sculptor`)
 **What:** Generalizes `universal-waves.html`'s 2-wave mixer to N harmonics (8–16). One knob-pair per harmonic (amplitude, phase), live-drawn resultant waveform, and — this is the new part — the resultant is also playable as real audio via `OscillatorNode` + a custom `PeriodicWave` built from the same harmonic coefficients, so the shape you sculpt is the sound you hear.
-**Reuses:** the mixer's sum-of-sines math directly; the knob component from §2.
-**Net-new:** N-harmonic generalization; audio playback of the sculpted waveform; color engine applied to the waveform trace (hue cycling with harmonic content, not just a static stroke color).
-**Effort:** small–medium. **Fit:** direct extension of "Music Is Mathematics" — arguably belongs cross-linked from that page.
+**Reuses:** the mixer's sum-of-sines math directly; the knob component from §2 (duplicated, not shared — see §2 status).
+**Net-new:** N-harmonic generalization (8 harmonics); audio playback of the sculpted waveform (built); color engine applied to the waveform trace via spectral centroid (built).
+**Effort:** small–medium. **Fit:** direct extension of "Music Is Mathematics" — not yet cross-linked from that page.
 
-### 4.2 Lissajous / Harmonograph Synth — *form*
-**What:** Classic `x = A·sin(a·t+δ), y = B·sin(b·t)` parametric plotting, plus a harmonograph-style amplitude decay so the curve settles like a real pendulum-drawn figure rather than looping forever identically. Knobs: frequency ratio `a:b`, phase `δ`, decay rate. Trail fades using the palette engine (older points shift through the gradient, not just a flat alpha fade).
-**Reuses:** the radial-ripple math's damped-sine pattern; knob component; palette engine.
-**Net-new:** the whole 2D parametric engine — this is the site's first genuine "form through math" instrument, not an extension of an existing one.
-**Effort:** small–medium, pure Canvas 2D, no shader required.
+### 4.2 Lissajous / Harmonograph Synth — *form* ✅ shipped (`/lissajous-plotter`)
+**What:** Two independent two-term sine sums (reusing 4.1's harmonic-sum engine, not the original 2-slider mixer) plotted against each other as (x,y), plus a harmonograph-style amplitude-decay knob so the curve settles like a real pendulum-drawn figure. Trail is colored by sweeping once through the palette gradient from oldest to newest point (bucketed into 48 segments, not a per-pixel gradient).
+**Reuses:** knob component (duplicated); palette engine (duplicated, Plasma coefficients).
+**Net-new:** the whole 2D parametric engine, built.
+**Effort:** small–medium, pure Canvas 2D, no shader required — matched the estimate.
 
-### 4.3 Cymatics / Reaction-Diffusion Synth — *wave + form, audio-reactive*
-**What:** Takes the existing Gray-Scott reaction-diffusion code out of its essay-page demo and turns it into a real instrument, with a genuinely new capability: periodic perturbation of the diffusion grid driven by a **real** `AnalyserNode` reading either a built-in oscillator or the user's microphone — a live Chladni-plate/cymatics simulation where actual sound shapes the pattern, colored via the palette engine instead of the current demo's fixed look.
-**Reuses:** the Gray-Scott step function verbatim; needs its own Web Audio graph (confirmed no cross-page audio hook exists to borrow).
-**Net-new:** real audio-reactivity — currently nowhere on the site actually reads a live `AnalyserNode` into a visual parameter (the one existing audio→visual mapping in `mediaservers.html` drives a canned demo oscillator, not user input/mic).
-**Effort:** medium–large — the most technically ambitious of the four, and the best candidate to justify the WebGL investment (a grid-based PDE runs far faster as a shader than as a per-pixel JS loop at any serious resolution).
+### 4.3 Cymatics / Reaction-Diffusion Synth — *wave + form, audio-reactive* ✅ shipped as CPU canvas (`/audio-reactive-diffusion`)
+**What:** Takes the existing Gray-Scott reaction-diffusion code out of its essay-page demo and turns it into a real instrument, with a genuinely new capability: bass/treble from a real `AnalyserNode` (mic, opt-in) or a built-in synthetic source bend the feed/kill rates live, and loud transients inject fresh chemical seeds. Colored via the palette engine (Ocean coefficients) instead of the original demo's fixed tint.
+**Reuses:** the Gray-Scott step function verbatim; its own Web Audio graph, built.
+**Net-new:** real audio-reactivity, built (§4.3's audio-reactive requirement is met; done as feed/kill/seed modulation rather than the cymatics/Chladni framing originally described).
+**Effort:** medium in practice — **still runs as a CPU canvas loop, not a shader.** The WebGL port this section recommended for performance headroom at higher grid resolution was not done; current 120×120 grid is fine at its own resolution but the perf ceiling this section flagged is still there, unaddressed.
 
-### 4.4 Complex-Plane Mapper — *form*
-**What:** A Julia-set-adjacent explorer where a draggable 2D pad (reusing the corner-pin warp's drag interaction, generalized to a single point instead of four) sets the complex parameter `c`, recomputed live as a fragment shader. Palette engine colors escape-iteration count instead of the usual harsh banded fractal palettes.
-**Reuses:** the plasma shader's WebGL scaffolding (fullscreen quad, uniform-per-frame pattern) almost directly; the corner-pin drag math generalized down to one point.
-**Net-new:** the site's second-ever fragment shader, and the only one doing per-pixel iterative math (escape-time) rather than closed-form wave math — meaningfully harder than the plasma shader, worth sequencing last.
-**Effort:** medium–large; highest technical ceiling and the most visually striking if done well.
+### 4.4 Complex-Plane Mapper — *form* ✅ shipped as CPU canvas (`/complex-fractal-mapper`)
+**What:** A Mandelbrot/Julia explorer (generalized to `z → z^power + c`, not fixed at power 2). Dragging directly on the picture pans the view (Mandelbrot mode) or sets the complex parameter `c` to the point under the pointer (Julia mode) — the 2D-pad interaction this section called for, generalized from the corner-pin drag as intended — alongside, not instead of, View/Fractal knobs. Palette engine colors escape-iteration count.
+**Reuses:** the corner-pin drag math generalized to one point, done, but as a plain pointer handler over a CPU-computed field, not driving shader uniforms.
+**Net-new:** escape-time math and the drag pad, both built.
+**Effort:** medium in practice — **not built as a fragment shader.** It's a low-res grid (220×147) computed in JS then upscaled (the same trick used in §4.3), which stays responsive at this resolution but doesn't get the deep-zoom, high-iteration headroom a real shader would; the "site's second fragment shader" this section anticipated hasn't been written.
 
 ---
 
@@ -97,15 +97,17 @@ Four instruments, each anchored in a distinct mathematical family, each mapping 
 
 ## 6. Suggested sequencing
 
-| Order | Build | Why here |
-|---|---|---|
-| 1 | ✅ Palette Synth (`/palette-synth`) | Shipped. Shared-kit decision deferred (§2) — built self-contained |
-| 2 | Fourier / Additive Wave Sculptor | Fastest genuinely-new instrument; strongest thematic tie to existing content |
-| 3 | Lissajous / Harmonograph Synth | Pure Canvas 2D, no shader risk, high visual payoff for the effort |
-| 4 | Spectrum-bar mode on Patch Bay + Signal Chain | Small, cheap, immediately useful polish |
-| 5 | Cymatics / Reaction-Diffusion Synth | Medium-large; first real audio-reactive visual instrument |
-| 6 | Complex-Plane Mapper | Largest effort, highest ceiling; benefits from having a second shader author's-worth of WebGL experience already banked from earlier steps |
-| — | Real waterfall on Radio Communications | Independent of the above, can slot in anytime as a quick win |
+| Order | Build | Why here | Status |
+|---|---|---|---|
+| 1 | Palette Synth (`/palette-synth`) | Shipped. Shared-kit decision deferred (§2) — built self-contained | ✅ shipped |
+| 2 | Fourier / Additive Wave Sculptor | Fastest genuinely-new instrument; strongest thematic tie to existing content | ✅ shipped, incl. audio playback |
+| 3 | Lissajous / Harmonograph Synth | Pure Canvas 2D, no shader risk, high visual payoff for the effort | ✅ shipped |
+| 4 | Spectrum-bar mode on Patch Bay + Signal Chain | Small, cheap, immediately useful polish | ❌ not done |
+| 5 | Cymatics / Reaction-Diffusion Synth | Medium-large; first real audio-reactive visual instrument | ✅ shipped, CPU canvas not WebGL |
+| 6 | Complex-Plane Mapper | Largest effort, highest ceiling; benefits from having a second shader author's-worth of WebGL experience already banked from earlier steps | ✅ shipped, CPU canvas not WebGL |
+| — | Real waterfall on Radio Communications | Independent of the above, can slot in anytime as a quick win | ❌ not done |
+
+All five §4 instruments are live faster than sequenced (2–6 shipped in one pass rather than incrementally), which is also why §2's "revisit at instrument #2" checkpoint got skipped — there was no natural pause between them to make that call. The two items sequencing said were cheap, independent wins (#4, and the waterfall) were never picked up because nothing in the visual-synth work touched those files. §7's hub-page consolidation is also still open — all five sit as flat entries in `index.html`'s reorganized "Video synth" category, not under a dedicated `visual-synths/` hub.
 
 ## 7. Where this lives in the site once built
 
