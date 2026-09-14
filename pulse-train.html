@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pulse Train — Knowledge Network</title>
+<meta name="description" content="A generative synthesizer for precise clicks, pure tones, bit-crushed digital grit, ring modulation, and stepped stereo movement — the same universal-node principle as Signal Chain, built toward the minimal/microsound lineage of Ryoji Ikeda, Alva Noto, and the Raster-Noton label.">
+<link rel="canonical" href="https://followorbounce.github.io/pulse-train">
+<meta name="theme-color" content="#0A0A0A">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Pulse Train — Knowledge Network">
+<meta property="og:description" content="Precise clicks, pure tones, bit-crushed grit, ring modulation, stepped panning — a real Web Audio synth in the minimal/microsound lineage of Ikeda, Alva Noto, and Raster-Noton.">
+<meta property="og:url" content="https://followorbounce.github.io/pulse-train">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --board:#0A0A0A; --board2:#141414; --board3:#1C1C1C; --sunken:#000000;
+  --ink:#F5F5F0; --ink-soft:#9A9A94; --ink-faint:#5C5C58;
+  --line:#262626; --line-strong:#3A3A3A;
+  --led-off:#2A2A2A; --led-on:#FF4136; --led-glow:rgba(255,65,54,0.5);
+  --c-tone:#FF4136; --c-click1:#F5F5F0; --c-click2:#B8B8B0; --c-crush:#39CCCC;
+  --c-ring:#8B7FB8; --c-field:#6FA98A; --c-noise:#8A8A84; --c-output:#F5F5F0;
+  --font-display:'Space Mono', ui-monospace, monospace;
+  --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --font-body:'Space Mono', ui-monospace, monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1440px;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0; background:var(--board); color:var(--ink); font-family:var(--font-body); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; letter-spacing:0.01em;}
+a{color:inherit;}
+button{font-family:inherit;}
+code{font-family:var(--font-mono); background:var(--sunken); padding:0.1em 0.4em; border-radius:2px; font-size:0.92em;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--board); z-index:50;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft);}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft); font-family:var(--font-mono);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(30px,6vw,52px) 18px;}
+.hero .eyebrow{font-family:var(--font-mono); font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;}
+.hero h1{font-size:clamp(2rem,6vw,3.4rem); line-height:0.98; letter-spacing:0.01em; text-transform:uppercase;}
+.hero p{margin-top:14px; max-width:680px; font-size:13.5px; color:var(--ink-soft); line-height:1.75;}
+.hero .hint-coarse{display:none;}
+@media (pointer:coarse){ .hero .hint-fine{display:none;} .hero .hint-coarse{display:inline;} }
+
+.mobileNotice{display:none;}
+@media (pointer:coarse){
+  .mobileNotice:not(.dismissed){ display:block; background:var(--board2); border-block:1px solid var(--line-strong); }
+  .mobileNotice .wrap{ display:flex; align-items:center; gap:10px; padding-block:8px; }
+  .mobileNotice span{ flex:1; font-size:11px; color:var(--ink-soft); line-height:1.5; }
+  .mobileNotice button{ font-family:var(--font-display); font-size:18px; line-height:1; background:none; border:1px solid var(--line-strong); border-radius:3px; width:28px; height:28px; cursor:pointer; color:var(--ink); flex:none; }
+}
+
+.transport{position:sticky; top:48px; z-index:19; background:var(--board2); border-block:1px solid var(--line-strong); padding-block:10px;}
+.transport .wrap{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.tbtn{font-family:var(--font-display); font-weight:700; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; padding:9px 20px; border:1px solid var(--line-strong); background:var(--board3); color:var(--ink); cursor:pointer; border-radius:3px;}
+.tbtn:active{transform:translateY(1px);}
+.tbtn.power{background:var(--led-on); color:#1a0503; border-color:var(--led-on);}
+.tbtn.power.off{background:var(--board3); color:var(--ink-soft); border-color:var(--line-strong);}
+.tbtn.random{background:var(--ink); color:#0A0A0A; border-color:var(--ink);}
+.tbtn.ref.on{background:var(--c-tone); color:#1a0503; border-color:var(--c-tone);}
+.tstat{font-size:11px; color:var(--ink-faint); margin-left:auto; font-family:var(--font-mono);}
+
+.rackwrap{padding-block:26px; position:relative;}
+.rack{position:relative; display:grid; grid-template-columns:repeat(6, 1fr); gap:14px;}
+@media (max-width:1200px){ .rack{grid-template-columns:repeat(4,1fr);} }
+@media (max-width:800px){ .rack{grid-template-columns:repeat(2,1fr);} }
+@media (max-width:560px){ .rack{grid-template-columns:1fr;} }
+#cableSvg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:5; overflow:visible;}
+
+.module{background:var(--board2); border:1px solid var(--line-strong); border-radius:8px 8px 4px 4px; padding:10px; position:relative; box-shadow:0 3px 0 rgba(0,0,0,0.5);}
+.module::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px; background:var(--acc);}
+.module.n-tone{--acc:var(--c-tone);} .module.n-click1{--acc:var(--c-click1);} .module.n-click2{--acc:var(--c-click2);}
+.module.n-crush{--acc:var(--c-crush);} .module.n-ring{--acc:var(--c-ring);} .module.n-field{--acc:var(--c-field);}
+.module.n-noise{--acc:var(--c-noise);} .module.n-output{--acc:var(--c-output);}
+.module .mhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; padding-top:4px;}
+.module .mname{font-family:var(--font-display); font-weight:700; font-size:16px; letter-spacing:0.03em; text-transform:uppercase; color:var(--acc);}
+.module .mtag{font-size:9px; color:var(--ink-faint); font-family:var(--font-mono); letter-spacing:0.05em; text-transform:uppercase; display:block; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--line);}
+
+.fswitch{width:26px; height:26px; border-radius:50%; border:2px solid var(--line-strong); background:var(--sunken); cursor:pointer; display:flex; align-items:center; justify-content:center; flex:none;}
+.fswitch .led{width:8px; height:8px; border-radius:50%; background:var(--led-off);}
+.fswitch.engaged .led{background:var(--led-on); box-shadow:0 0 6px 1px var(--led-glow);}
+.fswitch.engaged{border-color:var(--acc);}
+
+.row{display:flex; align-items:center; gap:7px; margin-bottom:9px; flex-wrap:wrap;}
+.row:last-of-type{margin-bottom:0;}
+.jackrow{display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:9px; border-top:1px dashed var(--line);}
+.jackgroup{display:flex; flex-direction:column; gap:10px;}
+.jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint); cursor:pointer; touch-action:none; padding-block:6px; margin-block:-6px; position:relative; z-index:6; font-family:var(--font-mono);}
+.jack.out{flex-direction:row-reverse;}
+.jack .nub{width:13px; height:13px; border-radius:50%; flex:none; border:2px solid var(--acc);}
+.jack.out .nub{background:var(--acc);}
+.jack.in .nub{background:var(--sunken);}
+.jack.filled .nub{box-shadow:0 0 0 3px rgba(255,255,255,0.12) inset;}
+.jack.dragtarget .nub{outline:3px solid var(--ink); outline-offset:1px;}
+.jack.selected .nub{outline:3px dashed var(--ink); outline-offset:2px;}
+
+.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
+.knob{width:38px; height:38px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #3a3a3a, #101010 70%); border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;}
+.knob:active{cursor:grabbing;}
+.knob .ind{position:absolute; left:50%; top:3px; width:3px; height:13px; background:var(--acc); transform-origin:50% 16px; margin-left:-1.5px; border-radius:2px;}
+.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint); font-family:var(--font-mono);}
+.kval{font-size:9.5px; color:var(--ink-soft); font-family:var(--font-mono); font-variant-numeric:tabular-nums;}
+.krange{display:none;}
+
+select.wave{font-family:var(--font-mono); font-size:10px; padding:5px 6px; border:1px solid var(--line-strong); border-radius:3px; background:var(--sunken); color:var(--ink); width:100%;}
+
+.scopewrap{margin-top:8px; border:1px solid var(--line-strong); border-radius:3px; overflow:hidden; background:#000;}
+.scopewrap canvas{display:block; width:100%; height:90px;}
+
+.legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:18px; font-size:10px; color:var(--ink-faint); font-family:var(--font-mono);}
+.legend span{display:inline-flex; align-items:center; gap:6px;}
+.legend .dot{width:10px; height:10px; border-radius:50%;}
+
+.connectionsPanel{display:none;}
+@media (pointer:coarse){
+  .connectionsPanel{display:block;}
+  .jackrow{display:none;}
+  #cableSvg{display:none;}
+  .knob{display:none;}
+  .krange{display:block; width:100%;}
+  .row{flex-direction:column; align-items:stretch;}
+  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
+  .klabel{order:-1; width:56px; flex:none;}
+  .krange{order:0;}
+  .kval{order:1; width:38px; flex:none; text-align:right;}
+  .fswitch{width:36px; height:36px;}
+}
+.krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
+.krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-webkit-slider-thumb{-webkit-appearance:none; width:20px; height:20px; margin-top:-7.5px; border-radius:50%; background:var(--acc); border:2px solid var(--board);}
+.krange::-moz-range-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-moz-range-thumb{width:20px; height:20px; border-radius:50%; background:var(--acc); border:2px solid var(--board); border:none;}
+
+.connectionsPanel .wrap{padding-block:14px;}
+.connectionsPanel h3{font-size:12px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px; font-family:var(--font-display); color:var(--ink-soft);}
+.connList{display:flex; flex-direction:column; gap:6px; margin-bottom:12px;}
+.connChip{display:flex; align-items:center; gap:8px; background:var(--board3); border:1px solid var(--line-strong); border-radius:4px; padding:8px 10px; font-size:11px; font-family:var(--font-mono);}
+.connChip .dot{width:10px; height:10px; border-radius:50%; flex:none;}
+.connChip .lbl{flex:1; min-width:0;}
+.connChip .connRm{font-family:var(--font-display); font-size:15px; line-height:1; background:none; border:1px solid var(--line-strong); border-radius:3px; width:26px; height:26px; cursor:pointer; color:var(--ink); flex:none;}
+.connEmpty{font-size:11px; color:var(--ink-faint); padding:8px 2px; font-family:var(--font-mono);}
+.addCable{display:flex; flex-direction:column; gap:8px; border-top:1px dashed var(--line); padding-top:12px;}
+.addCable .fld{display:flex; flex-direction:column; gap:4px;}
+.addCable label{font-size:9px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-faint); font-family:var(--font-mono);}
+.addCable select{font-family:var(--font-mono); font-size:12px; padding:10px 8px; border:1px solid var(--line-strong); border-radius:3px; background:var(--sunken); color:var(--ink); width:100%;}
+
+section.about{padding-block:clamp(30px,6vw,52px); border-top:1px solid var(--line-strong);}
+section.about h2{font-size:1.15rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.02em;}
+section.about p{max-width:700px; font-size:13px; color:var(--ink-soft); line-height:1.8; margin-bottom:12px;}
+section.about p:last-child{margin-bottom:0;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<div class="mobileNotice" id="mobileNotice">
+  <div class="wrap">
+    <span>Pulse Train is built for a mouse and a big screen — the touch version works, but the full board is richer on desktop.</span>
+    <button type="button" id="mobileNoticeClose" aria-label="Dismiss">×</button>
+  </div>
+</div>
+<script>
+(function(){
+  var notice = document.getElementById('mobileNotice');
+  var closeBtn = document.getElementById('mobileNoticeClose');
+  if(!notice || !closeBtn) return;
+  try{ if(localStorage.getItem('pt_hideMobileNotice')==='1') notice.classList.add('dismissed'); }catch(e){}
+  closeBtn.addEventListener('click', function(){
+    notice.classList.add('dismissed');
+    try{ localStorage.setItem('pt_hideMobileNotice','1'); }catch(e){}
+  });
+})();
+</script>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Instrument · Precision / Microsound Synthesis</div>
+    <h1>Pulse Train</h1>
+    <p>Signal Chain's rule again — <strong>every unit is both an input and an output</strong> — pointed at a different sound: precise clicks instead of pedal warmth, pure sine test-tones instead of waveshaped oscillators, bit-crushed digital grit and true ring modulation instead of chorus and drive, stepped hard-panning instead of a smooth stereo field. Built toward the minimal/microsound lineage of <strong>Ryoji Ikeda</strong>, <strong>Alva Noto</strong>, and the <strong>Raster-Noton</strong> label — clicks, sines, noise, and silence, arranged with more precision than warmth. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Everything is a real Web Audio graph, limited to exactly what a browser can actually do — no external plugins, no sample library, just oscillators, filters, delays, and a shaper curve, arranged carefully.</p>
+  </div>
+</section>
+
+<div class="transport">
+  <div class="wrap">
+    <button class="tbtn power off" id="powerBtn">◉ Power</button>
+    <button class="tbtn random" id="randomBtn">⟲ Randomize</button>
+    <button class="tbtn ref" id="refBtn">1kHz Ref</button>
+    <button class="tbtn" id="scopeModeBtn">Scopes: Wave</button>
+    <span class="tstat" id="cableStat">0 cables patched</span>
+  </div>
+</div>
+
+<div class="connectionsPanel">
+  <div class="wrap">
+    <h3>Connections</h3>
+    <div class="connList" id="connList"></div>
+    <div class="addCable">
+      <div class="fld"><label for="connFrom">From</label><select id="connFrom"></select></div>
+      <div class="fld"><label for="connTo">To</label><select id="connTo"></select></div>
+      <button type="button" class="tbtn" id="connAddBtn">+ Connect</button>
+    </div>
+  </div>
+</div>
+
+<div class="rackwrap wrap">
+  <div class="rack" id="rack">
+    <svg id="cableSvg"></svg>
+
+    <!-- TONE -->
+    <div class="module n-tone" data-mod="tone">
+      <div class="mhead"><span class="mname">Tone</span><button class="fswitch engaged" data-bypass="tone" aria-label="Bypass Tone"><span class="led"></span></button></div>
+      <span class="mtag">pure sine · fm input</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="tone.pitch" data-min="40" data-max="2000" data-default="220" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="tone.pitch">220</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="tone.ratio" data-min="0.25" data-max="2" data-default="0.5"><div class="ind"></div></div><span class="klabel">ratio</span><span class="kval" data-kval="tone.ratio">0.5</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="tone.level" data-min="0" data-max="100" data-default="70"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="tone.level">70</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="toneScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="tone.in"><span class="nub"></span>in · fm</div></div>
+        <div class="jackgroup">
+          <div class="jack out" data-jack="tone.out"><span class="nub"></span>out</div>
+          <div class="jack out" data-jack="tone.out2"><span class="nub"></span>ratio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CLICK I -->
+    <div class="module n-click1" data-mod="click1">
+      <div class="mhead"><span class="mname">Click I</span><button class="fswitch engaged" data-bypass="click1" aria-label="Bypass Click I"><span class="led"></span></button></div>
+      <span class="mtag">impulse · edge-triggered</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="click1.rate" data-min="0" data-max="100" data-default="45"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="click1.rate">45</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="click1.width" data-min="0" data-max="100" data-default="20"><div class="ind"></div></div><span class="klabel">width</span><span class="kval" data-kval="click1.width">20</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="click1.repeat" data-min="0" data-max="60" data-default="20"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="click1.repeat">20</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="click1.level" data-min="0" data-max="100" data-default="80"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="click1.level">80</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="click1Scope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="click1.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="click1.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- CLICK II -->
+    <div class="module n-click2" data-mod="click2">
+      <div class="mhead"><span class="mname">Click II</span><button class="fswitch engaged" data-bypass="click2" aria-label="Bypass Click II"><span class="led"></span></button></div>
+      <span class="mtag">impulse · edge-triggered</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="click2.rate" data-min="0" data-max="100" data-default="70"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="click2.rate">70</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="click2.width" data-min="0" data-max="100" data-default="8"><div class="ind"></div></div><span class="klabel">width</span><span class="kval" data-kval="click2.width">8</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="click2.repeat" data-min="0" data-max="60" data-default="10"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="click2.repeat">10</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="click2.level" data-min="0" data-max="100" data-default="65"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="click2.level">65</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="click2Scope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="click2.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="click2.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- CRUSH -->
+    <div class="module n-crush" data-mod="crush">
+      <div class="mhead"><span class="mname">Crush</span><button class="fswitch engaged" data-bypass="crush" aria-label="Bypass Crush"><span class="led"></span></button></div>
+      <span class="mtag">bit reduction · gate</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="crush.bits" data-min="1" data-max="8" data-default="4" data-step="1"><div class="ind"></div></div><span class="klabel">bits</span><span class="kval" data-kval="crush.bits">4</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="crush.gate" data-min="0.5" data-max="200" data-default="20" data-log="1"><div class="ind"></div></div><span class="klabel">gate</span><span class="kval" data-kval="crush.gate">20</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="crush.mix" data-min="0" data-max="100" data-default="100"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="crush.mix">100</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="crushScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="crush.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="crush.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- RING -->
+    <div class="module n-ring" data-mod="ring">
+      <div class="mhead"><span class="mname">Ring</span><button class="fswitch engaged" data-bypass="ring" aria-label="Bypass Ring"><span class="led"></span></button></div>
+      <span class="mtag">ring modulation</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="ring.freq" data-min="20" data-max="2000" data-default="220" data-log="1"><div class="ind"></div></div><span class="klabel">freq</span><span class="kval" data-kval="ring.freq">220</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="ring.mix" data-min="0" data-max="100" data-default="100"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="ring.mix">100</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="ringScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="ring.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="ring.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- FIELD -->
+    <div class="module n-field" data-mod="field">
+      <div class="mhead"><span class="mname">Field</span><button class="fswitch engaged" data-bypass="field" aria-label="Bypass Field"><span class="led"></span></button></div>
+      <span class="mtag">stepped stereo panner</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="field.rate" data-min="0.05" data-max="10" data-default="0.8" data-log="1"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="field.rate">0.8</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="field.steps" data-min="2" data-max="8" data-default="2" data-step="1"><div class="ind"></div></div><span class="klabel">steps</span><span class="kval" data-kval="field.steps">2</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="fieldScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="field.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="field.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- NOISE -->
+    <div class="module n-noise" data-mod="noise">
+      <div class="mhead"><span class="mname">Noise</span><button class="fswitch engaged" data-bypass="noise" aria-label="Bypass Noise"><span class="led"></span></button></div>
+      <span class="mtag">source · white / swell / strobe / beacon</span>
+      <div class="row">
+        <select class="wave" data-select="noise.type"><option value="white">white</option><option value="swell">swell</option><option value="strobe">strobe</option><option value="beacon">beacon</option></select>
+      </div>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="noise.level" data-min="0" data-max="100" data-default="30"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="noise.level">30</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="noise.rate" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="noise.rate">40</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="noiseScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="noise.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="noise.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+    <!-- OUTPUT -->
+    <div class="module n-output" data-mod="output">
+      <div class="mhead"><span class="mname">Output</span><span style="font-family:var(--font-mono); font-size:9px; color:var(--ink-faint);">limiter&nbsp;on</span></div>
+      <span class="mtag">master · feedback tap</span>
+      <div class="row"><div class="knobwrap"><div class="knob" data-knob="output.volume" data-min="0" data-max="100" data-default="75"><div class="ind"></div></div><span class="klabel">volume</span><span class="kval" data-kval="output.volume">75</span></div></div>
+      <div class="scopewrap"><canvas id="outputScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="output.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="output.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="legend" id="legend"></div>
+</div>
+
+<section class="about wrap">
+  <h2>How this actually works</h2>
+  <p><strong>The same universal-node rule as <a href="/signal-chain">Signal Chain</a>, reused rather than reinvented.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass — off, a unit is a plain wire; on, it does its job. What's different here isn't the architecture, it's the content: eight units built toward clicks, pure tones, and digital artifacts instead of pedal-style warmth, in the minimal/microsound lineage of <strong>Ryoji Ikeda</strong>'s data-precise test tones, <strong>Alva Noto</strong> (Carsten Nicolai)'s glitch-and-sine language, and the <strong>Raster-Noton</strong> label the two of them ran together — referenced here as an aesthetic lineage this instrument is built toward, not an affiliation with either artist or the label.</p>
+  <p><strong>Tone</strong> is a single, undistorted sine — no waveshaping, just a hard-clip safety net so it can't blow up a feedback loop — with a second output, <code>ratio</code>, running at a knob-set frequency ratio to the main pitch (0.25 to 2×) instead of a fixed octave, so the two outputs can be patched as a precise harmonic pair. <strong>Click I</strong> and <strong>Click II</strong> are pure impulses, not tones: a highpassed noise burst gated by a near-instant envelope, repeated on a short exact delay, with their own <code>width</code> knob stretching that envelope from a single hard tick to a short blip. Like Sonar on Signal Chain, their <code>in</code> watches for a rising edge and fires an extra pulse on it, so patching one into the other locks their rhythms together.</p>
+  <p><strong>Crush</strong> does two kinds of digital damage at once: a <code>bits</code> knob quantizes the waveform into as few as two steps via a staircase shaper curve, and a <code>gate</code> knob amplitude-modulates it with a square wave — slow, it chops the signal into a rhythmic stutter; fast, it aliases into a buzzy, gritty texture. <strong>Ring</strong> is a true ring modulator — an internal oscillator multiplies straight against the incoming signal rather than just mixing with it, which is what makes the output inharmonic and metallic instead of just louder. <strong>Field</strong> is a panner with nowhere smooth to go: its LFO is quantized through the same kind of staircase curve Crush uses, so instead of drifting across the stereo field it jumps between 2 to 8 fixed positions — the hard, mechanical stereo movement this genre often reaches for instead of a chorus-style sweep.</p>
+  <p><strong>The 1kHz Ref button</strong> in the transport injects a plain sine reference tone straight into the master bus — the same calibration-tone habit test equipment and this genre's own cover art both share, useful here for actually checking your monitoring level before turning anything else on. <strong>Feedback loops are allowed on purpose</strong>, the same as Signal Chain: Output's own <code>out</code> can patch back into the board, and the compressor and hard limiter before the speakers exist specifically so that stays loud, not dangerous. Start any feedback patch with low levels.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/signal-chain">Signal Chain</a> · <a href="/patch-bay">Patch Bay</a> · <a href="/visual-synths/">Visual Synths</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== iOS audio fix (ring switch + gesture unlock) —
+   identical technique to Patch Bay / Signal Chain. ===================== */
+var AudioCtxClass = window.AudioContext || window.webkitAudioContext;
+var actx = null;
+function ctx(){ if(!actx) actx = new AudioCtxClass(); if(actx.state==='suspended') actx.resume(); return actx; }
+function unlockAudioForIOS(){
+  var c = ctx();
+  if(c.state==='suspended'){ c.resume(); }
+  var buffer = c.createBuffer(1, 1, 22050);
+  var src = c.createBufferSource();
+  src.buffer = buffer; src.connect(c.destination);
+  if(src.start) src.start(0); else if(src.noteOn) src.noteOn(0);
+  try{ if(navigator.audioSession) navigator.audioSession.type = 'playback'; }catch(e){}
+  if(!document.getElementById('pt-silent-unmute')){
+    var a = document.createElement('audio');
+    a.id = 'pt-silent-unmute';
+    a.setAttribute('playsinline',''); a.preload = 'auto'; a.loop = true;
+    a.src = 'data:audio/wav;base64,UklGRmQGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUAGAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA';
+    a.style.display = 'none';
+    document.body.appendChild(a);
+    a.play().catch(function(){});
+  }
+}
+['touchstart','touchend','click'].forEach(function(evt){
+  document.addEventListener(evt, unlockAudioForIOS, {capture:true, once:true, passive:true});
+});
+
+/* ===================== module graph ===================== */
+var nodes = {};
+
+/* Bounded curves — every one keeps its output inside [-1,1] regardless of
+   input amplitude, the same safety property Signal Chain's shaper curves
+   have, since feedback-loop patching is explicitly allowed here too. */
+function buildHardClipCurve(){
+  var n = 1024, curve = new Float32Array(n);
+  for(var i=0;i<n;i++){ var x = i/(n-1)*2-1; curve[i] = Math.max(-0.92, Math.min(0.92, x)); }
+  return curve;
+}
+/* A staircase curve: quantizes a continuous input into `steps` flat bands.
+   Crush uses this on the audio signal itself (bit-depth reduction); Field
+   uses the exact same curve shape on an LFO to turn a smooth sweep into a
+   fixed number of discrete positions — same math, two different jobs. */
+function buildStaircaseCurve(steps){
+  var n = 1024, curve = new Float32Array(n);
+  var levels = Math.max(1, Math.round(steps));
+  for(var i=0;i<n;i++){
+    var x = i/(n-1)*2-1;
+    curve[i] = Math.round(x*levels)/levels;
+  }
+  return curve;
+}
+
+function build(){
+  var c = ctx();
+
+  /* ---- TONE ----
+     A single undistorted sine, hard-clipped only as a feedback-loop safety
+     net (see buildHardClipCurve), not as a musical control — this unit is
+     meant to be a precise, cold test tone, not a colored oscillator. A
+     second oscillator runs at pitch*ratio and gets its own output jack
+     instead of being silently summed in, so the two can be patched as a
+     tunable harmonic pair. */
+  var toneIn = c.createGain(); toneIn.gain.value = 1;
+  var toneOsc = c.createOscillator(); toneOsc.type='sine'; toneOsc.frequency.value = 220;
+  var toneFMDepth = c.createGain(); toneFMDepth.gain.value = 260;
+  toneIn.connect(toneFMDepth); toneFMDepth.connect(toneOsc.frequency);
+  var toneShaper = c.createWaveShaper(); toneShaper.curve = buildHardClipCurve();
+  toneOsc.connect(toneShaper); toneOsc.start();
+  var toneLevel = c.createGain(); toneLevel.gain.value = 0.7;
+  toneShaper.connect(toneLevel);
+  var toneBypassGain = c.createGain(); toneBypassGain.gain.value = 0;
+  var toneWetGain = c.createGain(); toneWetGain.gain.value = 1;
+  toneIn.connect(toneBypassGain); toneLevel.connect(toneWetGain);
+  var toneOut = c.createGain();
+  toneBypassGain.connect(toneOut); toneWetGain.connect(toneOut);
+
+  var ratioOsc = c.createOscillator(); ratioOsc.type='sine'; ratioOsc.frequency.value = 110;
+  var ratioShaper = c.createWaveShaper(); ratioShaper.curve = buildHardClipCurve();
+  ratioOsc.connect(ratioShaper); ratioOsc.start();
+  var ratioLevel = c.createGain(); ratioLevel.gain.value = 0.55;
+  ratioShaper.connect(ratioLevel);
+  var toneBypassGain2 = c.createGain(); toneBypassGain2.gain.value = 0;
+  var toneWetGain2 = c.createGain(); toneWetGain2.gain.value = 1;
+  toneIn.connect(toneBypassGain2); ratioLevel.connect(toneWetGain2);
+  var toneOut2 = c.createGain();
+  toneBypassGain2.connect(toneOut2); toneWetGain2.connect(toneOut2);
+
+  var toneAnalyser = c.createAnalyser(); toneAnalyser.fftSize = 512; toneOut.connect(toneAnalyser);
+  nodes.tone = {
+    inNode:toneIn, osc:toneOsc, ratioOsc:ratioOsc, level:toneLevel, ratioLevel:ratioLevel,
+    bypassGain:toneBypassGain, wetGain:toneWetGain, bypassGain2:toneBypassGain2, wetGain2:toneWetGain2,
+    outNode:toneOut, outNode2:toneOut2, analyser:toneAnalyser, bypassed:false, pitch:220, ratio:0.5
+  };
+
+  /* ---- CLICK I / CLICK II ----
+     Pure impulses, not tone-plus-click hybrids like Signal Chain's Sonar:
+     a highpassed noise burst gated by a near-instant attack / fast decay
+     envelope, repeated on a short exact delay. `width` stretches the
+     envelope's decay time (see triggerClick below) from a single hard
+     tick toward a short blip. No random jitter on the interval, same
+     reasoning as Sonar — an exact grid reads as more precise, not less
+     alive. */
+  function buildClickUnit(highpassHz, delayTime, feedbackAmt){
+    var clickIn = c.createGain(); clickIn.gain.value = 1;
+    var buf = c.createBuffer(1, c.sampleRate, c.sampleRate);
+    var bd = buf.getChannelData(0);
+    for(var i=0;i<bd.length;i++) bd[i] = Math.random()*2-1;
+    var src = c.createBufferSource(); src.buffer = buf; src.loop = true;
+    var hp = c.createBiquadFilter(); hp.type='highpass'; hp.frequency.value = highpassHz;
+    src.connect(hp); src.start();
+    var clickEnv = c.createGain(); clickEnv.gain.value = 0;
+    hp.connect(clickEnv);
+
+    var delay = c.createDelay(0.5); delay.delayTime.value = delayTime;
+    var feedback = c.createGain(); feedback.gain.value = feedbackAmt;
+    var mix = c.createGain();
+    clickEnv.connect(mix); clickEnv.connect(delay);
+    delay.connect(feedback); feedback.connect(delay); delay.connect(mix);
+
+    var level = c.createGain(); level.gain.value = 0.8;
+    mix.connect(level);
+    var bypassGain = c.createGain(); bypassGain.gain.value = 0;
+    var wetGain = c.createGain(); wetGain.gain.value = 1;
+    clickIn.connect(bypassGain); level.connect(wetGain);
+    var out = c.createGain();
+    bypassGain.connect(out); wetGain.connect(out);
+    var inAnalyser = c.createAnalyser(); inAnalyser.fftSize = 256; clickIn.connect(inAnalyser);
+    var analyser = c.createAnalyser(); analyser.fftSize = 512; out.connect(analyser);
+    return {
+      inNode:clickIn, clickEnv:clickEnv, feedback:feedback, level:level,
+      bypassGain:bypassGain, wetGain:wetGain, outNode:out,
+      analyser:analyser, inAnalyser:inAnalyser, prevPeak:0, lastTrig:0,
+      rate:45, width:20, repeat:20, timer:null, bypassed:false
+    };
+  }
+  nodes.click1 = buildClickUnit(5000, 0.07, 0.16);
+  nodes.click2 = buildClickUnit(7000, 0.045, 0.1);
+
+  /* ---- CRUSH: bit-depth staircase + audio-rate square gate ---- */
+  var crushIn = c.createGain(); crushIn.gain.value = 1;
+  var crushShaper = c.createWaveShaper(); crushShaper.curve = buildStaircaseCurve(16); crushShaper.oversample='none';
+  var crushGateOsc = c.createOscillator(); crushGateOsc.type='square'; crushGateOsc.frequency.value = 20;
+  var crushGateNode = c.createGain(); crushGateNode.gain.value = 0.5; // baseline so the square (±0.5) rides 0..1
+  crushGateOsc.connect(crushGateNode.gain); crushGateOsc.start();
+  crushIn.connect(crushShaper); crushShaper.connect(crushGateNode);
+  var crushWetMix = c.createGain(); crushWetMix.gain.value = 1;
+  var crushDryMix = c.createGain(); crushDryMix.gain.value = 0;
+  crushGateNode.connect(crushWetMix); crushIn.connect(crushDryMix);
+  var crushSum = c.createGain(); crushWetMix.connect(crushSum); crushDryMix.connect(crushSum);
+  var crushBypassGain = c.createGain(); crushBypassGain.gain.value = 0;
+  var crushWetGain = c.createGain(); crushWetGain.gain.value = 1;
+  crushIn.connect(crushBypassGain); crushSum.connect(crushWetGain);
+  var crushOut = c.createGain();
+  crushBypassGain.connect(crushOut); crushWetGain.connect(crushOut);
+  var crushAnalyser = c.createAnalyser(); crushAnalyser.fftSize = 512; crushOut.connect(crushAnalyser);
+  nodes.crush = {
+    inNode:crushIn, shaper:crushShaper, gateOsc:crushGateOsc, wetMix:crushWetMix, dryMix:crushDryMix,
+    bypassGain:crushBypassGain, wetGain:crushWetGain, outNode:crushOut, analyser:crushAnalyser, bypassed:false
+  };
+
+  /* ---- RING: true ring modulation. Connecting an oscillator straight
+     into a GainNode's own gain AudioParam multiplies the incoming signal
+     by the oscillator's instantaneous value instead of just mixing with
+     it — with the node's own base gain left at 0, the output is purely
+     input*oscillator, which is what makes this inharmonic/metallic rather
+     than a tremolo. ---- */
+  var ringIn = c.createGain(); ringIn.gain.value = 1;
+  var ringOsc = c.createOscillator(); ringOsc.type='sine'; ringOsc.frequency.value = 220;
+  var ringModGain = c.createGain(); ringModGain.gain.value = 0;
+  ringOsc.connect(ringModGain.gain); ringOsc.start();
+  ringIn.connect(ringModGain);
+  var ringWetMix = c.createGain(); ringWetMix.gain.value = 1;
+  var ringDryMix = c.createGain(); ringDryMix.gain.value = 0;
+  ringModGain.connect(ringWetMix); ringIn.connect(ringDryMix);
+  var ringSum = c.createGain(); ringWetMix.connect(ringSum); ringDryMix.connect(ringSum);
+  var ringBypassGain = c.createGain(); ringBypassGain.gain.value = 0;
+  var ringWetGain = c.createGain(); ringWetGain.gain.value = 1;
+  ringIn.connect(ringBypassGain); ringSum.connect(ringWetGain);
+  var ringOut = c.createGain();
+  ringBypassGain.connect(ringOut); ringWetGain.connect(ringOut);
+  var ringAnalyser = c.createAnalyser(); ringAnalyser.fftSize = 512; ringOut.connect(ringAnalyser);
+  nodes.ring = {
+    inNode:ringIn, osc:ringOsc, wetMix:ringWetMix, dryMix:ringDryMix,
+    bypassGain:ringBypassGain, wetGain:ringWetGain, outNode:ringOut, analyser:ringAnalyser, bypassed:false
+  };
+
+  /* ---- FIELD: a panner whose LFO is quantized through the same
+     staircase curve Crush uses on audio, so it jumps between a fixed
+     number of hard positions instead of sweeping smoothly. ---- */
+  var fieldIn = c.createGain(); fieldIn.gain.value = 1;
+  var fieldLFO = c.createOscillator(); fieldLFO.type='sine'; fieldLFO.frequency.value = 0.8;
+  var fieldStair = c.createWaveShaper(); fieldStair.curve = buildStaircaseCurve(2); fieldStair.oversample='none';
+  var fieldDepth = c.createGain(); fieldDepth.gain.value = 1;
+  var panner = c.createStereoPanner ? c.createStereoPanner() : null;
+  fieldLFO.connect(fieldStair);
+  if(panner){ fieldStair.connect(fieldDepth); fieldDepth.connect(panner.pan); fieldIn.connect(panner); }
+  fieldLFO.start();
+  var fieldWetOut = panner || fieldIn; // graceful fallback: mono passthrough if StereoPannerNode is unsupported
+  var fieldBypassGain = c.createGain(); fieldBypassGain.gain.value = 0;
+  var fieldWetGain = c.createGain(); fieldWetGain.gain.value = 1;
+  fieldIn.connect(fieldBypassGain); fieldWetOut.connect(fieldWetGain);
+  var fieldOut = c.createGain();
+  fieldBypassGain.connect(fieldOut); fieldWetGain.connect(fieldOut);
+  var fieldAnalyser = c.createAnalyser(); fieldAnalyser.fftSize = 512; fieldOut.connect(fieldAnalyser);
+  nodes.field = {
+    inNode:fieldIn, lfo:fieldLFO, stair:fieldStair, panner:panner,
+    bypassGain:fieldBypassGain, wetGain:fieldWetGain, outNode:fieldOut, analyser:fieldAnalyser, bypassed:false, steps:2
+  };
+
+  /* ---- NOISE (white / swell / strobe / beacon — same design as the
+     Noise module in Patch Bay / Signal Chain) ---- */
+  var noiseIn = c.createGain(); noiseIn.gain.value = 1;
+  var noiseBuf = c.createBuffer(1, c.sampleRate*2, c.sampleRate);
+  var nd = noiseBuf.getChannelData(0);
+  for(var ni=0; ni<nd.length; ni++) nd[ni] = Math.random()*2-1;
+  var noiseSrc = c.createBufferSource(); noiseSrc.buffer = noiseBuf; noiseSrc.loop = true;
+  var noiseLevelGain = c.createGain(); noiseLevelGain.gain.value = 0.3;
+  var noiseModGain = c.createGain(); noiseModGain.gain.value = 1;
+  noiseSrc.connect(noiseLevelGain); noiseLevelGain.connect(noiseModGain); noiseSrc.start();
+  var noiseBypassGain = c.createGain(); noiseBypassGain.gain.value = 0;
+  var noiseWetGain = c.createGain(); noiseWetGain.gain.value = 1;
+  noiseIn.connect(noiseBypassGain); noiseModGain.connect(noiseWetGain);
+  var noiseOut = c.createGain();
+  noiseBypassGain.connect(noiseOut); noiseWetGain.connect(noiseOut);
+  var noiseAnalyser = c.createAnalyser(); noiseAnalyser.fftSize = 512; noiseOut.connect(noiseAnalyser);
+  nodes.noise = {
+    inNode:noiseIn, levelGain:noiseLevelGain, modGain:noiseModGain,
+    bypassGain:noiseBypassGain, wetGain:noiseWetGain, outNode:noiseOut,
+    analyser:noiseAnalyser, type:'white', rate:40, modNodes:[], timer:null, bypassed:false
+  };
+
+  /* ---- OUTPUT (always-on: compressor + hard-clip safety net, since
+     feedback-loop patching is explicitly allowed) — plus a 1kHz
+     calibration reference tone, gated by its own transport button rather
+     than a knob, mixed straight into the master bus. ---- */
+  var outMix = c.createGain();
+  var refOsc = c.createOscillator(); refOsc.type='sine'; refOsc.frequency.value = 1000;
+  var refGate = c.createGain(); refGate.gain.value = 0;
+  refOsc.connect(refGate); refGate.connect(outMix); refOsc.start();
+  var limiter = c.createDynamicsCompressor();
+  limiter.threshold.value = -16; limiter.knee.value = 6; limiter.ratio.value = 16;
+  limiter.attack.value = 0.003; limiter.release.value = 0.18;
+  var ceiling = c.createGain(); ceiling.gain.value = 0.68;
+  var powerGate = c.createGain(); powerGate.gain.value = 0;
+  var safety = c.createWaveShaper(); safety.curve = buildHardClipCurve();
+  outMix.connect(limiter); limiter.connect(ceiling); ceiling.connect(powerGate); powerGate.connect(safety);
+  var outAnalyser = c.createAnalyser(); outAnalyser.fftSize = 512;
+  safety.connect(outAnalyser); outAnalyser.connect(c.destination);
+  var monitorOut = c.createGain();
+  safety.connect(monitorOut);
+  nodes.output = { inNode:outMix, refGate:refGate, limiter:limiter, ceiling:ceiling, powerGate:powerGate, outNode:monitorOut, analyser:outAnalyser, powered:false, refOn:false };
+
+  applyNoiseType('white');
+}
+
+/* ===================== patch connections (one universal jack kind) ===================== */
+var JACKS = {
+  'tone.in':{dir:'in', target:function(){ return nodes.tone.inNode; }},
+  'tone.out':{dir:'out', get:function(){ return nodes.tone.outNode; }},
+  'tone.out2':{dir:'out', get:function(){ return nodes.tone.outNode2; }},
+  'click1.in':{dir:'in', target:function(){ return nodes.click1.inNode; }},
+  'click1.out':{dir:'out', get:function(){ return nodes.click1.outNode; }},
+  'click2.in':{dir:'in', target:function(){ return nodes.click2.inNode; }},
+  'click2.out':{dir:'out', get:function(){ return nodes.click2.outNode; }},
+  'crush.in':{dir:'in', target:function(){ return nodes.crush.inNode; }},
+  'crush.out':{dir:'out', get:function(){ return nodes.crush.outNode; }},
+  'ring.in':{dir:'in', target:function(){ return nodes.ring.inNode; }},
+  'ring.out':{dir:'out', get:function(){ return nodes.ring.outNode; }},
+  'field.in':{dir:'in', target:function(){ return nodes.field.inNode; }},
+  'field.out':{dir:'out', get:function(){ return nodes.field.outNode; }},
+  'noise.in':{dir:'in', target:function(){ return nodes.noise.inNode; }},
+  'noise.out':{dir:'out', get:function(){ return nodes.noise.outNode; }},
+  'output.in':{dir:'in', target:function(){ return nodes.output.inNode; }},
+  'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }}
+};
+/* Literal hex, matching the CSS --c-* tokens exactly — a <canvas> 2D
+   context's strokeStyle can't resolve a var() reference, see Signal
+   Chain's identical note. */
+var MODULE_COLOR = {
+  tone:'#FF4136', click1:'#F5F5F0', click2:'#B8B8B0', crush:'#39CCCC',
+  ring:'#8B7FB8', field:'#6FA98A', noise:'#8A8A84', output:'#F5F5F0'
+};
+function moduleOf(jackId){ return jackId.split('.')[0]; }
+
+var connections = [];
+function connect(from, to){
+  if(connections.some(function(cn){ return cn.from===from && cn.to===to; })) return;
+  var fj = JACKS[from], tj = JACKS[to];
+  if(!fj || !tj || fj.dir!=='out' || tj.dir!=='in') return;
+  connections.push({from:from, to:to});
+  fj.get().connect(tj.target());
+  renderCables();
+}
+function disconnect(from, to){
+  var idx = connections.findIndex(function(cn){ return cn.from===from && cn.to===to; });
+  if(idx===-1) return;
+  connections.splice(idx,1);
+  var fj = JACKS[from], tj = JACKS[to];
+  try{ fj.get().disconnect(tj.target()); }catch(e){}
+  renderCables();
+}
+
+/* ===================== bypass footswitches ===================== */
+function setBypass(modId, bypassed){
+  var n = nodes[modId];
+  n.bypassed = bypassed;
+  var c = ctx(), now = c.currentTime;
+  n.bypassGain.gain.cancelScheduledValues(now); n.bypassGain.gain.setTargetAtTime(bypassed?1:0, now, 0.008);
+  n.wetGain.gain.cancelScheduledValues(now); n.wetGain.gain.setTargetAtTime(bypassed?0:1, now, 0.008);
+  if(n.wetGain2){ n.wetGain2.gain.cancelScheduledValues(now); n.wetGain2.gain.setTargetAtTime(bypassed?0:1, now, 0.008); }
+  if(n.bypassGain2){ n.bypassGain2.gain.cancelScheduledValues(now); n.bypassGain2.gain.setTargetAtTime(bypassed?1:0, now, 0.008); }
+  var btn = document.querySelector('[data-bypass="'+modId+'"]');
+  if(btn) btn.classList.toggle('engaged', !bypassed);
+}
+document.querySelectorAll('.fswitch').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    if(!audioReady) return;
+    var id = btn.getAttribute('data-bypass');
+    setBypass(id, !nodes[id].bypassed);
+  });
+});
+
+/* ===================== click pulses (twin units) =====================
+   A static, cold envelope — no pitch, no tone, just a gated impulse — on
+   an exact, unjittered interval, same reasoning as Signal Chain's Sonar:
+   a precise grid reads as more deliberate than a "humanized" one here. */
+function triggerClick(id){
+  var n = nodes[id], c = ctx(), now = c.currentTime;
+  var decay = 0.001 + (n.width/100)*0.05;
+  var cg = n.clickEnv.gain;
+  cg.cancelScheduledValues(now); cg.setValueAtTime(0, now); cg.linearRampToValueAtTime(0.7, now+0.0003); cg.setTargetAtTime(0, now+0.0008, decay);
+}
+function scheduleClick(id){
+  var n = nodes[id];
+  if(!n.bypassed) triggerClick(id);
+  var speed = n.rate/100;
+  var interval = 900 - speed*820;
+  n.timer = setTimeout(function(){ scheduleClick(id); }, interval);
+}
+/* Any signal patched into a Click unit's own "in" is watched for a rising
+   edge and fires an extra pulse on top of its auto-clock — same technique
+   as Signal Chain's Sonar, reused verbatim. */
+function checkEdgeTrigger(state, analyser, triggerFn){
+  if(!state._buf) state._buf = new Uint8Array(analyser.fftSize);
+  analyser.getByteTimeDomainData(state._buf);
+  var peak = 0;
+  for(var i=0;i<state._buf.length;i++){ var d = Math.abs(state._buf[i]-128); if(d>peak) peak = d; }
+  var now = performance.now();
+  if(peak > 26 && state.prevPeak <= 26 && (now - state.lastTrig) > 90){
+    triggerFn();
+    state.lastTrig = now;
+  }
+  state.prevPeak = peak;
+}
+
+/* ===================== noise type / pattern generator =====================
+   Identical to Signal Chain's, ultimately ported from Patch Bay's Noise
+   module. */
+function buildGatePattern(str){
+  var CODE = {W:'.--', H:'....', '6':'-....', I:'..', S:'...'};
+  var events = [];
+  str.split('').forEach(function(ch, ci){
+    var sym = CODE[ch];
+    if(!sym) return;
+    sym.split('').forEach(function(mark, mi){
+      events.push({on:true, units: mark==='-' ? 3 : 1});
+      if(mi < sym.length-1) events.push({on:false, units:1});
+    });
+    events.push({on:false, units: ci < str.length-1 ? 3 : 7});
+  });
+  return events;
+}
+var NOISE_GATE_SEQUENCE = buildGatePattern('WH6HIS');
+
+function stopNoiseModulation(){
+  if(nodes.noise.timer){ clearTimeout(nodes.noise.timer); nodes.noise.timer = null; }
+  nodes.noise.modNodes.forEach(function(n){ try{ n.stop && n.stop(); }catch(e){} try{ n.disconnect(); }catch(e){} });
+  nodes.noise.modNodes = [];
+}
+function applyNoiseType(type){
+  stopNoiseModulation();
+  var c = ctx(), now = c.currentTime, g = nodes.noise.modGain.gain;
+  g.cancelScheduledValues(now);
+  nodes.noise.type = type;
+  if(type==='swell'){
+    var rateHz = 0.03 + (nodes.noise.rate/100)*0.6;
+    var osc = c.createOscillator(); osc.type='sine'; osc.frequency.value = rateHz;
+    var shift = c.createConstantSource(); shift.offset.value = 0.5;
+    var scale = c.createGain(); scale.gain.value = 0.5;
+    osc.connect(scale); scale.connect(g); shift.connect(g);
+    g.setValueAtTime(0, now);
+    osc.start(); shift.start();
+    nodes.noise.modNodes = [osc, shift, scale];
+  } else if(type==='strobe'){
+    g.setValueAtTime(1, now);
+    (function tick(){
+      var lvl = Math.random() < 0.5 ? 0 : (0.4 + Math.random()*0.6);
+      var gg = nodes.noise.modGain.gain, t = ctx().currentTime;
+      gg.cancelScheduledValues(t);
+      gg.setTargetAtTime(lvl, t, 0.004);
+      var speed = nodes.noise.rate/100;
+      var interval = (260 - speed*220) + Math.random()*80;
+      nodes.noise.timer = setTimeout(tick, interval);
+    })();
+  } else if(type==='beacon'){
+    g.setValueAtTime(0, now);
+    var idx = 0;
+    (function tick(){
+      var ev = NOISE_GATE_SEQUENCE[idx % NOISE_GATE_SEQUENCE.length];
+      idx++;
+      var gg = nodes.noise.modGain.gain, t = ctx().currentTime;
+      gg.cancelScheduledValues(t);
+      gg.setTargetAtTime(ev.on ? 1 : 0, t, 0.003);
+      var speed = nodes.noise.rate/100;
+      var unitMs = 150 - speed*100;
+      nodes.noise.timer = setTimeout(tick, ev.units*unitMs);
+    })();
+  } else {
+    g.setValueAtTime(1, now);
+  }
+}
+
+/* ===================== cable drawing / patching UI =====================
+   Fully generic over JACKS/connections — identical to Patch Bay / Signal
+   Chain, reused verbatim. ===================== */
+var svg = document.getElementById('cableSvg');
+var rack = document.getElementById('rack');
+
+function jackCenter(jackId){
+  var el = document.querySelector('[data-jack="'+jackId+'"] .nub');
+  if(!el) return null;
+  var r = el.getBoundingClientRect(), rr = rack.getBoundingClientRect();
+  return { x: r.left+r.width/2-rr.left, y: r.top+r.height/2-rr.top };
+}
+function pathBetween(p1,p2){
+  var dx = Math.max(40, Math.abs(p2.x-p1.x)*0.5);
+  return 'M '+p1.x+' '+p1.y+' C '+(p1.x+dx)+' '+p1.y+', '+(p2.x-dx)+' '+p2.y+', '+p2.x+' '+p2.y;
+}
+function renderCables(tempEnd){
+  while(svg.firstChild) svg.removeChild(svg.firstChild);
+  document.querySelectorAll('.jack').forEach(function(j){ j.classList.remove('filled'); });
+  connections.forEach(function(cn){
+    var p1 = jackCenter(cn.from), p2 = jackCenter(cn.to);
+    if(!p1||!p2) return;
+    var color = MODULE_COLOR[moduleOf(cn.from)] || '#fff';
+    var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+    path.setAttribute('d', pathBetween(p1,p2));
+    path.setAttribute('stroke', color);
+    path.setAttribute('stroke-width','3');
+    path.setAttribute('fill','none');
+    path.setAttribute('stroke-linecap','round');
+    path.style.pointerEvents='stroke';
+    path.style.cursor='pointer';
+    path.addEventListener('click', function(){ disconnect(cn.from, cn.to); });
+    svg.appendChild(path);
+    document.querySelector('[data-jack="'+cn.from+'"]').classList.add('filled');
+    document.querySelector('[data-jack="'+cn.to+'"]').classList.add('filled');
+  });
+  if(tempEnd && tempEnd.from){
+    var p1 = jackCenter(tempEnd.from);
+    if(p1){
+      var path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d', pathBetween(p1, tempEnd.pos));
+      path.setAttribute('stroke', MODULE_COLOR[moduleOf(tempEnd.from)] || '#fff');
+      path.setAttribute('stroke-width','3'); path.setAttribute('fill','none'); path.setAttribute('stroke-dasharray','2 5');
+      svg.appendChild(path);
+    }
+  }
+  var stat = document.getElementById('cableStat');
+  if(stat) stat.textContent = connections.length+' cable'+(connections.length===1?'':'s')+' patched';
+  renderConnList();
+}
+
+var dragFrom = null, dragStart = null, dragMoved = false;
+var pendingFrom = null;
+function setPending(id){
+  clearPending();
+  pendingFrom = id;
+  var el = document.querySelector('[data-jack="'+id+'"]');
+  if(el) el.classList.add('selected');
+}
+function clearPending(){
+  if(!pendingFrom) return;
+  var el = document.querySelector('[data-jack="'+pendingFrom+'"]');
+  if(el) el.classList.remove('selected');
+  pendingFrom = null;
+}
+function disconnectAllAt(jackId){
+  connections.slice().forEach(function(cn){
+    if(cn.from===jackId || cn.to===jackId) disconnect(cn.from, cn.to);
+  });
+}
+function jackUnderPoint(x,y){
+  var stack = document.elementsFromPoint(x,y);
+  for(var i=0;i<stack.length;i++){
+    var j = stack[i].closest && stack[i].closest('.jack');
+    if(j) return j;
+  }
+  return null;
+}
+document.querySelectorAll('.jack').forEach(function(j){
+  j.addEventListener('pointerdown', function(e){
+    var id = j.getAttribute('data-jack');
+    var dir = JACKS[id].dir;
+    if(pendingFrom){
+      if(id===pendingFrom){ clearPending(); renderCables(); e.preventDefault(); return; }
+      if(dir==='in'){ var from=pendingFrom; clearPending(); connect(from, id); e.preventDefault(); return; }
+      clearPending();
+    }
+    if(dir==='in'){
+      if(j.classList.contains('filled')) disconnectAllAt(id);
+      e.preventDefault();
+      return;
+    }
+    dragFrom = id; dragMoved = false; dragStart = {x:e.clientX, y:e.clientY};
+    try{ j.setPointerCapture(e.pointerId); }catch(err){}
+    e.preventDefault();
+  });
+});
+window.addEventListener('pointermove', function(e){
+  if(!dragFrom) return;
+  if(Math.hypot(e.clientX-dragStart.x, e.clientY-dragStart.y) > 6) dragMoved = true;
+  var rr = rack.getBoundingClientRect();
+  renderCables({from:dragFrom, pos:{x:e.clientX-rr.left, y:e.clientY-rr.top}});
+  var jackEl = jackUnderPoint(e.clientX, e.clientY);
+  document.querySelectorAll('.jack.dragtarget').forEach(function(x){x.classList.remove('dragtarget');});
+  if(jackEl && JACKS[jackEl.getAttribute('data-jack')] && JACKS[jackEl.getAttribute('data-jack')].dir==='in') jackEl.classList.add('dragtarget');
+});
+window.addEventListener('pointerup', function(e){
+  if(!dragFrom) return;
+  var from = dragFrom;
+  dragFrom = null;
+  var jackEl = jackUnderPoint(e.clientX, e.clientY);
+  document.querySelectorAll('.jack.dragtarget').forEach(function(x){x.classList.remove('dragtarget');});
+  if(jackEl){
+    var to = jackEl.getAttribute('data-jack');
+    if(JACKS[to] && JACKS[to].dir==='in'){ connect(from, to); renderCables(); return; }
+  }
+  if(!dragMoved){ setPending(from); }
+  renderCables();
+});
+
+/* ===================== connections panel (touch patching) ===================== */
+function jackLabel(id){
+  var el = document.querySelector('[data-jack="'+id+'"]');
+  if(!el) return id;
+  var mod = el.closest('.module');
+  var modName = mod ? mod.querySelector('.mname').textContent : '';
+  return modName+' '+el.textContent.trim();
+}
+var connFromSel = document.getElementById('connFrom');
+var connToSel = document.getElementById('connTo');
+function initConnectionsPanel(){
+  Object.keys(JACKS).filter(function(id){ return JACKS[id].dir==='out'; }).forEach(function(id){
+    var o = document.createElement('option'); o.value = id; o.textContent = jackLabel(id);
+    connFromSel.appendChild(o);
+  });
+  Object.keys(JACKS).filter(function(id){ return JACKS[id].dir==='in'; }).forEach(function(id){
+    var o = document.createElement('option'); o.value = id; o.textContent = jackLabel(id);
+    connToSel.appendChild(o);
+  });
+  document.getElementById('connAddBtn').addEventListener('click', function(){
+    if(connFromSel.value && connToSel.value) connect(connFromSel.value, connToSel.value);
+  });
+}
+function renderConnList(){
+  var list = document.getElementById('connList');
+  if(!list) return;
+  list.innerHTML = '';
+  if(!connections.length){
+    var empty = document.createElement('div');
+    empty.className = 'connEmpty';
+    empty.textContent = 'Nothing patched — every unit is silent until something reaches its in.';
+    list.appendChild(empty);
+    return;
+  }
+  connections.forEach(function(cn){
+    var chip = document.createElement('div'); chip.className = 'connChip';
+    var dot = document.createElement('span'); dot.className = 'dot';
+    dot.style.background = MODULE_COLOR[moduleOf(cn.from)] || '#fff';
+    var lbl = document.createElement('span'); lbl.className = 'lbl';
+    lbl.textContent = jackLabel(cn.from)+' → '+jackLabel(cn.to);
+    var rm = document.createElement('button'); rm.type = 'button'; rm.className = 'connRm'; rm.textContent = '×';
+    rm.addEventListener('click', function(){ disconnect(cn.from, cn.to); });
+    chip.appendChild(dot); chip.appendChild(lbl); chip.appendChild(rm);
+    list.appendChild(chip);
+  });
+}
+
+/* ===================== knobs ===================== */
+function paramSet(path, val){
+  if(path==='tone.pitch'){ nodes.tone.pitch = val; nodes.tone.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.tone.ratioOsc.frequency.setTargetAtTime(val*nodes.tone.ratio, ctx().currentTime, 0.01); }
+  else if(path==='tone.ratio'){ nodes.tone.ratio = val; nodes.tone.ratioOsc.frequency.setTargetAtTime(nodes.tone.pitch*val, ctx().currentTime, 0.01); }
+  else if(path==='tone.level'){ nodes.tone.level.gain.setTargetAtTime(val/100*0.7, ctx().currentTime, 0.01); nodes.tone.ratioLevel.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.01); }
+  else if(path==='click1.rate'){ nodes.click1.rate = val; }
+  else if(path==='click1.width'){ nodes.click1.width = val; }
+  else if(path==='click1.repeat'){ nodes.click1.repeat = val; nodes.click1.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
+  else if(path==='click1.level'){ nodes.click1.level.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); }
+  else if(path==='click2.rate'){ nodes.click2.rate = val; }
+  else if(path==='click2.width'){ nodes.click2.width = val; }
+  else if(path==='click2.repeat'){ nodes.click2.repeat = val; nodes.click2.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
+  else if(path==='click2.level'){ nodes.click2.level.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); }
+  else if(path==='crush.bits'){ nodes.crush.shaper.curve = buildStaircaseCurve(Math.pow(2, val)); }
+  else if(path==='crush.gate'){ nodes.crush.gateOsc.frequency.setTargetAtTime(val, ctx().currentTime, 0.005); }
+  else if(path==='crush.mix'){ nodes.crush.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.crush.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
+  else if(path==='ring.freq'){ nodes.ring.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='ring.mix'){ nodes.ring.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.ring.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
+  else if(path==='field.rate'){ nodes.field.lfo.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='field.steps'){ nodes.field.steps = val; nodes.field.stair.curve = buildStaircaseCurve(val/2); }
+  else if(path==='noise.level'){ nodes.noise.levelGain.gain.value = val/100*0.8; }
+  else if(path==='noise.rate'){ nodes.noise.rate = val; }
+  else if(path==='output.volume'){ nodes.output.ceiling.gain.setTargetAtTime(val/100*0.85, ctx().currentTime, 0.01); }
+}
+
+function initKnob(el){
+  var path = el.getAttribute('data-knob');
+  var min = parseFloat(el.getAttribute('data-min')), max = parseFloat(el.getAttribute('data-max'));
+  var isLog = el.getAttribute('data-log')==='1';
+  var stepQ = el.getAttribute('data-step');
+  var val = parseFloat(el.getAttribute('data-default'));
+  var ind = el.querySelector('.ind');
+  var kval = document.querySelector('[data-kval="'+path+'"]');
+
+  var range = document.createElement('input');
+  range.type='range'; range.className='krange'; range.min='0'; range.max='1';
+  range.step = stepQ ? String(1/(max-min)) : '0.001';
+  range.setAttribute('aria-label', path);
+  el.insertAdjacentElement('afterend', range);
+
+  function toT(v){ return isLog ? (Math.log(v/min)/Math.log(max/min)) : (v-min)/(max-min); }
+  function toAngle(v){ return -135 + toT(v)*270; }
+  function render(){
+    ind.style.transform = 'rotate('+toAngle(val)+'deg)';
+    kval.textContent = (Math.abs(val)<10 && val%1!==0) ? val.toFixed(2) : Math.round(val*100)/100;
+    range.value = toT(val);
+  }
+  function setVal(v){
+    v = Math.min(max, Math.max(min, v));
+    if(stepQ) v = Math.round(v);
+    val = v; render(); paramSet(path, val);
+  }
+  range.addEventListener('input', function(){
+    var t = parseFloat(range.value);
+    setVal(isLog ? min*Math.pow(max/min, t) : min + t*(max-min));
+  });
+  render(); paramSet(path, val);
+
+  var dragging=false, startY=0, startVal=0;
+  el.addEventListener('pointerdown', function(e){
+    dragging=true; startY=e.clientY; startVal=val; el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    var dy = startY - e.clientY, newVal;
+    if(isLog){
+      var t0 = Math.log(startVal/min)/Math.log(max/min);
+      newVal = min*Math.pow(max/min, t0 + dy/150);
+    } else {
+      newVal = startVal + (dy/150)*(max-min);
+    }
+    setVal(newVal);
+  });
+  ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
+  el._setVal = setVal; el._getRange = {min:min,max:max,isLog:isLog,stepQ:stepQ};
+}
+
+/* ===================== oscilloscopes =====================
+   Scopes: Wave / Spectrum toggle, identical technique to Signal Chain. */
+var scopeMode = 'wave';
+function makeScopeDrawer(canvasId, analyser, color){
+  var canvas = document.getElementById(canvasId);
+  if(!canvas || !analyser) return function(){};
+  var sctx = canvas.getContext('2d');
+  var timeData = new Uint8Array(analyser.fftSize);
+  var freqData = new Uint8Array(analyser.frequencyBinCount);
+  return function(){
+    sctx.fillStyle = '#000'; sctx.fillRect(0,0,canvas.width,canvas.height);
+    if(scopeMode==='spectrum'){
+      analyser.getByteFrequencyData(freqData);
+      var barCount = Math.min(48, freqData.length);
+      var barW = canvas.width/barCount;
+      sctx.fillStyle = color;
+      for(var i=0;i<barCount;i++){
+        var v = (freqData[i]/255)*canvas.height;
+        sctx.fillRect(i*barW, canvas.height-v, Math.max(1,barW-1), v);
+      }
+    } else {
+      analyser.getByteTimeDomainData(timeData);
+      sctx.strokeStyle = color;
+      sctx.lineWidth = 2; sctx.beginPath();
+      for(var i=0;i<timeData.length;i++){
+        var x = i/timeData.length*canvas.width, y = (timeData[i]/255)*canvas.height;
+        if(i===0) sctx.moveTo(x,y); else sctx.lineTo(x,y);
+      }
+      sctx.stroke();
+    }
+  };
+}
+function drawScopes(){
+  var draws = [
+    makeScopeDrawer('toneScope', nodes.tone.analyser, MODULE_COLOR.tone),
+    makeScopeDrawer('click1Scope', nodes.click1.analyser, MODULE_COLOR.click1),
+    makeScopeDrawer('click2Scope', nodes.click2.analyser, MODULE_COLOR.click2),
+    makeScopeDrawer('crushScope', nodes.crush.analyser, MODULE_COLOR.crush),
+    makeScopeDrawer('ringScope', nodes.ring.analyser, MODULE_COLOR.ring),
+    makeScopeDrawer('fieldScope', nodes.field.analyser, MODULE_COLOR.field),
+    makeScopeDrawer('noiseScope', nodes.noise.analyser, MODULE_COLOR.noise),
+    makeScopeDrawer('outputScope', nodes.output.analyser, MODULE_COLOR.output)
+  ];
+  function loop(){
+    requestAnimationFrame(loop);
+    draws.forEach(function(fn){ fn(); });
+    checkEdgeTrigger(nodes.click1, nodes.click1.inAnalyser, function(){ triggerClick('click1'); });
+    checkEdgeTrigger(nodes.click2, nodes.click2.inAnalyser, function(){ triggerClick('click2'); });
+  }
+  loop();
+}
+
+/* ===================== random ===================== */
+var RANDOM_KNOBS = ['tone.pitch','tone.ratio','tone.level','click1.rate','click1.width','click1.repeat',
+  'click2.rate','click2.width','click2.repeat','crush.bits','crush.gate','crush.mix',
+  'ring.freq','ring.mix','field.rate','field.steps','noise.rate'];
+function randomize(){
+  document.querySelectorAll('.knob').forEach(function(el){
+    var path = el.getAttribute('data-knob');
+    if(RANDOM_KNOBS.indexOf(path)===-1) return;
+    var r = el._getRange;
+    var v = r.isLog ? r.min*Math.pow(r.max/r.min, Math.random()) : r.min + Math.random()*(r.max-r.min);
+    el._setVal(v);
+  });
+}
+
+/* ===================== default patch ===================== */
+function wireDefaultPatch(){
+  connect('tone.out','crush.in');
+  connect('crush.out','field.in');
+  connect('field.out','output.in');
+  connect('noise.out','ring.in');
+  connect('ring.out','output.in');
+  connect('click1.out','output.in');
+  connect('click2.out','output.in');
+}
+
+/* ===================== legend ===================== */
+function buildLegend(){
+  var el = document.getElementById('legend');
+  Object.keys(MODULE_COLOR).forEach(function(id){
+    var mod = document.querySelector('.module[data-mod="'+id+'"]');
+    var name = mod ? mod.querySelector('.mname').textContent : id;
+    var span = document.createElement('span');
+    var dot = document.createElement('span'); dot.className='dot'; dot.style.background = MODULE_COLOR[id];
+    span.appendChild(dot); span.appendChild(document.createTextNode(name));
+    el.appendChild(span);
+  });
+}
+
+/* ===================== boot =====================
+   Audio setup is isolated in its own try/catch so a missing API can't
+   take the whole page's UI wiring down with it — see Patch Bay / Signal
+   Chain for why. */
+var audioReady = false, buildError = null;
+try{
+  build();
+  wireDefaultPatch();
+  audioReady = true;
+}catch(err){
+  buildError = err;
+  console.error('Pulse Train: Web Audio setup failed —', err);
+}
+if(!audioReady){
+  var banner = document.createElement('div');
+  banner.style.cssText = 'background:#FF4136;color:#1a0503;padding:12px 16px;font-family:'+
+    "'Space Mono',monospace"+';font-size:12px;border-bottom:1px solid var(--line-strong);';
+  banner.textContent = 'Audio couldn\'t start in this browser (' + (buildError && buildError.message ? buildError.message : 'unknown error') + '). The board below still works for looking around, but nothing will play — sorry.';
+  document.body.insertBefore(banner, document.body.firstChild);
+}
+
+document.querySelectorAll('.knob').forEach(function(el){
+  try{ initKnob(el); }catch(e){ console.error('knob init failed for', el.getAttribute('data-knob'), e); }
+});
+document.querySelectorAll('select.wave').forEach(function(sel){
+  sel.addEventListener('change', function(){
+    if(!audioReady) return;
+    var path = sel.getAttribute('data-select');
+    if(path==='noise.type'){ applyNoiseType(sel.value); }
+  });
+});
+initConnectionsPanel();
+buildLegend();
+if(audioReady){ renderCables(); drawScopes(); scheduleClick('click1'); scheduleClick('click2'); }
+
+document.getElementById('powerBtn').addEventListener('click', function(){
+  if(!audioReady) return;
+  unlockAudioForIOS();
+  nodes.output.powered = !nodes.output.powered;
+  var now = ctx().currentTime;
+  nodes.output.powerGate.gain.cancelScheduledValues(now);
+  nodes.output.powerGate.gain.setTargetAtTime(nodes.output.powered?1:0, now, 0.03);
+  this.classList.toggle('off', !nodes.output.powered);
+  this.textContent = nodes.output.powered ? '◉ Power: On' : '◉ Power';
+});
+document.getElementById('randomBtn').addEventListener('click', function(){ if(audioReady) randomize(); });
+document.getElementById('refBtn').addEventListener('click', function(){
+  if(!audioReady) return;
+  nodes.output.refOn = !nodes.output.refOn;
+  var now = ctx().currentTime;
+  nodes.output.refGate.gain.cancelScheduledValues(now);
+  nodes.output.refGate.gain.setTargetAtTime(nodes.output.refOn ? 0.2 : 0, now, 0.02);
+  this.classList.toggle('on', nodes.output.refOn);
+});
+document.getElementById('scopeModeBtn').addEventListener('click', function(){
+  scopeMode = scopeMode==='wave' ? 'spectrum' : 'wave';
+  this.textContent = scopeMode==='wave' ? 'Scopes: Wave' : 'Scopes: Spectrum';
+});
+window.addEventListener('resize', function(){ if(audioReady) renderCables(); });
+
+})();
+</script>
+</body>
+</html>
