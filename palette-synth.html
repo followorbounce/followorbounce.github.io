@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Palette Synth — Knowledge Network</title>
+<meta name="description" content="A live cosine-gradient color instrument — twelve coefficients across three channels generate a full smooth palette in real time, the same formula family already running the Plasma shader on Media Servers II.">
+<link rel="canonical" href="https://followorbounce.github.io/palette-synth">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Palette Synth — Knowledge Network">
+<meta property="og:description" content="A live cosine-gradient color instrument — tune twelve coefficients across three channels to design a full smooth palette in real time.">
+<meta property="og:url" content="https://followorbounce.github.io/palette-synth">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#96938A;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#7A6BB0;
+  --c-r:#D6483F; --c-g:#3F9457; --c-b:#3D6FD1;
+  --knob-face-1:#FFFFFF; --knob-face-2:#CCCCCC;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+    --line:#332F29; --line-strong:#48443A;
+    --c-r:#E4685F; --c-g:#5CAE72; --c-b:#6690E0;
+    --knob-face-1:#4A4A48; --knob-face-2:#201F1C;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+  --line:#332F29; --line-strong:#48443A;
+  --c-r:#E4685F; --c-g:#5CAE72; --c-b:#6690E0;
+  --knob-face-1:#4A4A48; --knob-face-2:#201F1C;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+button,select{font-family:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft);}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(28px,5vw,48px) 18px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem); line-height:1.02; letter-spacing:-0.01em; color:var(--ink); font-family:var(--font-display);}
+.hero p{margin-top:14px; max-width:680px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+.controlbar{position:sticky; top:48px; z-index:20; background:var(--paper-raised); border-block:1px solid var(--line-strong); padding-block:10px;}
+.controlbar .wrap{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.ctl-select{font-family:var(--font-mono); font-size:12px; padding:8px 10px; border:1px solid var(--line-strong); border-radius:3px; background:var(--paper); color:var(--ink);}
+.ctl-btn{font-family:var(--font-display); font-weight:700; font-size:13px; letter-spacing:0.02em; padding:9px 16px; border:1px solid var(--line-strong); background:var(--paper); color:var(--ink); cursor:pointer; border-radius:3px;}
+.ctl-btn:active{transform:translateY(1px);}
+.ctl-btn.on{background:var(--live); color:#fff; border-color:var(--live);}
+.ctl-stat{font-size:11px; color:var(--ink-faint); margin-left:auto;}
+
+.rackwrap{padding-block:26px;}
+.channels{display:grid; grid-template-columns:repeat(3,1fr); gap:16px; margin-bottom:22px;}
+@media (max-width:760px){ .channels{grid-template-columns:1fr;} }
+.chan{background:var(--paper-raised); border:1px solid var(--line-strong); border-radius:6px 6px 3px 3px; padding:14px; position:relative;}
+.chan::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px;}
+.chan.r::before{background:var(--c-r);} .chan.g::before{background:var(--c-g);} .chan.b::before{background:var(--c-b);}
+.chan h3{font-size:13px; letter-spacing:0.08em; text-transform:uppercase; padding-top:5px; margin-bottom:12px; padding-bottom:8px; border-bottom:1px solid var(--line);}
+.chan.r h3{color:var(--c-r);} .chan.g h3{color:var(--c-g);} .chan.b h3{color:var(--c-b);}
+.knobrow{display:flex; justify-content:space-between; gap:8px; flex-wrap:wrap;}
+
+.knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
+.knob{width:40px; height:40px; border-radius:50%; background:radial-gradient(circle at 35% 30%, var(--knob-face-1), var(--knob-face-2) 70%); border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;}
+.knob:active{cursor:grabbing;}
+.knob .ind{position:absolute; left:50%; top:3px; width:3px; height:14px; background:var(--ink); transform-origin:50% 17px; margin-left:-1.5px; border-radius:2px;}
+.klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint);}
+.kval{font-size:9.5px; color:var(--ink-soft); font-variant-numeric:tabular-nums;}
+.krange{display:none;}
+@media (pointer:coarse){
+  .knob{display:none;}
+  .krange{display:block; width:100%;}
+  .knobrow{flex-direction:column; align-items:stretch;}
+  .knobwrap{flex-direction:row; align-items:center; gap:8px; width:100%;}
+  .klabel{order:-1; width:52px; flex:none;}
+  .krange{order:0;}
+  .kval{order:1; width:44px; flex:none; text-align:right;}
+}
+.krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
+.krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-webkit-slider-thumb{-webkit-appearance:none; width:18px; height:18px; margin-top:-6.5px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
+.krange::-moz-range-track{height:5px; background:var(--line-strong); border-radius:3px;}
+.krange::-moz-range-thumb{width:18px; height:18px; border-radius:50%; background:var(--live); border:2px solid var(--paper-raised);}
+
+.gradientwrap{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:18px;}
+.gradientwrap canvas{display:block; width:100%; height:130px;}
+
+.curvewrap{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:22px; background:var(--paper-sunken);}
+.curvewrap canvas{display:block; width:100%; height:110px;}
+.curvelegend{display:flex; gap:16px; padding:8px 12px; border-top:1px solid var(--line); font-size:10.5px;}
+.curvelegend span{display:inline-flex; align-items:center; gap:6px;}
+.curvelegend .dot{width:9px; height:9px; border-radius:50%;}
+
+.swatches{display:grid; grid-template-columns:repeat(12,1fr); gap:0; border-radius:6px; overflow:hidden; border:1px solid var(--line-strong); margin-bottom:22px;}
+@media (max-width:760px){ .swatches{grid-template-columns:repeat(6,1fr);} }
+.swatch{position:relative; padding-block:20px 8px; text-align:center; cursor:pointer; border:none; font-family:var(--font-mono); font-size:8.5px;}
+.swatch:hover{outline:2px solid var(--live); outline-offset:-2px;}
+.swatch .hex{font-weight:600; letter-spacing:0.02em;}
+
+.exportblock{border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; margin-bottom:8px;}
+.exportblock .exphead{display:flex; align-items:center; justify-content:space-between; padding:9px 14px; background:var(--paper-raised); border-bottom:1px solid var(--line);}
+.exportblock h3{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint);}
+.exportblock pre{margin:0; padding:14px; font-size:11.5px; line-height:1.7; overflow-x:auto; background:var(--paper-sunken); white-space:pre;}
+.copybtn{font-family:var(--font-mono); font-size:10.5px; padding:5px 10px; border:1px solid var(--line-strong); background:var(--paper); color:var(--ink); border-radius:3px; cursor:pointer;}
+.copybtn.copied{background:var(--live); color:#fff; border-color:var(--live);}
+
+section.about{padding-block:clamp(28px,5vw,48px); border-top:1px solid var(--line-strong);}
+section.about h2{font-size:1.15rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about p{max-width:700px; font-size:13px; color:var(--ink-soft); line-height:1.8; margin-bottom:12px; font-family:var(--font-display); font-weight:500;}
+section.about p:last-child{margin-bottom:0;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Instrument · Color Synthesis</div>
+    <h1>Palette Synth</h1>
+    <p>One formula, twelve knobs, an entire smooth palette. Every color here comes from <code>color(t) = a + b · cos(2π(c·t + d))</code> — a cosine wave per channel, three channels, each with its own offset, amplitude, frequency, and phase. Turn a knob and the whole gradient, its per-channel curves, and its swatches update live.</p>
+  </div>
+</section>
+
+<div class="controlbar">
+  <div class="wrap">
+    <select class="ctl-select" id="presetSelect"></select>
+    <button class="ctl-btn" id="randomBtn">⟲ Randomize</button>
+    <button class="ctl-btn" id="animateBtn">▶ Animate</button>
+    <span class="ctl-stat" id="statText"></span>
+  </div>
+</div>
+
+<div class="rackwrap wrap">
+
+  <div class="channels" id="channels">
+    <!-- populated by JS: one .chan per r/g/b, 4 knobs each (a, b, c, d) -->
+  </div>
+
+  <div class="gradientwrap"><canvas id="gradientCanvas" width="960" height="130"></canvas></div>
+
+  <div class="curvewrap">
+    <canvas id="curveCanvas" width="960" height="110"></canvas>
+    <div class="curvelegend">
+      <span><span class="dot" style="background:var(--c-r)"></span>R(t)</span>
+      <span><span class="dot" style="background:var(--c-g)"></span>G(t)</span>
+      <span><span class="dot" style="background:var(--c-b)"></span>B(t)</span>
+    </div>
+  </div>
+
+  <div class="swatches" id="swatchRow"></div>
+
+  <div class="exportblock">
+    <div class="exphead"><h3>Export</h3><button class="copybtn" id="copyBtn">Copy</button></div>
+    <pre id="exportCode"></pre>
+  </div>
+
+</div>
+
+<section class="about wrap">
+  <h2>What this actually is</h2>
+  <p>This is the <strong>cosine gradient</strong> technique — a small, well-known trick from procedural color work: because <code>cos</code> is smooth, cyclical, and bounded to [-1, 1], scaling and offsetting one per channel turns four short vectors (<strong>a</strong>, <strong>b</strong>, <strong>c</strong>, <strong>d</strong> — offset, amplitude, frequency, phase) into an entire continuous palette, with no banding and no manual color-stop editing. <strong>a</strong> sets each channel's midpoint, <strong>b</strong> its swing around that midpoint, <strong>c</strong> how many times it cycles across the gradient, and <strong>d</strong> where in that cycle it starts — stagger <strong>d</strong> across the three channels and you get hue rotation for free.</p>
+  <p>The <strong>Plasma</strong> preset isn't just a nice rainbow — it's the same palette recipe already running the plasma shader on <a href="/mediaservers-shaders">Media Servers II</a>: equal offset and amplitude on every channel, one full cycle each, phases spaced exactly a third of a turn apart. That page hard-codes it in GLSL as three <code>sin()</code> terms; this instrument just makes the same four vectors tunable instead of fixed, and lets you export the result back out as a GLSL-ready <code>vec3</code> or a plain JS array.</p>
+  <p>Palette Synth is the first in a planned family of <strong>visual synths</strong> for this site — instruments where wave shape, color, or geometric form are generated live through math rather than drawn by hand. Its color engine (this exact formula) is meant to be reused, not reinvented, by the ones after it: an additive-wave sculptor, a Lissajous/harmonograph plotter, an audio-reactive reaction-diffusion instrument, and a complex-plane fractal mapper are next.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/mediaservers-shaders">Media Servers II</a> · <a href="/patch-bay">Patch Bay</a> · <a href="/signal-chain">Signal Chain</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== palette math =====================
+   color(t) = a + b * cos( 2*PI * (c*t + d) ), one triple of coefficients
+   per channel. This is the exact family used by the Plasma shader on
+   Media Servers II (a=b=0.5, c=1, d spaced a third of a turn apart per
+   channel) — see the About section. */
+var COEF = ['a','b','c','d'];
+var CHAN = ['r','g','b'];
+var RANGE = { a:{min:0,max:1}, b:{min:0,max:1}, c:{min:0,max:4}, d:{min:0,max:1} };
+
+var state = {
+  a:{r:0.5, g:0.5, b:0.5},
+  b:{r:0.5, g:0.5, b:0.5},
+  c:{r:1,   g:1,   b:1  },
+  d:{r:0,   g:0.33,b:0.67}
+};
+
+var PRESETS = [
+  {name:'Plasma (Media Servers II)', a:[.5,.5,.5], b:[.5,.5,.5], c:[1,1,1],   d:[0,.33,.67]},
+  {name:'Sunset',                    a:[.6,.4,.3], b:[.4,.3,.2], c:[1,1,1],   d:[0,.15,.3]},
+  {name:'Ocean',                     a:[.3,.45,.55],b:[.25,.3,.35],c:[1,1.5,2],d:[.5,.6,.7]},
+  {name:'Forest',                    a:[.35,.4,.25],b:[.3,.35,.2],c:[1,1,1], d:[.1,.3,.15]},
+  {name:'Neon',                      a:[.5,.5,.5], b:[.5,.5,.5], c:[2,3,1],  d:[0,.2,.5]},
+  {name:'Mono',                      a:[.5,.5,.5], b:[.4,.4,.4], c:[1,1,1],  d:[0,0,0]}
+];
+
+var animating = false, driftPhase = 0;
+
+function paletteAt(t){
+  var out = {};
+  for(var i=0;i<3;i++){
+    var ch = CHAN[i];
+    var d = state.d[ch] + (animating ? driftPhase : 0);
+    var v = state.a[ch] + state.b[ch]*Math.cos(2*Math.PI*(state.c[ch]*t + d));
+    out[ch] = Math.max(0, Math.min(1, v));
+  }
+  return out;
+}
+function toHex(rgb01){
+  function h(v){ var n=Math.round(v*255); return (n<16?'0':'')+n.toString(16); }
+  return '#'+h(rgb01.r)+h(rgb01.g)+h(rgb01.b);
+}
+function luminance(rgb01){ return 0.2126*rgb01.r + 0.7152*rgb01.g + 0.0722*rgb01.b; }
+
+/* ===================== knob widget (dual knob/range-slider control,
+   same mechanic as Patch Bay / Signal Chain — self-contained here on
+   purpose: this is the first visual synth, and it's premature to factor
+   out a shared kit before a second/third instrument shows what's
+   actually common between them). ===================== */
+function initKnob(el, min, max, defaultVal, onChange){
+  var val = defaultVal;
+  var ind = el.querySelector('.ind');
+  var kval = el.parentNode.querySelector('.kval');
+  var range = document.createElement('input');
+  range.type='range'; range.className='krange'; range.min='0'; range.max='1'; range.step='0.001';
+  el.insertAdjacentElement('afterend', range);
+
+  function toT(v){ return (v-min)/(max-min); }
+  function toAngle(v){ return -135 + toT(v)*270; }
+  function render(){
+    ind.style.transform = 'rotate('+toAngle(val)+'deg)';
+    kval.textContent = val.toFixed(2);
+    range.value = toT(val);
+  }
+  function setVal(v){
+    v = Math.min(max, Math.max(min, v));
+    val = v; render(); onChange(val);
+  }
+  range.addEventListener('input', function(){
+    setVal(min + parseFloat(range.value)*(max-min));
+  });
+  var dragging=false, startY=0, startVal=0;
+  el.addEventListener('pointerdown', function(e){
+    dragging=true; startY=e.clientY; startVal=val; el.setPointerCapture(e.pointerId);
+  });
+  el.addEventListener('pointermove', function(e){
+    if(!dragging) return;
+    setVal(startVal + ((startY-e.clientY)/150)*(max-min));
+  });
+  ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
+  render(); onChange(val);
+  el._setVal = setVal;
+  return el;
+}
+
+/* ===================== build the channel racks ===================== */
+var CHAN_LABEL = {r:'Red', g:'Green', b:'Blue'};
+var COEF_LABEL = {a:'offset', b:'amp', c:'freq', d:'phase'};
+var knobEls = {}; // "r.a" -> knob element
+
+function buildChannels(){
+  var wrap = document.getElementById('channels');
+  CHAN.forEach(function(ch){
+    var card = document.createElement('div');
+    card.className = 'chan '+ch;
+    var h3 = document.createElement('h3'); h3.textContent = CHAN_LABEL[ch];
+    card.appendChild(h3);
+    var row = document.createElement('div'); row.className = 'knobrow';
+    COEF.forEach(function(co){
+      var kw = document.createElement('div'); kw.className = 'knobwrap';
+      var knob = document.createElement('div'); knob.className = 'knob';
+      var ind = document.createElement('div'); ind.className = 'ind';
+      knob.appendChild(ind);
+      var label = document.createElement('span'); label.className = 'klabel'; label.textContent = COEF_LABEL[co];
+      var kval = document.createElement('span'); kval.className = 'kval';
+      kw.appendChild(knob); kw.appendChild(label); kw.appendChild(kval);
+      row.appendChild(kw);
+      var path = ch+'.'+co;
+      knobEls[path] = initKnob(knob, RANGE[co].min, RANGE[co].max, state[co][ch], function(val){
+        state[co][ch] = val;
+        render();
+      });
+    });
+    card.appendChild(row);
+    wrap.appendChild(card);
+  });
+}
+
+/* ===================== rendering ===================== */
+var gradCanvas = document.getElementById('gradientCanvas'), gradCtx = gradCanvas.getContext('2d');
+var curveCanvas = document.getElementById('curveCanvas'), curveCtx = curveCanvas.getContext('2d');
+var swatchRow = document.getElementById('swatchRow');
+var exportCode = document.getElementById('exportCode');
+var statText = document.getElementById('statText');
+
+var SWATCH_COUNT = 12;
+var swatchEls = [];
+function buildSwatches(){
+  for(var i=0;i<SWATCH_COUNT;i++){
+    var b = document.createElement('button');
+    b.type = 'button'; b.className = 'swatch';
+    var hex = document.createElement('span'); hex.className = 'hex';
+    b.appendChild(hex);
+    b.addEventListener('click', (function(idx){
+      return function(){
+        var hexVal = swatchEls[idx].hexVal;
+        var done = function(){
+          var old = hex.textContent;
+          hex.textContent = 'copied';
+          setTimeout(function(){ hex.textContent = old; }, 700);
+        };
+        try{ navigator.clipboard.writeText(hexVal).then(done, done); }catch(e){ done(); }
+      };
+    })(i));
+    swatchRow.appendChild(b);
+    swatchEls.push({el:b, hexEl:hex, hexVal:'#000000'});
+  }
+}
+
+function render(){
+  // gradient strip
+  var w = gradCanvas.width, h = gradCanvas.height;
+  var imgData = gradCtx.createImageData(w, h);
+  for(var x=0;x<w;x++){
+    var t = x/(w-1);
+    var rgb = paletteAt(t);
+    var r = Math.round(rgb.r*255), g = Math.round(rgb.g*255), bl = Math.round(rgb.b*255);
+    for(var y=0;y<h;y++){
+      var idx = (y*w+x)*4;
+      imgData.data[idx]=r; imgData.data[idx+1]=g; imgData.data[idx+2]=bl; imgData.data[idx+3]=255;
+    }
+  }
+  gradCtx.putImageData(imgData, 0, 0);
+
+  // per-channel curve plot (canvas stays transparent; the wrapper's own
+  // CSS background shows through, so a clear is all that's needed here)
+  var cw = curveCanvas.width, ch = curveCanvas.height;
+  curveCtx.clearRect(0,0,cw,ch);
+  var colors = {r:getStyle('--c-r'), g:getStyle('--c-g'), b:getStyle('--c-b')};
+  CHAN.forEach(function(chan){
+    curveCtx.strokeStyle = colors[chan]; curveCtx.lineWidth = 2; curveCtx.beginPath();
+    for(var x=0;x<cw;x++){
+      var t = x/(cw-1);
+      var d = state.d[chan] + (animating?driftPhase:0);
+      var v = state.a[chan] + state.b[chan]*Math.cos(2*Math.PI*(state.c[chan]*t + d));
+      v = Math.max(0, Math.min(1, v));
+      var y = ch - v*ch;
+      if(x===0) curveCtx.moveTo(x,y); else curveCtx.lineTo(x,y);
+    }
+    curveCtx.stroke();
+  });
+
+  // swatches
+  for(var i=0;i<SWATCH_COUNT;i++){
+    var t2 = i/(SWATCH_COUNT-1);
+    var rgb2 = paletteAt(t2);
+    var hex2 = toHex(rgb2);
+    swatchEls[i].hexVal = hex2;
+    swatchEls[i].el.style.background = hex2;
+    swatchEls[i].hexEl.textContent = hex2;
+    swatchEls[i].hexEl.style.color = luminance(rgb2) > 0.55 ? '#111' : '#fff';
+  }
+
+  // export block
+  function fmt3(arr){ return arr.map(function(v){ return v.toFixed(3); }).join(', '); }
+  var av=[state.a.r,state.a.g,state.a.b], bv=[state.b.r,state.b.g,state.b.b];
+  var cv=[state.c.r,state.c.g,state.c.b], dv=[state.d.r,state.d.g,state.d.b];
+  exportCode.textContent =
+    '// Palette Synth — cosine gradient coefficients\n' +
+    'const a = ['+fmt3(av)+'];\n' +
+    'const b = ['+fmt3(bv)+'];\n' +
+    'const c = ['+fmt3(cv)+'];\n' +
+    'const d = ['+fmt3(dv)+'];\n' +
+    '// color(t)[i] = a[i] + b[i] * cos( 2*PI * (c[i]*t + d[i]) )\n\n' +
+    '// GLSL\n' +
+    'vec3 a = vec3('+fmt3(av)+');\n' +
+    'vec3 b = vec3('+fmt3(bv)+');\n' +
+    'vec3 c = vec3('+fmt3(cv)+');\n' +
+    'vec3 d = vec3('+fmt3(dv)+');\n' +
+    'vec3 palette(float t){ return a + b*cos(6.28318*(c*t+d)); }';
+
+  // live accent — sample the palette's midpoint and use it for small UI
+  // accents only (knob thumbs, active buttons), never as text-on-background,
+  // so an unlucky low-contrast palette can't make the UI unreadable.
+  var mid = paletteAt(0.5);
+  document.documentElement.style.setProperty('--live', toHex(mid));
+
+  statText.textContent = animating ? 'animating' : 'static';
+}
+function getStyle(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+
+/* ===================== presets / randomize / animate ===================== */
+function applyPreset(p){
+  COEF.forEach(function(co, i){
+    CHAN.forEach(function(ch, j){
+      var v = p[co][j];
+      state[co][ch] = v;
+      var el = knobEls[ch+'.'+co];
+      if(el && el._setVal) el._setVal(v);
+    });
+  });
+  render();
+}
+function buildPresetSelect(){
+  var sel = document.getElementById('presetSelect');
+  PRESETS.forEach(function(p, i){
+    var o = document.createElement('option'); o.value = i; o.textContent = p.name;
+    sel.appendChild(o);
+  });
+  sel.addEventListener('change', function(){ applyPreset(PRESETS[sel.value]); });
+}
+function randomize(){
+  COEF.forEach(function(co){
+    CHAN.forEach(function(ch){
+      var r = RANGE[co];
+      var v = r.min + Math.random()*(r.max-r.min);
+      state[co][ch] = v;
+      var el = knobEls[ch+'.'+co];
+      if(el && el._setVal) el._setVal(v);
+    });
+  });
+  render();
+}
+function animLoop(){
+  if(!animating) return;
+  driftPhase += 0.0018;
+  render();
+  requestAnimationFrame(animLoop);
+}
+
+/* ===================== boot ===================== */
+buildChannels();
+buildSwatches();
+buildPresetSelect();
+render();
+
+document.getElementById('randomBtn').addEventListener('click', randomize);
+document.getElementById('animateBtn').addEventListener('click', function(){
+  animating = !animating;
+  this.classList.toggle('on', animating);
+  this.textContent = animating ? '■ Stop' : '▶ Animate';
+  if(animating) requestAnimationFrame(animLoop); else render();
+});
+document.getElementById('copyBtn').addEventListener('click', function(){
+  var btn = this;
+  var done = function(){
+    btn.classList.add('copied'); btn.textContent = 'Copied';
+    setTimeout(function(){ btn.classList.remove('copied'); btn.textContent = 'Copy'; }, 900);
+  };
+  try{ navigator.clipboard.writeText(exportCode.textContent).then(done, done); }catch(e){ done(); }
+});
+
+})();
+</script>
+</body>
+</html>
