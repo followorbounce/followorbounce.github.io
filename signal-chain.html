@@ -266,6 +266,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="sonar.rate" data-min="0" data-max="100" data-default="45"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="sonar.rate">45</span></div>
         <div class="knobwrap"><div class="knob" data-knob="sonar.tone" data-min="150" data-max="3000" data-default="900" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="sonar.tone">900</span></div>
         <div class="knobwrap"><div class="knob" data-knob="sonar.echo" data-min="0" data-max="60" data-default="25"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="sonar.echo">25</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar.level" data-min="0" data-max="100" data-default="80"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="sonar.level">80</span></div>
       </div>
       <div class="scopewrap"><canvas id="sonarScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
@@ -282,6 +283,7 @@ footer a:hover{color:var(--ink);}
         <div class="knobwrap"><div class="knob" data-knob="sonar2.rate" data-min="0" data-max="100" data-default="65"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="sonar2.rate">65</span></div>
         <div class="knobwrap"><div class="knob" data-knob="sonar2.tone" data-min="150" data-max="3000" data-default="1600" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="sonar2.tone">1600</span></div>
         <div class="knobwrap"><div class="knob" data-knob="sonar2.echo" data-min="0" data-max="60" data-default="15"><div class="ind"></div></div><span class="klabel">repeat</span><span class="kval" data-kval="sonar2.echo">15</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="sonar2.level" data-min="0" data-max="100" data-default="80"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="sonar2.level">80</span></div>
       </div>
       <div class="scopewrap"><canvas id="sonar2Scope" width="380" height="90"></canvas></div>
       <div class="jackrow">
@@ -532,15 +534,17 @@ function build(){
   sonarToneEnv.connect(sonarDelay); sonarClickEnv.connect(sonarDelay);
   sonarDelay.connect(sonarFeedback); sonarFeedback.connect(sonarDelay); sonarDelay.connect(sonarMix);
 
+  var sonarLevel = c.createGain(); sonarLevel.gain.value = 0.8; // individual volume knob, separate from bypass below
+  sonarMix.connect(sonarLevel);
   var sonarBypassGain = c.createGain(); sonarBypassGain.gain.value = 0;
   var sonarWetGain = c.createGain(); sonarWetGain.gain.value = 1;
-  sonarIn.connect(sonarBypassGain); sonarMix.connect(sonarWetGain);
+  sonarIn.connect(sonarBypassGain); sonarLevel.connect(sonarWetGain);
   var sonarOut = c.createGain();
   sonarBypassGain.connect(sonarOut); sonarWetGain.connect(sonarOut);
   var sonarInAnalyser = c.createAnalyser(); sonarInAnalyser.fftSize = 256; sonarIn.connect(sonarInAnalyser);
   var sonarAnalyser = c.createAnalyser(); sonarAnalyser.fftSize = 512; sonarOut.connect(sonarAnalyser);
   nodes.sonar = {
-    inNode:sonarIn, osc:sonarOsc, toneEnv:sonarToneEnv, clickEnv:sonarClickEnv, feedback:sonarFeedback,
+    inNode:sonarIn, osc:sonarOsc, toneEnv:sonarToneEnv, clickEnv:sonarClickEnv, feedback:sonarFeedback, level:sonarLevel,
     bypassGain:sonarBypassGain, wetGain:sonarWetGain, outNode:sonarOut,
     analyser:sonarAnalyser, inAnalyser:sonarInAnalyser, prevPeak:0, lastTrig:0,
     rate:45, tone:900, echo:25, timer:null, bypassed:false
@@ -571,15 +575,17 @@ function build(){
   sonar2ToneEnv.connect(sonar2Delay); sonar2ClickEnv.connect(sonar2Delay);
   sonar2Delay.connect(sonar2Feedback); sonar2Feedback.connect(sonar2Delay); sonar2Delay.connect(sonar2Mix);
 
+  var sonar2Level = c.createGain(); sonar2Level.gain.value = 0.8; // individual volume knob, separate from bypass below
+  sonar2Mix.connect(sonar2Level);
   var sonar2BypassGain = c.createGain(); sonar2BypassGain.gain.value = 0;
   var sonar2WetGain = c.createGain(); sonar2WetGain.gain.value = 1;
-  sonar2In.connect(sonar2BypassGain); sonar2Mix.connect(sonar2WetGain);
+  sonar2In.connect(sonar2BypassGain); sonar2Level.connect(sonar2WetGain);
   var sonar2Out = c.createGain();
   sonar2BypassGain.connect(sonar2Out); sonar2WetGain.connect(sonar2Out);
   var sonar2InAnalyser = c.createAnalyser(); sonar2InAnalyser.fftSize = 256; sonar2In.connect(sonar2InAnalyser);
   var sonar2Analyser = c.createAnalyser(); sonar2Analyser.fftSize = 512; sonar2Out.connect(sonar2Analyser);
   nodes.sonar2 = {
-    inNode:sonar2In, osc:sonar2Osc, toneEnv:sonar2ToneEnv, clickEnv:sonar2ClickEnv, feedback:sonar2Feedback,
+    inNode:sonar2In, osc:sonar2Osc, toneEnv:sonar2ToneEnv, clickEnv:sonar2ClickEnv, feedback:sonar2Feedback, level:sonar2Level,
     bypassGain:sonar2BypassGain, wetGain:sonar2WetGain, outNode:sonar2Out,
     analyser:sonar2Analyser, inAnalyser:sonar2InAnalyser, prevPeak:0, lastTrig:0,
     rate:65, tone:1600, echo:15, timer:null, bypassed:false
@@ -1079,9 +1085,11 @@ function paramSet(path, val){
   else if(path==='sonar.rate'){ nodes.sonar.rate = val; }
   else if(path==='sonar.tone'){ nodes.sonar.tone = val; }
   else if(path==='sonar.echo'){ nodes.sonar.echo = val; nodes.sonar.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
+  else if(path==='sonar.level'){ nodes.sonar.level.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); }
   else if(path==='sonar2.rate'){ nodes.sonar2.rate = val; }
   else if(path==='sonar2.tone'){ nodes.sonar2.tone = val; }
   else if(path==='sonar2.echo'){ nodes.sonar2.echo = val; nodes.sonar2.feedback.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.02); }
+  else if(path==='sonar2.level'){ nodes.sonar2.level.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); }
   else if(path==='noise.level'){ nodes.noise.levelGain.gain.value = val/100*0.8; }
   else if(path==='noise.rate'){ nodes.noise.rate = val; }
   else if(path==='filter.cutoff'){ nodes.filter.main.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.filter.comp.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
