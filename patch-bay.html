@@ -229,6 +229,7 @@ footer a{color:var(--ink);}
   <div class="wrap">
     <button class="tbtn play" id="playBtn">▶ Play</button>
     <button class="tbtn random" id="randomBtn">⟲ Random</button>
+    <button class="tbtn" id="scopeModeBtn">Scopes: Wave</button>
     <span class="tstat">BPM <b id="bpmVal">96</b> · <span id="stepIndicator">step 1/8</span></span>
   </div>
 </div>
@@ -1136,21 +1137,39 @@ function randomize(){
    mix) taps an AnalyserNode off its output — a passive fan-out that doesn't
    touch the signal path. One shared rAF loop redraws all of them, and it
    runs continuously (not gated on the sequencer's Play state) since several
-   of these modules make sound on their own without the Clock/transport. */
+   of these modules make sound on their own without the Clock/transport.
+
+   Scopes: Wave / Spectrum toggle — same AnalyserNode, same canvas, just a
+   second read (getByteFrequencyData instead of getByteTimeDomainData); an
+   AnalyserNode happily serves both from one node, so no extra Web Audio
+   wiring is needed for the bar-graph mode, only a second draw path. */
+var scopeMode = 'wave';
 function makeScopeDrawer(canvasId, analyser){
   var canvas = document.getElementById(canvasId);
   if(!canvas || !analyser) return function(){};
   var sctx = canvas.getContext('2d');
-  var data = new Uint8Array(analyser.fftSize);
+  var timeData = new Uint8Array(analyser.fftSize);
+  var freqData = new Uint8Array(analyser.frequencyBinCount);
   return function(){
-    analyser.getByteTimeDomainData(data);
     sctx.fillStyle = '#0c0b09'; sctx.fillRect(0,0,canvas.width,canvas.height);
-    sctx.strokeStyle = '#ff5a36'; sctx.lineWidth = 2; sctx.beginPath();
-    for(var i=0;i<data.length;i++){
-      var x = i/data.length*canvas.width, y = (data[i]/255)*canvas.height;
-      if(i===0) sctx.moveTo(x,y); else sctx.lineTo(x,y);
+    if(scopeMode==='spectrum'){
+      analyser.getByteFrequencyData(freqData);
+      var barCount = Math.min(48, freqData.length);
+      var barW = canvas.width/barCount;
+      sctx.fillStyle = '#ff5a36';
+      for(var i=0;i<barCount;i++){
+        var v = (freqData[i]/255)*canvas.height;
+        sctx.fillRect(i*barW, canvas.height-v, Math.max(1,barW-1), v);
+      }
+    } else {
+      analyser.getByteTimeDomainData(timeData);
+      sctx.strokeStyle = '#ff5a36'; sctx.lineWidth = 2; sctx.beginPath();
+      for(var i=0;i<timeData.length;i++){
+        var x = i/timeData.length*canvas.width, y = (timeData[i]/255)*canvas.height;
+        if(i===0) sctx.moveTo(x,y); else sctx.lineTo(x,y);
+      }
+      sctx.stroke();
     }
-    sctx.stroke();
   };
 }
 function drawScopes(){
@@ -1232,6 +1251,10 @@ document.getElementById('playBtn').addEventListener('click', function(){
   else { clearTimeout(timerId); }
 });
 document.getElementById('randomBtn').addEventListener('click', function(){ if(audioReady) randomize(); });
+document.getElementById('scopeModeBtn').addEventListener('click', function(){
+  scopeMode = scopeMode==='wave' ? 'spectrum' : 'wave';
+  this.textContent = scopeMode==='wave' ? 'Scopes: Wave' : 'Scopes: Spectrum';
+});
 window.addEventListener('resize', function(){ if(audioReady) renderCables(); });
 
 })();

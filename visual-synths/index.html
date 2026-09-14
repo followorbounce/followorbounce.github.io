@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Visual Synths — Knowledge Network</title>
+<meta name="description" content="Five instruments where wave shape, color, and geometric form are generated live through math instead of drawn by hand — a family that shares a color engine, a harmonic-sum engine, and a knob widget across all five.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Visual Synths — Knowledge Network">
+<meta property="og:description" content="Five instruments where wave shape, color, and geometric form are generated live through math — Palette Synth, Additive Wave Sculptor, Lissajous Plotter, Audio-Reactive Diffusion, and the Complex-Plane Fractal Mapper.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#96938A;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#7A6BB0;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+    --line:#332F29; --line-strong:#48443A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+  --line:#332F29; --line-strong:#48443A;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft);}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(28px,5vw,48px) 18px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem); line-height:1.02; letter-spacing:-0.01em; color:var(--ink); font-family:var(--font-display);}
+.hero p{margin-top:14px; max-width:720px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+.hero p code{font-size:12.5px;}
+
+.grid{padding-block:clamp(20px,4vw,36px) clamp(28px,5vw,48px);}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px;}
+.card{display:flex; flex-direction:column; border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; background:var(--paper-raised); text-decoration:none; color:inherit; transition:border-color 0.15s, transform 0.15s;}
+.card:hover{border-color:var(--live); transform:translateY(-2px);}
+.card-art{background:var(--paper-sunken); padding:18px 20px 10px; border-bottom:1px solid var(--line);}
+.card-art svg{display:block; width:100%; height:64px;}
+.card-body{padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px; flex:1;}
+.card-head{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+.card h3{font-size:14px; letter-spacing:0.01em;}
+.card .tag{font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); border:1px solid var(--line-strong); padding:2px 6px; border-radius:3px; white-space:nowrap;}
+.card p{margin:0; font-size:12.5px; color:var(--ink-soft); line-height:1.65; font-family:var(--font-display); font-weight:500; flex:1;}
+.card .open{font-size:11px; font-weight:700; color:var(--live); letter-spacing:0.02em;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong);}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about p{max-width:720px; font-size:13px; color:var(--ink-soft); line-height:1.8; margin-bottom:12px; font-family:var(--font-display); font-weight:500;}
+section.about p:last-child{margin-bottom:0;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Instrument Family</div>
+    <h1>Visual Synths</h1>
+    <p>Five instruments where wave shape, color, and geometric form are generated live through math instead of drawn by hand — the same spirit as <a href="/patch-bay">Patch Bay</a> and <a href="/signal-chain">Signal Chain</a>, but visual instead of (or, in one case, alongside) audio. They share real engines, not just a look: <a href="/palette-synth">Palette Synth</a>'s <code>a + b·cos(2π(c·t+d))</code> color formula colors three of the other four, and the <a href="/additive-wave-sculptor">Additive Wave Sculptor</a>'s harmonic sum drives the <a href="/lissajous-plotter">Lissajous Plotter</a>'s two axes.</p>
+  </div>
+</section>
+
+<section class="grid wrap">
+  <div class="cards">
+
+    <a class="card" href="/palette-synth">
+      <div class="card-art"><svg viewBox="0 0 100 64" preserveAspectRatio="none"><defs><linearGradient id="gPalette" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#D6483F"/><stop offset="0.5" stop-color="#3F9457"/><stop offset="1" stop-color="#3D6FD1"/></linearGradient></defs><rect x="0" y="0" width="100" height="64" fill="url(#gPalette)"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Palette Synth</h3><span class="tag">Color</span></div>
+        <p>Twelve knobs across three cosine channels generate a full smooth color gradient live. The family's color engine, and the first instrument built.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/additive-wave-sculptor">
+      <div class="card-art"><svg viewBox="0 0 100 64"><polyline points="0,32 6,14 12,50 18,10 24,54 30,8 36,56 42,12 48,52 54,16 60,48 66,20 72,44 78,26 84,38 90,30 100,32" fill="none" stroke="#3D6FD1" stroke-width="2.5" stroke-linejoin="round" stroke-linecap="round"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Additive Wave Sculptor</h3><span class="tag">Wave</span></div>
+        <p>Eight harmonics summed into one waveform, playable as real audio through a Web Audio <code>PeriodicWave</code> built from the same coefficients.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/lissajous-plotter">
+      <div class="card-art"><svg viewBox="0 0 100 64"><path d="M10,32 C10,14 30,14 40,32 C50,50 60,14 70,14 C90,14 90,50 70,50 C50,50 40,14 30,32 C20,50 10,50 10,32 Z" fill="none" stroke="#D6483F" stroke-width="2.5"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Lissajous / Harmonograph Plotter</h3><span class="tag">Form</span></div>
+        <p>Two axes, each a two-term sine sum, plotted against each other with a damping knob for the classic decaying-rosette harmonograph look.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/audio-reactive-diffusion">
+      <div class="card-art"><svg viewBox="0 0 100 64"><circle cx="30" cy="26" r="14" fill="#3F9457" opacity="0.85"/><circle cx="58" cy="38" r="18" fill="#3F9457" opacity="0.6"/><circle cx="76" cy="20" r="9" fill="#3F9457" opacity="0.75"/><circle cx="42" cy="48" r="8" fill="#3F9457" opacity="0.5"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Audio-Reactive Diffusion</h3><span class="tag">Wave + Form</span></div>
+        <p>The Gray-Scott chemistry from Media Servers II, driven live by sound — bass and treble bend the feed/kill rates, loud moments seed new blooms.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/complex-fractal-mapper">
+      <div class="card-art"><svg viewBox="0 0 100 64"><circle cx="50" cy="32" r="26" fill="none" stroke="#B0862F" stroke-width="1.5" opacity="0.4"/><circle cx="50" cy="32" r="18" fill="none" stroke="#B0862F" stroke-width="1.5" opacity="0.6"/><circle cx="50" cy="32" r="10" fill="none" stroke="#B0862F" stroke-width="1.5" opacity="0.8"/><circle cx="50" cy="32" r="3" fill="#B0862F"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Complex-Plane Fractal Mapper</h3><span class="tag">Form</span></div>
+        <p>Mandelbrot and Julia sets, <code>z → z^power + c</code>, colored with Palette Synth's cosine-gradient formula. Drag the picture to pan or set the Julia constant.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How the family fits together</h2>
+  <p>Every instrument here is still a fully self-contained single <code>.html</code> file — nothing is imported across pages — but three things get rebuilt by hand in each one rather than shared: the knob/range-slider dual control, Palette Synth's cosine-gradient color formula, and (for two of the five) the harmonic-sum engine. That's a deliberate tradeoff, not an oversight: it keeps every instrument independently forkable and readable in isolation, at the cost of the same ~150 lines of knob code living in five places. Whether that's worth changing — a shared <code>/assets/visual-synth-kit.js</code> — is still an open call; see <code>ROADMAP.md</code> in the repo.</p>
+  <p>Built in order: Palette Synth (color) → Additive Wave Sculptor (wave) → Lissajous Plotter (form, reusing the wave sculptor's engine) → Audio-Reactive Diffusion (wave + form, reusing Media Servers II's Gray-Scott chemistry) → Complex-Plane Fractal Mapper (form, reusing Palette Synth's color engine again). Five instruments, three shared engines, one running idea: a small set of tunable coefficients feeding a trig sum, rendered live.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/patch-bay">Patch Bay</a> · <a href="/signal-chain">Signal Chain</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

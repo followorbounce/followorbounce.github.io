@@ -89,9 +89,9 @@ Four instruments, each anchored in a distinct mathematical family, each mapping 
 
 ## 5. Smaller, near-term wins outside the visual-synth suite
 
-- **Add a spectrum-bar mode to Patch Bay's and Signal Chain's existing scopes.** Both synths only ever draw time-domain oscilloscopes; Music-Mathematics already has the working FFT bar-graph code sitting right there to adapt. Cheap, reuses proven code, and both synths' Output modules already expose the right `AnalyserNode`.
-- **Make the Radio Communications waterfall real.** It's currently explicitly-labeled simulated data. Swapping the synthetic signal for a real `AnalyserNode` (oscillator or mic input) turns an "illustrative" demo into an actual instrument, and the scrolling-canvas technique is already solid — this is substituting the data source, not rebuilding the renderer.
-- **Cross-link Patch Bay ↔ Signal Chain ↔ (new) visual synths once they exist.** If the visual synth suite ships, it's the natural third leg of an "Instruments" cluster — worth a shared "try the audio synths too" footer link once there's more than one visual instrument live.
+- ✅ **Add a spectrum-bar mode to Patch Bay's and Signal Chain's existing scopes.** Done — a "Scopes: Wave/Spectrum" transport button on each toggles every scope between the original oscilloscope and a bar graph, reading `getByteFrequencyData` off the same `AnalyserNode` each scope already had (no new Web Audio wiring needed, exactly as this section predicted).
+- ✅ **Make the Radio Communications waterfall real.** Done — an opt-in "Use Microphone" button swaps the synthetic per-row math for real `getByteFrequencyData` off a live mic `AnalyserNode`; the original synthetic signal is kept (relabeled "internal test signal") as the permission-free default, and the scrolling-canvas technique itself is untouched, as this section anticipated.
+- Cross-link Patch Bay ↔ Signal Chain ↔ visual synths — **not done.** The visual-synths hub (§7, now built) links to Patch Bay and Signal Chain in its footer, but neither audio synth links back to the visual-synth family yet.
 
 ---
 
@@ -102,17 +102,17 @@ Four instruments, each anchored in a distinct mathematical family, each mapping 
 | 1 | Palette Synth (`/palette-synth`) | Shipped. Shared-kit decision deferred (§2) — built self-contained | ✅ shipped |
 | 2 | Fourier / Additive Wave Sculptor | Fastest genuinely-new instrument; strongest thematic tie to existing content | ✅ shipped, incl. audio playback |
 | 3 | Lissajous / Harmonograph Synth | Pure Canvas 2D, no shader risk, high visual payoff for the effort | ✅ shipped |
-| 4 | Spectrum-bar mode on Patch Bay + Signal Chain | Small, cheap, immediately useful polish | ❌ not done |
+| 4 | Spectrum-bar mode on Patch Bay + Signal Chain | Small, cheap, immediately useful polish | ✅ shipped |
 | 5 | Cymatics / Reaction-Diffusion Synth | Medium-large; first real audio-reactive visual instrument | ✅ shipped, CPU canvas not WebGL |
 | 6 | Complex-Plane Mapper | Largest effort, highest ceiling; benefits from having a second shader author's-worth of WebGL experience already banked from earlier steps | ✅ shipped, CPU canvas not WebGL |
-| — | Real waterfall on Radio Communications | Independent of the above, can slot in anytime as a quick win | ❌ not done |
+| — | Real waterfall on Radio Communications | Independent of the above, can slot in anytime as a quick win | ✅ shipped |
 
-All five §4 instruments are live faster than sequenced (2–6 shipped in one pass rather than incrementally), which is also why §2's "revisit at instrument #2" checkpoint got skipped — there was no natural pause between them to make that call. The two items sequencing said were cheap, independent wins (#4, and the waterfall) were never picked up because nothing in the visual-synth work touched those files. §7's hub-page consolidation is also still open — all five sit as flat entries in `index.html`'s reorganized "Video synth" category, not under a dedicated `visual-synths/` hub.
+All five §4 instruments shipped faster than sequenced (2–6 in one pass rather than incrementally), which is also why §2's "revisit at instrument #2" checkpoint got skipped — there was no natural pause between them to make that call, and it's still open. §4's spectrum-bar mode and the real waterfall (originally deferred because "nothing in the visual-synth work touched those files") were picked up in a later pass specifically to close that gap. §7's hub page is also now built.
 
 ## 7. Where this lives in the site once built
 
-Once three or more visual synths exist, they outgrow being loose entries under "Instruments" (which already lists seven items). Precedent for handling this already exists on the site: the paired-dictionary "hub" pattern (`dictionary-of-design/`, `dictionary-of-inner-experience/`) proves that a dedicated index page for a growing family works well here. Recommend a `visual-synths/` hub once the count justifies it, cross-linked from "Instruments" the way `machinery/` and `aerospace/` already are.
+✅ **Done.** `visual-synths/index.html` — a card grid (title, one-line description, small inline-SVG icon per instrument, following the same card pattern as `dictionary-of-design/`), cross-linked from `index.html`'s "Video synth" category as a `Hub`-tagged entry (matching the `machinery/`/`aerospace/` precedent) and from every instrument's own footer.
 
 ---
 
-*This file is a working plan, not a commitment — treat effort sizes as relative to each other, not calendar estimates. Nothing here has been built yet.*
+*This file is a working plan. Status as of the latest pass: all of §4, §5, and §7 are shipped. Still open: the §2 shared-kit decision, and the §4.3/§4.4 WebGL rewrites this doc originally recommended for performance headroom.*
