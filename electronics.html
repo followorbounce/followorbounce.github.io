@@ -1,0 +1,780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Electronics — Knowledge Network</title>
+<meta name="description" content="Resistors, capacitors, inductors, diodes, transistors, and logic gates, from Ohm's law to what's physically happening inside a p-n junction — with six working interactive demos and a look at how a microcontroller turns code into voltage.">
+<link rel="canonical" href="https://followorbounce.github.io/electronics">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Electronics — Knowledge Network">
+<meta property="og:description" content="Every basic component, how it actually works, and six interactive demos — Ohm's law, a resistor color-code decoder, an RC charge curve, a transistor switch, a logic-gate simulator, and PWM — building up to microcontrollers and semiconductor physics.">
+<meta property="og:url" content="https://followorbounce.github.io/electronics">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --accent:#a13a2f;
+  --accent2:#2f5a8f;
+  --good:#3f7a4f;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 860px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit;}
+code{font-family:var(--font-mono); background:#eceae3; padding:0.08em 0.4em; border-radius:2px; font-size:0.9em;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px; display:inline-block;}
+header .back{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,88px); border-bottom:1px solid var(--ink);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.0; margin-bottom:20px;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:640px; color:#28282a;}
+
+/* toc */
+.toc{margin-top:28px; display:flex; flex-wrap:wrap; gap:8px 18px;}
+.toc a{font-family:var(--font-mono); font-size:12px; letter-spacing:0.03em; text-decoration:none; color:var(--mid); border-bottom:1px solid transparent;}
+.toc a:hover{color:var(--ink); border-bottom-color:var(--ink);}
+
+section.chapter{padding-block:clamp(44px,7vw,72px); border-bottom:1px solid var(--line);}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid); margin-bottom:10px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter p{margin-bottom:16px; max-width:640px;}
+.chapter p:last-of-type{margin-bottom:0;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;}
+em.term{font-style:normal; color:var(--accent); font-weight:500;}
+
+.callout{margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:#fff; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.callout .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid); border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+.callout a:hover{text-decoration-color:var(--ink);}
+
+.two-col{display:grid; grid-template-columns:1fr 1fr; gap:24px; margin-top:20px;}
+@media (max-width:640px){ .two-col{grid-template-columns:1fr;} }
+.two-col .box{border-left:2px solid var(--ink); padding-left:16px;}
+.two-col h3{font-size:0.95rem; margin-bottom:8px;}
+.two-col p{font-size:0.94rem;}
+
+/* component grid (ch. "other components") */
+.compgrid{display:grid; grid-template-columns:repeat(3,1fr); gap:1px; background:var(--line); border:1px solid var(--line); margin-top:22px;}
+@media (max-width:640px){ .compgrid{grid-template-columns:repeat(2,1fr);} }
+.comp{background:#fff; padding:14px 16px;}
+.comp .cn{font-family:var(--font-mono); font-size:12px; font-weight:600; margin-bottom:5px; display:block;}
+.comp .cd{font-size:12.5px; color:#3a3a3c; line-height:1.5;}
+
+/* --- demo frames --- */
+.demo{margin-top:26px; border:1px solid var(--ink); background:#fff;}
+.demo-canvas-wrap{padding:16px; background:#e9e7e0; display:flex; justify-content:center; flex-wrap:wrap; gap:16px;}
+.demo-canvas-wrap canvas{display:block; max-width:100%; height:auto; background:#fff;}
+.demo-controls{display:flex; align-items:center; gap:14px; flex-wrap:wrap; padding:12px 16px; border-top:1px solid var(--line);}
+.demo-note{font-family:var(--font-mono); font-size:11px; color:var(--mid); padding:0 16px 14px;}
+.dbtn{font-family:var(--font-mono); font-size:12px; letter-spacing:0.03em; padding:8px 14px; border:1px solid var(--ink); background:var(--paper); color:var(--ink); cursor:pointer;}
+.dbtn:hover{background:var(--ink); color:var(--paper);}
+.dbtn.on{background:var(--accent); border-color:var(--accent); color:#fff;}
+.dctl{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--mid);}
+.dctl input[type=range]{width:110px;}
+.dctl select{font-family:var(--font-mono); font-size:12px; padding:5px 6px; border:1px solid var(--line); background:#fff;}
+.dstat{font-family:var(--font-mono); font-size:12px; color:var(--ink); font-weight:600;}
+.dstat.wide{margin-left:auto; text-align:right;}
+.dformula{font-family:var(--font-mono); font-size:12px; color:var(--mid); padding:0 16px 12px;}
+
+/* ohm's law */
+.ohmpick{display:flex; gap:6px;}
+.ohmpick button.sel{background:var(--accent2); border-color:var(--accent2); color:#fff;}
+
+/* resistor decoder */
+.rbands{display:flex; gap:10px; flex-wrap:wrap; align-items:flex-end;}
+.rband{display:flex; flex-direction:column; align-items:center; gap:5px;}
+.rband label{font-family:var(--font-mono); font-size:9.5px; color:var(--mid); text-transform:uppercase;}
+.swatch{width:36px; height:16px; border:1px solid rgba(0,0,0,0.3); border-radius:2px;}
+
+/* logic gates */
+.gateio{display:flex; align-items:center; gap:18px; flex-wrap:wrap;}
+.iobtn{width:52px; height:52px; border-radius:50%; border:2px solid var(--ink); background:var(--paper); font-family:var(--font-mono); font-weight:700; font-size:13px; cursor:pointer;}
+.iobtn.hi{background:var(--good); color:#fff; border-color:var(--good);}
+.led{width:30px; height:30px; border-radius:50%; border:2px solid var(--ink); background:#ddd;}
+.led.lit{background:var(--accent); box-shadow:0 0 14px 2px rgba(161,58,47,0.6); border-color:var(--accent);}
+table.truth{border-collapse:collapse; font-family:var(--font-mono); font-size:12.5px;}
+table.truth th,table.truth td{border:1px solid var(--line); padding:5px 12px; text-align:center;}
+table.truth tr.hit{background:#f3e3df;}
+
+/* pn junction diagram */
+.pnwrap{display:flex; align-items:stretch; gap:0; margin-top:20px; border:1px solid var(--ink); font-family:var(--font-mono); font-size:11px; text-align:center;}
+.pnside{flex:1; padding:22px 14px; display:flex; flex-direction:column; justify-content:center; gap:6px;}
+.pnside.p{background:#f3e3df;}
+.pnside.n{background:#dde6f0;}
+.pndep{width:56px; flex:none; background:repeating-linear-gradient(45deg,#fff,#fff 4px,#e5e5e0 4px,#e5e5e0 8px); display:flex; align-items:center; justify-content:center; writing-mode:vertical-rl; font-size:9.5px; color:var(--mid);}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+ol.refs li a:hover{text-decoration-color:var(--ink);}
+
+footer{border-top:1px solid var(--ink); padding-block:40px; font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Physics · Circuits · Microcontrollers</div>
+    <h1>Electronics</h1>
+    <p>A circuit is a small number of ideas reused constantly: something pushes charge, something resists or stores or blocks it, and — eventually — something switches, amplifying a tiny signal into a decision. This page walks from Ohm's law up through every basic passive component, into transistors and logic gates, through a real integrated circuit, and out the other side into how a microcontroller turns code into voltage — with six working demos along the way, and a last chapter on what's physically happening inside the silicon.</p>
+    <div class="toc">
+      <a href="#ohm">01 Ohm's Law</a><a href="#resistors">02 Resistors</a><a href="#capacitors">03 Capacitors</a>
+      <a href="#other-passives">04 Inductors &amp; More</a><a href="#diodes">05 Diodes</a><a href="#transistors">06 Transistors</a>
+      <a href="#logic">07 Logic Gates</a><a href="#ic">08 The 555 Timer</a><a href="#mcu">09 Microcontrollers</a>
+      <a href="#deep">10 Deep Dive</a>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ohm">
+  <div class="wrap">
+    <div class="kicker">01 — The Three Numbers</div>
+    <h2>Voltage, current, resistance</h2>
+    <p class="lede"><strong>Voltage</strong> is electrical pressure — the push, measured in volts, that exists between two points because one has more electrons crowded onto it than the other. <strong>Current</strong> is the actual flow of charge past a point, in amperes, coulombs per second. <strong>Resistance</strong>, in ohms, is whatever opposes that flow. Georg Ohm's 1827 relationship between them is the single most-used equation in electronics: push harder or resist less, and more current flows.</p>
+    <p>The water analogy is standard for a reason — voltage is like pressure in a pipe, current is like flow rate, resistance is like the pipe's narrowness — but it breaks down fast past this first idea, so treat it as a way in, not a model to keep leaning on once capacitors and inductors show up later on this page.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap" style="flex-direction:column; align-items:stretch; gap:10px; max-width:420px; margin:0 auto;">
+        <div class="ohmpick" id="ohmPick">
+          <button class="dbtn sel" data-solve="v">Solve V</button>
+          <button class="dbtn" data-solve="i">Solve I</button>
+          <button class="dbtn" data-solve="r">Solve R</button>
+        </div>
+        <div id="ohmInputs" style="display:flex; flex-direction:column; gap:10px;"></div>
+        <div class="dstat" id="ohmResult" style="font-size:15px;"></div>
+      </div>
+      <div class="dformula" id="ohmFormula">V = I × R</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="resistors">
+  <div class="wrap">
+    <div class="kicker">02 — Fixed Values, Printed in Color</div>
+    <h2>Resistors</h2>
+    <p class="lede">A resistor's whole job is to oppose current predictably — limiting how much flows to protect an LED, dividing a voltage down to a fraction of its source, or pulling a digital input to a known level when nothing else is driving it. Fixed resistors are too small to print a number on, so instead they're printed in color: four bands encode two significant digits, a multiplier, and a tolerance, standardized so the same code means the same value on any resistor from any manufacturer.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="resistorCanvas" width="360" height="110"></canvas></div>
+      <div class="demo-controls">
+        <div class="rbands" id="rBands"></div>
+      </div>
+      <div class="dstat" style="padding:0 16px 14px; font-size:15px;" id="rResult"></div>
+    </div>
+    <p style="margin-top:22px;">Power matters too — a resistor dissipates <code>P = I²R</code> watts as heat, which is why the same resistance value comes in physically different sizes: a tiny 1/8-watt surface-mount part for a signal line, a chunky 5-watt wirewound part for something carrying real current.</p>
+  </div>
+</section>
+
+<section class="chapter" id="capacitors">
+  <div class="wrap">
+    <div class="kicker">03 — Storing Charge</div>
+    <h2>Capacitors</h2>
+    <p class="lede">Two conductive plates, separated by an insulator, store charge on one side and an equal opposite charge on the other — the closer the plates and the larger their area, the more charge a given voltage can push onto them. That storage capacity is capacitance, in farads (almost always microfarads or picofarads in practice), and it's what lets a capacitor smooth a bumpy DC supply, block DC entirely while passing AC, or set the timing in a clock circuit.</p>
+    <p>Ceramic capacitors are cheap and small for bypassing noise near a chip's power pins; electrolytic and tantalum capacitors trade size for much larger capacitance, at the cost of being polarized — wired backwards, they can fail badly; film capacitors sit between the two, prized for precision and stability rather than raw capacity.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="rcCanvas" width="420" height="220"></canvas></div>
+      <div class="demo-controls">
+        <button class="dbtn on" id="rcModeBtn">Charging</button>
+        <div class="dctl"><label for="rcR">R</label><input type="range" id="rcR" min="1" max="100" value="10"><span id="rcRVal">10 kΩ</span></div>
+        <div class="dctl"><label for="rcC">C</label><input type="range" id="rcC" min="1" max="1000" value="100"><span id="rcCVal">100 µF</span></div>
+        <span class="dstat wide" id="rcTau"></span>
+      </div>
+      <div class="dformula">V(t) = V<sub>max</sub>·(1 − e^(−t/τ)),  τ = R×C — the time to reach ~63% of the way there</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="other-passives">
+  <div class="wrap">
+    <div class="kicker">04 — The Rest of the Passive Family</div>
+    <h2>Inductors, transformers, and the other basics</h2>
+    <p class="lede">A coil of wire resists a <em class="term">change</em> in current rather than the current itself — current flowing through it builds a magnetic field, and that field fights back against any change to the flow, the exact opposite temperament from a capacitor, which resists a change in voltage. Wind two coils around the same core and a changing current in one induces a voltage in the other with no wire connecting them at all — a transformer, and the reason power can travel at high voltage over long lines and then get stepped down safely near a wall socket.</p>
+    <div class="compgrid">
+      <div class="comp"><span class="cn">Potentiometer</span><span class="cd">A resistor with a wiper that slides along it — a variable voltage divider, the part behind every knob on this site's own synths.</span></div>
+      <div class="comp"><span class="cn">Thermistor</span><span class="cd">Resistance that changes sharply with temperature — the sensing element in a huge share of consumer temperature circuits.</span></div>
+      <div class="comp"><span class="cn">Photoresistor (LDR)</span><span class="cd">Resistance that drops as light increases — cheap, slow, and still everywhere in night-light circuits.</span></div>
+      <div class="comp"><span class="cn">Crystal oscillator</span><span class="cd">A quartz sliver that resonates at an exact frequency under voltage (piezoelectricity) — the clock nearly every microcontroller times itself against.</span></div>
+      <div class="comp"><span class="cn">Relay</span><span class="cd">An electromagnet pulling a mechanical switch — lets a small, safe control voltage switch something large and dangerous.</span></div>
+      <div class="comp"><span class="cn">Fuse</span><span class="cd">A deliberately weak link that melts open above a current threshold — the one component whose entire job is destroying itself correctly.</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="diodes">
+  <div class="wrap">
+    <div class="kicker">05 — The One-Way Valve</div>
+    <h2>Diodes</h2>
+    <p class="lede">A diode is a p-n junction — two differently-doped regions of silicon fused together, covered properly in the deep dive at the end of this page — that conducts current freely in one direction and, up to a point, blocks it in the other. That one asymmetry is enough to build a rectifier that turns AC into DC, an LED that emits a photon of a specific color when current crosses the junction (the photon's energy set by the semiconductor's band gap, which is why different LED colors are, chemically, different materials), and a zener diode, deliberately run backwards into a sharp, repeatable breakdown voltage used to hold a reference voltage steady.</p>
+    <div class="two-col">
+      <div class="box"><h3>Forward biased</h3><p>Positive lead higher than negative by more than the diode's forward-voltage drop (~0.6–0.7V for silicon, ~0.2V for germanium, ~1.8–3.3V for an LED depending on color) — current flows.</p></div>
+      <div class="box"><h3>Reverse biased</h3><p>Positive lead lower than negative — the depletion region widens, current stays near zero, until the reverse voltage gets high enough to force a breakdown (the useful, controlled case in a zener).</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="transistors">
+  <div class="wrap">
+    <div class="kicker">06 — The Component That Changed Everything</div>
+    <h2>Transistors</h2>
+    <p class="lede">A transistor is a valve controlled by electricity instead of a hand: a small signal at one terminal controls a much larger current between the other two. Bipolar junction transistors (BJTs) do this with a small <em class="term">base current</em>; MOSFETs do it with a <em class="term">gate voltage</em> that draws essentially no current at all once it's set, which is why almost every modern digital chip is built from MOSFETs rather than BJTs. Either way, a transistor can be run two ways: as an <em class="term">amplifier</em>, where the output signal is a scaled-up copy of the input, or as a <em class="term">switch</em>, fully on or fully off — and the switch mode is the one that built the entire digital world, because a switch that another switch can control is all a computer ultimately is.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="transCanvas" width="360" height="200"></canvas></div>
+      <div class="demo-controls">
+        <button class="dbtn" id="transBaseBtn">Base: Low</button>
+        <span class="dstat" id="transStat">Collector current: off · LED: off</span>
+      </div>
+      <div class="demo-note">A few microamps at the base switches milliamps at the collector — current gain (β), typically 100–300× on a small-signal BJT, is the whole reason this circuit does useful work rather than just wasting the base current directly.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="logic">
+  <div class="wrap">
+    <div class="kicker">07 — From Switches to Boolean Algebra</div>
+    <h2>Logic gates</h2>
+    <p class="lede">Wire a handful of transistor switches together the right way and you get a circuit whose output depends only on the true/false state of its inputs — a logic gate. George Boole worked out the algebra these circuits obey a century before anyone built one out of transistors; every gate below is a physical implementation of one row of Boolean algebra, and every CPU on earth is these seven gates, wired together by the billions.</p>
+    <div class="demo">
+      <div class="demo-controls">
+        <div class="dctl"><label for="gateSel">Gate</label><select id="gateSel">
+          <option value="AND">AND</option><option value="OR">OR</option><option value="NOT">NOT</option>
+          <option value="NAND">NAND</option><option value="NOR">NOR</option><option value="XOR">XOR</option><option value="XNOR">XNOR</option>
+        </select></div>
+      </div>
+      <div class="demo-canvas-wrap">
+        <div class="gateio">
+          <button class="iobtn" id="gateA">A<br>0</button>
+          <button class="iobtn" id="gateB">B<br>0</button>
+          <span style="font-family:var(--font-mono); font-size:20px;">→</span>
+          <div style="display:flex; flex-direction:column; align-items:center; gap:6px;">
+            <div class="led" id="gateLed"></div>
+            <span style="font-family:var(--font-mono); font-size:11px;" id="gateOutVal">0</span>
+          </div>
+          <table class="truth" id="gateTruth"></table>
+        </div>
+      </div>
+      <div class="demo-note">Click A and B to toggle them. NOT ignores B and only reads A.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="ic">
+  <div class="wrap">
+    <div class="kicker">08 — Many Transistors, One Package</div>
+    <h2>Integrated circuits and the 555 timer</h2>
+    <p class="lede">An integrated circuit is dozens, thousands, or billions of transistors fabricated together on one piece of silicon instead of wired by hand from discrete parts. The clearest small example is the 555 timer — designed in 1971 by Hans Camenzind for Signetics and, by some estimates, the single most-produced integrated circuit in history<sup>[1]</sup> — about two dozen transistors that turn two resistors and a capacitor into a stable oscillator. In its <em class="term">astable</em> mode, the capacitor charges through <code>R1+R2</code> and discharges through <code>R2</code> alone, and the chip's internal comparators flip its output every time the capacitor crosses one of two reference thresholds — the same RC charging curve from Chapter 03, now driving a square wave instead of just being watched.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="ic555Canvas" width="420" height="140"></canvas></div>
+      <div class="demo-controls">
+        <div class="dctl"><label for="r1555">R1</label><input type="range" id="r1555" min="1" max="100" value="10"><span id="r1555Val">10 kΩ</span></div>
+        <div class="dctl"><label for="r2555">R2</label><input type="range" id="r2555" min="1" max="100" value="10"><span id="r2555Val">10 kΩ</span></div>
+        <div class="dctl"><label for="c555">C</label><input type="range" id="c555" min="1" max="100" value="10"><span id="c555Val">10 µF</span></div>
+        <span class="dstat wide" id="freq555"></span>
+      </div>
+      <div class="dformula">f = 1.44 / ((R1 + 2·R2) × C)</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="mcu">
+  <div class="wrap">
+    <div class="kicker">09 — Where Software Meets Voltage</div>
+    <h2>Microcontrollers</h2>
+    <p class="lede">A microcontroller folds a whole computer — a CPU core, a bit of memory, and a set of peripherals — onto one chip, and connects it to the outside world through a handful of general-purpose pins. Each pin can typically be told, in software, to be a digital <strong>input</strong> (read as high or low), a digital <strong>output</strong> (drive high or low), or in many cases an <strong>analog input</strong> through a built-in ADC that converts a continuous voltage into a number the CPU can read. A blinking LED is nothing more than <code>GPIO_write(pin, HIGH); delay(500); GPIO_write(pin, LOW); delay(500);</code> in a loop — the same digital switch from Chapter 06, just toggled by code instead of a hand.</p>
+    <p>Real dimming or "analog" output almost never comes from an actual analog voltage, though — it comes from <strong>PWM</strong ( pulse-width modulation): the pin still only ever outputs fully on or fully off, but it does so thousands of times a second, and how much of each cycle stays high — the duty cycle — is what a slower device downstream, an LED or your eye or a motor, ends up averaging into an apparent in-between level. It's the exact same "mute/unmute in a square wave" idea behind the <a href="/pulse-train-stage-ii">Gate effect on Pulse Train — Stage II</a>, just used to fake an analog voltage instead of to chop a synth.</p>
+    <div class="demo">
+      <div class="demo-canvas-wrap"><canvas id="pwmCanvas" width="420" height="120"></canvas></div>
+      <div class="demo-controls">
+        <div class="dctl"><label for="pwmDuty">Duty</label><input type="range" id="pwmDuty" min="0" max="100" value="50"><span id="pwmDutyVal">50%</span></div>
+        <div style="display:flex; align-items:center; gap:8px;">
+          <span style="font-family:var(--font-mono); font-size:11px; color:var(--mid);">perceived</span>
+          <div id="pwmLed" style="width:26px; height:26px; border-radius:50%; border:2px solid var(--ink); background:var(--accent);"></div>
+        </div>
+      </div>
+      <div class="demo-note">The pin is only ever fully on or fully off — the "brightness" you see on the right is your own eye integrating a fast switch over time, not a real in-between voltage anywhere in the circuit.</div>
+    </div>
+    <div class="callout">
+      <span class="tag">Hands-on</span>
+      <span>For actually wiring one of these up — real boards, real pins, real code — see <a href="https://followorbounce.github.io/aerospace/cascade-physical-computing">CASCADE: Physical Computing</a> on the Aerospace field guide. For which real chips do which job in a browser-built instrument, see the <a href="/pulse-train-node-database">Node Database</a>.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="deep">
+  <div class="wrap">
+    <div class="kicker">10 — Deep Dive</div>
+    <h2>What's actually happening inside the silicon</h2>
+    <p class="lede">Pure silicon is a poor conductor — every atom's outer electrons are locked into bonds with its four neighbors, leaving almost nothing free to carry current. <strong>Doping</strong> deliberately contaminates it: add a trace of phosphorus, which has five outer electrons instead of silicon's four, and each phosphorus atom contributes one electron with nowhere to bond — free to move. That's <strong>n-type</strong> silicon, current carried by surplus electrons. Add boron instead, with only three outer electrons, and each boron atom leaves a bond short one electron — a <strong>hole</strong>, which behaves for circuit purposes like a mobile positive charge. That's <strong>p-type</strong>.</p>
+    <p>Fuse a block of each together and you get a p-n junction. Electrons near the boundary diffuse into the p-side and fill holes there; holes diffuse into the n-side and get filled by electrons — and that migration leaves a thin region right at the junction with no free carriers left at all, the <strong>depletion region</strong>, along with a small built-in electric field that opposes any further diffusion.</p>
+    <div class="pnwrap">
+      <div class="pnside p">P-TYPE<br>excess holes<br>(boron-doped)</div>
+      <div class="pndep">DEPLETION REGION</div>
+      <div class="pnside n">N-TYPE<br>excess electrons<br>(phosphorus-doped)</div>
+    </div>
+    <p style="margin-top:20px;">Push the p-side positive relative to the n-side (forward bias) and that external field pushes back against the junction's own field, narrowing the depletion region until, past roughly 0.6–0.7V for silicon, carriers flood across and current flows freely — a diode. Push the other way (reverse bias) and the depletion region only widens, blocking current almost completely.</p>
+    <p>A bipolar transistor is two junctions back to back — n-p-n or p-n-p — with the middle region, the base, made deliberately thin. Forward-bias the base-emitter junction and electrons flood in from the emitter, as a diode would predict; but because the base is so thin and lightly doped, almost all of those electrons don't stop there — they get swept across the base and pulled into the collector by the reverse-biased base-collector junction's own field, instead of exiting through the base terminal as base current. A small base current therefore "unlocks" a proportionally much larger emitter-to-collector current — the physical origin of current gain, and of every amplifier and every digital switch built from a BJT since Bardeen and Brattain first got this structure to work at Bell Labs on December 16, 1947<sup>[2]</sup>.</p>
+    <div class="callout">
+      <span class="tag">Same idea, different scale</span>
+      <span>A MOSFET gets the same controllable-conduction-channel result electrostatically instead — a voltage on an insulated gate attracts carriers to form a conducting channel underneath it, no base current involved at all — which is why MOSFETs draw essentially zero steady-state control current and dominate modern digital logic.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">References</div>
+    <ol class="refs">
+      <li><a href="https://en.wikipedia.org/wiki/555_timer_IC" rel="external noopener" target="_blank">555 timer IC.</a> Design history, Hans Camenzind, Signetics, 1971–72.</li>
+      <li><a href="https://ethw.org/Milestones:Invention_of_the_First_Transistor_at_Bell_Telephone_Laboratories,_Inc.,_1947" rel="external noopener" target="_blank">Invention of the First Transistor at Bell Telephone Laboratories, Inc., 1947.</a> IEEE Milestones, Engineering and Technology History Wiki.</li>
+      <li><a href="https://www.computerhistory.org/siliconengine/invention-of-the-point-contact-transistor/" rel="external noopener" target="_blank">1947: Invention of the Point-Contact Transistor.</a> The Silicon Engine, Computer History Museum.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
+    <span><a href="/">Index</a> · <a href="/pulse-train-node-database">Node Database</a> · <a href="https://followorbounce.github.io/aerospace/cascade-physical-computing">Physical Computing</a> · <a href="/radio-communications">Radio Communications</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+'use strict';
+
+/* ===================== 01: Ohm's law ===================== */
+(function(){
+  var pickEl = document.getElementById('ohmPick');
+  var inputsEl = document.getElementById('ohmInputs');
+  var resultEl = document.getElementById('ohmResult');
+  var formulaEl = document.getElementById('ohmFormula');
+  if(!pickEl) return;
+  var solveFor = 'v';
+  var vals = { v: 12, i: 0.1, r: 120 };
+  var FORMULAS = { v:'V = I × R', i:'I = V ÷ R', r:'R = V ÷ I' };
+  var LABELS = { v:'Voltage (V)', i:'Current (A)', r:'Resistance (Ω)' };
+
+  function render(){
+    inputsEl.innerHTML = '';
+    ['v','i','r'].forEach(function(k){
+      if(k===solveFor) return;
+      var row = document.createElement('div');
+      row.style.cssText = 'display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:12px;';
+      var lab = document.createElement('label'); lab.textContent = LABELS[k]; lab.style.cssText='width:120px; color:var(--mid);';
+      var range = document.createElement('input');
+      range.type = 'range';
+      range.min = k==='v' ? 0.5 : (k==='i' ? 0.001 : 1);
+      range.max = k==='v' ? 24 : (k==='i' ? 2 : 10000);
+      range.step = k==='i' ? 0.001 : (k==='r' ? 1 : 0.1);
+      range.value = vals[k];
+      range.style.flex = '1';
+      var valSpan = document.createElement('span'); valSpan.style.cssText='width:80px; text-align:right;';
+      valSpan.textContent = fmt(k, vals[k]);
+      range.addEventListener('input', function(){
+        vals[k] = parseFloat(range.value);
+        valSpan.textContent = fmt(k, vals[k]);
+        compute();
+      });
+      row.appendChild(lab); row.appendChild(range); row.appendChild(valSpan);
+      inputsEl.appendChild(row);
+    });
+    formulaEl.textContent = FORMULAS[solveFor];
+    compute();
+  }
+  function fmt(k, v){
+    if(k==='v') return v.toFixed(1)+' V';
+    if(k==='i') return (v*1000).toFixed(0)+' mA';
+    return v>=1000 ? (v/1000).toFixed(2)+' kΩ' : v.toFixed(0)+' Ω';
+  }
+  function compute(){
+    if(solveFor==='v'){ vals.v = vals.i*vals.r; }
+    else if(solveFor==='i'){ vals.i = vals.r===0?0:vals.v/vals.r; }
+    else { vals.r = vals.i===0?0:vals.v/vals.i; }
+    resultEl.textContent = LABELS[solveFor].split(' ')[0]+' = '+fmt(solveFor, vals[solveFor]);
+  }
+  pickEl.querySelectorAll('button').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      solveFor = btn.getAttribute('data-solve');
+      pickEl.querySelectorAll('button').forEach(function(b){ b.classList.remove('sel'); });
+      btn.classList.add('sel');
+      render();
+    });
+  });
+  render();
+})();
+
+/* ===================== 02: resistor color code ===================== */
+(function(){
+  var canvas = document.getElementById('resistorCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var bandsEl = document.getElementById('rBands');
+  var resultEl = document.getElementById('rResult');
+
+  var COLORS = [
+    {name:'Black', hex:'#1a1a1a', digit:0, mult:1},
+    {name:'Brown', hex:'#7b4a2d', digit:1, mult:10, tol:1},
+    {name:'Red', hex:'#c0392b', digit:2, mult:100, tol:2},
+    {name:'Orange', hex:'#e07b1f', digit:3, mult:1000},
+    {name:'Yellow', hex:'#e0c020', digit:4, mult:10000},
+    {name:'Green', hex:'#3f8f4f', digit:5, mult:100000},
+    {name:'Blue', hex:'#2f5a8f', digit:6, mult:1000000},
+    {name:'Violet', hex:'#7a4f9e', digit:7, mult:10000000},
+    {name:'Gray', hex:'#8a8a86', digit:8},
+    {name:'White', hex:'#f0f0eb', digit:9},
+    {name:'Gold', hex:'#c9a227', mult:0.1, tol:5},
+    {name:'Silver', hex:'#b8b8b4', mult:0.01, tol:10}
+  ];
+  var DIGIT_COLORS = COLORS.filter(function(c){ return c.digit!==undefined; });
+  var MULT_COLORS = COLORS.filter(function(c){ return c.mult!==undefined; });
+  var TOL_COLORS = COLORS.filter(function(c){ return c.tol!==undefined; });
+
+  var sel = { b1: DIGIT_COLORS[1], b2: DIGIT_COLORS[0], b3: MULT_COLORS[1], b4: TOL_COLORS[0] };
+
+  function buildSelect(key, list, current){
+    var wrap = document.createElement('div'); wrap.className = 'rband';
+    var lab = document.createElement('label');
+    lab.textContent = key==='b1' ? '1st digit' : key==='b2' ? '2nd digit' : key==='b3' ? 'multiplier' : 'tolerance';
+    var select = document.createElement('select');
+    select.style.cssText = 'font-family:var(--font-mono); font-size:11px; padding:4px;';
+    list.forEach(function(c){
+      var o = document.createElement('option'); o.value = c.name; o.textContent = c.name;
+      if(c.name===current.name) o.selected = true;
+      select.appendChild(o);
+    });
+    var sw = document.createElement('div'); sw.className = 'swatch'; sw.style.background = current.hex;
+    select.addEventListener('change', function(){
+      var found = list.filter(function(c){ return c.name===select.value; })[0];
+      sel[key] = found; sw.style.background = found.hex;
+      compute();
+    });
+    wrap.appendChild(lab); wrap.appendChild(select); wrap.appendChild(sw);
+    return wrap;
+  }
+  bandsEl.appendChild(buildSelect('b1', DIGIT_COLORS, sel.b1));
+  bandsEl.appendChild(buildSelect('b2', DIGIT_COLORS, sel.b2));
+  bandsEl.appendChild(buildSelect('b3', MULT_COLORS, sel.b3));
+  bandsEl.appendChild(buildSelect('b4', TOL_COLORS, sel.b4));
+
+  function drawResistor(){
+    var W=canvas.width, H=canvas.height, cy=H/2;
+    ctx.clearRect(0,0,W,H);
+    ctx.fillStyle = '#e7cfa0';
+    ctx.fillRect(60, cy-18, W-120, 36);
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 3;
+    ctx.beginPath(); ctx.moveTo(0,cy); ctx.lineTo(60,cy); ctx.moveTo(W-60,cy); ctx.lineTo(W,cy); ctx.stroke();
+    var bands = [sel.b1, sel.b2, sel.b3, sel.b4];
+    var startX = 90;
+    bands.forEach(function(b, i){
+      ctx.fillStyle = b.hex;
+      ctx.fillRect(startX + i*38, cy-18, 14, 36);
+    });
+  }
+  function fmtOhms(v){
+    if(v>=1000000) return (v/1000000).toFixed(2).replace(/\.00$/,'')+' MΩ';
+    if(v>=1000) return (v/1000).toFixed(2).replace(/\.00$/,'')+' kΩ';
+    return v.toFixed(v<1?2:0)+' Ω';
+  }
+  function compute(){
+    var value = (sel.b1.digit*10 + sel.b2.digit) * sel.b3.mult;
+    resultEl.textContent = fmtOhms(value) + '  ±' + sel.b4.tol + '%';
+    drawResistor();
+  }
+  compute();
+})();
+
+/* ===================== 03: RC charge/discharge ===================== */
+(function(){
+  var canvas = document.getElementById('rcCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var rEl = document.getElementById('rcR'), cEl = document.getElementById('rcC');
+  var rVal = document.getElementById('rcRVal'), cVal = document.getElementById('rcCVal');
+  var tauEl = document.getElementById('rcTau');
+  var modeBtn = document.getElementById('rcModeBtn');
+  var charging = true;
+
+  function draw(){
+    var R = parseFloat(rEl.value), C = parseFloat(cEl.value);
+    var tauMs = R * C; // kΩ * µF = ms
+    rVal.textContent = R+' kΩ'; cVal.textContent = C+' µF';
+    tauEl.textContent = 'τ = '+(tauMs>=1000?(tauMs/1000).toFixed(2)+' s':tauMs.toFixed(1)+' ms');
+
+    var W=canvas.width, H=canvas.height, pad=30;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = '#ccc'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(pad,pad); ctx.lineTo(pad,H-pad); ctx.lineTo(W-pad,H-pad); ctx.stroke();
+    ctx.fillStyle = '#888'; ctx.font = '10px monospace';
+    ctx.fillText('V', pad-16, pad+4); ctx.fillText('t', W-pad-4, H-pad+16);
+
+    var totalMs = tauMs*5;
+    ctx.strokeStyle = '#a13a2f'; ctx.lineWidth = 2.2; ctx.beginPath();
+    for(var px=0; px<=W-2*pad; px++){
+      var t = px/(W-2*pad)*totalMs;
+      var frac = charging ? (1-Math.exp(-t/tauMs)) : Math.exp(-t/tauMs);
+      var y = H-pad - frac*(H-2*pad);
+      if(px===0) ctx.moveTo(pad+px, y); else ctx.lineTo(pad+px, y);
+    }
+    ctx.stroke();
+    // mark tau point
+    var tauFrac = (H-pad) - (charging ? (1-Math.exp(-1)) : Math.exp(-1)) * (H-2*pad);
+    var tauX = pad + (tauMs/totalMs)*(W-2*pad);
+    ctx.setLineDash([3,3]); ctx.strokeStyle='#999';
+    ctx.beginPath(); ctx.moveTo(tauX,H-pad); ctx.lineTo(tauX,tauFrac); ctx.lineTo(pad,tauFrac); ctx.stroke();
+    ctx.setLineDash([]);
+    ctx.fillStyle = '#555'; ctx.fillText('τ', tauX-3, H-pad+16);
+  }
+  rEl.addEventListener('input', draw); cEl.addEventListener('input', draw);
+  modeBtn.addEventListener('click', function(){
+    charging = !charging;
+    this.textContent = charging ? 'Charging' : 'Discharging';
+    this.classList.toggle('on', charging);
+    draw();
+  });
+  draw();
+})();
+
+/* ===================== 06: transistor switch ===================== */
+(function(){
+  var canvas = document.getElementById('transCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var btn = document.getElementById('transBaseBtn');
+  var stat = document.getElementById('transStat');
+  var on = false, t = 0, raf = null;
+
+  function draw(){
+    var W=canvas.width, H=canvas.height;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle = '#333'; ctx.lineWidth = 2; ctx.fillStyle='#333';
+    ctx.font = '10px monospace';
+    // battery + resistor + LED loop (collector circuit) on the right
+    ctx.beginPath();
+    ctx.moveTo(260,30); ctx.lineTo(260,60); // from +V down to resistor
+    ctx.moveTo(260,60); ctx.lineTo(260,90); // resistor drawn as box below
+    ctx.rect(248,60,24,30);
+    ctx.moveTo(260,90); ctx.lineTo(260,110);
+    ctx.stroke();
+    ctx.fillText('+V', 265, 25);
+    ctx.fillText('R', 276, 78);
+    // LED circle
+    ctx.beginPath(); ctx.arc(260,130,14,0,Math.PI*2);
+    ctx.fillStyle = on ? '#e0c020' : '#eee';
+    ctx.fill(); ctx.strokeStyle='#333'; ctx.stroke();
+    if(on){ ctx.strokeStyle='rgba(224,192,32,0.5)'; ctx.lineWidth=8; ctx.beginPath(); ctx.arc(260,130,20,0,Math.PI*2); ctx.stroke(); ctx.lineWidth=2; }
+    ctx.beginPath(); ctx.moveTo(260,144); ctx.lineTo(260,170); ctx.strokeStyle='#333'; ctx.stroke();
+    // transistor body
+    ctx.strokeStyle='#333';
+    ctx.beginPath(); ctx.arc(260,180,18,0,Math.PI*2); ctx.stroke();
+    ctx.fillText('Q', 254, 184);
+    ctx.beginPath(); ctx.moveTo(260,198); ctx.lineTo(260,215); ctx.stroke();
+    ctx.fillText('GND', 245, 216);
+    // base line from left
+    ctx.beginPath(); ctx.moveTo(80,180); ctx.lineTo(242,180); ctx.stroke();
+    ctx.fillText('base', 90, 172);
+    // base switch box
+    ctx.strokeStyle = on ? '#3f7a4f' : '#999';
+    ctx.fillStyle = on ? '#3f7a4f' : '#fff';
+    ctx.fillRect(50,166,30,28); ctx.strokeRect(50,166,30,28);
+    ctx.fillStyle = on ? '#fff' : '#333';
+    ctx.fillText(on?'HI':'LO', 56, 184);
+
+    // animated current dots
+    if(on){
+      // base current (small, slow)
+      var bp = (t*0.6)%1;
+      var bx = 82 + bp*(242-82);
+      ctx.fillStyle = '#2f5a8f';
+      ctx.beginPath(); ctx.arc(bx,180,3,0,Math.PI*2); ctx.fill();
+      // collector current (larger, faster)
+      var cp = (t*1.4)%1;
+      var cy = 32 + cp*(196-32);
+      ctx.fillStyle = '#a13a2f';
+      ctx.beginPath(); ctx.arc(260,cy,4,0,Math.PI*2); ctx.fill();
+    }
+  }
+  function loop(){ t += 0.02; draw(); raf = requestAnimationFrame(loop); }
+  btn.addEventListener('click', function(){
+    on = !on;
+    this.textContent = 'Base: '+(on?'High':'Low');
+    this.classList.toggle('on', on);
+    stat.textContent = 'Collector current: '+(on?'flowing':'off')+' · LED: '+(on?'on':'off');
+  });
+  loop();
+})();
+
+/* ===================== 07: logic gates ===================== */
+(function(){
+  var sel = document.getElementById('gateSel');
+  if(!sel) return;
+  var aBtn = document.getElementById('gateA'), bBtn = document.getElementById('gateB');
+  var led = document.getElementById('gateLed'), outVal = document.getElementById('gateOutVal');
+  var truthEl = document.getElementById('gateTruth');
+  var A = 0, B = 0;
+
+  function gateFn(name, a, b){
+    switch(name){
+      case 'AND': return a&&b?1:0;
+      case 'OR': return a||b?1:0;
+      case 'NOT': return a?0:1;
+      case 'NAND': return (a&&b)?0:1;
+      case 'NOR': return (a||b)?0:1;
+      case 'XOR': return (a!==b)?1:0;
+      case 'XNOR': return (a===b)?1:0;
+    }
+  }
+  function render(){
+    var g = sel.value;
+    var isUnary = g==='NOT';
+    bBtn.style.visibility = isUnary ? 'hidden' : 'visible';
+    aBtn.textContent = 'A\n'+A; aBtn.classList.toggle('hi', !!A);
+    bBtn.textContent = 'B\n'+B; bBtn.classList.toggle('hi', !!B);
+    var out = gateFn(g, A, isUnary?0:B);
+    outVal.textContent = out;
+    led.classList.toggle('lit', !!out);
+
+    var rows = isUnary ? [[0],[1]] : [[0,0],[0,1],[1,0],[1,1]];
+    var html = '<tr><th>A</th>'+(isUnary?'':'<th>B</th>')+'<th>OUT</th></tr>';
+    rows.forEach(function(r){
+      var ra=r[0], rb=isUnary?0:r[1];
+      var o = gateFn(g, ra, rb);
+      var isCur = ra===A && (isUnary || rb===B);
+      html += '<tr'+(isCur?' class="hit"':'')+'><td>'+ra+'</td>'+(isUnary?'':'<td>'+rb+'</td>')+'<td>'+o+'</td></tr>';
+    });
+    truthEl.innerHTML = html;
+  }
+  aBtn.addEventListener('click', function(){ A = A?0:1; render(); });
+  bBtn.addEventListener('click', function(){ B = B?0:1; render(); });
+  sel.addEventListener('change', render);
+  render();
+})();
+
+/* ===================== 08: 555 astable ===================== */
+(function(){
+  var canvas = document.getElementById('ic555Canvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var r1El = document.getElementById('r1555'), r2El = document.getElementById('r2555'), cEl = document.getElementById('c555');
+  var r1Val = document.getElementById('r1555Val'), r2Val = document.getElementById('r2555Val'), cVal = document.getElementById('c555Val');
+  var freqEl = document.getElementById('freq555');
+
+  function draw(){
+    var R1 = parseFloat(r1El.value)*1000, R2 = parseFloat(r2El.value)*1000, C = parseFloat(cEl.value)*0.000001;
+    r1Val.textContent = r1El.value+' kΩ'; r2Val.textContent = r2El.value+' kΩ'; cVal.textContent = cEl.value+' µF';
+    var freq = 1.44/((R1+2*R2)*C);
+    var highTime = 0.693*(R1+R2)*C, lowTime = 0.693*R2*C;
+    var period = highTime+lowTime;
+    freqEl.textContent = freq>=1000 ? (freq/1000).toFixed(2)+' kHz' : freq.toFixed(freq<10?2:1)+' Hz';
+
+    var W=canvas.width,H=canvas.height,pad=20,midY=H/2;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#a13a2f'; ctx.lineWidth=2.2; ctx.beginPath();
+    var cyclesShown = 4;
+    var totalT = period*cyclesShown;
+    var x = pad, curHigh = true, elapsed = 0;
+    ctx.moveTo(pad, midY+30);
+    while(elapsed < totalT && x < W-pad){
+      var segDur = curHigh ? highTime : lowTime;
+      var segPx = (segDur/totalT)*(W-2*pad);
+      var y = curHigh ? midY-30 : midY+30;
+      ctx.lineTo(x, y);
+      x += segPx;
+      ctx.lineTo(x, y);
+      elapsed += segDur;
+      curHigh = !curHigh;
+    }
+    ctx.stroke();
+  }
+  [r1El,r2El,cEl].forEach(function(el){ el.addEventListener('input', draw); });
+  draw();
+})();
+
+/* ===================== 09: PWM ===================== */
+(function(){
+  var canvas = document.getElementById('pwmCanvas');
+  if(!canvas) return;
+  var ctx = canvas.getContext('2d');
+  var dutyEl = document.getElementById('pwmDuty'), dutyVal = document.getElementById('pwmDutyVal');
+  var ledEl = document.getElementById('pwmLed');
+
+  function draw(){
+    var duty = parseFloat(dutyEl.value);
+    dutyVal.textContent = duty+'%';
+    ledEl.style.opacity = Math.max(0.06, duty/100);
+
+    var W=canvas.width,H=canvas.height,pad=20,midY=H/2;
+    ctx.clearRect(0,0,W,H);
+    ctx.strokeStyle='#2f5a8f'; ctx.lineWidth=2.2; ctx.beginPath();
+    var cycles = 6, cyclePx = (W-2*pad)/cycles;
+    var highPx = cyclePx*(duty/100);
+    var x = pad;
+    ctx.moveTo(x, midY+30);
+    for(var i=0;i<cycles;i++){
+      ctx.lineTo(x, midY-30); ctx.lineTo(x+highPx, midY-30);
+      ctx.lineTo(x+highPx, midY+30); ctx.lineTo(x+cyclePx, midY+30);
+      x += cyclePx;
+    }
+    ctx.stroke();
+  }
+  dutyEl.addEventListener('input', draw);
+  draw();
+})();
+
+})();
+</script>
+
+</body>
+</html>
