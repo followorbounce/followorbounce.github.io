@@ -11,13 +11,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulse Train — Stage — Knowledge Network</title>
-<meta name="description" content="Pulse Train II's ten units plus an eleventh, audio-only Render module, restyled minimal for live use — eight built-in tuning presets grounded in interval math (just intonation, the golden ratio, equal temperament), keyboard shortcuts, and a fullscreen Stage mode.">
+<meta name="description" content="Pulse Train II's ten units restyled minimal for live use — eight built-in tuning presets grounded in interval math (just intonation, the golden ratio, equal temperament), a rave-style square-wave Gate and a momentary Kill switch, keyboard shortcuts, and a fullscreen Stage mode.">
 <link rel="canonical" href="https://followorbounce.github.io/pulse-train-stage">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pulse Train — Stage — Knowledge Network">
-<meta property="og:description" content="Eleven audio-and-visual units, eight math-grounded tuning presets, and a stage-ready minimal interface — the same universal-node rule as Pulse Train and Pulse Train II.">
+<meta property="og:description" content="Ten audio units, eight math-grounded tuning presets, a rave-style square-wave Gate plus a momentary Kill switch, and a stage-ready minimal interface — the same universal-node rule as Pulse Train and Pulse Train II.">
 <meta property="og:url" content="https://followorbounce.github.io/pulse-train-stage">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
   --line:#262626; --line-strong:#3A3A3A;
   --led-off:#2A2A2A; --led-on:#FF4136; --led-glow:rgba(255,65,54,0.5);
   --c-tone:#FF8C42; --c-tone2:#FF4136; --c-rhythm:#D8D0C0; --c-crush:#39CCCC; --c-ring:#8B7FB8; --c-field:#6FA98A;
-  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0; --c-render:#AEE8FF;
+  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0;
   --font-display:'Space Mono', ui-monospace, monospace;
   --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
   --font-body:'Space Mono', ui-monospace, monospace;
@@ -72,6 +72,8 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .tbtn.power.off{background:var(--board3); color:var(--ink-soft); border-color:var(--line-strong);}
 .tbtn.random{background:var(--ink); color:#0A0A0A; border-color:var(--ink);}
 .tbtn.ref.on{background:var(--c-tone2); color:#1a0503; border-color:var(--c-tone2);}
+.tbtn.kill{color:var(--led-on); border-color:var(--led-on); user-select:none; touch-action:none;}
+.tbtn.kill.active{background:var(--led-on); color:#1a0503; box-shadow:0 0 10px 1px var(--led-glow);}
 .tstat{font-size:11px; color:var(--ink-faint); margin-left:auto; font-family:var(--font-mono);}
 .presetSelect{font-family:var(--font-mono); font-size:12px; padding:9px 10px; border:1px solid var(--line-strong); border-radius:3px; background:var(--board3); color:var(--ink); cursor:pointer;}
 .presetNoteWrap{padding-top:8px;}
@@ -90,7 +92,6 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .module.n-crush{--acc:var(--c-crush);} .module.n-ring{--acc:var(--c-ring);} .module.n-field{--acc:var(--c-field);}
 .module.n-freeze{--acc:var(--c-freeze);} .module.n-comb{--acc:var(--c-comb);}
 .module.n-space{--acc:var(--c-space);} .module.n-output{--acc:var(--c-output);}
-.module.n-render{--acc:var(--c-render); grid-column:1 / -1;}
 .module .mhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; padding-top:4px;}
 .module .mname{font-family:var(--font-display); font-weight:700; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; color:var(--acc);}
 .module .mtag{font-size:9px; color:var(--ink-faint); font-family:var(--font-mono); letter-spacing:0.05em; text-transform:uppercase; display:block; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--line);}
@@ -132,7 +133,6 @@ select.wave{font-family:var(--font-mono); font-size:10px; padding:5px 6px; borde
 
 .scopewrap{margin-top:8px; border:1px solid var(--line-strong); border-radius:3px; overflow:hidden; background:#000;}
 .scopewrap canvas{display:block; width:100%; height:90px;}
-.scopewrap.big canvas{height:auto; aspect-ratio:900/220;}
 
 .legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:18px; font-size:10px; color:var(--ink-faint); font-family:var(--font-mono);}
 .legend span{display:inline-flex; align-items:center; gap:6px;}
@@ -215,13 +215,14 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Precision / Microsound Synthesis</div>
     <h1>Pulse Train — Stage</h1>
-    <p><a href="/pulse-train-ii">Pulse Train II</a>'s ten units — <strong>Tone</strong>, <strong>Rhythm</strong>, <strong>Crush</strong>, <strong>Ring</strong>, <strong>Field</strong>, a second Tone, <strong>Freeze</strong>, <strong>Comb</strong>, and <strong>Space</strong> — restyled toward the flatter, thinner-lined minimalism of Pure Data and vvvv, plus an eleventh, audio-only <strong>Render</strong> module for a live waveform/radial visual. Same universal-node rule as Pulse Train and Signal Chain — <strong>every unit is both an input and an output</strong>. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Eight tuning presets built from interval math sit in the transport bar, keys <strong>1–8</strong> recall them, <strong>Space</strong> is power, and <strong>Stage</strong> goes fullscreen for a set.</p>
+    <p><a href="/pulse-train-ii">Pulse Train II</a>'s ten units — <strong>Tone</strong>, <strong>Rhythm</strong>, <strong>Crush</strong>, <strong>Ring</strong>, <strong>Field</strong>, a second Tone, <strong>Freeze</strong>, <strong>Comb</strong>, and <strong>Space</strong> — restyled toward the flatter, thinner-lined minimalism of Pure Data and vvvv, plus two rave-style master effects on Output: a square-wave <strong>Gate</strong> that chops the whole mix between silent and full on a tempo-rate pulse, and a momentary <strong>Kill</strong> switch for a hand-held mute-all. Same universal-node rule as Pulse Train and Signal Chain — <strong>every unit is both an input and an output</strong>. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Eight tuning presets built from interval math sit in the transport bar, keys <strong>1–8</strong> recall them, <strong>Space</strong> is power, <strong>K</strong> holds Kill, and <strong>Stage</strong> goes fullscreen for a set.</p>
   </div>
 </section>
 
 <div class="transport">
   <div class="wrap">
     <button class="tbtn power off" id="powerBtn">◉ Power</button>
+    <button class="tbtn kill" id="killBtn" title="Hold to mute everything — release to bring it back">⛔ Kill</button>
     <select class="presetSelect" id="presetSelect" aria-label="Load a tuning preset"><option value="">Presets…</option></select>
     <button class="tbtn random" id="randomBtn" title="Randomize every audio knob">⚄ Chance</button>
     <button class="tbtn" id="stageBtn" title="Fullscreen for performance">⛶ Stage</button>
@@ -399,28 +400,17 @@ footer a:hover{color:var(--ink);}
 
     <!-- OUTPUT -->
     <div class="module n-output" data-mod="output">
-      <div class="mhead"><span class="mname">Output</span><span style="font-family:var(--font-mono); font-size:9px; color:var(--ink-faint);">limiter&nbsp;on</span></div>
-      <span class="mtag">master · feedback tap</span>
-      <div class="row"><div class="knobwrap"><div class="knob" data-knob="output.volume" data-min="0" data-max="100" data-default="75"><div class="ind"></div></div><span class="klabel">volume</span><span class="kval" data-kval="output.volume">75</span></div></div>
+      <div class="mhead"><span class="mname">Output</span><button class="fswitch" id="gateToggleBtn" aria-label="Toggle Gate"><span class="led"></span></button></div>
+      <span class="mtag">master · limiter on · square-wave gate</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="output.volume" data-min="0" data-max="100" data-default="75"><div class="ind"></div></div><span class="klabel">volume</span><span class="kval" data-kval="output.volume">75</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="output.gateRate" data-min="0.5" data-max="32" data-default="8" data-log="1"><div class="ind"></div></div><span class="klabel">gate rate</span><span class="kval" data-kval="output.gateRate">8</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="output.gateDuty" data-min="5" data-max="95" data-default="50"><div class="ind"></div></div><span class="klabel">gate duty</span><span class="kval" data-kval="output.gateDuty">50</span></div>
+      </div>
       <div class="scopewrap"><canvas id="outputScope" width="380" height="90"></canvas></div>
       <div class="jackrow">
         <div class="jackgroup"><div class="jack in" data-jack="output.in"><span class="nub"></span>in</div></div>
         <div class="jackgroup"><div class="jack out" data-jack="output.out"><span class="nub"></span>out</div></div>
-      </div>
-    </div>
-
-    <!-- RENDER -->
-    <div class="module n-render" data-mod="render">
-      <div class="mhead"><span class="mname">Render</span><button class="tbtn" id="renderModeBtn" style="font-size:9px; padding:5px 9px;">Mode: Radial</button></div>
-      <span class="mtag">audio-reactive visual tap · no audio out</span>
-      <div class="row">
-        <div class="knobwrap"><div class="knob" data-knob="render.hue" data-min="0" data-max="360" data-default="140"><div class="ind"></div></div><span class="klabel">hue</span><span class="kval" data-kval="render.hue">140</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="render.react" data-min="0" data-max="100" data-default="60"><div class="ind"></div></div><span class="klabel">react</span><span class="kval" data-kval="render.react">60</span></div>
-      </div>
-      <div class="scopewrap big"><canvas id="renderCanvas" width="900" height="220"></canvas></div>
-      <div class="jackrow">
-        <div class="jackgroup"><div class="jack in" data-jack="render.in"><span class="nub"></span>in</div></div>
-        <div class="jackgroup"></div>
       </div>
     </div>
 
@@ -431,12 +421,12 @@ footer a:hover{color:var(--ink);}
 
 <section class="about wrap">
   <h2>How this actually works</h2>
-  <p>This is <a href="/pulse-train-ii">Pulse Train II</a>'s audio engine, unchanged, wearing a different board: the same ten units and the same patch graph, restyled flatter and thinner-lined, with eight interval-math presets, an eleventh visual-only Render module, and the keyboard/fullscreen additions below built for playing it live rather than reading about it. Everything that follows applies to both pages equally.</p>
+  <p>This is <a href="/pulse-train-ii">Pulse Train II</a>'s audio engine, unchanged, wearing a different board: the same ten units and the same patch graph, restyled flatter and thinner-lined, with eight interval-math presets, two rave-style master effects, and the keyboard/fullscreen additions below built for playing it live rather than reading about it. Everything that follows applies to both pages equally.</p>
   <p><strong>The same universal-node rule as <a href="/pulse-train">Pulse Train</a> and <a href="/signal-chain">Signal Chain</a>.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass. Ten units now: <strong>Tone</strong> and <strong>Tone II</strong> are a pair, identical design to Pulse Train's Tone (an undistorted sine, hard-clipped only as a feedback-loop safety net, with a second output running at a knob-set frequency ratio instead of a fixed octave). <strong>Rhythm</strong> is Pulse Train's Click ported over under a different name — the same pure impulse, edge-triggered via its own <code>in</code> the same way Click and Sonar are. <strong>Crush</strong> (bit-depth staircase quantization plus an audio-rate square gate), <strong>Ring</strong> (true ring modulation via an oscillator driving a gain node's own AudioParam), and <strong>Field</strong> (a panner whose LFO is quantized into 2-8 hard positions) are the same three units as Pulse Train, unchanged.</p>
   <p>The three units that are new to this board: <strong>Freeze</strong> is a delay pushed somewhere Signal Chain's Echo never goes — <code>feedback</code> runs up to 98%, not the usual 80-90%, so instead of a decaying repeat you get a loop that barely decays at all, whatever was in the delay line when you turned the knob up cycling almost indefinitely. <strong>Comb</strong> uses the same feedback-delay idea at a completely different time scale: delay times short enough to be inaudible as separate echoes (down to half a millisecond) reinforce or cancel specific frequencies instead, the classic comb-filtering effect behind physical-modeling and Karplus-Strong-style synthesis — its <code>freq</code> knob sets delay time to <code>1/freq</code> internally, so it reads as a pitch, not a time. <strong>Space</strong> is the site's first use of a <code>ConvolverNode</code>: rather than recording a real room, it synthesizes its own impulse response on the fly — filtered noise shaped by an exponential decay envelope, regenerated whenever the <code>size</code> knob moves — and convolves the input against that, a real convolution reverb built from math instead of a microphone in a cathedral.</p>
   <p><strong>Feedback loops are allowed on purpose</strong>, same as Pulse Train and Signal Chain: Output's own <code>out</code> can patch back into the board, and the compressor and hard limiter before the speakers exist specifically so that stays loud, not dangerous. Freeze in particular can build up fast in a feedback patch — start low.</p>
   <p><strong>The eight Presets</strong> aren't random starting points — each one sets every knob and footswitch from an actual interval or number: a 4&nbsp;Hz unison beat, a 3∶2 just fifth, the golden ratio (guaranteed never to lock into a clean beat), a four-partial harmonic stack, the equal-tempered tritone, the Pythagorean comma made audible as shimmer, a semitone-apart critical-band buzz, and a Fibonacci-derived rhythm patch. Loading one sets the whole board deterministically — same recall every time, the way a real preset should behave live — and every knob stays live afterward to be pushed off that starting point by hand.</p>
-  <p><strong>Render</strong>, the eleventh module, is a tap, not a channel — it never touches the audio, it only listens to whatever's patched into its own <code>in</code> (the master <code>output.out</code> by default) and draws it as a waveform, bar spectrum, or radial scope, colored by its own <code>hue</code> knob and scaled by <code>react</code>. Patch loops and Freeze feedback still only ever run through Output's compressor and limiter, exactly as before — Render just watches.</p>
+  <p><strong>Gate</strong> and <strong>Kill</strong> live inline in Output, after the limiter's ceiling and before the final hard-clip safety net, so they always act on everything reaching the speakers — not one more patchable unit to route around, the actual master. Gate runs a sawtooth through a threshold WaveShaper to get a variable-duty pulse, scales it to ±0.5, and sums that onto a GainNode's own <code>gain</code> AudioParam — the same oscillator-into-AudioParam trick Ring and Field already use, just aimed at the whole mix instead of one signal or a pan position — so the output swings between silent and full on every cycle: a square-wave mute/unmute, the classic trance/rave gate, with <code>rate</code> (0.5–32&nbsp;Hz) and <code>duty</code> (how much of each cycle stays open) both live. It's off by default and toggles like any footswitch. Kill is the blunt version: hold the transport button or the <strong>K</strong> key and the whole mix cuts to silence in a few milliseconds, release and it's back — a hand-on-the-fader mute for a live drop, not a setting to leave on.</p>
 </section>
 
 <footer>
@@ -494,6 +484,20 @@ function buildStaircaseCurve(steps){
   for(var i=0;i<n;i++){
     var x = i/(n-1)*2-1;
     curve[i] = Math.round(x*levels)/levels;
+  }
+  return curve;
+}
+/* A variable-duty pulse curve: threshold a rising sawtooth at a point
+   set by `duty` so the first `duty` fraction of each cycle reads +1 and
+   the rest reads -1 — feeding this a sawtooth oscillator turns it into
+   a square-ish wave with an adjustable on/off ratio instead of a fixed
+   50%, the shape behind Output's rave-style Gate effect. */
+function buildPulseCurve(duty){
+  var n = 1024, curve = new Float32Array(n);
+  var thresh = -1 + 2*Math.max(0.02, Math.min(0.98, duty));
+  for(var i=0;i<n;i++){
+    var x = i/(n-1)*2-1;
+    curve[i] = x < thresh ? 1 : -1;
   }
   return curve;
 }
@@ -755,7 +759,8 @@ function build(){
   };
 
   /* ---- OUTPUT (always-on: compressor + hard-clip safety net) — plus a
-     1kHz calibration reference tone, same as Pulse Train. ---- */
+     1kHz calibration reference tone, same as Pulse Train, plus two
+     rave-style master effects inline before the safety clip. ---- */
   var outMix = c.createGain();
   var refOsc = c.createOscillator(); refOsc.type='sine'; refOsc.frequency.value = 1000;
   var refGate = c.createGain(); refGate.gain.value = 0;
@@ -765,21 +770,42 @@ function build(){
   limiter.attack.value = 0.003; limiter.release.value = 0.18;
   var ceiling = c.createGain(); ceiling.gain.value = 0.68;
   var powerGate = c.createGain(); powerGate.gain.value = 0;
+
+  /* Gate: a sawtooth run through a threshold WaveShaper becomes a
+     variable-duty pulse; scaled to ±0.5 and summed into a GainNode's
+     own gain AudioParam (base 1 when off, 0.5 when engaged) it swings
+     the whole mix between silent and full — a square-wave mute/unmute
+     of everything, the classic trance/rave gate — using the same
+     oscillator-into-AudioParam trick Ring and Field already use on
+     audio and a pan position. Off by default. */
+  var gateSaw = c.createOscillator(); gateSaw.type='sawtooth'; gateSaw.frequency.value = 8;
+  var gateShaper = c.createWaveShaper(); gateShaper.curve = buildPulseCurve(0.5); gateShaper.oversample='none';
+  gateSaw.connect(gateShaper); gateSaw.start();
+  var gateScale = c.createGain(); gateScale.gain.value = 0.5;
+  gateShaper.connect(gateScale);
+  var gateAmount = c.createGain(); gateAmount.gain.value = 0;
+  gateScale.connect(gateAmount);
+  var gateNode = c.createGain(); gateNode.gain.value = 1;
+  gateAmount.connect(gateNode.gain);
+
+  /* Kill: a momentary hard mute, held down rather than toggled — a
+     hand-on-the-fader-style cut for live drops — ramped fast enough to
+     read as instant without clicking. */
+  var killNode = c.createGain(); killNode.gain.value = 1;
+
   var safety = c.createWaveShaper(); safety.curve = buildHardClipCurve();
-  outMix.connect(limiter); limiter.connect(ceiling); ceiling.connect(powerGate); powerGate.connect(safety);
+  outMix.connect(limiter); limiter.connect(ceiling); ceiling.connect(powerGate);
+  powerGate.connect(gateNode); gateNode.connect(killNode); killNode.connect(safety);
   var outAnalyser = c.createAnalyser(); outAnalyser.fftSize = 512;
   safety.connect(outAnalyser); outAnalyser.connect(c.destination);
   var monitorOut = c.createGain();
   safety.connect(monitorOut);
-  nodes.output = { inNode:outMix, refGate:refGate, limiter:limiter, ceiling:ceiling, powerGate:powerGate, outNode:monitorOut, analyser:outAnalyser, powered:false, refOn:false };
-
-  /* ---- RENDER: a visual-only tap — no audio output, just an analyser
-     fed by whatever's patched into its `in`, driving the live
-     waveform/radial/bars visualization used for stage work. ---- */
-  var renderIn = c.createGain(); renderIn.gain.value = 1;
-  var renderAnalyser = c.createAnalyser(); renderAnalyser.fftSize = 1024; renderAnalyser.smoothingTimeConstant = 0.75;
-  renderIn.connect(renderAnalyser);
-  nodes.render = { inNode:renderIn, analyser:renderAnalyser, hue:140, react:60, mode:'radial' };
+  nodes.output = {
+    inNode:outMix, refGate:refGate, limiter:limiter, ceiling:ceiling, powerGate:powerGate,
+    outNode:monitorOut, analyser:outAnalyser, powered:false, refOn:false,
+    gateSaw:gateSaw, gateShaper:gateShaper, gateNode:gateNode, gateAmount:gateAmount, gateOn:false,
+    killNode:killNode
+  };
 }
 
 /* ===================== patch connections (one universal jack kind) ===================== */
@@ -805,12 +831,11 @@ var JACKS = {
   'space.in':{dir:'in', target:function(){ return nodes.space.inNode; }},
   'space.out':{dir:'out', get:function(){ return nodes.space.outNode; }},
   'output.in':{dir:'in', target:function(){ return nodes.output.inNode; }},
-  'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }},
-  'render.in':{dir:'in', target:function(){ return nodes.render.inNode; }}
+  'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }}
 };
 var MODULE_COLOR = {
   tone:'#FF8C42', rhythm:'#D8D0C0', crush:'#39CCCC', ring:'#8B7FB8', field:'#6FA98A',
-  tone2:'#FF4136', freeze:'#7FB8D8', comb:'#C9A227', space:'#6B6B8C', output:'#F5F5F0', render:'#AEE8FF'
+  tone2:'#FF4136', freeze:'#7FB8D8', comb:'#C9A227', space:'#6B6B8C', output:'#F5F5F0'
 };
 function moduleOf(jackId){ return jackId.split('.')[0]; }
 
@@ -844,7 +869,7 @@ function setBypass(modId, bypassed){
   var btn = document.querySelector('[data-bypass="'+modId+'"]');
   if(btn) btn.classList.toggle('engaged', !bypassed);
 }
-document.querySelectorAll('.fswitch').forEach(function(btn){
+document.querySelectorAll('.fswitch[data-bypass]').forEach(function(btn){
   btn.addEventListener('click', function(){
     if(!audioReady) return;
     var id = btn.getAttribute('data-bypass');
@@ -1084,8 +1109,8 @@ function paramSet(path, val){
   else if(path==='space.tone'){ nodes.space.tone.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
   else if(path==='space.mix'){ nodes.space.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.space.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
   else if(path==='output.volume'){ nodes.output.ceiling.gain.setTargetAtTime(val/100*0.85, ctx().currentTime, 0.01); }
-  else if(path==='render.hue'){ nodes.render.hue = val; }
-  else if(path==='render.react'){ nodes.render.react = val; }
+  else if(path==='output.gateRate'){ nodes.output.gateSaw.frequency.setTargetAtTime(val, ctx().currentTime, 0.005); }
+  else if(path==='output.gateDuty'){ nodes.output.gateShaper.curve = buildPulseCurve(val/100); }
 }
 
 function initKnob(el){
@@ -1174,71 +1199,6 @@ function makeScopeDrawer(canvasId, analyser, color){
     }
   };
 }
-/* Bigger, audio-reactive visualization for the Render module — three
-   modes (radial / waveform / bars) driven by the same analyser data as
-   the small scopes, just drawn larger and with a persistence trail. */
-function makeRenderDrawer(){
-  var canvas = document.getElementById('renderCanvas');
-  if(!canvas || !nodes.render) return function(){};
-  var rctx = canvas.getContext('2d');
-  var analyser = nodes.render.analyser;
-  var timeData = new Uint8Array(analyser.fftSize);
-  var freqData = new Uint8Array(analyser.frequencyBinCount);
-  var t = 0;
-  return function(){
-    t += 0.01;
-    var W = canvas.width, H = canvas.height;
-    rctx.fillStyle = 'rgba(0,0,0,0.24)';
-    rctx.fillRect(0,0,W,H);
-    analyser.getByteTimeDomainData(timeData);
-    analyser.getByteFrequencyData(freqData);
-    var sum=0; for(var i=0;i<timeData.length;i++){ var d=(timeData[i]-128)/128; sum += d*d; }
-    var energy = Math.sqrt(sum/timeData.length);
-    var reactAmt = nodes.render.react/100;
-    var hue = (nodes.render.hue + t*8) % 360;
-    var mode = nodes.render.mode;
-    rctx.save();
-    if(mode==='wave'){
-      rctx.strokeStyle = 'hsl('+hue+',85%,62%)';
-      rctx.lineWidth = 2 + energy*4*reactAmt;
-      rctx.shadowBlur = 12*reactAmt; rctx.shadowColor = rctx.strokeStyle;
-      rctx.beginPath();
-      for(var i=0;i<timeData.length;i++){
-        var x = i/timeData.length*W, y = H/2 + ((timeData[i]-128)/128)*(H/2-10);
-        if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
-      }
-      rctx.stroke();
-    } else if(mode==='bars'){
-      var barCount = 64, barW = W/barCount;
-      for(var i=0;i<barCount;i++){
-        var v = (freqData[i*2]||0)/255;
-        var h = v*H*(0.5+0.5*reactAmt);
-        rctx.fillStyle = 'hsl('+((hue+i*3)%360)+',80%,58%)';
-        rctx.fillRect(i*barW, H-h, barW*0.7, h);
-      }
-    } else {
-      var cx=W/2, cy=H/2, baseR = Math.min(W,H)*0.18;
-      var points = 96;
-      rctx.beginPath();
-      for(var i=0;i<=points;i++){
-        var idx = Math.floor(i/points*timeData.length);
-        var amp = (timeData[idx]-128)/128;
-        var r = baseR + amp*baseR*1.6*(0.4+reactAmt) + energy*baseR*0.8*reactAmt;
-        var ang = i/points*Math.PI*2;
-        var x = cx + Math.cos(ang)*r, y = cy + Math.sin(ang)*r;
-        if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
-      }
-      rctx.closePath();
-      rctx.strokeStyle = 'hsl('+hue+',85%,62%)';
-      rctx.lineWidth = 2;
-      rctx.shadowBlur = 16*reactAmt; rctx.shadowColor = rctx.strokeStyle;
-      rctx.stroke();
-      rctx.fillStyle = 'hsla('+hue+',85%,50%,'+(0.08+energy*0.25*reactAmt)+')';
-      rctx.fill();
-    }
-    rctx.restore();
-  };
-}
 function drawScopes(){
   var draws = [
     makeScopeDrawer('toneScope', nodes.tone.analyser, MODULE_COLOR.tone),
@@ -1250,8 +1210,7 @@ function drawScopes(){
     makeScopeDrawer('freezeScope', nodes.freeze.analyser, MODULE_COLOR.freeze),
     makeScopeDrawer('combScope', nodes.comb.analyser, MODULE_COLOR.comb),
     makeScopeDrawer('spaceScope', nodes.space.analyser, MODULE_COLOR.space),
-    makeScopeDrawer('outputScope', nodes.output.analyser, MODULE_COLOR.output),
-    makeRenderDrawer()
+    makeScopeDrawer('outputScope', nodes.output.analyser, MODULE_COLOR.output)
   ];
   function loop(){
     requestAnimationFrame(loop);
@@ -1298,7 +1257,7 @@ var PRESETS = [
       'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
       'comb.freq':220,'comb.res':60,'comb.mix':50,
       'space.size':30,'space.tone':2500,'space.mix':20,
-      'output.volume':75,'render.hue':200
+      'output.volume':75
     }
   },
   {
@@ -1315,7 +1274,7 @@ var PRESETS = [
       'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
       'comb.freq':196,'comb.res':60,'comb.mix':50,
       'space.size':25,'space.tone':3000,'space.mix':18,
-      'output.volume':75,'render.hue':150
+      'output.volume':75
     }
   },
   {
@@ -1332,7 +1291,7 @@ var PRESETS = [
       'freeze.time':0.618,'freeze.feedback':55,'freeze.mix':45,
       'comb.freq':220,'comb.res':60,'comb.mix':50,
       'space.size':40,'space.tone':2200,'space.mix':40,
-      'output.volume':72,'render.hue':45
+      'output.volume':72
     }
   },
   {
@@ -1349,7 +1308,7 @@ var PRESETS = [
       'freeze.time':0.09,'freeze.feedback':25,'freeze.mix':25,
       'comb.freq':440,'comb.res':55,'comb.mix':45,
       'space.size':30,'space.tone':2500,'space.mix':30,
-      'output.volume':75,'render.hue':120
+      'output.volume':75
     }
   },
   {
@@ -1366,7 +1325,7 @@ var PRESETS = [
       'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
       'comb.freq':220,'comb.res':60,'comb.mix':50,
       'space.size':50,'space.tone':2000,'space.mix':25,
-      'output.volume':72,'render.hue':0
+      'output.volume':72
     }
   },
   {
@@ -1383,7 +1342,7 @@ var PRESETS = [
       'freeze.time':0.6,'freeze.feedback':45,'freeze.mix':30,
       'comb.freq':223,'comb.res':70,'comb.mix':60,
       'space.size':25,'space.tone':2500,'space.mix':25,
-      'output.volume':75,'render.hue':280
+      'output.volume':75
     }
   },
   {
@@ -1400,7 +1359,7 @@ var PRESETS = [
       'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
       'comb.freq':440,'comb.res':60,'comb.mix':50,
       'space.size':15,'space.tone':3000,'space.mix':15,
-      'output.volume':70,'render.hue':20
+      'output.volume':70
     }
   },
   {
@@ -1417,7 +1376,7 @@ var PRESETS = [
       'freeze.time':0.21,'freeze.feedback':60,'freeze.mix':35,
       'comb.freq':377,'comb.res':45,'comb.mix':35,
       'space.size':55,'space.tone':2500,'space.mix':35,
-      'output.volume':78,'render.hue':330
+      'output.volume':78
     }
   }
 ];
@@ -1446,7 +1405,6 @@ function wireDefaultPatch(){
   connect('rhythm.out','output.in');
   connect('tone2.out2','freeze.in');
   connect('freeze.out','output.in');
-  connect('output.out','render.in');
 }
 
 /* ===================== legend ===================== */
@@ -1515,7 +1473,7 @@ document.getElementById('scopeModeBtn').addEventListener('click', function(){
 });
 window.addEventListener('resize', function(){ if(audioReady) renderCables(); });
 
-/* ===================== presets / render mode / stage / keys ===================== */
+/* ===================== presets / gate / kill / stage / keys ===================== */
 var presetSelect = document.getElementById('presetSelect');
 PRESETS.forEach(function(p){
   var o = document.createElement('option'); o.value = p.id; o.textContent = p.name;
@@ -1525,16 +1483,49 @@ presetSelect.addEventListener('change', function(){
   if(this.value) applyPreset(this.value);
 });
 
-var RENDER_MODES = ['radial','wave','bars'];
-var renderModeBtn = document.getElementById('renderModeBtn');
-if(renderModeBtn){
-  renderModeBtn.addEventListener('click', function(){
-    if(!audioReady || !nodes.render) return;
-    var i = RENDER_MODES.indexOf(nodes.render.mode);
-    nodes.render.mode = RENDER_MODES[(i+1)%RENDER_MODES.length];
-    this.textContent = 'Mode: ' + nodes.render.mode.charAt(0).toUpperCase() + nodes.render.mode.slice(1);
+/* Gate: toggled like any other footswitch, but it isn't one of the
+   universal patch nodes — it lives inline in Output's own chain, so it
+   gets its own small handler instead of the generic setBypass() loop. */
+var gateToggleBtn = document.getElementById('gateToggleBtn');
+if(gateToggleBtn){
+  gateToggleBtn.addEventListener('click', function(){
+    if(!audioReady) return;
+    var on = !nodes.output.gateOn;
+    nodes.output.gateOn = on;
+    var now = ctx().currentTime;
+    nodes.output.gateNode.gain.cancelScheduledValues(now);
+    nodes.output.gateNode.gain.setTargetAtTime(on ? 0.5 : 1, now, 0.01);
+    nodes.output.gateAmount.gain.cancelScheduledValues(now);
+    nodes.output.gateAmount.gain.setTargetAtTime(on ? 1 : 0, now, 0.01);
+    this.classList.toggle('engaged', on);
   });
 }
+
+/* Kill: momentary, not a toggle — held down mutes, released restores,
+   the same gesture as a hand on a mixer's mute button. Works from the
+   transport button (pointer, with capture so a drag off the button
+   still releases correctly) or by holding the K key. */
+var killBtn = document.getElementById('killBtn');
+function killOn(){
+  if(!audioReady) return;
+  var now = ctx().currentTime;
+  nodes.output.killNode.gain.cancelScheduledValues(now);
+  nodes.output.killNode.gain.setTargetAtTime(0, now, 0.003);
+  killBtn.classList.add('active');
+}
+function killOff(){
+  if(!audioReady) return;
+  var now = ctx().currentTime;
+  nodes.output.killNode.gain.cancelScheduledValues(now);
+  nodes.output.killNode.gain.setTargetAtTime(1, now, 0.01);
+  killBtn.classList.remove('active');
+}
+killBtn.addEventListener('pointerdown', function(e){
+  e.preventDefault();
+  try{ killBtn.setPointerCapture(e.pointerId); }catch(err){}
+  killOn();
+});
+['pointerup','pointercancel'].forEach(function(evt){ killBtn.addEventListener(evt, killOff); });
 
 document.getElementById('stageBtn').addEventListener('click', function(){
   var el = document.documentElement;
@@ -1553,11 +1544,15 @@ document.addEventListener('keydown', function(e){
   if(tag==='SELECT' || tag==='INPUT' || tag==='TEXTAREA') return;
   if(e.code==='Space'){ e.preventDefault(); document.getElementById('powerBtn').click(); return; }
   if(e.key==='r' || e.key==='R'){ randomize(); return; }
+  if((e.key==='k' || e.key==='K') && !e.repeat){ killOn(); return; }
   var n = parseInt(e.key,10);
   if(n>=1 && n<=PRESETS.length){
     presetSelect.value = PRESETS[n-1].id;
     applyPreset(PRESETS[n-1].id);
   }
+});
+document.addEventListener('keyup', function(e){
+  if(e.key==='k' || e.key==='K') killOff();
 });
 
 })();
