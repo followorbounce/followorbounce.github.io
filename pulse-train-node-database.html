@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Node Database — Knowledge Network</title>
+<meta name="description" content="Every node in Pulse Train — Stage II, translated three ways: the software DSP technique, the math underneath it, and a real analog or hybrid component that performs the same job in physical hardware.">
+<link rel="canonical" href="https://followorbounce.github.io/pulse-train-node-database">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node Database — Knowledge Network">
+<meta property="og:description" content="Twelve nodes, three views each: the software technique, the underlying math, and the real chip that would do the same job in a physical instrument.">
+<meta property="og:url" content="https://followorbounce.github.io/pulse-train-node-database">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --accent:#a13a2f;
+  --accent2:#2f5a8f;
+  --card:#ffffff;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 920px;
+}
+*{box-sizing:border-box;}
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.6;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+code{font-family:var(--font-mono); background:#eceae3; padding:0.08em 0.4em; border-radius:2px; font-size:0.9em;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px; display:inline-block;}
+header .back{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+
+.hero{padding-block:clamp(48px,9vw,84px); border-bottom:1px solid var(--ink);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2.1rem, 5.8vw, 3.4rem); line-height:1.0; margin-bottom:20px;}
+.hero p{font-size:clamp(1.0rem, 1.4vw, 1.12rem); max-width:660px; color:#28282a;}
+.hero p + p{margin-top:12px;}
+
+.legend3{display:flex; gap:20px; flex-wrap:wrap; margin-top:26px; font-family:var(--font-mono); font-size:11.5px; color:var(--mid);}
+.legend3 span{display:flex; align-items:center; gap:7px;}
+.legend3 i{width:10px; height:10px; display:inline-block; flex:none;}
+.legend3 .sw-tech i{background:var(--accent2);}
+.legend3 .sw-math i{background:var(--ink);}
+.legend3 .sw-hw i{background:var(--accent);}
+
+section.chapter{padding-block:clamp(40px,7vw,64px); border-bottom:1px solid var(--line);}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid); margin-bottom:8px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:8px; line-height:1.15;}
+.chapter .glabel{font-size:0.98rem; color:#3a3a3c; max-width:640px; margin-bottom:28px;}
+
+.node{border:1px solid var(--ink); background:var(--card); margin-bottom:20px;}
+.node:last-child{margin-bottom:0;}
+.node-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; padding:16px 20px; border-bottom:1px solid var(--line); flex-wrap:wrap;}
+.node-name{font-family:var(--font-display); font-size:1.35rem; letter-spacing:0.01em;}
+.node-tag{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.04em;}
+.node-body{display:grid; grid-template-columns:1fr 1fr; gap:0;}
+@media (max-width:680px){ .node-body{grid-template-columns:1fr;} }
+.ncell{padding:16px 20px; border-top:1px solid var(--line);}
+.ncell:first-child{border-top:none;}
+@media (min-width:681px){
+  .ncell{border-top:1px solid var(--line);}
+  .ncell:nth-child(1),.ncell:nth-child(2){border-top:none;}
+  .ncell:nth-child(odd){border-right:1px solid var(--line);}
+}
+.ncell .nlabel{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; margin-bottom:8px; display:flex; align-items:center; gap:7px;}
+.ncell .nlabel i{width:9px; height:9px; display:inline-block; flex:none;}
+.ncell.tech .nlabel{color:var(--accent2);} .ncell.tech .nlabel i{background:var(--accent2);}
+.ncell.math .nlabel{color:var(--ink);} .ncell.math .nlabel i{background:var(--ink);}
+.ncell.hw .nlabel{color:var(--accent);} .ncell.hw .nlabel i{background:var(--accent);}
+.ncell p{font-size:0.92rem; line-height:1.6;}
+.mathexpr{font-family:var(--font-mono); font-size:0.94rem; background:#eceae3; padding:8px 10px; margin-bottom:10px; display:block; overflow-x:auto; white-space:nowrap;}
+.hwchip{font-family:var(--font-mono); font-size:0.85rem; font-weight:600; color:var(--ink);}
+.hwmfr{font-family:var(--font-mono); font-size:0.72rem; color:var(--mid); margin-left:6px;}
+.hwprice{font-family:var(--font-mono); font-size:0.78rem; color:var(--accent); font-weight:600; float:right;}
+
+.callout{margin-top:20px; padding:16px 18px; border:1px solid var(--ink); background:#fff; display:flex; align-items:baseline; gap:14px; flex-wrap:wrap;}
+.callout .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid); border:1px solid var(--line); padding:3px 8px; flex:0 0 auto;}
+.callout a{font-weight:600; text-decoration:underline; text-decoration-color:var(--line);}
+.callout a:hover{text-decoration-color:var(--ink);}
+
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.9rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line);}
+ol.refs li a:hover{text-decoration-color:var(--ink);}
+
+footer{border-top:1px solid var(--ink); padding-block:40px; font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Reference · Pulse Train Architecture</div>
+    <h1>Node Database</h1>
+    <p><a href="/pulse-train-stage-ii">Pulse Train — Stage II</a> is a browser instrument, but nothing in it is make-believe DSP. Every node below is documented three ways: the actual technique the JavaScript uses, the math that technique is an implementation of, and a real chip — a real part number, from a real manufacturer, that a hardware version of this same node would reasonably be built from.</p>
+    <p>Organized the same way the instrument itself now is — Sources, Character, Time, Master — twelve nodes, three views each.</p>
+    <div class="legend3">
+      <span class="sw-tech"><i></i>Software technique</span>
+      <span class="sw-math"><i></i>The math</span>
+      <span class="sw-hw"><i></i>Real hardware equivalent</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">01 — Sources</div>
+    <h2>Where the signal starts</h2>
+    <p class="glabel">Tone, Tone II, and Rhythm are the only nodes with nothing patched into their own <code>in</code> by default — everything downstream is shaping something one of these three already produced.</p>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Tone / Tone II</span><span class="node-tag">pure sine · fm input</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A single <code>OscillatorNode</code> per voice, undistorted sine, hard-clipped only as a feedback-loop safety net. Whatever's patched into <code>in</code> sums directly into the oscillator's own <code>frequency</code> AudioParam — linear FM, not exponential. A second oscillator, locked to the first by the <code>ratio</code> knob, gives each Tone a second output.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">f(t) = f_c + k·m(t)<br>y(t) = A·sin(2π·f(t)·t)</span><p>Linear FM: the modulator adds directly to carrier frequency in Hz, not to its exponent — so FM depth is felt the same at 40Hz as at 2000Hz, unlike 1V/oct analog FM.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">TL074</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$0.70</span><br>quad op-amp integrator core<br><span class="hwchip">LM13700</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$1.70</span><br>exponential converter + sine shaper<br><span class="hwchip">LM311</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.50</span><br>Schmitt-trigger comparator for the triangle/square core</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Rhythm</span><span class="node-tag">impulse · edge-triggered</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>Highpassed noise gated by a near-instant attack / fast decay envelope — a click, not a tone. Fires on its own clock and again on any rising edge detected at its <code>in</code>, the same edge-trigger technique used for Sonar back on Signal Chain.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">e(t) = A·rect(t/w)<br>trigger: x[n] &gt; θ, x[n−1] ≤ θ</span><p>A rectangular envelope of width <code>w</code>; the edge detector is a simple rising-edge threshold crossing, exactly what a Schmitt trigger does in hardware.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">TLC555</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.40</span><br>monostable timer, fires one fixed-width pulse per trigger<br><span class="hwchip">LM311</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.50</span><br>edge-detect comparator on the external trigger input</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">02 — Character</div>
+    <h2>What colors the signal</h2>
+    <p class="glabel">Crush, Ring, Drive, and Field don't generate anything — each takes a signal and does one specific, well-defined thing to its waveform, spectrum, or stereo position.</p>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Crush</span><span class="node-tag">bit reduction · gate</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A <code>WaveShaper</code> curve pre-computed as a staircase — 1024 samples, each rounded to one of <code>2^bits</code> flat bands — quantizes amplitude resolution. A second stage, an audio-rate square oscillator driving a <code>GainNode</code>, chops the result on and off.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">Q(x,b) = round(x·2^(b−1)) / 2^(b−1)</span><p>Bit-depth quantization: <code>b</code> controls how many discrete amplitude levels survive. This is inherently digital math — there's no continuous-voltage circuit that "rounds," only ones that approximate it.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">CD4066B</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.70</span><br>bilateral switch for the audio-rate gate stage<br><span class="hwmfr" style="margin-left:0;">the bit-mask itself has no honest discrete-analog equivalent — it runs on a small control MCU's ADC/DAC, the same way it runs on the CPU in the browser.</span></p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Ring</span><span class="node-tag">ring modulation</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>An oscillator's output connects directly into a <code>GainNode</code>'s own <code>gain</code> AudioParam — the input signal literally multiplies a second, independent oscillator, true four-quadrant ring modulation rather than a tremolo-style one-sided amplitude wobble.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y(t) = x(t)·cos(2πf_c t)<br>= ½[X(f−f_c) + X(f+f_c)]</span><p>Multiplying two signals shifts the input's spectrum up and down by the carrier frequency — sum and difference sidebands, with neither the original fundamental nor the carrier surviving in the output.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">LM13700</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$1.70</span><br>cross-coupled OTA pair biased as a 4-quadrant multiplier<br><span class="hwchip">AD633</span><span class="hwmfr">Analog Devices</span><span class="hwprice">$18.35</span><br>laser-trimmed multiplier — cleaner, pricier upgrade path</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Drive</span><span class="node-tag">saturation</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>Ported from <a href="/signal-chain">Signal Chain</a> unchanged. A <code>WaveShaper</code> curve computed from <code>tanh</code>, normalized so the curve always reaches ±1 at the input extremes no matter how hard <code>drive</code> is turned up, followed by a lowpass for <code>tone</code>.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y = tanh(k·x) / tanh(k)</span><p><code>tanh</code> is an odd function — its expansion contains only odd-order terms, so saturating a sine adds only odd harmonics (3rd, 5th, 7th…), the same harmonic signature associated with "warm" tube-style overdrive.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">TL074</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$0.70</span><br>op-amp gain stage with a diode pair across the feedback path — the textbook soft-clip circuit behind most real overdrive pedals, diode forward-conduction standing in for <code>tanh</code>'s smooth compression</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Field</span><span class="node-tag">stepped stereo panner</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A sine LFO runs through a second staircase <code>WaveShaper</code> — the same quantization curve as Crush, just applied to a control signal instead of audio — before driving a <code>StereoPannerNode</code>'s <code>pan</code> AudioParam, so the pan position jumps between fixed steps instead of sweeping smoothly.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">pan(t) = round(N·LFO(t)) / N</span><p>The same quantization function as Crush's <code>Q(x,b)</code>, reused on a control-rate signal instead of an audio-rate one — one function, two very different-sounding jobs depending on what it's applied to.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">CD4051B</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.70</span><br>8-channel analog mux, stepped between discrete pan taps<br><span class="hwchip">SN74HC393</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.60</span><br>binary counter clocking the mux — a literal hardware staircase</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">03 — Time</div>
+    <h2>What happens after the signal arrives</h2>
+    <p class="glabel">Freeze, Comb, Shimmer, and Space are all, underneath, the same operation — delay a copy of the signal and mix it back in — run at wildly different time scales and feedback amounts.</p>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Freeze</span><span class="node-tag">delay · pushed toward infinite</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A <code>DelayNode</code> with its own output fed back into its input through a gain stage set as high as 98% — not the usual 80–90% an echo tops out at — so a struck signal barely decays, cycling almost indefinitely instead of fading into a handful of discrete repeats.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y[n] = x[n] + β·y[n−D]</span><p>A feedback comb / IIR delay. Stable only for |β| &lt; 1 — at β = 0.98 the impulse response decays by roughly 2% per pass, audible as a very slow fade rather than silence.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">V3205 ×2</span><span class="hwmfr">CoolAudio</span><span class="hwprice">$8.25 ea</span><br>4096-stage bucket-brigade delay, cascaded for length<br><span class="hwchip">LM13700</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$1.70</span><br>OTA sets the feedback level the same way <code>feedback.gain</code> does</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Comb</span><span class="node-tag">metallic resonator</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>The identical feedback-delay structure as Freeze, at a completely different time scale: delay times short enough to be inaudible as separate echoes (down to half a millisecond). The <code>freq</code> knob sets delay time to <code>1/freq</code> internally, so it reads as a pitch, not a duration.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y[n] = x[n] + β·y[n−D]<br>H(f) peaks at f = k/D, k ∈ ℤ</span><p>Same recurrence as Freeze, but at these delay times the ear stops hearing discrete echoes and starts hearing a comb-shaped frequency response — peaks and nulls spaced at harmonics of <code>1/D</code>.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">V3207</span><span class="hwmfr">CoolAudio</span><span class="hwprice">$5.35</span><br>1024-stage bucket-brigade delay, 51.2ms max — short enough range for comb-filter time scales without cascading multiple chips</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Shimmer</span><span class="node-tag">chorus</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>Ported from Signal Chain unchanged. About as plain as a chorus circuit gets: a short (~18ms) <code>DelayNode</code>, with a slow sine LFO wobbling the <code>delayTime</code> AudioParam itself rather than mixing in a second pitch-shifted voice.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y(t) = x(t − τ(t))<br>τ(t) = τ₀ + d·sin(2πrt)</span><p>A time-varying delay is a disguised frequency shift: the instantaneous pitch shift is proportional to <code>dτ/dt</code>, the rate of change of delay time — which is exactly why modulating delay time, not mixing pitched copies, is how real chorus circuits work too.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">V3207</span><span class="hwmfr">CoolAudio</span><span class="hwprice">$5.35</span><br>same BBD family as Comb, clocked by a VCO instead of a fixed oscillator so the LFO modulates clock rate — the classic analog-chorus circuit (Boss CE-1/CE-2 lineage) built from exactly this part family</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Space</span><span class="node-tag">synthetic-impulse reverb</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A real <code>ConvolverNode</code>, but against a synthesized impulse response rather than a room recording: filtered noise shaped by an exponential decay envelope, regenerated whenever <code>size</code> moves, then convolved against the input.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y[n] = (x * h)[n] = Σ x[k]·h[n−k]<br>h[n] = noise[n]·(1 − n/N)^p</span><p>Direct convolution against an exponentially-decaying noise impulse response — the mathematically "correct" way to simulate a space, at the cost of no closed-form circuit that performs a true convolution.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">FV-1</span><span class="hwmfr">Spin Semiconductor</span><span class="hwprice">≈$5.50</span><br>a complete stereo reverb DSP with its own ADC/DAC on one chip — not literal block convolution, but the closest real, affordable hardware gets to the same perceptual result</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">04 — Master</div>
+    <h2>Where every signal has to end up</h2>
+    <p class="glabel">Output isn't one more patchable unit — its compressor and hard-clip stage are always in the signal path, and Gate and Kill live inline inside it rather than as separate nodes, so nothing can route around them.</p>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Gate</span><span class="node-tag">square-wave chop · rave</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A sawtooth run through a threshold <code>WaveShaper</code> becomes a variable-duty pulse; scaled to ±0.5 and summed onto the master <code>GainNode</code>'s own <code>gain</code> AudioParam (base 1 when off, 0.5 when engaged), it swings the entire mix between silent and full on every cycle.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y(t) = x(t)·g(t)<br>g(t) ∈ {0,1}, duty = d</span><p>Amplitude modulation by a rectangular wave of adjustable duty cycle — mute and unmute, at audio or sub-audio rate, literally rendered as a square wave.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">CD4066B</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$0.70</span><br>bilateral switch chopping the master bus, PWM-driven by the control MCU for variable duty cycle</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Kill</span><span class="node-tag">momentary mute-all</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A single <code>GainNode</code> held at 1, ramped to 0 in ~3ms on pointerdown or a held key, and back to 1 on release — momentary, not toggled, the same gesture as a hand on a mixer's mute button.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y(t) = x(t)·[1 − hold(t)]</span><p>A binary gate identical in form to Gate's <code>g(t)</code>, just driven by a person's hand instead of an oscillator.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">small N-ch MOSFET</span><span class="hwmfr">discrete</span><span class="hwprice">≈$0.50</span><br>shunts the master bus to ground while a footswitch is held — about as close to "one transistor" as any function on this board gets</p></div>
+      </div>
+    </div>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">Output</span><span class="node-tag">master · limiter · monitor</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A <code>DynamicsCompressorNode</code> as a limiter, a <code>GainNode</code> ceiling for the <code>volume</code> knob, and a fixed hard-clip <code>WaveShaper</code> as a safety net against feedback-loop overload — always active, not something a footswitch can bypass.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">y = clip(x·G), |y| ≤ 0.92</span><p>Master gain <code>G</code> followed by a fixed clamp — the same clipping family as Drive's <code>tanh</code>, but hard-edged and non-adjustable, a safety rail rather than a character control.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">LM13700</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$1.70</span><br>OTA-based master VCA under the volume control voltage<br><span class="hwchip">TPS7A4701 / TPS7A3301</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">≈$4.70</span><br>precision low-noise ±12V regulators — clean rails for every OTA and BBD on the board</p></div>
+      </div>
+    </div>
+
+    <div class="callout">
+      <span class="tag">On the hybrid approach</span>
+      <span>Crush and Gate's bit- and duty-cycle math have no honest discrete-analog circuit — they're sample-accurate operations, so a faithful hardware build runs them on a small control MCU next to the analog signal path, not instead of it. Every other node here has a real, decades-old analog circuit doing the identical job. That split — not "digital vs. analog" as a purity contest, but each technique used where it actually fits — is the same one <a href="/pulse-train-stage-ii">Pulse Train — Stage II</a>'s own code draws, just in JavaScript instead of silicon.</span>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">References</div>
+    <ol class="refs">
+      <li><a href="https://www.digikey.com/en/products/detail/texas-instruments/LM13700M-NOPB/366738" rel="external noopener" target="_blank">LM13700M/NOPB — Texas Instruments.</a> DigiKey Electronics, dual operational transconductance amplifier datasheet and pricing.</li>
+      <li><a href="https://www.ti.com/product/CD4066B" rel="external noopener" target="_blank">CD4066B — Quad Bilateral Switch.</a> Texas Instruments product page and datasheet.</li>
+      <li><a href="https://www.coolaudio.com/docs/COOLAUDIO_V3207_DATASHEET.pdf" rel="external noopener" target="_blank">V3207 — 1024-Stage Low-Noise BBD Analog Delay Line.</a> Coolaudio datasheet, direct successor to the Panasonic MN3207.</li>
+      <li><a href="https://aionfx.com/component/v3205sd/" rel="external noopener" target="_blank">V3205SD — 4096-Stage BBD, DIP-14.</a> Aion FX component listing and pricing.</li>
+      <li><a href="http://www.spinsemi.com/Products/datasheets/spn1001/FV-1.pdf" rel="external noopener" target="_blank">FV-1 — Programmable DSP, Multi-Effects IC.</a> Spin Semiconductor datasheet.</li>
+      <li><a href="https://www.digikey.com/en/products/detail/analog-devices-inc/AD633ANZ/750990" rel="external noopener" target="_blank">AD633ANZ — Four-Quadrant Analog Multiplier.</a> Analog Devices, via DigiKey Electronics.</li>
+      <li><a href="https://en.wikipedia.org/wiki/Bucket-brigade_device" rel="external noopener" target="_blank">Bucket-brigade device.</a> Overview of BBD operation as a discrete-time analog delay line.</li>
+    </ol>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
+    <span><a href="/">Index</a> · <a href="/pulse-train-stage-ii">Pulse Train — Stage II</a> · <a href="/signal-chain">Signal Chain</a> · <a href="/pulse-train">Pulse Train</a></span>
+  </div>
+</footer>
+
+</body>
+</html>

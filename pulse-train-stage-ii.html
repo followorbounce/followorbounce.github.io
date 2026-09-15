@@ -11,13 +11,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulse Train — Stage II — Knowledge Network</title>
-<meta name="description" content="Pulse Train — Stage plus a third Tone and Plate, a second reverb built on a completely different technique (comb + allpass) from Space's convolution — twelve units, nine tuning presets grounded in interval math, a rave-style square-wave Gate, a momentary Kill switch, and a fullscreen Stage mode.">
+<meta name="description" content="Pulse Train — Stage plus Drive and Shimmer, ported straight from Signal Chain, and the whole twelve-unit rack organized into four labeled groups — Sources, Character, Time, Master. Nine tuning presets grounded in interval math, a rave-style square-wave Gate, a momentary Kill switch, and a fullscreen Stage mode.">
 <link rel="canonical" href="https://followorbounce.github.io/pulse-train-stage-ii">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pulse Train — Stage II — Knowledge Network">
-<meta property="og:description" content="Twelve audio units — a third Tone and a second reverb (Plate, comb + allpass) added to Pulse Train — Stage — nine math-grounded tuning presets, a rave-style Gate plus a momentary Kill switch, and the same universal-node rule as Pulse Train.">
+<meta property="og:description" content="Twelve audio units organized into Sources, Character, Time, and Master — Drive and Shimmer ported from Signal Chain sit alongside the original ten — nine math-grounded tuning presets, a rave-style Gate plus a momentary Kill switch, and the same universal-node rule as Pulse Train.">
 <meta property="og:url" content="https://followorbounce.github.io/pulse-train-stage-ii">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
   --line:#262626; --line-strong:#3A3A3A;
   --led-off:#2A2A2A; --led-on:#FF4136; --led-glow:rgba(255,65,54,0.5);
   --c-tone:#FF8C42; --c-tone2:#FF4136; --c-rhythm:#D8D0C0; --c-crush:#39CCCC; --c-ring:#8B7FB8; --c-field:#6FA98A;
-  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0; --c-tone3:#FFD166; --c-plate:#7FD9C9;
+  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0; --c-drive:#E8547E; --c-shimmer:#A8D8C9;
   --font-display:'Space Mono', ui-monospace, monospace;
   --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
   --font-body:'Space Mono', ui-monospace, monospace;
@@ -81,6 +81,8 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 
 .rackwrap{padding-block:26px; position:relative;}
 .rack{position:relative; display:grid; grid-template-columns:repeat(6, 1fr); gap:14px;}
+.rack-label{grid-column:1 / -1; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint); padding:16px 2px 2px; border-top:1px solid var(--line-strong); margin-top:2px;}
+.rack-label.first{border-top:none; margin-top:0; padding-top:0;}
 @media (max-width:1200px){ .rack{grid-template-columns:repeat(4,1fr);} }
 @media (max-width:800px){ .rack{grid-template-columns:repeat(2,1fr);} }
 @media (max-width:560px){ .rack{grid-template-columns:1fr;} }
@@ -92,7 +94,7 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .module.n-crush{--acc:var(--c-crush);} .module.n-ring{--acc:var(--c-ring);} .module.n-field{--acc:var(--c-field);}
 .module.n-freeze{--acc:var(--c-freeze);} .module.n-comb{--acc:var(--c-comb);}
 .module.n-space{--acc:var(--c-space);} .module.n-output{--acc:var(--c-output);}
-.module.n-tone3{--acc:var(--c-tone3);} .module.n-plate{--acc:var(--c-plate);}
+.module.n-drive{--acc:var(--c-drive);} .module.n-shimmer{--acc:var(--c-shimmer);}
 .module .mhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; padding-top:4px;}
 .module .mname{font-family:var(--font-display); font-weight:700; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; color:var(--acc);}
 .module .mtag{font-size:9px; color:var(--ink-faint); font-family:var(--font-mono); letter-spacing:0.05em; text-transform:uppercase; display:block; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--line);}
@@ -216,7 +218,7 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Precision / Microsound Synthesis</div>
     <h1>Pulse Train — Stage II</h1>
-    <p><a href="/pulse-train-stage">Pulse Train — Stage</a>'s board, plus a third Tone and a second reverb: <strong>Plate</strong>, a comb-and-allpass network — four parallel feedback delays into two allpass filters into a damping lowpass, the classic Schroeder algorithm — a completely different technique from <strong>Space</strong>'s convolution, not just another knob on the same effect. Twelve units now: <strong>Tone</strong>, <strong>Rhythm</strong>, <strong>Crush</strong>, <strong>Ring</strong>, <strong>Field</strong>, <strong>Tone II</strong>, <strong>Freeze</strong>, <strong>Comb</strong>, <strong>Space</strong>, <strong>Tone III</strong>, <strong>Plate</strong>, and <strong>Output</strong> — carrying Stage's flat, thin-lined Pure Data/vvvv restyle and its two rave-style master effects, the square-wave <strong>Gate</strong> and the momentary <strong>Kill</strong> switch. Same universal-node rule throughout — <strong>every unit is both an input and an output</strong>. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Nine tuning presets built from interval math sit in the transport bar, keys <strong>1–9</strong> recall them, <strong>Space</strong> is power, <strong>K</strong> holds Kill, and <strong>Stage</strong> goes fullscreen for a set.</p>
+    <p><a href="/pulse-train-stage">Pulse Train — Stage</a>'s board, plus <strong>Drive</strong> and <strong>Shimmer</strong> — a saturation stage and an LFO-modulated chorus, ported straight from <a href="/signal-chain">Signal Chain</a> — and the whole twelve-unit rack reorganized into four labeled groups instead of one long row: <strong>Sources</strong> (Tone, Tone II, Rhythm), <strong>Character</strong> (Crush, Ring, Drive, Field), <strong>Time</strong> (Freeze, Comb, Shimmer, Space), and <strong>Master</strong> (Output). Same restyle as Stage, same two rave-style master effects — the square-wave <strong>Gate</strong> and the momentary <strong>Kill</strong> switch. Same universal-node rule throughout — <strong>every unit is both an input and an output</strong>. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Nine tuning presets built from interval math sit in the transport bar, keys <strong>1–9</strong> recall them, <strong>Space</strong> is power, <strong>K</strong> holds Kill, and <strong>Stage</strong> goes fullscreen for a set.</p>
   </div>
 </section>
 
@@ -250,6 +252,8 @@ footer a:hover{color:var(--ink);}
   <div class="rack" id="rack">
     <svg id="cableSvg"></svg>
 
+    <div class="rack-label first">01 — Sources</div>
+
     <!-- TONE -->
     <div class="module n-tone" data-mod="tone">
       <div class="mhead"><span class="mname">Tone</span><button class="fswitch engaged" data-bypass="tone" aria-label="Bypass Tone"><span class="led"></span></button></div>
@@ -265,6 +269,25 @@ footer a:hover{color:var(--ink);}
         <div class="jackgroup">
           <div class="jack out" data-jack="tone.out"><span class="nub"></span>out</div>
           <div class="jack out" data-jack="tone.out2"><span class="nub"></span>ratio</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TONE II -->
+    <div class="module n-tone2" data-mod="tone2">
+      <div class="mhead"><span class="mname">Tone II</span><button class="fswitch engaged" data-bypass="tone2" aria-label="Bypass Tone II"><span class="led"></span></button></div>
+      <span class="mtag">pure sine · fm input</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="tone2.pitch" data-min="40" data-max="2000" data-default="330" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="tone2.pitch">330</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="tone2.ratio" data-min="0.25" data-max="2" data-default="1.5"><div class="ind"></div></div><span class="klabel">ratio</span><span class="kval" data-kval="tone2.ratio">1.5</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="tone2.level" data-min="0" data-max="100" data-default="65"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="tone2.level">65</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="tone2Scope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="tone2.in"><span class="nub"></span>in · fm</div></div>
+        <div class="jackgroup">
+          <div class="jack out" data-jack="tone2.out"><span class="nub"></span>out</div>
+          <div class="jack out" data-jack="tone2.out2"><span class="nub"></span>ratio</div>
         </div>
       </div>
     </div>
@@ -285,6 +308,8 @@ footer a:hover{color:var(--ink);}
         <div class="jackgroup"><div class="jack out" data-jack="rhythm.out"><span class="nub"></span>out</div></div>
       </div>
     </div>
+
+    <div class="rack-label">02 — Character</div>
 
     <!-- CRUSH -->
     <div class="module n-crush" data-mod="crush">
@@ -317,6 +342,22 @@ footer a:hover{color:var(--ink);}
       </div>
     </div>
 
+    <!-- DRIVE -->
+    <div class="module n-drive" data-mod="drive">
+      <div class="mhead"><span class="mname">Drive</span><button class="fswitch engaged" data-bypass="drive" aria-label="Bypass Drive"><span class="led"></span></button></div>
+      <span class="mtag">saturation</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="drive.drive" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">drive</span><span class="kval" data-kval="drive.drive">40</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="drive.tone" data-min="400" data-max="8000" data-default="3000" data-log="1"><div class="ind"></div></div><span class="klabel">tone</span><span class="kval" data-kval="drive.tone">3000</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="drive.mix" data-min="0" data-max="100" data-default="100"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="drive.mix">100</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="driveScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="drive.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="drive.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
     <!-- FIELD -->
     <div class="module n-field" data-mod="field">
       <div class="mhead"><span class="mname">Field</span><button class="fswitch engaged" data-bypass="field" aria-label="Bypass Field"><span class="led"></span></button></div>
@@ -332,24 +373,7 @@ footer a:hover{color:var(--ink);}
       </div>
     </div>
 
-    <!-- TONE II -->
-    <div class="module n-tone2" data-mod="tone2">
-      <div class="mhead"><span class="mname">Tone II</span><button class="fswitch engaged" data-bypass="tone2" aria-label="Bypass Tone II"><span class="led"></span></button></div>
-      <span class="mtag">pure sine · fm input</span>
-      <div class="row">
-        <div class="knobwrap"><div class="knob" data-knob="tone2.pitch" data-min="40" data-max="2000" data-default="330" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="tone2.pitch">330</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="tone2.ratio" data-min="0.25" data-max="2" data-default="1.5"><div class="ind"></div></div><span class="klabel">ratio</span><span class="kval" data-kval="tone2.ratio">1.5</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="tone2.level" data-min="0" data-max="100" data-default="65"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="tone2.level">65</span></div>
-      </div>
-      <div class="scopewrap"><canvas id="tone2Scope" width="380" height="90"></canvas></div>
-      <div class="jackrow">
-        <div class="jackgroup"><div class="jack in" data-jack="tone2.in"><span class="nub"></span>in · fm</div></div>
-        <div class="jackgroup">
-          <div class="jack out" data-jack="tone2.out"><span class="nub"></span>out</div>
-          <div class="jack out" data-jack="tone2.out2"><span class="nub"></span>ratio</div>
-        </div>
-      </div>
-    </div>
+    <div class="rack-label">03 — Time</div>
 
     <!-- FREEZE -->
     <div class="module n-freeze" data-mod="freeze">
@@ -383,6 +407,22 @@ footer a:hover{color:var(--ink);}
       </div>
     </div>
 
+    <!-- SHIMMER -->
+    <div class="module n-shimmer" data-mod="shimmer">
+      <div class="mhead"><span class="mname">Shimmer</span><button class="fswitch engaged" data-bypass="shimmer" aria-label="Bypass Shimmer"><span class="led"></span></button></div>
+      <span class="mtag">chorus</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="shimmer.rate" data-min="0.05" data-max="5" data-default="0.6"><div class="ind"></div></div><span class="klabel">rate</span><span class="kval" data-kval="shimmer.rate">0.6</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="shimmer.depth" data-min="0" data-max="100" data-default="40"><div class="ind"></div></div><span class="klabel">depth</span><span class="kval" data-kval="shimmer.depth">40</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="shimmer.mix" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="shimmer.mix">35</span></div>
+      </div>
+      <div class="scopewrap"><canvas id="shimmerScope" width="380" height="90"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="shimmer.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"><div class="jack out" data-jack="shimmer.out"><span class="nub"></span>out</div></div>
+      </div>
+    </div>
+
     <!-- SPACE -->
     <div class="module n-space" data-mod="space">
       <div class="mhead"><span class="mname">Space</span><button class="fswitch engaged" data-bypass="space" aria-label="Bypass Space"><span class="led"></span></button></div>
@@ -399,40 +439,7 @@ footer a:hover{color:var(--ink);}
       </div>
     </div>
 
-    <!-- TONE III -->
-    <div class="module n-tone3" data-mod="tone3">
-      <div class="mhead"><span class="mname">Tone III</span><button class="fswitch engaged" data-bypass="tone3" aria-label="Bypass Tone III"><span class="led"></span></button></div>
-      <span class="mtag">pure sine · fm input</span>
-      <div class="row">
-        <div class="knobwrap"><div class="knob" data-knob="tone3.pitch" data-min="40" data-max="2000" data-default="165" data-log="1"><div class="ind"></div></div><span class="klabel">pitch</span><span class="kval" data-kval="tone3.pitch">165</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="tone3.ratio" data-min="0.25" data-max="2" data-default="1"><div class="ind"></div></div><span class="klabel">ratio</span><span class="kval" data-kval="tone3.ratio">1</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="tone3.level" data-min="0" data-max="100" data-default="60"><div class="ind"></div></div><span class="klabel">level</span><span class="kval" data-kval="tone3.level">60</span></div>
-      </div>
-      <div class="scopewrap"><canvas id="tone3Scope" width="380" height="90"></canvas></div>
-      <div class="jackrow">
-        <div class="jackgroup"><div class="jack in" data-jack="tone3.in"><span class="nub"></span>in · fm</div></div>
-        <div class="jackgroup">
-          <div class="jack out" data-jack="tone3.out"><span class="nub"></span>out</div>
-          <div class="jack out" data-jack="tone3.out2"><span class="nub"></span>ratio</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- PLATE -->
-    <div class="module n-plate" data-mod="plate">
-      <div class="mhead"><span class="mname">Plate</span><button class="fswitch engaged" data-bypass="plate" aria-label="Bypass Plate"><span class="led"></span></button></div>
-      <span class="mtag">comb + allpass reverb</span>
-      <div class="row">
-        <div class="knobwrap"><div class="knob" data-knob="plate.size" data-min="0" data-max="100" data-default="55"><div class="ind"></div></div><span class="klabel">size</span><span class="kval" data-kval="plate.size">55</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="plate.damp" data-min="400" data-max="8000" data-default="4000" data-log="1"><div class="ind"></div></div><span class="klabel">damp</span><span class="kval" data-kval="plate.damp">4000</span></div>
-        <div class="knobwrap"><div class="knob" data-knob="plate.mix" data-min="0" data-max="100" data-default="35"><div class="ind"></div></div><span class="klabel">mix</span><span class="kval" data-kval="plate.mix">35</span></div>
-      </div>
-      <div class="scopewrap"><canvas id="plateScope" width="380" height="90"></canvas></div>
-      <div class="jackrow">
-        <div class="jackgroup"><div class="jack in" data-jack="plate.in"><span class="nub"></span>in</div></div>
-        <div class="jackgroup"><div class="jack out" data-jack="plate.out"><span class="nub"></span>out</div></div>
-      </div>
-    </div>
+    <div class="rack-label">04 — Master</div>
 
     <!-- OUTPUT -->
     <div class="module n-output" data-mod="output">
@@ -457,18 +464,20 @@ footer a:hover{color:var(--ink);}
 
 <section class="about wrap">
   <h2>How this actually works</h2>
-  <p>This is <a href="/pulse-train-stage">Pulse Train — Stage</a>'s audio engine plus two new units, wearing the same board: the restyled, flatter, thinner-lined Pure Data/vvvv look, the same patch graph and bypass logic, the two rave-style master effects, and the keyboard/fullscreen additions built for playing it live rather than reading about it. Everything below that isn't about Tone III or Plate applies to Stage equally.</p>
-  <p><strong>The same universal-node rule as <a href="/pulse-train">Pulse Train</a> and <a href="/signal-chain">Signal Chain</a>.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass. <strong>Tone</strong>, <strong>Tone II</strong>, and the new <strong>Tone III</strong> are a matched set, identical design to Pulse Train's Tone (an undistorted sine, hard-clipped only as a feedback-loop safety net, with a second output running at a knob-set frequency ratio instead of a fixed octave). <strong>Rhythm</strong> is Pulse Train's Click ported over under a different name — the same pure impulse, edge-triggered via its own <code>in</code> the same way Click and Sonar are. <strong>Crush</strong> (bit-depth staircase quantization plus an audio-rate square gate), <strong>Ring</strong> (true ring modulation via an oscillator driving a gain node's own AudioParam), and <strong>Field</strong> (a panner whose LFO is quantized into 2-8 hard positions) are the same three units as Pulse Train, unchanged.</p>
+  <p>This is <a href="/pulse-train-stage">Pulse Train — Stage</a>'s audio engine, reorganized: the restyled, flatter, thinner-lined Pure Data/vvvv look stays, the patch graph and bypass logic stay, the two rave-style master effects stay — but the rack is now four labeled groups instead of one long row, and two units from <a href="/signal-chain">Signal Chain</a> replace what used to live in their spot. Everything below that isn't about Drive, Shimmer, or the grouping applies to Stage equally.</p>
+  <p><strong>Four groups, read top to bottom.</strong> <strong>Sources</strong> generate signal — Tone, Tone II, Rhythm. <strong>Character</strong> colors it — Crush, Ring, Drive, Field. <strong>Time</strong> gives it space — Freeze, Comb, Shimmer, Space. <strong>Master</strong> is where everything has to end up — Output. The patch graph doesn't enforce this order (any out still reaches any in), it's just how the twelve units read at a glance now instead of as one undifferentiated row.</p>
+  <p><strong>The same universal-node rule as <a href="/pulse-train">Pulse Train</a> and Signal Chain.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass. <strong>Tone</strong> and <strong>Tone II</strong> are identical design to Pulse Train's Tone (an undistorted sine, hard-clipped only as a feedback-loop safety net, with a second output running at a knob-set frequency ratio instead of a fixed octave). <strong>Rhythm</strong> is Pulse Train's Click ported over under a different name — the same pure impulse, edge-triggered via its own <code>in</code> the same way Click and Sonar are. <strong>Crush</strong> (bit-depth staircase quantization plus an audio-rate square gate), <strong>Ring</strong> (true ring modulation via an oscillator driving a gain node's own AudioParam), and <strong>Field</strong> (a panner whose LFO is quantized into 2-8 hard positions) are the same three units as Pulse Train, unchanged.</p>
   <p><strong>Freeze</strong> is a delay pushed somewhere Signal Chain's Echo never goes — <code>feedback</code> runs up to 98%, not the usual 80-90%, so instead of a decaying repeat you get a loop that barely decays at all, whatever was in the delay line when you turned the knob up cycling almost indefinitely. <strong>Comb</strong> uses the same feedback-delay idea at a completely different time scale: delay times short enough to be inaudible as separate echoes (down to half a millisecond) reinforce or cancel specific frequencies instead, the classic comb-filtering effect behind physical-modeling and Karplus-Strong-style synthesis — its <code>freq</code> knob sets delay time to <code>1/freq</code> internally, so it reads as a pitch, not a time. <strong>Space</strong> is the site's first use of a <code>ConvolverNode</code>: rather than recording a real room, it synthesizes its own impulse response on the fly — filtered noise shaped by an exponential decay envelope, regenerated whenever the <code>size</code> knob moves — and convolves the input against that, a real convolution reverb built from math instead of a microphone in a cathedral.</p>
-  <p><strong>Plate</strong>, new on this board, is a second reverb built on a deliberately different technique from Space, not a second knob set on the same one: it's a Schroeder network, the algorithm reverb design predates convolution by decades (1962) — four parallel comb (feedback-delay) filters at mutually non-harmonic times sum into a diffuse tail, run through two series allpass filters (<code>BiquadFilterNode</code>'s <code>allpass</code> type, chosen specifically because it changes phase without coloring the frequency response) for further diffusion, then a damping lowpass. <code>size</code> sets the comb feedback (how long the tail rings), <code>damp</code> sets how bright or dark that tail is. Space and Plate genuinely sound different — one is a synthesized room, the other is a diffusion network — because they're different math, not a preset variation of the same math.</p>
+  <p><strong>Drive</strong> and <strong>Shimmer</strong>, new here, are ported directly from Signal Chain, unchanged. Drive runs the signal through a <code>tanh</code> soft-clip WaveShaper — its curve is normalized so it always reaches full scale regardless of how hard <code>drive</code> pushes it, then a lowpass (<code>tone</code>) tames the harmonics saturation adds. Shimmer is a chorus built the plainest way a chorus can be built: a short delay line (~18ms), with a slow sine LFO wobbling the delay time itself — <code>rate</code> and <code>depth</code> set how fast and how far that wobble runs. Together they finally give <strong>Tone II's main output</strong> — patched nowhere in every earlier default patch, only its ratio-scaled second output ever went anywhere — a place to go: <code>tone2.out → drive.in → shimmer.in → output.in</code>.</p>
   <p><strong>Feedback loops are allowed on purpose</strong>, same as Pulse Train and Signal Chain: Output's own <code>out</code> can patch back into the board, and the compressor and hard limiter before the speakers exist specifically so that stays loud, not dangerous. Freeze in particular can build up fast in a feedback patch — start low.</p>
-  <p><strong>The nine Presets</strong> aren't random starting points — each one sets every knob and footswitch from an actual interval or number: a 4&nbsp;Hz unison beat, a 3∶2 just fifth, the golden ratio (guaranteed never to lock into a clean beat), a four-partial harmonic stack, the equal-tempered tritone, the Pythagorean comma made audible as shimmer, a semitone-apart critical-band buzz, a Fibonacci-derived rhythm patch, and — new here — a full 4∶5∶6 just major triad across all three Tones with Space and Plate each reverberating a different voice. Loading one sets the whole board deterministically — same recall every time, the way a real preset should behave live — and every knob stays live afterward to be pushed off that starting point by hand.</p>
+  <p><strong>The nine Presets</strong> aren't random starting points — each one sets every knob and footswitch from an actual interval or number: a 4&nbsp;Hz unison beat, a 3∶2 just fifth, the golden ratio (guaranteed never to lock into a clean beat), a four-partial harmonic stack, the equal-tempered tritone, the Pythagorean comma made audible as shimmer, a semitone-apart critical-band buzz, a Fibonacci-derived rhythm patch, and — reworked for this board — <strong>Driven Shimmer</strong>, which finally puts something through that long-unused Tone II output. Loading one sets the whole board deterministically — same recall every time, the way a real preset should behave live — and every knob stays live afterward to be pushed off that starting point by hand.</p>
   <p><strong>Gate</strong> and <strong>Kill</strong> live inline in Output, after the limiter's ceiling and before the final hard-clip safety net, so they always act on everything reaching the speakers — not one more patchable unit to route around, the actual master. Gate runs a sawtooth through a threshold WaveShaper to get a variable-duty pulse, scales it to ±0.5, and sums that onto a GainNode's own <code>gain</code> AudioParam — the same oscillator-into-AudioParam trick Ring and Field already use, just aimed at the whole mix instead of one signal or a pan position — so the output swings between silent and full on every cycle: a square-wave mute/unmute, the classic trance/rave gate, with <code>rate</code> (0.5–32&nbsp;Hz) and <code>duty</code> (how much of each cycle stays open) both live. It's off by default and toggles like any footswitch. Kill is the blunt version: hold the transport button or the <strong>K</strong> key and the whole mix cuts to silence in a few milliseconds, release and it's back — a hand-on-the-fader mute for a live drop, not a setting to leave on.</p>
+  <p>For every node on this board — the software technique, the math underneath it, and a real chip that would do the same job in physical hardware — see the <a href="/pulse-train-node-database">Node Database</a>.</p>
 </section>
 
 <footer>
   <div class="wrap">
-    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/pulse-train-stage">Pulse Train — Stage</a> · <a href="/pulse-train-ii">Pulse Train II</a> · <a href="/pulse-train">Pulse Train</a> · <a href="/signal-chain">Signal Chain</a> · <a href="/visual-synths/">Visual Synths</a></span>
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/pulse-train-node-database">Node Database</a> · <a href="/pulse-train-stage">Pulse Train — Stage</a> · <a href="/pulse-train-ii">Pulse Train II</a> · <a href="/pulse-train">Pulse Train</a> · <a href="/signal-chain">Signal Chain</a> · <a href="/visual-synths/">Visual Synths</a></span>
   </div>
 </footer>
 
@@ -541,6 +550,16 @@ function buildPulseCurve(duty){
 /* A short synthetic impulse response: filtered noise under an exponential
    decay envelope, regenerated whenever `size` moves — a real convolution
    reverb built from math instead of a room recording. */
+/* A tanh saturation curve, ported from Signal Chain's Drive: soft-clips
+   harder as `amount` rises, normalized so the curve always reaches
+   ±1 at the input extremes regardless of drive amount. */
+function buildDriveCurve(amount){
+  var n = 1024, curve = new Float32Array(n);
+  var k = 1 + (amount/100)*22;
+  var norm = Math.tanh(k);
+  for(var i=0;i<n;i++){ var x = i/(n-1)*2-1; curve[i] = Math.tanh(x*k)/norm; }
+  return curve;
+}
 function buildImpulseResponse(c, seconds, decaySteep){
   var len = Math.max(1, Math.round(c.sampleRate * seconds));
   var buf = c.createBuffer(2, len, c.sampleRate);
@@ -795,75 +814,47 @@ function build(){
     bypassGain:spaceBypassGain, wetGain:spaceWetGain, outNode:spaceOut, analyser:spaceAnalyser, bypassed:false, size:0.45
   };
 
-  /* ---- TONE III (identical design to Tone and Tone II) ---- */
-  var tone3In = c.createGain(); tone3In.gain.value = 1;
-  var tone3Osc = c.createOscillator(); tone3Osc.type='sine'; tone3Osc.frequency.value = 165;
-  var tone3FMDepth = c.createGain(); tone3FMDepth.gain.value = 260;
-  tone3In.connect(tone3FMDepth); tone3FMDepth.connect(tone3Osc.frequency);
-  var tone3Shaper = c.createWaveShaper(); tone3Shaper.curve = buildHardClipCurve();
-  tone3Osc.connect(tone3Shaper); tone3Osc.start();
-  var tone3Level = c.createGain(); tone3Level.gain.value = 0.6;
-  tone3Shaper.connect(tone3Level);
-  var tone3BypassGain = c.createGain(); tone3BypassGain.gain.value = 0;
-  var tone3WetGain = c.createGain(); tone3WetGain.gain.value = 1;
-  tone3In.connect(tone3BypassGain); tone3Level.connect(tone3WetGain);
-  var tone3Out = c.createGain();
-  tone3BypassGain.connect(tone3Out); tone3WetGain.connect(tone3Out);
-
-  var tone3RatioOsc = c.createOscillator(); tone3RatioOsc.type='sine'; tone3RatioOsc.frequency.value = 165;
-  var tone3RatioShaper = c.createWaveShaper(); tone3RatioShaper.curve = buildHardClipCurve();
-  tone3RatioOsc.connect(tone3RatioShaper); tone3RatioOsc.start();
-  var tone3RatioLevel = c.createGain(); tone3RatioLevel.gain.value = 0.5;
-  tone3RatioShaper.connect(tone3RatioLevel);
-  var tone3BypassGain2 = c.createGain(); tone3BypassGain2.gain.value = 0;
-  var tone3WetGain2 = c.createGain(); tone3WetGain2.gain.value = 1;
-  tone3In.connect(tone3BypassGain2); tone3RatioLevel.connect(tone3WetGain2);
-  var tone3Out2 = c.createGain();
-  tone3BypassGain2.connect(tone3Out2); tone3WetGain2.connect(tone3Out2);
-
-  var tone3Analyser = c.createAnalyser(); tone3Analyser.fftSize = 512; tone3Out.connect(tone3Analyser);
-  nodes.tone3 = {
-    inNode:tone3In, osc:tone3Osc, ratioOsc:tone3RatioOsc, level:tone3Level, ratioLevel:tone3RatioLevel,
-    bypassGain:tone3BypassGain, wetGain:tone3WetGain, bypassGain2:tone3BypassGain2, wetGain2:tone3WetGain2,
-    outNode:tone3Out, outNode2:tone3Out2, analyser:tone3Analyser, bypassed:false, pitch:165, ratio:1
+  /* ---- DRIVE (ported from Signal Chain, unchanged) ---- */
+  var driveIn = c.createGain(); driveIn.gain.value = 1;
+  var driveShaper = c.createWaveShaper(); driveShaper.curve = buildDriveCurve(40); driveShaper.oversample='4x';
+  var driveTone = c.createBiquadFilter(); driveTone.type='lowpass'; driveTone.frequency.value = 3000;
+  driveIn.connect(driveShaper); driveShaper.connect(driveTone);
+  var driveWetMix = c.createGain(); driveWetMix.gain.value = 1;
+  var driveDryMix = c.createGain(); driveDryMix.gain.value = 0;
+  driveTone.connect(driveWetMix); driveIn.connect(driveDryMix);
+  var driveSum = c.createGain(); driveWetMix.connect(driveSum); driveDryMix.connect(driveSum);
+  var driveBypassGain = c.createGain(); driveBypassGain.gain.value = 0;
+  var driveWetGain = c.createGain(); driveWetGain.gain.value = 1;
+  driveIn.connect(driveBypassGain); driveSum.connect(driveWetGain);
+  var driveOut = c.createGain();
+  driveBypassGain.connect(driveOut); driveWetGain.connect(driveOut);
+  var driveAnalyser = c.createAnalyser(); driveAnalyser.fftSize = 512; driveOut.connect(driveAnalyser);
+  nodes.drive = {
+    inNode:driveIn, shaper:driveShaper, tone:driveTone, wetMix:driveWetMix, dryMix:driveDryMix,
+    bypassGain:driveBypassGain, wetGain:driveWetGain, outNode:driveOut, analyser:driveAnalyser, bypassed:false
   };
 
-  /* ---- PLATE: a second reverb built on a completely different
-     technique from Space's convolution — a classic Schroeder network,
-     four parallel comb (feedback-delay) filters at mutually
-     non-harmonic times summed together for a diffuse tail, run through
-     two series allpass filters for further diffusion without coloring
-     the tone, then a damping lowpass. `size` is comb feedback (decay
-     length), `damp` is the lowpass cutoff (brighter/darker tail). ---- */
-  var plateIn = c.createGain(); plateIn.gain.value = 1;
-  var PLATE_COMB_TIMES = [0.0297, 0.0371, 0.0411, 0.0437];
-  var plateCombs = PLATE_COMB_TIMES.map(function(t){
-    var d = c.createDelay(0.2); d.delayTime.value = t;
-    var fb = c.createGain(); fb.gain.value = 0.62;
-    d.connect(fb); fb.connect(d);
-    return { delay:d, feedback:fb };
-  });
-  var plateCombSum = c.createGain(); plateCombSum.gain.value = 0.25;
-  plateCombs.forEach(function(cmb){ plateIn.connect(cmb.delay); cmb.delay.connect(plateCombSum); });
-  var plateAP1 = c.createBiquadFilter(); plateAP1.type='allpass'; plateAP1.frequency.value = 660;
-  var plateAP2 = c.createBiquadFilter(); plateAP2.type='allpass'; plateAP2.frequency.value = 1640;
-  plateCombSum.connect(plateAP1); plateAP1.connect(plateAP2);
-  var plateDamp = c.createBiquadFilter(); plateDamp.type='lowpass'; plateDamp.frequency.value = 4000;
-  plateAP2.connect(plateDamp);
-  var plateWetMix = c.createGain(); plateWetMix.gain.value = 0.35;
-  var plateDryMix = c.createGain(); plateDryMix.gain.value = 0.65;
-  plateDamp.connect(plateWetMix); plateIn.connect(plateDryMix);
-  var plateSum = c.createGain(); plateWetMix.connect(plateSum); plateDryMix.connect(plateSum);
-  var plateBypassGain = c.createGain(); plateBypassGain.gain.value = 0;
-  var plateWetGain = c.createGain(); plateWetGain.gain.value = 1;
-  plateIn.connect(plateBypassGain); plateSum.connect(plateWetGain);
-  var plateOut = c.createGain();
-  plateBypassGain.connect(plateOut); plateWetGain.connect(plateOut);
-  var plateAnalyser = c.createAnalyser(); plateAnalyser.fftSize = 512; plateOut.connect(plateAnalyser);
-  nodes.plate = {
-    inNode:plateIn, combs:plateCombs, ap1:plateAP1, ap2:plateAP2, damp:plateDamp,
-    wetMix:plateWetMix, dryMix:plateDryMix, bypassGain:plateBypassGain, wetGain:plateWetGain,
-    outNode:plateOut, analyser:plateAnalyser, bypassed:false
+  /* ---- SHIMMER (ported from Signal Chain, unchanged — chorus: an
+     LFO-modulated short delay) ---- */
+  var shimIn = c.createGain(); shimIn.gain.value = 1;
+  var shimDelay = c.createDelay(0.05); shimDelay.delayTime.value = 0.018;
+  var shimLFO = c.createOscillator(); shimLFO.type='sine'; shimLFO.frequency.value = 0.6;
+  var shimLFODepth = c.createGain(); shimLFODepth.gain.value = 0.003;
+  shimLFO.connect(shimLFODepth); shimLFODepth.connect(shimDelay.delayTime); shimLFO.start();
+  shimIn.connect(shimDelay);
+  var shimWetMix = c.createGain(); shimWetMix.gain.value = 0.35;
+  var shimDryMix = c.createGain(); shimDryMix.gain.value = 0.65;
+  shimDelay.connect(shimWetMix); shimIn.connect(shimDryMix);
+  var shimSum = c.createGain(); shimWetMix.connect(shimSum); shimDryMix.connect(shimSum);
+  var shimBypassGain = c.createGain(); shimBypassGain.gain.value = 0;
+  var shimWetGain = c.createGain(); shimWetGain.gain.value = 1;
+  shimIn.connect(shimBypassGain); shimSum.connect(shimWetGain);
+  var shimOut = c.createGain();
+  shimBypassGain.connect(shimOut); shimWetGain.connect(shimOut);
+  var shimAnalyser = c.createAnalyser(); shimAnalyser.fftSize = 512; shimOut.connect(shimAnalyser);
+  nodes.shimmer = {
+    inNode:shimIn, lfo:shimLFO, lfoDepth:shimLFODepth, delay:shimDelay, wetMix:shimWetMix, dryMix:shimDryMix,
+    bypassGain:shimBypassGain, wetGain:shimWetGain, outNode:shimOut, analyser:shimAnalyser, bypassed:false
   };
 
   /* ---- OUTPUT (always-on: compressor + hard-clip safety net) — plus a
@@ -938,18 +929,17 @@ var JACKS = {
   'comb.out':{dir:'out', get:function(){ return nodes.comb.outNode; }},
   'space.in':{dir:'in', target:function(){ return nodes.space.inNode; }},
   'space.out':{dir:'out', get:function(){ return nodes.space.outNode; }},
-  'tone3.in':{dir:'in', target:function(){ return nodes.tone3.inNode; }},
-  'tone3.out':{dir:'out', get:function(){ return nodes.tone3.outNode; }},
-  'tone3.out2':{dir:'out', get:function(){ return nodes.tone3.outNode2; }},
-  'plate.in':{dir:'in', target:function(){ return nodes.plate.inNode; }},
-  'plate.out':{dir:'out', get:function(){ return nodes.plate.outNode; }},
+  'drive.in':{dir:'in', target:function(){ return nodes.drive.inNode; }},
+  'drive.out':{dir:'out', get:function(){ return nodes.drive.outNode; }},
+  'shimmer.in':{dir:'in', target:function(){ return nodes.shimmer.inNode; }},
+  'shimmer.out':{dir:'out', get:function(){ return nodes.shimmer.outNode; }},
   'output.in':{dir:'in', target:function(){ return nodes.output.inNode; }},
   'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }}
 };
 var MODULE_COLOR = {
   tone:'#FF8C42', rhythm:'#D8D0C0', crush:'#39CCCC', ring:'#8B7FB8', field:'#6FA98A',
   tone2:'#FF4136', freeze:'#7FB8D8', comb:'#C9A227', space:'#6B6B8C',
-  tone3:'#FFD166', plate:'#7FD9C9', output:'#F5F5F0'
+  drive:'#E8547E', shimmer:'#A8D8C9', output:'#F5F5F0'
 };
 function moduleOf(jackId){ return jackId.split('.')[0]; }
 
@@ -1222,15 +1212,12 @@ function paramSet(path, val){
   }
   else if(path==='space.tone'){ nodes.space.tone.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
   else if(path==='space.mix'){ nodes.space.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.space.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
-  else if(path==='tone3.pitch'){ nodes.tone3.pitch = val; nodes.tone3.osc.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); nodes.tone3.ratioOsc.frequency.setTargetAtTime(val*nodes.tone3.ratio, ctx().currentTime, 0.01); }
-  else if(path==='tone3.ratio'){ nodes.tone3.ratio = val; nodes.tone3.ratioOsc.frequency.setTargetAtTime(nodes.tone3.pitch*val, ctx().currentTime, 0.01); }
-  else if(path==='tone3.level'){ nodes.tone3.level.gain.setTargetAtTime(val/100*0.7, ctx().currentTime, 0.01); nodes.tone3.ratioLevel.gain.setTargetAtTime(val/100*0.55, ctx().currentTime, 0.01); }
-  else if(path==='plate.size'){
-    var fb = 0.3 + (val/100)*0.62;
-    nodes.plate.combs.forEach(function(cmb){ cmb.feedback.gain.setTargetAtTime(fb, ctx().currentTime, 0.01); });
-  }
-  else if(path==='plate.damp'){ nodes.plate.damp.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
-  else if(path==='plate.mix'){ nodes.plate.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.plate.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
+  else if(path==='drive.drive'){ nodes.drive.shaper.curve = buildDriveCurve(val); }
+  else if(path==='drive.tone'){ nodes.drive.tone.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='drive.mix'){ nodes.drive.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.drive.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
+  else if(path==='shimmer.rate'){ nodes.shimmer.lfo.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
+  else if(path==='shimmer.depth'){ nodes.shimmer.lfoDepth.gain.setTargetAtTime(val/100*0.006, ctx().currentTime, 0.01); }
+  else if(path==='shimmer.mix'){ nodes.shimmer.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.shimmer.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
   else if(path==='output.volume'){ nodes.output.ceiling.gain.setTargetAtTime(val/100*0.85, ctx().currentTime, 0.01); }
   else if(path==='output.gateRate'){ nodes.output.gateSaw.frequency.setTargetAtTime(val, ctx().currentTime, 0.005); }
   else if(path==='output.gateDuty'){ nodes.output.gateShaper.curve = buildPulseCurve(val/100); }
@@ -1333,8 +1320,8 @@ function drawScopes(){
     makeScopeDrawer('freezeScope', nodes.freeze.analyser, MODULE_COLOR.freeze),
     makeScopeDrawer('combScope', nodes.comb.analyser, MODULE_COLOR.comb),
     makeScopeDrawer('spaceScope', nodes.space.analyser, MODULE_COLOR.space),
-    makeScopeDrawer('tone3Scope', nodes.tone3.analyser, MODULE_COLOR.tone3),
-    makeScopeDrawer('plateScope', nodes.plate.analyser, MODULE_COLOR.plate),
+    makeScopeDrawer('driveScope', nodes.drive.analyser, MODULE_COLOR.drive),
+    makeScopeDrawer('shimmerScope', nodes.shimmer.analyser, MODULE_COLOR.shimmer),
     makeScopeDrawer('outputScope', nodes.output.analyser, MODULE_COLOR.output)
   ];
   function loop(){
@@ -1350,7 +1337,7 @@ var RANDOM_KNOBS = ['tone.pitch','tone.ratio','tone.level','rhythm.rate','rhythm
   'crush.bits','crush.gate','crush.mix','ring.freq','ring.mix','field.rate','field.steps',
   'tone2.pitch','tone2.ratio','tone2.level','freeze.time','freeze.feedback','freeze.mix',
   'comb.freq','comb.res','comb.mix','space.size','space.tone','space.mix',
-  'tone3.pitch','tone3.ratio','tone3.level','plate.size','plate.damp','plate.mix'];
+  'drive.drive','drive.tone','drive.mix','shimmer.rate','shimmer.depth','shimmer.mix'];
 function randomize(){
   document.querySelectorAll('.knob').forEach(function(el){
     var path = el.getAttribute('data-knob');
@@ -1372,7 +1359,7 @@ var PRESETS = [
   {
     id:'unison-beat', name:'Unison Beat — 4 Hz',
     note:'Tone and Tone II sit 4 Hz apart — a slow amplitude pulse in the theta range, the same interference pattern behind monaural and binaural beating.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':220,'tone.ratio':1,'tone.level':70,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1389,7 +1376,7 @@ var PRESETS = [
   {
     id:'perfect-fifth', name:'Perfect Fifth — 3∶2',
     note:'Tone II locked a just fifth above Tone (ratio 3∶2, root 196 Hz) — the first interval past the octave where two tones lock into a simple, stable ratio instead of drifting.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':196,'tone.ratio':1,'tone.level':70,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1406,7 +1393,7 @@ var PRESETS = [
   {
     id:'golden-ratio', name:'Golden Ratio — φ',
     note:'Tone II sits Tone × 1.618… above it — φ is the one ratio guaranteed not to lock into any small-integer relationship, so the beating between the two never resolves into a steady pulse.',
-    bypass:{tone:false, rhythm:true, crush:false, ring:false, field:false, tone2:false, freeze:false, comb:true, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:false, ring:false, field:false, tone2:false, freeze:false, comb:true, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':220,'tone.ratio':1,'tone.level':70,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1423,7 +1410,7 @@ var PRESETS = [
   {
     id:'harmonic-series', name:'Harmonic Series — 1∶2∶3∶4',
     note:'Tone at 110 Hz is the fundamental; Tone II sits exactly an octave up (2nd harmonic), Ring is tuned to the 3rd, Comb to the 4th — the additive stack behind every pitched instrument’s timbre, laid out one node per partial.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:false, field:false, tone2:false, freeze:false, comb:false, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:true, ring:false, field:false, tone2:false, freeze:false, comb:false, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':110,'tone.ratio':1,'tone.level':72,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1440,7 +1427,7 @@ var PRESETS = [
   {
     id:'tritone', name:'Tritone — √2',
     note:'Tone II sits exactly half an octave above Tone (2^(6/12), the equal-tempered tritone) — the interval with no simple ratio to fall back on, ambiguous the same way the tritone paradox is ambiguous.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':220,'tone.ratio':1,'tone.level':70,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1457,7 +1444,7 @@ var PRESETS = [
   {
     id:'pythagorean-comma', name:'Pythagorean Comma',
     note:'Twelve stacked just fifths should land back on the start pitch seven octaves up — they miss by (3∶2)¹² ⁄ 2⁷, about 23.5 cents. Comb is tuned to that same sliver above Tone, so the mismatch shows up as a slow shimmer instead of a rounding error.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:true, freeze:false, comb:false, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:true, freeze:false, comb:false, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':220,'tone.ratio':1,'tone.level':72,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1474,7 +1461,7 @@ var PRESETS = [
   {
     id:'critical-band', name:'Critical Band Roughness',
     note:'Tone and Tone II sit one equal-tempered semitone apart at 440 Hz — close enough that the beating stops sounding like rhythm and starts sounding like buzz, Helmholtz’s account of dissonance made audible.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:true, tone2:false, freeze:true, comb:true, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:true, tone2:false, freeze:true, comb:true, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':440,'tone.ratio':1,'tone.level':70,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
@@ -1491,7 +1478,7 @@ var PRESETS = [
   {
     id:'fibonacci-pulse', name:'Fibonacci Pulse',
     note:'Rhythm’s rate/width/repeat and Crush’s bit depth are all set from the Fibonacci sequence (3, 5, 8, 13, 34…), and Comb is tuned to 377 Hz — a Fibonacci number doubling as a resonant frequency.',
-    bypass:{tone:false, rhythm:false, crush:false, ring:true, field:false, tone2:true, freeze:false, comb:false, space:false, tone3:true, plate:true},
+    bypass:{tone:false, rhythm:false, crush:false, ring:true, field:false, tone2:true, freeze:false, comb:false, space:false, drive:true, shimmer:true},
     knobs:{
       'tone.pitch':233,'tone.ratio':1,'tone.level':75,
       'rhythm.rate':61.8,'rhythm.width':13,'rhythm.repeat':34,'rhythm.level':80,
@@ -1506,22 +1493,22 @@ var PRESETS = [
     }
   },
   {
-    id:'major-triad', name:'Major Triad — 4∶5∶6',
-    note:'Tone, Tone II, and Tone III stack the root, a just major third (5∶4), and a just fifth (6∶4, same as 3∶2) — 4:5:6, the simplest possible major chord — with Space reverberating the root and the new Plate reverberating the fifth, so both reverbs are audible at once, each on a different voice.',
-    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:false, comb:true, space:false, tone3:false, plate:false},
+    id:'driven-shimmer', name:'Driven Shimmer',
+    note:'Tone II’s main output — unused in every earlier default patch, only its ratio-scaled second output ever went anywhere — finally gets routed somewhere: through Drive’s tanh saturation into Shimmer’s LFO-modulated delay, thickening a plain fifth above Tone into a driven, chorused wash.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false, drive:false, shimmer:false},
     knobs:{
-      'tone.pitch':165,'tone.ratio':1,'tone.level':70,
+      'tone.pitch':196,'tone.ratio':1,'tone.level':70,
       'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
       'crush.bits':4,'crush.gate':20,'crush.mix':100,
-      'ring.freq':165,'ring.mix':100,
+      'ring.freq':196,'ring.mix':100,
       'field.rate':0.25,'field.steps':2,
-      'tone2.pitch':165,'tone2.ratio':1.25,'tone2.level':60,
-      'freeze.time':0.3,'freeze.feedback':20,'freeze.mix':22,
-      'comb.freq':165,'comb.res':60,'comb.mix':50,
-      'space.size':35,'space.tone':2800,'space.mix':28,
-      'tone3.pitch':165,'tone3.ratio':1.5,'tone3.level':60,
-      'plate.size':65,'plate.damp':5000,'plate.mix':40,
-      'output.volume':74
+      'tone2.pitch':294,'tone2.ratio':1,'tone2.level':65,
+      'freeze.time':0.3,'freeze.feedback':20,'freeze.mix':0,
+      'comb.freq':196,'comb.res':60,'comb.mix':50,
+      'space.size':30,'space.tone':2800,'space.mix':25,
+      'drive.drive':55,'drive.tone':3200,'drive.mix':100,
+      'shimmer.rate':0.5,'shimmer.depth':55,'shimmer.mix':45,
+      'output.volume':73
     }
   }
 ];
@@ -1538,7 +1525,10 @@ function applyPreset(id){
   if(note) note.textContent = p.name+' — '+p.note;
 }
 
-/* ===================== default patch ===================== */
+/* ===================== default patch =====================
+   Tone II's main `out` sat unused in every earlier default patch —
+   only its ratio-scaled `out2` was ever routed anywhere. It finally
+   gets a home here, through Drive into Shimmer. */
 function wireDefaultPatch(){
   connect('tone.out','crush.in');
   connect('crush.out','comb.in');
@@ -1550,8 +1540,9 @@ function wireDefaultPatch(){
   connect('rhythm.out','output.in');
   connect('tone2.out2','freeze.in');
   connect('freeze.out','output.in');
-  connect('tone3.out2','plate.in');
-  connect('plate.out','output.in');
+  connect('tone2.out','drive.in');
+  connect('drive.out','shimmer.in');
+  connect('shimmer.out','output.in');
 }
 
 /* ===================== legend ===================== */
