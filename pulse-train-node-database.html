@@ -18,7 +18,7 @@
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Node Database — Knowledge Network">
-<meta property="og:description" content="Twelve nodes, three views each: the software technique, the underlying math, and the real chip that would do the same job in a physical instrument.">
+<meta property="og:description" content="Thirteen nodes, three views each: the software technique, the underlying math, and the real chip that would do the same job in a physical instrument.">
 <meta property="og:url" content="https://followorbounce.github.io/pulse-train-node-database">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -134,7 +134,7 @@ footer a{text-decoration:underline;}
     <div class="eyebrow">Reference · Pulse Train Architecture</div>
     <h1>Node Database</h1>
     <p><a href="/pulse-train-stage-ii">Pulse Train — Stage II</a> is a browser instrument, but nothing in it is make-believe DSP. Every node below is documented three ways: the actual technique the JavaScript uses, the math that technique is an implementation of, and a real chip — a real part number, from a real manufacturer, that a hardware version of this same node would reasonably be built from.</p>
-    <p>Organized the same way the instrument itself now is — Sources, Character, Time, Master — twelve nodes, three views each.</p>
+    <p>Organized the same way the instrument itself now is — Sources, Modulation, Character, Time, Master — thirteen nodes, three views each.</p>
     <div class="legend3">
       <span class="sw-tech"><i></i>Software technique</span>
       <span class="sw-math"><i></i>The math</span>
@@ -171,7 +171,24 @@ footer a{text-decoration:underline;}
 
 <section class="chapter">
   <div class="wrap">
-    <div class="kicker">02 — Character</div>
+    <div class="kicker">02 — Modulation</div>
+    <h2>Control, not signal</h2>
+    <p class="glabel">LFO is the one node whose own <code>out</code>, patched straight to the speakers, is nearly silent — it exists entirely to feed the <code>cv</code> jacks that sit next to the ordinary <code>in</code> on eight other nodes.</p>
+
+    <div class="node">
+      <div class="node-head"><span class="node-name">LFO</span><span class="node-tag">cv source</span></div>
+      <div class="node-body">
+        <div class="ncell tech"><div class="nlabel"><i></i>Software</div><p>A plain <code>OscillatorNode</code> (sine/triangle/square/sawtooth) through a <code>GainNode</code> set by <code>depth</code>. Each of the eight <code>cv</code> jacks it can patch into is actually a second, fixed-gain node wired permanently to a real target — an oscillator's <code>frequency</code>, a delay's <code>delayTime</code>, a gain's own <code>gain</code> — so one shared <code>depth</code> knob still reads as a sensible amount whether it lands on a pitch input or a volume input.</p></div>
+        <div class="ncell math"><div class="nlabel"><i></i>Math</div><span class="mathexpr">cv(t) = depth·osc(t)<br>param(t) = param₀ + k·cv(t)</span><p>The target AudioParam's own held value (<code>param₀</code>, set by its knob) and the incoming modulation sum directly — exactly the superposition already at work wherever Ring or Field drive an AudioParam internally, just exposed as a patchable source instead of hardwired.</p></div>
+        <div class="ncell hw"><div class="nlabel"><i></i>Real component</div><p><span class="hwchip">TL074</span><span class="hwmfr">Texas Instruments</span><span class="hwprice">$0.70</span><br>op-amp relaxation-oscillator core, the same integrator/comparator topology as Tone's, just tuned to sub-audio rates and without the exponential converter<br><span class="hwmfr" style="margin-left:0;">each fixed per-destination scale is, in real modular hardware, exactly what an <strong>attenuverter</strong> does — an inverting op-amp stage with a bipolar gain trim between a CV output and whatever it's patched into.</span></p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter">
+  <div class="wrap">
+    <div class="kicker">03 — Character</div>
     <h2>What colors the signal</h2>
     <p class="glabel">Crush, Ring, Drive, and Field don't generate anything — each takes a signal and does one specific, well-defined thing to its waveform, spectrum, or stereo position.</p>
 
@@ -215,7 +232,7 @@ footer a{text-decoration:underline;}
 
 <section class="chapter">
   <div class="wrap">
-    <div class="kicker">03 — Time</div>
+    <div class="kicker">04 — Time</div>
     <h2>What happens after the signal arrives</h2>
     <p class="glabel">Freeze, Comb, Shimmer, and Space are all, underneath, the same operation — delay a copy of the signal and mix it back in — run at wildly different time scales and feedback amounts.</p>
 
@@ -259,7 +276,7 @@ footer a{text-decoration:underline;}
 
 <section class="chapter">
   <div class="wrap">
-    <div class="kicker">04 — Master</div>
+    <div class="kicker">05 — Master</div>
     <h2>Where every signal has to end up</h2>
     <p class="glabel">Output isn't one more patchable unit — its compressor and hard-clip stage are always in the signal path, and Gate and Kill live inline inside it rather than as separate nodes, so nothing can route around them.</p>
 
