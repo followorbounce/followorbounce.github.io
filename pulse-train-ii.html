@@ -11,13 +11,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulse Train II — Knowledge Network</title>
-<meta name="description" content="A ten-unit precision/microsound synth on Pulse Train's universal-node rule — Tone, Rhythm, Crush, Ring, and Field ported over, plus a second Tone, an infinite-freeze delay, a short-delay comb resonator, and a synthetic-impulse digital reverb. Same minimal/glitch palette.">
+<meta name="description" content="A ten-unit precision/microsound synth, restyled minimal — eight built-in tuning presets grounded in interval math (just intonation, the golden ratio, equal temperament), an audio-reactive Render module, and keyboard shortcuts for live use. Same universal-node rule as Pulse Train.">
 <link rel="canonical" href="https://followorbounce.github.io/pulse-train-ii">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pulse Train II — Knowledge Network">
-<meta property="og:description" content="Ten units on Pulse Train's universal-node rule — Tone, Rhythm, Crush, Ring, and Field, plus a second Tone, an infinite-freeze delay, a comb resonator, and a synthetic-impulse reverb.">
+<meta property="og:description" content="Ten audio units plus an audio-reactive Render module, eight math-grounded tuning presets, and a stage-ready minimal interface — same universal-node rule as Pulse Train.">
 <meta property="og:url" content="https://followorbounce.github.io/pulse-train-ii">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -29,7 +29,7 @@
   --line:#262626; --line-strong:#3A3A3A;
   --led-off:#2A2A2A; --led-on:#FF4136; --led-glow:rgba(255,65,54,0.5);
   --c-tone:#FF8C42; --c-tone2:#FF4136; --c-rhythm:#D8D0C0; --c-crush:#39CCCC; --c-ring:#8B7FB8; --c-field:#6FA98A;
-  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0;
+  --c-freeze:#7FB8D8; --c-comb:#C9A227; --c-space:#6B6B8C; --c-output:#F5F5F0; --c-render:#AEE8FF;
   --font-display:'Space Mono', ui-monospace, monospace;
   --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
   --font-body:'Space Mono', ui-monospace, monospace;
@@ -73,6 +73,9 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .tbtn.random{background:var(--ink); color:#0A0A0A; border-color:var(--ink);}
 .tbtn.ref.on{background:var(--c-tone2); color:#1a0503; border-color:var(--c-tone2);}
 .tstat{font-size:11px; color:var(--ink-faint); margin-left:auto; font-family:var(--font-mono);}
+.presetSelect{font-family:var(--font-mono); font-size:12px; padding:9px 10px; border:1px solid var(--line-strong); border-radius:3px; background:var(--board3); color:var(--ink); cursor:pointer;}
+.presetNoteWrap{padding-top:8px;}
+.presetNote{font-size:10.5px; color:var(--ink-faint); font-family:var(--font-mono); line-height:1.5; display:block;}
 
 .rackwrap{padding-block:26px; position:relative;}
 .rack{position:relative; display:grid; grid-template-columns:repeat(6, 1fr); gap:14px;}
@@ -81,19 +84,20 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 @media (max-width:560px){ .rack{grid-template-columns:1fr;} }
 #cableSvg{position:absolute; inset:0; width:100%; height:100%; pointer-events:none; z-index:5; overflow:visible;}
 
-.module{background:var(--board2); border:1px solid var(--line-strong); border-radius:8px 8px 4px 4px; padding:10px; position:relative; box-shadow:0 3px 0 rgba(0,0,0,0.5);}
-.module::before{content:''; position:absolute; top:0; left:14px; right:14px; height:3px; border-radius:0 0 3px 3px; background:var(--acc);}
+.module{background:var(--board2); border:1px solid var(--line-strong); border-radius:3px; padding:10px; position:relative;}
+.module::before{content:''; position:absolute; top:0; left:14px; right:14px; height:2px; background:var(--acc);}
 .module.n-tone{--acc:var(--c-tone);} .module.n-tone2{--acc:var(--c-tone2);} .module.n-rhythm{--acc:var(--c-rhythm);}
 .module.n-crush{--acc:var(--c-crush);} .module.n-ring{--acc:var(--c-ring);} .module.n-field{--acc:var(--c-field);}
 .module.n-freeze{--acc:var(--c-freeze);} .module.n-comb{--acc:var(--c-comb);}
 .module.n-space{--acc:var(--c-space);} .module.n-output{--acc:var(--c-output);}
+.module.n-render{--acc:var(--c-render); grid-column:1 / -1;}
 .module .mhead{display:flex; justify-content:space-between; align-items:center; margin-bottom:2px; padding-top:4px;}
-.module .mname{font-family:var(--font-display); font-weight:700; font-size:16px; letter-spacing:0.03em; text-transform:uppercase; color:var(--acc);}
+.module .mname{font-family:var(--font-display); font-weight:700; font-size:14px; letter-spacing:0.04em; text-transform:uppercase; color:var(--acc);}
 .module .mtag{font-size:9px; color:var(--ink-faint); font-family:var(--font-mono); letter-spacing:0.05em; text-transform:uppercase; display:block; margin-bottom:10px; padding-bottom:8px; border-bottom:1px solid var(--line);}
 
 .fswitch{width:26px; height:26px; border-radius:50%; border:2px solid var(--line-strong); background:var(--sunken); cursor:pointer; display:flex; align-items:center; justify-content:center; flex:none;}
 .fswitch .led{width:8px; height:8px; border-radius:50%; background:var(--led-off);}
-.fswitch.engaged .led{background:var(--led-on); box-shadow:0 0 6px 1px var(--led-glow);}
+.fswitch.engaged .led{background:var(--led-on); box-shadow:0 0 4px 0 var(--led-glow);}
 .fswitch.engaged{border-color:var(--acc);}
 
 .row{display:flex; align-items:center; gap:7px; margin-bottom:9px; flex-wrap:wrap;}
@@ -110,9 +114,16 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .jack.selected .nub{outline:3px dashed var(--ink); outline-offset:2px;}
 
 .knobwrap{display:flex; flex-direction:column; align-items:center; gap:4px; user-select:none; touch-action:none;}
-.knob{width:38px; height:38px; border-radius:50%; background:radial-gradient(circle at 35% 30%, #3a3a3a, #101010 70%); border:2px solid var(--line-strong); position:relative; cursor:grab; touch-action:none;}
+.knob{
+  width:38px; height:38px; border-radius:50%; position:relative; cursor:grab; touch-action:none;
+  background:conic-gradient(from -135deg,
+    var(--acc) calc(var(--t,0)*270deg),
+    var(--line-strong) calc(var(--t,0)*270deg) 270deg,
+    transparent 270deg 360deg);
+}
 .knob:active{cursor:grabbing;}
-.knob .ind{position:absolute; left:50%; top:3px; width:3px; height:13px; background:var(--acc); transform-origin:50% 16px; margin-left:-1.5px; border-radius:2px;}
+.knob::after{content:''; position:absolute; inset:6px; border-radius:50%; background:var(--sunken);}
+.knob .ind{position:absolute; left:50%; top:5px; width:2px; height:11px; background:var(--acc); transform-origin:50% 14px; margin-left:-1px; border-radius:1px; z-index:1;}
 .klabel{font-size:9px; letter-spacing:0.03em; text-transform:uppercase; color:var(--ink-faint); font-family:var(--font-mono);}
 .kval{font-size:9.5px; color:var(--ink-soft); font-family:var(--font-mono); font-variant-numeric:tabular-nums;}
 .krange{display:none;}
@@ -121,6 +132,7 @@ select.wave{font-family:var(--font-mono); font-size:10px; padding:5px 6px; borde
 
 .scopewrap{margin-top:8px; border:1px solid var(--line-strong); border-radius:3px; overflow:hidden; background:#000;}
 .scopewrap canvas{display:block; width:100%; height:90px;}
+.scopewrap.big canvas{height:auto; aspect-ratio:900/220;}
 
 .legend{display:flex; gap:14px; flex-wrap:wrap; margin-top:18px; font-size:10px; color:var(--ink-faint); font-family:var(--font-mono);}
 .legend span{display:inline-flex; align-items:center; gap:6px;}
@@ -203,18 +215,21 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Precision / Microsound Synthesis</div>
     <h1>Pulse Train II</h1>
-    <p>A bigger board in <a href="/pulse-train">Pulse Train</a>'s palette: <strong>Tone</strong>, <strong>Rhythm</strong>, <strong>Crush</strong>, <strong>Ring</strong>, and <strong>Field</strong> carried over, alongside a second Tone and three effects that weren't there yet — a delay pushed toward <strong>infinite freeze</strong> instead of an echo, a short feedback delay tuned as a <strong>metallic comb resonator</strong>, and a digital reverb built from a synthesized impulse response instead of a recorded room. Same universal-node rule as Pulse Train and Signal Chain — <strong>every unit is both an input and an output</strong> — same minimal/glitch lineage. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span></p>
+    <p>A bigger board in <a href="/pulse-train">Pulse Train</a>'s palette: <strong>Tone</strong>, <strong>Rhythm</strong>, <strong>Crush</strong>, <strong>Ring</strong>, and <strong>Field</strong> carried over, alongside a second Tone and three effects that weren't there yet — a delay pushed toward <strong>infinite freeze</strong> instead of an echo, a short feedback delay tuned as a <strong>metallic comb resonator</strong>, and a digital reverb built from a synthesized impulse response instead of a recorded room, plus an eleventh, audio-only <strong>Render</strong> module for a live waveform/radial visual. Same universal-node rule as Pulse Train and Signal Chain — <strong>every unit is both an input and an output</strong> — restyled toward the flatter, thinner-lined minimalism of Pure Data and vvvv. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Eight tuning presets built from interval math sit in the transport bar, keys <strong>1–8</strong> recall them, <strong>Space</strong> is power, and <strong>Stage</strong> goes fullscreen for a set.</p>
   </div>
 </section>
 
 <div class="transport">
   <div class="wrap">
     <button class="tbtn power off" id="powerBtn">◉ Power</button>
-    <button class="tbtn random" id="randomBtn">⟲ Randomize</button>
+    <select class="presetSelect" id="presetSelect" aria-label="Load a tuning preset"><option value="">Presets…</option></select>
+    <button class="tbtn random" id="randomBtn" title="Randomize every audio knob">⚄ Chance</button>
+    <button class="tbtn" id="stageBtn" title="Fullscreen for performance">⛶ Stage</button>
     <button class="tbtn ref" id="refBtn">1kHz Ref</button>
     <button class="tbtn" id="scopeModeBtn">Scopes: Wave</button>
     <span class="tstat" id="cableStat">0 cables patched</span>
   </div>
+  <div class="wrap presetNoteWrap"><span class="presetNote" id="presetNote">Eight tuning presets built from interval math live in the dropdown — unison beats, just intonation, the golden ratio, equal temperament, and more. Keys 1–8 recall them, Space toggles power, R reshuffles every audio knob.</span></div>
 </div>
 
 <div class="connectionsPanel">
@@ -394,6 +409,21 @@ footer a:hover{color:var(--ink);}
       </div>
     </div>
 
+    <!-- RENDER -->
+    <div class="module n-render" data-mod="render">
+      <div class="mhead"><span class="mname">Render</span><button class="tbtn" id="renderModeBtn" style="font-size:9px; padding:5px 9px;">Mode: Radial</button></div>
+      <span class="mtag">audio-reactive visual tap · no audio out</span>
+      <div class="row">
+        <div class="knobwrap"><div class="knob" data-knob="render.hue" data-min="0" data-max="360" data-default="140"><div class="ind"></div></div><span class="klabel">hue</span><span class="kval" data-kval="render.hue">140</span></div>
+        <div class="knobwrap"><div class="knob" data-knob="render.react" data-min="0" data-max="100" data-default="60"><div class="ind"></div></div><span class="klabel">react</span><span class="kval" data-kval="render.react">60</span></div>
+      </div>
+      <div class="scopewrap big"><canvas id="renderCanvas" width="900" height="220"></canvas></div>
+      <div class="jackrow">
+        <div class="jackgroup"><div class="jack in" data-jack="render.in"><span class="nub"></span>in</div></div>
+        <div class="jackgroup"></div>
+      </div>
+    </div>
+
   </div>
 
   <div class="legend" id="legend"></div>
@@ -404,6 +434,8 @@ footer a:hover{color:var(--ink);}
   <p><strong>The same universal-node rule as <a href="/pulse-train">Pulse Train</a> and <a href="/signal-chain">Signal Chain</a>.</strong> Every unit exposes an <strong>in</strong> and at least one <strong>out</strong>, any out can patch into any in, and a footswitch is a real bypass. Ten units now: <strong>Tone</strong> and <strong>Tone II</strong> are a pair, identical design to Pulse Train's Tone (an undistorted sine, hard-clipped only as a feedback-loop safety net, with a second output running at a knob-set frequency ratio instead of a fixed octave). <strong>Rhythm</strong> is Pulse Train's Click ported over under a different name — the same pure impulse, edge-triggered via its own <code>in</code> the same way Click and Sonar are. <strong>Crush</strong> (bit-depth staircase quantization plus an audio-rate square gate), <strong>Ring</strong> (true ring modulation via an oscillator driving a gain node's own AudioParam), and <strong>Field</strong> (a panner whose LFO is quantized into 2-8 hard positions) are the same three units as Pulse Train, unchanged.</p>
   <p>The three units that are new to this board: <strong>Freeze</strong> is a delay pushed somewhere Signal Chain's Echo never goes — <code>feedback</code> runs up to 98%, not the usual 80-90%, so instead of a decaying repeat you get a loop that barely decays at all, whatever was in the delay line when you turned the knob up cycling almost indefinitely. <strong>Comb</strong> uses the same feedback-delay idea at a completely different time scale: delay times short enough to be inaudible as separate echoes (down to half a millisecond) reinforce or cancel specific frequencies instead, the classic comb-filtering effect behind physical-modeling and Karplus-Strong-style synthesis — its <code>freq</code> knob sets delay time to <code>1/freq</code> internally, so it reads as a pitch, not a time. <strong>Space</strong> is the site's first use of a <code>ConvolverNode</code>: rather than recording a real room, it synthesizes its own impulse response on the fly — filtered noise shaped by an exponential decay envelope, regenerated whenever the <code>size</code> knob moves — and convolves the input against that, a real convolution reverb built from math instead of a microphone in a cathedral.</p>
   <p><strong>Feedback loops are allowed on purpose</strong>, same as Pulse Train and Signal Chain: Output's own <code>out</code> can patch back into the board, and the compressor and hard limiter before the speakers exist specifically so that stays loud, not dangerous. Freeze in particular can build up fast in a feedback patch — start low.</p>
+  <p><strong>The eight Presets</strong> aren't random starting points — each one sets every knob and footswitch from an actual interval or number: a 4&nbsp;Hz unison beat, a 3∶2 just fifth, the golden ratio (guaranteed never to lock into a clean beat), a four-partial harmonic stack, the equal-tempered tritone, the Pythagorean comma made audible as shimmer, a semitone-apart critical-band buzz, and a Fibonacci-derived rhythm patch. Loading one sets the whole board deterministically — same recall every time, the way a real preset should behave live — and every knob stays live afterward to be pushed off that starting point by hand.</p>
+  <p><strong>Render</strong>, the eleventh module, is a tap, not a channel — it never touches the audio, it only listens to whatever's patched into its own <code>in</code> (the master <code>output.out</code> by default) and draws it as a waveform, bar spectrum, or radial scope, colored by its own <code>hue</code> knob and scaled by <code>react</code>. Patch loops and Freeze feedback still only ever run through Output's compressor and limiter, exactly as before — Render just watches.</p>
 </section>
 
 <footer>
@@ -739,6 +771,14 @@ function build(){
   var monitorOut = c.createGain();
   safety.connect(monitorOut);
   nodes.output = { inNode:outMix, refGate:refGate, limiter:limiter, ceiling:ceiling, powerGate:powerGate, outNode:monitorOut, analyser:outAnalyser, powered:false, refOn:false };
+
+  /* ---- RENDER: a visual-only tap — no audio output, just an analyser
+     fed by whatever's patched into its `in`, driving the live
+     waveform/radial/bars visualization used for stage work. ---- */
+  var renderIn = c.createGain(); renderIn.gain.value = 1;
+  var renderAnalyser = c.createAnalyser(); renderAnalyser.fftSize = 1024; renderAnalyser.smoothingTimeConstant = 0.75;
+  renderIn.connect(renderAnalyser);
+  nodes.render = { inNode:renderIn, analyser:renderAnalyser, hue:140, react:60, mode:'radial' };
 }
 
 /* ===================== patch connections (one universal jack kind) ===================== */
@@ -764,11 +804,12 @@ var JACKS = {
   'space.in':{dir:'in', target:function(){ return nodes.space.inNode; }},
   'space.out':{dir:'out', get:function(){ return nodes.space.outNode; }},
   'output.in':{dir:'in', target:function(){ return nodes.output.inNode; }},
-  'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }}
+  'output.out':{dir:'out', get:function(){ return nodes.output.outNode; }},
+  'render.in':{dir:'in', target:function(){ return nodes.render.inNode; }}
 };
 var MODULE_COLOR = {
   tone:'#FF8C42', rhythm:'#D8D0C0', crush:'#39CCCC', ring:'#8B7FB8', field:'#6FA98A',
-  tone2:'#FF4136', freeze:'#7FB8D8', comb:'#C9A227', space:'#6B6B8C', output:'#F5F5F0'
+  tone2:'#FF4136', freeze:'#7FB8D8', comb:'#C9A227', space:'#6B6B8C', output:'#F5F5F0', render:'#AEE8FF'
 };
 function moduleOf(jackId){ return jackId.split('.')[0]; }
 
@@ -1042,6 +1083,8 @@ function paramSet(path, val){
   else if(path==='space.tone'){ nodes.space.tone.frequency.setTargetAtTime(val, ctx().currentTime, 0.01); }
   else if(path==='space.mix'){ nodes.space.wetMix.gain.setTargetAtTime(val/100, ctx().currentTime, 0.01); nodes.space.dryMix.gain.setTargetAtTime(1-val/100, ctx().currentTime, 0.01); }
   else if(path==='output.volume'){ nodes.output.ceiling.gain.setTargetAtTime(val/100*0.85, ctx().currentTime, 0.01); }
+  else if(path==='render.hue'){ nodes.render.hue = val; }
+  else if(path==='render.react'){ nodes.render.react = val; }
 }
 
 function initKnob(el){
@@ -1063,6 +1106,7 @@ function initKnob(el){
   function toAngle(v){ return -135 + toT(v)*270; }
   function render(){
     ind.style.transform = 'rotate('+toAngle(val)+'deg)';
+    el.style.setProperty('--t', toT(val));
     kval.textContent = (Math.abs(val)<10 && val%1!==0) ? val.toFixed(2) : Math.round(val*100)/100;
     range.value = toT(val);
   }
@@ -1129,6 +1173,71 @@ function makeScopeDrawer(canvasId, analyser, color){
     }
   };
 }
+/* Bigger, audio-reactive visualization for the Render module — three
+   modes (radial / waveform / bars) driven by the same analyser data as
+   the small scopes, just drawn larger and with a persistence trail. */
+function makeRenderDrawer(){
+  var canvas = document.getElementById('renderCanvas');
+  if(!canvas || !nodes.render) return function(){};
+  var rctx = canvas.getContext('2d');
+  var analyser = nodes.render.analyser;
+  var timeData = new Uint8Array(analyser.fftSize);
+  var freqData = new Uint8Array(analyser.frequencyBinCount);
+  var t = 0;
+  return function(){
+    t += 0.01;
+    var W = canvas.width, H = canvas.height;
+    rctx.fillStyle = 'rgba(0,0,0,0.24)';
+    rctx.fillRect(0,0,W,H);
+    analyser.getByteTimeDomainData(timeData);
+    analyser.getByteFrequencyData(freqData);
+    var sum=0; for(var i=0;i<timeData.length;i++){ var d=(timeData[i]-128)/128; sum += d*d; }
+    var energy = Math.sqrt(sum/timeData.length);
+    var reactAmt = nodes.render.react/100;
+    var hue = (nodes.render.hue + t*8) % 360;
+    var mode = nodes.render.mode;
+    rctx.save();
+    if(mode==='wave'){
+      rctx.strokeStyle = 'hsl('+hue+',85%,62%)';
+      rctx.lineWidth = 2 + energy*4*reactAmt;
+      rctx.shadowBlur = 12*reactAmt; rctx.shadowColor = rctx.strokeStyle;
+      rctx.beginPath();
+      for(var i=0;i<timeData.length;i++){
+        var x = i/timeData.length*W, y = H/2 + ((timeData[i]-128)/128)*(H/2-10);
+        if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
+      }
+      rctx.stroke();
+    } else if(mode==='bars'){
+      var barCount = 64, barW = W/barCount;
+      for(var i=0;i<barCount;i++){
+        var v = (freqData[i*2]||0)/255;
+        var h = v*H*(0.5+0.5*reactAmt);
+        rctx.fillStyle = 'hsl('+((hue+i*3)%360)+',80%,58%)';
+        rctx.fillRect(i*barW, H-h, barW*0.7, h);
+      }
+    } else {
+      var cx=W/2, cy=H/2, baseR = Math.min(W,H)*0.18;
+      var points = 96;
+      rctx.beginPath();
+      for(var i=0;i<=points;i++){
+        var idx = Math.floor(i/points*timeData.length);
+        var amp = (timeData[idx]-128)/128;
+        var r = baseR + amp*baseR*1.6*(0.4+reactAmt) + energy*baseR*0.8*reactAmt;
+        var ang = i/points*Math.PI*2;
+        var x = cx + Math.cos(ang)*r, y = cy + Math.sin(ang)*r;
+        if(i===0) rctx.moveTo(x,y); else rctx.lineTo(x,y);
+      }
+      rctx.closePath();
+      rctx.strokeStyle = 'hsl('+hue+',85%,62%)';
+      rctx.lineWidth = 2;
+      rctx.shadowBlur = 16*reactAmt; rctx.shadowColor = rctx.strokeStyle;
+      rctx.stroke();
+      rctx.fillStyle = 'hsla('+hue+',85%,50%,'+(0.08+energy*0.25*reactAmt)+')';
+      rctx.fill();
+    }
+    rctx.restore();
+  };
+}
 function drawScopes(){
   var draws = [
     makeScopeDrawer('toneScope', nodes.tone.analyser, MODULE_COLOR.tone),
@@ -1140,7 +1249,8 @@ function drawScopes(){
     makeScopeDrawer('freezeScope', nodes.freeze.analyser, MODULE_COLOR.freeze),
     makeScopeDrawer('combScope', nodes.comb.analyser, MODULE_COLOR.comb),
     makeScopeDrawer('spaceScope', nodes.space.analyser, MODULE_COLOR.space),
-    makeScopeDrawer('outputScope', nodes.output.analyser, MODULE_COLOR.output)
+    makeScopeDrawer('outputScope', nodes.output.analyser, MODULE_COLOR.output),
+    makeRenderDrawer()
   ];
   function loop(){
     requestAnimationFrame(loop);
@@ -1165,6 +1275,164 @@ function randomize(){
   });
 }
 
+/* ===================== presets =====================
+   Every value below comes from an actual interval or constant, not a
+   taste call — the beat rate between Tone and Tone II, a just-intonation
+   ratio, the golden ratio, an equal-tempered step, the Pythagorean
+   comma, a critical-band semitone, or the Fibonacci sequence. Loading a
+   preset sets every knob and every footswitch deterministically (same
+   recall every time), then leaves everything live to be reshaped. */
+var PRESETS = [
+  {
+    id:'unison-beat', name:'Unison Beat — 4 Hz',
+    note:'Tone and Tone II sit 4 Hz apart — a slow amplitude pulse in the theta range, the same interference pattern behind monaural and binaural beating.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false},
+    knobs:{
+      'tone.pitch':220,'tone.ratio':1,'tone.level':70,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':4,'crush.gate':20,'crush.mix':100,
+      'ring.freq':220,'ring.mix':100,
+      'field.rate':0.3,'field.steps':2,
+      'tone2.pitch':220,'tone2.ratio':1.0182,'tone2.level':65,
+      'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
+      'comb.freq':220,'comb.res':60,'comb.mix':50,
+      'space.size':30,'space.tone':2500,'space.mix':20,
+      'output.volume':75,'render.hue':200
+    }
+  },
+  {
+    id:'perfect-fifth', name:'Perfect Fifth — 3∶2',
+    note:'Tone II locked a just fifth above Tone (ratio 3∶2, root 196 Hz) — the first interval past the octave where two tones lock into a simple, stable ratio instead of drifting.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false},
+    knobs:{
+      'tone.pitch':196,'tone.ratio':1,'tone.level':70,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':4,'crush.gate':20,'crush.mix':100,
+      'ring.freq':294,'ring.mix':100,
+      'field.rate':0.25,'field.steps':2,
+      'tone2.pitch':196,'tone2.ratio':1.5,'tone2.level':65,
+      'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
+      'comb.freq':196,'comb.res':60,'comb.mix':50,
+      'space.size':25,'space.tone':3000,'space.mix':18,
+      'output.volume':75,'render.hue':150
+    }
+  },
+  {
+    id:'golden-ratio', name:'Golden Ratio — φ',
+    note:'Tone II sits Tone × 1.618… above it — φ is the one ratio guaranteed not to lock into any small-integer relationship, so the beating between the two never resolves into a steady pulse.',
+    bypass:{tone:false, rhythm:true, crush:false, ring:false, field:false, tone2:false, freeze:false, comb:true, space:false},
+    knobs:{
+      'tone.pitch':220,'tone.ratio':1,'tone.level':70,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':6,'crush.gate':15,'crush.mix':35,
+      'ring.freq':356,'ring.mix':60,
+      'field.rate':0.5,'field.steps':3,
+      'tone2.pitch':220,'tone2.ratio':1.618034,'tone2.level':65,
+      'freeze.time':0.618,'freeze.feedback':55,'freeze.mix':45,
+      'comb.freq':220,'comb.res':60,'comb.mix':50,
+      'space.size':40,'space.tone':2200,'space.mix':40,
+      'output.volume':72,'render.hue':45
+    }
+  },
+  {
+    id:'harmonic-series', name:'Harmonic Series — 1∶2∶3∶4',
+    note:'Tone at 110 Hz is the fundamental; Tone II sits exactly an octave up (2nd harmonic), Ring is tuned to the 3rd, Comb to the 4th — the additive stack behind every pitched instrument’s timbre, laid out one node per partial.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:false, field:false, tone2:false, freeze:false, comb:false, space:false},
+    knobs:{
+      'tone.pitch':110,'tone.ratio':1,'tone.level':72,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':4,'crush.gate':20,'crush.mix':100,
+      'ring.freq':330,'ring.mix':70,
+      'field.rate':0.3,'field.steps':2,
+      'tone2.pitch':110,'tone2.ratio':2,'tone2.level':60,
+      'freeze.time':0.09,'freeze.feedback':25,'freeze.mix':25,
+      'comb.freq':440,'comb.res':55,'comb.mix':45,
+      'space.size':30,'space.tone':2500,'space.mix':30,
+      'output.volume':75,'render.hue':120
+    }
+  },
+  {
+    id:'tritone', name:'Tritone — √2',
+    note:'Tone II sits exactly half an octave above Tone (2^(6/12), the equal-tempered tritone) — the interval with no simple ratio to fall back on, ambiguous the same way the tritone paradox is ambiguous.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:false, freeze:true, comb:true, space:false},
+    knobs:{
+      'tone.pitch':220,'tone.ratio':1,'tone.level':70,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':4,'crush.gate':20,'crush.mix':100,
+      'ring.freq':311,'ring.mix':100,
+      'field.rate':0.15,'field.steps':2,
+      'tone2.pitch':220,'tone2.ratio':1.414214,'tone2.level':65,
+      'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
+      'comb.freq':220,'comb.res':60,'comb.mix':50,
+      'space.size':50,'space.tone':2000,'space.mix':25,
+      'output.volume':72,'render.hue':0
+    }
+  },
+  {
+    id:'pythagorean-comma', name:'Pythagorean Comma',
+    note:'Twelve stacked just fifths should land back on the start pitch seven octaves up — they miss by (3∶2)¹² ⁄ 2⁷, about 23.5 cents. Comb is tuned to that same sliver above Tone, so the mismatch shows up as a slow shimmer instead of a rounding error.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:false, tone2:true, freeze:false, comb:false, space:false},
+    knobs:{
+      'tone.pitch':220,'tone.ratio':1,'tone.level':72,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':4,'crush.gate':20,'crush.mix':100,
+      'ring.freq':220,'ring.mix':100,
+      'field.rate':0.3,'field.steps':2,
+      'tone2.pitch':220,'tone2.ratio':1,'tone2.level':65,
+      'freeze.time':0.6,'freeze.feedback':45,'freeze.mix':30,
+      'comb.freq':223,'comb.res':70,'comb.mix':60,
+      'space.size':25,'space.tone':2500,'space.mix':25,
+      'output.volume':75,'render.hue':280
+    }
+  },
+  {
+    id:'critical-band', name:'Critical Band Roughness',
+    note:'Tone and Tone II sit one equal-tempered semitone apart at 440 Hz — close enough that the beating stops sounding like rhythm and starts sounding like buzz, Helmholtz’s account of dissonance made audible.',
+    bypass:{tone:false, rhythm:true, crush:true, ring:true, field:true, tone2:false, freeze:true, comb:true, space:false},
+    knobs:{
+      'tone.pitch':440,'tone.ratio':1,'tone.level':70,
+      'rhythm.rate':50,'rhythm.width':15,'rhythm.repeat':15,'rhythm.level':80,
+      'crush.bits':4,'crush.gate':20,'crush.mix':100,
+      'ring.freq':440,'ring.mix':100,
+      'field.rate':0.3,'field.steps':2,
+      'tone2.pitch':440,'tone2.ratio':1.059463,'tone2.level':65,
+      'freeze.time':0.24,'freeze.feedback':10,'freeze.mix':0,
+      'comb.freq':440,'comb.res':60,'comb.mix':50,
+      'space.size':15,'space.tone':3000,'space.mix':15,
+      'output.volume':70,'render.hue':20
+    }
+  },
+  {
+    id:'fibonacci-pulse', name:'Fibonacci Pulse',
+    note:'Rhythm’s rate/width/repeat and Crush’s bit depth are all set from the Fibonacci sequence (3, 5, 8, 13, 34…), and Comb is tuned to 377 Hz — a Fibonacci number doubling as a resonant frequency.',
+    bypass:{tone:false, rhythm:false, crush:false, ring:true, field:false, tone2:true, freeze:false, comb:false, space:false},
+    knobs:{
+      'tone.pitch':233,'tone.ratio':1,'tone.level':75,
+      'rhythm.rate':61.8,'rhythm.width':13,'rhythm.repeat':34,'rhythm.level':80,
+      'crush.bits':5,'crush.gate':8,'crush.mix':100,
+      'ring.freq':220,'ring.mix':100,
+      'field.rate':1.3,'field.steps':3,
+      'tone2.pitch':233,'tone2.ratio':1,'tone2.level':65,
+      'freeze.time':0.21,'freeze.feedback':60,'freeze.mix':35,
+      'comb.freq':377,'comb.res':45,'comb.mix':35,
+      'space.size':55,'space.tone':2500,'space.mix':35,
+      'output.volume':78,'render.hue':330
+    }
+  }
+];
+function applyPreset(id){
+  if(!audioReady) return;
+  var p = PRESETS.filter(function(x){ return x.id===id; })[0];
+  if(!p) return;
+  Object.keys(p.bypass).forEach(function(mod){ setBypass(mod, p.bypass[mod]); });
+  Object.keys(p.knobs).forEach(function(path){
+    var el = document.querySelector('[data-knob="'+path+'"]');
+    if(el && el._setVal) el._setVal(p.knobs[path]);
+  });
+  var note = document.getElementById('presetNote');
+  if(note) note.textContent = p.name+' — '+p.note;
+}
+
 /* ===================== default patch ===================== */
 function wireDefaultPatch(){
   connect('tone.out','crush.in');
@@ -1177,6 +1445,7 @@ function wireDefaultPatch(){
   connect('rhythm.out','output.in');
   connect('tone2.out2','freeze.in');
   connect('freeze.out','output.in');
+  connect('output.out','render.in');
 }
 
 /* ===================== legend ===================== */
@@ -1244,6 +1513,51 @@ document.getElementById('scopeModeBtn').addEventListener('click', function(){
   this.textContent = scopeMode==='wave' ? 'Scopes: Wave' : 'Scopes: Spectrum';
 });
 window.addEventListener('resize', function(){ if(audioReady) renderCables(); });
+
+/* ===================== presets / render mode / stage / keys ===================== */
+var presetSelect = document.getElementById('presetSelect');
+PRESETS.forEach(function(p){
+  var o = document.createElement('option'); o.value = p.id; o.textContent = p.name;
+  presetSelect.appendChild(o);
+});
+presetSelect.addEventListener('change', function(){
+  if(this.value) applyPreset(this.value);
+});
+
+var RENDER_MODES = ['radial','wave','bars'];
+var renderModeBtn = document.getElementById('renderModeBtn');
+if(renderModeBtn){
+  renderModeBtn.addEventListener('click', function(){
+    if(!audioReady || !nodes.render) return;
+    var i = RENDER_MODES.indexOf(nodes.render.mode);
+    nodes.render.mode = RENDER_MODES[(i+1)%RENDER_MODES.length];
+    this.textContent = 'Mode: ' + nodes.render.mode.charAt(0).toUpperCase() + nodes.render.mode.slice(1);
+  });
+}
+
+document.getElementById('stageBtn').addEventListener('click', function(){
+  var el = document.documentElement;
+  if(!document.fullscreenElement){
+    var req = el.requestFullscreen || el.webkitRequestFullscreen;
+    if(req) req.call(el);
+  } else {
+    var exit = document.exitFullscreen || document.webkitExitFullscreen;
+    if(exit) exit.call(document);
+  }
+});
+
+document.addEventListener('keydown', function(e){
+  if(!audioReady) return;
+  var tag = (document.activeElement && document.activeElement.tagName) || '';
+  if(tag==='SELECT' || tag==='INPUT' || tag==='TEXTAREA') return;
+  if(e.code==='Space'){ e.preventDefault(); document.getElementById('powerBtn').click(); return; }
+  if(e.key==='r' || e.key==='R'){ randomize(); return; }
+  var n = parseInt(e.key,10);
+  if(n>=1 && n<=PRESETS.length){
+    presetSelect.value = PRESETS[n-1].id;
+    applyPreset(PRESETS[n-1].id);
+  }
+});
 
 })();
 </script>
