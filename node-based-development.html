@@ -1,0 +1,1203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Node-Based Software Development — Building Software Through Visual Logic, Data Flow &amp; Modular Systems</title>
+<meta name="description" content="An interactive field guide to node-based development: nodes as building blocks, connections as data flow, a real live math-node demo, a real image-filter demo, a working drag-and-drop node-graph playground, and a neutral tour of TouchDesigner, Max/MSP, Pure Data, LabVIEW, Houdini, Unreal Blueprints, Node-RED, n8n, ComfyUI and more.">
+<link rel="canonical" href="https://followorbounce.github.io/node-based-development">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Node-Based Software Development">
+<meta property="og:description" content="Nodes as building blocks, connections as data flow, networks as programs — with real interactive math and image-filter demos and a working node-graph playground.">
+<meta property="og:url" content="https://followorbounce.github.io/node-based-development">
+<meta property="og:site_name" content="Knowledge Network">
+<meta property="og:locale" content="en_US">
+<meta name="twitter:card" content="summary">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@300;400;500;600;700&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --white:#ffffff;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --accent:#1f6f6b;
+  --accent-soft:#e4efee;
+  --port:#1f6f6b;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1180px;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){
+  html{scroll-behavior:auto;}
+  *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+img,svg{display:block; max-width:100%;}
+a{color:var(--accent);}
+h1,h2,h3,h4{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button{font-family:inherit; cursor:pointer;}
+:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+
+.section{position:relative; padding:88px var(--edge) 88px; border-bottom:1px solid var(--line);}
+.section-inner{max-width:var(--maxw); margin:0 auto;}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px; flex-wrap:wrap;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.h-lg{font-size:clamp(1.7rem, 3.6vw, 2.7rem); line-height:1.05; margin-bottom:26px;}
+.lede{font-size:clamp(1.02rem, 1.3vw, 1.15rem); max-width:680px; color:#28282a;}
+.body-col{max-width:660px;}
+.mono{font-family:var(--font-mono);}
+.skip-link{position:absolute; left:-999px; top:0; background:var(--ink); color:var(--white); padding:10px 16px; z-index:100;}
+.skip-link:focus{left:16px; top:16px;}
+
+#progress{position:fixed; top:0; left:0; height:2px; background:var(--accent); width:0%; z-index:60; transition:width 0.08s linear;}
+#chrome{position:fixed; top:0; left:0; right:0; z-index:50; display:flex; justify-content:space-between; align-items:center; padding:14px var(--edge); pointer-events:none;}
+#chrome > *{pointer-events:auto;}
+.brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; background:var(--paper); padding:6px 10px; border:1px solid var(--ink);}
+#hud{position:fixed; bottom:16px; left:16px; z-index:50; font-family:var(--font-mono); font-size:11px; letter-spacing:0.04em; background:var(--paper); border:1px solid var(--ink); padding:9px 12px; min-width:190px;}
+@media (max-width:720px){ #hud{display:none;} }
+.hud-row{display:flex; justify-content:space-between; gap:14px;}
+.hud-label{color:var(--mid);}
+.hud-dot{width:6px; height:6px; border-radius:50%; background:var(--accent); display:inline-block; margin-right:6px; animation:blink 1.6s steps(1) infinite;}
+@keyframes blink{50%{opacity:0.2;}}
+
+.corner-frame{position:relative;}
+.corner-frame::before,.corner-frame::after{content:''; position:absolute; width:12px; height:12px; pointer-events:none;}
+.corner-frame::before{top:-1px; left:-1px; border-top:2px solid var(--ink); border-left:2px solid var(--ink);}
+.corner-frame::after{bottom:-1px; right:-1px; border-bottom:2px solid var(--ink); border-right:2px solid var(--ink);}
+
+#hero{min-height:92svh; display:flex; flex-direction:column; justify-content:center; border-bottom:1px solid var(--ink); padding-top:120px;}
+#hero .frame{border:1px solid var(--ink); padding:clamp(22px,5vw,56px);}
+#hero .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; color:var(--mid); display:flex; justify-content:space-between; margin-bottom:22px; flex-wrap:wrap; gap:8px;}
+#hero h1{font-size:clamp(2.1rem, 6vw, 4.4rem); line-height:0.98; margin-bottom:24px;}
+#hero .sub{max-width:660px; margin-bottom:32px;}
+#hero .cta{font-family:var(--font-mono); font-size:13px; letter-spacing:0.08em; text-decoration:none; border:1px solid var(--ink); padding:12px 18px; display:inline-block; color:var(--ink);}
+#hero .cta:hover{background:var(--ink); color:var(--white);}
+
+.fig-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.diagram-svg{width:100%; height:auto; display:block; margin:22px 0;}
+.diagram-svg text{font-family:var(--font-mono);}
+.panel{border:1px solid var(--ink); background:var(--white); padding:clamp(16px,3vw,28px);}
+.grid-2{display:grid; grid-template-columns:1fr 1fr; gap:36px;}
+@media (max-width:820px){ .grid-2{grid-template-columns:1fr;} }
+
+/* --- analogy grid (CH.01) --- */
+.analogy-grid{display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--line); margin-top:8px;}
+@media (max-width:900px){ .analogy-grid{grid-template-columns:repeat(2,1fr);} }
+.analogy-cell{background:var(--white); padding:16px 14px;}
+.analogy-cell .al{font-family:var(--font-mono); font-size:9.5px; color:var(--mid); text-transform:uppercase; letter-spacing:0.06em; display:block; margin-bottom:6px;}
+.analogy-cell p{font-size:13.5px;}
+
+/* --- code vs graph (CH.02) --- */
+.compare-wrap{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:16px;}
+@media (max-width:780px){ .compare-wrap{grid-template-columns:1fr;} }
+.compare-col{background:var(--white); padding:18px 20px;}
+.compare-col .cl{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.08em; color:var(--mid); margin-bottom:12px; display:block;}
+pre.code{font-family:var(--font-mono); font-size:12.5px; line-height:1.55; overflow-x:auto; margin:0; white-space:pre;}
+.code .kw{color:var(--accent); font-weight:600;}
+.code .cm{color:var(--mid); font-style:italic;}
+
+/* --- timeline (CH.03) --- */
+.timeline{position:relative; margin-top:60px;}
+.tl-track{position:relative; height:2px; background:var(--line); margin:0 4px;}
+.tl-dot{position:absolute; top:0; width:14px; height:14px; margin-top:-6px; margin-left:-7px; border-radius:50%; background:var(--white); border:2px solid var(--ink); cursor:pointer;}
+.tl-dot.active{background:var(--accent); border-color:var(--accent);}
+.tl-year{position:absolute; top:14px; transform:translateX(-50%); font-family:var(--font-mono); font-size:10px; color:var(--mid); white-space:nowrap; cursor:pointer;}
+.tl-detail{margin-top:64px; border:1px solid var(--ink); background:var(--white); padding:20px 22px; min-height:118px;}
+.tl-detail .tn{font-family:var(--font-display); font-size:1.2rem; margin-bottom:6px;}
+.tl-detail .ty{font-family:var(--font-mono); font-size:11px; color:var(--mid); text-transform:uppercase; letter-spacing:0.05em; margin-bottom:10px;}
+.timeline-scroll{overflow-x:auto; padding-bottom:8px;}
+.timeline-scroll .timeline{min-width:900px;}
+
+/* --- platform cards (CH.04) --- */
+.filter-row{display:flex; flex-wrap:wrap; gap:8px; margin:20px 0 4px;}
+.filter-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.03em; border:1px solid var(--line); background:var(--white); padding:7px 12px;}
+.filter-btn:hover{border-color:var(--ink);}
+.filter-btn.active{border-color:var(--ink); background:var(--ink); color:var(--white);}
+.platform-grid{display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:1px; background:var(--line); margin-top:16px;}
+.platform-card{background:var(--white); padding:18px 20px; display:flex; flex-direction:column; gap:8px;}
+.platform-card h4{font-size:1.05rem;}
+.platform-card .role{font-family:var(--font-mono); font-size:10.5px; color:var(--accent); text-transform:uppercase; letter-spacing:0.05em;}
+.platform-card p{font-size:13px; color:#28282a;}
+.platform-card .tags{display:flex; flex-wrap:wrap; gap:6px; margin-top:auto; padding-top:6px;}
+.platform-card .tag{font-family:var(--font-mono); font-size:9.5px; border:1px solid var(--line); padding:2px 6px; color:var(--mid);}
+
+/* --- data type chips (CH.05) --- */
+.chip-row{display:flex; flex-wrap:wrap; gap:8px; margin-top:16px;}
+.dchip{font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--ink); padding:6px 11px; background:var(--white);}
+
+/* --- conversion demo (CH.06) --- */
+.conv-panel{display:grid; grid-template-columns:1fr auto 1fr; align-items:center; gap:18px; margin-top:16px;}
+@media (max-width:640px){ .conv-panel{grid-template-columns:1fr;} }
+.conv-canvas-wrap{text-align:center;}
+.conv-canvas-wrap canvas{border:1px solid var(--ink); background:var(--white); image-rendering:pixelated; max-width:100%;}
+.conv-canvas-wrap .cl{display:block; font-family:var(--font-mono); font-size:10px; color:var(--mid); text-transform:uppercase; letter-spacing:0.05em; margin-top:8px;}
+.conv-arrow{font-size:22px; text-align:center; color:var(--mid);}
+.conv-controls{margin-top:16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center;}
+.btn{font-family:var(--font-mono); font-size:11.5px; letter-spacing:0.03em; border:1px solid var(--ink); background:var(--white); padding:8px 14px;}
+.btn:hover{background:var(--ink); color:var(--white);}
+.range-row{display:flex; align-items:center; gap:10px; font-family:var(--font-mono); font-size:11px;}
+.range-row input[type=range]{width:160px; appearance:none; height:2px; background:var(--ink); outline:none;}
+.range-row input[type=range]::-webkit-slider-thumb{appearance:none; width:14px; height:14px; background:var(--accent); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+.range-row input[type=range]::-moz-range-thumb{width:14px; height:14px; background:var(--accent); border-radius:50%; cursor:pointer; border:3px solid var(--paper); box-shadow:0 0 0 1px var(--ink);}
+
+/* --- math node demo (CH.07) --- */
+.mathnode-svg{width:100%; height:auto;}
+.mn-box{fill:var(--white); stroke:var(--ink); stroke-width:1.5;}
+.mn-label{font-family:var(--font-mono); font-size:11px; fill:var(--mid); text-transform:uppercase;}
+.mn-value{font-family:var(--font-display); font-size:20px; fill:var(--ink); font-weight:700;}
+.mn-wire{fill:none; stroke:var(--ink); stroke-width:1.5;}
+.mn-port{fill:var(--port);}
+.math-controls{display:flex; flex-wrap:wrap; gap:24px; margin-top:18px;}
+
+/* --- complexity diagram (CH.08) --- */
+.stage-btns{display:flex; gap:8px; margin-bottom:14px;}
+.complexity-svg .n{fill:var(--white); stroke:var(--ink); stroke-width:1.4;}
+.complexity-svg .e{stroke:var(--mid); stroke-width:1.2; fill:none;}
+.complexity-svg text{font-family:var(--font-mono); font-size:9.5px; fill:var(--ink);}
+.complexity-svg .fade{opacity:0; transition:opacity .35s ease;}
+.complexity-svg .fade.show{opacity:1;}
+
+/* --- hybrid diagram (CH.10) --- */
+.hybrid-svg .codebox{fill:var(--ink);}
+.hybrid-svg .codetext{font-family:var(--font-mono); font-size:8.5px; fill:var(--paper);}
+
+/* --- adv/lim (CH.12) --- */
+.pro-con{display:grid; grid-template-columns:1fr 1fr; gap:1px; background:var(--line); margin-top:18px;}
+@media (max-width:700px){ .pro-con{grid-template-columns:1fr;} }
+.pro-con .col{background:var(--white); padding:20px 22px;}
+.pro-con h4{font-size:0.95rem; margin-bottom:12px;}
+.pro-con ul{margin:0; padding-left:18px;}
+.pro-con li{font-size:13.5px; margin-bottom:8px;}
+
+/* --- quote / core idea (CH.15) --- */
+.quote-block{border-top:1px solid var(--ink); border-bottom:1px solid var(--ink); padding:32px 0; margin-top:36px;}
+.quote-block p{font-family:var(--font-display); font-size:clamp(1.1rem,2vw,1.5rem); font-style:italic; max-width:760px; line-height:1.35;}
+
+/* --- references --- */
+.ref-list{margin-top:8px;}
+.ref-item{display:grid; grid-template-columns:32px 1fr; gap:12px; padding:12px 0; border-top:1px solid var(--line); align-items:baseline;}
+.ref-item:first-child{border-top:1px solid var(--ink);}
+.ref-num{font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+.ref-title{font-weight:600;}
+.ref-url{display:block; font-family:var(--font-mono); font-size:11.5px; color:var(--mid); word-break:break-all;}
+.ref-note{font-size:13px; color:var(--mid); margin-top:4px;}
+
+.see-also{display:flex; flex-wrap:wrap; gap:10px; margin-top:20px;}
+.see-also a.module-chip{font-family:var(--font-mono); font-size:11.5px; border:1px solid var(--line); padding:8px 12px; background:var(--white); text-decoration:none; color:var(--ink); display:inline-block;}
+.see-also a.module-chip:hover{border-color:var(--ink); background:var(--ink); color:var(--white);}
+
+/* ================= PLAYGROUND (CH.14) ================= */
+.pg-wrap{border:1px solid var(--ink); background:var(--white);}
+.pg-toolbar{display:flex; flex-wrap:wrap; gap:8px; padding:12px 14px; border-bottom:1px solid var(--line); align-items:center;}
+.pg-toolbar .grp{display:flex; flex-wrap:wrap; gap:6px; padding-right:12px; border-right:1px dashed var(--line);}
+.pg-toolbar .grp:last-child{border-right:none;}
+.pg-btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.02em; border:1px solid var(--line); background:var(--paper); padding:6px 10px;}
+.pg-btn:hover{border-color:var(--ink);}
+.pg-btn.preset{border-color:var(--ink);}
+.pg-hint{font-family:var(--font-mono); font-size:10.5px; color:var(--mid); padding:8px 14px; border-bottom:1px dashed var(--line);}
+#pgEditor{position:relative; height:520px; overflow:auto; background:
+  linear-gradient(var(--line) 1px, transparent 1px) 0 0/24px 24px,
+  linear-gradient(90deg, var(--line) 1px, transparent 1px) 0 0/24px 24px,
+  var(--paper);
+}
+#pgSvg{position:absolute; top:0; left:0; width:2200px; height:1400px; pointer-events:none;}
+#pgSvg path.wire{stroke:var(--ink); stroke-width:1.6; fill:none; pointer-events:stroke; cursor:pointer;}
+#pgSvg path.wire:hover{stroke:var(--accent);}
+#pgSvg path.wiretemp{stroke:var(--accent); stroke-width:1.6; fill:none; stroke-dasharray:4 3;}
+.pgnode{position:absolute; width:172px; border:1.4px solid var(--ink); background:var(--white); font-size:12.5px; user-select:none; box-shadow:2px 2px 0 var(--line);}
+.pgnode .pgn-head{display:flex; justify-content:space-between; align-items:center; background:var(--ink); color:var(--paper); font-family:var(--font-mono); font-size:10px; letter-spacing:0.04em; text-transform:uppercase; padding:6px 8px; cursor:grab;}
+.pgnode .pgn-head button{background:none; border:none; color:var(--paper); font-size:13px; line-height:1; padding:0 2px;}
+.pgnode .pgn-body{padding:10px; display:flex; flex-direction:column; gap:8px;}
+.pgnode input[type=number]{width:100%; font-family:var(--font-mono); font-size:12px; border:1px solid var(--line); padding:4px 6px;}
+.pgnode input[type=range]{width:100%;}
+.pgnode canvas{width:64px; height:64px; border:1px solid var(--line); image-rendering:pixelated; display:block; margin:0 auto;}
+.pgnode .pgn-out{font-family:var(--font-mono); font-size:16px; text-align:center; font-weight:700;}
+.pgnode .pgn-btn{font-family:var(--font-mono); font-size:10px; border:1px solid var(--line); background:var(--paper); padding:4px 6px;}
+.port{position:absolute; width:12px; height:12px; border-radius:50%; background:var(--port); border:2px solid var(--white); box-shadow:0 0 0 1px var(--ink); cursor:crosshair;}
+.port.in{left:-7px;}
+.port.out{right:-7px;}
+.port-label{position:absolute; font-family:var(--font-mono); font-size:8.5px; color:var(--mid); white-space:nowrap;}
+.port-label.in{left:8px;}
+.port-label.out{right:8px;}
+@media (max-width:640px){ #pgEditor{height:440px;} .pgnode{width:150px;} }
+
+footer{border-top:1px solid var(--ink); padding-block:40px; padding-inline:var(--edge); font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+footer .wrap{max-width:var(--maxw); margin:0 auto; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+</style>
+</head>
+<body>
+
+<a class="skip-link" href="#hero">Skip to content</a>
+<div id="progress"></div>
+
+<div id="chrome">
+  <div class="brand">NODE-BASED DEVELOPMENT — FIELD GUIDE</div>
+</div>
+
+<div id="hud">
+  <div class="hud-row"><span class="hud-label"><span class="hud-dot"></span>CHAPTER</span><span id="hud-phase">START</span></div>
+</div>
+
+<main>
+
+<section id="hero" class="section" style="border-bottom:1px solid var(--ink);">
+  <div class="section-inner">
+    <div class="frame corner-frame">
+      <div class="kicker">
+        <span><a href="/">← INDEX</a> — FIG. 00 — NODES, WIRES, AND THE SHAPE OF A PROGRAM</span>
+        <span>15 CHAPTERS + PLAYGROUND</span>
+      </div>
+      <h1>NODE-BASED<br>SOFTWARE<br>DEVELOPMENT</h1>
+      <p class="sub lede">Building software through visual logic, data flow, and modular systems — the same way of thinking that runs a modular synthesizer, a VFX pipeline, an AI workflow, and a factory control panel. Fifteen chapters with a real live math-node demo, a real pixel-based image-filter demo, an interactive era-by-era history, a neutral platform comparison, and a working drag-and-connect node-graph playground you can actually build in. Scroll to begin.</p>
+      <a href="#ch1" class="cta">BEGIN — CHAPTER 01 →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH.01 -->
+<section id="ch1" class="section" data-phase="01 — WHAT IS A NODE?">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.01 / 15</span><span>WHAT IS NODE-BASED DEVELOPMENT?</span></div>
+    <h2 class="h-lg">A program you can point at</h2>
+    <div class="grid-2">
+      <div class="body-col">
+        <p>A <b>node</b> is a small, self-contained unit of work: it takes some inputs, does one clear thing to them, and produces outputs. A <b>connection</b> is a line that carries a value from one node's output into another node's input — nothing more. A <b>network</b> (or "graph") is a collection of nodes and connections that, together, do something a single node couldn't: the program <em>is</em> the shape of the graph, not a list of lines to execute in order.</p>
+        <p style="margin-top:14px;">This is the same idea whether the nodes hold numbers, images, audio, or robot motor commands. What changes between fields is the vocabulary of node types available — what stays constant is the mental model: <b>data flows downstream, transforming as it goes.</b></p>
+      </div>
+      <div>
+        <svg id="ch1FlowSvg" class="diagram-svg" viewBox="0 0 460 220" role="img" aria-label="Animated diagram: pulses of data moving from a source node, through two processing nodes, into an output node">
+          <defs>
+            <marker id="arrowhead" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto">
+              <path d="M0,0 L8,4 L0,8 Z" fill="var(--ink)"></path>
+            </marker>
+          </defs>
+          <path id="wireA" class="mn-wire" d="M70,60 C130,60 130,60 180,60" marker-end="url(#arrowhead)"></path>
+          <path id="wireB" class="mn-wire" d="M250,60 C300,60 300,150 350,150" marker-end="url(#arrowhead)"></path>
+          <path id="wireC" class="mn-wire" d="M70,160 C130,160 130,160 180,160" marker-end="url(#arrowhead)"></path>
+          <path id="wireD" class="mn-wire" d="M250,160 C300,160 300,150 350,150" marker-end="url(#arrowhead)"></path>
+
+          <g><rect x="10" y="38" width="60" height="44" class="mn-box"></rect><text x="40" y="64" text-anchor="middle" class="mn-label">SOURCE</text></g>
+          <g><rect x="180" y="38" width="70" height="44" class="mn-box"></rect><text x="215" y="64" text-anchor="middle" class="mn-label">FILTER A</text></g>
+          <g><rect x="10" y="138" width="60" height="44" class="mn-box"></rect><text x="40" y="164" text-anchor="middle" class="mn-label">SOURCE</text></g>
+          <g><rect x="180" y="138" width="70" height="44" class="mn-box"></rect><text x="215" y="164" text-anchor="middle" class="mn-label">FILTER B</text></g>
+          <g><rect x="350" y="118" width="80" height="64" class="mn-box"></rect><text x="390" y="154" text-anchor="middle" class="mn-label">OUTPUT</text></g>
+
+          <circle class="pulse-dot" r="4" fill="var(--accent)"><animateMotion dur="2.4s" repeatCount="indefinite" path="M70,60 C130,60 130,60 180,60"></animateMotion></circle>
+          <circle class="pulse-dot" r="4" fill="var(--accent)"><animateMotion dur="2.4s" begin="0.6s" repeatCount="indefinite" path="M250,60 C300,60 300,150 350,150"></animateMotion></circle>
+          <circle class="pulse-dot" r="4" fill="var(--accent)"><animateMotion dur="2.4s" begin="1.2s" repeatCount="indefinite" path="M70,160 C130,160 130,160 180,160"></animateMotion></circle>
+          <circle class="pulse-dot" r="4" fill="var(--accent)"><animateMotion dur="2.4s" begin="1.8s" repeatCount="indefinite" path="M250,160 C300,160 300,150 350,150"></animateMotion></circle>
+        </svg>
+        <p class="mono" style="font-size:11px; color:var(--mid); margin-top:4px;">Two independent chains merging into one output — the graph's shape tells you exactly how data reaches the end, before you read a single line of code inside any node.</p>
+      </div>
+    </div>
+
+    <div style="margin-top:44px;">
+      <div class="eyebrow"><span class="fig-num">01.1</span><span>FIVE FAMILIAR VERSIONS OF THE SAME IDEA</span></div>
+      <div class="analogy-grid">
+        <div class="analogy-cell"><span class="al">Circuits</span><p>Components (resistors, transistors) are nodes; wires carry voltage instead of arbitrary data. Ohm's and Kirchhoff's laws are just the "compute" rules of each node type.</p></div>
+        <div class="analogy-cell"><span class="al">Plumbing</span><p>Valves, pumps, and junctions are nodes; pipes carry water instead of data. A closed valve is a node whose output is simply zero.</p></div>
+        <div class="analogy-cell"><span class="al">Road networks</span><p>Intersections are nodes; roads are connections. Traffic (data) flows along the graph, and a bottleneck is exactly what it sounds like in software too.</p></div>
+        <div class="analogy-cell"><span class="al">Assembly lines</span><p>Each station does one operation on the part passing through; the line's order and branches are the "graph." Nothing runs until the part (data) arrives.</p></div>
+        <div class="analogy-cell"><span class="al">Nervous systems</span><p>Neurons are nodes that fire based on weighted inputs from other neurons; synapses are connections. It's the oldest node-based computer there is.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH.02 -->
+<section id="ch2" class="section" data-phase="02 — WHY IT'S EASY TO READ">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.02 / 15</span><span>WHY HUMANS UNDERSTAND NODE SYSTEMS EASILY</span></div>
+    <h2 class="h-lg">Cause and effect, made visible</h2>
+    <div class="body-col">
+      <p>Traditional source code hides its data flow inside variable names and function calls that you have to trace mentally, line by line, holding the program's state in your head. A node graph puts that same state <em>on the wire</em> — you can see a value the moment it changes, follow it with your eyes to wherever it goes next, and watch a downstream node react in real time. This is why people with no programming background often understand a node graph faster than the equivalent code: it uses spatial and visual reasoning, which is a much older and more general human skill than reading a formal language.</p>
+      <p style="margin-top:14px;">The trade-off is real, and Chapter 12 covers it honestly — but for learning, prototyping, and debugging a specific stuck value, visibility usually wins.</p>
+    </div>
+    <div class="compare-wrap">
+      <div class="compare-col">
+        <span class="cl">Traditional code</span>
+        <pre class="code">function process(pixel) {
+  <span class="cm">// brighten, then clamp to 0-255</span>
+  <span class="kw">let</span> r = pixel.r + brightAmt;
+  <span class="kw">let</span> g = pixel.g + brightAmt;
+  <span class="kw">let</span> b = pixel.b + brightAmt;
+  <span class="kw">return</span> {
+    r: clamp(r, 0, 255),
+    g: clamp(g, 0, 255),
+    b: clamp(b, 0, 255)
+  };
+}</pre>
+      </div>
+      <div class="compare-col">
+        <span class="cl">Node graph — same logic</span>
+        <svg viewBox="0 0 320 150" role="img" aria-label="Node graph equivalent of the brightness clamp function: an Image node feeding a Brightness node feeding a Clamp node feeding an Output node">
+          <path class="mn-wire" d="M64,30 C90,30 90,30 110,30"></path>
+          <path class="mn-wire" d="M64,80 C90,80 90,30 110,30" transform="translate(0,0)"></path>
+          <path class="mn-wire" d="M190,30 C220,30 220,30 240,30"></path>
+          <rect x="4" y="8" width="60" height="30" class="mn-box"></rect><text x="34" y="27" text-anchor="middle" class="mn-label" style="font-size:8.5px;">IMAGE</text>
+          <rect x="4" y="65" width="60" height="30" class="mn-box"></rect><text x="34" y="84" text-anchor="middle" class="mn-label" style="font-size:8.5px;">AMOUNT</text>
+          <rect x="110" y="10" width="80" height="40" class="mn-box"></rect><text x="150" y="34" text-anchor="middle" class="mn-label" style="font-size:8.5px;">BRIGHTNESS + CLAMP</text>
+          <rect x="240" y="10" width="70" height="40" class="mn-box"></rect><text x="275" y="34" text-anchor="middle" class="mn-label" style="font-size:8.5px;">OUTPUT</text>
+        </svg>
+        <p class="mono" style="font-size:11px; color:var(--mid);">One box already does the add-and-clamp together; the wire from AMOUNT is the input you'd otherwise be scrolling up to find.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH.03 -->
+<section id="ch3" class="section" data-phase="03 — HISTORY">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.03 / 15</span><span>HISTORY OF VISUAL PROGRAMMING</span></div>
+    <h2 class="h-lg">From flowcharts to workflow builders</h2>
+    <p class="body-col">Click an era below. Node-based thinking didn't start with computers — it started with the need to reason about a process before building it.</p>
+    <div class="timeline-scroll">
+      <div class="timeline" id="tlRoot">
+        <div class="tl-track" id="tlTrack"></div>
+        <div class="tl-detail" id="tlDetail"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH.04 -->
+<section id="ch4" class="section" data-phase="04 — PLATFORMS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.04 / 15</span><span>FAMOUS NODE-BASED PLATFORMS</span></div>
+    <h2 class="h-lg">Not a review — a map</h2>
+    <p class="body-col">Every platform below solves a different problem with the same underlying idea. This is a comparison, not a recommendation — filter by industry to see the overlap.</p>
+    <div class="filter-row" id="pfFilters"></div>
+    <div class="platform-grid" id="pfGrid"></div>
+  </div>
+</section>
+
+<!-- CH.05 -->
+<section id="ch5" class="section" data-phase="05 — THE LANGUAGE OF DATA">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.05 / 15</span><span>THE UNIVERSAL LANGUAGE OF DATA</span></div>
+    <h2 class="h-lg">Every node graph is a data-transformation pipeline</h2>
+    <div class="body-col">
+      <p>Strip away the domain-specific vocabulary and every node system is doing the same job: taking data of some type, and producing data of some type, over and over, until something useful comes out the end. What differs is which types a platform's nodes speak.</p>
+    </div>
+    <div class="chip-row">
+      <span class="dchip">Numbers</span><span class="dchip">Vectors</span><span class="dchip">Matrices</span><span class="dchip">Images</span><span class="dchip">Audio</span><span class="dchip">Video</span><span class="dchip">Text</span><span class="dchip">Geometry</span><span class="dchip">3D Models</span><span class="dchip">Point Clouds</span><span class="dchip">Sensor Data</span><span class="dchip">Network Packets</span><span class="dchip">AI Embeddings</span><span class="dchip">Signals</span><span class="dchip">Events</span>
+    </div>
+    <svg class="diagram-svg" viewBox="0 0 460 100" style="margin-top:28px;" role="img" aria-label="A generic data type flowing through three transform nodes and changing form at each step">
+      <path class="mn-wire" d="M60,50 C110,50 110,50 150,50"></path>
+      <path class="mn-wire" d="M230,50 C270,50 270,50 310,50"></path>
+      <rect x="10" y="30" width="50" height="40" class="mn-box"></rect><text x="35" y="53" text-anchor="middle" class="mn-label" style="font-size:8px;">TYPE A</text>
+      <rect x="150" y="26" width="80" height="48" class="mn-box"></rect><text x="190" y="53" text-anchor="middle" class="mn-label" style="font-size:8px;">TRANSFORM</text>
+      <rect x="310" y="30" width="50" height="40" class="mn-box"></rect><text x="335" y="53" text-anchor="middle" class="mn-label" style="font-size:8px;">TYPE B</text>
+      <circle r="4" fill="var(--accent)"><animateMotion dur="2.6s" repeatCount="indefinite" path="M60,50 C110,50 110,50 150,50"></animateMotion></circle>
+      <circle r="4" fill="var(--accent)"><animateMotion dur="2.6s" begin="1.3s" repeatCount="indefinite" path="M230,50 C270,50 270,50 310,50"></animateMotion></circle>
+    </svg>
+  </div>
+</section>
+
+<!-- CH.06 -->
+<section id="ch6" class="section" data-phase="06 — DATA CONVERSION">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.06 / 15</span><span>DATA CONVERSION BETWEEN WORLDS</span></div>
+    <h2 class="h-lg">Almost anything can become almost anything else</h2>
+    <div class="body-col">
+      <p>Because every node speaks in and out through the same idea — typed data on a wire — node systems make it unusually easy to convert information between representations that would otherwise feel unrelated: 3D geometry → a 2D image (rendering), a 2D image → a heightmap (grayscale as elevation), audio → a visualization (an FFT spectrum), sensor input → motion (a servo angle), text → speech, GPS coordinates → a map pin, an equation → a physical simulation. Below is a real, working example of the second one.</p>
+    </div>
+    <div class="panel" style="margin-top:24px;">
+      <div class="eyebrow" style="margin-bottom:8px;"><span class="fig-num">LIVE DEMO</span><span>IMAGE → HEIGHTMAP-STYLE RELIEF</span></div>
+      <div class="conv-panel">
+        <div class="conv-canvas-wrap">
+          <canvas id="convSrc" width="96" height="96"></canvas>
+          <span class="cl">Source image (procedural)</span>
+        </div>
+        <div class="conv-arrow">→</div>
+        <div class="conv-canvas-wrap">
+          <canvas id="convOut" width="96" height="96"></canvas>
+          <span class="cl">Derived relief map</span>
+        </div>
+      </div>
+      <div class="conv-controls">
+        <button class="btn" id="convRegen">Regenerate source</button>
+        <div class="range-row"><span>Relief strength</span><input type="range" id="convStrength" min="0" max="100" value="55"><span id="convStrengthV">55</span></div>
+      </div>
+      <p class="mono" style="font-size:11px; color:var(--mid); margin-top:10px;">Real pixel math, not a static picture: each source pixel's brightness is used as an elevation value and re-lit with a simple directional-light approximation (a Sobel-style gradient of the luminance) — the same principle a terrain node converts a grayscale heightmap into a shaded 3D landscape.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH.07 -->
+<section id="ch7" class="section" data-phase="07 — MATH AS A VISUAL SYSTEM">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.07 / 15</span><span>MATHEMATICS AS A VISUAL SYSTEM</span></div>
+    <h2 class="h-lg">An equation you can watch run</h2>
+    <div class="body-col">
+      <p>Addition, multiplication, vector math, trigonometry, statistics, and signal processing are all, underneath, functions: some numbers in, a number (or array of numbers) out. That means every one of them can be a node. Change the two inputs below and watch the value travel live through the wire to the operator, then to the output — this is the entire mental model node-based math tools (LabVIEW, Houdini's VOPs, Grasshopper, TouchDesigner's CHOPs) are built from.</p>
+    </div>
+    <div class="panel" style="margin-top:20px;">
+      <svg class="mathnode-svg" viewBox="0 0 460 200" role="img" aria-label="Two number nodes feeding an operator node whose result feeds an output node, updating live as the inputs change">
+        <path class="mn-wire" id="mnWireA" d="M100,50 C160,50 160,100 220,100"></path>
+        <path class="mn-wire" id="mnWireB" d="M100,150 C160,150 160,100 220,100"></path>
+        <path class="mn-wire" d="M320,100 C360,100 360,100 380,100"></path>
+        <rect x="20" y="28" width="80" height="44" class="mn-box"></rect><text x="60" y="46" text-anchor="middle" class="mn-label">A</text><text id="mnAVal" x="60" y="66" text-anchor="middle" class="mn-value">5</text>
+        <rect x="20" y="128" width="80" height="44" class="mn-box"></rect><text x="60" y="146" text-anchor="middle" class="mn-label">B</text><text id="mnBVal" x="60" y="166" text-anchor="middle" class="mn-value">3</text>
+        <rect x="220" y="72" width="100" height="56" class="mn-box"></rect><text x="270" y="90" text-anchor="middle" class="mn-label">OPERATOR</text><text id="mnOpSym" x="270" y="115" text-anchor="middle" class="mn-value">+</text>
+        <rect x="380" y="72" width="60" height="56" class="mn-box"></rect><text x="410" y="90" text-anchor="middle" class="mn-label">OUT</text><text id="mnOutVal" x="410" y="115" text-anchor="middle" class="mn-value">8</text>
+        <circle class="mn-port" cx="100" cy="50" r="3"></circle><circle class="mn-port" cx="100" cy="150" r="3"></circle>
+        <circle class="mn-port" cx="220" cy="100" r="3"></circle><circle class="mn-port" cx="320" cy="100" r="3"></circle><circle class="mn-port" cx="380" cy="100" r="3"></circle>
+      </svg>
+      <div class="math-controls">
+        <div class="range-row"><span>A</span><input type="range" id="mnA" min="-20" max="20" value="5"></div>
+        <div class="range-row"><span>B</span><input type="range" id="mnB" min="-20" max="20" value="3"></div>
+        <div class="range-row"><span>Operator</span>
+          <select id="mnOp" class="btn" style="padding:6px 10px;">
+            <option value="+">A + B</option>
+            <option value="-">A − B</option>
+            <option value="*">A × B</option>
+            <option value="/">A ÷ B</option>
+          </select>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH.08 -->
+<section id="ch8" class="section" data-phase="08 — EMERGENCE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.08 / 15</span><span>BUILDING COMPLEX SYSTEMS FROM SIMPLE NODES</span></div>
+    <h2 class="h-lg">Emergence, one wire at a time</h2>
+    <p class="body-col">No single node in a game engine, a synthesizer, or a robotics pipeline is complicated — a comparison, a multiply, a delay, a lookup. Complexity emerges from how many of them are wired together. Step through the stages below: the same three primitive node types (a source, a modifier, a combiner) recombine into recognizably larger systems.</p>
+    <div class="stage-btns" id="stageBtns"></div>
+    <svg class="diagram-svg complexity-svg" id="complexitySvg" viewBox="0 0 620 320" role="img" aria-label="A node graph that grows from a simple 3-node filter into a larger, more connected system as stages advance"></svg>
+    <p id="stageLabel" class="mono" style="font-size:12px; color:var(--mid); margin-top:8px;"></p>
+  </div>
+</section>
+
+<!-- CH.09 -->
+<section id="ch9" class="section" data-phase="09 — CUSTOM NODES">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.09 / 15</span><span>CREATING CUSTOM NODES</span></div>
+    <h2 class="h-lg">Encapsulation is the whole point</h2>
+    <div class="body-col">
+      <p>Every mature node system eventually needs a way to say: "this cluster of twelve wired-together nodes is really one idea — package it." That's a <b>custom node</b> (also called a sub-graph, compound, macro, or component depending on the platform). It exposes a small, deliberate set of inputs and outputs, hides its internal wiring, and can be reused, versioned, and shared like any other building block.</p>
+      <p style="margin-top:14px;">This is exactly how <b>libraries and plugins</b> work in node ecosystems — a Houdini Digital Asset, a TouchDesigner Component, a Grasshopper user object, or a ComfyUI custom node are all the same move: turn a working graph into a single reusable part, then let advanced users open it up and put real code inside when a visual solution stops being the fastest path.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH.10 -->
+<section id="ch10" class="section" data-phase="10 — HYBRID DEVELOPMENT">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.10 / 15</span><span>HYBRID DEVELOPMENT</span></div>
+    <h2 class="h-lg">Node systems don't replace code — they schedule it</h2>
+    <div class="grid-2">
+      <div class="body-col">
+        <p>Almost every serious node platform includes an escape hatch: a node whose body is real source code. A Python node in a data pipeline, a JavaScript node in an automation flow, a GLSL shader node in a rendering graph, a GPU compute node in a simulation, a custom C++ operator in an engine. The graph still owns scheduling, wiring, and visibility; the code node owns whatever is genuinely easier to express in text — tight loops, exact numeric algorithms, or calling an external library.</p>
+        <p style="margin-top:14px;">This is why "visual programming" is a misleading term on its own: the most productive systems are <b>hybrid</b>, using each approach where it's strongest.</p>
+      </div>
+      <svg class="diagram-svg hybrid-svg" viewBox="0 0 320 180" role="img" aria-label="A node graph with one node containing literal code text embedded among ordinary visual nodes">
+        <path class="mn-wire" d="M64,40 C100,40 100,40 130,40"></path>
+        <path class="mn-wire" d="M230,40 C260,40 260,40 290,40"></path>
+        <rect x="4" y="20" width="60" height="40" class="mn-box"></rect><text x="34" y="44" text-anchor="middle" class="mn-label" style="font-size:8px;">INPUT</text>
+        <rect x="130" y="10" width="100" height="60" class="codebox"></rect>
+        <text x="180" y="28" text-anchor="middle" class="codetext">def run(x):</text>
+        <text x="180" y="42" text-anchor="middle" class="codetext">  return x*2+1</text>
+        <text x="180" y="60" text-anchor="middle" class="ref-note" style="fill:var(--paper); font-size:8px;">CODE NODE</text>
+        <rect x="290" y="20" width="26" height="40" class="mn-box"></rect>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- CH.11 -->
+<section id="ch11" class="section" data-phase="11 — NODES IN MODERN AI">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.11 / 15</span><span>NODE-BASED DEVELOPMENT IN MODERN AI</span></div>
+    <h2 class="h-lg">Why an AI pipeline wants to be drawn, not written</h2>
+    <div class="body-col">
+      <p>Modern AI systems are rarely one model — they're chains: retrieve context, call a model, parse its output, call a tool, call another model, merge results, check a condition, loop or stop. That's a graph whether or not anyone draws it. Tools like <b>ComfyUI</b> (image/video generation pipelines), <b>LangFlow</b> and <b>Flowise</b> (LLM and agent pipelines), and general automation platforms like <b>n8n</b> and <b>Node-RED</b> applied to AI workflows all make the same bet: once an AI system has more than two or three steps, seeing the branches, loops, and data shapes on a canvas is faster to build and debug than reading the equivalent orchestration code.</p>
+      <p style="margin-top:14px;">The same visibility argument from Chapter 2 applies here at a higher stake — when a multi-step AI agent misbehaves, "which node produced the wrong value" is a much easier question to answer on a graph than inside a call stack.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CH.12 -->
+<section id="ch12" class="section" data-phase="12 — ADVANTAGES & LIMITS">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.12 / 15</span><span>ADVANTAGES AND LIMITATIONS</span></div>
+    <h2 class="h-lg">A fair account, not a pitch</h2>
+    <div class="pro-con">
+      <div class="col">
+        <h4>Advantages</h4>
+        <ul>
+          <li><b>Transparency</b> — data state is visible on the wire, not hidden in variables.</li>
+          <li><b>Rapid prototyping</b> — rewiring is often faster than rewriting.</li>
+          <li><b>Built-in visualization</b> — intermediate results are easy to inspect.</li>
+          <li><b>Faster learning curve</b> for newcomers and non-programmers.</li>
+          <li><b>Easier debugging</b> of a single bad value in a known chain.</li>
+          <li><b>Collaboration</b> across disciplines that don't share a coding language.</li>
+          <li><b>Reusability</b> via custom nodes and sub-graphs.</li>
+        </ul>
+      </div>
+      <div class="col">
+        <h4>Limitations</h4>
+        <ul>
+          <li><b>Large graphs get unreadable</b> — "spaghetti" wiring past a few dozen nodes.</li>
+          <li><b>Performance overhead</b> from generic node dispatch versus hand-tuned code.</li>
+          <li><b>Maintenance difficulty</b> — refactoring a graph is harder to automate than refactoring text.</li>
+          <li><b>Version control is weak</b> — most graph formats diff and merge badly compared to source text.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH.13 -->
+<section id="ch13" class="section" data-phase="13 — THE FUTURE">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.13 / 15</span><span>THE FUTURE OF NODE-BASED COMPUTING</span></div>
+    <h2 class="h-lg">Where the graph goes next</h2>
+    <div class="body-col">
+      <p>Several directions are already visible today rather than purely speculative: AI-assisted graph creation (describe the goal, get a starter graph), self-tuning workflows that adjust their own parameters against a target, visual tools for robotics and digital twins that mirror a physical system's state live, node-based scientific-computing and simulation environments, and the same node language showing up in mixed-reality authoring tools and space-systems ground software. The common thread is human-AI collaborative development — a graph is a shared representation both a person and a model can read, edit, and reason about, which plain generated source code is not yet as good at.</p>
+    </div>
+    <div class="see-also">
+      <a class="module-chip" href="/patch-bay">Patch Bay — a real modular synth built from patchable audio nodes →</a>
+      <a class="module-chip" href="/pulse-train-node-database">Node Database — every synth node explained as software, math, and hardware →</a>
+      <a class="module-chip" href="/mediaservers">Media Servers — TouchDesigner-style real-time node graphs for visuals →</a>
+    </div>
+  </div>
+</section>
+
+<!-- CH.14 — PLAYGROUND -->
+<section id="ch14" class="section" data-phase="14 — PLAYGROUND">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.14 / 15</span><span>INTERACTIVE PLAYGROUND</span></div>
+    <h2 class="h-lg">Build a graph yourself</h2>
+    <p class="body-col">This is a real, working node editor — not a diagram. Add nodes from the toolbar, drag a node by its title bar to move it, drag from a teal <b>output</b> port to an <b>input</b> port to connect them, and click a wire to delete it. Load a preset to see two complete working examples, then take them apart.</p>
+    <div class="pg-wrap" style="margin-top:20px;">
+      <div class="pg-toolbar">
+        <div class="grp">
+          <button class="pg-btn preset" data-preset="math">Load: Math Calculator</button>
+          <button class="pg-btn preset" data-preset="image">Load: Image Filter</button>
+          <button class="pg-btn" id="pgClear">Clear canvas</button>
+        </div>
+        <div class="grp">
+          <button class="pg-btn" data-add="number">+ Number</button>
+          <button class="pg-btn" data-add="add">+ Add</button>
+          <button class="pg-btn" data-add="subtract">+ Subtract</button>
+          <button class="pg-btn" data-add="multiply">+ Multiply</button>
+          <button class="pg-btn" data-add="divide">+ Divide</button>
+          <button class="pg-btn" data-add="outputnumber">+ Number Out</button>
+        </div>
+        <div class="grp">
+          <button class="pg-btn" data-add="imagesource">+ Image Source</button>
+          <button class="pg-btn" data-add="grayscale">+ Grayscale</button>
+          <button class="pg-btn" data-add="invert">+ Invert</button>
+          <button class="pg-btn" data-add="brightness">+ Brightness</button>
+          <button class="pg-btn" data-add="outputimage">+ Image Out</button>
+        </div>
+      </div>
+      <div class="pg-hint">Drag title bar = move node · drag teal dot → teal dot = connect · click a wire = delete it</div>
+      <div id="pgEditor">
+        <svg id="pgSvg"></svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CH.15 -->
+<section id="ch15" class="section" data-phase="15 — CORE IDEA" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">CH.15 / 15</span><span>CORE IDEA</span></div>
+    <h2 class="h-lg">Not a product. A way of seeing systems.</h2>
+    <div class="body-col">
+      <p>Node-based development is not a specific piece of software, and it isn't owned by any one industry. It's a way of thinking that treats a system as a set of small, understandable transformations connected by visible data flow — the same lens that explains a modular synthesizer, a compositing pipeline, an AI agent, and a factory control panel equally well.</p>
+      <p style="margin-top:14px;">By making that flow visible, node graphs let people who don't share a programming language — an artist, a scientist, an engineer, a student — collaborate on the same object, in the same view, using the same handful of primitives: a box, a wire, and a value moving between them.</p>
+    </div>
+    <div class="quote-block">
+      <p>A node graph is a picture of how information moves, transforms, combines, filters, and generates other information — and once you can see that shape, you can build almost anything out of it.</p>
+    </div>
+  </div>
+</section>
+
+<!-- REFERENCES -->
+<section id="refs" class="section" data-phase="REFERENCES" style="border-bottom:none;">
+  <div class="section-inner">
+    <div class="eyebrow"><span class="fig-num">REFERENCES</span><span>PRIMARY SOURCES FOR CHAPTER 4</span></div>
+    <div class="ref-list" id="refList"></div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>NODE-BASED SOFTWARE DEVELOPMENT — followorbounce.github.io</span>
+    <span><a href="/">← Knowledge Network</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+
+/* ---------- progress bar + HUD phase tracking ---------- */
+var sections = Array.prototype.slice.call(document.querySelectorAll('section[data-phase]'));
+var progressEl = document.getElementById('progress');
+var hudPhase = document.getElementById('hud-phase');
+function onScroll(){
+  var doc = document.documentElement;
+  var scrolled = (doc.scrollTop) / (doc.scrollHeight - doc.clientHeight) * 100;
+  progressEl.style.width = (scrolled||0) + '%';
+  var mid = window.scrollY + window.innerHeight * 0.35;
+  var current = sections[0];
+  for (var i=0;i<sections.length;i++){
+    if (sections[i].offsetTop <= mid) current = sections[i];
+  }
+  if (current) hudPhase.textContent = current.getAttribute('data-phase');
+}
+document.addEventListener('scroll', onScroll, {passive:true});
+onScroll();
+
+/* ================= CH.03 TIMELINE ================= */
+var ERAS = [
+  {y:"1940s–50s", n:"Analog Computers & Flowcharts", t:"Pre-digital", d:"Analog computers solved differential equations by physically patching amplifiers, integrators, and summers together with cables — the wiring pattern was the program. Flowcharts formalized the same idea on paper for early digital software design."},
+  {y:"1960s–70s", n:"Signal Processing Diagrams", t:"Engineering", d:"Block diagrams (gain, delay, summing junction) became the standard way to design filters and control systems — the same primitives a modern audio node graph still uses."},
+  {y:"1970s", n:"Modular Synthesizers", t:"Music hardware", d:"Patch cables between oscillator, filter, and envelope modules made sound design into literal, physical node-graph wiring — decades before any software equivalent."},
+  {y:"1986", n:"LabVIEW", t:"National Instruments", d:"Introduced 'G', a graphical dataflow language for instrumentation and test automation — one of the first mainstream visual programming languages used for real engineering work, not just teaching."},
+  {y:"1990", n:"Max (later Max/MSP)", t:"Cycling '74", d:"Miller Puckette's Max brought patchable, real-time control and (from 1997, with MSP) audio synthesis to interactive music and media art."},
+  {y:"1996", n:"Pure Data (Pd)", t:"Open source", d:"Puckette's open-source successor to Max, built around the same patching model, widely used in experimental music, installations, and education."},
+  {y:"1996", n:"Houdini's node core", t:"SideFX", d:"Grew from PRISMS; procedural, node-based operators for geometry and effects became Houdini's defining feature — every operation stays editable and re-orderable."},
+  {y:"2002", n:"Grasshopper", t:"Robert McNeel & Associates / David Rutten", d:"A visual dataflow plugin for Rhino that turned parametric architecture into node graphs, reshaping how a generation of architects design."},
+  {y:"2013", n:"Node-RED", t:"IBM (now OpenJS Foundation)", d:"A flow-based tool for wiring hardware devices, APIs, and services together — aimed squarely at IoT and automation rather than art or engineering simulation."},
+  {y:"2014", n:"Unreal Engine Blueprints", t:"Epic Games", d:"Brought full visual scripting to a AAA game engine, letting designers implement real gameplay logic without writing C++."},
+  {y:"2019", n:"Blender Geometry Nodes", t:"Blender Foundation", d:"Added procedural, node-based geometry generation to a free, open-source 3D tool, bringing Houdini-style workflows to a much larger audience."},
+  {y:"2019–2021", n:"No-code / low-code platforms & n8n", t:"Automation", d:"A wave of node-based automation tools (n8n among them) let non-programmers wire together APIs and business logic visually."},
+  {y:"2023", n:"ComfyUI", t:"Open source", d:"Turned Stable Diffusion image/video generation into an explicit, inspectable node graph — exposing pipeline steps that other UIs hid behind a single button."},
+  {y:"2023–24", n:"LangFlow & Flowise", t:"AI workflow builders", d:"Applied the same node-graph model to LLM prompt chains and AI agents, so multi-step reasoning pipelines can be built and debugged visually."}
+];
+(function(){
+  var track = document.getElementById('tlTrack');
+  var detail = document.getElementById('tlDetail');
+  var n = ERAS.length;
+  ERAS.forEach(function(e, i){
+    var pct = (i/(n-1))*100;
+    var dot = document.createElement('div');
+    dot.className = 'tl-dot'; dot.style.left = pct+'%'; dot.tabIndex = 0;
+    dot.setAttribute('role','button'); dot.setAttribute('aria-label', e.y+' — '+e.n);
+    var yr = document.createElement('div');
+    yr.className = 'tl-year'; yr.style.left = pct+'%'; yr.textContent = e.y;
+    function activate(){
+      Array.prototype.forEach.call(track.querySelectorAll('.tl-dot'), function(d){d.classList.remove('active');});
+      dot.classList.add('active');
+      detail.innerHTML = '<div class="tn">'+e.n+'</div><div class="ty">'+e.y+' — '+e.t+'</div><p>'+e.d+'</p>';
+    }
+    dot.addEventListener('click', activate);
+    dot.addEventListener('keydown', function(ev){ if(ev.key==='Enter'||ev.key===' '){ev.preventDefault();activate();} });
+    yr.addEventListener('click', activate);
+    track.appendChild(dot); track.appendChild(yr);
+    if (i===0) activate();
+  });
+})();
+
+/* ================= CH.04 PLATFORM CARDS ================= */
+var PLATFORMS = [
+  {name:"TouchDesigner", by:"Derivative", role:"Real-time visual/media programming", d:"Node graph for real-time video, generative visuals, and interactive installations, mixing GLSL and Python nodes with live camera, audio, and sensor input.", industries:["Media & VFX","Art & Music"]},
+  {name:"Max/MSP", by:"Cycling '74", role:"Interactive music & media", d:"Patchable environment for real-time audio (MSP) and control logic (Max) — a standard tool in electronic music, sound art, and interactive installations.", industries:["Art & Music"]},
+  {name:"Pure Data", by:"Open source", role:"Real-time audio/media patching", d:"Open-source sibling of Max, using the same patching model, popular in education and experimental/DIY electronic music.", industries:["Art & Music","Education"]},
+  {name:"LabVIEW", by:"National Instruments", role:"Instrumentation & test automation", d:"Graphical dataflow language ('G') for controlling lab instruments, acquiring data, and building automated test systems in engineering and research.", industries:["Engineering","Science"]},
+  {name:"Houdini", by:"SideFX", role:"Procedural 3D & VFX", d:"Every operation in Houdini is a node, kept editable and reorderable — the industry standard for complex, non-destructive visual-effects pipelines in film.", industries:["Media & VFX"]},
+  {name:"Unreal Engine Blueprints", by:"Epic Games", role:"Game logic without writing C++", d:"Visual scripting inside a full game engine, letting designers implement gameplay, UI logic, and events directly, alongside (not instead of) C++ code.", industries:["Games"]},
+  {name:"Blender Geometry Nodes", by:"Blender Foundation", role:"Procedural 3D modeling", d:"Node-based procedural geometry generation inside a free, open-source 3D suite, bringing Houdini-style non-destructive modeling to a wide audience.", industries:["Media & VFX"]},
+  {name:"Grasshopper", by:"Robert McNeel & Associates", role:"Parametric architecture & design", d:"Visual dataflow plugin for Rhino used to explore parametric, generative architectural and industrial-design forms.", industries:["Architecture & Design"]},
+  {name:"Node-RED", by:"OpenJS Foundation (orig. IBM)", role:"IoT & service automation", d:"Flow-based wiring of hardware devices, APIs, and online services — aimed at IoT prototyping and lightweight backend automation.", industries:["Automation","IoT"]},
+  {name:"n8n", by:"n8n GmbH / open source", role:"Business & workflow automation", d:"Node-based automation for connecting apps, APIs, and internal tools — a visual alternative to writing custom integration glue code.", industries:["Automation"]},
+  {name:"ComfyUI", by:"Open source", role:"Generative image/video pipelines", d:"Exposes Stable Diffusion-family image and video generation as an explicit, inspectable node graph instead of a single opaque button.", industries:["AI & Media"]},
+  {name:"LangFlow", by:"Open source", role:"LLM pipeline building", d:"Visual builder for chaining language-model calls, tools, and data sources into multi-step AI pipelines.", industries:["AI & Automation"]},
+  {name:"Flowise", by:"Open source", role:"LLM & agent workflows", d:"Node-based builder for LLM applications and agents, aimed at developers who want to assemble AI logic visually before writing custom code.", industries:["AI & Automation"]}
+];
+(function(){
+  var allTags = ["All"]; PLATFORMS.forEach(function(p){ p.industries.forEach(function(t){ if(allTags.indexOf(t)<0) allTags.push(t); }); });
+  var filterRow = document.getElementById('pfFilters');
+  var grid = document.getElementById('pfGrid');
+  var active = "All";
+  function render(){
+    grid.innerHTML = "";
+    PLATFORMS.filter(function(p){ return active==="All" || p.industries.indexOf(active)>-1; }).forEach(function(p){
+      var card = document.createElement('div'); card.className = 'platform-card';
+      card.innerHTML = '<div class="role">'+p.role+'</div><h4>'+p.name+'</h4><p class="mono" style="font-size:10.5px;color:var(--mid);">'+p.by+'</p><p>'+p.d+'</p><div class="tags">'+p.industries.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>';
+      grid.appendChild(card);
+    });
+  }
+  allTags.forEach(function(t){
+    var b = document.createElement('button'); b.className='filter-btn'+(t==="All"?" active":""); b.textContent=t;
+    b.addEventListener('click', function(){
+      active = t;
+      Array.prototype.forEach.call(filterRow.children, function(c){c.classList.remove('active');});
+      b.classList.add('active');
+      render();
+    });
+    filterRow.appendChild(b);
+  });
+  render();
+})();
+
+/* ================= CH.06 CONVERSION DEMO ================= */
+(function(){
+  var W=96,H=96;
+  var src = document.getElementById('convSrc'), out = document.getElementById('convOut');
+  var sctx = src.getContext('2d'), octx = out.getContext('2d');
+  var strengthInput = document.getElementById('convStrength'), strengthV = document.getElementById('convStrengthV');
+  function generateSource(){
+    var img = sctx.createImageData(W,H);
+    var seedX = Math.random()*W, seedY = Math.random()*H;
+    for (var y=0;y<H;y++){
+      for (var x=0;x<W;x++){
+        var i=(y*W+x)*4;
+        var d = Math.sqrt((x-seedX)*(x-seedX)+(y-seedY)*(y-seedY));
+        var v = 128 + 90*Math.sin(d/9) + 40*Math.sin(x/14) - 30*Math.cos(y/17);
+        v = Math.max(0,Math.min(255,v));
+        img.data[i]=v; img.data[i+1]=v; img.data[i+2]=v; img.data[i+3]=255;
+      }
+    }
+    sctx.putImageData(img,0,0);
+    render();
+  }
+  function render(){
+    var src2 = sctx.getImageData(0,0,W,H);
+    var dst = octx.createImageData(W,H);
+    var strength = parseInt(strengthInput.value,10)/100;
+    function lum(x,y){
+      x=Math.max(0,Math.min(W-1,x)); y=Math.max(0,Math.min(H-1,y));
+      var i=(y*W+x)*4; return src2.data[i];
+    }
+    for (var y=0;y<H;y++){
+      for (var x=0;x<W;x++){
+        var gx = lum(x+1,y-1)+2*lum(x+1,y)+lum(x+1,y+1) - lum(x-1,y-1)-2*lum(x-1,y)-lum(x-1,y+1);
+        var gy = lum(x-1,y+1)+2*lum(x,y+1)+lum(x+1,y+1) - lum(x-1,y-1)-2*lum(x,y-1)-lum(x+1,y-1);
+        var shade = 128 + (gx*0.35+gy*0.35)*strength;
+        var base = lum(x,y);
+        var v = base*(1-strength) + shade*strength;
+        v = Math.max(0,Math.min(255,v));
+        var i=(y*W+x)*4;
+        dst.data[i]=v; dst.data[i+1]=v; dst.data[i+2]=v*1.02>255?255:v*1.02; dst.data[i+3]=255;
+      }
+    }
+    octx.putImageData(dst,0,0);
+  }
+  document.getElementById('convRegen').addEventListener('click', generateSource);
+  strengthInput.addEventListener('input', function(){ strengthV.textContent = strengthInput.value; render(); });
+  generateSource();
+})();
+
+/* ================= CH.07 MATH NODE DEMO ================= */
+(function(){
+  var aI=document.getElementById('mnA'), bI=document.getElementById('mnB'), opI=document.getElementById('mnOp');
+  var aVal=document.getElementById('mnAVal'), bVal=document.getElementById('mnBVal'), opSym=document.getElementById('mnOpSym'), outVal=document.getElementById('mnOutVal');
+  function calc(){
+    var a=parseFloat(aI.value), b=parseFloat(bI.value), op=opI.value, r;
+    if(op==='+') r=a+b; else if(op==='-') r=a-b; else if(op==='*') r=a*b; else r=(b===0?0:a/b);
+    aVal.textContent=a; bVal.textContent=b; opSym.textContent=op==='*'?'×':(op==='/'?'÷':op);
+    outVal.textContent = Math.round(r*1000)/1000;
+  }
+  [aI,bI,opI].forEach(function(el){ el.addEventListener('input', calc); el.addEventListener('change', calc); });
+  calc();
+})();
+
+/* ================= CH.08 COMPLEXITY DIAGRAM ================= */
+var STAGES = [
+  {label:"Stage 1 — a simple filter: source → process → output", nodes:[[40,150,"SRC"],[220,150,"PROC"],[400,150,"OUT"]], edges:[[0,1],[1,2]]},
+  {label:"Stage 2 — a small synth voice: two sources feed a mixer, then an effect and output", nodes:[[40,80,"OSC"],[40,220,"LFO"],[220,150,"MIX"],[400,80,"FX"],[560,150,"OUT"]], edges:[[0,2],[1,2],[2,3],[3,4]]},
+  {label:"Stage 3 — a small game system: input, physics, and AI all feed rendering, gated by game state", nodes:[[40,60,"INPUT"],[40,160,"PHYSICS"],[40,260,"AI"],[220,60,"STATE"],[220,220,"LOGIC"],[400,140,"RENDER"],[560,140,"OUT"]], edges:[[0,3],[1,4],[2,4],[3,4],[3,5],[4,5],[5,6]]}
+];
+(function(){
+  var svg = document.getElementById('complexitySvg');
+  var btnRow = document.getElementById('stageBtns');
+  var label = document.getElementById('stageLabel');
+  var ns = "http://www.w3.org/2000/svg";
+  function draw(idx){
+    svg.innerHTML = "";
+    var st = STAGES[idx];
+    st.edges.forEach(function(e){
+      var a=st.nodes[e[0]], b=st.nodes[e[1]];
+      var p=document.createElementNS(ns,'path');
+      p.setAttribute('class','e fade show');
+      p.setAttribute('d','M'+(a[0]+50)+','+a[1]+' C'+(a[0]+120)+','+a[1]+' '+(b[0]-70)+','+b[1]+' '+b[0]+','+b[1]);
+      svg.appendChild(p);
+    });
+    st.nodes.forEach(function(nd){
+      var r=document.createElementNS(ns,'rect');
+      r.setAttribute('class','n fade show'); r.setAttribute('x',nd[0]); r.setAttribute('y',nd[1]-20); r.setAttribute('width',50); r.setAttribute('height',40);
+      svg.appendChild(r);
+      var t=document.createElementNS(ns,'text');
+      t.setAttribute('class','fade show'); t.setAttribute('x',nd[0]+25); t.setAttribute('y',nd[1]+4); t.setAttribute('text-anchor','middle');
+      t.textContent = nd[2];
+      svg.appendChild(t);
+    });
+    label.textContent = st.label;
+    Array.prototype.forEach.call(btnRow.children, function(b,i){ b.classList.toggle('active', i===idx); if(i===idx){b.style.borderColor='var(--ink)';b.style.background='var(--ink)';b.style.color='var(--white)';} else {b.style.borderColor='var(--line)';b.style.background='var(--white)';b.style.color='var(--ink)';} });
+  }
+  STAGES.forEach(function(s,i){
+    var b=document.createElement('button'); b.className='btn'; b.textContent='Stage '+(i+1);
+    b.addEventListener('click', function(){ draw(i); });
+    btnRow.appendChild(b);
+  });
+  draw(0);
+})();
+
+/* ================= REFERENCES ================= */
+var REFERENCES = [
+  {t:"TouchDesigner — official site", u:"https://derivative.ca/", n:"Derivative — real-time node-based visual programming."},
+  {t:"Cycling '74 — Max", u:"https://cycling74.com/products/max", n:"Publisher documentation for Max/MSP."},
+  {t:"Pure Data (Pd) — home page", u:"https://puredata.info/", n:"Miller Puckette's open-source patching environment."},
+  {t:"NI LabVIEW", u:"https://www.ni.com/en/shop/labview.html", n:"National Instruments' graphical dataflow language for instrumentation."},
+  {t:"SideFX Houdini", u:"https://www.sidefx.com/products/houdini/", n:"Procedural, node-based 3D and VFX software."},
+  {t:"Unreal Engine — Blueprints Visual Scripting", u:"https://dev.epicgames.com/documentation/en-us/unreal-engine/blueprints-visual-scripting-in-unreal-engine", n:"Epic Games' official Blueprints documentation."},
+  {t:"Blender Manual — Geometry Nodes", u:"https://docs.blender.org/manual/en/latest/modeling/geometry_nodes/index.html", n:"Official documentation for Blender's node-based procedural modeling."},
+  {t:"Grasshopper3D", u:"https://www.grasshopper3d.com/", n:"Robert McNeel &amp; Associates' visual dataflow plugin for Rhino."},
+  {t:"Node-RED", u:"https://nodered.org/", n:"OpenJS Foundation flow-based programming tool for IoT and automation."},
+  {t:"n8n documentation", u:"https://docs.n8n.io/", n:"Node-based workflow automation platform."},
+  {t:"ComfyUI", u:"https://github.com/comfyanonymous/ComfyUI", n:"Open-source node-based interface for Stable Diffusion pipelines."},
+  {t:"LangFlow", u:"https://www.langflow.org/", n:"Visual builder for LLM pipelines."},
+  {t:"Flowise", u:"https://flowiseai.com/", n:"Open-source node-based builder for LLM apps and agents."}
+];
+(function(){
+  var list = document.getElementById('refList');
+  list.innerHTML = REFERENCES.map(function(r,i){
+    return '<div class="ref-item"><span class="ref-num">'+(i+1<10?'0':'')+(i+1)+'</span><div><span class="ref-title">'+r.t+'</span><span class="ref-url">'+r.u+'</span><div class="ref-note">'+r.n+'</div></div></div>';
+  }).join('');
+})();
+
+/* ================= CH.14 PLAYGROUND ENGINE ================= */
+var PG = (function(){
+  var editor = document.getElementById('pgEditor');
+  var svg = document.getElementById('pgSvg');
+  var ns = "http://www.w3.org/2000/svg";
+  var nodes = {}; // id -> node
+  var nextId = 1;
+
+  var TYPES = {
+    number:      {label:"Number", inputs:[], outputs:["out"], init:function(n){ n.state.value=5; }},
+    add:         {label:"Add", inputs:["a","b"], outputs:["sum"], compute:function(v){ return (v.a||0)+(v.b||0); }},
+    subtract:    {label:"Subtract", inputs:["a","b"], outputs:["diff"], compute:function(v){ return (v.a||0)-(v.b||0); }},
+    multiply:    {label:"Multiply", inputs:["a","b"], outputs:["product"], compute:function(v){ return (v.a||0)*(v.b||0); }},
+    divide:      {label:"Divide", inputs:["a","b"], outputs:["quotient"], compute:function(v){ return v.b?((v.a||0)/v.b):0; }},
+    outputnumber:{label:"Number Out", inputs:["value"], outputs:[]},
+    imagesource: {label:"Image Source", inputs:[], outputs:["img"], init:function(n){ n.state.seed=Math.random()*1000; }},
+    grayscale:   {label:"Grayscale", inputs:["img"], outputs:["img"], compute:function(v){ return grayscaleImg(v.img); }},
+    invert:      {label:"Invert", inputs:["img"], outputs:["img"], compute:function(v){ return invertImg(v.img); }},
+    brightness:  {label:"Brightness", inputs:["img"], outputs:["img"], init:function(n){ n.state.amt=0; }, compute:function(v,n){ return brightnessImg(v.img, n.state.amt); }},
+    outputimage: {label:"Image Out", inputs:["img"], outputs:[]}
+  };
+
+  var IW=48, IH=48;
+  function makeProcImage(seed){
+    var d = new Uint8ClampedArray(IW*IH*4);
+    var sx = (seed*13)%IW, sy=(seed*29)%IH;
+    for (var y=0;y<IH;y++) for (var x=0;x<IW;x++){
+      var i=(y*IW+x)*4;
+      var dist = Math.sqrt((x-sx)*(x-sx)+(y-sy)*(y-sy));
+      var r = 128+90*Math.sin(dist/6+seed);
+      var g = 100+100*Math.sin(x/8+seed*0.5);
+      var b = 140+90*Math.cos(y/7+seed*0.3);
+      d[i]=Math.max(0,Math.min(255,r)); d[i+1]=Math.max(0,Math.min(255,g)); d[i+2]=Math.max(0,Math.min(255,b)); d[i+3]=255;
+    }
+    return {w:IW,h:IH,data:d};
+  }
+  function grayscaleImg(img){
+    if(!img) return null;
+    var d=new Uint8ClampedArray(img.data);
+    for(var i=0;i<d.length;i+=4){ var v=0.3*d[i]+0.59*d[i+1]+0.11*d[i+2]; d[i]=v; d[i+1]=v; d[i+2]=v; }
+    return {w:img.w,h:img.h,data:d};
+  }
+  function invertImg(img){
+    if(!img) return null;
+    var d=new Uint8ClampedArray(img.data);
+    for(var i=0;i<d.length;i+=4){ d[i]=255-d[i]; d[i+1]=255-d[i+1]; d[i+2]=255-d[i+2]; }
+    return {w:img.w,h:img.h,data:d};
+  }
+  function brightnessImg(img, amt){
+    if(!img) return null;
+    var d=new Uint8ClampedArray(img.data);
+    var add = (amt||0)*255;
+    for(var i=0;i<d.length;i+=4){ d[i]=Math.max(0,Math.min(255,d[i]+add)); d[i+1]=Math.max(0,Math.min(255,d[i+1]+add)); d[i+2]=Math.max(0,Math.min(255,d[i+2]+add)); }
+    return {w:img.w,h:img.h,data:d};
+  }
+
+  function createNode(type, x, y){
+    var id = "n"+(nextId++);
+    var def = TYPES[type];
+    var node = {id:id, type:type, x:x, y:y, state:{}, inConn:{}};
+    if (def.init) def.init(node);
+    nodes[id] = node;
+    buildDom(node);
+    layoutNode(node);
+    return node;
+  }
+
+  function buildDom(node){
+    var def = TYPES[node.type];
+    var el = document.createElement('div');
+    el.className = 'pgnode'; el.id = node.id;
+    var head = document.createElement('div'); head.className='pgn-head';
+    var title = document.createElement('span'); title.textContent = def.label;
+    var del = document.createElement('button'); del.textContent = '×'; del.title='Delete node';
+    del.addEventListener('click', function(){ removeNode(node.id); });
+    head.appendChild(title); head.appendChild(del);
+    el.appendChild(head);
+    var body = document.createElement('div'); body.className='pgn-body';
+
+    if (node.type==='number'){
+      var inp=document.createElement('input'); inp.type='number'; inp.value=node.state.value;
+      inp.addEventListener('input', function(){ node.state.value=parseFloat(inp.value)||0; recompute(); });
+      body.appendChild(inp);
+    }
+    if (node.type==='brightness'){
+      var rng=document.createElement('input'); rng.type='range'; rng.min=-1; rng.max=1; rng.step=0.05; rng.value=node.state.amt;
+      rng.addEventListener('input', function(){ node.state.amt=parseFloat(rng.value); recompute(); });
+      body.appendChild(rng);
+    }
+    if (node.type==='imagesource'){
+      var regen=document.createElement('button'); regen.className='pgn-btn'; regen.textContent='Regenerate';
+      regen.addEventListener('click', function(){ node.state.seed=Math.random()*1000; recompute(); });
+      body.appendChild(regen);
+    }
+    if (node.type==='outputnumber'){
+      var out=document.createElement('div'); out.className='pgn-out'; out.textContent='—';
+      node._outEl = out;
+      body.appendChild(out);
+    }
+    if (['grayscale','invert','brightness','imagesource','outputimage'].indexOf(node.type)>-1){
+      var cv=document.createElement('canvas'); cv.width=IW; cv.height=IH;
+      node._canvas = cv;
+      body.appendChild(cv);
+    }
+    el.appendChild(body);
+
+    def.inputs.forEach(function(pname,i){
+      var p=document.createElement('div'); p.className='port in'; p.style.top=(46+i*20)+'px';
+      p.dataset.node=node.id; p.dataset.port=pname; p.dataset.dir='in';
+      var lbl=document.createElement('div'); lbl.className='port-label in'; lbl.style.top=(44+i*20)+'px'; lbl.textContent=pname;
+      el.appendChild(p); el.appendChild(lbl);
+    });
+    def.outputs.forEach(function(pname,i){
+      var p=document.createElement('div'); p.className='port out'; p.style.top=(46+i*20)+'px';
+      p.dataset.node=node.id; p.dataset.port=pname; p.dataset.dir='out';
+      var lbl=document.createElement('div'); lbl.className='port-label out'; lbl.style.top=(44+i*20)+'px'; lbl.textContent=pname;
+      el.appendChild(p); el.appendChild(lbl);
+    });
+
+    head.addEventListener('pointerdown', function(ev){ startDragNode(node, ev); });
+    editor.appendChild(el);
+    node._el = el;
+  }
+
+  function layoutNode(node){ node._el.style.left = node.x+'px'; node._el.style.top = node.y+'px'; }
+
+  function startDragNode(node, ev){
+    ev.preventDefault();
+    var startX=ev.clientX, startY=ev.clientY, ox=node.x, oy=node.y;
+    function move(e){
+      node.x = ox + (e.clientX-startX) + editor.scrollLeft - editor.scrollLeft;
+      node.y = oy + (e.clientY-startY);
+      node.x = ox + (e.clientX-startX);
+      layoutNode(node);
+      drawWires();
+    }
+    function up(){ window.removeEventListener('pointermove',move); window.removeEventListener('pointerup',up); }
+    window.addEventListener('pointermove', move);
+    window.addEventListener('pointerup', up);
+  }
+
+  var tempWire = null, dragFrom = null;
+  editor.addEventListener('pointerdown', function(ev){
+    var port = ev.target.closest ? ev.target.closest('.port') : null;
+    if (!port) return;
+    if (port.dataset.dir !== 'out') return;
+    dragFrom = {node:port.dataset.node, port:port.dataset.port};
+    tempWire = document.createElementNS(ns,'path');
+    tempWire.setAttribute('class','wiretemp');
+    svg.appendChild(tempWire);
+    ev.preventDefault();
+  });
+  window.addEventListener('pointermove', function(ev){
+    if (!tempWire) return;
+    var r = editor.getBoundingClientRect();
+    var start = portCenter(dragFrom.node, dragFrom.port, 'out');
+    var ex = ev.clientX - r.left + editor.scrollLeft;
+    var ey = ev.clientY - r.top + editor.scrollTop;
+    tempWire.setAttribute('d', bezier(start.x,start.y,ex,ey));
+  });
+  window.addEventListener('pointerup', function(ev){
+    if (!tempWire) return;
+    var target = document.elementFromPoint(ev.clientX, ev.clientY);
+    var port = target && target.closest ? target.closest('.port') : null;
+    if (port && port.dataset.dir==='in'){
+      var toNode = nodes[port.dataset.node];
+      toNode.inConn[port.dataset.port] = {node:dragFrom.node, port:dragFrom.port};
+      recompute();
+    }
+    tempWire.remove(); tempWire=null; dragFrom=null;
+  });
+
+  function portCenter(nodeId, portName, dir){
+    var node = nodes[nodeId];
+    var sel = '.port.'+dir+'[data-node="'+nodeId+'"][data-port="'+portName+'"]';
+    var p = node._el.querySelector(sel);
+    var r = p.getBoundingClientRect(), er = editor.getBoundingClientRect();
+    return {x: r.left - er.left + r.width/2 + editor.scrollLeft, y: r.top - er.top + r.height/2 + editor.scrollTop};
+  }
+  function bezier(x1,y1,x2,y2){
+    var dx = Math.max(40, Math.abs(x2-x1)*0.5);
+    return 'M'+x1+','+y1+' C'+(x1+dx)+','+y1+' '+(x2-dx)+','+y2+' '+x2+','+y2;
+  }
+  function drawWires(){
+    Array.prototype.slice.call(svg.querySelectorAll('path.wire')).forEach(function(w){ w.remove(); });
+    Object.keys(nodes).forEach(function(id){
+      var node = nodes[id];
+      Object.keys(node.inConn).forEach(function(pname){
+        var c = node.inConn[pname];
+        if (!nodes[c.node]) { delete node.inConn[pname]; return; }
+        var a = portCenter(c.node, c.port, 'out');
+        var b = portCenter(id, pname, 'in');
+        var path = document.createElementNS(ns,'path');
+        path.setAttribute('class','wire');
+        path.setAttribute('d', bezier(a.x,a.y,b.x,b.y));
+        path.style.pointerEvents = 'stroke';
+        path.addEventListener('pointerdown', function(ev){ ev.stopPropagation(); delete node.inConn[pname]; recompute(); });
+        svg.appendChild(path);
+      });
+    });
+  }
+
+  function removeNode(id){
+    var node = nodes[id];
+    if (!node) return;
+    node._el.remove();
+    delete nodes[id];
+    Object.keys(nodes).forEach(function(nid){
+      var n = nodes[nid];
+      Object.keys(n.inConn).forEach(function(p){ if(n.inConn[p].node===id) delete n.inConn[p]; });
+    });
+    recompute();
+  }
+
+  function evaluate(nodeId, visiting){
+    visiting = visiting || {};
+    var node = nodes[nodeId];
+    if (!node || visiting[nodeId]) return {};
+    visiting[nodeId] = true;
+    var def = TYPES[node.type];
+    var vals = {};
+    def.inputs.forEach(function(pname){
+      var c = node.inConn[pname];
+      if (c){
+        var upstream = evaluate(c.node, visiting);
+        vals[pname] = upstream[c.port];
+      }
+    });
+    var out = {};
+    if (node.type==='number'){ out.out = node.state.value; }
+    else if (node.type==='imagesource'){ out.img = makeProcImage(node.state.seed); }
+    else if (def.compute){ var r = def.compute(vals, node); def.outputs.forEach(function(o){ out[o]=r; }); }
+    node._lastIn = vals; node._lastOut = out;
+    return out;
+  }
+
+  function recompute(){
+    Object.keys(nodes).forEach(function(id){ evaluate(id, {}); });
+    Object.keys(nodes).forEach(function(id){ renderNode(nodes[id]); });
+    drawWires();
+  }
+
+  function renderNode(node){
+    var out = node._lastOut || {};
+    if (node.type==='outputnumber'){
+      var v = node._lastIn && node._lastIn.value;
+      node._outEl.textContent = (typeof v==='number') ? (Math.round(v*1000)/1000) : "—";
+    }
+    if (node._canvas){
+      var img = node.type==='outputimage' ? (node._lastIn && node._lastIn.img) : out.img;
+      var ctx = node._canvas.getContext('2d');
+      if (img && img.data){
+        var idata = ctx.createImageData(img.w, img.h);
+        idata.data.set(img.data);
+        ctx.putImageData(idata,0,0);
+      } else {
+        ctx.fillStyle = '#e8e8e2'; ctx.fillRect(0,0,IW,IH);
+      }
+    }
+  }
+
+  function clearAll(){
+    Object.keys(nodes).forEach(function(id){ nodes[id]._el.remove(); });
+    nodes = {};
+    drawWires();
+  }
+
+  function loadPreset(name){
+    clearAll();
+    if (name==='math'){
+      var a=createNode('number',40,40); a.state.value=5;
+      var b=createNode('number',40,160); b.state.value=3;
+      var add=createNode('add',260,100);
+      var out=createNode('outputnumber',480,100);
+      add.inConn.a = {node:a.id, port:'out'};
+      add.inConn.b = {node:b.id, port:'out'};
+      out.inConn.value = {node:add.id, port:'sum'};
+      rebuildInputsUI();
+    } else if (name==='image'){
+      var src=createNode('imagesource',40,40);
+      var gray=createNode('grayscale',280,40);
+      var bright=createNode('brightness',520,40);
+      var out2=createNode('outputimage',760,40);
+      gray.inConn.img = {node:src.id, port:'img'};
+      bright.inConn.img = {node:gray.id, port:'img'};
+      out2.inConn.img = {node:bright.id, port:'img'};
+      rebuildInputsUI();
+    }
+    recompute();
+  }
+  function rebuildInputsUI(){
+    Object.keys(nodes).forEach(function(id){
+      var n = nodes[id];
+      if (n.type==='number'){ var inp=n._el.querySelector('input[type=number]'); if(inp) inp.value=n.state.value; }
+      if (n.type==='brightness'){ var r=n._el.querySelector('input[type=range]'); if(r) r.value=n.state.amt; }
+    });
+  }
+
+  var addCounter = 0;
+  document.querySelectorAll('[data-add]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      addCounter++;
+      var col = addCounter % 5, row = Math.floor(addCounter/5);
+      createNode(btn.dataset.add, 40 + col*220, 40 + row*180);
+      recompute();
+    });
+  });
+  document.querySelectorAll('[data-preset]').forEach(function(btn){
+    btn.addEventListener('click', function(){ loadPreset(btn.dataset.preset); });
+  });
+  document.getElementById('pgClear').addEventListener('click', clearAll);
+
+  loadPreset('math');
+
+  return {loadPreset:loadPreset};
+})();
+
+})();
+</script>
+
+</body>
+</html>
