@@ -98,4 +98,14 @@ Lower priority for an "implementation" roadmap, but worth naming so it isn't los
 
 ---
 
-*This file is a working plan, not a commitment — treat effort sizes as relative to each other, not calendar estimates. Rows 1 and 7 of §6 are done; §3, §4.1–4.3, and §5 have not been built yet.*
+---
+
+## 8. Knowledge Network Engine — done (indexing) / Phase 2 open (content migration)
+
+**2026-09-17 — done**: built `engine/build_network.py`, a re-runnable Python script that reads the content manifests already maintained by each sibling repo (`aerospace/pages.json`, `Maya-Calendar/pages.json`, `machinery/data/graph.json`) plus this repo's own `engine/own-pages.json`, normalizes all four into one schema, writes `engine/network-graph.json`, and regenerates this repo's `index.html` from it — real stats in the hero (112 pages / 4 repos, computed, not hardcoded), a live cross-network search box, and per-hub "browse all N" disclosures for aerospace (46), machinery (31), and Maya-Calendar (7). The previous hand-maintained `index.html` is preserved at `old/index.html`. Every one of the 112 links was verified to resolve to a real file before shipping (caught and fixed one real bug: aerospace's `time-philosophy/` directory-index slug needs different URL construction than its `.html`-file slugs).
+
+**Phase 2 — explicitly not done, and not started**: this engine only *indexes* aerospace's ~45 and Maya-Calendar's 8 articles — it does not regenerate their actual page content. Both repos remain hand-authored HTML with duplicated per-page boilerplate. Migrating them onto a shared build-pipeline/template system (the way `machinery/build.py` already generates its own pages from data) is a separate, larger undertaking: each article carries bespoke interactive JS/SVG (pianos, harmonic simulators, oscilloscopes, waterfall displays) that a generic template can't safely auto-convert — doing this faithfully means designing a content-spec schema that can still carry fully custom per-page interactive blocks (similar to how `machinery`'s own concept pages already mix generated shell + hand-authored interactive functions), then porting each article one at a time with the same QA rigor (Selenium, real PointerEvents, mobile-width checks) every other page on this site has had. Not scheduled; re-run `engine/build_network.py` as new pages are added to any of the four repos in the meantime.
+
+---
+
+*This file is a working plan, not a commitment — treat effort sizes as relative to each other, not calendar estimates. Rows 1 and 7 of §6 are done; §3, §4.1–4.3, and §5 have not been built yet. §8's indexing engine is done; its Phase 2 content migration is open.*

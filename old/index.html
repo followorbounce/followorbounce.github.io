@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Network</title>
+<meta name="description" content="A personal index of the author's interests — essays, interactive experiments, media servers, art and data analysis, and notes on space, time, and perception.">
+<link rel="canonical" href="https://followorbounce.github.io/">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Knowledge Network">
+<meta property="og:description" content="A personal index of essays, interactive experiments, and notes on space, time, and perception.">
+<meta property="og:url" content="https://followorbounce.github.io/">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c;
+  --paper:#f6f6f2;
+  --line:#c9c9c1;
+  --mid:#7a7a74;
+  --font-display:'IBM Plex Sans Condensed', sans-serif;
+  --font-body:'IBM Plex Sans', sans-serif;
+  --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px);
+  --maxw: 1180px;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important;} }
+body{
+  margin:0; background:var(--paper); color:var(--ink);
+  font-family:var(--font-body); font-size:16px; line-height:1.55;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit;}
+h1,h2{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+
+header{border-bottom:1px solid var(--ink); padding-block:14px;}
+header .brand{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em;
+  border:1px solid var(--ink); padding:6px 10px; display:inline-block;
+}
+
+.hero{padding-block:clamp(56px,10vw,104px); border-bottom:1px solid var(--ink);}
+.eyebrow{
+  font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em;
+  text-transform:uppercase; color:var(--mid);
+  display:flex; align-items:center; gap:10px; margin-bottom:18px;
+}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2.2rem, 6vw, 4rem); line-height:1.0; margin-bottom:20px;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.2rem); max-width:620px; color:#28282a;}
+
+.cats{padding-block:clamp(48px,8vw,88px);}
+.cats-grid{
+  display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
+  gap:44px 52px;
+}
+.cat h2{font-size:1rem; letter-spacing:0.04em; margin-bottom:8px;}
+.cat ul{list-style:none; margin:10px 0 0; padding:0;}
+.cat li{border-top:1px solid var(--line);}
+.cat li:last-child{border-bottom:1px solid var(--line);}
+.cat li > *{
+  display:flex; gap:12px; align-items:baseline;
+  padding:10px 0; text-decoration:none;
+}
+.cat .tag{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:0.06em;
+  color:var(--mid); flex:0 0 auto; min-width:44px;
+}
+.cat .name{font-size:14.5px;}
+.cat a:hover .name{text-decoration:underline;}
+.cat li.soon .name{color:var(--mid);}
+.cat li.ext .tag{color:var(--ink);}
+
+footer{
+  border-top:1px solid var(--ink); padding-block:40px;
+  font-family:var(--font-mono); font-size:12px; color:var(--mid);
+}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+</style>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap"><span class="brand">KNOWLEDGE NETWORK</span></div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Index</div>
+    <h1>Knowledge Network</h1>
+    <p>A personal index of the author's interests — essays, interactive experiments, media servers, art and data analysis, and notes on space, time, and perception, often approached through contested questions. Entries marked <b>soon</b> are planned.</p>
+  </div>
+</section>
+
+<section class="cats">
+  <div class="wrap cats-grid">
+
+    <div class="cat">
+      <h2>Design &amp; Experience</h2>
+      <ul>
+        <li><a href="/dictionary-of-design/"><span class="tag">Hub</span><span class="name">Dictionary of Design — the external world</span></a></li>
+        <li><a href="/dictionary-of-inner-experience/"><span class="tag">Hub</span><span class="name">Dictionary of Inner Experience — the internal world</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Waves</h2>
+      <ul>
+        <li><a href="/universal-waves"><span class="tag">Read</span><span class="name">Universal Waves</span></a></li>
+        <li><a href="/waves"><span class="tag">Read</span><span class="name">Waves — Sound, Light &amp; Vibration</span></a></li>
+        <li><a href="/music-mathematics"><span class="tag">Read</span><span class="name">Music Is Mathematics</span></a></li>
+        <li><a href="/perception-illusions"><span class="tag">Read</span><span class="name">Perception — Visual &amp; Auditory Illusions</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Aerospace</h2>
+      <ul>
+        <li><a href="https://followorbounce.github.io/aerospace/"><span class="tag">Hub</span><span class="name">Aerospace index</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Maya Basics</h2>
+      <ul>
+        <li><a href="https://followorbounce.github.io/Maya-Calendar/"><span class="tag">Hub</span><span class="name">Maya Calendar index</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Machinery</h2>
+      <ul>
+        <li><a href="https://followorbounce.github.io/machinery/"><span class="tag">Hub</span><span class="name">Heavy Machinery Encyclopedia</span></a></li>
+        <li><a href="/heavy-machinery-blueprint"><span class="tag">Read</span><span class="name">Heavy Machinery: The Blueprint</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Radio &amp; Electronics</h2>
+      <ul>
+        <li><a href="/electronics"><span class="tag">Read</span><span class="name">Electronics — Components to Microcontrollers</span></a></li>
+        <li><a href="/radio-communications"><span class="tag">Read</span><span class="name">Radio Communications</span></a></li>
+        <li><a href="https://followorbounce.github.io/aerospace/cascade-physical-computing"><span class="tag">Hub</span><span class="name">Arduino, ESP32 &amp; Physical Computing</span></a></li>
+        <li><a href="/mediaservers"><span class="tag">Read</span><span class="name">Media Servers</span></a></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Experiments &amp; Observations</span></span></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Instruments</h2>
+      <ul>
+        <li><a href="/password-generator"><span class="tag">Tool</span><span class="name">Password &amp; Passphrase Generator</span></a></li>
+        <li><a href="/radio-communications#waterfall-canvas"><span class="tag">Tool</span><span class="name">SDR Waterfall &amp; ITU Spectrum Explorer</span></a></li>
+        <li><a href="/blockchain-infrastructure#crypto"><span class="tag">Tool</span><span class="name">Live Cryptography Demo — SHA-256 &amp; ECDSA</span></a></li>
+        <li><a href="/mediaservers-shaders#reaction"><span class="tag">Tool</span><span class="name">Shader Lab — Reaction-Diffusion &amp; Curl-Noise</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Audio synth</h2>
+      <ul>
+        <li><a href="/signal-chain"><span class="tag">Tool</span><span class="name">Signal Chain — Universal-Node Synth</span></a></li>
+        <li><a href="/pulse-train"><span class="tag">Tool</span><span class="name">Pulse Train — Precision / Microsound Synth</span></a></li>
+        <li><a href="/pulse-train-ii"><span class="tag">Tool</span><span class="name">Pulse Train II — Ten-Unit Rack</span></a></li>
+        <li><a href="/pulse-train-stage"><span class="tag">Tool</span><span class="name">Pulse Train — Stage — Minimal Live Rack + Presets</span></a></li>
+        <li><a href="/pulse-train-stage-ii"><span class="tag">Tool</span><span class="name">Pulse Train — Stage II — Thirteen Units + Patchable LFO</span></a></li>
+        <li><a href="/pulse-train-node-database"><span class="tag">Read</span><span class="name">Node Database — Software, Math &amp; Real Hardware</span></a></li>
+        <li><a href="/universal-waves#lab"><span class="tag">Tool</span><span class="name">Wave Lab — Mixer, Resonance &amp; Light Explorer</span></a></li>
+        <li><a href="/music-mathematics#lab"><span class="tag">Tool</span><span class="name">9-Tool Audio Lab</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Video synth</h2>
+      <ul>
+        <li><a href="/visual-synths/"><span class="tag">Hub</span><span class="name">Visual Synths — the full family</span></a></li>
+        <li><a href="/palette-synth"><span class="tag">Tool</span><span class="name">Palette Synth — Cosine Gradient Colors</span></a></li>
+        <li><a href="/additive-wave-sculptor"><span class="tag">Tool</span><span class="name">Additive Wave Sculptor — Fourier Harmonics</span></a></li>
+        <li><a href="/lissajous-plotter"><span class="tag">Tool</span><span class="name">Lissajous / Harmonograph Plotter</span></a></li>
+        <li><a href="/audio-reactive-diffusion"><span class="tag">Tool</span><span class="name">Audio-Reactive Reaction-Diffusion</span></a></li>
+        <li><a href="/complex-fractal-mapper"><span class="tag">Tool</span><span class="name">Complex-Plane Fractal Mapper</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Systems &amp; Development</h2>
+      <ul>
+        <li><a href="/node-based-development"><span class="tag">Read</span><span class="name">Node-Based Software Development</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Research &amp; Method</h2>
+      <ul>
+        <li><a href="/field-manual"><span class="tag">Read</span><span class="name">The Verification Field Manual</span></a></li>
+        <li><a href="/blockchain-infrastructure"><span class="tag">Read</span><span class="name">Blockchain Infrastructure</span></a></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Philosophy</h2>
+      <ul>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Nature of Time</span></span></li>
+        <li><a href="https://followorbounce.com/p/humanity-as-functional-consciousness"><span class="tag">Read</span><span class="name">Consciousness — Humanity as Functional Consciousness</span></a></li>
+        <li><a href="https://followorbounce.com/p/the-closed-door"><span class="tag">Read</span><span class="name">Reality &amp; Perception — The Closed Door</span></a></li>
+        <li><a href="https://followorbounce.com/p/signal-noise"><span class="tag">Read</span><span class="name">Free Will — Signal &amp; Noise</span></a></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Ethics</span></span></li>
+      </ul>
+    </div>
+
+    <div class="cat">
+      <h2>Personal</h2>
+      <ul>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Notes</span></span></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Travel Stories</span></span></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Ideas</span></span></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Books &amp; References</span></span></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Useful Tools</span></span></li>
+        <li class="ext"><a href="https://designdivinefuture.wordpress.com/" rel="external noopener" target="_blank"><span class="tag">Ext&#8599;</span><span class="name">Different Vision trainings</span></a></li>
+        <li class="soon"><span><span class="tag">Soon</span><span class="name">Archive</span></span></li>
+      </ul>
+    </div>
+
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
+    <span>PERSONAL / WORK IN PROGRESS</span>
+  </div>
+</footer>
+
+</body>
+</html>

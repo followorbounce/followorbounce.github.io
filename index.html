@@ -13,13 +13,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Knowledge Network</title>
-<meta name="description" content="A personal index of the author's interests — essays, interactive experiments, media servers, art and data analysis, and notes on space, time, and perception.">
+<meta name="description" content="A personal index of 112 pages across four repositories — essays, interactive experiments, media servers, art, field guides, and a heavy-machinery and Maya-calendar encyclopedia — centred on space, time, perception, and engineering.">
 <link rel="canonical" href="https://followorbounce.github.io/">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Knowledge Network">
-<meta property="og:description" content="A personal index of essays, interactive experiments, and notes on space, time, and perception.">
+<meta property="og:description" content="A personal index of 112 pages across four repositories, centred on space, time, perception, and engineering.">
 <meta property="og:url" content="https://followorbounce.github.io/">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -32,6 +32,7 @@
   --paper:#f6f6f2;
   --line:#c9c9c1;
   --mid:#7a7a74;
+  --accent:#a6401f;
   --font-display:'IBM Plex Sans Condensed', sans-serif;
   --font-body:'IBM Plex Sans', sans-serif;
   --font-mono:'IBM Plex Mono', monospace;
@@ -57,7 +58,7 @@ header .brand{
   border:1px solid var(--ink); padding:6px 10px; display:inline-block;
 }
 
-.hero{padding-block:clamp(56px,10vw,104px); border-bottom:1px solid var(--ink);}
+.hero{padding-block:clamp(40px,8vw,80px); border-bottom:1px solid var(--ink);}
 .eyebrow{
   font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--mid);
@@ -65,7 +66,36 @@ header .brand{
 }
 .eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
 .hero h1{font-size:clamp(2.2rem, 6vw, 4rem); line-height:1.0; margin-bottom:20px;}
-.hero p{font-size:clamp(1.02rem, 1.4vw, 1.2rem); max-width:620px; color:#28282a;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.2rem); max-width:640px; color:#28282a;}
+.stats{
+  display:flex; flex-wrap:wrap; gap:28px 40px; margin-top:28px;
+  font-family:var(--font-mono);
+}
+.stat b{display:block; font-size:1.7rem; font-family:var(--font-display); font-weight:700;}
+.stat span{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid);}
+
+.search-wrap{border-bottom:1px solid var(--ink); padding-block:20px; background:#efefe9;}
+#network-search{
+  width:100%; font:inherit; font-family:var(--font-mono); font-size:14px;
+  padding:14px 16px; border:1px solid var(--ink); background:var(--paper); color:var(--ink);
+}
+#network-search::placeholder{color:var(--mid);}
+#search-results{margin-top:16px; display:none; gap:2px; flex-direction:column;}
+#search-results.active{display:flex;}
+#search-results .hit{
+  display:flex; gap:14px; align-items:baseline; padding:10px 12px; text-decoration:none;
+  border-bottom:1px solid var(--line); background:var(--paper);
+}
+#search-results .hit:hover{background:#fff;}
+#search-results .hit .repo{
+  font-family:var(--font-mono); font-size:10px; letter-spacing:0.06em; text-transform:uppercase;
+  color:#fff; background:var(--accent); padding:2px 6px; flex:0 0 auto;
+}
+#search-results .hit .name{font-size:14.5px; flex:0 0 auto;}
+#search-results .hit .desc{font-size:12.5px; color:var(--mid); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+#search-empty{display:none; font-family:var(--font-mono); font-size:12.5px; color:var(--mid); margin-top:14px;}
+#search-empty.active{display:block;}
+[data-hide-when-search].search-active{display:none;}
 
 .cats{padding-block:clamp(48px,8vw,88px);}
 .cats-grid{
@@ -89,6 +119,15 @@ header .brand{
 .cat li.soon .name{color:var(--mid);}
 .cat li.ext .tag{color:var(--ink);}
 
+.cat-hub .browse-all{margin-top:10px; font-family:var(--font-mono); font-size:12px;}
+.cat-hub .browse-all summary{cursor:pointer; color:var(--accent); letter-spacing:0.04em; padding-block:6px;}
+.browse-list{list-style:none; margin:6px 0 0; padding:0; max-height:340px; overflow-y:auto; border:1px solid var(--line);}
+.browse-list li{border-top:none !important; border-bottom:1px solid var(--line) !important;}
+.browse-list li > a{padding:8px 10px !important; flex-wrap:wrap;}
+.browse-list .meta{font-family:var(--font-mono); font-size:10px; color:var(--mid); margin-left:auto;}
+
+.section-divider{grid-column:1/-1; border-top:2px solid var(--ink); margin-top:12px; padding-top:6px; font-family:var(--font-mono); font-size:11px; letter-spacing:0.1em; text-transform:uppercase; color:var(--mid);}
+
 footer{
   border-top:1px solid var(--ink); padding-block:40px;
   font-family:var(--font-mono); font-size:12px; color:var(--mid);
@@ -109,9 +148,24 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 
 <section class="hero">
   <div class="wrap">
-    <div class="eyebrow">Index</div>
+    <div class="eyebrow">Index &middot; generated by the Knowledge Network Engine</div>
     <h1>Knowledge Network</h1>
-    <p>A personal index of the author's interests — essays, interactive experiments, media servers, art and data analysis, and notes on space, time, and perception, often approached through contested questions. Entries marked <b>soon</b> are planned.</p>
+    <p>A personal index of essays, interactive experiments, media servers, art and data analysis, and notes on space, time, and perception, often approached through contested questions. Entries marked <b>soon</b> are planned.</p>
+    <div class="stats">
+      <div class="stat"><b>112</b><span>Pages indexed</span></div>
+      <div class="stat"><b>4</b><span>Repositories</span></div>
+      <div class="stat"><b>46</b><span>Aerospace articles</span></div>
+      <div class="stat"><b>31</b><span>Machinery entries</span></div>
+      <div class="stat"><b>7</b><span>Maya calendar pages</span></div>
+    </div>
+  </div>
+</section>
+
+<section class="search-wrap">
+  <div class="wrap">
+    <input type="text" id="network-search" placeholder="Search all 112 pages across the network&hellip; (title, topic, repo)" autocomplete="off" spellcheck="false">
+    <div id="search-results" aria-live="polite"></div>
+    <div id="search-empty">No matches. Try a different word, or browse by category below.</div>
   </div>
 </section>
 
@@ -121,106 +175,204 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <div class="cat">
       <h2>Design &amp; Experience</h2>
       <ul>
-        <li><a href="/dictionary-of-design/"><span class="tag">Hub</span><span class="name">Dictionary of Design — the external world</span></a></li>
-        <li><a href="/dictionary-of-inner-experience/"><span class="tag">Hub</span><span class="name">Dictionary of Inner Experience — the internal world</span></a></li>
+        <li><a href="https://followorbounce.github.io/dictionary-of-design/"><span class="tag">Hub</span><span class="name">Dictionary of Design</span></a></li>
+        <li><a href="https://followorbounce.github.io/dictionary-of-inner-experience/"><span class="tag">Hub</span><span class="name">Dictionary of Inner Experience</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
       <h2>Waves</h2>
       <ul>
-        <li><a href="/universal-waves"><span class="tag">Read</span><span class="name">Universal Waves</span></a></li>
-        <li><a href="/waves"><span class="tag">Read</span><span class="name">Waves — Sound, Light &amp; Vibration</span></a></li>
-        <li><a href="/music-mathematics"><span class="tag">Read</span><span class="name">Music Is Mathematics</span></a></li>
-        <li><a href="/perception-illusions"><span class="tag">Read</span><span class="name">Perception — Visual &amp; Auditory Illusions</span></a></li>
-      </ul>
-    </div>
-
-    <div class="cat">
-      <h2>Aerospace</h2>
-      <ul>
-        <li><a href="https://followorbounce.github.io/aerospace/"><span class="tag">Hub</span><span class="name">Aerospace index</span></a></li>
-      </ul>
-    </div>
-
-    <div class="cat">
-      <h2>Maya Basics</h2>
-      <ul>
-        <li><a href="https://followorbounce.github.io/Maya-Calendar/"><span class="tag">Hub</span><span class="name">Maya Calendar index</span></a></li>
-      </ul>
-    </div>
-
-    <div class="cat">
-      <h2>Machinery</h2>
-      <ul>
-        <li><a href="https://followorbounce.github.io/machinery/"><span class="tag">Hub</span><span class="name">Heavy Machinery Encyclopedia</span></a></li>
-        <li><a href="/heavy-machinery-blueprint"><span class="tag">Read</span><span class="name">Heavy Machinery: The Blueprint</span></a></li>
+        <li><a href="https://followorbounce.github.io/universal-waves"><span class="tag">Read</span><span class="name">Universal Waves</span></a></li>
+        <li><a href="https://followorbounce.github.io/waves"><span class="tag">Read</span><span class="name">Waves — Sound, Light &amp; Vibration</span></a></li>
+        <li><a href="https://followorbounce.github.io/music-mathematics"><span class="tag">Read</span><span class="name">Music Is Mathematics</span></a></li>
+        <li><a href="https://followorbounce.github.io/perception-illusions"><span class="tag">Read</span><span class="name">Perception — Visual &amp; Auditory Illusions</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
       <h2>Radio &amp; Electronics</h2>
       <ul>
-        <li><a href="/electronics"><span class="tag">Read</span><span class="name">Electronics — Components to Microcontrollers</span></a></li>
-        <li><a href="/radio-communications"><span class="tag">Read</span><span class="name">Radio Communications</span></a></li>
-        <li><a href="https://followorbounce.github.io/aerospace/cascade-physical-computing"><span class="tag">Hub</span><span class="name">Arduino, ESP32 &amp; Physical Computing</span></a></li>
-        <li><a href="/mediaservers"><span class="tag">Read</span><span class="name">Media Servers</span></a></li>
-        <li class="soon"><span><span class="tag">Soon</span><span class="name">Experiments &amp; Observations</span></span></li>
+        <li><a href="https://followorbounce.github.io/electronics"><span class="tag">Read</span><span class="name">Electronics — Components to Microcontrollers</span></a></li>
+        <li><a href="https://followorbounce.github.io/radio-communications"><span class="tag">Read</span><span class="name">Radio Communications</span></a></li>
+        <li><a href="https://followorbounce.github.io/mediaservers"><span class="tag">Read</span><span class="name">Media Servers</span></a></li>
+        <li><a href="https://followorbounce.github.io/mediaservers-shaders"><span class="tag">Read</span><span class="name">Media Servers II</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
       <h2>Instruments</h2>
       <ul>
-        <li><a href="/password-generator"><span class="tag">Tool</span><span class="name">Password &amp; Passphrase Generator</span></a></li>
-        <li><a href="/radio-communications#waterfall-canvas"><span class="tag">Tool</span><span class="name">SDR Waterfall &amp; ITU Spectrum Explorer</span></a></li>
-        <li><a href="/blockchain-infrastructure#crypto"><span class="tag">Tool</span><span class="name">Live Cryptography Demo — SHA-256 &amp; ECDSA</span></a></li>
-        <li><a href="/mediaservers-shaders#reaction"><span class="tag">Tool</span><span class="name">Shader Lab — Reaction-Diffusion &amp; Curl-Noise</span></a></li>
+        <li><a href="https://followorbounce.github.io/password-generator"><span class="tag">Tool</span><span class="name">Password &amp; Passphrase Generator</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
-      <h2>Audio synth</h2>
+      <h2>Audio Synth</h2>
       <ul>
-        <li><a href="/signal-chain"><span class="tag">Tool</span><span class="name">Signal Chain — Universal-Node Synth</span></a></li>
-        <li><a href="/pulse-train"><span class="tag">Tool</span><span class="name">Pulse Train — Precision / Microsound Synth</span></a></li>
-        <li><a href="/pulse-train-ii"><span class="tag">Tool</span><span class="name">Pulse Train II — Ten-Unit Rack</span></a></li>
-        <li><a href="/pulse-train-stage"><span class="tag">Tool</span><span class="name">Pulse Train — Stage — Minimal Live Rack + Presets</span></a></li>
-        <li><a href="/pulse-train-stage-ii"><span class="tag">Tool</span><span class="name">Pulse Train — Stage II — Thirteen Units + Patchable LFO</span></a></li>
-        <li><a href="/pulse-train-node-database"><span class="tag">Read</span><span class="name">Node Database — Software, Math &amp; Real Hardware</span></a></li>
-        <li><a href="/universal-waves#lab"><span class="tag">Tool</span><span class="name">Wave Lab — Mixer, Resonance &amp; Light Explorer</span></a></li>
-        <li><a href="/music-mathematics#lab"><span class="tag">Tool</span><span class="name">9-Tool Audio Lab</span></a></li>
+        <li><a href="https://followorbounce.github.io/patch-bay"><span class="tag">Tool</span><span class="name">Patch Bay</span></a></li>
+        <li><a href="https://followorbounce.github.io/signal-chain"><span class="tag">Tool</span><span class="name">Signal Chain</span></a></li>
+        <li><a href="https://followorbounce.github.io/pulse-train"><span class="tag">Tool</span><span class="name">Pulse Train</span></a></li>
+        <li><a href="https://followorbounce.github.io/pulse-train-ii"><span class="tag">Tool</span><span class="name">Pulse Train II</span></a></li>
+        <li><a href="https://followorbounce.github.io/pulse-train-stage"><span class="tag">Tool</span><span class="name">Pulse Train — Stage</span></a></li>
+        <li><a href="https://followorbounce.github.io/pulse-train-stage-ii"><span class="tag">Tool</span><span class="name">Pulse Train — Stage II</span></a></li>
+        <li><a href="https://followorbounce.github.io/pulse-train-node-database"><span class="tag">Read</span><span class="name">Node Database</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
-      <h2>Video synth</h2>
+      <h2>Video Synth</h2>
       <ul>
-        <li><a href="/visual-synths/"><span class="tag">Hub</span><span class="name">Visual Synths — the full family</span></a></li>
-        <li><a href="/palette-synth"><span class="tag">Tool</span><span class="name">Palette Synth — Cosine Gradient Colors</span></a></li>
-        <li><a href="/additive-wave-sculptor"><span class="tag">Tool</span><span class="name">Additive Wave Sculptor — Fourier Harmonics</span></a></li>
-        <li><a href="/lissajous-plotter"><span class="tag">Tool</span><span class="name">Lissajous / Harmonograph Plotter</span></a></li>
-        <li><a href="/audio-reactive-diffusion"><span class="tag">Tool</span><span class="name">Audio-Reactive Reaction-Diffusion</span></a></li>
-        <li><a href="/complex-fractal-mapper"><span class="tag">Tool</span><span class="name">Complex-Plane Fractal Mapper</span></a></li>
+        <li><a href="https://followorbounce.github.io/visual-synths/"><span class="tag">Hub</span><span class="name">Visual Synths</span></a></li>
+        <li><a href="https://followorbounce.github.io/palette-synth"><span class="tag">Tool</span><span class="name">Palette Synth</span></a></li>
+        <li><a href="https://followorbounce.github.io/additive-wave-sculptor"><span class="tag">Tool</span><span class="name">Additive Wave Sculptor</span></a></li>
+        <li><a href="https://followorbounce.github.io/lissajous-plotter"><span class="tag">Tool</span><span class="name">Lissajous / Harmonograph Plotter</span></a></li>
+        <li><a href="https://followorbounce.github.io/audio-reactive-diffusion"><span class="tag">Tool</span><span class="name">Audio-Reactive Reaction-Diffusion</span></a></li>
+        <li><a href="https://followorbounce.github.io/complex-fractal-mapper"><span class="tag">Tool</span><span class="name">Complex-Plane Fractal Mapper</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
       <h2>Systems &amp; Development</h2>
       <ul>
-        <li><a href="/node-based-development"><span class="tag">Read</span><span class="name">Node-Based Software Development</span></a></li>
+        <li><a href="https://followorbounce.github.io/node-based-development"><span class="tag">Read</span><span class="name">Node-Based Software Development</span></a></li>
       </ul>
     </div>
 
     <div class="cat">
       <h2>Research &amp; Method</h2>
       <ul>
-        <li><a href="/field-manual"><span class="tag">Read</span><span class="name">The Verification Field Manual</span></a></li>
-        <li><a href="/blockchain-infrastructure"><span class="tag">Read</span><span class="name">Blockchain Infrastructure</span></a></li>
+        <li><a href="https://followorbounce.github.io/field-manual"><span class="tag">Read</span><span class="name">The Verification Field Manual</span></a></li>
+        <li><a href="https://followorbounce.github.io/blockchain-infrastructure"><span class="tag">Read</span><span class="name">Blockchain Infrastructure</span></a></li>
       </ul>
     </div>
 
-    <div class="cat">
+    <div class="section-divider" data-hide-when-search>Sibling repositories</div>
+
+    <div class="cat cat-hub">
+      <h2>Aerospace</h2>
+      <ul>
+        <li><a href="https://followorbounce.github.io/aerospace/"><span class="tag">Hub</span><span class="name">Aerospace Knowledge Hub</span></a></li>
+
+      </ul>
+      <details class="browse-all">
+        <summary>Browse all 46 →</summary>
+        <ul class="browse-list">
+          <li><a href="https://followorbounce.github.io/aerospace/iss-and-mir.html"><span class="tag">Read</span><span class="name">ISS &amp; Mir</span></a><span class="meta">Space Stations</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/workshop-skylab.html"><span class="tag">Read</span><span class="name">Skylab &amp; the First Stations</span></a><span class="meta">Space Stations</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/salute-salyut-program.html"><span class="tag">Read</span><span class="name">The Salyut Program</span></a><span class="meta">Space Stations</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/palace-tiangong-station.html"><span class="tag">Read</span><span class="name">Tiangong Space Station</span></a><span class="meta">Space Stations</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/almaz-program-ussr.html"><span class="tag">Read</span><span class="name">The Almaz Program</span></a><span class="meta">Space Stations</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/voyager-and-pioner.html"><span class="tag">Read</span><span class="name">Voyager &amp; Pioneer</span></a><span class="meta">Deep Space Probes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/frontier-new-horizons.html"><span class="tag">Read</span><span class="name">New Horizons &amp; the Kuiper Belt</span></a><span class="meta">Deep Space Probes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/umbrella-galileo-jupiter.html"><span class="tag">Read</span><span class="name">Galileo at Jupiter</span></a><span class="meta">Deep Space Probes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/finale-cassini-huygens.html"><span class="tag">Read</span><span class="name">Cassini-Huygens at Saturn</span></a><span class="meta">Deep Space Probes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/luna-programs.html"><span class="tag">Read</span><span class="name">Luna &amp; the Moon Race</span></a><span class="meta">Moon Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/tranquility-apollo-program.html"><span class="tag">Read</span><span class="name">The Apollo Program</span></a><span class="meta">Moon Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/prospect-clementine-mission.html"><span class="tag">Read</span><span class="name">The Clementine Mission</span></a><span class="meta">Moon Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/scout-lunar-reconnaissance-orbiter.html"><span class="tag">Read</span><span class="name">Lunar Reconnaissance Orbiter</span></a><span class="meta">Moon Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/valor-the-chandrayaan-mission.html"><span class="tag">Read</span><span class="name">The Chandrayaan Missions</span></a><span class="meta">Moon Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/campaign-artemis-program.html"><span class="tag">Read</span><span class="name">The Artemis Program</span></a><span class="meta">Moon Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/viking.html"><span class="tag">Read</span><span class="name">Viking &amp; Mars</span></a><span class="meta">Mars Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/bounce-mars-pathfinder.html"><span class="tag">Read</span><span class="name">Mars Pathfinder &amp; Sojourner</span></a><span class="meta">Mars Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/troy-spirit-rover.html"><span class="tag">Read</span><span class="name">The Spirit Rover</span></a><span class="meta">Mars Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/marathon-opportunity-rover.html"><span class="tag">Read</span><span class="name">The Opportunity Rover</span></a><span class="meta">Mars Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/skycrane-curiosity-rover.html"><span class="tag">Read</span><span class="name">The Curiosity Rover</span></a><span class="meta">Mars Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/jezero-perseverance-rover.html"><span class="tag">Read</span><span class="name">The Perseverance Rover</span></a><span class="meta">Mars Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/aperture-hubble-telescopes.html"><span class="tag">Read</span><span class="name">Hubble &amp; Space Telescopes</span></a><span class="meta">Space Telescopes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/james-webb-space-telescope.html"><span class="tag">Read</span><span class="name">James Webb Space Telescope</span></a><span class="meta">Space Telescopes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/xray-chandra-observatory.html"><span class="tag">Read</span><span class="name">Chandra X-ray Observatory</span></a><span class="meta">Space Telescopes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/infrared-spitzer-telescope.html"><span class="tag">Read</span><span class="name">Spitzer Space Telescope</span></a><span class="meta">Space Telescopes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/transit-kepler-telescope.html"><span class="tag">Read</span><span class="name">Kepler Space Telescope</span></a><span class="meta">Space Telescopes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/parallax-gaia-mission.html"><span class="tag">Read</span><span class="name">Gaia Mission</span></a><span class="meta">Space Telescopes</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/ascent-mercury-program.html"><span class="tag">Read</span><span class="name">Mercury &amp; the First Astronauts</span></a><span class="meta">Human Spaceflight</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/rendezvous-gemini-program.html"><span class="tag">Read</span><span class="name">The Gemini Program</span></a><span class="meta">Human Spaceflight</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/orbiter-space-shuttle-program.html"><span class="tag">Read</span><span class="name">Space Shuttle Program</span></a><span class="meta">Human Spaceflight</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/union-soyuz-program.html"><span class="tag">Read</span><span class="name">Soyuz Program</span></a><span class="meta">Human Spaceflight</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/handoff-commercial-crew-program.html"><span class="tag">Read</span><span class="name">Commercial Crew Program</span></a><span class="meta">Human Spaceflight</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/horizon-artemis-base-camp.html"><span class="tag">Read</span><span class="name">Artemis Base Camp</span></a><span class="meta">Future Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/the-lunar-gateway.html"><span class="tag">Read</span><span class="name">The Lunar Gateway</span></a><span class="meta">Future Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/retrieve-mars-sample-return.html"><span class="tag">Read</span><span class="name">Mars Sample Return</span></a><span class="meta">Future Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/flyby-europa-clipper.html"><span class="tag">Read</span><span class="name">Europa Clipper</span></a><span class="meta">Future Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/rotor-dragonfly-titan.html"><span class="tag">Read</span><span class="name">Dragonfly Mission</span></a><span class="meta">Future Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/beyond-interstellar-probe.html"><span class="tag">Read</span><span class="name">Interstellar Probe Concept</span></a><span class="meta">Future Exploration</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/common-ground-basic-logic.html"><span class="tag">Read</span><span class="name">Common Ground &amp; Basic Logic</span></a><span class="meta">Foundations &amp; Tools</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/build-your-own-cubesat.html"><span class="tag">Read</span><span class="name">Build Your Own CubeSat</span></a><span class="meta">Foundations &amp; Tools</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/lagrange-points.html"><span class="tag">Read</span><span class="name">Lagrange Points</span></a><span class="meta">Foundations &amp; Tools</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/physics-of-spaceflight.html"><span class="tag">Read</span><span class="name">The Physics of Spaceflight</span></a><span class="meta">Foundations &amp; Tools</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/cascade-physical-computing.html"><span class="tag">Read</span><span class="name">Physical Computing</span></a><span class="meta">Foundations &amp; Tools</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/mathematics-of-music.html"><span class="tag">Read</span><span class="name">The Mathematics of Music</span></a><span class="meta">Foundations &amp; Tools</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/time-philosophy/"><span class="tag">Read</span><span class="name">Voyager / Heliosphere / Time</span></a><span class="meta">Space &amp; Time</span></li>
+          <li><a href="https://followorbounce.github.io/aerospace/time-philosophy/time-as-space.html"><span class="tag">Read</span><span class="name">Time as Space</span></a><span class="meta">Space &amp; Time</span></li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="cat cat-hub">
+      <h2>Maya Basics</h2>
+      <ul>
+        <li><a href="https://followorbounce.github.io/Maya-Calendar/"><span class="tag">Hub</span><span class="name">Ju'un K'in</span></a></li>
+
+      </ul>
+      <details class="browse-all">
+        <summary>Browse all 7 →</summary>
+        <ul class="browse-list">
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/tzolkin.html"><span class="tag">Read</span><span class="name">Tzolk'in — Sacred Calendar</span></a><span class="meta">Maya Calendar</span></li>
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/haab.html"><span class="tag">Read</span><span class="name">Haab' — Solar Calendar</span></a><span class="meta">Maya Calendar</span></li>
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/calendar-round.html"><span class="tag">Read</span><span class="name">Calendar Round</span></a><span class="meta">Maya Calendar</span></li>
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/long-count.html"><span class="tag">Read</span><span class="name">Long Count</span></a><span class="meta">Maya Calendar</span></li>
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/cosmology.html"><span class="tag">Read</span><span class="name">Directional Cosmology</span></a><span class="meta">Maya Calendar</span></li>
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/dreamspell.html"><span class="tag">Read</span><span class="name">Dreamspell Interpretation</span></a><span class="meta">Maya Calendar</span></li>
+          <li><a href="https://followorbounce.github.io/Maya-Calendar/sources.html"><span class="tag">Read</span><span class="name">Sources &amp; Method</span></a><span class="meta">Maya Calendar</span></li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="cat cat-hub">
+      <h2>Machinery</h2>
+      <ul>
+        <li><a href="https://followorbounce.github.io/machinery/"><span class="tag">Hub</span><span class="name">Heavy Machinery Encyclopedia</span></a></li>
+        <li><a href="https://followorbounce.github.io/heavy-machinery-blueprint"><span class="tag">Read</span><span class="name">Heavy Machinery: The Blueprint</span></a></li>
+      </ul>
+      <details class="browse-all">
+        <summary>Browse all 31 →</summary>
+        <ul class="browse-list">
+          <li><a href="https://followorbounce.github.io/machinery/machines/liebherr-r9800/"><span class="tag">Machine</span><span class="name">Liebherr R 9800</span></a><span class="meta">Mining Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/caterpillar-d11/"><span class="tag">Machine</span><span class="name">Caterpillar D11</span></a><span class="meta">Construction Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/caterpillar-994k/"><span class="tag">Machine</span><span class="name">Caterpillar 994K</span></a><span class="meta">Construction Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/caterpillar-24m/"><span class="tag">Machine</span><span class="name">Caterpillar 24 Motor Grader</span></a><span class="meta">Construction Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/caterpillar-797f/"><span class="tag">Machine</span><span class="name">Caterpillar 797F</span></a><span class="meta">Mining Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/big-muskie-dragline/"><span class="tag">Machine</span><span class="name">Bucyrus-Erie 4250-W “Big Muskie”</span></a><span class="meta">Mining Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/bagger-293/"><span class="tag">Machine</span><span class="name">TAKRAF Bagger 293</span></a><span class="meta">Mining Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/komatsu-4100xpc/"><span class="tag">Machine</span><span class="name">Komatsu P&amp;H 4100XPC</span></a><span class="meta">Mining Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/bertha-tbm/"><span class="tag">Machine</span><span class="name">Bertha (Hitachi Zosen TBM)</span></a><span class="meta">Underground Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/sarens-sgc-250/"><span class="tag">Machine</span><span class="name">Sarens SGC-250 “Big Carl”</span></a><span class="meta">Industrial &amp; Material Handling</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/kalmar-dcg330/"><span class="tag">Machine</span><span class="name">Kalmar DCG330</span></a><span class="meta">Industrial &amp; Material Handling</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/jcb-541-70/"><span class="tag">Machine</span><span class="name">JCB 541-70</span></a><span class="meta">Construction Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/john-deere-x9-1100/"><span class="tag">Machine</span><span class="name">John Deere X9 1100</span></a><span class="meta">Agricultural Machinery</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/john-deere-9rx/"><span class="tag">Machine</span><span class="name">John Deere 9RX</span></a><span class="meta">Agricultural Machinery</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/john-deere-r4045/"><span class="tag">Machine</span><span class="name">John Deere R4045</span></a><span class="meta">Agricultural Machinery</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/epiroc-pv351/"><span class="tag">Machine</span><span class="name">Epiroc Pit Viper 351</span></a><span class="meta">Mining Equipment</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/ponsse-bear/"><span class="tag">Machine</span><span class="name">Ponsse Bear</span></a><span class="meta">Forestry Machinery</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/konecranes-rtg/"><span class="tag">Machine</span><span class="name">Konecranes RTG</span></a><span class="meta">Industrial &amp; Material Handling</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/m1150-abv/"><span class="tag">Machine</span><span class="name">M1150 Assault Breacher Vehicle</span></a><span class="meta">Military Engineering Vehicles</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/machines/spartacus-dredger/"><span class="tag">Machine</span><span class="name">Spartacus (Cutter Suction Dredger)</span></a><span class="meta">Special Purpose Machines</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/torque/"><span class="tag">Concept</span><span class="name">Torque</span></a><span class="meta">Mechanics</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/mechanical-advantage/"><span class="tag">Concept</span><span class="name">Mechanical Advantage</span></a><span class="meta">Mechanics</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/gear-ratios/"><span class="tag">Concept</span><span class="name">Gear Ratios</span></a><span class="meta">Gears</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/planetary-gears/"><span class="tag">Concept</span><span class="name">Planetary Gears</span></a><span class="meta">Gears</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/pascals-law/"><span class="tag">Concept</span><span class="name">Pascal's Law</span></a><span class="meta">Hydraulics</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/hydraulic-cylinders/"><span class="tag">Concept</span><span class="name">Hydraulic Cylinders</span></a><span class="meta">Hydraulics</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/four-stroke-diesel-cycle/"><span class="tag">Concept</span><span class="name">Four-Stroke Diesel Cycle</span></a><span class="meta">Engines</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/torque-converters/"><span class="tag">Concept</span><span class="name">Torque Converters</span></a><span class="meta">Clutches &amp; Transmissions</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/final-drives-differentials/"><span class="tag">Concept</span><span class="name">Final Drives &amp; Differentials</span></a><span class="meta">Power Transmission</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/concepts/bearings/"><span class="tag">Concept</span><span class="name">Bearings</span></a><span class="meta">Power Transmission</span></li>
+          <li><a href="https://followorbounce.github.io/machinery/quiz/"><span class="tag">Quiz</span><span class="name">What Kind of Heavy Machine Are You?</span></a><span class="meta">Quiz</span></li>
+        </ul>
+      </details>
+    </div>
+
+    <div class="cat" data-hide-when-search>
       <h2>Philosophy</h2>
       <ul>
         <li class="soon"><span><span class="tag">Soon</span><span class="name">Nature of Time</span></span></li>
@@ -231,7 +383,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       </ul>
     </div>
 
-    <div class="cat">
+    <div class="cat" data-hide-when-search>
       <h2>Personal</h2>
       <ul>
         <li class="soon"><span><span class="tag">Soon</span><span class="name">Notes</span></span></li>
@@ -252,9 +404,56 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 <footer>
   <div class="wrap">
     <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
-    <span>PERSONAL / WORK IN PROGRESS</span>
+    <span>112 PAGES &middot; 4 REPOS &middot; GENERATED BY engine/build_network.py</span>
   </div>
 </footer>
+
+<script id="network-data" type="application/json">[{"repo": "home", "repo_label": "Knowledge Network", "category": "Design & Experience", "title": "Dictionary of Design", "description": "112 art/design terms, illustrated with a small reusable abstract-vector visual grammar — “design of the external world.”", "url": "https://followorbounce.github.io/dictionary-of-design/", "tag": "Hub", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Design & Experience", "title": "Dictionary of Inner Experience", "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”", "url": "https://followorbounce.github.io/dictionary-of-inner-experience/", "tag": "Hub", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Waves", "title": "Universal Waves", "description": "Master index of every wave family in nature: mechanical, electromagnetic, matter, plasma, gravitational, chemical, biological, information, astronomical, plus the shared mathematics.", "url": "https://followorbounce.github.io/universal-waves", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Waves", "title": "Waves — Sound, Light & Vibration", "description": "Sound, light, seismic motion, and matter waves.", "url": "https://followorbounce.github.io/waves", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Waves", "title": "Music Is Mathematics", "description": "String physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, and a nine-tool audio lab.", "url": "https://followorbounce.github.io/music-mathematics", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Waves", "title": "Perception — Visual & Auditory Illusions", "description": "Visual and auditory illusions as evidence for the brain as an inference engine, not a recorder.", "url": "https://followorbounce.github.io/perception-illusions", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Radio & Electronics", "title": "Electronics — Components to Microcontrollers", "description": "Resistors, capacitors, inductors, diodes, transistors, logic gates, the 555 timer, and a semiconductor-physics deep dive; six interactive demos.", "url": "https://followorbounce.github.io/electronics", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Radio & Electronics", "title": "Radio Communications", "description": "Frequency, modulation, propagation, spacecraft links, and spectrum management; a real FFT SDR waterfall.", "url": "https://followorbounce.github.io/radio-communications", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Radio & Electronics", "title": "Media Servers", "description": "Generative art, real-time rendering, GLSL shaders, projection mapping, and signal processing.", "url": "https://followorbounce.github.io/mediaservers", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Radio & Electronics", "title": "Media Servers II", "description": "A real compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, Gray-Scott reaction-diffusion, and curl-noise flow fields.", "url": "https://followorbounce.github.io/mediaservers-shaders", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Instruments", "title": "Password & Passphrase Generator", "description": "Client-side only, Web Crypto API, canonical BIP-39 wordlist, no network calls.", "url": "https://followorbounce.github.io/password-generator", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Patch Bay", "description": "A real, playable generative modular synthesizer — drag real patch cables between Web Audio modules.", "url": "https://followorbounce.github.io/patch-bay", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Signal Chain", "description": "A universal-node synth: one universal in/out jack instead of typed cables, nine chainable pedal-style units.", "url": "https://followorbounce.github.io/signal-chain", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Pulse Train", "description": "Precision/microsound synthesis in the minimal/glitch lineage of Ryoji Ikeda, Alva Noto, and Raster-Noton.", "url": "https://followorbounce.github.io/pulse-train", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Pulse Train II", "description": "A ten-unit rack expanding Pulse Train with a second Tone, an infinite-freeze delay, a comb resonator, and convolution reverb.", "url": "https://followorbounce.github.io/pulse-train-ii", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Pulse Train — Stage", "description": "The ten-unit engine restyled for live play, with eight interval-math tuning presets and a fullscreen Stage mode.", "url": "https://followorbounce.github.io/pulse-train-stage", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Pulse Train — Stage II", "description": "Thirteen units across five labeled groups, with a patchable LFO carrying its own modulation scale per destination.", "url": "https://followorbounce.github.io/pulse-train-stage-ii", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Audio Synth", "title": "Node Database", "description": "Every node in Pulse Train — Stage II, explained three ways: software DSP, underlying math, and real hardware.", "url": "https://followorbounce.github.io/pulse-train-node-database", "tag": "Read", "interactive": false}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Video Synth", "title": "Visual Synths", "description": "Hub for five instruments sharing a color engine and a knob widget.", "url": "https://followorbounce.github.io/visual-synths/", "tag": "Hub", "interactive": false}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Video Synth", "title": "Palette Synth", "description": "A live cosine-gradient color instrument — twelve knobs generate a full smooth palette in real time.", "url": "https://followorbounce.github.io/palette-synth", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Video Synth", "title": "Additive Wave Sculptor", "description": "Eight-harmonic Fourier synthesis, playable as real audio via a Web Audio PeriodicWave.", "url": "https://followorbounce.github.io/additive-wave-sculptor", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Video Synth", "title": "Lissajous / Harmonograph Plotter", "description": "Two axes, each a two-term sine sum, plotted against each other with amplitude decay.", "url": "https://followorbounce.github.io/lissajous-plotter", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Video Synth", "title": "Audio-Reactive Reaction-Diffusion", "description": "The Gray-Scott reaction-diffusion chemistry, driven live by sound.", "url": "https://followorbounce.github.io/audio-reactive-diffusion", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Video Synth", "title": "Complex-Plane Fractal Mapper", "description": "A Mandelbrot/Julia explorer colored with Palette Synth's own gradient formula.", "url": "https://followorbounce.github.io/complex-fractal-mapper", "tag": "Tool", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Systems & Development", "title": "Node-Based Software Development", "description": "An interactive field guide to visual/node programming, including a working drag-and-connect node-graph playground.", "url": "https://followorbounce.github.io/node-based-development", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Research & Method", "title": "The Verification Field Manual", "description": "A practical handbook for finding, verifying, and preserving information across the web and academic archives.", "url": "https://followorbounce.github.io/field-manual", "tag": "Read", "interactive": false}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Research & Method", "title": "Blockchain Infrastructure", "description": "Distributed systems, consensus, cryptography, smart contracts, and DAOs — neutral and non-speculative, with real crypto.subtle demos.", "url": "https://followorbounce.github.io/blockchain-infrastructure", "tag": "Read", "interactive": true}, {"repo": "home", "repo_label": "Knowledge Network", "category": "Machinery", "title": "Heavy Machinery: The Blueprint", "description": "An interactive comparator ranking 20 real machines by height, weight, power, and capacity, with human-scale equivalents.", "url": "https://followorbounce.github.io/heavy-machinery-blueprint", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Stations", "title": "ISS & Mir", "description": "Space Stations — ORBIT", "url": "https://followorbounce.github.io/aerospace/iss-and-mir.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Stations", "title": "Skylab & the First Stations", "description": "Space Stations — WORKSHOP", "url": "https://followorbounce.github.io/aerospace/workshop-skylab.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Stations", "title": "The Salyut Program", "description": "Space Stations — SALUTE", "url": "https://followorbounce.github.io/aerospace/salute-salyut-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Stations", "title": "Tiangong Space Station", "description": "Space Stations — PALACE", "url": "https://followorbounce.github.io/aerospace/palace-tiangong-station.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Stations", "title": "The Almaz Program", "description": "Space Stations — DIAMOND", "url": "https://followorbounce.github.io/aerospace/almaz-program-ussr.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Deep Space Probes", "title": "Voyager & Pioneer", "description": "Deep Space Probes — DEPARTURE", "url": "https://followorbounce.github.io/aerospace/voyager-and-pioner.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Deep Space Probes", "title": "New Horizons & the Kuiper Belt", "description": "Deep Space Probes — FRONTIER", "url": "https://followorbounce.github.io/aerospace/frontier-new-horizons.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Deep Space Probes", "title": "Galileo at Jupiter", "description": "Deep Space Probes — UMBRELLA", "url": "https://followorbounce.github.io/aerospace/umbrella-galileo-jupiter.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Deep Space Probes", "title": "Cassini-Huygens at Saturn", "description": "Deep Space Probes — FINALE", "url": "https://followorbounce.github.io/aerospace/finale-cassini-huygens.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Moon Exploration", "title": "Luna & the Moon Race", "description": "Moon Exploration — DESCENT", "url": "https://followorbounce.github.io/aerospace/luna-programs.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Moon Exploration", "title": "The Apollo Program", "description": "Moon Exploration — TRANQUILITY", "url": "https://followorbounce.github.io/aerospace/tranquility-apollo-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Moon Exploration", "title": "The Clementine Mission", "description": "Moon Exploration — PROSPECT", "url": "https://followorbounce.github.io/aerospace/prospect-clementine-mission.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Moon Exploration", "title": "Lunar Reconnaissance Orbiter", "description": "Moon Exploration — SCOUT", "url": "https://followorbounce.github.io/aerospace/scout-lunar-reconnaissance-orbiter.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Moon Exploration", "title": "The Chandrayaan Missions", "description": "Moon Exploration — VALOR", "url": "https://followorbounce.github.io/aerospace/valor-the-chandrayaan-mission.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Moon Exploration", "title": "The Artemis Program", "description": "Moon Exploration — CAMPAIGN", "url": "https://followorbounce.github.io/aerospace/campaign-artemis-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Mars Exploration", "title": "Viking & Mars", "description": "Mars Exploration — ARRIVAL", "url": "https://followorbounce.github.io/aerospace/viking.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Mars Exploration", "title": "Mars Pathfinder & Sojourner", "description": "Mars Exploration — BOUNCE", "url": "https://followorbounce.github.io/aerospace/bounce-mars-pathfinder.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Mars Exploration", "title": "The Spirit Rover", "description": "Mars Exploration — TROY", "url": "https://followorbounce.github.io/aerospace/troy-spirit-rover.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Mars Exploration", "title": "The Opportunity Rover", "description": "Mars Exploration — MARATHON", "url": "https://followorbounce.github.io/aerospace/marathon-opportunity-rover.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Mars Exploration", "title": "The Curiosity Rover", "description": "Mars Exploration — SKYCRANE", "url": "https://followorbounce.github.io/aerospace/skycrane-curiosity-rover.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Mars Exploration", "title": "The Perseverance Rover", "description": "Mars Exploration — JEZERO", "url": "https://followorbounce.github.io/aerospace/jezero-perseverance-rover.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Telescopes", "title": "Hubble & Space Telescopes", "description": "Space Telescopes — APERTURE", "url": "https://followorbounce.github.io/aerospace/aperture-hubble-telescopes.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Telescopes", "title": "James Webb Space Telescope", "description": "Space Telescopes — UNFOLD", "url": "https://followorbounce.github.io/aerospace/james-webb-space-telescope.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Telescopes", "title": "Chandra X-ray Observatory", "description": "Space Telescopes — XRAY", "url": "https://followorbounce.github.io/aerospace/xray-chandra-observatory.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Telescopes", "title": "Spitzer Space Telescope", "description": "Space Telescopes — INFRARED", "url": "https://followorbounce.github.io/aerospace/infrared-spitzer-telescope.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Telescopes", "title": "Kepler Space Telescope", "description": "Space Telescopes — TRANSIT", "url": "https://followorbounce.github.io/aerospace/transit-kepler-telescope.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space Telescopes", "title": "Gaia Mission", "description": "Space Telescopes — PARALLAX", "url": "https://followorbounce.github.io/aerospace/parallax-gaia-mission.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Human Spaceflight", "title": "Mercury & the First Astronauts", "description": "Human Spaceflight — ASCENT", "url": "https://followorbounce.github.io/aerospace/ascent-mercury-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Human Spaceflight", "title": "The Gemini Program", "description": "Human Spaceflight — RENDEZVOUS", "url": "https://followorbounce.github.io/aerospace/rendezvous-gemini-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Human Spaceflight", "title": "Space Shuttle Program", "description": "Human Spaceflight — ORBITER", "url": "https://followorbounce.github.io/aerospace/orbiter-space-shuttle-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Human Spaceflight", "title": "Soyuz Program", "description": "Human Spaceflight — UNION", "url": "https://followorbounce.github.io/aerospace/union-soyuz-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Human Spaceflight", "title": "Commercial Crew Program", "description": "Human Spaceflight — HANDOFF", "url": "https://followorbounce.github.io/aerospace/handoff-commercial-crew-program.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Future Exploration", "title": "Artemis Base Camp", "description": "Future Exploration — HORIZON", "url": "https://followorbounce.github.io/aerospace/horizon-artemis-base-camp.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Future Exploration", "title": "The Lunar Gateway", "description": "Future Exploration — HALO", "url": "https://followorbounce.github.io/aerospace/the-lunar-gateway.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Future Exploration", "title": "Mars Sample Return", "description": "Future Exploration — RETRIEVE", "url": "https://followorbounce.github.io/aerospace/retrieve-mars-sample-return.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Future Exploration", "title": "Europa Clipper", "description": "Future Exploration — FLYBY", "url": "https://followorbounce.github.io/aerospace/flyby-europa-clipper.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Future Exploration", "title": "Dragonfly Mission", "description": "Future Exploration — ROTOR", "url": "https://followorbounce.github.io/aerospace/rotor-dragonfly-titan.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Future Exploration", "title": "Interstellar Probe Concept", "description": "Future Exploration — BEYOND", "url": "https://followorbounce.github.io/aerospace/beyond-interstellar-probe.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Foundations & Tools", "title": "Common Ground & Basic Logic", "description": "Foundations & Tools — THRESHOLD", "url": "https://followorbounce.github.io/aerospace/common-ground-basic-logic.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Foundations & Tools", "title": "Build Your Own CubeSat", "description": "Foundations & Tools — ASSEMBLY", "url": "https://followorbounce.github.io/aerospace/build-your-own-cubesat.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Foundations & Tools", "title": "Lagrange Points", "description": "Foundations & Tools — EQUILIBRIUM", "url": "https://followorbounce.github.io/aerospace/lagrange-points.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Foundations & Tools", "title": "The Physics of Spaceflight", "description": "Foundations & Tools — IMPULSE", "url": "https://followorbounce.github.io/aerospace/physics-of-spaceflight.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Foundations & Tools", "title": "Physical Computing", "description": "Foundations & Tools — CASCADE", "url": "https://followorbounce.github.io/aerospace/cascade-physical-computing.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Foundations & Tools", "title": "The Mathematics of Music", "description": "Foundations & Tools — RESONANCE", "url": "https://followorbounce.github.io/aerospace/mathematics-of-music.html", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space & Time", "title": "Voyager / Heliosphere / Time", "description": "Space & Time — 01", "url": "https://followorbounce.github.io/aerospace/time-philosophy/", "tag": "Read", "interactive": true}, {"repo": "aerospace", "repo_label": "Aerospace", "category": "Space & Time", "title": "Time as Space", "description": "Space & Time — 02", "url": "https://followorbounce.github.io/aerospace/time-philosophy/time-as-space.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Tzolk'in — Sacred Calendar", "description": "The 260-day count: 13 numbers, 20 day signs, the 20 trecenas, origin theories, and a full sourced reference for every day sign.", "url": "https://followorbounce.github.io/Maya-Calendar/tzolkin.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Haab' — Solar Calendar", "description": "The 365-day vague year: 18 months plus Wayeb', the seating convention, the year bearers, and its drift against the tropical year.", "url": "https://followorbounce.github.io/Maya-Calendar/haab.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Calendar Round", "description": "How the Tzolk'in and Haab' mesh into a 52-year cycle, why a Calendar Round date is ambiguous, and when today's recurs.", "url": "https://followorbounce.github.io/Maya-Calendar/calendar-round.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Long Count", "description": "The place-value day tally: nested units to the alautun, Distance Numbers, the 819-day count, and the lunar Supplementary Series.", "url": "https://followorbounce.github.io/Maya-Calendar/long-count.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Directional Cosmology", "description": "Four directions, four colours, one centre — what the Classic sources actually attest versus colonial systematization.", "url": "https://followorbounce.github.io/Maya-Calendar/cosmology.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Dreamspell Interpretation", "description": "A full Galactic Signature calculator for the modern Dreamspell count — seals, tones, wavespell, Oracle — with a note on how it differs from the traditional Tzolk'in.", "url": "https://followorbounce.github.io/Maya-Calendar/dreamspell.html", "tag": "Read", "interactive": true}, {"repo": "maya", "repo_label": "Maya Basics", "category": "Maya Calendar", "title": "Sources & Method", "description": "The evidence tiers this reference uses, the correlation question, and a working bibliography.", "url": "https://followorbounce.github.io/Maya-Calendar/sources.html", "tag": "Read", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mining Equipment", "title": "Liebherr R 9800", "description": "An 800-tonne hydraulic mining excavator built to load the very largest haul trucks in a handful of passes, and one of the two or three largest hydraulic excavators ever put into series production.", "url": "https://followorbounce.github.io/machinery/machines/liebherr-r9800/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Construction Equipment", "title": "Caterpillar D11", "description": "Caterpillar's largest production bulldozer, built to push more material per pass than any other dozer in its catalogue, almost exclusively in mining rather than general construction.", "url": "https://followorbounce.github.io/machinery/machines/caterpillar-d11/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Construction Equipment", "title": "Caterpillar 994K", "description": "Caterpillar's largest wheel loader, built to load haul trucks directly rather than push or carry material any real distance — a specialist at one job, done at enormous scale.", "url": "https://followorbounce.github.io/machinery/machines/caterpillar-994k/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Construction Equipment", "title": "Caterpillar 24 Motor Grader", "description": "The largest motor grader Caterpillar builds, sized specifically to maintain the wide haul roads inside a mine rather than the narrower roads a construction grader typically finishes.", "url": "https://followorbounce.github.io/machinery/machines/caterpillar-24m/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mining Equipment", "title": "Caterpillar 797F", "description": "The largest mechanical-drive haul truck Caterpillar builds — a 400-ton-payload truck powered by a single, enormous diesel engine rather than the diesel-electric drivetrains some rivals use at this size.", "url": "https://followorbounce.github.io/machinery/machines/caterpillar-797f/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mining Equipment", "title": "Bucyrus-Erie 4250-W “Big Muskie”", "description": "The largest walking dragline ever built — a single, one-off machine so large it needed its own specially built rail cars just to ship its components to the mine where it was assembled.", "url": "https://followorbounce.github.io/machinery/machines/big-muskie-dragline/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mining Equipment", "title": "TAKRAF Bagger 293", "description": "A bucket wheel excavator recognised by Guinness World Records as the heaviest land vehicle ever built, and — tied with its near-sister Bagger 288 — the tallest.", "url": "https://followorbounce.github.io/machinery/machines/bagger-293/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mining Equipment", "title": "Komatsu P&H 4100XPC", "description": "An ultra-class electric rope shovel purpose-built to load the very largest mining haul trucks, using cable and hoist mechanics that predate hydraulic excavators by decades.", "url": "https://followorbounce.github.io/machinery/machines/komatsu-4100xpc/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Underground Equipment", "title": "Bertha (Hitachi Zosen TBM)", "description": "At 17.5 metres in diameter, the largest earth-pressure-balance tunnel boring machine ever built, bored beneath downtown Seattle to replace the Alaskan Way Viaduct.", "url": "https://followorbounce.github.io/machinery/machines/bertha-tbm/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Industrial & Material Handling", "title": "Sarens SGC-250 “Big Carl”", "description": "A purpose-built ring crane with a 5,000-tonne maximum lifting capacity, currently the largest land-based crane in the world.", "url": "https://followorbounce.github.io/machinery/machines/sarens-sgc-250/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Industrial & Material Handling", "title": "Kalmar DCG330", "description": "A heavy industrial forklift built for handling loaded shipping containers and other massive loads at ports and intermodal yards, at nearly ten times the capacity of a typical warehouse forklift.", "url": "https://followorbounce.github.io/machinery/machines/kalmar-dcg330/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Construction Equipment", "title": "JCB 541-70", "description": "A telescopic handler that combines a forklift's carrying capacity with a crane-like telescoping boom, reaching well beyond what any fixed-mast forklift could manage.", "url": "https://followorbounce.github.io/machinery/machines/jcb-541-70/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Agricultural Machinery", "title": "John Deere X9 1100", "description": "John Deere's flagship combine harvester, built around a twin-rotor threshing system specifically to keep pace with the widest headers and highest field speeds in modern grain harvesting.", "url": "https://followorbounce.github.io/machinery/machines/john-deere-x9-1100/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Agricultural Machinery", "title": "John Deere 9RX", "description": "John Deere's largest row-crop tractor, running on four independent tracks instead of wheels to put record horsepower onto soft ground without compacting it.", "url": "https://followorbounce.github.io/machinery/machines/john-deere-9rx/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Agricultural Machinery", "title": "John Deere R4045", "description": "A self-propelled sprayer built to cover wide swaths of cropland quickly and precisely, applying crop protection products through booms that can stretch well beyond a football field's width.", "url": "https://followorbounce.github.io/machinery/machines/john-deere-r4045/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mining Equipment", "title": "Epiroc Pit Viper 351", "description": "A rotary blasthole drill rig built to bore the deep, wide holes mines fill with explosives to fracture rock ahead of loading — one of the largest rotary drills in regular production.", "url": "https://followorbounce.github.io/machinery/machines/epiroc-pv351/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Forestry Machinery", "title": "Ponsse Bear", "description": "An eight-wheeled forest harvester built to fell, delimb, and cut trees to length in a single continuous operation, sized for the largest timber a wheeled harvester is asked to handle.", "url": "https://followorbounce.github.io/machinery/machines/ponsse-bear/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Industrial & Material Handling", "title": "Konecranes RTG", "description": "A rubber-tyred gantry crane that straddles multiple lanes of stacked shipping containers, moving on its own tyres between container blocks rather than running on fixed rails.", "url": "https://followorbounce.github.io/machinery/machines/konecranes-rtg/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Military Engineering Vehicles", "title": "M1150 Assault Breacher Vehicle", "description": "A U.S. military combat engineering vehicle built on the M1 Abrams tank chassis, purpose-designed to clear paths through minefields and obstacle belts ahead of advancing forces.", "url": "https://followorbounce.github.io/machinery/machines/m1150-abv/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Special Purpose Machines", "title": "Spartacus (Cutter Suction Dredger)", "description": "The most powerful cutter suction dredger ever built, and the first in the world powered by LNG, engineered to cut through harder seabed material at greater depth than any dredger before it.", "url": "https://followorbounce.github.io/machinery/machines/spartacus-dredger/", "tag": "Machine", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mechanics", "title": "Torque", "description": "Torque is a twisting force — how hard something is being turned around an axis, rather than pushed in a straight line. It is the rotational equivalent of force, and it is the single number that decides whether an engine can turn a wheel, a bolt, or a bucket wheel the size of a building.", "url": "https://followorbounce.github.io/machinery/concepts/torque/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Mechanics", "title": "Mechanical Advantage", "description": "Mechanical advantage is the factor by which a machine multiplies an input force. A machine with a mechanical advantage of 20 turns 50 kg of push into 1,000 kg of usable force — at the cost of the input having to move 20 times farther or faster than the output.", "url": "https://followorbounce.github.io/machinery/concepts/mechanical-advantage/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Gears", "title": "Gear Ratios", "description": "A gear ratio is the number of teeth on the driven gear divided by the number of teeth on the driving gear. It tells you, in one number, how a gear pair changes rotational speed and torque as power passes through it.", "url": "https://followorbounce.github.io/machinery/concepts/gear-ratios/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Gears", "title": "Planetary Gears", "description": "A planetary (epicyclic) gearset arranges a central sun gear, several orbiting planet gears on a carrier, and an outer ring gear with internal teeth, all meshed together and sharing one axis. Fixing any one of the three members and driving another produces a different gear ratio from the same set of parts.", "url": "https://followorbounce.github.io/machinery/concepts/planetary-gears/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Hydraulics", "title": "Pascal's Law", "description": "Pascal's Law states that pressure applied to a confined, incompressible fluid is transmitted equally, undiminished, in every direction throughout that fluid. It is the entire physical basis of hydraulic machinery.", "url": "https://followorbounce.github.io/machinery/concepts/pascals-law/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Hydraulics", "title": "Hydraulic Cylinders", "description": "A hydraulic cylinder is a tube, a piston, and a rod that turns fluid pressure directly into a straight-line push or pull. It is the most common actuator on any heavy machine built after about 1950, because it can deliver enormous force from a compact, sealed package with no gears at all.", "url": "https://followorbounce.github.io/machinery/concepts/hydraulic-cylinders/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Engines", "title": "Four-Stroke Diesel Cycle", "description": "The four-stroke diesel cycle is the sequence of intake, compression, power, and exhaust that a diesel engine's piston repeats to convert fuel into rotating torque. Unlike a petrol engine, it ignites fuel using heat from compression alone, with no spark plug.", "url": "https://followorbounce.github.io/machinery/concepts/four-stroke-diesel-cycle/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Clutches & Transmissions", "title": "Torque Converters", "description": "A torque converter connects an engine to a transmission with spinning fluid instead of a mechanical clutch plate. It transmits power smoothly through oil, and — unlike a simple fluid coupling — can actually multiply torque when the engine is spinning much faster than the output shaft.", "url": "https://followorbounce.github.io/machinery/concepts/torque-converters/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Power Transmission", "title": "Final Drives & Differentials", "description": "The final drive is the last gear reduction in a driveline, sitting right at the wheel hub or track sprocket, where the very highest torque and lowest speed in the whole machine are required. The differential, usually just upstream of it, allows the two output shafts to spin at different speeds — essential the moment the machine turns a corner.", "url": "https://followorbounce.github.io/machinery/concepts/final-drives-differentials/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Power Transmission", "title": "Bearings", "description": "A bearing is the part of a machine designed to take the friction, so nothing more expensive around it has to. It supports a rotating or sliding component while letting it move with as little resistance and wear as possible.", "url": "https://followorbounce.github.io/machinery/concepts/bearings/", "tag": "Concept", "interactive": true}, {"repo": "machinery", "repo_label": "Machinery", "category": "Quiz", "title": "What Kind of Heavy Machine Are You?", "description": "A ten-question personality quiz scored against all 20 machines.", "url": "https://followorbounce.github.io/machinery/quiz/", "tag": "Quiz", "interactive": true}]</script>
+<script>
+(function(){
+  var data;
+  try {
+    data = JSON.parse(document.getElementById('network-data').textContent);
+  } catch(e) { data = []; }
+
+  var input = document.getElementById('network-search');
+  var results = document.getElementById('search-results');
+  var empty = document.getElementById('search-empty');
+  var hideEls = document.querySelectorAll('[data-hide-when-search]');
+
+  function esc(s){
+    return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+  }
+
+  function render(matches){
+    results.innerHTML = matches.slice(0, 60).map(function(e){
+      return '<a class="hit" href="' + esc(e.url) + '">' +
+        '<span class="repo">' + esc(e.repo_label) + '</span>' +
+        '<span class="name">' + esc(e.title) + '</span>' +
+        '<span class="desc">' + esc(e.description) + '</span>' +
+      '</a>';
+    }).join('');
+  }
+
+  input.addEventListener('input', function(){
+    var q = input.value.trim().toLowerCase();
+    var active = q.length > 0;
+    for (var i = 0; i < hideEls.length; i++) hideEls[i].classList.toggle('search-active', active);
+    if (!active) {
+      results.classList.remove('active');
+      empty.classList.remove('active');
+      return;
+    }
+    var matches = data.filter(function(e){
+      return (e.title + ' ' + e.description + ' ' + e.category + ' ' + e.repo_label)
+        .toLowerCase().indexOf(q) !== -1;
+    });
+    render(matches);
+    results.classList.toggle('active', matches.length > 0);
+    empty.classList.toggle('active', matches.length === 0);
+  });
+})();
+</script>
 
 </body>
 </html>

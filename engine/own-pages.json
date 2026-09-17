@@ -1,0 +1,90 @@
+{
+  "site": {
+    "url": "https://followorbounce.github.io/",
+    "title": "Knowledge Network"
+  },
+  "categories": [
+    {
+      "id": "design-experience",
+      "title": "Design & Experience",
+      "pages": [
+        { "slug": "dictionary-of-design", "url": "/dictionary-of-design/", "title": "Dictionary of Design", "description": "112 art/design terms, illustrated with a small reusable abstract-vector visual grammar — “design of the external world.”", "tag": "Hub", "interactive": true },
+        { "slug": "dictionary-of-inner-experience", "url": "/dictionary-of-inner-experience/", "title": "Dictionary of Inner Experience", "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”", "tag": "Hub", "interactive": true }
+      ]
+    },
+    {
+      "id": "waves",
+      "title": "Waves",
+      "pages": [
+        { "slug": "universal-waves", "url": "/universal-waves", "title": "Universal Waves", "description": "Master index of every wave family in nature: mechanical, electromagnetic, matter, plasma, gravitational, chemical, biological, information, astronomical, plus the shared mathematics.", "tag": "Read", "interactive": true },
+        { "slug": "waves", "url": "/waves", "title": "Waves — Sound, Light & Vibration", "description": "Sound, light, seismic motion, and matter waves.", "tag": "Read", "interactive": true },
+        { "slug": "music-mathematics", "url": "/music-mathematics", "title": "Music Is Mathematics", "description": "String physics, harmonics, equal temperament, digital audio, radio, cosmic resonance, and a nine-tool audio lab.", "tag": "Read", "interactive": true },
+        { "slug": "perception-illusions", "url": "/perception-illusions", "title": "Perception — Visual & Auditory Illusions", "description": "Visual and auditory illusions as evidence for the brain as an inference engine, not a recorder.", "tag": "Read", "interactive": true }
+      ]
+    },
+    {
+      "id": "radio-electronics",
+      "title": "Radio & Electronics",
+      "pages": [
+        { "slug": "electronics", "url": "/electronics", "title": "Electronics — Components to Microcontrollers", "description": "Resistors, capacitors, inductors, diodes, transistors, logic gates, the 555 timer, and a semiconductor-physics deep dive; six interactive demos.", "tag": "Read", "interactive": true },
+        { "slug": "radio-communications", "url": "/radio-communications", "title": "Radio Communications", "description": "Frequency, modulation, propagation, spacecraft links, and spectrum management; a real FFT SDR waterfall.", "tag": "Read", "interactive": true },
+        { "slug": "mediaservers", "url": "/mediaservers", "title": "Media Servers", "description": "Generative art, real-time rendering, GLSL shaders, projection mapping, and signal processing.", "tag": "Read", "interactive": true },
+        { "slug": "mediaservers-shaders", "url": "/mediaservers-shaders", "title": "Media Servers II", "description": "A real compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, Gray-Scott reaction-diffusion, and curl-noise flow fields.", "tag": "Read", "interactive": true }
+      ]
+    },
+    {
+      "id": "instruments",
+      "title": "Instruments",
+      "pages": [
+        { "slug": "password-generator", "url": "/password-generator", "title": "Password & Passphrase Generator", "description": "Client-side only, Web Crypto API, canonical BIP-39 wordlist, no network calls.", "tag": "Tool", "interactive": true }
+      ]
+    },
+    {
+      "id": "audio-synth",
+      "title": "Audio Synth",
+      "pages": [
+        { "slug": "patch-bay", "url": "/patch-bay", "title": "Patch Bay", "description": "A real, playable generative modular synthesizer — drag real patch cables between Web Audio modules.", "tag": "Tool", "interactive": true },
+        { "slug": "signal-chain", "url": "/signal-chain", "title": "Signal Chain", "description": "A universal-node synth: one universal in/out jack instead of typed cables, nine chainable pedal-style units.", "tag": "Tool", "interactive": true },
+        { "slug": "pulse-train", "url": "/pulse-train", "title": "Pulse Train", "description": "Precision/microsound synthesis in the minimal/glitch lineage of Ryoji Ikeda, Alva Noto, and Raster-Noton.", "tag": "Tool", "interactive": true },
+        { "slug": "pulse-train-ii", "url": "/pulse-train-ii", "title": "Pulse Train II", "description": "A ten-unit rack expanding Pulse Train with a second Tone, an infinite-freeze delay, a comb resonator, and convolution reverb.", "tag": "Tool", "interactive": true },
+        { "slug": "pulse-train-stage", "url": "/pulse-train-stage", "title": "Pulse Train — Stage", "description": "The ten-unit engine restyled for live play, with eight interval-math tuning presets and a fullscreen Stage mode.", "tag": "Tool", "interactive": true },
+        { "slug": "pulse-train-stage-ii", "url": "/pulse-train-stage-ii", "title": "Pulse Train — Stage II", "description": "Thirteen units across five labeled groups, with a patchable LFO carrying its own modulation scale per destination.", "tag": "Tool", "interactive": true },
+        { "slug": "pulse-train-node-database", "url": "/pulse-train-node-database", "title": "Node Database", "description": "Every node in Pulse Train — Stage II, explained three ways: software DSP, underlying math, and real hardware.", "tag": "Read", "interactive": false }
+      ]
+    },
+    {
+      "id": "video-synth",
+      "title": "Video Synth",
+      "pages": [
+        { "slug": "visual-synths", "url": "/visual-synths/", "title": "Visual Synths", "description": "Hub for five instruments sharing a color engine and a knob widget.", "tag": "Hub", "interactive": false },
+        { "slug": "palette-synth", "url": "/palette-synth", "title": "Palette Synth", "description": "A live cosine-gradient color instrument — twelve knobs generate a full smooth palette in real time.", "tag": "Tool", "interactive": true },
+        { "slug": "additive-wave-sculptor", "url": "/additive-wave-sculptor", "title": "Additive Wave Sculptor", "description": "Eight-harmonic Fourier synthesis, playable as real audio via a Web Audio PeriodicWave.", "tag": "Tool", "interactive": true },
+        { "slug": "lissajous-plotter", "url": "/lissajous-plotter", "title": "Lissajous / Harmonograph Plotter", "description": "Two axes, each a two-term sine sum, plotted against each other with amplitude decay.", "tag": "Tool", "interactive": true },
+        { "slug": "audio-reactive-diffusion", "url": "/audio-reactive-diffusion", "title": "Audio-Reactive Reaction-Diffusion", "description": "The Gray-Scott reaction-diffusion chemistry, driven live by sound.", "tag": "Tool", "interactive": true },
+        { "slug": "complex-fractal-mapper", "url": "/complex-fractal-mapper", "title": "Complex-Plane Fractal Mapper", "description": "A Mandelbrot/Julia explorer colored with Palette Synth's own gradient formula.", "tag": "Tool", "interactive": true }
+      ]
+    },
+    {
+      "id": "systems-development",
+      "title": "Systems & Development",
+      "pages": [
+        { "slug": "node-based-development", "url": "/node-based-development", "title": "Node-Based Software Development", "description": "An interactive field guide to visual/node programming, including a working drag-and-connect node-graph playground.", "tag": "Read", "interactive": true }
+      ]
+    },
+    {
+      "id": "research-method",
+      "title": "Research & Method",
+      "pages": [
+        { "slug": "field-manual", "url": "/field-manual", "title": "The Verification Field Manual", "description": "A practical handbook for finding, verifying, and preserving information across the web and academic archives.", "tag": "Read", "interactive": false },
+        { "slug": "blockchain-infrastructure", "url": "/blockchain-infrastructure", "title": "Blockchain Infrastructure", "description": "Distributed systems, consensus, cryptography, smart contracts, and DAOs — neutral and non-speculative, with real crypto.subtle demos.", "tag": "Read", "interactive": true }
+      ]
+    },
+    {
+      "id": "machinery-own",
+      "title": "Machinery",
+      "pages": [
+        { "slug": "heavy-machinery-blueprint", "url": "/heavy-machinery-blueprint", "title": "Heavy Machinery: The Blueprint", "description": "An interactive comparator ranking 20 real machines by height, weight, power, and capacity, with human-scale equivalents.", "tag": "Read", "interactive": true }
+      ]
+    }
+  ]
+}
