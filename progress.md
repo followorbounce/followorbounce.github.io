@@ -18,6 +18,8 @@
 - Rewrote Audio-Reactive Diffusion sim as GPU ping-pong shaders; rewrote Complex-Plane Fractal Mapper as real WebGL shader (ROADMAP-2.md items closed).
 - Extracted shared knob widget + palette engine per ROADMAP.md §2.
 
+- 2026-09-19 — Added a Cloudflare Web Analytics beacon (cross-repo rollout across every deployed followorbounce/client site). See [[cloudflare-analytics-setup]] in the assistant's memory for the account/token map.
+
 ## Next steps
 - Knowledge Network Engine Phase 2 (see `ROADMAP-2.md` §8): migrate aerospace's ~45 and Maya-Calendar's 8 articles onto a real shared build pipeline, not just an index — not started.
 - ROADMAP.md's open architectural question (shared visual-synth kit, option B: a narrow `/assets/visual-synth-kit.js`) — check current recommendation before adding another one-off shared file to a new instrument.

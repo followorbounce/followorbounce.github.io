@@ -21,3 +21,6 @@ Personal index/hub site: essays, interactive experiments, media-server tooling, 
 
 ## Deploy
 GitHub Pages from `main`, root domain `followorbounce.github.io`. Remote: `github.com/followorbounce/followorbounce.github.io`.
+
+## Analytics
+Cloudflare Web Analytics beacon added 2026-09-19 (host `followorbounce.github.io`, one site covers this repo plus every project-page repo hosted under it — see `[[cloudflare-analytics-setup]]` in the assistant's memory for the full account/token map). Coexists with the existing Google Analytics tag above; not a replacement.
