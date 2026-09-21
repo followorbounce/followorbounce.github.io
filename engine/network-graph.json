@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 118,
+    "pages": 117,
     "repos": 4,
-    "own": 34,
+    "own": 33,
     "aerospace": 46,
     "maya": 7,
     "machinery": 31
@@ -349,16 +349,6 @@
       "title": "US States Atlas",
       "description": "Compare any two U.S. states on a tile grid or map, plus a government view of party control across four layers.",
       "url": "https://followorbounce.github.io/us-states-atlas/",
-      "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Explorers & Apps",
-      "title": "Tarot Draw",
-      "description": "Draw cards from three public-domain decks — Egyptian, Rider-Waite-Smith and Sola Busca — with optional reversals.",
-      "url": "https://followorbounce.github.io/tarot/",
       "tag": "Tool",
       "interactive": true
     },

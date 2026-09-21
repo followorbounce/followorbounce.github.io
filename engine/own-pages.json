@@ -87,8 +87,7 @@
         { "slug": "anatomy-explorer", "url": "/anatomy-explorer/", "title": "Anatomy Explorer", "description": "An interactive 3D human body built from 1,635 real BodyParts3D structures — skeleton, muscles, organs, vessels, brain — with blood-flow and nerve-signal pulses.", "tag": "Tool", "interactive": true },
         { "slug": "world-calendar-explorer", "url": "/world-calendar-explorer/", "title": "World Calendar Explorer", "description": "Convert any Gregorian date across 28 historical and contemporary calendar systems, with verified conversion math.", "tag": "Tool", "interactive": true },
         { "slug": "country-atlas", "url": "/country-atlas/", "title": "Country Comparison Atlas", "description": "A living global atlas of 205 countries and territories, compared side by side across sourced core statistics.", "tag": "Tool", "interactive": true },
-        { "slug": "us-states-atlas", "url": "/us-states-atlas/", "title": "US States Atlas", "description": "Compare any two U.S. states on a tile grid or map, plus a government view of party control across four layers.", "tag": "Tool", "interactive": true },
-        { "slug": "tarot", "url": "/tarot/", "title": "Tarot Draw", "description": "Draw cards from three public-domain decks — Egyptian, Rider-Waite-Smith and Sola Busca — with optional reversals.", "tag": "Tool", "interactive": true }
+        { "slug": "us-states-atlas", "url": "/us-states-atlas/", "title": "US States Atlas", "description": "Compare any two U.S. states on a tile grid or map, plus a government view of party control across four layers.", "tag": "Tool", "interactive": true }
       ]
     },
     {
