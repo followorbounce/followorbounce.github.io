@@ -263,6 +263,7 @@ footer a:hover{color:var(--ink);}
     <button class="tbtn kill" id="killBtn" title="Hold to cut all sound — release to bring it back (C)">⛔ Cut</button>
     <select class="presetSelect" id="presetSelect" aria-label="Load a tuning preset"><option value="">Presets…</option></select>
     <button class="tbtn random" id="randomBtn" title="Randomize every audio knob">⚄ Chance</button>
+    <button class="tbtn" id="clearTakesBtn" title="Erase every recorded take (loop) in every module — knob positions stay as they are">Clear takes</button>
     <button class="tbtn" id="stageBtn" title="Fullscreen for performance">⛶ Stage</button>
     <button class="tbtn ref" id="refBtn">1kHz Ref</button>
     <button class="tbtn" id="scopeModeBtn">Scopes: Wave</button>
@@ -1391,12 +1392,22 @@ function initKnob(el){
    With a trim, a pass begins by restoring the state the take had at the trim's
    start (starting values + every move before it).
    Replayed changes go through those same functions with loopApplying set, which
-   keeps them from being re-recorded. Takes persist in localStorage. */
+   keeps them from being re-recorded. Takes persist in localStorage.
+
+   Overdub: Record on a module that already has a take does not start over. The
+   saved take plays while you record. A setting the take never held gets a new
+   parallel track merged into it; a setting it already holds is taken over the
+   moment you move it — its old track goes silent for the rest of the recording
+   and is replaced by what you play (the other tracks carry on). New moves are
+   stamped on the take's own timeline (position within the looping window) so old
+   and new tracks stay in step; if you keep recording past one pass, a setting's
+   track is what you played in the last pass in which you touched it. The
+   "Clear takes" button in the toolbar wipes every module's take. */
 var LOOP_MAX_MS = 61000, LOOP_MIN_MS = 50, LOOP_TICK_MS = 8;
 var LOOP_STORE_KEY = 'pulseTrainStageII.loops.v1';
 var loops = {};      /* mod -> {duration, initial:{key:value}, events:[{t,key,value}], start?, end?} — start/end: trimmed window, ms */
-var loopRec = {};    /* mod -> {startedAt, initial, events, timer} */
-var loopPlay = {};   /* mod -> {startedAt, cycle, idx, start, end} */
+var loopRec = {};    /* mod -> {startedAt, initial, events, timer, base, start, end, cur, tracks, muted} — base/tracks/muted only for an overdub */
+var loopPlay = {};   /* mod -> {startedAt, cycle, idx, start, end, muted} */
 var loopApplying = false, loopTicker = null;
 
 function loopKeys(mod){
@@ -1433,7 +1444,39 @@ function applySetting(key, value){
 function loopNotify(key, value){
   if(loopApplying) return;
   var r = loopRec[key.split('.')[0]];
-  if(r) r.events.push({t:Math.round(performance.now()-r.startedAt), key:key, value:value});
+  if(!r) return;
+  if(r.base){ loopOverdubMove(r, key, value); return; }
+  r.events.push({t:Math.round(performance.now()-r.startedAt), key:key, value:value});
+}
+/* Overdub move: stamp it at its position within the looping window and file it
+   under its setting's track. The first move of a setting mutes that setting's
+   old track for the rest of the recording (the user has taken over). */
+function loopOverdubMove(r, key, value){
+  var period = r.end - r.start, elapsed = performance.now() - r.startedAt;
+  var cycle = Math.floor(elapsed / period);
+  var t = Math.round(r.start + (elapsed - cycle*period));
+  r.muted[key] = true;
+  var tr = r.tracks[key];
+  if(!tr || tr.cycle !== cycle) tr = r.tracks[key] = {cycle:cycle, initial:r.cur[key], events:[]}; /* a later pass replaces the earlier one */
+  tr.events.push({t:t, key:key, value:value});
+  r.cur[key] = value;
+}
+/* Fold an overdub's tracks into the saved take: each recorded setting's old
+   events are replaced by the new ones, then everything is put back in time order
+   (stable sort, so ties keep insertion order). */
+function loopMergeOverdub(r){
+  var base = r.base, initial = {}, events;
+  Object.keys(base.initial).forEach(function(k){ initial[k] = base.initial[k]; });
+  events = base.events.filter(function(ev){ return !r.tracks[ev.key]; });
+  Object.keys(r.tracks).forEach(function(k){
+    initial[k] = r.tracks[k].initial;
+    events = events.concat(r.tracks[k].events);
+  });
+  events.sort(function(a,b){ return a.t - b.t; });
+  var merged = {duration:base.duration, initial:initial, events:events};
+  if(isFinite(base.start)) merged.start = base.start;
+  if(isFinite(base.end)) merged.end = base.end;
+  return merged;
 }
 
 function saveLoops(){ try{ localStorage.setItem(LOOP_STORE_KEY, JSON.stringify(loops)); }catch(e){} }
@@ -1453,11 +1496,26 @@ function loadLoops(){
 }
 
 function loopStartRecording(mod){
-  loopStopPlaying(mod);
+  var base = loops[mod] || null;
+  var r = { startedAt:performance.now(), initial:null, events:[],
+    timer:setTimeout(function(){ loopFinishRecording(mod); }, LOOP_MAX_MS),
+    base:base, start:0, end:0, cur:null, tracks:{}, muted:{} };
+  if(base){
+    /* Overdub: play the saved take from the top of its window and stamp new moves
+       on its timeline. The starting values are read AFTER the pass has restored the
+       take's state, so a taken-over setting starts where the take did. */
+    loopRestart(mod, base, r.muted);
+    var p = loopPlay[mod];
+    r.startedAt = p.startedAt; r.start = p.start; r.end = p.end;
+    if(!loopTicker) loopTicker = setInterval(loopTick, LOOP_TICK_MS);
+  } else {
+    loopStopPlaying(mod); /* replayed moves must not fight, or be mistaken for, the new take */
+  }
   var initial = {};
   loopKeys(mod).forEach(function(k){ initial[k] = getSetting(k); });
-  loopRec[mod] = { startedAt:performance.now(), initial:initial, events:[],
-    timer:setTimeout(function(){ loopFinishRecording(mod); }, LOOP_MAX_MS) };
+  r.initial = initial;
+  r.cur = {}; Object.keys(initial).forEach(function(k){ r.cur[k] = initial[k]; });
+  loopRec[mod] = r;
   paintLoopUi(mod);
 }
 /* A take with no changes in it is dropped instead of wiping the previous loop. */
@@ -1466,6 +1524,13 @@ function loopFinishRecording(mod){
   if(!r) return;
   clearTimeout(r.timer);
   delete loopRec[mod];
+  if(r.base){
+    if(Object.keys(r.tracks).length && loops[mod] === r.base){ loops[mod] = loopMergeOverdub(r); saveLoops(); }
+    /* The take was playing throughout; carry on with the merged take from the top. */
+    if(loops[mod]){ loopRestart(mod, loops[mod]); if(!loopTicker) loopTicker = setInterval(loopTick, LOOP_TICK_MS); }
+    paintLoopUi(mod);
+    return;
+  }
   if(r.events.length){
     var initial = {};
     r.events.forEach(function(ev){ initial[ev.key] = r.initial[ev.key]; });
@@ -1486,9 +1551,9 @@ function loopStartPlaying(mod){
 }
 /* (Re)start a pass from the window's start: restore the take's state at that
    point, queue the moves after it. */
-function loopRestart(mod, l){
+function loopRestart(mod, l, muted){
   var b = loopBounds(l);
-  var p = loopPlay[mod] = { startedAt:performance.now(), cycle:0, idx:0, start:b.start, end:b.end };
+  var p = loopPlay[mod] = { startedAt:performance.now(), cycle:0, idx:0, start:b.start, end:b.end, muted:muted || null };
   loopBeginPass(mod, l, p);
 }
 function loopBeginPass(mod, l, p){
@@ -1496,7 +1561,7 @@ function loopBeginPass(mod, l, p){
   Object.keys(l.initial).forEach(function(k){ values[k] = l.initial[k]; });
   while(i < l.events.length && l.events[i].t <= p.start){ values[l.events[i].key] = l.events[i].value; i++; }
   p.idx = i;
-  Object.keys(values).forEach(function(k){ applySetting(k, values[k]); });
+  Object.keys(values).forEach(function(k){ if(!p.muted || !p.muted[k]) applySetting(k, values[k]); });
 }
 /* Trim the looping window; while playing, the pass restarts from the new start. */
 function loopSetTrim(mod, start, end){
@@ -1505,7 +1570,7 @@ function loopSetTrim(mod, start, end){
   var b = loopBounds({duration:l.duration, start:start, end:end}), cur = loopBounds(l);
   if(b.start===cur.start && b.end===cur.end) return;
   l.start = b.start; l.end = b.end;
-  if(loopPlay[mod]) loopRestart(mod, l);
+  if(loopPlay[mod]) loopRestart(mod, l, loopPlay[mod].muted);
   paintLoopUi(mod);
 }
 function loopStopPlaying(mod){
@@ -1519,7 +1584,7 @@ function loopTick(){
   Object.keys(loopPlay).forEach(function(mod){
     var p = loopPlay[mod], l = loops[mod];
     var b = loopBounds(l);
-    if(b.start!==p.start || b.end!==p.end){ loopRestart(mod, l); return; } /* trimmed under us */
+    if(b.start!==p.start || b.end!==p.end){ loopRestart(mod, l, p.muted); return; } /* trimmed under us */
     var elapsed = now - p.startedAt, period = p.end - p.start;
     var cycle = Math.floor(elapsed / period);
     var pos = p.start + (elapsed - cycle*period); /* position on the take's own timeline */
@@ -1532,9 +1597,23 @@ function loopTick(){
     }
     while(p.idx < l.events.length && l.events[p.idx].t <= pos){
       var ev = l.events[p.idx++];
-      applySetting(ev.key, ev.value);
+      if(!p.muted || !p.muted[ev.key]) applySetting(ev.key, ev.value);
     }
   });
+}
+
+/* Forget every take in every module: abandons takes in progress, stops all loops,
+   empties the loop memory (and its saved copy). Returns how many takes were dropped. */
+function loopClearAll(){
+  var mods = {};
+  [loops, loopRec, loopPlay].forEach(function(o){ Object.keys(o).forEach(function(m){ mods[m] = 1; }); });
+  var dropped = Object.keys(loops).length;
+  Object.keys(loopRec).forEach(function(m){ clearTimeout(loopRec[m].timer); delete loopRec[m]; });
+  Object.keys(loopPlay).forEach(loopStopPlaying);
+  loops = {};
+  saveLoops();
+  Object.keys(mods).forEach(paintLoopUi);
+  return dropped;
 }
 
 function paintLoopUi(mod){
@@ -1543,8 +1622,11 @@ function paintLoopUi(mod){
   var recBtn = m.querySelector('.loopbtn.rec'), playBtn = m.querySelector('.loopbtn.play'), bar = m.querySelector('.loopbar');
   if(!recBtn || !playBtn || !bar) return;
   var recording = !!loopRec[mod], playing = !!loopPlay[mod], has = !!loops[mod];
+  var overdub = recording && !!loopRec[mod].base;
   recBtn.classList.toggle('engaged', recording);
-  recBtn.title = recording ? 'Stop recording' : 'Record every change to this module\'s settings, including on/off (up to '+(LOOP_MAX_MS/1000)+' s; click again to stop)'+(has ? ' — replaces the saved loop' : '');
+  recBtn.title = recording ? 'Stop recording'
+    : has ? 'Record on top of the saved loop: it plays while you record, settings it never held are added as new tracks, and moving one it already holds replaces just that track (up to '+(LOOP_MAX_MS/1000)+' s; click again to stop)'
+    : 'Record every change to this module\'s settings, including on/off (up to '+(LOOP_MAX_MS/1000)+' s; click again to stop)';
   playBtn.classList.toggle('engaged', playing);
   playBtn.classList.toggle('empty', !has && !recording);
   playBtn.title = playing ? 'Stop the loop' : has ? 'Play the recorded settings in a loop' : 'Nothing recorded yet — press record first';
@@ -1552,15 +1634,19 @@ function paintLoopUi(mod){
   fill.style.animation = 'none';
   bar.classList.toggle('recording', recording);
   bar.classList.toggle('playing', playing);
-  var trimmable = has && !recording, b = has ? loopBounds(loops[mod]) : {start:0, end:1}, total = trimmable ? loops[mod].duration : 1;
-  var a = trimmable ? b.start/total : 0, z = trimmable ? b.end/total : 1;
+  var trimmable = has && !recording, showWin = has && (!recording || overdub);
+  var b = has ? loopBounds(loops[mod]) : {start:0, end:1}, total = showWin ? loops[mod].duration : 1;
+  var a = showWin ? b.start/total : 0, z = showWin ? b.end/total : 1;
   win.style.left = (a*100)+'%'; win.style.width = ((z-a)*100)+'%';
   bar.style.setProperty('--ts', (a*100)+'%'); bar.style.setProperty('--te', (z*100)+'%');
   bar.classList.toggle('trimmable', trimmable);
   if(recording || playing){
     void fill.offsetWidth; /* restart the CSS animation */
-    var dur = recording ? LOOP_MAX_MS : b.end - b.start;
-    fill.style.animation = 'loopfill '+dur+'ms linear '+(recording ? '1 forwards' : 'infinite');
+    var fresh = recording && !overdub;
+    var dur = fresh ? LOOP_MAX_MS : b.end - b.start;
+    /* Negative delay: resume at the true phase (an overdub's bar is in step with the take it is looping). */
+    var phase = fresh ? 0 : (performance.now() - (loopRec[mod] ? loopRec[mod].startedAt : loopPlay[mod].startedAt)) % dur;
+    fill.style.animation = 'loopfill '+dur+'ms linear '+(-phase)+'ms '+(fresh ? '1 forwards' : 'infinite');
   }
 }
 
@@ -1611,8 +1697,9 @@ function initLoopRecorders(){
     });
     playBtn.addEventListener('click', function(){
       if(!audioReady) return;
+      /* Play mid-take ends the take and loops it straight away (an overdub is already looping). */
+      if(loopRec[mod]){ loopFinishRecording(mod); if(!loopPlay[mod]) loopStartPlaying(mod); return; }
       if(loopPlay[mod]){ loopStopPlaying(mod); return; }
-      if(loopRec[mod]) loopFinishRecording(mod); /* Play mid-take ends the take and loops it straight away */
       loopStartPlaying(mod);
     });
     ctl.appendChild(recBtn); ctl.appendChild(playBtn); ctl.appendChild(last);
@@ -1956,6 +2043,11 @@ document.getElementById('powerBtn').addEventListener('click', function(){
   this.textContent = nodes.output.powered ? '◉ Power: On' : '◉ Power';
 });
 document.getElementById('randomBtn').addEventListener('click', function(){ if(audioReady) randomize(); });
+document.getElementById('clearTakesBtn').addEventListener('click', function(){
+  var n = Object.keys(loops).length;
+  if(!n){ alert('No recordings to clear.'); return; }
+  if(confirm('Erase all recordings ('+n+' module'+(n===1?'':'s')+')? This cannot be undone.')) loopClearAll();
+});
 document.getElementById('refBtn').addEventListener('click', function(){
   if(!audioReady) return;
   nodes.output.refOn = !nodes.output.refOn;
