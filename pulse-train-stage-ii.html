@@ -106,6 +106,26 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .fswitch.engaged .led{background:var(--led-on); box-shadow:0 0 4px 0 var(--led-glow);}
 .fswitch.engaged{border-color:var(--acc);}
 
+.module .mhead{position:relative; flex-wrap:wrap; gap:4px;}
+.mctl{display:flex; align-items:center; justify-content:flex-end; flex-wrap:wrap; gap:5px; margin-left:auto; max-width:100%;}
+.mctl > *{flex:none;}
+/* Live taping: Record / Play-loop buttons beside the bypass footswitch. */
+.fswitch.loopbtn{width:22px; height:22px; padding:0;}
+.loopbtn .glyph{display:block;}
+.loopbtn.rec .glyph{width:8px; height:8px; border-radius:50%; background:#7a2a26;}
+.loopbtn.rec:hover .glyph{background:#c8382f;}
+.loopbtn.rec.engaged{border-color:var(--led-on); animation:recpulse 1s ease-in-out infinite;}
+.loopbtn.rec.engaged .glyph{background:var(--led-on); box-shadow:0 0 5px 1px var(--led-glow);}
+.loopbtn.play .glyph{width:0; height:0; margin-left:2px; border-style:solid; border-width:5px 0 5px 8px; border-color:transparent transparent transparent var(--ink-soft);}
+.loopbtn.play:hover .glyph{border-left-color:var(--ink);}
+.loopbtn.play.engaged .glyph{border-left-color:var(--acc);}
+.loopbtn.play.empty{opacity:.4;}
+@keyframes recpulse{50%{box-shadow:0 0 6px 1px var(--led-glow);}}
+.loopbar{position:absolute; left:0; right:0; bottom:-5px; height:2px; pointer-events:none;}
+.loopbar i{display:block; height:100%; width:0;}
+.loopbar.recording i{background:var(--led-on);}
+.loopbar.playing i{background:var(--acc);}
+@keyframes loopfill{from{width:0;} to{width:100%;}}
 .row{display:flex; align-items:center; gap:7px; margin-bottom:9px; flex-wrap:wrap;}
 .row:last-of-type{margin-bottom:0;}
 .jackrow{display:flex; justify-content:space-between; align-items:center; margin-top:10px; padding-top:9px; border-top:1px dashed var(--line);}
@@ -156,6 +176,7 @@ select.wave{font-family:var(--font-mono); font-size:10px; padding:5px 6px; borde
   .krange{order:0;}
   .kval{order:1; width:38px; flex:none; text-align:right;}
   .fswitch{width:36px; height:36px;}
+  .fswitch.loopbtn{width:36px; height:36px;}
 }
 .krange{-webkit-appearance:none; appearance:none; background:transparent; height:26px; margin:0;}
 .krange::-webkit-slider-runnable-track{height:5px; background:var(--line-strong); border-radius:3px;}
@@ -1314,6 +1335,7 @@ function initKnob(el){
     v = Math.min(max, Math.max(min, v));
     if(stepQ) v = Math.round(v);
     val = v; render(); paramSet(path, val);
+    loopNotify(path, val);
   }
   range.addEventListener('input', function(){
     var t = parseFloat(range.value);
@@ -1337,7 +1359,183 @@ function initKnob(el){
     setVal(newVal);
   });
   ['pointerup','pointercancel'].forEach(function(evt){ el.addEventListener(evt, function(){ dragging=false; }); });
-  el._setVal = setVal; el._getRange = {min:min,max:max,isLog:isLog,stepQ:stepQ};
+  el._setVal = setVal; el._getVal = function(){ return val; }; el._getRange = {min:min,max:max,isLog:isLog,stepQ:stepQ};
+}
+
+/* ===================== live taping (per-module record / loop) =====================
+   Two extra buttons beside every module's footswitch. Record: the first click
+   starts capturing every change made to that module's settings (knobs, plus
+   the LFO's shape and Output's gate), the second click stops — capped at
+   4 s, at which point it stops by itself. Play: loops the captured gesture
+   until clicked again.
+
+   Every setting change already funnels through one place (a knob's setVal,
+   setLfoShape, setGate), each of which calls loopNotify() — that's the only
+   hook recording needs, and it also catches Random and preset recalls. A take
+   stores each touched setting's starting value plus timestamped changes, so a
+   pass always begins by restoring the starting values, then replays the moves.
+   Replayed changes go through those same functions with loopApplying set, which
+   keeps them from being re-recorded. Takes persist in localStorage. */
+var LOOP_MAX_MS = 4000, LOOP_MIN_MS = 50, LOOP_TICK_MS = 8;
+var LOOP_STORE_KEY = 'pulseTrainStageII.loops.v1';
+var loops = {};      /* mod -> {duration, initial:{key:value}, events:[{t,key,value}]} */
+var loopRec = {};    /* mod -> {startedAt, initial, events, timer} */
+var loopPlay = {};   /* mod -> {startedAt, cycle, idx} */
+var loopApplying = false, loopTicker = null;
+
+function loopKeys(mod){
+  var keys = [];
+  document.querySelectorAll('.knob[data-knob^="'+mod+'."]').forEach(function(el){ keys.push(el.getAttribute('data-knob')); });
+  if(mod==='lfo') keys.push('lfo.shape');
+  if(mod==='output') keys.push('output.gateOn');
+  return keys;
+}
+function getSetting(key){
+  if(key==='lfo.shape') return nodes.lfo.shape;
+  if(key==='output.gateOn') return !!nodes.output.gateOn;
+  var el = document.querySelector('[data-knob="'+key+'"]');
+  return el && el._getVal ? el._getVal() : undefined;
+}
+function applySetting(key, value){
+  loopApplying = true;
+  try{
+    if(key==='lfo.shape') setLfoShape(value);
+    else if(key==='output.gateOn') setGate(!!value);
+    else { var el = document.querySelector('[data-knob="'+key+'"]'); if(el && el._setVal) el._setVal(value); }
+  } finally { loopApplying = false; }
+}
+function loopNotify(key, value){
+  if(loopApplying) return;
+  var r = loopRec[key.split('.')[0]];
+  if(r) r.events.push({t:Math.round(performance.now()-r.startedAt), key:key, value:value});
+}
+
+function saveLoops(){ try{ localStorage.setItem(LOOP_STORE_KEY, JSON.stringify(loops)); }catch(e){} }
+function loadLoops(){
+  try{
+    var raw = localStorage.getItem(LOOP_STORE_KEY);
+    var data = raw ? JSON.parse(raw) : null;
+    if(!data) return;
+    Object.keys(data).forEach(function(mod){
+      var l = data[mod], valid = loopKeys(mod);
+      if(!l || !(l.duration>0) || !Array.isArray(l.events) || !l.initial) return;
+      var ok = l.events.every(function(ev){ return valid.indexOf(ev.key)!==-1 && typeof ev.t==='number'; })
+        && Object.keys(l.initial).every(function(k){ return valid.indexOf(k)!==-1; });
+      if(ok) loops[mod] = l;
+    });
+  }catch(e){}
+}
+
+function loopStartRecording(mod){
+  loopStopPlaying(mod);
+  var initial = {};
+  loopKeys(mod).forEach(function(k){ initial[k] = getSetting(k); });
+  loopRec[mod] = { startedAt:performance.now(), initial:initial, events:[],
+    timer:setTimeout(function(){ loopFinishRecording(mod); }, LOOP_MAX_MS) };
+  paintLoopUi(mod);
+}
+/* A take with no changes in it is dropped instead of wiping the previous loop. */
+function loopFinishRecording(mod){
+  var r = loopRec[mod];
+  if(!r) return;
+  clearTimeout(r.timer);
+  delete loopRec[mod];
+  if(r.events.length){
+    var initial = {};
+    r.events.forEach(function(ev){ initial[ev.key] = r.initial[ev.key]; });
+    var elapsed = Math.min(performance.now()-r.startedAt, LOOP_MAX_MS);
+    loops[mod] = { duration:Math.max(LOOP_MIN_MS, elapsed, r.events[r.events.length-1].t+1), initial:initial, events:r.events };
+    saveLoops();
+  }
+  paintLoopUi(mod);
+}
+function loopStartPlaying(mod){
+  var l = loops[mod];
+  if(!l) return;
+  loopPlay[mod] = { startedAt:performance.now(), cycle:0, idx:0 };
+  Object.keys(l.initial).forEach(function(k){ applySetting(k, l.initial[k]); });
+  if(!loopTicker) loopTicker = setInterval(loopTick, LOOP_TICK_MS);
+  paintLoopUi(mod);
+}
+function loopStopPlaying(mod){
+  if(!loopPlay[mod]) return;
+  delete loopPlay[mod];
+  if(!Object.keys(loopPlay).length && loopTicker){ clearInterval(loopTicker); loopTicker = null; }
+  paintLoopUi(mod);
+}
+function loopTick(){
+  var now = performance.now();
+  Object.keys(loopPlay).forEach(function(mod){
+    var p = loopPlay[mod], l = loops[mod];
+    var elapsed = now - p.startedAt;
+    var cycle = Math.floor(elapsed / l.duration);
+    var pos = elapsed - cycle*l.duration;
+    if(cycle !== p.cycle){
+      /* Wrapped: restore starting values and rewind. Events left in the old
+         pass's tail (at most one tick's worth) are skipped — the restore would
+         overwrite them immediately anyway. */
+      p.cycle = cycle; p.idx = 0;
+      Object.keys(l.initial).forEach(function(k){ applySetting(k, l.initial[k]); });
+    }
+    while(p.idx < l.events.length && l.events[p.idx].t <= pos){
+      var ev = l.events[p.idx++];
+      applySetting(ev.key, ev.value);
+    }
+  });
+}
+
+function paintLoopUi(mod){
+  var m = document.querySelector('.module[data-mod="'+mod+'"]');
+  if(!m) return;
+  var recBtn = m.querySelector('.loopbtn.rec'), playBtn = m.querySelector('.loopbtn.play'), bar = m.querySelector('.loopbar');
+  if(!recBtn || !playBtn || !bar) return;
+  var recording = !!loopRec[mod], playing = !!loopPlay[mod], has = !!loops[mod];
+  recBtn.classList.toggle('engaged', recording);
+  recBtn.title = recording ? 'Stop recording' : 'Record every change to this module\'s settings (up to '+(LOOP_MAX_MS/1000)+' s)'+(has ? ' — replaces the saved loop' : '');
+  playBtn.classList.toggle('engaged', playing);
+  playBtn.classList.toggle('empty', !has && !recording);
+  playBtn.title = playing ? 'Stop the loop' : has ? 'Play the recorded settings in a loop' : 'Nothing recorded yet — press record first';
+  var fill = bar.firstChild;
+  fill.style.animation = 'none';
+  bar.classList.toggle('recording', recording);
+  bar.classList.toggle('playing', playing);
+  if(recording || playing){
+    void fill.offsetWidth; /* restart the CSS animation */
+    var dur = recording ? LOOP_MAX_MS : loops[mod].duration;
+    fill.style.animation = 'loopfill '+dur+'ms linear '+(recording ? '1 forwards' : 'infinite');
+  }
+}
+
+function initLoopRecorders(){
+  loadLoops();
+  document.querySelectorAll('.module[data-mod]').forEach(function(m){
+    var mod = m.getAttribute('data-mod'), head = m.querySelector('.mhead');
+    var label = m.querySelector('.mname').textContent;
+    var last = head.lastElementChild; /* the footswitch / LFO shape button, keeps its place at the far right */
+    var ctl = document.createElement('div'); ctl.className = 'mctl';
+    function mk(kind, aria){
+      var b = document.createElement('button'); b.type = 'button'; b.className = 'fswitch loopbtn '+kind;
+      b.setAttribute('aria-label', aria+' '+label);
+      var g = document.createElement('span'); g.className = 'glyph'; b.appendChild(g);
+      return b;
+    }
+    var recBtn = mk('rec', 'Record settings of'), playBtn = mk('play', 'Loop recorded settings of');
+    recBtn.addEventListener('click', function(){
+      if(!audioReady) return;
+      if(loopRec[mod]) loopFinishRecording(mod); else loopStartRecording(mod);
+    });
+    playBtn.addEventListener('click', function(){
+      if(!audioReady) return;
+      if(loopPlay[mod]){ loopStopPlaying(mod); return; }
+      if(loopRec[mod]) loopFinishRecording(mod); /* Play mid-take ends the take and loops it straight away */
+      loopStartPlaying(mod);
+    });
+    ctl.appendChild(recBtn); ctl.appendChild(playBtn); ctl.appendChild(last);
+    head.appendChild(ctl);
+    var bar = document.createElement('div'); bar.className = 'loopbar'; bar.appendChild(document.createElement('i'));
+    head.appendChild(bar);
+    paintLoopUi(mod);
+  });
 }
 
 /* ===================== oscilloscopes =====================
@@ -1648,6 +1846,7 @@ if(!audioReady){
 document.querySelectorAll('.knob').forEach(function(el){
   try{ initKnob(el); }catch(e){ console.error('knob init failed for', el.getAttribute('data-knob'), e); }
 });
+initLoopRecorders();
 initConnectionsPanel();
 buildLegend();
 if(audioReady){ renderCables(); drawScopes(); scheduleRhythm(); }
@@ -1691,29 +1890,36 @@ presetSelect.addEventListener('change', function(){
    universal patch nodes — it lives inline in Output's own chain, so it
    gets its own small handler instead of the generic setBypass() loop. */
 var gateToggleBtn = document.getElementById('gateToggleBtn');
+function setGate(on){
+  nodes.output.gateOn = on;
+  var now = ctx().currentTime;
+  nodes.output.gateNode.gain.cancelScheduledValues(now);
+  nodes.output.gateNode.gain.setTargetAtTime(on ? 0.5 : 1, now, 0.01);
+  nodes.output.gateAmount.gain.cancelScheduledValues(now);
+  nodes.output.gateAmount.gain.setTargetAtTime(on ? 1 : 0, now, 0.01);
+  if(gateToggleBtn) gateToggleBtn.classList.toggle('engaged', on);
+  loopNotify('output.gateOn', on);
+}
 if(gateToggleBtn){
   gateToggleBtn.addEventListener('click', function(){
     if(!audioReady) return;
-    var on = !nodes.output.gateOn;
-    nodes.output.gateOn = on;
-    var now = ctx().currentTime;
-    nodes.output.gateNode.gain.cancelScheduledValues(now);
-    nodes.output.gateNode.gain.setTargetAtTime(on ? 0.5 : 1, now, 0.01);
-    nodes.output.gateAmount.gain.cancelScheduledValues(now);
-    nodes.output.gateAmount.gain.setTargetAtTime(on ? 1 : 0, now, 0.01);
-    this.classList.toggle('engaged', on);
+    setGate(!nodes.output.gateOn);
   });
 }
 
 var LFO_SHAPES = ['sine','triangle','square','sawtooth'];
 var lfoShapeBtn = document.getElementById('lfoShapeBtn');
+function setLfoShape(shape){
+  nodes.lfo.shape = shape;
+  nodes.lfo.osc.type = shape;
+  if(lfoShapeBtn) lfoShapeBtn.textContent = 'Shape: ' + shape.charAt(0).toUpperCase() + shape.slice(1);
+  loopNotify('lfo.shape', shape);
+}
 if(lfoShapeBtn){
   lfoShapeBtn.addEventListener('click', function(){
     if(!audioReady || !nodes.lfo) return;
     var i = LFO_SHAPES.indexOf(nodes.lfo.shape);
-    nodes.lfo.shape = LFO_SHAPES[(i+1)%LFO_SHAPES.length];
-    nodes.lfo.osc.type = nodes.lfo.shape;
-    this.textContent = 'Shape: ' + nodes.lfo.shape.charAt(0).toUpperCase() + nodes.lfo.shape.slice(1);
+    setLfoShape(LFO_SHAPES[(i+1)%LFO_SHAPES.length]);
   });
 }
 
