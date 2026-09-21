@@ -122,9 +122,20 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .loopbtn.play.empty{opacity:.4;}
 @keyframes recpulse{50%{box-shadow:0 0 6px 1px var(--led-glow);}}
 .loopbar{position:absolute; left:0; right:0; bottom:-5px; height:2px; pointer-events:none;}
-.loopbar i{display:block; height:100%; width:0;}
+.loopbar.trimmable{background:var(--line);}
+.loopwin{position:absolute; top:0; bottom:0; left:0; width:100%;}
+.loopbar.trimmable .loopwin{background:var(--ink-soft); opacity:.55;}
+.loopwin i{display:block; height:100%; width:0;}
 .loopbar.recording i{background:var(--led-on);}
 .loopbar.playing i{background:var(--acc);}
+.loopbar.playing .loopwin{opacity:1;}
+/* Trim handles sit on the ends of the active window; ::before widens the grab area. */
+.loophandle{display:none; position:absolute; top:-6px; width:6px; height:14px; margin-left:-3px; border-radius:2px; background:var(--acc); cursor:ew-resize; pointer-events:auto; touch-action:none;}
+.loophandle::before{content:''; position:absolute; inset:-4px -7px;}
+.loopbar.trimmable .loophandle{display:block;}
+.loophandle.start{left:var(--ts);}
+.loophandle.end{left:var(--te);}
+.loophandle:hover,.loophandle.dragging{box-shadow:0 0 4px 1px var(--led-glow);}
 @keyframes loopfill{from{width:0;} to{width:100%;}}
 .row{display:flex; align-items:center; gap:7px; margin-bottom:9px; flex-wrap:wrap;}
 .row:last-of-type{margin-bottom:0;}
@@ -1048,6 +1059,7 @@ function disconnect(from, to){
 function setBypass(modId, bypassed){
   var n = nodes[modId];
   n.bypassed = bypassed;
+  loopNotify(modId+'.bypass', bypassed);
   var c = ctx(), now = c.currentTime;
   n.bypassGain.gain.cancelScheduledValues(now); n.bypassGain.gain.setTargetAtTime(bypassed?1:0, now, 0.008);
   n.wetGain.gain.cancelScheduledValues(now); n.wetGain.gain.setTargetAtTime(bypassed?0:1, now, 0.008);
@@ -1365,22 +1377,26 @@ function initKnob(el){
 /* ===================== live taping (per-module record / loop) =====================
    Two extra buttons beside every module's footswitch. Record: the first click
    starts capturing every change made to that module's settings (knobs, plus
-   the LFO's shape and Output's gate), the second click stops — capped at
-   4 s, at which point it stops by itself. Play: loops the captured gesture
-   until clicked again.
+   the LFO's shape, Output's gate and the module's own on/off footswitch), the
+   second click stops — capped at 61 s, at which point it stops by itself.
+   Play: loops the captured gesture until clicked again. The loop bar under
+   the header has a handle at each end: drag them to trim the part that loops
+   (double-click a handle to reset it).
 
    Every setting change already funnels through one place (a knob's setVal,
    setLfoShape, setGate), each of which calls loopNotify() — that's the only
    hook recording needs, and it also catches Random and preset recalls. A take
    stores each touched setting's starting value plus timestamped changes, so a
    pass always begins by restoring the starting values, then replays the moves.
+   With a trim, a pass begins by restoring the state the take had at the trim's
+   start (starting values + every move before it).
    Replayed changes go through those same functions with loopApplying set, which
    keeps them from being re-recorded. Takes persist in localStorage. */
-var LOOP_MAX_MS = 4000, LOOP_MIN_MS = 50, LOOP_TICK_MS = 8;
+var LOOP_MAX_MS = 61000, LOOP_MIN_MS = 50, LOOP_TICK_MS = 8;
 var LOOP_STORE_KEY = 'pulseTrainStageII.loops.v1';
-var loops = {};      /* mod -> {duration, initial:{key:value}, events:[{t,key,value}]} */
+var loops = {};      /* mod -> {duration, initial:{key:value}, events:[{t,key,value}], start?, end?} — start/end: trimmed window, ms */
 var loopRec = {};    /* mod -> {startedAt, initial, events, timer} */
-var loopPlay = {};   /* mod -> {startedAt, cycle, idx} */
+var loopPlay = {};   /* mod -> {startedAt, cycle, idx, start, end} */
 var loopApplying = false, loopTicker = null;
 
 function loopKeys(mod){
@@ -1388,11 +1404,20 @@ function loopKeys(mod){
   document.querySelectorAll('.knob[data-knob^="'+mod+'."]').forEach(function(el){ keys.push(el.getAttribute('data-knob')); });
   if(mod==='lfo') keys.push('lfo.shape');
   if(mod==='output') keys.push('output.gateOn');
+  if(document.querySelector('[data-bypass="'+mod+'"]')) keys.push(mod+'.bypass'); /* true = bypassed (module off) */
   return keys;
+}
+/* The loop's active window, always valid: 0 <= start < end <= duration, at least LOOP_MIN_MS wide. */
+function loopBounds(l){
+  var dur = l.duration, min = Math.min(LOOP_MIN_MS, dur);
+  var start = Math.min(Math.max(0, isFinite(l.start) ? l.start : 0), dur-min);
+  var end = Math.min(dur, Math.max(start+min, isFinite(l.end) ? l.end : dur));
+  return {start:start, end:end};
 }
 function getSetting(key){
   if(key==='lfo.shape') return nodes.lfo.shape;
   if(key==='output.gateOn') return !!nodes.output.gateOn;
+  if(/\.bypass$/.test(key)) return !!nodes[key.split('.')[0]].bypassed;
   var el = document.querySelector('[data-knob="'+key+'"]');
   return el && el._getVal ? el._getVal() : undefined;
 }
@@ -1401,6 +1426,7 @@ function applySetting(key, value){
   try{
     if(key==='lfo.shape') setLfoShape(value);
     else if(key==='output.gateOn') setGate(!!value);
+    else if(/\.bypass$/.test(key)) setBypass(key.split('.')[0], !!value);
     else { var el = document.querySelector('[data-knob="'+key+'"]'); if(el && el._setVal) el._setVal(value); }
   } finally { loopApplying = false; }
 }
@@ -1452,9 +1478,32 @@ function loopFinishRecording(mod){
 function loopStartPlaying(mod){
   var l = loops[mod];
   if(!l) return;
-  loopPlay[mod] = { startedAt:performance.now(), cycle:0, idx:0 };
-  Object.keys(l.initial).forEach(function(k){ applySetting(k, l.initial[k]); });
+  loopRestart(mod, l);
   if(!loopTicker) loopTicker = setInterval(loopTick, LOOP_TICK_MS);
+  paintLoopUi(mod);
+}
+/* (Re)start a pass from the window's start: restore the take's state at that
+   point, queue the moves after it. */
+function loopRestart(mod, l){
+  var b = loopBounds(l);
+  var p = loopPlay[mod] = { startedAt:performance.now(), cycle:0, idx:0, start:b.start, end:b.end };
+  loopBeginPass(mod, l, p);
+}
+function loopBeginPass(mod, l, p){
+  var values = {}, i = 0;
+  Object.keys(l.initial).forEach(function(k){ values[k] = l.initial[k]; });
+  while(i < l.events.length && l.events[i].t <= p.start){ values[l.events[i].key] = l.events[i].value; i++; }
+  p.idx = i;
+  Object.keys(values).forEach(function(k){ applySetting(k, values[k]); });
+}
+/* Trim the looping window; while playing, the pass restarts from the new start. */
+function loopSetTrim(mod, start, end){
+  var l = loops[mod];
+  if(!l) return;
+  var b = loopBounds({duration:l.duration, start:start, end:end}), cur = loopBounds(l);
+  if(b.start===cur.start && b.end===cur.end) return;
+  l.start = b.start; l.end = b.end;
+  if(loopPlay[mod]) loopRestart(mod, l);
   paintLoopUi(mod);
 }
 function loopStopPlaying(mod){
@@ -1467,15 +1516,17 @@ function loopTick(){
   var now = performance.now();
   Object.keys(loopPlay).forEach(function(mod){
     var p = loopPlay[mod], l = loops[mod];
-    var elapsed = now - p.startedAt;
-    var cycle = Math.floor(elapsed / l.duration);
-    var pos = elapsed - cycle*l.duration;
+    var b = loopBounds(l);
+    if(b.start!==p.start || b.end!==p.end){ loopRestart(mod, l); return; } /* trimmed under us */
+    var elapsed = now - p.startedAt, period = p.end - p.start;
+    var cycle = Math.floor(elapsed / period);
+    var pos = p.start + (elapsed - cycle*period); /* position on the take's own timeline */
     if(cycle !== p.cycle){
-      /* Wrapped: restore starting values and rewind. Events left in the old
-         pass's tail (at most one tick's worth) are skipped — the restore would
-         overwrite them immediately anyway. */
-      p.cycle = cycle; p.idx = 0;
-      Object.keys(l.initial).forEach(function(k){ applySetting(k, l.initial[k]); });
+      /* Wrapped: restore the state at the window's start and rewind. Events left
+         in the old pass's tail (at most one tick's worth) are skipped — the
+         restore would overwrite them immediately anyway. */
+      p.cycle = cycle;
+      loopBeginPass(mod, l, p);
     }
     while(p.idx < l.events.length && l.events[p.idx].t <= pos){
       var ev = l.events[p.idx++];
@@ -1491,19 +1542,51 @@ function paintLoopUi(mod){
   if(!recBtn || !playBtn || !bar) return;
   var recording = !!loopRec[mod], playing = !!loopPlay[mod], has = !!loops[mod];
   recBtn.classList.toggle('engaged', recording);
-  recBtn.title = recording ? 'Stop recording' : 'Record every change to this module\'s settings (up to '+(LOOP_MAX_MS/1000)+' s)'+(has ? ' — replaces the saved loop' : '');
+  recBtn.title = recording ? 'Stop recording' : 'Record every change to this module\'s settings, including on/off (up to '+(LOOP_MAX_MS/1000)+' s; click again to stop)'+(has ? ' — replaces the saved loop' : '');
   playBtn.classList.toggle('engaged', playing);
   playBtn.classList.toggle('empty', !has && !recording);
   playBtn.title = playing ? 'Stop the loop' : has ? 'Play the recorded settings in a loop' : 'Nothing recorded yet — press record first';
-  var fill = bar.firstChild;
+  var win = bar.querySelector('.loopwin'), fill = win.firstChild;
   fill.style.animation = 'none';
   bar.classList.toggle('recording', recording);
   bar.classList.toggle('playing', playing);
+  var trimmable = has && !recording, b = has ? loopBounds(loops[mod]) : {start:0, end:1}, total = trimmable ? loops[mod].duration : 1;
+  var a = trimmable ? b.start/total : 0, z = trimmable ? b.end/total : 1;
+  win.style.left = (a*100)+'%'; win.style.width = ((z-a)*100)+'%';
+  bar.style.setProperty('--ts', (a*100)+'%'); bar.style.setProperty('--te', (z*100)+'%');
+  bar.classList.toggle('trimmable', trimmable);
   if(recording || playing){
     void fill.offsetWidth; /* restart the CSS animation */
-    var dur = recording ? LOOP_MAX_MS : loops[mod].duration;
+    var dur = recording ? LOOP_MAX_MS : b.end - b.start;
     fill.style.animation = 'loopfill '+dur+'ms linear '+(recording ? '1 forwards' : 'infinite');
   }
+}
+
+/* Drag one end of the loop bar to trim the looping window. Pointer capture keeps
+   the drag alive off the handle; the bar's width maps linearly onto the take. */
+function attachTrimHandle(h, bar, mod, side){
+  h.addEventListener('dblclick', function(){
+    var l = loops[mod]; if(!l) return;
+    var b = loopBounds(l);
+    loopSetTrim(mod, side==='start' ? 0 : b.start, side==='end' ? l.duration : b.end);
+    saveLoops();
+  });
+  h.addEventListener('pointerdown', function(e){
+    e.preventDefault(); e.stopPropagation();
+    h.setPointerCapture(e.pointerId); h.classList.add('dragging');
+  });
+  h.addEventListener('pointermove', function(e){
+    if(!h.hasPointerCapture(e.pointerId)) return;
+    var l = loops[mod]; if(!l) return;
+    var r = bar.getBoundingClientRect(), b = loopBounds(l);
+    var t = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width)) * l.duration;
+    if(side==='start') loopSetTrim(mod, t, b.end); else loopSetTrim(mod, b.start, t);
+  });
+  function done(e){
+    h.classList.remove('dragging');
+    if(h.hasPointerCapture(e.pointerId)){ h.releasePointerCapture(e.pointerId); saveLoops(); }
+  }
+  h.addEventListener('pointerup', done); h.addEventListener('pointercancel', done);
 }
 
 function initLoopRecorders(){
@@ -1532,7 +1615,15 @@ function initLoopRecorders(){
     });
     ctl.appendChild(recBtn); ctl.appendChild(playBtn); ctl.appendChild(last);
     head.appendChild(ctl);
-    var bar = document.createElement('div'); bar.className = 'loopbar'; bar.appendChild(document.createElement('i'));
+    var bar = document.createElement('div'); bar.className = 'loopbar';
+    var win = document.createElement('div'); win.className = 'loopwin'; win.appendChild(document.createElement('i')); /* active window; the progress fill lives inside it */
+    bar.appendChild(win);
+    ['start','end'].forEach(function(side){
+      var h = document.createElement('div'); h.className = 'loophandle '+side;
+      h.title = 'Drag to trim the loop '+side+' (double-click to reset)';
+      attachTrimHandle(h, bar, mod, side);
+      bar.appendChild(h);
+    });
     head.appendChild(bar);
     paintLoopUi(mod);
   });
