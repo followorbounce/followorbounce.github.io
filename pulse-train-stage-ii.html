@@ -1469,6 +1469,8 @@ function loopFinishRecording(mod){
   if(r.events.length){
     var initial = {};
     r.events.forEach(function(ev){ initial[ev.key] = r.initial[ev.key]; });
+    /* The module's on/off position at the start is always part of a take, even if the switch was never touched. */
+    if(r.initial[mod+'.bypass'] !== undefined) initial[mod+'.bypass'] = r.initial[mod+'.bypass'];
     var elapsed = Math.min(performance.now()-r.startedAt, LOOP_MAX_MS);
     loops[mod] = { duration:Math.max(LOOP_MIN_MS, elapsed, r.events[r.events.length-1].t+1), initial:initial, events:r.events };
     saveLoops();
@@ -1871,6 +1873,7 @@ function applyPreset(id){
   if(!audioReady) return;
   var p = PRESETS.filter(function(x){ return x.id===id; })[0];
   if(!p) return;
+  Object.keys(loopPlay).forEach(loopStopPlaying); /* recorded loops would otherwise fight the preset */
   Object.keys(p.bypass).forEach(function(mod){ setBypass(mod, p.bypass[mod]); });
   Object.keys(p.knobs).forEach(function(path){
     var el = document.querySelector('[data-knob="'+path+'"]');
