@@ -97,6 +97,40 @@ header .brand{
 #search-empty.active{display:block;}
 [data-hide-when-search].search-active{display:none;}
 
+/* ---- Latest-from-the-blog card  ---- */
+.blogfeed{padding-block:28px; border-bottom:1px solid var(--ink);}
+.bf-head{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:12px; flex-wrap:wrap;}
+.bf-eyebrow{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}
+.bf-eyebrow b{color:var(--accent); font-weight:600;}
+.bf-all{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--ink);}
+.bf-all:hover{color:var(--accent); border-color:var(--accent);}
+.bf-card{display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"date body fig"; border:1px solid var(--ink); background:#fff;}
+.bf-card.no-img{grid-template-columns:auto minmax(0,1fr); grid-template-areas:"date body";}
+.bf-date{grid-area:date; border-right:1px solid var(--ink); padding:18px 22px; min-width:104px; text-align:center; background:var(--ink); color:var(--paper); display:flex; flex-direction:column; justify-content:center; gap:2px;}
+.bf-date .d{font-family:var(--font-display); font-weight:700; font-size:2.6rem; line-height:1;}
+.bf-date .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;}
+.bf-body{grid-area:body; padding:20px 24px 22px; min-width:0; display:flex; flex-direction:column;}
+.bf-cat{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
+.bf-title{font-family:var(--font-display); font-weight:700; font-size:clamp(1.35rem,3.2vw,2rem); line-height:1.12; letter-spacing:.005em; margin:6px 0 10px; text-transform:none;}
+.bf-title a{text-decoration:none;} .bf-title a:hover{color:var(--accent);}
+.bf-sum{color:#28282a; max-width:70ch; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;}
+.bf-meta{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-top:auto;}
+.bf-chip{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; border:1px solid var(--line); padding:3px 8px; color:#28282a; background:var(--paper);}
+.bf-time{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--mid);}
+.bf-read{margin-left:auto; font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; border:1px solid var(--ink); padding:8px 14px;}
+.bf-read:hover{background:var(--ink); color:var(--paper);}
+/* Image: a fixed mat, so any artwork (square, tall, wide) fits without cropping and the layout never jumps. */
+.bf-fig{grid-area:fig; margin:0; position:relative; width:240px; min-height:260px; background:#efefe9; border-left:1px solid var(--ink); display:block; overflow:hidden;}
+.bf-fig img{position:absolute; inset:14px; width:calc(100% - 28px); height:calc(100% - 28px); object-fit:contain; display:block; opacity:0; transition:opacity .25s ease;}
+.bf-fig img.ok{opacity:1;}
+.bf-skel .bf-title,.bf-skel .bf-sum{background:linear-gradient(90deg,#eee,#f7f7f3,#eee); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
+@keyframes bfp{to{background-position:-200% 0;}}
+@media (prefers-reduced-motion: reduce){.bf-skel .bf-title,.bf-skel .bf-sum{animation:none;} .bf-fig img{transition:none;}}
+@media (max-width:860px){.bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"date" "fig" "body";} .bf-card.no-img{grid-template-areas:"date" "body";}
+  .bf-date{flex-direction:row; justify-content:flex-start; align-items:baseline; gap:10px; border-right:0; border-bottom:1px solid var(--ink); padding:10px 16px;} .bf-date .d{font-size:1.6rem;}
+  .bf-fig{width:auto; min-height:0; height:230px; border-left:0; border-bottom:1px solid var(--ink);} .bf-read{margin-left:0;}}
+
+
 .cats{padding-block:clamp(48px,8vw,88px);}
 .cats-grid{
   display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
@@ -158,6 +192,24 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <div class="stat"><b>31</b><span>Machinery entries</span></div>
       <div class="stat"><b>7</b><span>Maya calendar pages</span></div>
     </div>
+  </div>
+</section>
+
+<section class="blogfeed" data-hide-when-search aria-labelledby="bf-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="bf-h">Latest art task &middot; <b>Design, Divine &amp; Future</b> &middot; new post daily</span>
+      <a class="bf-all" href="https://designdivinefuture.wordpress.com/category/art-tasks/">All art tasks &rarr;</a>
+    </div>
+    <article class="bf-card bf-skel no-img" id="bf-card" aria-live="polite">
+      <div class="bf-date"><span class="d">&nbsp;</span><span class="m">&nbsp;</span></div>
+      <div class="bf-body">
+        <div class="bf-cat">Art tasks</div>
+        <h2 class="bf-title">Fetching the latest post</h2>
+        <p class="bf-sum">One moment &mdash; asking the blog for its newest entry, a line of text to stand in for the summary.</p>
+      </div>
+    </article>
+    <noscript><p><a href="https://designdivinefuture.wordpress.com/category/art-tasks/">Read the latest art task on Design, Divine &amp; Future &rarr;</a></p></noscript>
   </div>
 </section>
 
@@ -465,6 +517,81 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   });
 })();
 </script>
+
+<script>
+(function(){
+  /* Only the "Art tasks" category (slug art-tasks) feeds this card, so a post from another category never shows up here.
+     Fetched live on every page view — no rebuild needed when the blog publishes. */
+  var API = 'https://public-api.wordpress.com/rest/v1.1/sites/designdivinefuture.wordpress.com/posts/?number=1&category=art-tasks&fields=title,URL,date,content,categories';
+  var BLOG = 'https://designdivinefuture.wordpress.com/category/art-tasks/';   /* fallback link target: the Art tasks archive */
+  var card = document.getElementById('bf-card');
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+  function clean(s){ return (s || '').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim(); }
+  function fail(){
+    card.classList.remove('bf-skel'); card.classList.add('no-img'); card.textContent = '';
+    var b = el('div','bf-body'); b.appendChild(el('div','bf-cat','Blog'));
+    var t = el('h2','bf-title'); var a = el('a',null,'Design, Divine & Future \u2014 read the latest art task'); a.href = BLOG; t.appendChild(a);
+    b.appendChild(t); card.style.gridTemplateColumns = '1fr'; card.style.gridTemplateAreas = '"body"'; card.appendChild(b);
+  }
+  /* The post body is parsed as an inert document (nothing from it is ever inserted as HTML). */
+  function parse(html){
+    var doc = new DOMParser().parseFromString(html || '', 'text/html');
+    var img = doc.querySelector('img');
+    var out = { img: null, paras: [] };
+    if(img){
+      var src = img.getAttribute('src') || img.getAttribute('data-orig-file') || '';
+      if(/^https:\/\//.test(src)) out.img = { src: src.split('?')[0] + '?w=576', alt: clean(img.getAttribute('alt')) };
+    }
+    doc.querySelectorAll('br').forEach(function(b){ b.replaceWith(' '); });   /* line breaks were gluing words together */
+    doc.querySelectorAll('p').forEach(function(p){ var t = clean(p.textContent); if(t) out.paras.push(t); });
+    return out;
+  }
+  function find(paras, re){ for(var i=0;i<paras.length;i++){ var m = re.exec(paras[i]); if(m) return m; } return null; }
+  /* Posts follow a loose template ("Design terms applied:" / "Terms:" / "Design Terms Used:", "Concept summary:" / "Concept:" / just "Exercise:"),
+     so each field is looked up by several labels and the summary falls back to the first real sentence. */
+  var BOILER = /^(use .*dictionary|time limit:|(design )?terms( applied| used)?:|concept( summary)?:|baseline|exercise( steps)?:?$)/i;
+  function summaryOf(paras){
+    var m = find(paras, /^Concept(?: summary)?:\s*(.{20,})$/i); if(m) return m[1];
+    for(var i=0;i<paras.length;i++){
+      if(/^exercise( steps)?:?$/i.test(paras[i]) && paras[i+1] && paras[i+1].length > 40) return paras[i+1];
+      var e = /^exercise( steps)?:\s*(.{40,})$/i.exec(paras[i]); if(e) return e[2];
+    }
+    for(var k=0;k<paras.length;k++) if(paras[k].length > 60 && !BOILER.test(paras[k])) return paras[k];
+    return '';
+  }
+  function render(p){
+    var c = parse(p.content);
+    var time = find(c.paras, /^time limit:\s*(.+)$/i), terms = find(c.paras, /^(?:design )?terms(?: applied| used)?:\s*(.+)$/i);
+    var summary = summaryOf(c.paras);
+    var dt = new Date(p.date), cat = Object.keys(p.categories || {})[0] || 'Post';
+    card.classList.remove('bf-skel'); card.classList.toggle('no-img', !c.img); card.textContent = '';
+    var date = el('div','bf-date'); date.appendChild(el('span','d', String(dt.getDate()))); date.appendChild(el('span','m', MON[dt.getMonth()] + ' ' + dt.getFullYear()));
+    var body = el('div','bf-body');
+    body.appendChild(el('div','bf-cat', cat));
+    var h = el('h2','bf-title'); var a = el('a', null, clean(new DOMParser().parseFromString(p.title, 'text/html').body.textContent)); a.href = p.URL; h.appendChild(a); body.appendChild(h);
+    if(summary) body.appendChild(el('p','bf-sum', summary));
+    var meta = el('div','bf-meta');
+    if(terms) terms[1].split(/\s*[,\u00b7]\s*/).forEach(function(t){ if(t) meta.appendChild(el('span','bf-chip', t)); });
+    if(time) meta.appendChild(el('span','bf-time','\u23F1 ' + time[1]));
+    var r = el('a','bf-read','Read the post \u2192'); r.href = p.URL; meta.appendChild(r);
+    body.appendChild(meta);
+    card.appendChild(date); card.appendChild(body);
+    if(c.img){
+      var fig = el('a','bf-fig'); fig.href = p.URL; fig.tabIndex = -1; fig.setAttribute('aria-hidden','true');   /* decorative link: the title already links */
+      var im = document.createElement('img'); im.alt = ''; im.decoding = 'async'; im.referrerPolicy = 'no-referrer';
+      im.addEventListener('load', function(){ im.classList.add('ok'); });
+      im.addEventListener('error', function(){ fig.remove(); card.classList.add('no-img'); });
+      im.src = c.img.src; fig.appendChild(im); card.appendChild(fig);
+    }
+  }
+  var ctl = new AbortController(), to = setTimeout(function(){ ctl.abort(); }, 8000);
+  fetch(API, {signal: ctl.signal}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
+    .then(function(d){ clearTimeout(to); if(!d.posts || !d.posts[0]) throw 0; render(d.posts[0]); })
+    .catch(function(){ clearTimeout(to); fail(); });
+})();
+</script>
+
 
 </body>
 </html>

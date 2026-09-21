@@ -232,6 +232,11 @@ def render_hub_category(hub, entries, extra_own=None):
 
 
 def render_index(graph):
+    # "Latest art task" card (see engine/blog-feed.*): CSS/HTML/JS live in their own files so they
+    # can be edited without escaping the f-string braces below; they are inlined into the page.
+    blog_css = open(os.path.join(HERE, "blog-feed.css"), encoding="utf-8").read()
+    blog_html = open(os.path.join(HERE, "blog-feed.html"), encoding="utf-8").read()
+    blog_js = open(os.path.join(HERE, "blog-feed.js"), encoding="utf-8").read()
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -367,6 +372,8 @@ header .brand{{
 #search-empty.active{{display:block;}}
 [data-hide-when-search].search-active{{display:none;}}
 
+{blog_css}
+
 .cats{{padding-block:clamp(48px,8vw,88px);}}
 .cats-grid{{
   display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr));
@@ -431,6 +438,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
   </div>
 </section>
 
+{blog_html}
 <section class="search-wrap">
   <div class="wrap">
     <input type="text" id="network-search" placeholder="Search all {totals['pages']} pages across the network&hellip; (title, topic, repo)" autocomplete="off" spellcheck="false">
@@ -530,6 +538,8 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
   }});
 }})();
 </script>
+
+{blog_js}
 
 </body>
 </html>
