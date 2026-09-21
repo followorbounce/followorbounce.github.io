@@ -11,13 +11,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pulse Train — Stage II — Knowledge Network</title>
-<meta name="description" content="Pulse Train — Stage plus Drive and Shimmer, ported from Signal Chain, plus a new LFO node patchable straight into eight real modulation targets — pitch, frequency, time, and volume CV inputs, each individually scaled. Thirteen units organized into five labeled groups. Nine tuning presets, a rave-style Gate, a momentary Kill switch, a fullscreen Stage mode.">
+<meta name="description" content="Pulse Train — Stage plus Drive and Shimmer, ported from Signal Chain, plus a new LFO node patchable straight into eight real modulation targets — pitch, frequency, time, and volume CV inputs, each individually scaled. Thirteen units organized into five labeled groups. Nine tuning presets, a rave-style Gate, a momentary Cut switch, a fullscreen Stage mode.">
 <link rel="canonical" href="https://followorbounce.github.io/pulse-train-stage-ii">
 <meta name="theme-color" content="#0A0A0A">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pulse Train — Stage II — Knowledge Network">
-<meta property="og:description" content="Thirteen audio units organized into Sources, Modulation, Character, Time, and Master — a patchable LFO node joins Drive and Shimmer from Signal Chain — nine math-grounded tuning presets, a rave-style Gate plus a momentary Kill switch, and the same universal-node rule as Pulse Train.">
+<meta property="og:description" content="Thirteen audio units organized into Sources, Modulation, Character, Time, and Master — a patchable LFO node joins Drive and Shimmer from Signal Chain — nine math-grounded tuning presets, a rave-style Gate plus a momentary Cut switch, and the same universal-node rule as Pulse Train.">
 <meta property="og:url" content="https://followorbounce.github.io/pulse-train-stage-ii">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -242,14 +242,14 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument · Precision / Microsound Synthesis</div>
     <h1>Pulse Train — Stage II</h1>
-    <p><a href="/pulse-train-stage">Pulse Train — Stage</a>'s board, plus <strong>Drive</strong> and <strong>Shimmer</strong> from <a href="/signal-chain">Signal Chain</a>, plus a new <strong>LFO</strong> node — a true CV source, patchable into eight real modulation targets (pitch, frequency, delay time, volume) marked <code>cv</code> on their own jacks, each individually scaled so one <code>depth</code> knob reads as a sensible amount everywhere it lands. Thirteen units, five labeled groups instead of one long row: <strong>Sources</strong> (Tone, Tone II, Rhythm), <strong>Modulation</strong> (LFO), <strong>Character</strong> (Crush, Ring, Drive, Field), <strong>Time</strong> (Freeze, Comb, Shimmer, Space), and <strong>Master</strong> (Output). Same restyle as Stage, same two rave-style master effects — the square-wave <strong>Gate</strong> and the momentary <strong>Kill</strong> switch. Same universal-node rule throughout — <strong>every unit is both an input and an output</strong>. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Nine tuning presets built from interval math sit in the transport bar, keys <strong>1–9</strong> recall them, <strong>Space</strong> is power, <strong>K</strong> holds Kill, and <strong>Stage</strong> goes fullscreen for a set.</p>
+    <p><a href="/pulse-train-stage">Pulse Train — Stage</a>'s board, plus <strong>Drive</strong> and <strong>Shimmer</strong> from <a href="/signal-chain">Signal Chain</a>, plus a new <strong>LFO</strong> node — a true CV source, patchable into eight real modulation targets (pitch, frequency, delay time, volume) marked <code>cv</code> on their own jacks, each individually scaled so one <code>depth</code> knob reads as a sensible amount everywhere it lands. Thirteen units, five labeled groups instead of one long row: <strong>Sources</strong> (Tone, Tone II, Rhythm), <strong>Modulation</strong> (LFO), <strong>Character</strong> (Crush, Ring, Drive, Field), <strong>Time</strong> (Freeze, Comb, Shimmer, Space), and <strong>Master</strong> (Output). Same restyle as Stage, same two rave-style master effects — the square-wave <strong>Gate</strong> and the momentary <strong>Cut</strong> switch. Same universal-node rule throughout — <strong>every unit is both an input and an output</strong>. <span class="hint-fine">Drag between the nubs to route audio, click a footswitch to bypass a unit, drag a knob to shape it.</span><span class="hint-coarse">Patch cables in the Connections list below the transport, tap a footswitch to bypass a unit, drag a slider to shape it.</span> Nine tuning presets built from interval math sit in the transport bar, keys <strong>1–9</strong> recall them, <strong>Space</strong> is power, <strong>C</strong> holds Cut, and <strong>Stage</strong> goes fullscreen for a set.</p>
   </div>
 </section>
 
 <div class="transport">
   <div class="wrap">
     <button class="tbtn power off" id="powerBtn">◉ Power</button>
-    <button class="tbtn kill" id="killBtn" title="Hold to mute everything — release to bring it back">⛔ Kill</button>
+    <button class="tbtn kill" id="killBtn" title="Hold to cut all sound — release to bring it back (C)">⛔ Cut</button>
     <select class="presetSelect" id="presetSelect" aria-label="Load a tuning preset"><option value="">Presets…</option></select>
     <button class="tbtn random" id="randomBtn" title="Randomize every audio knob">⚄ Chance</button>
     <button class="tbtn" id="stageBtn" title="Fullscreen for performance">⛶ Stage</button>
@@ -514,7 +514,7 @@ footer a:hover{color:var(--ink);}
   <p>The LFO's own <code>depth</code> knob is one shared 0–100% control, but what it means in absolute terms is set per destination, not globally: each <code>cv</code> jack has its own fixed scaling built in — ±40Hz on a pitch input, ±0.3s on Freeze's delay time, ±0.25 of gain on Output's volume — sized to what's actually musical for that parameter, so <code>depth</code> reads as "how much" consistently no matter which jack the cable ends up in.</p>
   <p><strong>Feedback loops are allowed on purpose</strong>, same as Pulse Train and Signal Chain: Output's own <code>out</code> can patch back into the board, and the compressor and hard limiter before the speakers exist specifically so that stays loud, not dangerous. Freeze in particular can build up fast in a feedback patch — start low.</p>
   <p><strong>The nine Presets</strong> aren't random starting points — each one sets every knob and footswitch from an actual interval or number: a 4&nbsp;Hz unison beat, a 3∶2 just fifth, the golden ratio (guaranteed never to lock into a clean beat), a four-partial harmonic stack, the equal-tempered tritone, the Pythagorean comma made audible as shimmer, a semitone-apart critical-band buzz, a Fibonacci-derived rhythm patch, and — reworked for this board — <strong>Driven Shimmer</strong>, which finally puts something through that long-unused Tone II output. Loading one sets the whole board deterministically — same recall every time, the way a real preset should behave live — and every knob stays live afterward to be pushed off that starting point by hand.</p>
-  <p><strong>Gate</strong> and <strong>Kill</strong> live inline in Output, after the limiter's ceiling and before the final hard-clip safety net, so they always act on everything reaching the speakers — not one more patchable unit to route around, the actual master. Gate runs a sawtooth through a threshold WaveShaper to get a variable-duty pulse, scales it to ±0.5, and sums that onto a GainNode's own <code>gain</code> AudioParam — the same oscillator-into-AudioParam trick Ring and Field already use, just aimed at the whole mix instead of one signal or a pan position — so the output swings between silent and full on every cycle: a square-wave mute/unmute, the classic trance/rave gate, with <code>rate</code> (0.5–32&nbsp;Hz) and <code>duty</code> (how much of each cycle stays open) both live. It's off by default and toggles like any footswitch. Kill is the blunt version: hold the transport button or the <strong>K</strong> key and the whole mix cuts to silence in a few milliseconds, release and it's back — a hand-on-the-fader mute for a live drop, not a setting to leave on.</p>
+  <p><strong>Gate</strong> and <strong>Cut</strong> live inline in Output, after the limiter's ceiling and before the final hard-clip safety net, so they always act on everything reaching the speakers — not one more patchable unit to route around, the actual master. Gate runs a sawtooth through a threshold WaveShaper to get a variable-duty pulse, scales it to ±0.5, and sums that onto a GainNode's own <code>gain</code> AudioParam — the same oscillator-into-AudioParam trick Ring and Field already use, just aimed at the whole mix instead of one signal or a pan position — so the output swings between silent and full on every cycle: a square-wave mute/unmute, the classic trance/rave gate, with <code>rate</code> (0.5–32&nbsp;Hz) and <code>duty</code> (how much of each cycle stays open) both live. It's off by default and toggles like any footswitch. Cut is the blunt version: hold the transport button or the <strong>C</strong> key and the whole mix cuts to silence in a few milliseconds, release and it's back — a hand-on-the-fader mute for a live drop, not a setting to leave on.</p>
   <p>For every node on this board — the software technique, the math underneath it, and a real chip that would do the same job in physical hardware — see the <a href="/pulse-train-node-database">Node Database</a>.</p>
 </section>
 
@@ -1966,7 +1966,7 @@ document.addEventListener('keydown', function(e){
   if(tag==='SELECT' || tag==='INPUT' || tag==='TEXTAREA') return;
   if(e.code==='Space'){ e.preventDefault(); document.getElementById('powerBtn').click(); return; }
   if(e.key==='r' || e.key==='R'){ randomize(); return; }
-  if((e.key==='k' || e.key==='K') && !e.repeat){ killOn(); return; }
+  if((e.key==='c' || e.key==='C') && !e.repeat && !e.ctrlKey && !e.metaKey){ killOn(); return; }
   var n = parseInt(e.key,10);
   if(n>=1 && n<=PRESETS.length){
     presetSelect.value = PRESETS[n-1].id;
@@ -1974,7 +1974,7 @@ document.addEventListener('keydown', function(e){
   }
 });
 document.addEventListener('keyup', function(e){
-  if(e.key==='k' || e.key==='K') killOff();
+  if(e.key==='c' || e.key==='C') killOff();
 });
 
 })();

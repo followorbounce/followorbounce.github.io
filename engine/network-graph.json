@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 112,
+    "pages": 118,
     "repos": 4,
-    "own": 28,
+    "own": 34,
     "aerospace": 46,
     "maya": 7,
     "machinery": 31
@@ -300,6 +300,66 @@
       "description": "Distributed systems, consensus, cryptography, smart contracts, and DAOs — neutral and non-speculative, with real crypto.subtle demos.",
       "url": "https://followorbounce.github.io/blockchain-infrastructure",
       "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Explorers & Apps",
+      "title": "SoundOS",
+      "description": "A browser modular synthesizer builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves.",
+      "url": "https://followorbounce.github.io/soundos/",
+      "tag": "Tool",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Explorers & Apps",
+      "title": "Anatomy Explorer",
+      "description": "An interactive 3D human body built from 1,635 real BodyParts3D structures — skeleton, muscles, organs, vessels, brain — with blood-flow and nerve-signal pulses.",
+      "url": "https://followorbounce.github.io/anatomy-explorer/",
+      "tag": "Tool",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Explorers & Apps",
+      "title": "World Calendar Explorer",
+      "description": "Convert any Gregorian date across 28 historical and contemporary calendar systems, with verified conversion math.",
+      "url": "https://followorbounce.github.io/world-calendar-explorer/",
+      "tag": "Tool",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Explorers & Apps",
+      "title": "Country Comparison Atlas",
+      "description": "A living global atlas of 205 countries and territories, compared side by side across sourced core statistics.",
+      "url": "https://followorbounce.github.io/country-atlas/",
+      "tag": "Tool",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Explorers & Apps",
+      "title": "US States Atlas",
+      "description": "Compare any two U.S. states on a tile grid or map, plus a government view of party control across four layers.",
+      "url": "https://followorbounce.github.io/us-states-atlas/",
+      "tag": "Tool",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Explorers & Apps",
+      "title": "Tarot Draw",
+      "description": "Draw cards from three public-domain decks — Egyptian, Rider-Waite-Smith and Sola Busca — with optional reversals.",
+      "url": "https://followorbounce.github.io/tarot/",
+      "tag": "Tool",
       "interactive": true
     },
     {
