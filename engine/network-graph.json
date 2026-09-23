@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 46
+      "count": 47
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 117,
+    "pages": 118,
     "repos": 4,
     "own": 33,
-    "aerospace": 46,
+    "aerospace": 47,
     "maya": 7,
     "machinery": 31
   },
@@ -569,6 +569,16 @@
       "title": "The Perseverance Rover",
       "description": "Mars Exploration — JEZERO",
       "url": "https://followorbounce.github.io/aerospace/jezero-perseverance-rover.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Mars Exploration",
+      "title": "Earth to Mars: The Transfer",
+      "description": "Mars Exploration — TRANSFER",
+      "url": "https://followorbounce.github.io/aerospace/transfer-earth-to-mars.html",
       "tag": "Read",
       "interactive": true
     },
