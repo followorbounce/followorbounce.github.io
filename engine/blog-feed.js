@@ -2,10 +2,9 @@
 (function(){
   /* Only the "Art tasks" category (slug art-tasks) feeds this card, so a post from another category never shows up here.
      Fetched live on every page view — no rebuild needed when the blog publishes. */
-  var API = 'https://public-api.wordpress.com/rest/v1.1/sites/designdivinefuture.wordpress.com/posts/?number=1&category=art-tasks&fields=title,URL,date,content,categories';
+  var API = 'https://public-api.wordpress.com/rest/v1.1/sites/designdivinefuture.wordpress.com/posts/?number=1&category=art-tasks&fields=title,URL,content,categories';
   var BLOG = 'https://designdivinefuture.wordpress.com/category/art-tasks/';   /* fallback link target: the Art tasks archive */
   var card = document.getElementById('bf-card');
-  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
   function clean(s){ return (s || '').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim(); }
   function fail(){
@@ -44,9 +43,8 @@
     var c = parse(p.content);
     var time = find(c.paras, /^time limit:\s*(.+)$/i), terms = find(c.paras, /^(?:design )?terms(?: applied| used)?:\s*(.+)$/i);
     var summary = summaryOf(c.paras);
-    var dt = new Date(p.date), cat = Object.keys(p.categories || {})[0] || 'Post';
+    var cat = Object.keys(p.categories || {})[0] || 'Post';
     card.classList.remove('bf-skel'); card.classList.toggle('no-img', !c.img); card.textContent = '';
-    var date = el('div','bf-date'); date.appendChild(el('span','d', String(dt.getDate()))); date.appendChild(el('span','m', MON[dt.getMonth()] + ' ' + dt.getFullYear()));
     var body = el('div','bf-body');
     body.appendChild(el('div','bf-cat', cat));
     var h = el('h2','bf-title'); var a = el('a', null, clean(new DOMParser().parseFromString(p.title, 'text/html').body.textContent)); a.href = p.URL; h.appendChild(a); body.appendChild(h);
@@ -56,7 +54,7 @@
     if(time) meta.appendChild(el('span','bf-time','\u23F1 ' + time[1]));
     var r = el('a','bf-read','Read the post \u2192'); r.href = p.URL; meta.appendChild(r);
     body.appendChild(meta);
-    card.appendChild(date); card.appendChild(body);
+    card.appendChild(body);
     if(c.img){
       var fig = el('a','bf-fig'); fig.href = p.URL; fig.tabIndex = -1; fig.setAttribute('aria-hidden','true');   /* decorative link: the title already links */
       var im = document.createElement('img'); im.alt = ''; im.decoding = 'async'; im.referrerPolicy = 'no-referrer';

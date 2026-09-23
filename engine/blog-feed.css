@@ -5,11 +5,8 @@
 .bf-eyebrow b{color:var(--accent); font-weight:600;}
 .bf-all{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--ink);}
 .bf-all:hover{color:var(--accent); border-color:var(--accent);}
-.bf-card{display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"date body fig"; border:1px solid var(--ink); background:#fff;}
-.bf-card.no-img{grid-template-columns:auto minmax(0,1fr); grid-template-areas:"date body";}
-.bf-date{grid-area:date; border-right:1px solid var(--ink); padding:18px 22px; min-width:104px; text-align:center; background:var(--ink); color:var(--paper); display:flex; flex-direction:column; justify-content:center; gap:2px;}
-.bf-date .d{font-family:var(--font-display); font-weight:700; font-size:2.6rem; line-height:1;}
-.bf-date .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;}
+.bf-card{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"body fig"; border:1px solid var(--ink); background:#fff;}
+.bf-card.no-img{grid-template-columns:minmax(0,1fr); grid-template-areas:"body";}
 .bf-body{grid-area:body; padding:20px 24px 22px; min-width:0; display:flex; flex-direction:column;}
 .bf-cat{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
 .bf-title{font-family:var(--font-display); font-weight:700; font-size:clamp(1.35rem,3.2vw,2rem); line-height:1.12; letter-spacing:.005em; margin:6px 0 10px; text-transform:none;}
@@ -27,6 +24,5 @@
 .bf-skel .bf-title,.bf-skel .bf-sum{background:linear-gradient(90deg,#eee,#f7f7f3,#eee); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
 @keyframes bfp{to{background-position:-200% 0;}}
 @media (prefers-reduced-motion: reduce){.bf-skel .bf-title,.bf-skel .bf-sum{animation:none;} .bf-fig img{transition:none;}}
-@media (max-width:860px){.bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"date" "fig" "body";} .bf-card.no-img{grid-template-areas:"date" "body";}
-  .bf-date{flex-direction:row; justify-content:flex-start; align-items:baseline; gap:10px; border-right:0; border-bottom:1px solid var(--ink); padding:10px 16px;} .bf-date .d{font-size:1.6rem;}
+@media (max-width:860px){.bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"fig" "body";} .bf-card.no-img{grid-template-areas:"body";}
   .bf-fig{width:auto; min-height:0; height:230px; border-left:0; border-bottom:1px solid var(--ink);} .bf-read{margin-left:0;}}

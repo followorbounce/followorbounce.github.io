@@ -12,13 +12,13 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Knowledge Network</title>
+<title>D.ATA &amp; Projects</title>
 <meta name="description" content="A personal index of 117 pages across four repositories — essays, interactive experiments, media servers, art, field guides, and a heavy-machinery and Maya-calendar encyclopedia — centred on space, time, perception, and engineering.">
 <link rel="canonical" href="https://followorbounce.github.io/">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Knowledge Network">
+<meta property="og:title" content="D.ATA &amp; Projects">
 <meta property="og:description" content="A personal index of 117 pages across four repositories, centred on space, time, perception, and engineering.">
 <meta property="og:url" content="https://followorbounce.github.io/">
 
@@ -58,26 +58,22 @@ header .brand{
   border:1px solid var(--ink); padding:6px 10px; display:inline-block;
 }
 
-.hero{padding-block:clamp(40px,8vw,80px); border-bottom:1px solid var(--ink);}
+.hero{padding-block:22px; border-bottom:1px solid var(--ink);}
+.hero .eyebrow{margin-bottom:0;}
 .eyebrow{
   font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em;
   text-transform:uppercase; color:var(--mid);
   display:flex; align-items:center; gap:10px; margin-bottom:18px;
 }
 .eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
-.hero h1{font-size:clamp(2.2rem, 6vw, 4rem); line-height:1.0; margin-bottom:20px;}
-.hero p{font-size:clamp(1.02rem, 1.4vw, 1.2rem); max-width:640px; color:#28282a;}
-.stats{
-  display:flex; flex-wrap:wrap; gap:28px 40px; margin-top:28px;
-  font-family:var(--font-mono);
-}
-.stat b{display:block; font-size:1.7rem; font-family:var(--font-display); font-weight:700;}
-.stat span{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--mid);}
 
-.search-wrap{border-bottom:1px solid var(--ink); padding-block:20px; background:#efefe9;}
+.head-row .brand{white-space:nowrap;}
+.head-row{display:flex; align-items:center; justify-content:space-between; gap:12px;}
+.search-wrap{display:none; border-bottom:1px solid var(--ink); padding-block:4px 20px; background:#efefe9;}
+.search-wrap.on{display:block;}
 #network-search{
-  width:100%; font:inherit; font-family:var(--font-mono); font-size:14px;
-  padding:14px 16px; border:1px solid var(--ink); background:var(--paper); color:var(--ink);
+  flex:0 1 200px; min-width:0; font:inherit; font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em;
+  padding:6px 10px; border:1px solid var(--ink); background:var(--paper); color:var(--ink); border-radius:0;
 }
 #network-search::placeholder{color:var(--mid);}
 #search-results{margin-top:16px; display:none; gap:2px; flex-direction:column;}
@@ -104,11 +100,8 @@ header .brand{
 .bf-eyebrow b{color:var(--accent); font-weight:600;}
 .bf-all{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--ink);}
 .bf-all:hover{color:var(--accent); border-color:var(--accent);}
-.bf-card{display:grid; grid-template-columns:auto minmax(0,1fr) auto; grid-template-areas:"date body fig"; border:1px solid var(--ink); background:#fff;}
-.bf-card.no-img{grid-template-columns:auto minmax(0,1fr); grid-template-areas:"date body";}
-.bf-date{grid-area:date; border-right:1px solid var(--ink); padding:18px 22px; min-width:104px; text-align:center; background:var(--ink); color:var(--paper); display:flex; flex-direction:column; justify-content:center; gap:2px;}
-.bf-date .d{font-family:var(--font-display); font-weight:700; font-size:2.6rem; line-height:1;}
-.bf-date .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;}
+.bf-card{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"body fig"; border:1px solid var(--ink); background:#fff;}
+.bf-card.no-img{grid-template-columns:minmax(0,1fr); grid-template-areas:"body";}
 .bf-body{grid-area:body; padding:20px 24px 22px; min-width:0; display:flex; flex-direction:column;}
 .bf-cat{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
 .bf-title{font-family:var(--font-display); font-weight:700; font-size:clamp(1.35rem,3.2vw,2rem); line-height:1.12; letter-spacing:.005em; margin:6px 0 10px; text-transform:none;}
@@ -126,9 +119,37 @@ header .brand{
 .bf-skel .bf-title,.bf-skel .bf-sum{background:linear-gradient(90deg,#eee,#f7f7f3,#eee); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
 @keyframes bfp{to{background-position:-200% 0;}}
 @media (prefers-reduced-motion: reduce){.bf-skel .bf-title,.bf-skel .bf-sum{animation:none;} .bf-fig img{transition:none;}}
-@media (max-width:860px){.bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"date" "fig" "body";} .bf-card.no-img{grid-template-areas:"date" "body";}
-  .bf-date{flex-direction:row; justify-content:flex-start; align-items:baseline; gap:10px; border-right:0; border-bottom:1px solid var(--ink); padding:10px 16px;} .bf-date .d{font-size:1.6rem;}
+@media (max-width:860px){.bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"fig" "body";} .bf-card.no-img{grid-template-areas:"body";}
   .bf-fig{width:auto; min-height:0; height:230px; border-left:0; border-bottom:1px solid var(--ink);} .bf-read{margin-left:0;}}
+
+/* ---- "What day is it" calendar window (data from World Calendar Explorer) ---- */
+.calwin{padding-block:28px; border-bottom:1px solid var(--ink);}
+.cw-card{display:grid; grid-template-columns:auto minmax(0,1fr); border:1px solid var(--ink); background:#fff;}
+/* Today tile: dark timestamp tile (the art-task card used the same style until its date was removed on 2026-09-22). */
+.cw-today{border-right:1px solid var(--ink); padding:18px 22px; min-width:128px; text-align:center; background:var(--ink); color:var(--paper); display:flex; flex-direction:column; justify-content:center; gap:2px;}
+.cw-today .d{font-family:var(--font-display); font-weight:700; font-size:2.6rem; line-height:1;}
+.cw-today .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;}
+.cw-today .w{font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#b9b9b2; margin-top:6px;}
+.cw-body{min-width:0; display:flex; flex-direction:column;}
+.cw-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr));}
+.cw-cell{padding:14px 16px 13px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); min-width:0;}
+.cw-cell:nth-child(4n){border-right:0;}
+.cw-cell .k{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.cw-cell .d{font-family:var(--font-display); font-weight:700; font-size:1.9rem; line-height:1.05; margin-top:4px;}
+.cw-cell .d.sm{font-size:1.15rem; line-height:1.2; padding-block:6px 3px;}
+.cw-cell .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:#28282a; overflow-wrap:anywhere;}
+.cw-clock{display:flex; flex-wrap:wrap; gap:6px 22px; align-items:baseline; padding:11px 16px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--mid); margin-top:auto;}
+.cw-clock b{color:var(--ink); font-weight:500; font-variant-numeric:tabular-nums;}
+.cw-note{padding:6px 16px 12px; font-family:var(--font-mono); font-size:10px; color:var(--mid);}
+.cw-skel .d,.cw-skel .m{background:linear-gradient(90deg,#eee,#f7f7f3,#eee); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
+@media (prefers-reduced-motion: reduce){.cw-skel .d,.cw-skel .m{animation:none;}}
+@media (max-width:860px){
+  .cw-card{grid-template-columns:minmax(0,1fr);}
+  .cw-today{flex-direction:row; justify-content:flex-start; align-items:baseline; gap:10px; border-right:0; border-bottom:1px solid var(--ink); padding:10px 16px; flex-wrap:wrap;}
+  .cw-today .d{font-size:1.6rem;} .cw-today .w{margin-top:0;}
+  .cw-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .cw-cell:nth-child(4n){border-right:1px solid var(--line);} .cw-cell:nth-child(2n){border-right:0;}
+}
 
 
 .cats{padding-block:clamp(48px,8vw,88px);}
@@ -175,23 +196,23 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 <body>
 
 <header>
-  <div class="wrap"><span class="brand">KNOWLEDGE NETWORK</span></div>
+  <div class="wrap head-row"><span class="brand">D.ATA &amp; PROJECTS</span>
+    <input type="search" id="network-search" placeholder="Search" aria-label="Search all pages" autocomplete="off" spellcheck="false">
+  </div>
 </header>
 
 <main>
 
-<section class="hero">
+<section class="search-wrap" id="search-wrap">
   <div class="wrap">
-    <div class="eyebrow">Index &middot; generated by the Knowledge Network Engine</div>
-    <h1>Knowledge Network</h1>
-    <p>A personal index of essays, interactive experiments, media servers, art and data analysis, and notes on space, time, and perception, often approached through contested questions. Entries marked <b>soon</b> are planned.</p>
-    <div class="stats">
-      <div class="stat"><b>117</b><span>Pages indexed</span></div>
-      <div class="stat"><b>4</b><span>Repositories</span></div>
-      <div class="stat"><b>46</b><span>Aerospace articles</span></div>
-      <div class="stat"><b>31</b><span>Machinery entries</span></div>
-      <div class="stat"><b>7</b><span>Maya calendar pages</span></div>
-    </div>
+    <div id="search-results" aria-live="polite"></div>
+    <div id="search-empty">No matches. Try a different word, or browse by category below.</div>
+  </div>
+</section>
+
+<section class="hero" data-hide-when-search>
+  <div class="wrap">
+    <div class="eyebrow">Index &middot; Dmitrii V</div>
   </div>
 </section>
 
@@ -202,7 +223,6 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <a class="bf-all" href="https://designdivinefuture.wordpress.com/category/art-tasks/">All art tasks &rarr;</a>
     </div>
     <article class="bf-card bf-skel no-img" id="bf-card" aria-live="polite">
-      <div class="bf-date"><span class="d">&nbsp;</span><span class="m">&nbsp;</span></div>
       <div class="bf-body">
         <div class="bf-cat">Art tasks</div>
         <h2 class="bf-title">Fetching the latest post</h2>
@@ -213,11 +233,20 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="search-wrap">
+<section class="calwin" data-hide-when-search aria-labelledby="cw-h">
   <div class="wrap">
-    <input type="text" id="network-search" placeholder="Search all 117 pages across the network&hellip; (title, topic, repo)" autocomplete="off" spellcheck="false">
-    <div id="search-results" aria-live="polite"></div>
-    <div id="search-empty">No matches. Try a different word, or browse by category below.</div>
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="cw-h">What day is it &mdash; everywhere, and everywhen? &middot; <b>World Calendar Explorer</b> &middot; live</span>
+      <a class="bf-all" href="/world-calendar-explorer/">All 28 calendars &rarr;</a>
+    </div>
+    <article class="cw-card cw-skel" id="cw-card" aria-live="off">
+      <div class="cw-today"><span class="d">&nbsp;</span><span class="m">&nbsp;</span><span class="w">&nbsp;</span></div>
+      <div class="cw-body">
+        <div class="cw-grid" id="cw-grid"></div>
+        <div class="cw-clock" id="cw-clock"></div>
+      </div>
+    </article>
+    <noscript><p><a href="/world-calendar-explorer/">See today in 28 calendar systems on World Calendar Explorer &rarr;</a></p></noscript>
   </div>
 </section>
 
@@ -502,6 +531,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     var q = input.value.trim().toLowerCase();
     var active = q.length > 0;
     for (var i = 0; i < hideEls.length; i++) hideEls[i].classList.toggle('search-active', active);
+    document.getElementById('search-wrap').classList.toggle('on', active);
     if (!active) {
       results.classList.remove('active');
       empty.classList.remove('active');
@@ -522,10 +552,9 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 (function(){
   /* Only the "Art tasks" category (slug art-tasks) feeds this card, so a post from another category never shows up here.
      Fetched live on every page view — no rebuild needed when the blog publishes. */
-  var API = 'https://public-api.wordpress.com/rest/v1.1/sites/designdivinefuture.wordpress.com/posts/?number=1&category=art-tasks&fields=title,URL,date,content,categories';
+  var API = 'https://public-api.wordpress.com/rest/v1.1/sites/designdivinefuture.wordpress.com/posts/?number=1&category=art-tasks&fields=title,URL,content,categories';
   var BLOG = 'https://designdivinefuture.wordpress.com/category/art-tasks/';   /* fallback link target: the Art tasks archive */
   var card = document.getElementById('bf-card');
-  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
   function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
   function clean(s){ return (s || '').replace(/\u00a0/g,' ').replace(/\s+/g,' ').trim(); }
   function fail(){
@@ -564,9 +593,8 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     var c = parse(p.content);
     var time = find(c.paras, /^time limit:\s*(.+)$/i), terms = find(c.paras, /^(?:design )?terms(?: applied| used)?:\s*(.+)$/i);
     var summary = summaryOf(c.paras);
-    var dt = new Date(p.date), cat = Object.keys(p.categories || {})[0] || 'Post';
+    var cat = Object.keys(p.categories || {})[0] || 'Post';
     card.classList.remove('bf-skel'); card.classList.toggle('no-img', !c.img); card.textContent = '';
-    var date = el('div','bf-date'); date.appendChild(el('span','d', String(dt.getDate()))); date.appendChild(el('span','m', MON[dt.getMonth()] + ' ' + dt.getFullYear()));
     var body = el('div','bf-body');
     body.appendChild(el('div','bf-cat', cat));
     var h = el('h2','bf-title'); var a = el('a', null, clean(new DOMParser().parseFromString(p.title, 'text/html').body.textContent)); a.href = p.URL; h.appendChild(a); body.appendChild(h);
@@ -576,7 +604,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     if(time) meta.appendChild(el('span','bf-time','\u23F1 ' + time[1]));
     var r = el('a','bf-read','Read the post \u2192'); r.href = p.URL; meta.appendChild(r);
     body.appendChild(meta);
-    card.appendChild(date); card.appendChild(body);
+    card.appendChild(body);
     if(c.img){
       var fig = el('a','bf-fig'); fig.href = p.URL; fig.tabIndex = -1; fig.setAttribute('aria-hidden','true');   /* decorative link: the title already links */
       var im = document.createElement('img'); im.alt = ''; im.decoding = 'async'; im.referrerPolicy = 'no-referrer';
@@ -589,6 +617,76 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   fetch(API, {signal: ctl.signal}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(d){ clearTimeout(to); if(!d.posts || !d.posts[0]) throw 0; render(d.posts[0]); })
     .catch(function(){ clearTimeout(to); fail(); });
+})();
+</script>
+
+<script>
+(function(){
+  /* Today's date in eight calendar systems, computed in the browser by World Calendar Explorer's own
+     conversion code (loaded from that site, so there is one canonical implementation — nothing is copied here).
+     Absolute URLs so a local preview of this page works too. */
+  var BASE = 'https://followorbounce.github.io/world-calendar-explorer/js/';
+  var FILES = ['core.js','calendars/ancient.js','calendars/asian.js','calendars/abrahamic.js','calendars/maya.js','registry.js'];
+  var SHOW = ['julian','hebrew','islamic','persian','indian','ethiopian','chinesezodiac','maya'];
+  var SHORT = {julian:'Julian', hebrew:'Hebrew', islamic:'Islamic (tabular)', persian:'Persian', indian:'Indian (Saka)', ethiopian:'Ethiopian', chinesezodiac:'Chinese zodiac', maya:'Maya (GMT)'};
+  var MON = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  var card = document.getElementById('cw-card'), grid = document.getElementById('cw-grid'), clock = document.getElementById('cw-clock');
+  var shownDay = '', clockEls = null, dead = false;
+  function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
+  function fail(){
+    if(dead) return; dead = true;
+    card.classList.remove('cw-skel'); card.textContent = '';
+    var b = el('div','bf-body'); b.appendChild(el('div','bf-cat','Calendars'));
+    var t = el('h2','bf-title'); var a = el('a',null,'What day is it — see today in 28 calendar systems'); a.href = '/world-calendar-explorer/'; t.appendChild(a);
+    b.appendChild(t); card.style.gridTemplateColumns = '1fr'; card.appendChild(b);
+  }
+  function load(i, done){
+    if(i >= FILES.length) return done();
+    var s = document.createElement('script'); s.src = BASE + FILES[i];
+    s.onload = function(){ load(i + 1, done); }; s.onerror = fail;
+    document.head.appendChild(s);
+  }
+  function cell(r){
+    var c = el('div','cw-cell'); c.appendChild(el('div','k', SHORT[r.key] || r.name));
+    if(r.error){ c.appendChild(el('div','d sm','—')); c.appendChild(el('div','m','unavailable')); return c; }
+    if(r.key === 'maya'){ c.appendChild(el('div','d sm', r.longCount)); c.appendChild(el('div','m', r.tzolkin + ' · ' + r.haab)); return c; }
+    if(r.key === 'chinesezodiac'){ c.appendChild(el('div','d sm', r.animal)); c.appendChild(el('div','m', r.sexagenaryYear + ' · ' + r.element)); return c; }
+    c.appendChild(el('div','d', String(r.day)));
+    c.appendChild(el('div','m', (r.monthName || ('M' + r.month)) + ' ' + r.year));
+    return c;
+  }
+  function renderDay(now){
+    var y = now.getFullYear(), m = now.getMonth() + 1, d = now.getDate();
+    var jdn = Core.gregorianToJDN(y, m, d);
+    var all = Registry.computeAll({ jdn: jdn, y: y, m: m, d: d, isBCE: false, hoursUTC: 12, weekday: Core.weekdayFromJDN(jdn) });
+    var byKey = {}; all.forEach(function(r){ byKey[r.key] = r; });
+    card.classList.remove('cw-skel');
+    var today = card.querySelector('.cw-today');
+    today.children[0].textContent = String(d);
+    today.children[1].textContent = MON[m - 1] + ' ' + y;
+    today.children[2].textContent = Core.weekdayName(jdn);
+    grid.textContent = '';
+    SHOW.forEach(function(k){ if(byKey[k]) grid.appendChild(cell(byKey[k])); });
+    clock.textContent = ''; clockEls = {};
+    [['local','Local'],['utc','UTC'],['jdn','JDN'],['unix','Unix']].forEach(function(p){
+      var s = el('span', null, p[1] + ' '); clockEls[p[0]] = el('b'); s.appendChild(clockEls[p[0]]); clock.appendChild(s);
+    });
+    clockEls.jdn.textContent = String(jdn);
+    var more = el('a','bf-all','Convert any date →'); more.href = '/world-calendar-explorer/#converter'; more.style.marginLeft = 'auto'; clock.appendChild(more);
+  }
+  function pad(n){ return (n < 10 ? '0' : '') + n; }
+  function tick(){
+    var now = new Date(), key = now.toDateString();
+    if(key !== shownDay){ shownDay = key; renderDay(now); }   /* re-renders at local midnight */
+    clockEls.local.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes()) + ':' + pad(now.getSeconds());
+    clockEls.utc.textContent = pad(now.getUTCHours()) + ':' + pad(now.getUTCMinutes()) + ':' + pad(now.getUTCSeconds());
+    clockEls.unix.textContent = String(Math.floor(now.getTime() / 1000));
+  }
+  var to = setTimeout(fail, 8000);
+  load(0, function(){
+    clearTimeout(to); if(dead) return;
+    try { tick(); setInterval(tick, 1000); } catch(e){ fail(); }
+  });
 })();
 </script>
 

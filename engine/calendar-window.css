@@ -1,0 +1,28 @@
+/* ---- "What day is it" calendar window (data from World Calendar Explorer) ---- */
+.calwin{padding-block:28px; border-bottom:1px solid var(--ink);}
+.cw-card{display:grid; grid-template-columns:auto minmax(0,1fr); border:1px solid var(--ink); background:#fff;}
+/* Today tile: dark timestamp tile (the art-task card used the same style until its date was removed on 2026-09-22). */
+.cw-today{border-right:1px solid var(--ink); padding:18px 22px; min-width:128px; text-align:center; background:var(--ink); color:var(--paper); display:flex; flex-direction:column; justify-content:center; gap:2px;}
+.cw-today .d{font-family:var(--font-display); font-weight:700; font-size:2.6rem; line-height:1;}
+.cw-today .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.14em; text-transform:uppercase;}
+.cw-today .w{font-family:var(--font-mono); font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:#b9b9b2; margin-top:6px;}
+.cw-body{min-width:0; display:flex; flex-direction:column;}
+.cw-grid{display:grid; grid-template-columns:repeat(4,minmax(0,1fr));}
+.cw-cell{padding:14px 16px 13px; border-right:1px solid var(--line); border-bottom:1px solid var(--line); min-width:0;}
+.cw-cell:nth-child(4n){border-right:0;}
+.cw-cell .k{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); white-space:nowrap; overflow:hidden; text-overflow:ellipsis;}
+.cw-cell .d{font-family:var(--font-display); font-weight:700; font-size:1.9rem; line-height:1.05; margin-top:4px;}
+.cw-cell .d.sm{font-size:1.15rem; line-height:1.2; padding-block:6px 3px;}
+.cw-cell .m{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:#28282a; overflow-wrap:anywhere;}
+.cw-clock{display:flex; flex-wrap:wrap; gap:6px 22px; align-items:baseline; padding:11px 16px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--mid); margin-top:auto;}
+.cw-clock b{color:var(--ink); font-weight:500; font-variant-numeric:tabular-nums;}
+.cw-note{padding:6px 16px 12px; font-family:var(--font-mono); font-size:10px; color:var(--mid);}
+.cw-skel .d,.cw-skel .m{background:linear-gradient(90deg,#eee,#f7f7f3,#eee); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
+@media (prefers-reduced-motion: reduce){.cw-skel .d,.cw-skel .m{animation:none;}}
+@media (max-width:860px){
+  .cw-card{grid-template-columns:minmax(0,1fr);}
+  .cw-today{flex-direction:row; justify-content:flex-start; align-items:baseline; gap:10px; border-right:0; border-bottom:1px solid var(--ink); padding:10px 16px; flex-wrap:wrap;}
+  .cw-today .d{font-size:1.6rem;} .cw-today .w{margin-top:0;}
+  .cw-grid{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .cw-cell:nth-child(4n){border-right:1px solid var(--line);} .cw-cell:nth-child(2n){border-right:0;}
+}
