@@ -12,13 +12,13 @@
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D.ATA &amp; Projects</title>
+<title>Follow or Bounce</title>
 <meta name="description" content="A personal index of 118 pages across four repositories — essays, interactive experiments, media servers, art, field guides, and a heavy-machinery and Maya-calendar encyclopedia — centred on space, time, perception, and engineering.">
 <link rel="canonical" href="https://followorbounce.github.io/">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
-<meta property="og:title" content="D.ATA &amp; Projects">
+<meta property="og:title" content="Follow or Bounce">
 <meta property="og:description" content="A personal index of 118 pages across four repositories, centred on space, time, perception, and engineering.">
 <meta property="og:url" content="https://followorbounce.github.io/">
 
@@ -151,6 +151,32 @@ header .brand{
   .cw-cell:nth-child(4n){border-right:1px solid var(--line);} .cw-cell:nth-child(2n){border-right:0;}
 }
 
+#cubes-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;}
+#cubes-canvas.on{display:block;}
+body.cubes-on>*:not(#cubes-canvas){position:relative;z-index:1;}
+
+.hdr-btns{display:flex;gap:6px;align-items:center;flex-shrink:0;}
+.hdr-btn{
+  font-family:var(--font-mono);font-size:10px;letter-spacing:0.08em;
+  padding:5px 8px;border:1px solid var(--ink);background:transparent;color:var(--ink);
+  cursor:pointer;text-transform:uppercase;line-height:1;white-space:nowrap;
+}
+.hdr-btn:hover{background:var(--ink);color:var(--paper);}
+.hdr-btn.active{background:var(--ink);color:var(--paper);}
+
+@media(prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ink:#e8e8e4;--paper:#111113;--line:#333;--mid:#888;--accent:#d4714e;
+  }
+  :root:not([data-theme="light"]) .search-wrap{background:#1a1a1d;}
+  :root:not([data-theme="light"]) #search-results .hit:hover{background:#222;}
+}
+:root[data-theme="dark"]{
+  --ink:#e8e8e4;--paper:#111113;--line:#333;--mid:#888;--accent:#d4714e;
+}
+:root[data-theme="dark"] .search-wrap{background:#1a1a1d;}
+:root[data-theme="dark"] #search-results .hit:hover{background:#222;}
+
 
 .cats{padding-block:clamp(48px,8vw,88px);}
 .cats-grid{
@@ -196,8 +222,12 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 <body>
 
 <header>
-  <div class="wrap head-row"><span class="brand">D.ATA &amp; PROJECTS</span>
-    <input type="search" id="network-search" placeholder="Search" aria-label="Search all pages" autocomplete="off" spellcheck="false">
+  <div class="wrap head-row"><span class="brand">FOLLOW OR BOUNCE</span>
+    <div class="hdr-btns">
+      <button class="hdr-btn" id="btn-cubes" title="Toggle falling cubes">&#9632;</button>
+      <button class="hdr-btn" id="btn-theme">Dark</button>
+      <input type="search" id="network-search" placeholder="Search" aria-label="Search all pages" autocomplete="off" spellcheck="false">
+    </div>
   </div>
 </header>
 
@@ -537,6 +567,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 })();
 </script>
 
+<canvas id="cubes-canvas" aria-hidden="true"></canvas>
 <script>
 (function(){
   /* Only the "Art tasks" category (slug art-tasks) feeds this card, so a post from another category never shows up here.
@@ -679,6 +710,98 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 })();
 </script>
 
+<script>
+(function(){
+  var cvs=document.getElementById('cubes-canvas'),
+      ctx=cvs?cvs.getContext('2d'):null,
+      cubes=[],running=false,raf=0,
+      btn=document.getElementById('btn-cubes'),
+      tbtn=document.getElementById('btn-theme');
+
+  var palette=[
+    'rgba(166,64,31,0.18)','rgba(166,64,31,0.12)',
+    'rgba(122,122,116,0.14)','rgba(11,11,12,0.08)',
+    'rgba(201,201,193,0.22)','rgba(80,120,180,0.12)',
+    'rgba(212,113,78,0.16)','rgba(60,60,58,0.10)'
+  ];
+
+  function mkCube(){
+    var s=6+Math.random()*28;
+    return{
+      x:Math.random()*cvs.width,
+      y:-s-Math.random()*cvs.height*0.5,
+      s:s,
+      vy:0.3+Math.random()*1.2,
+      vx:(Math.random()-0.5)*0.4,
+      r:Math.random()*Math.PI*2,
+      vr:(Math.random()-0.5)*0.02,
+      c:palette[Math.floor(Math.random()*palette.length)]
+    };
+  }
+
+  function resize(){
+    if(!cvs)return;
+    cvs.width=window.innerWidth;
+    cvs.height=window.innerHeight;
+  }
+
+  function tick(){
+    if(!running)return;
+    ctx.clearRect(0,0,cvs.width,cvs.height);
+    if(cubes.length<90) cubes.push(mkCube());
+    for(var i=cubes.length-1;i>=0;i--){
+      var c=cubes[i];
+      c.y+=c.vy; c.x+=c.vx; c.r+=c.vr;
+      if(c.y>cvs.height+c.s){cubes.splice(i,1);continue;}
+      ctx.save();
+      ctx.translate(c.x,c.y);
+      ctx.rotate(c.r);
+      ctx.fillStyle=c.c;
+      ctx.fillRect(-c.s/2,-c.s/2,c.s,c.s);
+      ctx.restore();
+    }
+    raf=requestAnimationFrame(tick);
+  }
+
+  function toggle(){
+    running=!running;
+    if(running){
+      cvs.classList.add('on');
+      document.body.classList.add('cubes-on');
+      btn.classList.add('active');
+      cubes=[];resize();tick();
+    }else{
+      cancelAnimationFrame(raf);
+      cvs.classList.remove('on');
+      document.body.classList.remove('cubes-on');
+      btn.classList.remove('active');
+      cubes=[];
+    }
+  }
+
+  if(btn) btn.addEventListener('click',toggle);
+  window.addEventListener('resize',function(){if(running)resize();});
+
+  /* theme toggle */
+  function applyTheme(t){
+    document.documentElement.setAttribute('data-theme',t);
+    document.body.style.background=getComputedStyle(document.documentElement).getPropertyValue('--paper');
+    try{localStorage.setItem('fb-theme',t);}catch(e){}
+    if(tbtn) tbtn.textContent=t==='dark'?'light':'dark';
+  }
+  function toggleTheme(){
+    var cur=document.documentElement.getAttribute('data-theme')||'light';
+    applyTheme(cur==='dark'?'light':'dark');
+  }
+  if(tbtn) tbtn.addEventListener('click',toggleTheme);
+  try{
+    var saved=localStorage.getItem('fb-theme');
+    if(saved) applyTheme(saved);
+    else if(window.matchMedia('(prefers-color-scheme:dark)').matches) applyTheme('dark');
+  }catch(e){}
+})();
+
+</script>
 
 </body>
 </html>

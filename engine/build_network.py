@@ -242,6 +242,9 @@ def render_index(graph):
     cal_css = open(os.path.join(HERE, "calendar-window.css"), encoding="utf-8").read()
     cal_html = open(os.path.join(HERE, "calendar-window.html"), encoding="utf-8").read()
     cal_js = open(os.path.join(HERE, "calendar-window.js"), encoding="utf-8").read()
+    # Falling cubes animation + theme toggle (see engine/cubes.*):
+    cubes_css = open(os.path.join(HERE, "cubes.css"), encoding="utf-8").read()
+    cubes_js = open(os.path.join(HERE, "cubes.js"), encoding="utf-8").read()
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -292,13 +295,13 @@ def render_index(graph):
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>D.ATA &amp; Projects</title>
+<title>Follow or Bounce</title>
 <meta name="description" content="A personal index of {totals['pages']} pages across four repositories — essays, interactive experiments, media servers, art, field guides, and a heavy-machinery and Maya-calendar encyclopedia — centred on space, time, perception, and engineering.">
 <link rel="canonical" href="https://followorbounce.github.io/">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
-<meta property="og:title" content="D.ATA &amp; Projects">
+<meta property="og:title" content="Follow or Bounce">
 <meta property="og:description" content="A personal index of {totals['pages']} pages across four repositories, centred on space, time, perception, and engineering.">
 <meta property="og:url" content="https://followorbounce.github.io/">
 
@@ -375,6 +378,7 @@ header .brand{{
 
 {blog_css}
 {cal_css}
+{cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
 .cats-grid{{
@@ -420,8 +424,12 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <body>
 
 <header>
-  <div class="wrap head-row"><span class="brand">D.ATA &amp; PROJECTS</span>
-    <input type="search" id="network-search" placeholder="Search" aria-label="Search all pages" autocomplete="off" spellcheck="false">
+  <div class="wrap head-row"><span class="brand">FOLLOW OR BOUNCE</span>
+    <div class="hdr-btns">
+      <button class="hdr-btn" id="btn-cubes" title="Toggle falling cubes">&#9632;</button>
+      <button class="hdr-btn" id="btn-theme">Dark</button>
+      <input type="search" id="network-search" placeholder="Search" aria-label="Search all pages" autocomplete="off" spellcheck="false">
+    </div>
   </div>
 </header>
 
@@ -523,8 +531,12 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 }})();
 </script>
 
+<canvas id="cubes-canvas" aria-hidden="true"></canvas>
 {blog_js}
 {cal_js}
+<script>
+{cubes_js}
+</script>
 
 </body>
 </html>
