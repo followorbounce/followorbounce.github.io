@@ -93,6 +93,37 @@ footer a{color:var(--int);}
 .crisis li::before{content:''; width:6px; height:6px; border-radius:50%; background:var(--int); flex-shrink:0; position:relative; top:-1px;}
 .crisis a{color:var(--int); text-decoration:none;}
 .crisis a:hover{text-decoration:underline;}
+
+.view-toggle{display:flex; gap:0; margin-right:8px;}
+.view-toggle .vtab{font-family:var(--font-mono); font-size:11px; letter-spacing:0.02em; padding:7px 11px; border:1px solid var(--line-strong); background:var(--paper-raised); color:var(--ink-muted); cursor:pointer;}
+.view-toggle .vtab:first-child{border-radius:12px 0 0 12px;}
+.view-toggle .vtab:last-child{border-radius:0 12px 12px 0; border-left:0;}
+.view-toggle .vtab.active{border-color:var(--int); color:var(--int); background:var(--int-soft);}
+
+.poster-btn{font-family:var(--font-mono); font-size:11px; letter-spacing:0.02em; padding:7px 11px; border:1px solid var(--line-strong); border-radius:12px; background:var(--paper-raised); color:var(--ink-muted); cursor:pointer; white-space:nowrap;}
+.poster-btn:hover{border-color:var(--int); color:var(--int);}
+
+.bodymap-section{display:none; padding-block:24px;}
+.bodymap-section.active{display:block;}
+.bodymap-wrap{display:flex; gap:24px; align-items:flex-start;}
+.bm-list{flex:1; max-height:600px; overflow-y:auto; border:1px solid var(--line); border-radius:10px; background:var(--paper-raised);}
+.bm-item{font-family:var(--font-mono); font-size:12px; padding:7px 12px; cursor:pointer; border-bottom:1px solid var(--line); display:flex; align-items:center; gap:8px; color:var(--ink-muted);}
+.bm-item:last-child{border-bottom:0;}
+.bm-item:hover{background:var(--int-soft); color:var(--ink);}
+.bm-item.active{background:var(--int-soft); color:var(--int); font-weight:600;}
+.bm-item .bm-dot{width:6px; height:6px; border-radius:50%; background:var(--int); opacity:0.4; flex-shrink:0;}
+.bm-item.active .bm-dot{opacity:1;}
+.bm-body{flex-shrink:0; width:300px; position:sticky; top:120px;}
+.bm-body svg.body-silhouette{display:block; width:100%; height:auto; max-height:580px;}
+.bm-body svg.body-silhouette .bm-region{fill:transparent; stroke:var(--line-strong); stroke-width:0.5; cursor:pointer; transition:fill 0.2s;}
+.bm-body svg.body-silhouette .bm-region:hover{stroke:var(--int);}
+.bm-body svg.body-silhouette .bm-region.lit{stroke:var(--int); stroke-width:1;}
+.bm-label{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); text-align:center; margin-top:8px;}
+@media(max-width:600px){
+  .bodymap-wrap{flex-direction:column-reverse;}
+  .bm-body{width:100%; max-width:260px; margin:0 auto; position:static;}
+  .bm-list{max-height:300px;}
+}
 </style>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
 </head>
@@ -101,6 +132,7 @@ footer a{color:var(--int);}
   <div class="wrap">
     <span class="brand">KNOWLEDGE NETWORK</span>
     <span class="pair">Design of inner experience · paired with <a href="/dictionary-of-design/">Dictionary of Design →</a></span>
+    <button class="poster-btn" id="poster-btn">Save as poster</button>
     <a class="back" href="/">← Index</a>
   </div>
 </header>
@@ -115,12 +147,38 @@ footer a{color:var(--int);}
 
 <div class="controls">
   <div class="wrap">
+    <div class="view-toggle"><button class="vtab active" data-view="cards">Cards</button><button class="vtab" data-view="bodymap">Body Map</button></div>
     <input id="search" type="text" placeholder="Search terms…">
     <button class="catbtn active" data-cat="all">All <span>77</span></button>
     <button class="catbtn" data-cat="basic">Basic Emotions <span>6</span></button><button class="catbtn" data-cat="complex">Complex & Blended <span>23</span></button><button class="catbtn" data-cat="self-conscious">Self-Conscious <span>6</span></button><button class="catbtn" data-cat="mood">Moods <span>11</span></button><button class="catbtn" data-cat="interpersonal">Interpersonal & Relational <span>14</span></button><button class="catbtn" data-cat="existential">Existential <span>13</span></button><button class="catbtn" data-cat="regulation">Regulation Strategies <span>4</span></button>
     <span class="count" id="count"></span>
   </div>
 </div>
+
+<section class="bodymap-section wrap" id="bodymap-section">
+  <h2 style="font-size:1.1rem; margin-bottom:16px;">Body Map</h2>
+  <p style="font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-bottom:16px; max-width:640px;">Select a term to see where it is typically felt in the body. Intensity shown by color opacity. Based on Nummenmaa et al. (2014) bodily maps of emotions and related research.</p>
+  <div class="bodymap-wrap">
+    <div class="bm-list" id="bm-list"></div>
+    <div class="bm-body">
+      <svg class="body-silhouette" viewBox="0 0 200 460" xmlns="http://www.w3.org/2000/svg">
+        <path class="bm-region" data-region="head" d="M85 8 Q85 0 100 0 Q115 0 115 8 L118 30 Q118 42 100 45 Q82 42 82 30 Z"/>
+        <path class="bm-region" data-region="face" d="M88 15 Q88 10 100 10 Q112 10 112 15 L113 32 Q113 40 100 42 Q87 40 87 32 Z"/>
+        <path class="bm-region" data-region="throat" d="M92 45 L108 45 L110 58 Q100 62 90 58 Z"/>
+        <path class="bm-region" data-region="shoulders" d="M60 62 L90 58 L92 72 L62 72 Z M108 58 L140 62 L138 72 L108 72 Z"/>
+        <path class="bm-region" data-region="chest" d="M78 62 L122 62 L126 110 Q100 116 74 110 Z"/>
+        <path class="bm-region" data-region="stomach" d="M74 110 Q100 116 126 110 L128 160 Q100 168 72 160 Z"/>
+        <path class="bm-region" data-region="arms" d="M58 72 L78 72 L76 140 L56 140 Z M122 72 L142 72 L144 140 L124 140 Z"/>
+        <path class="bm-region" data-region="hands" d="M52 140 L76 140 L78 172 Q65 178 50 172 Z M124 140 L148 140 L150 172 Q135 178 122 172 Z"/>
+        <path class="bm-region" data-region="back" d="M80 62 L120 62 L124 160 Q100 165 76 160 Z" opacity="0.3"/>
+        <path class="bm-region" data-region="legs" d="M72 160 Q100 168 128 160 L130 290 Q118 295 110 290 L108 260 Q100 256 92 260 L90 290 Q82 295 70 290 Z"/>
+        <path class="bm-region" data-region="feet" d="M68 290 L92 290 L94 310 Q80 316 66 310 Z M108 290 L132 290 L134 310 Q120 316 106 310 Z"/>
+        <ellipse class="bm-region" data-region="whole-body" cx="100" cy="155" rx="58" ry="155" opacity="0.15"/>
+      </svg>
+      <div class="bm-label" id="bm-label">Select a term</div>
+    </div>
+  </div>
+</section>
 
 <main class="wrap">
   <p class="regnote" id="regnote">Regulation strategies aren't feelings — they're things a person does with a feeling (suppress it, avoid its trigger, ruminate on it). Kept separate from the main vocabulary above rather than mixed in as if they were another kind of emotion.</p>
@@ -801,6 +859,329 @@ catBtns.forEach(function(btn){
 });
 search.addEventListener('input', apply);
 apply();
+})();
+
+(function(){
+'use strict';
+
+var BODY_MAP = {
+  anger:              [{r:'chest',i:0.9},{r:'head',i:0.8},{r:'face',i:0.8},{r:'arms',i:0.7},{r:'hands',i:0.7},{r:'shoulders',i:0.5}],
+  disgust:            [{r:'stomach',i:0.9},{r:'throat',i:0.8},{r:'face',i:0.6},{r:'chest',i:0.4}],
+  fear:               [{r:'chest',i:0.9},{r:'stomach',i:0.8},{r:'head',i:0.7},{r:'throat',i:0.6},{r:'hands',i:0.5},{r:'legs',i:0.4}],
+  joy:                [{r:'chest',i:0.9},{r:'face',i:0.9},{r:'whole-body',i:0.6},{r:'arms',i:0.5},{r:'hands',i:0.4}],
+  sadness:            [{r:'chest',i:0.9},{r:'throat',i:0.7},{r:'face',i:0.6},{r:'head',i:0.5},{r:'stomach',i:0.4}],
+  surprise:           [{r:'chest',i:0.8},{r:'face',i:0.8},{r:'head',i:0.7},{r:'hands',i:0.4}],
+  antipathy:          [{r:'stomach',i:0.6},{r:'chest',i:0.5},{r:'face',i:0.4}],
+  anxiety:            [{r:'chest',i:0.9},{r:'stomach',i:0.8},{r:'throat',i:0.7},{r:'head',i:0.6},{r:'hands',i:0.5},{r:'shoulders',i:0.4}],
+  apprehension:       [{r:'chest',i:0.7},{r:'stomach',i:0.6},{r:'throat',i:0.4},{r:'hands',i:0.3}],
+  contempt:           [{r:'face',i:0.7},{r:'chest',i:0.4},{r:'head',i:0.3}],
+  delight:            [{r:'chest',i:0.8},{r:'face',i:0.8},{r:'hands',i:0.4},{r:'whole-body',i:0.3}],
+  disappointment:     [{r:'chest',i:0.7},{r:'stomach',i:0.6},{r:'shoulders',i:0.5},{r:'face',i:0.4}],
+  dread:              [{r:'chest',i:0.9},{r:'stomach',i:0.9},{r:'throat',i:0.7},{r:'head',i:0.5},{r:'whole-body',i:0.4}],
+  envy:               [{r:'chest',i:0.7},{r:'stomach',i:0.6},{r:'face',i:0.4},{r:'head',i:0.3}],
+  euphoria:           [{r:'whole-body',i:0.9},{r:'chest',i:0.9},{r:'head',i:0.8},{r:'face',i:0.7},{r:'arms',i:0.5},{r:'hands',i:0.5}],
+  excitement:         [{r:'chest',i:0.9},{r:'stomach',i:0.6},{r:'face',i:0.7},{r:'hands',i:0.6},{r:'whole-body',i:0.5}],
+  frustration:        [{r:'chest',i:0.8},{r:'head',i:0.7},{r:'arms',i:0.6},{r:'hands',i:0.6},{r:'shoulders',i:0.5}],
+  hatred:             [{r:'chest',i:0.9},{r:'head',i:0.7},{r:'face',i:0.6},{r:'stomach',i:0.5},{r:'arms',i:0.4}],
+  impatience:         [{r:'chest',i:0.6},{r:'head',i:0.5},{r:'hands',i:0.5},{r:'legs',i:0.3}],
+  indignation:        [{r:'chest',i:0.8},{r:'head',i:0.7},{r:'face',i:0.6},{r:'shoulders',i:0.4}],
+  irritation:         [{r:'head',i:0.7},{r:'chest',i:0.6},{r:'face',i:0.5},{r:'shoulders',i:0.4}],
+  jealousy:           [{r:'chest',i:0.8},{r:'stomach',i:0.7},{r:'throat',i:0.5},{r:'face',i:0.4}],
+  panic:              [{r:'chest',i:1.0},{r:'throat',i:0.9},{r:'stomach',i:0.8},{r:'head',i:0.8},{r:'hands',i:0.7},{r:'whole-body',i:0.6}],
+  rage:               [{r:'chest',i:1.0},{r:'head',i:0.9},{r:'face',i:0.9},{r:'arms',i:0.8},{r:'hands',i:0.8},{r:'whole-body',i:0.6}],
+  rejection:          [{r:'chest',i:0.8},{r:'stomach',i:0.7},{r:'throat',i:0.5},{r:'face',i:0.4}],
+  relief:             [{r:'chest',i:0.7},{r:'shoulders',i:0.6},{r:'whole-body',i:0.5},{r:'stomach',i:0.4}],
+  resentment:         [{r:'chest',i:0.7},{r:'stomach',i:0.5},{r:'head',i:0.5},{r:'shoulders',i:0.4}],
+  thrill:             [{r:'chest',i:0.9},{r:'stomach',i:0.7},{r:'whole-body',i:0.6},{r:'hands',i:0.5},{r:'face',i:0.5}],
+  unease:             [{r:'stomach',i:0.7},{r:'chest',i:0.6},{r:'throat',i:0.4},{r:'shoulders',i:0.3}],
+  absurdity:          [{r:'head',i:0.6},{r:'chest',i:0.3}],
+  awe:                [{r:'chest',i:0.8},{r:'face',i:0.6},{r:'whole-body',i:0.5},{r:'head',i:0.4}],
+  curiosity:          [{r:'head',i:0.7},{r:'chest',i:0.5},{r:'face',i:0.4}],
+  despair:            [{r:'chest',i:0.9},{r:'stomach',i:0.7},{r:'whole-body',i:0.5},{r:'throat',i:0.5},{r:'head',i:0.4}],
+  'existential-dread':[{r:'chest',i:0.8},{r:'stomach',i:0.8},{r:'head',i:0.6},{r:'whole-body',i:0.5}],
+  hope:               [{r:'chest',i:0.7},{r:'face',i:0.5},{r:'head',i:0.4}],
+  longing:            [{r:'chest',i:0.8},{r:'stomach',i:0.5},{r:'throat',i:0.5},{r:'arms',i:0.3}],
+  meaninglessness:    [{r:'chest',i:0.5},{r:'head',i:0.5},{r:'whole-body',i:0.3}],
+  nostalgia:          [{r:'chest',i:0.7},{r:'stomach',i:0.4},{r:'throat',i:0.4},{r:'face',i:0.3}],
+  transcendence:      [{r:'whole-body',i:0.8},{r:'chest',i:0.7},{r:'head',i:0.6}],
+  void:               [{r:'chest',i:0.6},{r:'stomach',i:0.5},{r:'whole-body',i:0.3}],
+  wonder:             [{r:'chest',i:0.8},{r:'face',i:0.7},{r:'head',i:0.6},{r:'whole-body',i:0.4}],
+  yearning:           [{r:'chest',i:0.8},{r:'stomach',i:0.6},{r:'throat',i:0.5},{r:'arms',i:0.4}],
+  affection:          [{r:'chest',i:0.8},{r:'face',i:0.6},{r:'arms',i:0.5},{r:'hands',i:0.5},{r:'whole-body',i:0.3}],
+  alienation:         [{r:'chest',i:0.5},{r:'stomach',i:0.4},{r:'whole-body',i:0.2}],
+  attachment:         [{r:'chest',i:0.7},{r:'stomach',i:0.4},{r:'arms',i:0.4}],
+  belonging:          [{r:'chest',i:0.7},{r:'whole-body',i:0.5},{r:'stomach',i:0.3}],
+  compassion:         [{r:'chest',i:0.8},{r:'face',i:0.5},{r:'hands',i:0.5},{r:'throat',i:0.3}],
+  desire:             [{r:'chest',i:0.8},{r:'stomach',i:0.7},{r:'whole-body',i:0.6},{r:'face',i:0.5},{r:'hands',i:0.5}],
+  devotion:           [{r:'chest',i:0.8},{r:'face',i:0.5},{r:'arms',i:0.4},{r:'whole-body',i:0.3}],
+  gratitude:          [{r:'chest',i:0.8},{r:'face',i:0.5},{r:'whole-body',i:0.4}],
+  infatuation:        [{r:'chest',i:0.9},{r:'stomach',i:0.7},{r:'face',i:0.7},{r:'head',i:0.6},{r:'whole-body',i:0.5}],
+  isolation:          [{r:'chest',i:0.6},{r:'stomach',i:0.4},{r:'whole-body',i:0.2}],
+  loneliness:         [{r:'chest',i:0.7},{r:'stomach',i:0.5},{r:'throat',i:0.4}],
+  love:               [{r:'chest',i:0.9},{r:'face',i:0.7},{r:'whole-body',i:0.6},{r:'arms',i:0.5},{r:'hands',i:0.5}],
+  solitude:           [{r:'chest',i:0.4},{r:'whole-body',i:0.3}],
+  trust:              [{r:'chest',i:0.6},{r:'stomach',i:0.4},{r:'face',i:0.3}],
+  bewilderment:       [{r:'head',i:0.7},{r:'chest',i:0.5},{r:'face',i:0.4}],
+  boredom:            [{r:'head',i:0.4},{r:'chest',i:0.3},{r:'whole-body',i:0.2}],
+  contentment:        [{r:'chest',i:0.7},{r:'whole-body',i:0.5},{r:'face',i:0.4}],
+  distress:           [{r:'chest',i:0.8},{r:'stomach',i:0.7},{r:'throat',i:0.6},{r:'head',i:0.5},{r:'face',i:0.5}],
+  emptiness:          [{r:'chest',i:0.6},{r:'stomach',i:0.5},{r:'whole-body',i:0.3}],
+  grief:              [{r:'chest',i:0.9},{r:'throat',i:0.8},{r:'stomach',i:0.6},{r:'face',i:0.6},{r:'whole-body',i:0.5}],
+  happiness:          [{r:'chest',i:0.8},{r:'face',i:0.7},{r:'whole-body',i:0.5},{r:'arms',i:0.3}],
+  'low-mood':         [{r:'chest',i:0.6},{r:'shoulders',i:0.5},{r:'head',i:0.4},{r:'whole-body',i:0.3}],
+  melancholy:         [{r:'chest',i:0.7},{r:'throat',i:0.5},{r:'face',i:0.4},{r:'stomach',i:0.3}],
+  perplexity:         [{r:'head',i:0.7},{r:'face',i:0.5},{r:'chest',i:0.3}],
+  sorrow:             [{r:'chest',i:0.8},{r:'throat',i:0.7},{r:'face',i:0.5},{r:'stomach',i:0.5}],
+  awkwardness:        [{r:'face',i:0.8},{r:'chest',i:0.6},{r:'stomach',i:0.5},{r:'hands',i:0.5}],
+  embarrassment:      [{r:'face',i:0.9},{r:'chest',i:0.6},{r:'stomach',i:0.5},{r:'hands',i:0.3}],
+  guilt:              [{r:'chest',i:0.8},{r:'stomach',i:0.7},{r:'face',i:0.5},{r:'throat',i:0.4}],
+  humiliation:        [{r:'face',i:0.9},{r:'chest',i:0.8},{r:'stomach',i:0.7},{r:'whole-body',i:0.5}],
+  pride:              [{r:'chest',i:0.8},{r:'face',i:0.6},{r:'head',i:0.5},{r:'shoulders',i:0.4}],
+  shame:              [{r:'face',i:0.9},{r:'chest',i:0.7},{r:'stomach',i:0.7},{r:'whole-body',i:0.4}],
+  avoidance:          [{r:'chest',i:0.2},{r:'stomach',i:0.2}],
+  'emotional-detachment':[],
+  rumination:         [{r:'head',i:0.4},{r:'chest',i:0.3}],
+  suppression:        [{r:'chest',i:0.3},{r:'throat',i:0.3},{r:'shoulders',i:0.2}]
+};
+
+var bmSection = document.getElementById('bodymap-section');
+var bmList = document.getElementById('bm-list');
+var bmLabel = document.getElementById('bm-label');
+var mainEl = document.querySelector('main.wrap');
+var regions = {};
+var vtabs = Array.prototype.slice.call(document.querySelectorAll('.vtab'));
+var svgRegions = Array.prototype.slice.call(bmSection.querySelectorAll('.bm-region'));
+var activeBmItem = null;
+
+svgRegions.forEach(function(el){
+  regions[el.getAttribute('data-region')] = el;
+});
+
+var cards = Array.prototype.slice.call(document.getElementById('grid').children);
+cards.forEach(function(card){
+  var id = card.id;
+  var name = card.querySelector('h3').textContent;
+  var div = document.createElement('div');
+  div.className = 'bm-item';
+  div.setAttribute('data-term', id);
+  var dot = document.createElement('span');
+  dot.className = 'bm-dot';
+  div.appendChild(dot);
+  div.appendChild(document.createTextNode(name));
+  div.addEventListener('click', function(){ selectTerm(id, name); });
+  bmList.appendChild(div);
+});
+
+function clearRegions(){
+  for(var k in regions){
+    regions[k].style.fill = 'transparent';
+    regions[k].classList.remove('lit');
+  }
+}
+
+function selectTerm(id, name){
+  clearRegions();
+  var items = Array.prototype.slice.call(bmList.querySelectorAll('.bm-item'));
+  items.forEach(function(it){ it.classList.remove('active'); });
+  var target = bmList.querySelector('[data-term="'+id+'"]');
+  if(target){
+    target.classList.add('active');
+    target.scrollIntoView({block:'nearest'});
+  }
+  if(activeBmItem === id){ activeBmItem = null; bmLabel.textContent = 'Select a term'; return; }
+  activeBmItem = id;
+  var mapping = BODY_MAP[id] || [];
+  if(mapping.length === 0){
+    bmLabel.textContent = name + ' — no distinct body pattern';
+    return;
+  }
+  bmLabel.textContent = name;
+  var intColor = getComputedStyle(document.documentElement).getPropertyValue('--int').trim();
+  mapping.forEach(function(m){
+    var el = regions[m.r];
+    if(el){
+      el.style.fill = intColor;
+      el.style.fillOpacity = m.i;
+      el.classList.add('lit');
+    }
+  });
+}
+
+vtabs.forEach(function(tab){
+  tab.addEventListener('click', function(){
+    vtabs.forEach(function(t){ t.classList.remove('active'); });
+    tab.classList.add('active');
+    var view = tab.getAttribute('data-view');
+    if(view === 'bodymap'){
+      bmSection.classList.add('active');
+      mainEl.style.display = 'none';
+    } else {
+      bmSection.classList.remove('active');
+      mainEl.style.display = '';
+    }
+  });
+});
+
+svgRegions.forEach(function(el){
+  el.addEventListener('click', function(){
+    var region = el.getAttribute('data-region');
+    var matches = [];
+    for(var id in BODY_MAP){
+      var arr = BODY_MAP[id];
+      for(var i=0;i<arr.length;i++){
+        if(arr[i].r === region && arr[i].i >= 0.5){
+          matches.push({id:id, intensity:arr[i].i});
+          break;
+        }
+      }
+    }
+    if(matches.length > 0){
+      matches.sort(function(a,b){ return b.intensity - a.intensity; });
+      bmLabel.textContent = region.replace('-',' ') + ': ' + matches.slice(0,8).map(function(m){ return m.id.replace(/-/g,' '); }).join(', ');
+    }
+  });
+});
+
+var posterBtn = document.getElementById('poster-btn');
+posterBtn.addEventListener('click', function(){
+  posterBtn.textContent = 'Generating…';
+  posterBtn.disabled = true;
+  setTimeout(function(){ generatePoster(); }, 50);
+});
+
+function generatePoster(){
+  var W = 2400, H = 3200;
+  var cvs = document.createElement('canvas');
+  cvs.width = W; cvs.height = H;
+  var ctx = cvs.getContext('2d');
+
+  var isDark = window.matchMedia('(prefers-color-scheme:dark)').matches;
+  var theme = document.documentElement.getAttribute('data-theme');
+  if(theme === 'dark') isDark = true;
+  if(theme === 'light') isDark = false;
+
+  var bg = isDark ? '#161311' : '#f6f4f1';
+  var ink = isDark ? '#eee9e4' : '#201c1c';
+  var inkMuted = isDark ? '#a89e97' : '#635b58';
+  var inkFaint = isDark ? '#726862' : '#9c928c';
+  var accent = isDark ? '#e08a9c' : '#7a2b3d';
+  var accentSoft = isDark ? '#3a1e24' : '#f3e2e5';
+  var line = isDark ? '#2e2925' : '#e0dbd2';
+
+  ctx.fillStyle = bg;
+  ctx.fillRect(0,0,W,H);
+
+  var pad = 100;
+  ctx.fillStyle = accent;
+  ctx.font = '600 14px IBM Plex Mono, monospace';
+  ctx.fillText('KNOWLEDGE NETWORK', pad, 80);
+
+  ctx.fillStyle = ink;
+  ctx.font = '700 72px Source Serif 4, Georgia, serif';
+  ctx.fillText('Dictionary of Inner Experience', pad, 170);
+
+  ctx.fillStyle = inkMuted;
+  ctx.font = '400 22px Source Serif 4, Georgia, serif';
+  ctx.fillText('77 terms — emotions, moods, and existential experiences', pad, 210);
+
+  ctx.strokeStyle = line;
+  ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.moveTo(pad, 240); ctx.lineTo(W-pad, 240); ctx.stroke();
+
+  var cats = [
+    {key:'basic', label:'Basic Emotions'},
+    {key:'complex', label:'Complex & Blended'},
+    {key:'self-conscious', label:'Self-Conscious'},
+    {key:'mood', label:'Moods'},
+    {key:'interpersonal', label:'Interpersonal & Relational'},
+    {key:'existential', label:'Existential'},
+    {key:'regulation', label:'Regulation Strategies'}
+  ];
+
+  var allCards = Array.prototype.slice.call(document.querySelectorAll('#grid .card'));
+  var y = 280;
+  var colW = (W - pad*2 - 40) / 2;
+
+  cats.forEach(function(cat){
+    var items = allCards.filter(function(c){ return c.getAttribute('data-cat') === cat.key; });
+    if(items.length === 0) return;
+    if(y > H - 200){ return; }
+
+    ctx.fillStyle = accentSoft;
+    ctx.fillRect(pad, y-4, W-pad*2, 32);
+    ctx.fillStyle = accent;
+    ctx.font = '600 16px IBM Plex Mono, monospace';
+    ctx.fillText(cat.label.toUpperCase() + '  (' + items.length + ')', pad + 12, y + 18);
+    y += 48;
+
+    var col = 0;
+    items.forEach(function(card){
+      var name = card.querySelector('h3').textContent;
+      var def = card.querySelector('.def').textContent;
+      var dims = Array.prototype.slice.call(card.querySelectorAll('.dims span')).map(function(s){ return s.textContent; });
+
+      var x = pad + col * (colW + 40);
+
+      if(y > H - 120){
+        return;
+      }
+
+      ctx.fillStyle = ink;
+      ctx.font = '600 20px Source Serif 4, Georgia, serif';
+      ctx.fillText(name, x, y + 16);
+
+      ctx.fillStyle = inkMuted;
+      ctx.font = '400 15px Source Serif 4, Georgia, serif';
+      var truncDef = def.length > 100 ? def.substring(0, 97) + '...' : def;
+      wrapText(ctx, truncDef, x, y + 36, colW - 20, 18);
+
+      if(dims.length > 0){
+        ctx.fillStyle = inkFaint;
+        ctx.font = '400 11px IBM Plex Mono, monospace';
+        ctx.fillText(dims.join(' · '), x, y + 78);
+      }
+
+      col++;
+      if(col >= 2){ col = 0; y += 96; }
+    });
+    if(col > 0) y += 96;
+    y += 12;
+  });
+
+  ctx.fillStyle = inkFaint;
+  ctx.font = '400 14px IBM Plex Mono, monospace';
+  ctx.fillText('followorbounce.github.io/dictionary-of-inner-experience', pad, H - 60);
+
+  cvs.toBlob(function(blob){
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = 'dictionary-of-inner-experience-poster.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    posterBtn.textContent = 'Save as poster';
+    posterBtn.disabled = false;
+  }, 'image/png');
+}
+
+function wrapText(ctx, text, x, y, maxW, lineH){
+  var words = text.split(' ');
+  var line = '';
+  for(var i=0; i<words.length; i++){
+    var test = line + words[i] + ' ';
+    if(ctx.measureText(test).width > maxW && line !== ''){
+      ctx.fillText(line.trim(), x, y);
+      line = words[i] + ' ';
+      y += lineH;
+    } else {
+      line = test;
+    }
+  }
+  ctx.fillText(line.trim(), x, y);
+}
+
 })();
 </script>
 </body>
