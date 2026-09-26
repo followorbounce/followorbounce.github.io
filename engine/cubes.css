@@ -14,12 +14,14 @@ body.cubes-on>*:not(#cubes-canvas){position:relative;z-index:1;}
 @media(prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --ink:#e8e8e4;--paper:#111113;--line:#333;--mid:#888;--accent:#d4714e;
+    --card-bg:#1a1a1d;--ink-body:#c8c8c2;--fig-bg:#1e1e22;--skel-a:#252528;--skel-b:#1e1e22;
   }
   :root:not([data-theme="light"]) .search-wrap{background:#1a1a1d;}
   :root:not([data-theme="light"]) #search-results .hit:hover{background:#222;}
 }
 :root[data-theme="dark"]{
   --ink:#e8e8e4;--paper:#111113;--line:#333;--mid:#888;--accent:#d4714e;
+  --card-bg:#1a1a1d;--ink-body:#c8c8c2;--fig-bg:#1e1e22;--skel-a:#252528;--skel-b:#1e1e22;
 }
 :root[data-theme="dark"] .search-wrap{background:#1a1a1d;}
 :root[data-theme="dark"] #search-results .hit:hover{background:#222;}

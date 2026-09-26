@@ -5,23 +5,23 @@
 .bf-eyebrow b{color:var(--accent); font-weight:600;}
 .bf-all{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; border-bottom:1px solid var(--ink);}
 .bf-all:hover{color:var(--accent); border-color:var(--accent);}
-.bf-card{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"body fig"; border:1px solid var(--ink); background:#fff;}
+.bf-card{display:grid; grid-template-columns:minmax(0,1fr) auto; grid-template-areas:"body fig"; border:1px solid var(--ink); background:var(--card-bg,#fff);}
 .bf-card.no-img{grid-template-columns:minmax(0,1fr); grid-template-areas:"body";}
 .bf-body{grid-area:body; padding:20px 24px 22px; min-width:0; display:flex; flex-direction:column;}
 .bf-cat{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent);}
 .bf-title{font-family:var(--font-display); font-weight:700; font-size:clamp(1.35rem,3.2vw,2rem); line-height:1.12; letter-spacing:.005em; margin:6px 0 10px; text-transform:none;}
 .bf-title a{text-decoration:none;} .bf-title a:hover{color:var(--accent);}
-.bf-sum{color:#28282a; max-width:70ch; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;}
+.bf-sum{color:var(--ink-body,#28282a); max-width:70ch; margin-bottom:14px; display:-webkit-box; -webkit-line-clamp:4; -webkit-box-orient:vertical; overflow:hidden;}
 .bf-meta{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:center; margin-top:auto;}
-.bf-chip{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; border:1px solid var(--line); padding:3px 8px; color:#28282a; background:var(--paper);}
+.bf-chip{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; border:1px solid var(--line); padding:3px 8px; color:var(--ink-body,#28282a); background:var(--paper);}
 .bf-time{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--mid);}
 .bf-read{margin-left:auto; font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; border:1px solid var(--ink); padding:8px 14px;}
 .bf-read:hover{background:var(--ink); color:var(--paper);}
 /* Image: a fixed mat, so any artwork (square, tall, wide) fits without cropping and the layout never jumps. */
-.bf-fig{grid-area:fig; margin:0; position:relative; width:240px; min-height:260px; background:#efefe9; border-left:1px solid var(--ink); display:block; overflow:hidden;}
+.bf-fig{grid-area:fig; margin:0; position:relative; width:240px; min-height:260px; background:var(--fig-bg,#efefe9); border-left:1px solid var(--ink); display:block; overflow:hidden;}
 .bf-fig img{position:absolute; inset:14px; width:calc(100% - 28px); height:calc(100% - 28px); object-fit:contain; display:block; opacity:0; transition:opacity .25s ease;}
 .bf-fig img.ok{opacity:1;}
-.bf-skel .bf-title,.bf-skel .bf-sum{background:linear-gradient(90deg,#eee,#f7f7f3,#eee); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
+.bf-skel .bf-title,.bf-skel .bf-sum{background:linear-gradient(90deg,var(--skel-a,#eee),var(--skel-b,#f7f7f3),var(--skel-a,#eee)); color:transparent; border-radius:2px; animation:bfp 1.2s ease-in-out infinite; background-size:200% 100%;}
 @keyframes bfp{to{background-position:-200% 0;}}
 @media (prefers-reduced-motion: reduce){.bf-skel .bf-title,.bf-skel .bf-sum{animation:none;} .bf-fig img{transition:none;}}
 @media (max-width:860px){.bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"fig" "body";} .bf-card.no-img{grid-template-areas:"body";}
