@@ -789,6 +789,7 @@ function pathFromFn(fn, w, h, mid, amp, n){
     diffVal.textContent = diff.toFixed(1)+' Hz';
     cctx.fillStyle='#fff'; cctx.fillRect(0,0,W,H);
     var f1=6, f2=6+diff/2;
+    cctx.lineWidth=1;
     cctx.strokeStyle='#c9c9c1'; cctx.beginPath();
     for(var x=0;x<=W;x++){ var xx=x/W; var y=mid-Math.sin(2*Math.PI*f1*xx+t)*35; if(x===0)cctx.moveTo(x,y); else cctx.lineTo(x,y); }
     cctx.stroke();
@@ -803,6 +804,9 @@ function pathFromFn(fn, w, h, mid, amp, n){
   }
   requestAnimationFrame(draw);
   var nodes=null;
+  diffEl.addEventListener('input', function(){
+    if(nodes && nodes[1]) nodes[1].osc.frequency.value = 440+parseFloat(diffEl.value);
+  });
   document.getElementById('beat-play').addEventListener('click', function(){
     if(nodes) nodes.forEach(function(n){stopNode(n);});
     var diff=parseFloat(diffEl.value);
