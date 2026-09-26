@@ -22,6 +22,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
 <style>
 :root{
   --board:#0A0A0A; --board2:#141414; --board3:#1C1C1C; --sunken:#000000;
@@ -34,6 +35,12 @@
   --font-mono:'Space Mono', ui-monospace, 'SFMono-Regular', monospace;
   --font-body:'Space Mono', ui-monospace, monospace;
   --edge:clamp(16px,4vw,56px); --maxw:1440px;
+}
+:root[data-theme="light"]{
+  --board:#f0ede8; --board2:#e6e2dc; --board3:#dcd7d0; --sunken:#d4cfc7;
+  --ink:#1a1a1a; --ink-soft:#5c5c58; --ink-faint:#9a9a94;
+  --line:#c9c5bc; --line-strong:#a8a49c;
+  --led-off:#d4cfc7; --led-on:#cc3326; --led-glow:rgba(204,51,38,0.3);
 }
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 body{margin:0; background:var(--board); color:var(--ink); font-family:var(--font-body); font-size:13.5px; line-height:1.6;}

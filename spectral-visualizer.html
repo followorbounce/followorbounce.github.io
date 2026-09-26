@@ -1,0 +1,497 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Spectral Visualizer — Knowledge Network</title>
+<meta name="description" content="A real-time FFT spectrum analyzer and waveform oscilloscope driven by microphone input, audio file, or internal oscillator — using the Web Audio API AnalyserNode.">
+<link rel="canonical" href="https://followorbounce.github.io/spectral-visualizer">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="/assets/visual-synth-kit.css">
+<script src="/assets/theme-toggle.js"></script>
+<meta property="og:type" content="website">
+<meta property="og:title" content="Spectral Visualizer — Knowledge Network">
+<meta property="og:description" content="Real-time FFT spectrum analyzer and waveform oscilloscope driven by microphone, file, or internal oscillator.">
+<meta property="og:url" content="https://followorbounce.github.io/spectral-visualizer">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#96938A;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#7A6BB0;
+  --c-r:#D6483F; --c-g:#3F9457; --c-b:#3D6FD1;
+  --knob-face-1:#FFFFFF; --knob-face-2:#CCCCCC;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+  --bar-lo:#3D6FD1; --bar-mid:#3F9457; --bar-hi:#D6483F;
+  --wave-stroke:#7A6BB0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+    --line:#332F29; --line-strong:#48443A;
+    --c-r:#E4685F; --c-g:#5CAE72; --c-b:#6690E0;
+    --knob-face-1:#4A4A48; --knob-face-2:#201F1C;
+    --bar-lo:#6690E0; --bar-mid:#5CAE72; --bar-hi:#E4685F;
+    --wave-stroke:#A99BDB;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+  --line:#332F29; --line-strong:#48443A;
+  --c-r:#E4685F; --c-g:#5CAE72; --c-b:#6690E0;
+  --knob-face-1:#4A4A48; --knob-face-2:#201F1C;
+  --bar-lo:#6690E0; --bar-mid:#5CAE72; --bar-hi:#E4685F;
+  --wave-stroke:#A99BDB;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+button,select{font-family:inherit;}
+
+header{border-bottom:1px solid var(--line); padding:14px 0;}
+header .wrap{display:flex; justify-content:space-between; align-items:center; gap:12px;}
+.brand{font-size:11px; letter-spacing:0.12em; text-transform:uppercase; text-decoration:none; border:1px solid var(--ink); padding:5px 9px;}
+.brand:hover{background:var(--ink); color:var(--paper);}
+.back{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; color:var(--ink-faint);}
+.back:hover{color:var(--ink);}
+
+.hero{padding:28px 0 20px; border-bottom:1px solid var(--line);}
+.hero h1{font-size:clamp(1.4rem,3.5vw,2rem); line-height:1.15; letter-spacing:-0.01em;}
+.hero p{margin:8px 0 0; color:var(--ink-soft); max-width:56ch;}
+
+.controls{padding:16px 0; border-bottom:1px solid var(--line); display:flex; flex-wrap:wrap; gap:12px; align-items:center;}
+.ctrl-group{display:flex; align-items:center; gap:8px;}
+.ctrl-label{font-size:10px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint);}
+.ctrl-btn{
+  font-size:11px; letter-spacing:0.06em; padding:5px 12px; border:1px solid var(--line-strong);
+  background:var(--paper-raised); color:var(--ink); cursor:pointer; text-transform:uppercase;
+}
+.ctrl-btn:hover{background:var(--ink); color:var(--paper);}
+.ctrl-btn.active{background:var(--ink); color:var(--paper);}
+.ctrl-btn.live{border-color:var(--live); color:var(--live);}
+.ctrl-btn.live.active{background:var(--live); color:var(--paper);}
+select.ctrl-btn{appearance:none; padding-right:24px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6'%3E%3Cpath d='M0 0l5 6 5-6z' fill='%2396938A'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 8px center;}
+input[type="file"]{display:none;}
+
+.canvas-area{padding:24px 0;}
+.canvas-row{display:grid; grid-template-columns:1fr 1fr; gap:16px;}
+@media(max-width:700px){.canvas-row{grid-template-columns:1fr;}}
+.panel{border:1px solid var(--line); background:var(--paper-sunken); position:relative; overflow:hidden;}
+.panel canvas{display:block; width:100%; height:260px;}
+.panel-label{position:absolute; top:8px; left:10px; font-size:9px; letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-faint); pointer-events:none; z-index:1;}
+
+.knob-section{padding:20px 0 28px; border-top:1px solid var(--line);}
+.knobrow{display:flex; flex-wrap:wrap; gap:18px 24px; justify-content:center;}
+
+.readout{padding:12px 0 24px; font-size:11px; color:var(--ink-faint); text-align:center; font-variant-numeric:tabular-nums;}
+
+footer{border-top:1px solid var(--line); padding:28px 0; font-size:11px; color:var(--ink-faint);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:8px;}
+footer a{color:var(--ink-soft);}
+</style>
+</head>
+<body>
+<header><div class="wrap"><a class="brand" href="/">Follow or Bounce</a><a class="back" href="/visual-synths/">Visual Synths</a></div></header>
+
+<section class="hero"><div class="wrap">
+  <h1>Spectral Visualizer</h1>
+  <p>Real-time FFT spectrum analyzer and waveform oscilloscope. Feed it a microphone, an audio file, or the built-in oscillator.</p>
+</div></section>
+
+<section class="controls"><div class="wrap" style="display:flex;flex-wrap:wrap;gap:12px;align-items:center;">
+  <div class="ctrl-group">
+    <span class="ctrl-label">Source</span>
+    <button class="ctrl-btn" id="btn-osc">Oscillator</button>
+    <button class="ctrl-btn live" id="btn-mic">Mic</button>
+    <button class="ctrl-btn" id="btn-file">File</button>
+    <input type="file" id="file-input" accept="audio/*">
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">FFT</span>
+    <select class="ctrl-btn" id="sel-fft">
+      <option value="256">256</option>
+      <option value="512">512</option>
+      <option value="1024" selected>1024</option>
+      <option value="2048">2048</option>
+      <option value="4096">4096</option>
+    </select>
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Scale</span>
+    <button class="ctrl-btn active" id="btn-log">Log</button>
+    <button class="ctrl-btn" id="btn-lin">Linear</button>
+  </div>
+  <div class="ctrl-group">
+    <span class="ctrl-label">Freeze</span>
+    <button class="ctrl-btn" id="btn-freeze">Hold</button>
+  </div>
+</div></section>
+
+<section class="canvas-area"><div class="wrap">
+  <div class="canvas-row">
+    <div class="panel"><span class="panel-label">Spectrum</span><canvas id="cv-spectrum"></canvas></div>
+    <div class="panel"><span class="panel-label">Waveform</span><canvas id="cv-waveform"></canvas></div>
+  </div>
+</div></section>
+
+<section class="knob-section"><div class="wrap">
+  <div class="knobrow" id="knobs"></div>
+</div></section>
+
+<div class="readout"><div class="wrap" id="readout">Peak: — dB &nbsp; Dominant: — Hz &nbsp; RMS: — dB</div></div>
+
+<footer><div class="wrap"><span>Spectral Visualizer — Follow or Bounce</span><a href="/">Index</a></div></footer>
+
+<script src="/assets/visual-synth-kit.js"></script>
+<script>
+(function(){
+'use strict';
+
+var AC = null, analyser = null, source = null, gainNode = null;
+var oscNode = null, micStream = null, fileBuffer = null, fileSource = null;
+var fftSize = 1024, logScale = true, frozen = false;
+var oscFreq = 220, oscType = 'sine', smoothing = 0.8, gain = 1.0;
+
+var cvS = document.getElementById('cv-spectrum');
+var cvW = document.getElementById('cv-waveform');
+var ctxS = cvS.getContext('2d');
+var ctxW = cvW.getContext('2d');
+var readout = document.getElementById('readout');
+
+var currentSource = null;
+
+function getAC(){
+  if(!AC) AC = new (window.AudioContext || window.webkitAudioContext)();
+  return AC;
+}
+
+function ensureAnalyser(){
+  var ac = getAC();
+  if(analyser) analyser.disconnect();
+  analyser = ac.createAnalyser();
+  analyser.fftSize = fftSize;
+  analyser.smoothingTimeConstant = smoothing;
+  if(!gainNode){
+    gainNode = ac.createGain();
+    gainNode.gain.value = gain;
+  }
+  gainNode.disconnect();
+  gainNode.connect(analyser);
+  return analyser;
+}
+
+function stopAll(){
+  if(oscNode){ try{oscNode.stop();}catch(e){} oscNode.disconnect(); oscNode = null; }
+  if(fileSource){ try{fileSource.stop();}catch(e){} fileSource.disconnect(); fileSource = null; }
+  if(micStream){ micStream.getTracks().forEach(function(t){t.stop();}); micStream = null; }
+  if(source){ try{source.disconnect();}catch(e){} source = null; }
+}
+
+function startOsc(){
+  stopAll();
+  var ac = getAC();
+  if(ac.state === 'suspended') ac.resume();
+  ensureAnalyser();
+  oscNode = ac.createOscillator();
+  oscNode.type = oscType;
+  oscNode.frequency.value = oscFreq;
+  oscNode.connect(gainNode);
+  oscNode.start();
+  source = oscNode;
+  currentSource = 'osc';
+  updateBtns();
+}
+
+function startMic(){
+  stopAll();
+  var ac = getAC();
+  if(ac.state === 'suspended') ac.resume();
+  ensureAnalyser();
+  navigator.mediaDevices.getUserMedia({audio:true}).then(function(stream){
+    micStream = stream;
+    source = ac.createMediaStreamSource(stream);
+    source.connect(gainNode);
+    currentSource = 'mic';
+    updateBtns();
+  }).catch(function(){
+    currentSource = null;
+    updateBtns();
+  });
+}
+
+function startFile(){
+  document.getElementById('file-input').click();
+}
+
+document.getElementById('file-input').addEventListener('change', function(e){
+  var file = e.target.files[0];
+  if(!file) return;
+  stopAll();
+  var ac = getAC();
+  if(ac.state === 'suspended') ac.resume();
+  ensureAnalyser();
+  var reader = new FileReader();
+  reader.onload = function(){
+    ac.decodeAudioData(reader.result, function(buf){
+      fileBuffer = buf;
+      playFile();
+    });
+  };
+  reader.readAsArrayBuffer(file);
+});
+
+function playFile(){
+  if(!fileBuffer) return;
+  var ac = getAC();
+  if(fileSource){ try{fileSource.stop();}catch(e){} fileSource.disconnect(); }
+  fileSource = ac.createBufferSource();
+  fileSource.buffer = fileBuffer;
+  fileSource.loop = true;
+  fileSource.connect(gainNode);
+  fileSource.start();
+  source = fileSource;
+  currentSource = 'file';
+  updateBtns();
+}
+
+function updateBtns(){
+  document.getElementById('btn-osc').classList.toggle('active', currentSource === 'osc');
+  document.getElementById('btn-mic').classList.toggle('active', currentSource === 'mic');
+  document.getElementById('btn-file').classList.toggle('active', currentSource === 'file');
+  document.getElementById('btn-log').classList.toggle('active', logScale);
+  document.getElementById('btn-lin').classList.toggle('active', !logScale);
+  document.getElementById('btn-freeze').classList.toggle('active', frozen);
+}
+
+document.getElementById('btn-osc').addEventListener('click', startOsc);
+document.getElementById('btn-mic').addEventListener('click', startMic);
+document.getElementById('btn-file').addEventListener('click', startFile);
+document.getElementById('btn-log').addEventListener('click', function(){ logScale = true; updateBtns(); });
+document.getElementById('btn-lin').addEventListener('click', function(){ logScale = false; updateBtns(); });
+document.getElementById('btn-freeze').addEventListener('click', function(){ frozen = !frozen; updateBtns(); });
+
+document.getElementById('sel-fft').addEventListener('change', function(){
+  fftSize = parseInt(this.value);
+  if(analyser) analyser.fftSize = fftSize;
+});
+
+function resize(cv){
+  var r = window.devicePixelRatio || 1;
+  var rect = cv.getBoundingClientRect();
+  cv.width = rect.width * r;
+  cv.height = rect.height * r;
+}
+
+function getCSS(name){
+  return getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+}
+
+var freqData, timeData;
+
+function draw(){
+  requestAnimationFrame(draw);
+  if(!analyser) return;
+
+  resize(cvS);
+  resize(cvW);
+
+  var W = cvS.width, H = cvS.height;
+  var wW = cvW.width, wH = cvW.height;
+  var bufLen = analyser.frequencyBinCount;
+
+  if(!freqData || freqData.length !== bufLen){
+    freqData = new Uint8Array(bufLen);
+    timeData = new Uint8Array(bufLen);
+  }
+
+  if(!frozen){
+    analyser.getByteFrequencyData(freqData);
+    analyser.getByteTimeDomainData(timeData);
+  }
+
+  var bg = getCSS('--paper-sunken');
+  var barLo = getCSS('--bar-lo');
+  var barMid = getCSS('--bar-mid');
+  var barHi = getCSS('--bar-hi');
+  var waveCol = getCSS('--wave-stroke');
+  var lineCol = getCSS('--line');
+  var faint = getCSS('--ink-faint');
+
+  ctxS.fillStyle = bg;
+  ctxS.fillRect(0, 0, W, H);
+
+  var nyquist = AC ? AC.sampleRate / 2 : 22050;
+  var pad = 40;
+  var drawW = W - pad;
+  var drawH = H - 30;
+  var barCount = Math.min(bufLen, 256);
+
+  ctxS.strokeStyle = lineCol;
+  ctxS.lineWidth = 1;
+  ctxS.beginPath();
+  ctxS.moveTo(pad, drawH); ctxS.lineTo(W, drawH);
+  ctxS.stroke();
+
+  for(var g = 0; g < 5; g++){
+    var gy = drawH * (1 - g / 4);
+    ctxS.strokeStyle = lineCol;
+    ctxS.globalAlpha = 0.3;
+    ctxS.beginPath(); ctxS.moveTo(pad, gy); ctxS.lineTo(W, gy); ctxS.stroke();
+    ctxS.globalAlpha = 1;
+  }
+
+  var maxVal = 0, maxIdx = 0, rmsSum = 0;
+
+  for(var i = 0; i < barCount; i++){
+    var dataIdx = logScale
+      ? Math.round(Math.pow(bufLen - 1, i / (barCount - 1)))
+      : Math.round(i * (bufLen - 1) / (barCount - 1));
+    var v = freqData[dataIdx] / 255;
+    if(freqData[dataIdx] > maxVal){ maxVal = freqData[dataIdx]; maxIdx = dataIdx; }
+    rmsSum += v * v;
+
+    var x = pad + (i / barCount) * drawW;
+    var bw = Math.max(1, drawW / barCount - 1);
+    var bh = v * drawH;
+
+    var t = i / barCount;
+    if(t < 0.33) ctxS.fillStyle = barLo;
+    else if(t < 0.66) ctxS.fillStyle = barMid;
+    else ctxS.fillStyle = barHi;
+
+    ctxS.fillRect(x, drawH - bh, bw, bh);
+  }
+
+  var labels = logScale ? [20, 50, 100, 200, 500, 1000, 2000, 5000, 10000, 20000] : null;
+  ctxS.fillStyle = faint;
+  ctxS.font = (10 * (window.devicePixelRatio || 1)) + 'px IBM Plex Mono, monospace';
+  ctxS.textAlign = 'center';
+
+  if(logScale && labels){
+    for(var li = 0; li < labels.length; li++){
+      var freq = labels[li];
+      if(freq > nyquist) continue;
+      var logPos = Math.log(freq / 20) / Math.log(nyquist / 20);
+      var lx = pad + logPos * drawW;
+      var lbl = freq >= 1000 ? (freq / 1000) + 'k' : String(freq);
+      ctxS.fillText(lbl, lx, H - 4);
+    }
+  } else {
+    for(var fi = 0; fi <= 4; fi++){
+      var f = (fi / 4) * nyquist;
+      var fx = pad + (fi / 4) * drawW;
+      var fl = f >= 1000 ? (f / 1000).toFixed(1) + 'k' : Math.round(f);
+      ctxS.fillText(fl + '', fx, H - 4);
+    }
+  }
+
+  ctxW.fillStyle = bg;
+  ctxW.fillRect(0, 0, wW, wH);
+  ctxW.strokeStyle = lineCol;
+  ctxW.lineWidth = 1;
+  ctxW.globalAlpha = 0.3;
+  ctxW.beginPath(); ctxW.moveTo(0, wH / 2); ctxW.lineTo(wW, wH / 2); ctxW.stroke();
+  ctxW.globalAlpha = 1;
+
+  ctxW.strokeStyle = waveCol;
+  ctxW.lineWidth = 2 * (window.devicePixelRatio || 1);
+  ctxW.beginPath();
+  var sliceW = wW / timeData.length;
+  for(var j = 0; j < timeData.length; j++){
+    var tv = timeData[j] / 128.0;
+    var ty = (tv * wH) / 2;
+    if(j === 0) ctxW.moveTo(0, ty);
+    else ctxW.lineTo(j * sliceW, ty);
+  }
+  ctxW.stroke();
+
+  var peakDb = maxVal > 0 ? (20 * Math.log10(maxVal / 255)).toFixed(1) : '-Inf';
+  var domHz = AC ? ((maxIdx / bufLen) * nyquist).toFixed(0) : '—';
+  var rmsDb = rmsSum > 0 ? (10 * Math.log10(rmsSum / barCount)).toFixed(1) : '-Inf';
+  readout.textContent = 'Peak: ' + peakDb + ' dB    Dominant: ' + domHz + ' Hz    RMS: ' + rmsDb + ' dB';
+}
+
+var knobDefs = [
+  {id:'freq', label:'Freq', min:20, max:8000, val:220, step:1, unit:'Hz', log:true},
+  {id:'gain', label:'Gain', min:0, max:2, val:1, step:0.01, unit:''},
+  {id:'smooth', label:'Smooth', min:0, max:0.99, val:0.8, step:0.01, unit:''},
+];
+
+var waveforms = ['sine','triangle','sawtooth','square'];
+var waveIdx = 0;
+
+function makeKnobs(){
+  var row = document.getElementById('knobs');
+  if(typeof VSK === 'undefined') return;
+
+  knobDefs.forEach(function(def){
+    var wrap = document.createElement('div');
+    wrap.className = 'knobwrap';
+    var knob = VSK.createKnob({
+      min: def.min, max: def.max, value: def.val, step: def.step,
+      label: def.label, valueFormat: function(v){
+        if(def.log && def.id === 'freq') return Math.round(v) + '';
+        return v.toFixed(2);
+      },
+      onChange: function(v){
+        if(def.id === 'freq'){ oscFreq = v; if(oscNode) oscNode.frequency.value = v; }
+        if(def.id === 'gain'){ gain = v; if(gainNode) gainNode.gain.value = v; }
+        if(def.id === 'smooth'){ smoothing = v; if(analyser) analyser.smoothingTimeConstant = v; }
+      }
+    });
+    wrap.appendChild(knob);
+    row.appendChild(wrap);
+  });
+
+  var waveWrap = document.createElement('div');
+  waveWrap.className = 'knobwrap';
+  var waveBtn = document.createElement('button');
+  waveBtn.className = 'ctrl-btn';
+  waveBtn.textContent = 'Sine';
+  waveBtn.style.marginTop = '8px';
+  waveBtn.addEventListener('click', function(){
+    waveIdx = (waveIdx + 1) % waveforms.length;
+    oscType = waveforms[waveIdx];
+    waveBtn.textContent = oscType.charAt(0).toUpperCase() + oscType.slice(1);
+    if(oscNode) oscNode.type = oscType;
+  });
+  var wl = document.createElement('div');
+  wl.className = 'klabel';
+  wl.textContent = 'WAVE';
+  waveWrap.appendChild(waveBtn);
+  waveWrap.appendChild(wl);
+  row.appendChild(waveWrap);
+}
+
+if(typeof VSK !== 'undefined'){
+  makeKnobs();
+} else {
+  var row = document.getElementById('knobs');
+  row.style.fontSize = '12px';
+  row.style.color = getCSS('--ink-faint') || '#96938A';
+  row.textContent = 'Knob controls load with the Visual Synth Kit.';
+}
+
+draw();
+
+})();
+</script>
+</body>
+</html>

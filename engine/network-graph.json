@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 118,
+    "pages": 112,
     "repos": 4,
-    "own": 33,
+    "own": 27,
     "aerospace": 47,
     "maya": 7,
     "machinery": 31
@@ -146,49 +146,9 @@
       "repo": "home",
       "repo_label": "Knowledge Network",
       "category": "Audio Synth",
-      "title": "Patch Bay",
-      "description": "A real, playable generative modular synthesizer — drag real patch cables between Web Audio modules.",
-      "url": "https://followorbounce.github.io/patch-bay",
-      "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Audio Synth",
-      "title": "Signal Chain",
-      "description": "A universal-node synth: one universal in/out jack instead of typed cables, nine chainable pedal-style units.",
-      "url": "https://followorbounce.github.io/signal-chain",
-      "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Audio Synth",
-      "title": "Pulse Train",
-      "description": "Precision/microsound synthesis in the minimal/glitch lineage of Ryoji Ikeda, Alva Noto, and Raster-Noton.",
-      "url": "https://followorbounce.github.io/pulse-train",
-      "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Audio Synth",
-      "title": "Pulse Train II",
-      "description": "A ten-unit rack expanding Pulse Train with a second Tone, an infinite-freeze delay, a comb resonator, and convolution reverb.",
-      "url": "https://followorbounce.github.io/pulse-train-ii",
-      "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Audio Synth",
-      "title": "Pulse Train — Stage",
-      "description": "The ten-unit engine restyled for live play, with eight interval-math tuning presets and a fullscreen Stage mode.",
-      "url": "https://followorbounce.github.io/pulse-train-stage",
+      "title": "SoundOS",
+      "description": "A browser modular synthesizer builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves.",
+      "url": "https://followorbounce.github.io/soundos/",
       "tag": "Tool",
       "interactive": true
     },
@@ -256,9 +216,9 @@
       "repo": "home",
       "repo_label": "Knowledge Network",
       "category": "Video Synth",
-      "title": "Audio-Reactive Reaction-Diffusion",
-      "description": "The Gray-Scott reaction-diffusion chemistry, driven live by sound.",
-      "url": "https://followorbounce.github.io/audio-reactive-diffusion",
+      "title": "Spectral Visualizer",
+      "description": "A real-time FFT spectrum analyzer and waveform oscilloscope driven by microphone, file, or internal oscillator.",
+      "url": "https://followorbounce.github.io/spectral-visualizer",
       "tag": "Tool",
       "interactive": true
     },
@@ -306,16 +266,6 @@
       "repo": "home",
       "repo_label": "Knowledge Network",
       "category": "Explorers & Apps",
-      "title": "SoundOS",
-      "description": "A browser modular synthesizer builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves.",
-      "url": "https://followorbounce.github.io/soundos/",
-      "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Explorers & Apps",
       "title": "Anatomy Explorer",
       "description": "An interactive 3D human body built from 1,635 real BodyParts3D structures — skeleton, muscles, organs, vessels, brain — with blood-flow and nerve-signal pulses.",
       "url": "https://followorbounce.github.io/anatomy-explorer/",
@@ -350,16 +300,6 @@
       "description": "Compare any two U.S. states on a tile grid or map, plus a government view of party control across four layers.",
       "url": "https://followorbounce.github.io/us-states-atlas/",
       "tag": "Tool",
-      "interactive": true
-    },
-    {
-      "repo": "home",
-      "repo_label": "Knowledge Network",
-      "category": "Machinery",
-      "title": "Heavy Machinery: The Blueprint",
-      "description": "An interactive comparator ranking 20 real machines by height, weight, power, and capacity, with human-scale equivalents.",
-      "url": "https://followorbounce.github.io/heavy-machinery-blueprint",
-      "tag": "Read",
       "interactive": true
     },
     {

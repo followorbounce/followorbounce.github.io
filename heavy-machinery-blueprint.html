@@ -17,6 +17,7 @@
 <link rel="canonical" href="https://followorbounce.github.io/heavy-machinery-blueprint">
 <meta name="theme-color" content="#0a0f14">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<script src="/assets/theme-toggle.js"></script>
 <meta property="og:type" content="article">
 <meta property="og:title" content="Heavy Machinery: The Blueprint">
 <meta property="og:description" content="20 real machines, ranked by height, weight, power, and capacity — every figure translated into how many humans that actually means.">
@@ -36,6 +37,10 @@
   --edge: clamp(16px, 4vw, 56px);
   --maxw: 980px;
 }
+:root[data-theme="light"]{
+  --ink:#1a2530; --paper:#f0f4f7; --line:#c0cdd6; --mid:#5a7080;
+  --accent:#0088b3; --accent2:#00994d; --panel:#e4eaef; --panel2:#dce4ea;
+}
 *{box-sizing:border-box;}
 @media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
 body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;
@@ -43,7 +48,7 @@ body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font
   background-size:28px 28px; background-position:-1px -1px;
 }
 a{color:var(--accent);}
-h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em; color:#fff;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em; color:var(--ink);}
 p{margin:0;}
 .wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
 

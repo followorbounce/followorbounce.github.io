@@ -43,11 +43,12 @@
       "id": "audio-synth",
       "title": "Audio Synth",
       "pages": [
-        { "slug": "patch-bay", "url": "/patch-bay", "title": "Patch Bay", "description": "A real, playable generative modular synthesizer — drag real patch cables between Web Audio modules.", "tag": "Tool", "interactive": true },
-        { "slug": "signal-chain", "url": "/signal-chain", "title": "Signal Chain", "description": "A universal-node synth: one universal in/out jack instead of typed cables, nine chainable pedal-style units.", "tag": "Tool", "interactive": true },
-        { "slug": "pulse-train", "url": "/pulse-train", "title": "Pulse Train", "description": "Precision/microsound synthesis in the minimal/glitch lineage of Ryoji Ikeda, Alva Noto, and Raster-Noton.", "tag": "Tool", "interactive": true },
-        { "slug": "pulse-train-ii", "url": "/pulse-train-ii", "title": "Pulse Train II", "description": "A ten-unit rack expanding Pulse Train with a second Tone, an infinite-freeze delay, a comb resonator, and convolution reverb.", "tag": "Tool", "interactive": true },
-        { "slug": "pulse-train-stage", "url": "/pulse-train-stage", "title": "Pulse Train — Stage", "description": "The ten-unit engine restyled for live play, with eight interval-math tuning presets and a fullscreen Stage mode.", "tag": "Tool", "interactive": true },
+        { "slug": "patch-bay", "url": "/patch-bay", "title": "Patch Bay", "description": "A real, playable generative modular synthesizer — drag real patch cables between Web Audio modules.", "tag": "Tool", "interactive": true, "archived": true },
+        { "slug": "signal-chain", "url": "/signal-chain", "title": "Signal Chain", "description": "A universal-node synth: one universal in/out jack instead of typed cables, nine chainable pedal-style units.", "tag": "Tool", "interactive": true, "archived": true },
+        { "slug": "pulse-train", "url": "/pulse-train", "title": "Pulse Train", "description": "Precision/microsound synthesis in the minimal/glitch lineage of Ryoji Ikeda, Alva Noto, and Raster-Noton.", "tag": "Tool", "interactive": true, "archived": true },
+        { "slug": "pulse-train-ii", "url": "/pulse-train-ii", "title": "Pulse Train II", "description": "A ten-unit rack expanding Pulse Train with a second Tone, an infinite-freeze delay, a comb resonator, and convolution reverb.", "tag": "Tool", "interactive": true, "archived": true },
+        { "slug": "pulse-train-stage", "url": "/pulse-train-stage", "title": "Pulse Train — Stage", "description": "The ten-unit engine restyled for live play, with eight interval-math tuning presets and a fullscreen Stage mode.", "tag": "Tool", "interactive": true, "archived": true },
+        { "slug": "soundos", "url": "/soundos/", "title": "SoundOS", "description": "A browser modular synthesizer builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves.", "tag": "Tool", "interactive": true },
         { "slug": "pulse-train-stage-ii", "url": "/pulse-train-stage-ii", "title": "Pulse Train — Stage II", "description": "Thirteen units across five labeled groups, with a patchable LFO carrying its own modulation scale per destination.", "tag": "Tool", "interactive": true },
         { "slug": "pulse-train-node-database", "url": "/pulse-train-node-database", "title": "Node Database", "description": "Every node in Pulse Train — Stage II, explained three ways: software DSP, underlying math, and real hardware.", "tag": "Read", "interactive": false }
       ]
@@ -60,7 +61,8 @@
         { "slug": "palette-synth", "url": "/palette-synth", "title": "Palette Synth", "description": "A live cosine-gradient color instrument — twelve knobs generate a full smooth palette in real time.", "tag": "Tool", "interactive": true },
         { "slug": "additive-wave-sculptor", "url": "/additive-wave-sculptor", "title": "Additive Wave Sculptor", "description": "Eight-harmonic Fourier synthesis, playable as real audio via a Web Audio PeriodicWave.", "tag": "Tool", "interactive": true },
         { "slug": "lissajous-plotter", "url": "/lissajous-plotter", "title": "Lissajous / Harmonograph Plotter", "description": "Two axes, each a two-term sine sum, plotted against each other with amplitude decay.", "tag": "Tool", "interactive": true },
-        { "slug": "audio-reactive-diffusion", "url": "/audio-reactive-diffusion", "title": "Audio-Reactive Reaction-Diffusion", "description": "The Gray-Scott reaction-diffusion chemistry, driven live by sound.", "tag": "Tool", "interactive": true },
+        { "slug": "audio-reactive-diffusion", "url": "/audio-reactive-diffusion", "title": "Audio-Reactive Reaction-Diffusion", "description": "The Gray-Scott reaction-diffusion chemistry, driven live by sound.", "tag": "Tool", "interactive": true, "archived": true },
+        { "slug": "spectral-visualizer", "url": "/spectral-visualizer", "title": "Spectral Visualizer", "description": "A real-time FFT spectrum analyzer and waveform oscilloscope driven by microphone, file, or internal oscillator.", "tag": "Tool", "interactive": true },
         { "slug": "complex-fractal-mapper", "url": "/complex-fractal-mapper", "title": "Complex-Plane Fractal Mapper", "description": "A Mandelbrot/Julia explorer colored with Palette Synth's own gradient formula.", "tag": "Tool", "interactive": true }
       ]
     },
@@ -83,7 +85,6 @@
       "id": "explorers-apps",
       "title": "Explorers & Apps",
       "pages": [
-        { "slug": "soundos", "url": "/soundos/", "title": "SoundOS", "description": "A browser modular synthesizer builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves.", "tag": "Tool", "interactive": true },
         { "slug": "anatomy-explorer", "url": "/anatomy-explorer/", "title": "Anatomy Explorer", "description": "An interactive 3D human body built from 1,635 real BodyParts3D structures — skeleton, muscles, organs, vessels, brain — with blood-flow and nerve-signal pulses.", "tag": "Tool", "interactive": true },
         { "slug": "world-calendar-explorer", "url": "/world-calendar-explorer/", "title": "World Calendar Explorer", "description": "Convert any Gregorian date across 28 historical and contemporary calendar systems, with verified conversion math.", "tag": "Tool", "interactive": true },
         { "slug": "country-atlas", "url": "/country-atlas/", "title": "Country Comparison Atlas", "description": "A living global atlas of 205 countries and territories, compared side by side across sourced core statistics.", "tag": "Tool", "interactive": true },
@@ -94,7 +95,7 @@
       "id": "machinery-own",
       "title": "Machinery",
       "pages": [
-        { "slug": "heavy-machinery-blueprint", "url": "/heavy-machinery-blueprint", "title": "Heavy Machinery: The Blueprint", "description": "An interactive comparator ranking 20 real machines by height, weight, power, and capacity, with human-scale equivalents.", "tag": "Read", "interactive": true }
+        { "slug": "heavy-machinery-blueprint", "url": "/heavy-machinery-blueprint", "title": "Heavy Machinery: The Blueprint", "description": "An interactive comparator ranking 20 real machines by height, weight, power, and capacity, with human-scale equivalents.", "tag": "Read", "interactive": true, "archived": true }
       ]
     }
   ]
