@@ -79,7 +79,7 @@ function meshInit(){
       meshPts.push({
         ox:(c+0.5)/cols*W, oy:(r+0.5)/rows*H,
         x:(c+0.5)/cols*W, y:(r+0.5)/rows*H,
-        vx:0, vy:0,
+        sx:0, sy:0, svx:0, svy:0,
         col:c,row:r,cols:cols,rows:rows
       });
     }
@@ -90,31 +90,36 @@ function meshDraw(t){
   ctx.fillStyle='rgb('+p.bg[0]+','+p.bg[1]+','+p.bg[2]+')';
   ctx.fillRect(0,0,W,H);
   var px=mx*W,py=my*H;
-  var radius=200*dpr;
+  var radius=220*dpr;
   for(var i=0;i<meshPts.length;i++){
     var pt=meshPts[i];
     var dx=pt.ox-px,dy=pt.oy-py;
-    var d=Math.sqrt(dx*dx+dy*dy);
+    var d=Math.sqrt(dx*dx+dy*dy)+1;
+    // base hover: push away
+    var push=Math.min(60*dpr,3000/d);
+    var ang=Math.atan2(dy,dx);
+    var bx=pt.ox+Math.cos(ang)*push+Math.sin(t*0.002+pt.ox*0.005)*4*dpr;
+    var by=pt.oy+Math.sin(ang)*push+Math.cos(t*0.0018+pt.oy*0.005)*4*dpr;
+    // click-hold: pull toward cursor (additive offset with spring return)
     if(pressed&&d<radius){
-      var strength=(1-d/radius)*0.4;
-      pt.vx+=(px-pt.x)*strength;
-      pt.vy+=(py-pt.y)*strength;
+      var f=(1-d/radius);f=f*f;
+      pt.svx+=(px-pt.ox-pt.sx)*f*0.06;
+      pt.svy+=(py-pt.oy-pt.sy)*f*0.06;
     }
-    var sx=(pt.ox-pt.x)*0.08;
-    var sy=(pt.oy-pt.y)*0.08;
-    pt.vx=(pt.vx+sx)*0.88;
-    pt.vy=(pt.vy+sy)*0.88;
-    pt.x+=pt.vx; pt.y+=pt.vy;
-    pt.x+=Math.sin(t*0.002+pt.ox*0.005)*0.3*dpr;
-    pt.y+=Math.cos(t*0.0018+pt.oy*0.005)*0.3*dpr;
+    pt.svx+=-pt.sx*0.04;
+    pt.svy+=-pt.sy*0.04;
+    pt.svx*=0.92; pt.svy*=0.92;
+    pt.sx+=pt.svx; pt.sy+=pt.svy;
+    pt.x=bx+pt.sx; pt.y=by+pt.sy;
   }
   ctx.lineWidth=1;
   for(var i=0;i<meshPts.length;i++){
     var pt=meshPts[i];
     var ci=(pt.col+pt.row)%p.all.length;
     var c=p.all[ci];
-    var disp=Math.sqrt((pt.x-pt.ox)*(pt.x-pt.ox)+(pt.y-pt.oy)*(pt.y-pt.oy));
-    var a=Math.max(0.15,Math.min(0.8,0.2+disp/(40*dpr)));
+    var dx=pt.x-px,dy=pt.y-py;
+    var d=Math.sqrt(dx*dx+dy*dy);
+    var a=Math.max(0.15,Math.min(0.8,1-d/(Math.max(W,H)*0.5)));
     ctx.strokeStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+a+')';
     if(pt.col<pt.cols-1){
       var r=meshPts[i+1];
