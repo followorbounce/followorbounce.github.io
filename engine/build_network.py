@@ -256,6 +256,10 @@ def render_index(graph):
     tod_css = open(os.path.join(HERE, "term-of-day.css"), encoding="utf-8").read()
     tod_html = open(os.path.join(HERE, "term-of-day.html"), encoding="utf-8").read()
     tod_js = open(os.path.join(HERE, "term-of-day.js"), encoding="utf-8").read()
+    # Generative interactive canvas (see engine/gen-canvas.*):
+    gen_css = open(os.path.join(HERE, "gen-canvas.css"), encoding="utf-8").read()
+    gen_html = open(os.path.join(HERE, "gen-canvas.html"), encoding="utf-8").read()
+    gen_js = open(os.path.join(HERE, "gen-canvas.js"), encoding="utf-8").read()
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -391,6 +395,7 @@ header .brand{{
 {blog_css}
 {cal_css}
 {tod_css}
+{gen_css}
 {cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
@@ -464,6 +469,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {blog_html}
 {cal_html}
 {tod_html}
+{gen_html}
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -549,6 +555,9 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {blog_js}
 {cal_js}
 {tod_js}
+<script>
+{gen_js}
+</script>
 <script>
 {cubes_js}
 </script>

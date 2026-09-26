@@ -1,0 +1,10 @@
+/* ---- Generative interactive canvas ---- */
+.genwin{padding-block:28px; border-bottom:1px solid var(--ink);}
+.gen-modes{display:flex; gap:4px; flex-wrap:wrap;}
+.gen-mode{font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase;
+  padding:4px 10px; border:1px solid var(--line); background:transparent; color:var(--mid); cursor:pointer; line-height:1;}
+.gen-mode:hover{border-color:var(--ink); color:var(--ink);}
+.gen-mode.active{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.gen-frame{border:1px solid var(--ink); background:var(--card-bg,#fff); position:relative; overflow:hidden;}
+.gen-frame canvas{display:block; width:100%; height:280px; cursor:crosshair; touch-action:none;}
+@media(max-width:600px){.gen-frame canvas{height:220px;}}
