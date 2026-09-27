@@ -15,7 +15,7 @@ function resize(){
 }
 
 var modes=[
-  {id:'flow',   label:'Flow Field'},
+  {id:'flow',   label:'Meadow'},
   {id:'mesh',   label:'Mesh'},
   {id:'ripple', label:'Ripple'},
   {id:'drift',  label:'Drift'},
@@ -34,38 +34,127 @@ function palette(){
   return {bg:bg,all:cs};
 }
 
-// ===== FLOW FIELD =====
-var flowParts=[];
+// ===== MEADOW =====
+var stems=[];
+var windT=0,gustX=0,gustY=0;
 function flowInit(){
-  flowParts=[];
-  for(var i=0;i<500;i++){
-    flowParts.push({x:Math.random()*W,y:Math.random()*H,vx:0,vy:0,age:0,life:80+Math.random()*160});
+  stems=[];
+  var count=Math.round(W*0.18);
+  for(var i=0;i<count;i++){
+    var bx=Math.random()*W;
+    var by=H*0.55+Math.random()*H*0.45;
+    var h=20+Math.random()*50;
+    var kind=Math.random();
+    stems.push({
+      bx:bx, by:by, h:h*dpr,
+      phase:Math.random()*Math.PI*2,
+      speed:0.6+Math.random()*0.8,
+      sway:0, swayV:0,
+      ci:Math.floor(Math.random()*5),
+      hasFlower:kind<0.45,
+      petalR: kind<0.45 ? (2+Math.random()*4)*dpr : 0,
+      petalN: kind<0.45 ? 4+Math.floor(Math.random()*4) : 0,
+      isBud: kind>=0.45&&kind<0.65,
+      thick:(0.8+Math.random()*1.2)*dpr
+    });
   }
+  stems.sort(function(a,b){return a.by-b.by;});
 }
 function flowDraw(t){
   var p=palette();
-  ctx.fillStyle='rgba('+p.bg[0]+','+p.bg[1]+','+p.bg[2]+',0.08)';
+  var d=isDark();
+  // sky gradient
+  var grad=ctx.createLinearGradient(0,0,0,H);
+  if(d){grad.addColorStop(0,'#0e1018');grad.addColorStop(0.6,'#151520');grad.addColorStop(1,'#111113');}
+  else{grad.addColorStop(0,'#dde4e8');grad.addColorStop(0.5,'#e8ece4');grad.addColorStop(1,'#d6dcc6');}
+  ctx.fillStyle=grad;
   ctx.fillRect(0,0,W,H);
+
+  // ground
+  ctx.fillStyle=d?'#151a12':'#c4ccaa';
+  ctx.fillRect(0,H*0.88,W,H*0.12);
+  ctx.fillStyle=d?'#181e14':'#cdd4b4';
+  ctx.beginPath();ctx.moveTo(0,H*0.88);
+  for(var i=0;i<=W;i+=30){ctx.lineTo(i,H*0.88+Math.sin(i*0.015+t*0.0005)*6*dpr);}
+  ctx.lineTo(W,H);ctx.lineTo(0,H);ctx.fill();
+
   var px=mx*W,py=my*H;
-  for(var i=0;i<flowParts.length;i++){
-    var pt=flowParts[i];
-    var dx=pt.x-px,dy=pt.y-py;
-    var d=Math.sqrt(dx*dx+dy*dy)+1;
-    var angle=Math.atan2(dy,dx)+Math.sin(pt.x*0.003+t*0.001)*1.5+Math.cos(pt.y*0.003+t*0.0008)*1.2;
-    var speed=Math.min(3.5,300/d);
-    pt.vx=pt.vx*0.9+Math.cos(angle)*speed*0.1;
-    pt.vy=pt.vy*0.9+Math.sin(angle)*speed*0.1;
-    pt.x+=pt.vx; pt.y+=pt.vy;
-    pt.age++;
-    if(pt.age>pt.life||pt.x<-10||pt.x>W+10||pt.y<-10||pt.y>H+10){
-      pt.x=Math.random()*W; pt.y=Math.random()*H; pt.vx=0; pt.vy=0; pt.age=0;
-      pt.life=80+Math.random()*160;
+  // wind: gentle base sway + gust toward cursor on press
+  windT=t*0.001;
+  var baseWind=Math.sin(windT*0.7)*0.3+Math.sin(windT*1.3)*0.15;
+  if(pressed){
+    gustX+=(0.5-mx)*0.02;gustY+=(-0.3)*0.01;
+  }
+  gustX*=0.96;gustY*=0.96;
+
+  var stemColors=d?[
+    [80,110,60],[70,100,55],[90,120,65],[60,90,50],[75,105,58]
+  ]:[
+    [90,120,55],[80,110,50],[100,130,60],[70,100,45],[85,115,52]
+  ];
+
+  for(var i=0;i<stems.length;i++){
+    var s=stems[i];
+    var dx=s.bx-px,dy=(s.by-s.h*0.5)-py;
+    var dist=Math.sqrt(dx*dx+dy*dy)+1;
+    // cursor push: nearby stems bend away
+    var cursorPush=0;
+    if(dist<160*dpr){
+      var f=(1-dist/(160*dpr));
+      cursorPush=(dx>0?1:-1)*f*f*1.2;
+      if(pressed)cursorPush*=2.5;
     }
-    var a=Math.min(1,pt.age/15)*Math.min(1,(pt.life-pt.age)/25);
-    var ci=Math.abs(Math.floor((pt.x+pt.y)*0.01))%p.all.length;
-    var c=p.all[ci];
-    ctx.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+(a*0.8)+')';
-    ctx.fillRect(pt.x,pt.y,dpr*1.8,dpr*1.8);
+    // wind + spring
+    var windForce=baseWind+gustX*2+Math.sin(windT*s.speed+s.phase)*0.25;
+    var target=windForce+cursorPush;
+    var spring=(target-s.sway)*0.04;
+    s.swayV=(s.swayV+spring)*0.92;
+    s.sway+=s.swayV;
+
+    // draw stem as quadratic curve
+    var tipX=s.bx+s.sway*s.h*0.7;
+    var tipY=s.by-s.h;
+    var cpX=s.bx+s.sway*s.h*0.35;
+    var cpY=s.by-s.h*0.55;
+
+    var sc=stemColors[i%stemColors.length];
+    var depth=s.by/H;
+    var sa=0.5+depth*0.5;
+    ctx.strokeStyle='rgba('+sc[0]+','+sc[1]+','+sc[2]+','+sa+')';
+    ctx.lineWidth=s.thick;
+    ctx.beginPath();ctx.moveTo(s.bx,s.by);ctx.quadraticCurveTo(cpX,cpY,tipX,tipY);ctx.stroke();
+
+    // leaf on some stems
+    if(s.h>35*dpr&&i%3===0){
+      var lf=0.4+Math.sin(i)*0.15;
+      var lx=s.bx+(cpX-s.bx)*lf*2;
+      var ly=s.by+(cpY-s.by)*lf*1.5;
+      var la=s.sway*0.5+Math.sin(t*0.003+s.phase)*0.3;
+      ctx.fillStyle='rgba('+(sc[0]+10)+','+(sc[1]+15)+','+(sc[2]-5)+','+(sa*0.7)+')';
+      ctx.save();ctx.translate(lx,ly);ctx.rotate(la);
+      ctx.beginPath();ctx.ellipse(0,0,6*dpr,2.5*dpr,0,0,Math.PI*2);ctx.fill();
+      ctx.restore();
+    }
+
+    // flower or bud at tip
+    if(s.hasFlower){
+      var c=p.all[s.ci];
+      ctx.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+(sa*0.9)+')';
+      for(var pn=0;pn<s.petalN;pn++){
+        var pa=pn/s.petalN*Math.PI*2+s.sway*0.3+t*0.0003;
+        var ppx=tipX+Math.cos(pa)*s.petalR;
+        var ppy=tipY+Math.sin(pa)*s.petalR*0.7;
+        ctx.beginPath();ctx.ellipse(ppx,ppy,s.petalR*0.55,s.petalR*0.35,pa,0,Math.PI*2);ctx.fill();
+      }
+      // center
+      var cc=d?[220,200,130]:[180,150,60];
+      ctx.fillStyle='rgba('+cc[0]+','+cc[1]+','+cc[2]+','+(sa*0.9)+')';
+      ctx.beginPath();ctx.arc(tipX,tipY,s.petalR*0.28,0,Math.PI*2);ctx.fill();
+    }else if(s.isBud){
+      var c=p.all[s.ci];
+      ctx.fillStyle='rgba('+c[0]+','+c[1]+','+c[2]+','+(sa*0.6)+')';
+      ctx.beginPath();ctx.ellipse(tipX,tipY-2*dpr,2.5*dpr,4*dpr,s.sway*0.4,0,Math.PI*2);ctx.fill();
+    }
   }
 }
 
