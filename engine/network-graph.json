@@ -189,7 +189,7 @@
       "category": "Video Synth",
       "title": "Point Cloud Scan",
       "description": "Procedural 3D point-cloud scans (terrain, vaulted nave, tree, knot, or your image as depth) swept by a scanning plane and eroded by a noise-field decomposition front.",
-      "url": "https://followorbounce.github.io/point-cloud-scan",
+      "url": "https://followorbounce.github.io/visual-synths/point-cloud-scan",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -200,7 +200,7 @@
       "category": "Video Synth",
       "title": "Displacement Field",
       "description": "Hidden-line sheet displaced by fractal noise, wave interference, an image, your camera, or a live microphone spectrogram.",
-      "url": "https://followorbounce.github.io/displacement-field",
+      "url": "https://followorbounce.github.io/visual-synths/displacement-field",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -211,7 +211,7 @@
       "category": "Video Synth",
       "title": "Latent Flow",
       "description": "Up to a million GPU particles advected by a divergence-free ABC fluid flow, morphing between sculptural forms.",
-      "url": "https://followorbounce.github.io/latent-flow",
+      "url": "https://followorbounce.github.io/visual-synths/latent-flow",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -222,7 +222,7 @@
       "category": "Video Synth",
       "title": "Data Matrix",
       "description": "Pixel-exact black-and-white data composition: barcodes, binary fields, waveform plots and a perspective data plane, with optional sine/click sound.",
-      "url": "https://followorbounce.github.io/data-matrix",
+      "url": "https://followorbounce.github.io/visual-synths/data-matrix",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -233,7 +233,7 @@
       "category": "Video Synth",
       "title": "Palette Synth",
       "description": "A live cosine-gradient color instrument — twelve knobs generate a full smooth palette in real time.",
-      "url": "https://followorbounce.github.io/palette-synth",
+      "url": "https://followorbounce.github.io/visual-synths/palette-synth",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -244,7 +244,7 @@
       "category": "Video Synth",
       "title": "Additive Wave Sculptor",
       "description": "Eight-harmonic Fourier synthesis, playable as real audio via a Web Audio PeriodicWave.",
-      "url": "https://followorbounce.github.io/additive-wave-sculptor",
+      "url": "https://followorbounce.github.io/visual-synths/additive-wave-sculptor",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -255,7 +255,7 @@
       "category": "Video Synth",
       "title": "Lissajous / Harmonograph Plotter",
       "description": "Two axes, each a two-term sine sum, plotted against each other with amplitude decay.",
-      "url": "https://followorbounce.github.io/lissajous-plotter",
+      "url": "https://followorbounce.github.io/visual-synths/lissajous-plotter",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -266,7 +266,7 @@
       "category": "Video Synth",
       "title": "Spectral Visualizer",
       "description": "A real-time FFT spectrum analyzer and waveform oscilloscope driven by microphone, file, or internal oscillator.",
-      "url": "https://followorbounce.github.io/spectral-visualizer",
+      "url": "https://followorbounce.github.io/visual-synths/spectral-visualizer",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
@@ -277,7 +277,7 @@
       "category": "Video Synth",
       "title": "Complex-Plane Fractal Mapper",
       "description": "A Mandelbrot/Julia explorer colored with Palette Synth's own gradient formula.",
-      "url": "https://followorbounce.github.io/complex-fractal-mapper",
+      "url": "https://followorbounce.github.io/visual-synths/complex-fractal-mapper",
       "tag": "Tool",
       "interactive": true,
       "hidden": true

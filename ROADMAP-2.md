@@ -17,7 +17,7 @@
 | Capability | Files | Notes |
 |---|---|---|
 | WebGL | 1 (`mediaservers-shaders.html`) | The only fragment shader on the entire site — the plasma demo Palette Synth's "Plasma" preset already reproduces in JS/Canvas 2D |
-| Real microphone input (`getUserMedia`) | 2 (`audio-reactive-diffusion.html`, `radio-communications.html`) | Both from the last pass; same proven pattern (opt-in button, synthetic default, graceful denial) |
+| Real microphone input (`getUserMedia`) | 2 (`visual-synths/audio-reactive-diffusion.html`, `radio-communications.html`) | Both from the last pass; same proven pattern (opt-in button, synthetic default, graceful denial) |
 | Web Audio (non-mic) | 7 | Patch Bay, Signal Chain, Music-Mathematics, Media Servers, Additive Wave Sculptor, plus the two mic-capable pages above |
 | Client-side crypto (`crypto.subtle`) | 1 (`blockchain-infrastructure.html`) | Real SHA-256 hashing and ECDSA sign/verify, not simulated |
 | Canvas 2D | 13 | The dominant rendering technique on the site by a wide margin |
@@ -30,7 +30,7 @@ No other hidden WebGL, no other real-mic instrument, no second crypto demo — t
 
 ## 3. A second deduplication opportunity: the oscilloscope/spectrum drawer
 
-The knob widget and palette formula weren't the only things quietly duplicated. The `AnalyserNode` → canvas draw loop (`getByteTimeDomainData`/`getByteFrequencyData`, clear canvas, draw) is implemented **independently six times**: `patch-bay.html`, `signal-chain.html`, `music-mathematics.html`, `mediaservers.html`, `audio-reactive-diffusion.html`, `radio-communications.html`. The original roadmap only knew about the first two.
+The knob widget and palette formula weren't the only things quietly duplicated. The `AnalyserNode` → canvas draw loop (`getByteTimeDomainData`/`getByteFrequencyData`, clear canvas, draw) is implemented **independently six times**: `patch-bay.html`, `signal-chain.html`, `music-mathematics.html`, `mediaservers.html`, `visual-synths/audio-reactive-diffusion.html`, `radio-communications.html`. The original roadmap only knew about the first two.
 
 Unlike the knob widget (byte-identical in 4 of 5 files), these six are **not** identical — each has its own chrome, colors, and canvas dimensions suited to its page. That makes this a real design call, not a mechanical lift-and-share:
 
