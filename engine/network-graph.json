@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 118,
+    "pages": 119,
     "repos": 4,
-    "own": 33,
+    "own": 34,
     "aerospace": 47,
     "maya": 7,
     "machinery": 31
@@ -234,6 +234,17 @@
       "title": "Photogrammetry Scan",
       "description": "A real Structure-from-Motion reconstruction (a downtown high-rise block, 225k coloured points, 251 solved cameras) to orbit or fly along its capture path, with scan-plane and decomposition effects; loads your own Meshroom .abc or .ply.",
       "url": "https://followorbounce.github.io/visual-synths/photogrammetry-scan",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Light Grid",
+      "description": "Black-and-white light installation study: a lattice of squares and circles that rotate, breathe, outline, run as bars, flip in counterphase and ripple into moiré rings on a travelling wave; signed-distance fragment shader with full controls.",
+      "url": "https://followorbounce.github.io/visual-synths/light-grid",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
