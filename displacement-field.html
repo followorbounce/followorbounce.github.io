@@ -1,0 +1,631 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Displacement Field — Video Synths</title>
+<meta name="description" content="A hidden-line sheet of light displaced by fractal noise, wave interference, an image, your camera, or a live microphone spectrogram. WebGL 2.">
+<link rel="canonical" href="https://followorbounce.github.io/displacement-field">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Displacement Field — Video Synths">
+<meta property="og:description" content="A hidden-line sheet of light displaced by fractal noise, wave interference, an image, your camera, or a live microphone spectrogram. WebGL 2.">
+<meta property="og:url" content="https://followorbounce.github.io/displacement-field">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 02</div>
+    <h1>Displacement Field</h1>
+    <p>A sheet of lines lifted into relief by whatever you feed it: fractal noise, interfering ripples, a photograph, your camera, or the sound in the room scrolling past as a spectrogram landscape. Turn on occlusion and the far lines hide behind the near ones, the way a real surface would.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Interactive displaced 3D line field. Drag to orbit, scroll or pinch to zoom."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud bl" id="hudBL"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="drop" id="drop">Drop image to displace</div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Source</span>
+      <div class="seg" id="source">
+        <button data-v="0">Noise</button>
+        <button data-v="1">Ripples</button>
+        <button data-v="2">Image</button>
+        <button data-v="3">Camera</button>
+        <button data-v="4">Sound</button>
+      </div>
+      <div class="row">
+        <label class="btn" for="file">Load image…</label>
+        <input id="file" type="file" accept="image/*" hidden>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Draw</span>
+      <div class="seg" id="draw">
+        <button data-v="0">Lines</button>
+        <button data-v="1">Grid</button>
+        <button data-v="2">Points</button>
+      </div>
+      <span class="lab">Color</span>
+      <div class="seg" id="color">
+        <button data-v="0">Mono</button>
+        <button data-v="1">Height</button>
+        <button data-v="2">Ember</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="amp">Displacement <output for="amp"></output></label>
+      <input id="amp" type="range" min="0" max="1.5" step="0.01">
+      <label for="freq">Scale <output for="freq"></output></label>
+      <input id="freq" type="range" min="0.3" max="6" step="0.01">
+      <label for="speed">Speed <output for="speed"></output></label>
+      <input id="speed" type="range" min="0" max="2" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="rows">Lines <output for="rows"></output></label>
+      <input id="rows" type="range" min="24" max="260" step="1">
+      <label for="pulse">Light pulse <output for="pulse"></output></label>
+      <input id="pulse" type="range" min="0" max="1" step="0.01">
+      <label for="gain">Exposure <output for="gain"></output></label>
+      <input id="gain" type="range" min="0.2" max="2.5" step="0.01">
+    </div>
+    <div class="ctl">
+      <span class="lab">Surface</span>
+      <div class="row">
+        <button class="btn" id="occl" aria-pressed="true">Occlusion</button>
+        <button class="btn" id="invert" aria-pressed="false">Invert</button>
+        <button class="btn" id="auto" aria-pressed="true">Auto-orbit</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Camera and microphone start only when you pick those sources, stay on your device, and stop when you switch away.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p>The field is a grid of vertices whose rows are drawn as polylines. A vertex shader reads the source at each vertex's <code>(u, v)</code> position and lifts it by <em>height × displacement</em>. Image and camera heights are Rec. 709 luminance, averaged over a five-tap cross so pixel noise doesn't turn into spikes. <strong>Ripples</strong> is the physics one: three point sources emit circular waves <code>sin(k·r − ωt) / √r</code> (the far-field amplitude falloff of a 2D wave), and the sheet shows their interference — the same superposition behind a ripple tank.</p>
+  <p><strong>Sound</strong> writes one row of the microphone's FFT magnitudes into a 256 × 160 texture every frame and advances a ring-buffer pointer, so the newest spectrum is at the front edge and older ones recede — a spectrogram you can walk around. Frequency bins are mapped logarithmically (as hearing is), from about 40 Hz to 16 kHz.</p>
+  <p><strong>Occlusion</strong> first draws the surface as solid black triangles into the depth buffer, then draws the lines on top with a small polygon offset, so lines behind a hill are hidden: a hidden-line render, the technique behind many classic plotter and pulsar-plot images.</p>
+  <h3>Lineage</h3>
+  <p>In conversation with the line-and-light installations of <a href="https://www.nonotak.com" target="_blank" rel="noopener">NONOTAK</a> and the data landscapes of <a href="https://ouchhh.tv/" target="_blank" rel="noopener">Ouchhh</a> and <a href="https://www.fuseworks.it" target="_blank" rel="noopener">fuse*</a> — not a recreation of any work, and not affiliated.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Brightness is not depth: the camera source makes a relief of how light falls, not of how far things are.</li>
+    <li>WebGL draws lines one device pixel wide on nearly every browser, so line weight can't be adjusted.</li>
+    <li>On iOS the microphone needs a user tap first (the Sound button counts) and may be blocked in some in-app browsers.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { el.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), bl:document.getElementById('hudBL'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:true, alpha:false});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {source:0, draw:0, color:0, amp:0.55, freq:1.6, speed:0.5, rows:110, pulse:0.35, gain:1.0, occl:true, invert:false, auto:!GL.reducedMotion};
+const COLS = 320, SX = 3.2, SZ = 2.2;
+const SPEC_W = 256, SPEC_H = 160;
+const SRC_NAMES = ['Fractal noise', 'Wave interference', 'Image luminance', 'Live camera', 'Live spectrogram'];
+
+const VS = `#version 300 es
+precision highp float;
+in vec2 aUV;
+uniform mat4 uVP; uniform vec3 uEye;
+uniform float uTime, uAmp, uFreq, uSource, uInvert, uHead, uColor, uPulse, uGain, uAspect;
+uniform sampler2D uTex;
+uniform vec2 uTexel;
+out vec3 vCol; out float vA;
+${GL.NOISE}
+float lum(vec2 uv){ return dot(texture(uTex, uv).rgb, vec3(0.2126, 0.7152, 0.0722)); }
+float height(vec2 uv){
+  if(uSource < 0.5){
+    vec3 q = vec3(uv.x*uFreq*${(SX/SZ).toFixed(4)}, uv.y*uFreq, uTime*0.12);
+    float n = fbm(q + vec3(0.0, uTime*0.05, 0.0));
+    return n*1.6 - 0.8;
+  }
+  if(uSource < 1.5){
+    vec2 p = (uv - 0.5) * vec2(${(SX/SZ).toFixed(4)}, 1.0) * 2.0;
+    float s = 0.0;
+    vec2 src[3]; src[0] = vec2(-0.9, -0.4); src[1] = vec2(0.8, -0.2); src[2] = vec2(0.1, 0.7);
+    for(int i=0;i<3;i++){
+      vec2 c = src[i] + 0.15*vec2(sin(uTime*0.3+float(i)*2.1), cos(uTime*0.23+float(i)));
+      float r = length(p - c) + 0.05;
+      s += sin(r*uFreq*9.0 - uTime*3.0) / sqrt(r*3.0 + 0.4);
+    }
+    return s * 0.45;
+  }
+  if(uSource < 3.5){
+    // image / camera: fit texture into the sheet, 5-tap cross blur
+    vec2 t = uv; // texture row 0 (image top) sits at the far edge
+    t = (t - 0.5) * vec2(min(1.0, ${(SX/SZ).toFixed(4)}/uAspect), min(1.0, uAspect/${(SX/SZ).toFixed(4)})) + 0.5;
+    if(uSource > 2.5) t.x = 1.0 - t.x; // mirror the camera like a looking-glass
+    vec2 e = uTexel * 1.5;
+    float l = (lum(t)*2.0 + lum(t+vec2(e.x,0.0)) + lum(t-vec2(e.x,0.0)) + lum(t+vec2(0.0,e.y)) + lum(t-vec2(0.0,e.y))) / 6.0;
+    return l*1.4 - 0.7;
+  }
+  // spectrogram: x = log frequency, z = time (newest at the front edge)
+  float row = fract(uHead - (1.0 - uv.y) * ${((SPEC_H-1)/SPEC_H).toFixed(5)});
+  float m = texture(uTex, vec2(uv.x, row)).r;
+  return m*1.5 - 0.35;
+}
+void main(){
+  float h = height(aUV);
+  if(uInvert > 0.5) h = -h;
+  vec3 p = vec3((aUV.x - 0.5)*${SX.toFixed(2)}, h*uAmp, (aUV.y - 0.5)*${SZ.toFixed(2)});
+  float t = clamp(h*0.6 + 0.5, 0.0, 1.0);
+  vec3 col = vec3(0.92, 0.95, 1.0);
+  if(uColor > 0.5 && uColor < 1.5) col = cosPal(t*0.8 + 0.1, vec3(0.5), vec3(0.5), vec3(1.0), vec3(0.0, 0.1, 0.2));
+  else if(uColor > 1.5) col = cosPal(t*0.55, vec3(0.6, 0.4, 0.3), vec3(0.5, 0.4, 0.3), vec3(0.8, 0.9, 1.0), vec3(0.0, 0.15, 0.3)) * (0.35 + t);
+  // a band of light travelling from back to front
+  float pw = fract(uTime*0.12);
+  float pd = aUV.y - pw;
+  float pulse = exp(-pd*pd*180.0) + exp(-(pd+1.0)*(pd+1.0)*180.0);
+  col *= (1.0 - uPulse*0.55) + uPulse*2.2*pulse;
+  vCol = col * uGain;
+  float dist = length(p - uEye);
+  vA = 1.0 - smoothstep(4.0, 8.0, dist);
+  gl_Position = uVP * vec4(p, 1.0);
+  gl_PointSize = max(1.0, 3.0 / gl_Position.w);
+}`;
+const FS = `#version 300 es
+precision mediump float;
+in vec3 vCol; in float vA; uniform float uSolid; out vec4 o;
+void main(){ o = uSolid > 0.5 ? vec4(0.0, 0.0, 0.0, 1.0) : vec4(vCol * vA, 1.0); }`;
+
+let prog;
+try { prog = GL.program(gl, VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+
+/* ---------- mesh ---------- */
+const vao = gl.createVertexArray(), vbo = gl.createBuffer(), ibLines = gl.createBuffer(), ibTris = gl.createBuffer();
+gl.bindVertexArray(vao);
+gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
+const aUV = gl.getAttribLocation(prog.p, 'aUV');
+gl.enableVertexAttribArray(aUV); gl.vertexAttribPointer(aUV, 2, gl.FLOAT, false, 8, 0);
+let nV = 0, nRowIdx = 0, nGridIdx = 0, nTri = 0, rowsBuilt = 0;
+function buildMesh(){
+  const R = P.rows, C = COLS;
+  const uv = new Float32Array(R*C*2);
+  for(let r=0;r<R;r++) for(let c=0;c<C;c++){ const o=(r*C+c)*2; uv[o]=c/(C-1); uv[o+1]=r/(R-1); }
+  gl.bindBuffer(gl.ARRAY_BUFFER, vbo); gl.bufferData(gl.ARRAY_BUFFER, uv, gl.STATIC_DRAW);
+  // row segments, then column segments (for grid mode) appended after them
+  const colEvery = Math.max(1, Math.round((C-1) / ((R-1) * SX/SZ)));
+  const rowSeg = R*(C-1), colSeg = Math.ceil(C/colEvery)*(R-1);
+  const li = new Uint32Array((rowSeg + colSeg)*2); let k = 0;
+  for(let r=0;r<R;r++) for(let c=0;c<C-1;c++){ li[k++]=r*C+c; li[k++]=r*C+c+1; }
+  nRowIdx = k;
+  for(let c=0;c<C;c+=colEvery) for(let r=0;r<R-1;r++){ li[k++]=r*C+c; li[k++]=(r+1)*C+c; }
+  nGridIdx = k;
+  const ti = new Uint32Array((R-1)*(C-1)*6); let j = 0;
+  for(let r=0;r<R-1;r++) for(let c=0;c<C-1;c++){ const a=r*C+c, b=a+1, d=a+C, e=d+1; ti[j++]=a; ti[j++]=d; ti[j++]=b; ti[j++]=b; ti[j++]=d; ti[j++]=e; }
+  nTri = j;
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibLines); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, li.subarray(0, k), gl.STATIC_DRAW);
+  gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibTris); gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, ti, gl.STATIC_DRAW);
+  nV = R*C; rowsBuilt = R;
+}
+
+/* ---------- source textures ---------- */
+const tex = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, tex);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+let texW = 1, texH = 1, texAspect = 1;
+function uploadCanvasLike(src, w, h){
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT, 4);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, src);
+  texW = w; texH = h; texAspect = w/h;
+}
+let imageCanvas = null;
+function defaultImage(){
+  const c = document.createElement('canvas'); c.width = 640; c.height = 440; const x = c.getContext('2d');
+  x.fillStyle = '#000'; x.fillRect(0,0,640,440);
+  const g = x.createRadialGradient(320,220,10,320,220,260); g.addColorStop(0,'#fff'); g.addColorStop(1,'#000');
+  x.fillStyle = g; x.beginPath(); x.arc(320,220,200,0,7); x.fill();
+  x.fillStyle = '#000'; x.font = '800 70px Manrope, sans-serif'; x.textAlign = 'center'; x.fillText('DROP IMAGE', 320, 245);
+  return c;
+}
+// spectrogram ring buffer (R8)
+const specTex = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, specTex);
+gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, SPEC_W, SPEC_H, 0, gl.RED, gl.UNSIGNED_BYTE, new Uint8Array(SPEC_W*SPEC_H));
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT);
+let specHead = 0;
+const specRow = new Uint8Array(SPEC_W);
+
+/* ---------- camera + microphone (only while their source is selected) ---------- */
+let video = null, camStream = null, micStream = null, actx = null, analyser = null, fftBuf = null, binMap = null;
+let status = '';
+function stopMedia(){
+  if(camStream){ camStream.getTracks().forEach(t => t.stop()); camStream = null; }
+  if(video){ video.srcObject = null; video = null; }
+  if(micStream){ micStream.getTracks().forEach(t => t.stop()); micStream = null; }
+  if(actx){ actx.close(); actx = null; analyser = null; }
+}
+async function startCamera(){
+  status = 'REQUESTING CAMERA…';
+  try{
+    camStream = await navigator.mediaDevices.getUserMedia({video:{width:{ideal:640}, height:{ideal:480}}, audio:false});
+    video = document.createElement('video'); video.muted = true; video.playsInline = true; video.srcObject = camStream;
+    await video.play(); status = '';
+  } catch(e){ status = 'CAMERA UNAVAILABLE — ' + (e.name || 'error'); stopMedia(); }
+}
+async function startMic(){
+  status = 'REQUESTING MICROPHONE…';
+  try{
+    micStream = await navigator.mediaDevices.getUserMedia({audio:{echoCancellation:false, noiseSuppression:false, autoGainControl:false}});
+    actx = new (window.AudioContext || window.webkitAudioContext)();
+    const srcNode = actx.createMediaStreamSource(micStream);
+    analyser = actx.createAnalyser(); analyser.fftSize = 4096; analyser.smoothingTimeConstant = 0.5;
+    analyser.minDecibels = -95; analyser.maxDecibels = -25;
+    srcNode.connect(analyser);
+    fftBuf = new Uint8Array(analyser.frequencyBinCount);
+    const nyq = actx.sampleRate/2, lo = 40, hi = Math.min(16000, nyq);
+    binMap = new Float32Array(SPEC_W);
+    for(let i=0;i<SPEC_W;i++) binMap[i] = lo*Math.pow(hi/lo, i/(SPEC_W-1)) / nyq * analyser.frequencyBinCount;
+    status = '';
+  } catch(e){ status = 'MICROPHONE UNAVAILABLE — ' + (e.name || 'error'); stopMedia(); }
+}
+function setSource(v){
+  P.source = v; stopMedia();
+  if(v === 2){ if(!imageCanvas) imageCanvas = defaultImage(); uploadCanvasLike(imageCanvas, imageCanvas.width, imageCanvas.height); }
+  if(v === 3) startCamera();
+  if(v === 4) startMic();
+  hud.tl.textContent = 'DISPLACEMENT FIELD\n' + SRC_NAMES[v];
+}
+
+/* ---------- controls ---------- */
+const cam = {yaw:0.0, pitch:0.62, dist:3.5, minDist:1.2, maxDist:8, touched:-1e9};
+GL.orbit(cv, cam);
+const setSrcBtn = GL.seg('source', P.source, v => setSource(+v));
+GL.seg('draw', P.draw, v => P.draw = +v);
+GL.seg('color', P.color, v => P.color = +v);
+GL.slider('amp', P, 'amp', v => v.toFixed(2));
+GL.slider('freq', P, 'freq', v => v.toFixed(2));
+GL.slider('speed', P, 'speed', v => v.toFixed(2));
+GL.slider('rows', P, 'rows', v => String(v));
+GL.slider('pulse', P, 'pulse', v => v.toFixed(2));
+GL.slider('gain', P, 'gain', v => v.toFixed(2));
+GL.fullscreen('fs', stage);
+function toggle(id, key){ const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); }); }
+toggle('occl', 'occl'); toggle('invert', 'invert'); toggle('auto', 'auto');
+
+function loadFile(f){
+  if(!f || !f.type.startsWith('image/')) return;
+  const url = URL.createObjectURL(f), im = new Image();
+  im.onload = () => {
+    const s = Math.min(1, 1024/Math.max(im.width, im.height)), c = document.createElement('canvas');
+    c.width = Math.max(1, Math.round(im.width*s)); c.height = Math.max(1, Math.round(im.height*s));
+    c.getContext('2d').drawImage(im, 0, 0, c.width, c.height); URL.revokeObjectURL(url);
+    imageCanvas = c; setSrcBtn('2'); setSource(2);
+  };
+  im.src = url;
+}
+document.getElementById('file').addEventListener('change', e => loadFile(e.target.files[0]));
+const drop = document.getElementById('drop');
+stage.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('on'); });
+stage.addEventListener('dragleave', () => drop.classList.remove('on'));
+stage.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('on'); loadFile(e.dataTransfer.files[0]); });
+
+/* ---------- frame ---------- */
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, level = 0;
+function frame(now){
+  const raw = (now-last)/1000, dt = Math.min(0.05, raw); last = now;
+  t += dt * P.speed * (GL.reducedMotion ? 0.4 : 1);
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  if(P.auto && now - cam.touched > 2500) cam.yaw += (Math.sin(now*0.00008)*0.9 - cam.yaw)*dt*0.3;
+  if(P.rows !== rowsBuilt) buildMesh();
+
+  // feed the live sources
+  if(P.source === 3 && video && video.readyState >= 2) uploadCanvasLike(video, video.videoWidth, video.videoHeight);
+  if(P.source === 4 && analyser){
+    analyser.getByteFrequencyData(fftBuf);
+    let sum = 0;
+    for(let i=0;i<SPEC_W;i++){
+      const b = binMap[i], b0 = Math.floor(b), f = b - b0;
+      const v = fftBuf[Math.min(b0, fftBuf.length-1)]*(1-f) + fftBuf[Math.min(b0+1, fftBuf.length-1)]*f;
+      specRow[i] = v; sum += v;
+    }
+    level = sum/(SPEC_W*255);
+    specHead = (specHead + 1) % SPEC_H;
+    gl.bindTexture(gl.TEXTURE_2D, specTex);
+    gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+    gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, specHead, SPEC_W, 1, gl.RED, gl.UNSIGNED_BYTE, specRow);
+  }
+
+  GL.fit(cv, 2);
+  gl.viewport(0, 0, cv.width, cv.height);
+  gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  const eye = GL.eye(cam);
+  const vp = GL.mul(GL.persp(0.75, cv.width/cv.height, 0.05, 30), GL.lookAt(eye, [0,-0.05,0]));
+  gl.useProgram(prog.p);
+  const u = prog.u;
+  gl.uniformMatrix4fv(u.uVP, false, vp);
+  gl.uniform3fv(u.uEye, eye);
+  gl.uniform1f(u.uTime, t);
+  gl.uniform1f(u.uAmp, P.amp);
+  gl.uniform1f(u.uFreq, P.freq);
+  gl.uniform1f(u.uSource, P.source);
+  gl.uniform1f(u.uInvert, P.invert ? 1 : 0);
+  gl.uniform1f(u.uHead, (specHead + 0.5)/SPEC_H);
+  gl.uniform1f(u.uColor, P.color);
+  gl.uniform1f(u.uPulse, P.pulse);
+  gl.uniform1f(u.uGain, P.gain);
+  gl.uniform1f(u.uAspect, texAspect);
+  gl.uniform2f(u.uTexel, 1/texW, 1/texH);
+  gl.activeTexture(gl.TEXTURE0);
+  gl.bindTexture(gl.TEXTURE_2D, P.source === 4 ? specTex : tex);
+  gl.uniform1i(u.uTex, 0);
+  gl.bindVertexArray(vao);
+
+  const occl = P.occl && P.draw !== 2;
+  if(occl){
+    gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); gl.disable(gl.BLEND);
+    gl.enable(gl.POLYGON_OFFSET_FILL); gl.polygonOffset(1.5, 2.0);
+    gl.uniform1f(u.uSolid, 1);
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibTris);
+    gl.drawElements(gl.TRIANGLES, nTri, gl.UNSIGNED_INT, 0);
+    gl.disable(gl.POLYGON_OFFSET_FILL);
+  } else {
+    gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
+  }
+  gl.uniform1f(u.uSolid, 0);
+  if(P.draw === 2){
+    gl.drawArrays(gl.POINTS, 0, nV);
+  } else {
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibLines);
+    gl.drawElements(gl.LINES, P.draw === 1 ? nGridIdx : nRowIdx, gl.UNSIGNED_INT, 0);
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tr.textContent = rowsBuilt + ' × ' + COLS + '\n' + (P.draw === 2 ? 'POINTS' : P.draw === 1 ? 'GRID' : 'LINES') + (occl ? ' · HIDDEN-LINE' : ' · ADDITIVE');
+    hud.bl.textContent = status || (P.source === 4 ? 'LEVEL ' + '▮'.repeat(Math.round(level*40)).padEnd(16, '·').slice(0, 16) : 'AMP ' + P.amp.toFixed(2) + '  SCALE ' + P.freq.toFixed(2));
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+buildMesh();
+setSource(P.source);
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+})();
+
+</script>
+</body>
+</html>

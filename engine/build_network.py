@@ -143,6 +143,10 @@ def build_own_entries():
                 "tag": p["tag"],
                 "interactive": p["interactive"],
             }
+            if cat.get("hidden"):
+                # category left out of the index's category list (still searchable);
+                # e.g. Video Synth, reached via the link under the Generative canvas
+                entry["hidden"] = True
             if p.get("archived"):
                 archived.append(entry)
             else:
@@ -273,7 +277,7 @@ def render_index(graph):
     own_order = []
     merged_extra = {}
     for e in graph["entries"]:
-        if e["repo"] != "home":
+        if e["repo"] != "home" or e.get("hidden"):
             continue
         if e["category"] in MERGE_INTO_HUB:
             merged_extra.setdefault(MERGE_INTO_HUB[e["category"]], []).append(e)

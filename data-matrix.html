@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Matrix — Video Synths</title>
+<meta name="description" content="Pixel-exact black-and-white data composition — barcodes, binary fields, waveform plots, a perspective data plane — with optional sine and click sound.">
+<link rel="canonical" href="https://followorbounce.github.io/data-matrix">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Data Matrix — Video Synths">
+<meta property="og:description" content="Pixel-exact black-and-white data composition — barcodes, binary fields, waveform plots, a perspective data plane — with optional sine and click sound.">
+<meta property="og:url" content="https://followorbounce.github.io/data-matrix">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 04</div>
+    <h1>Data Matrix</h1>
+    <p>Pure black and white, drawn to the exact pixel: scrolling barcodes, fields of binary cells, stacked waveform plots and a plane of data rushing toward you, cut together on a hard clock. Optional sound adds sine tones and noise clicks locked to the cuts.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Animated black and white data composition. Move the pointer to disturb the binary field."></canvas>
+    <canvas id="ov" aria-hidden="true" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;mix-blend-mode:difference;"></canvas>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Section</span>
+      <div class="seg" id="section">
+        <button data-v="0">Barcode</button>
+        <button data-v="1">Binary</button>
+        <button data-v="2">Plot</button>
+        <button data-v="3">Plane</button>
+        <button data-v="-1">Strata</button>
+      </div>
+      <div class="row"><button class="btn" id="fs">Fullscreen</button><button class="btn" id="cycle" aria-pressed="true">Auto-cut</button></div>
+    </div>
+    <div class="ctl">
+      <label for="density">Density <output for="density"></output></label>
+      <input id="density" type="range" min="0.05" max="0.95" step="0.01">
+      <label for="speed">Tempo <output for="speed"></output></label>
+      <input id="speed" type="range" min="0" max="2" step="0.01">
+    </div>
+    <div class="ctl">
+      <span class="lab">Output</span>
+      <div class="row">
+        <button class="btn" id="invert" aria-pressed="false">Invert</button>
+        <button class="btn" id="numbers" aria-pressed="true">Numbers</button>
+        <button class="btn" id="flash" aria-pressed="false">Flash ≤3 Hz</button>
+      </div>
+      <p class="hint" style="margin:0">⚠ Flash inverts the whole frame. Leave it off if you're sensitive to flashing light.</p>
+    </div>
+    <div class="ctl">
+      <span class="lab">Sound</span>
+      <div class="row"><button class="btn" id="sound" aria-pressed="false">Sound off</button></div>
+      <label for="vol">Volume <output for="vol"></output></label>
+      <input id="vol" type="range" min="0" max="1" step="0.01">
+    </div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p>Everything is one fragment shader working in whole device pixels, so lines are exactly one pixel wide and cells never blur. There are no images and no randomness at run time: every bar, bit and cell comes from an integer hash of its coordinates and of a quantised clock, <code>hash(cell, ⌊t · rate⌋)</code>. That makes the piece deterministic — the same second always looks the same — while still reading as a torrent of data.</p>
+  <ul>
+    <li><strong>Barcode</strong> — nine bands, each with its own bar width (1–6 px), density and scroll speed (some run backwards). Bands re-roll their pattern on their own slow clocks.</li>
+    <li><strong>Binary</strong> — a grid of 1-bit cells; each row updates at its own rate. Your pointer forces nearby cells on.</li>
+    <li><strong>Plot</strong> — stacked 1-pixel waveforms (sums of sines at hashed frequencies), sampled with dots, crossed by a scan line.</li>
+    <li><strong>Plane</strong> — binary cells projected onto a floor with <code>z = k / (horizon − y)</code>, the pinhole-camera ground-plane mapping, scrolling toward you.</li>
+    <li><strong>Strata</strong> — the frame split into horizontal layers, each showing a different section, reshuffled on every cut.</li>
+  </ul>
+  <p>The numbers are drawn on a second canvas with <code>mix-blend-mode: difference</code>, so white digits turn black wherever they cross white data — they can't vanish into it. Sound, when on, is a sine oscillator that jumps between octaves of 440 Hz on every cut, plus 3 ms white-noise clicks at barcode edges. Flash is capped at three inversions per second (the WCAG general-flash threshold), and is disabled entirely when your system asks for reduced motion.</p>
+  <h3>Lineage</h3>
+  <p>A study in the visual language of <a href="https://www.ryojiikeda.com" target="_blank" rel="noopener">Ryoji Ikeda</a>'s data-driven audiovisual work — binary black/white, pixel precision, sine and click. It is not a recreation of any piece and is not affiliated with the artist.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The data is synthetic — hashed, not measured. It looks like information; it carries none.</li>
+    <li>Browsers block sound until you press the Sound button; some mobile browsers also mute it when the ringer switch is off.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { el.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, depth:false});
+const g2 = ov.getContext('2d');
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {section:-1, density:0.5, speed:1.0, invert:false, numbers:true, flash:false, cycle:true, vol:0.35};
+const NAMES = ['BARCODE', 'BINARY', 'PLOT', 'PLANE'];
+
+const VS = `#version 300 es
+void main(){ vec2 p = vec2(float((gl_VertexID << 1) & 2), float(gl_VertexID & 2)); gl_Position = vec4(p*2.0 - 1.0, 0.0, 1.0); }`;
+const FS = `#version 300 es
+precision highp float;
+precision highp int;
+uniform vec2 uRes, uMouse;
+uniform float uTime, uSection, uDensity, uCut, uInvert, uFlash, uPx;
+out vec4 o;
+uint ih(uint x){ x ^= x >> 16; x *= 0x7feb352dU; x ^= x >> 15; x *= 0x846ca68bU; x ^= x >> 16; return x; }
+float h(float a, float b){ return float(ih(uint(int(floor(a))) * 1597334677U ^ ih(uint(int(floor(b))) + 0x9e3779b9U))) / 4294967295.0; }
+
+float barcode(vec2 p, vec2 s, float t, float k){
+  float bh = s.y / 9.0, band = floor(p.y / bh) + k*31.0;
+  if(p.y - floor(p.y / bh)*bh < 2.0*uPx) return 0.0;               // gap between bands
+  float unit = floor(1.0 + h(band, 2.0)*5.0) * uPx;
+  float sp = (h(band, 1.0) - 0.5) * 900.0 * uPx;
+  float x = p.x + t*sp;
+  float epoch = floor(t * (0.2 + h(band, 3.0)*0.6));
+  float dens = clamp(uDensity + (h(band, 4.0) - 0.5)*0.5, 0.05, 0.95);
+  return step(h(floor(x/unit), band*977.0 + epoch), dens);
+}
+float binary(vec2 p, vec2 s, float t, float k){
+  float c = max(4.0, floor(min(s.x, s.y*1.6) / 110.0)) * uPx;
+  vec2 cell = floor(p / c), l = p - cell*c;
+  if(l.x > c - uPx || l.y > c - uPx) return 0.0;                   // 1-px grid gutter
+  float rate = 1.0 + h(cell.y, 5.0 + k)*24.0;
+  float v = step(h(cell.x + cell.y*4099.0, floor(t*rate + h(cell.y, 6.0)*10.0) + k*7.0), uDensity*0.8);
+  float d = length((cell + 0.5)*c - uMouse);
+  return max(v, step(d, 60.0*uPx) * step(0.4, h(cell.x*3.0 + cell.y, floor(t*20.0))));
+}
+float plot(vec2 p, vec2 s, float t, float k){
+  float rh = 48.0*uPx, row = floor(p.y / rh), cy = (row + 0.5)*rh;
+  float f1 = 0.004 + h(row, 7.0 + k)*0.03, f2 = 0.02 + h(row, 8.0)*0.08;
+  float amp = rh*0.38*(0.3 + uDensity);
+  float y = cy + amp*(0.7*sin(p.x*f1/uPx + t*(1.0 + h(row,9.0)*3.0)) + 0.3*sin(p.x*f2/uPx - t*2.3));
+  float line = step(abs(p.y - y), 0.6*uPx);
+  float dotx = step(mod(p.x, 12.0*uPx), 2.0*uPx) * step(abs(p.y - y), 1.6*uPx);
+  float base = step(abs(p.y - cy), 0.5*uPx) * step(mod(p.x, 4.0*uPx), uPx);
+  float sx = fract(t*0.13 + k*0.3)*s.x;
+  float scan = step(abs(p.x - sx), 0.5*uPx) + step(abs(p.x - sx), 6.0*uPx)*step(mod(p.y, rh), 2.0*uPx);
+  return clamp(line + dotx + base + scan, 0.0, 1.0);
+}
+float plane(vec2 p, vec2 s, float t, float k){
+  float hz = s.y*0.62;
+  if(p.y > hz){                                                     // sky: sparse data columns
+    float col = floor(p.x / (2.0*uPx));
+    float on = step(0.985 - uDensity*0.03, h(col, floor(t*6.0) + k));
+    return on * step(p.y - hz, h(col, floor(t*6.0) + 3.0)*(s.y - hz));
+  }
+  float dy = hz - p.y;
+  float z = s.y*0.5 / dy;
+  vec2 w = vec2((p.x - s.x*0.5) / dy * 10.0, z*10.0 + t*14.0);
+  vec2 cell = floor(w), f = fract(w);
+  float fw = max(fwidth(w.x), fwidth(w.y));
+  float inside = step(0.12 + fw, f.x) * step(0.12 + fw, f.y);
+  float v = step(h(cell.x + 500.0, cell.y + k*13.0), uDensity*0.7) * inside;
+  return v * (1.0 - smoothstep(0.35, 1.0, 1.0 - dy/hz)) + step(abs(p.y - hz), 0.5*uPx);
+}
+float section(float id, vec2 p, vec2 s, float t, float k){
+  if(id < 0.5) return barcode(p, s, t, k);
+  if(id < 1.5) return binary(p, s, t, k);
+  if(id < 2.5) return plot(p, s, t, k);
+  return plane(p, s, t, k);
+}
+void main(){
+  vec2 p = floor(gl_FragCoord.xy) + 0.5;
+  float v;
+  if(uSection >= 0.0){
+    v = section(uSection, p, uRes, uTime, uCut);
+  } else {
+    // strata: layers of hashed height, each assigned a section, reshuffled at each cut
+    float y0 = 0.0, y1 = 0.0, id = 0.0, layer = 0.0;
+    for(int i = 0; i < 7; i++){
+      float hgt = uRes.y * (0.06 + h(float(i), uCut*3.0 + 1.0)*0.26);
+      y1 = (i == 6) ? uRes.y : y0 + hgt;
+      if(p.y < y1){ layer = float(i); id = floor(h(float(i), uCut*3.0 + 2.0)*4.0); break; }
+      y0 = y1;
+    }
+    y1 = min(y1, uRes.y);
+    if(p.y - y0 < uPx || y1 - p.y < uPx) v = 0.0;                  // hairline between strata
+    else v = section(id, vec2(p.x, p.y - y0), vec2(uRes.x, y1 - y0), uTime, uCut + layer*11.0);
+  }
+  v = abs(v - max(uInvert, uFlash));
+  if(uInvert > 0.5 && uFlash > 0.5) v = 1.0 - v;
+  o = vec4(vec3(v), 1.0);
+}`;
+
+let prog;
+try { prog = GL.program(gl, VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = gl.createVertexArray();
+
+/* ---------- sound: sine that jumps octaves on each cut + noise clicks ---------- */
+let ac = null, master = null, tone = null, toneGain = null, noise = null;
+function soundStart(){
+  ac = new (window.AudioContext || window.webkitAudioContext)();
+  master = ac.createGain(); master.gain.value = P.vol*0.25; master.connect(ac.destination);
+  tone = ac.createOscillator(); tone.type = 'sine'; tone.frequency.value = 880;
+  toneGain = ac.createGain(); toneGain.gain.value = 0; tone.connect(toneGain); toneGain.connect(master); tone.start();
+  noise = ac.createBuffer(1, Math.round(ac.sampleRate*0.003), ac.sampleRate);
+  const d = noise.getChannelData(0); for(let i=0;i<d.length;i++) d[i] = (Math.random()*2-1) * (1 - i/d.length);
+}
+function soundStop(){ if(ac){ ac.close(); ac = null; } }
+function click(gain){
+  if(!ac) return;
+  const s = ac.createBufferSource(), g = ac.createGain(); s.buffer = noise; g.gain.value = gain;
+  s.connect(g); g.connect(master); s.start();
+}
+function toneTo(freq, on){
+  if(!ac) return;
+  const now = ac.currentTime;
+  tone.frequency.setValueAtTime(freq, now);
+  toneGain.gain.setTargetAtTime(on ? 0.35 : 0, now, 0.004);
+}
+
+/* ---------- controls ---------- */
+const setSection = GL.seg('section', P.section, v => { P.section = +v; cut(); });
+GL.slider('density', P, 'density', v => v.toFixed(2));
+GL.slider('speed', P, 'speed', v => v.toFixed(2));
+GL.slider('vol', P, 'vol', v => v.toFixed(2)).addEventListener('input', () => { if(master) master.gain.value = P.vol*0.25; });
+GL.fullscreen('fs', stage);
+function toggle(id, key, after){ const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); if(after) after(b); }); return b; }
+toggle('invert', 'invert'); toggle('numbers', 'numbers'); toggle('cycle', 'cycle');
+const flashBtn = toggle('flash', 'flash');
+if(GL.reducedMotion){ flashBtn.disabled = true; flashBtn.title = 'Disabled because your system requests reduced motion'; }
+P.sound = false;
+toggle('sound', 'sound', b => { b.textContent = P.sound ? 'Sound on' : 'Sound off'; P.sound ? soundStart() : soundStop(); });
+
+const mouse = [-1e4, -1e4];
+cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(); mouse[0] = (e.clientX - r.left)*cv.width/r.width; mouse[1] = (r.bottom - e.clientY)*cv.height/r.height; });
+cv.addEventListener('pointerleave', () => { mouse[0] = mouse[1] = -1e4; });
+cv.style.cursor = 'crosshair';
+
+/* ---------- clock ---------- */
+let cutN = 0, cutAt = 0, shown = 0, t = 0, last = performance.now();
+function cut(){
+  cutN++; cutAt = t;
+  shown = P.section >= 0 ? P.section : -1;
+  click(0.9);
+  toneTo(440 * Math.pow(2, (cutN*7) % 4), true);
+}
+function hash(a, b){ let x = (Math.imul(a|0, 1597334677) ^ Math.imul((b|0) + 0x9e3779b9, 0x85ebca6b)) >>> 0; x ^= x >>> 15; x = Math.imul(x, 0x2c1b3c6d) >>> 0; x ^= x >>> 12; return (x >>> 0)/4294967295; }
+
+function pad(n, w){ return String(n).padStart(w, '0'); }
+function frame(now){
+  const dt = Math.min(0.05, (now - last)/1000); last = now;
+  t += dt * P.speed * (GL.reducedMotion ? 0.35 : 1);
+  if(P.cycle && t - cutAt > 4 + hash(cutN, 1)*6){
+    if(P.section >= 0){ P.section = (P.section + 1) % 4; setSection(String(P.section)); }
+    cut();
+  }
+  // audio gestures between cuts
+  if(ac){
+    const tick = Math.floor(t*8);
+    if(tick !== frame.tick){ frame.tick = tick; if(hash(tick, 3) < 0.45) click(0.25 + hash(tick, 4)*0.4); toneTo(440 * Math.pow(2, (cutN*7) % 4), hash(tick, 5) < 0.6); }
+  }
+  const flash = P.flash && !GL.reducedMotion && hash(Math.floor(t*3), 77) > 0.72 ? 1 : 0;
+
+  GL.fit(cv, 2);
+  if(ov.width !== cv.width || ov.height !== cv.height){ ov.width = cv.width; ov.height = cv.height; }
+  const px = Math.max(1, Math.round(cv.height/720));
+  gl.viewport(0, 0, cv.width, cv.height);
+  gl.useProgram(prog.p);
+  const u = prog.u;
+  gl.uniform2f(u.uRes, cv.width, cv.height);
+  gl.uniform2f(u.uMouse, mouse[0], mouse[1]);
+  gl.uniform1f(u.uTime, t);
+  gl.uniform1f(u.uSection, shown);
+  gl.uniform1f(u.uDensity, P.density);
+  gl.uniform1f(u.uCut, cutN);
+  gl.uniform1f(u.uInvert, P.invert ? 1 : 0);
+  gl.uniform1f(u.uFlash, flash);
+  gl.uniform1f(u.uPx, px);
+  gl.bindVertexArray(vao);
+  gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  // numeric overlay (difference-blended, so it stays legible over white)
+  g2.clearRect(0, 0, ov.width, ov.height);
+  if(P.numbers){
+    const fs = Math.max(9, Math.round(10*px*1.1));
+    g2.font = fs + 'px "IBM Plex Mono", monospace'; g2.fillStyle = '#fff'; g2.textBaseline = 'top';
+    const m = Math.round(12*px), lh = Math.round(fs*1.35);
+    const ms = Math.floor(t*1000), tc = pad(Math.floor(ms/60000), 2) + ':' + pad(Math.floor(ms/1000)%60, 2) + '.' + pad(ms%1000, 3);
+    g2.textAlign = 'left';
+    g2.fillText((shown >= 0 ? NAMES[shown] : 'STRATA') + '  ·  CUT ' + pad(cutN, 4), m, m);
+    g2.fillText(tc, m, m + lh);
+    const rows = Math.min(14, Math.floor((ov.height - 2*m)/lh) - 3), fr = Math.floor(t*24);
+    for(let i=0;i<rows;i++){
+      const hv = Math.floor(hash(fr + i*7, i)*0xffffffff) >>> 0;
+      g2.fillText(pad(i, 2) + '  0x' + hv.toString(16).padStart(8, '0') + '  ' + (hash(fr, i*3) * 2 - 1).toFixed(6), m, ov.height - m - (rows - i)*lh);
+    }
+    g2.textAlign = 'right';
+    g2.fillText(cv.width + '×' + cv.height + ' px', ov.width - m, m);
+    g2.fillText('ρ ' + P.density.toFixed(3) + '  τ ' + P.speed.toFixed(2), ov.width - m, m + lh);
+    if(mouse[0] > -1e3) g2.fillText('x ' + pad(Math.round(mouse[0]), 4) + '  y ' + pad(Math.round(mouse[1]), 4), ov.width - m, ov.height - m - lh);
+  }
+}
+cut(); cutN = 0; cutAt = 0;
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+})();
+
+</script>
+</body>
+</html>

@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 113,
+    "pages": 117,
     "repos": 4,
-    "own": 28,
+    "own": 32,
     "aerospace": 47,
     "maya": 7,
     "machinery": 31
@@ -176,11 +176,56 @@
       "repo": "home",
       "repo_label": "Knowledge Network",
       "category": "Video Synth",
-      "title": "Visual Synths",
-      "description": "Hub for five instruments sharing a color engine and a knob widget.",
+      "title": "Video Synths",
+      "description": "Hub for every live image-making piece: four WebGL installation studies and five visual instruments.",
       "url": "https://followorbounce.github.io/visual-synths/",
       "tag": "Hub",
-      "interactive": false
+      "interactive": false,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Point Cloud Scan",
+      "description": "Procedural 3D point-cloud scans (terrain, vaulted nave, tree, knot, or your image as depth) swept by a scanning plane and eroded by a noise-field decomposition front.",
+      "url": "https://followorbounce.github.io/point-cloud-scan",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Displacement Field",
+      "description": "Hidden-line sheet displaced by fractal noise, wave interference, an image, your camera, or a live microphone spectrogram.",
+      "url": "https://followorbounce.github.io/displacement-field",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Latent Flow",
+      "description": "Up to a million GPU particles advected by a divergence-free ABC fluid flow, morphing between sculptural forms.",
+      "url": "https://followorbounce.github.io/latent-flow",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Data Matrix",
+      "description": "Pixel-exact black-and-white data composition: barcodes, binary fields, waveform plots and a perspective data plane, with optional sine/click sound.",
+      "url": "https://followorbounce.github.io/data-matrix",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -190,7 +235,8 @@
       "description": "A live cosine-gradient color instrument — twelve knobs generate a full smooth palette in real time.",
       "url": "https://followorbounce.github.io/palette-synth",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -200,7 +246,8 @@
       "description": "Eight-harmonic Fourier synthesis, playable as real audio via a Web Audio PeriodicWave.",
       "url": "https://followorbounce.github.io/additive-wave-sculptor",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -210,7 +257,8 @@
       "description": "Two axes, each a two-term sine sum, plotted against each other with amplitude decay.",
       "url": "https://followorbounce.github.io/lissajous-plotter",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -220,7 +268,8 @@
       "description": "A real-time FFT spectrum analyzer and waveform oscilloscope driven by microphone, file, or internal oscillator.",
       "url": "https://followorbounce.github.io/spectral-visualizer",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -230,7 +279,8 @@
       "description": "A Mandelbrot/Julia explorer colored with Palette Synth's own gradient formula.",
       "url": "https://followorbounce.github.io/complex-fractal-mapper",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
