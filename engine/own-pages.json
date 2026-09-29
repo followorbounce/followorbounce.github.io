@@ -92,6 +92,13 @@
       ]
     },
     {
+      "id": "philosophy",
+      "title": "Philosophy",
+      "pages": [
+        { "slug": "ark-of-consciousness", "url": "/ark-of-consciousness", "title": "The Ark of Consciousness", "description": "Logos, recording, learning, and the passage to the next layer of reality — an essay at the boundary of philosophy, cognitive science, information theory, machine learning, biology, and biblical theology.", "tag": "Read", "interactive": false }
+      ]
+    },
+    {
       "id": "machinery-own",
       "title": "Machinery",
       "pages": [

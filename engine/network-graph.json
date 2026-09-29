@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 112,
+    "pages": 113,
     "repos": 4,
-    "own": 27,
+    "own": 28,
     "aerospace": 47,
     "maya": 7,
     "machinery": 31
@@ -301,6 +301,16 @@
       "url": "https://followorbounce.github.io/us-states-atlas/",
       "tag": "Tool",
       "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Philosophy",
+      "title": "The Ark of Consciousness",
+      "description": "Logos, recording, learning, and the passage to the next layer of reality — an essay at the boundary of philosophy, cognitive science, information theory, machine learning, biology, and biblical theology.",
+      "url": "https://followorbounce.github.io/ark-of-consciousness",
+      "tag": "Read",
+      "interactive": false
     },
     {
       "repo": "aerospace",
