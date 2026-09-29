@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photogrammetry Scan — Video Synths</title>
+<meta name="description" content="A real Structure-from-Motion reconstruction — a downtown high-rise block as 225,000 coloured points and 251 solved camera poses — to orbit or ride along its capture path, swept by a scan plane and taken apart by a decomposition front. Load your own .abc or .ply. WebGL 2.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/photogrammetry-scan">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Photogrammetry Scan — Video Synths">
+<meta property="og:description" content="A real Structure-from-Motion reconstruction — a downtown high-rise block as 225,000 coloured points and 251 solved camera poses — to orbit or ride along its capture path, swept by a scan plane and taken apart by a decomposition front. Load your own .abc or .ply. WebGL 2.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/photogrammetry-scan">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+.stage .busy{position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); display:none; max-width:80%; padding:10px 14px; text-align:center; color:#eee; font-size:11px; letter-spacing:.12em; text-transform:uppercase; background:rgba(0,0,0,.7); border:1px solid rgba(255,255,255,.25);}
+.stage .busy.on{display:block;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 05</div>
+    <h1>Photogrammetry Scan</h1>
+    <p>A real reconstruction, not a procedural one: a downtown block of high-rises recovered as 225,000 coloured points from 251 aerial frames by Structure-from-Motion. Orbit it, or ride the solved capture path through the original lens, while a scan plane sweeps it and a decomposition front takes it apart. Drop your own Meshroom <code>.abc</code> or a <code>.ply</code> point cloud to scan that instead.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Interactive 3D photogrammetry point cloud. Drag to orbit, scroll or pinch to zoom."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud bl" id="hudBL"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="drop" id="drop">Drop .abc or .ply to scan</div>
+    <div class="busy" id="busy">Loading scan…</div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">View</span>
+      <div class="seg" id="view">
+        <button data-v="orbit">Orbit</button>
+        <button data-v="fly">Capture path</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="cams" aria-pressed="true">Cameras</button>
+        <button class="btn" id="auto" aria-pressed="true">Auto-orbit</button>
+      </div>
+      <label for="flySpeed">Path speed <output for="flySpeed"></output></label>
+      <input id="flySpeed" type="range" min="0.2" max="12" step="0.1">
+    </div>
+    <div class="ctl">
+      <span class="lab">Render</span>
+      <div class="seg" id="blend">
+        <button data-v="0">Luminous</button>
+        <button data-v="1">Solid</button>
+      </div>
+      <span class="lab">Color</span>
+      <div class="seg" id="colorMode">
+        <button data-v="3">Source</button>
+        <button data-v="0">Mono</button>
+        <button data-v="1">Depth</button>
+        <button data-v="2">Thermal</button>
+      </div>
+      <span class="lab">Points</span>
+      <div class="seg" id="count">
+        <button data-v="0.25">25%</button>
+        <button data-v="0.5">50%</button>
+        <button data-v="1">All</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="dissolve">Decompose <output for="dissolve"></output></label>
+      <input id="dissolve" type="range" min="0" max="1" step="0.001">
+      <label for="drift">Drift <output for="drift"></output></label>
+      <input id="drift" type="range" min="0" max="1" step="0.01">
+      <label for="glitch">Slice glitch <output for="glitch"></output></label>
+      <input id="glitch" type="range" min="0" max="1" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="scanSpeed">Scan speed <output for="scanSpeed"></output></label>
+      <input id="scanSpeed" type="range" min="0" max="1" step="0.01">
+      <label for="size">Point size <output for="size"></output></label>
+      <input id="size" type="range" min="0.4" max="4" step="0.05">
+      <label for="gain">Exposure <output for="gain"></output></label>
+      <input id="gain" type="range" min="0.1" max="3" step="0.01">
+    </div>
+    <div class="ctl">
+      <span class="lab">Scan mode</span>
+      <div class="seg" id="scanMode">
+        <button data-v="0">Off</button>
+        <button data-v="1">Sweep</button>
+        <button data-v="2">Reveal</button>
+      </div>
+      <span class="lab">Up axis</span>
+      <div class="seg" id="upAxis">
+        <button data-v="y">Y</button>
+        <button data-v="z">Z</button>
+        <button data-v="-y">−Y</button>
+      </div>
+      <div class="row">
+        <label class="btn" for="file">Load .abc / .ply…</label>
+        <input id="file" type="file" accept=".abc,.ply" hidden>
+        <button class="btn" id="reset" hidden>City scan</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Drag to orbit · scroll or pinch to zoom · drop a scan onto the stage. Files you load are parsed in your browser and never leave your device.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>Structure-from-Motion.</strong> The scan was made from ordinary images, not a laser. An SfM solver (here AliceVision, the engine inside Meshroom) finds distinctive features in every frame, matches them across frames, then solves for the camera poses and the 3D feature positions together by minimising reprojection error — bundle adjustment. Each surviving match becomes one point; its colour is the pixel colour where it was seen. The result is a <em>sparse</em> cloud: dense where facades have texture, empty on glass, sky and flat roofs, which is why the towers read as lattices.</p>
+  <p><strong>Getting the file onto the page.</strong> The export is an Alembic archive in its Ogawa binary layout — a tree of groups and data blobs addressed by 64-bit offsets. A small reader (in Python for the bundled file, and a JavaScript port on this page for the files you drop) walks that tree to the <code>AbcGeom_Points</code> object and reads <code>P</code> and <code>color</code>, then every camera transform. The bundled scan was converted once into a 2 MB binary (16-bit positions, 8-bit colour) — a quarter of the 8.5 MB original.</p>
+  <p><strong>Which way is up.</strong> SfM recovers a scene only up to an unknown rotation, translation and scale — no gravity, no metres. The page takes the average "up" vector of all 251 solved cameras (people and drones hold the horizon level) as vertical, centres on the 1st–99th percentile box of the points so a few stray matches can't shrink the city, and scales it to the same 2.6-unit frame as the other studies. Use <strong>Up axis</strong> if a dropped file without cameras arrives on its side.</p>
+  <p><strong>Capture path.</strong> The cameras are sorted by the frame number in their names, which recovers the original flight. Frames were sampled sparsely (about 11° of turn between neighbours), so the view rides a Catmull-Rom spline through the solved positions and blends the solved viewing directions between them. It uses the solved lens: a 26.6° vertical field of view. The white frustums show where each frame was taken.</p>
+  <p><strong>Effects.</strong> Scan plane, decomposition front, drift and slice glitch are the same vertex-shader effects as <a href="/visual-synths/point-cloud-scan">Point Cloud Scan</a>, run on measured points. <strong>Luminous</strong> draws points additively, so dense structure blooms and nothing hides anything. <strong>Solid</strong> uses depth testing and opaque points, which reads closer to a photograph, and in that mode decomposition removes points instead of fading them.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of scan-based installation work — most directly <a href="https://www.ryoichikurokawa.com" target="_blank" rel="noopener">Ryoichi Kurokawa</a>'s decomposing point-cloud landscapes and architecture, and <a href="https://refikanadol.com" target="_blank" rel="noopener">Refik Anadol</a>'s data sculptures built from photographic archives of cities. It is not a recreation of any specific work, and it is not affiliated with either studio.</p>
+  <h3>Data</h3>
+  <p>The bundled scan is an AliceVision SfM export (Alembic, December 2019): 224,979 points and 251 camera poses of a downtown high-rise block, reconstructed from frames of an aerial fly-over. It was supplied to this project as a sample file; the original author and the source footage are not recorded here.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Sparse reconstruction: glass curtain walls, sky and untextured surfaces have few or no points. That's a property of feature matching, not a rendering choice.</li>
+    <li>No metric scale. Units are whatever the solver chose, rescaled to fit the stage.</li>
+    <li>The Alembic reader handles the Ogawa layout only (not old HDF5 archives), reads the first time sample, takes <code>P</code> from Points or PolyMesh objects, and ignores parent transforms — fine for Meshroom exports, not for arbitrary animated scenes. PLY: ASCII or binary little-endian, vertex <code>x y z</code> with optional <code>red green blue</code>.</li>
+    <li>Up to a few million points is fine on a desktop GPU; on phones use 25–50%.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { el.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+</script>
+<script>
+/* ---- scan readers: Alembic (Ogawa) + PLY + this page's SFM1 binary; each returns
+   {pos:Float32Array xyz, col:Uint8Array rgb|null, cams:[{pos,fwd,up}], fov, aspect} ---- */
+const Scan = (() => {
+  /* Alembic, Ogawa layout: groups are lists of u64 child offsets, a set top bit marks a
+     data blob (u64 size + bytes). Mirrors visual-synths/tools/abc_reader.py. */
+  function abc(buf){
+    const dv = new DataView(buf), u8 = new Uint8Array(buf), td = new TextDecoder();
+    if(td.decode(u8.subarray(0, 5)) !== 'Ogawa') throw new Error('Not an Ogawa Alembic file (old HDF5 archives are not supported).');
+    const u64 = p => dv.getUint32(p, true) + dv.getUint32(p + 4, true) * 4294967296;
+    const child = p => { const hi = dv.getUint32(p + 4, true); return (hi & 0x7fffffff) * 4294967296 + dv.getUint32(p, true); };
+    const group = pos => { const out = []; if(!pos) return out; const n = u64(pos); for(let i = 0; i < n; i++) out.push(child(pos + 8 + i*8)); return out; };
+    const data = pos => pos ? u8.subarray(pos + 8, pos + 8 + u64(pos)) : new Uint8Array(0);
+    const u32 = (b, i) => b[i] | b[i+1] << 8 | b[i+2] << 16 | (b[i+3] << 24 >>> 0);
+    const top = group(u64(8));
+    const meta = [''];
+    if(top.length > 5){ const b = data(top[5]); for(let i = 0; i < b.length;){ const n = b[i++]; meta.push(td.decode(b.subarray(i, i + n))); i += n; } }
+    const readMeta = (idx, b, i) => {
+      if(idx === 0xff){ const n = u32(b, i); return [td.decode(b.subarray(i + 4, i + 4 + n)), i + 4 + n]; }
+      return [meta[idx] || '', i];
+    };
+    function compound(pos){
+      const kids = group(pos); if(!kids.length) return {};
+      const b = data(kids[kids.length - 1]), props = {};
+      for(let i = 0, k = 0; i < b.length; k++){
+        const info = u32(b, i); i += 4;
+        const ptype = info & 3, hint = (info >> 2) & 3, sz = hint === 0 ? 1 : hint === 1 ? 2 : 4;
+        const rd = () => { const v = sz === 1 ? b[i] : sz === 2 ? b[i] | b[i+1] << 8 : u32(b, i); i += sz; return v; };
+        const p = {type: ptype === 0 ? 'compound' : ptype === 1 ? 'scalar' : 'array', pos: kids[k]};
+        if(ptype !== 0){
+          p.pod = (info >> 4) & 0xf; p.extent = (info >> 12) & 0xff; p.samples = rd();
+          if(info & 0x200){ rd(); rd(); }
+          if(info & 0x100) rd();
+        }
+        const n = rd(), name = td.decode(b.subarray(i, i + n)); i += n;
+        [p.meta, i] = readMeta((info >> 20) & 0xff, b, i);
+        if(ptype === 0) p.props = compound(p.pos);
+        props[name] = p;
+      }
+      return props;
+    }
+    function object(name, m, pos){
+      const kids = group(pos), o = {name, meta: m, children: [], props: {}};
+      if(!kids.length) return o;
+      o.props = compound(kids[0]);
+      let b = data(kids[kids.length - 1]); if(b.length >= 32) b = b.subarray(0, b.length - 32); // trailing hashes
+      for(let i = 0, k = 1; i < b.length; k++){
+        const n = u32(b, i), cname = td.decode(b.subarray(i + 4, i + 4 + n)); i += 4 + n;
+        let cm; [cm, i] = readMeta(b[i], b, i + 1);
+        o.children.push(object(cname, cm, kids[k]));
+      }
+      return o;
+    }
+    // first sample of a property as a JS array of numbers (16-byte key digest precedes the values)
+    function sample(p){
+      const kids = group(p.pos); if(!kids.length) return [];
+      const raw = data(kids[0]).slice(16), buf2 = raw.buffer;
+      switch(p.pod){
+        case 10: return new Float32Array(buf2, 0, raw.length >> 2);
+        case 11: return new Float64Array(buf2, 0, raw.length >> 3);
+        case 1: return raw;
+        default: throw new Error('Unsupported Alembic value type ' + p.pod);
+      }
+    }
+    const root = object('ABC', '', top[2]);
+    const all = []; (function walk(o){ all.push(o); o.children.forEach(walk); })(root);
+    const clouds = all.filter(o => /AbcGeom_(Points|PolyMesh)/.test(o.meta) && o.props['.geom'] && o.props['.geom'].props.P);
+    if(!clouds.length) throw new Error('No point cloud (Points or PolyMesh object with P) in this Alembic file.');
+    const parts = clouds.map(o => {
+      const g = o.props['.geom'].props, P = sample(g.P), arb = g['.arbGeomParams'] && g['.arbGeomParams'].props;
+      const cp = arb && (arb.color || arb.Cd || arb.rgb);
+      let C = cp ? sample(cp) : null, ext = cp ? Math.max(1, cp.extent) : 3;
+      if(C && C.length / ext !== P.length / 3) C = null;
+      return {P, C, ext, pod: cp && cp.pod};
+    });
+    const n = parts.reduce((s, q) => s + q.P.length / 3, 0);
+    const pos = new Float32Array(n*3), anyCol = parts.some(q => q.C), col = anyCol ? new Uint8Array(n*3).fill(200) : null;
+    let o = 0;
+    for(const q of parts){
+      pos.set(q.P, o*3);
+      if(q.C) for(let i = 0; i < q.P.length/3; i++) for(let c = 0; c < 3; c++){
+        const v = q.C[i*q.ext + Math.min(c, q.ext - 1)]; col[(o+i)*3 + c] = q.pod === 1 ? v : Math.max(0, Math.min(255, Math.round(v*255)));
+      }
+      o += q.P.length/3;
+    }
+    const cams = []; let fov = 0.8, aspect = 16/9;
+    all.filter(o => o.children.some(c => /AbcGeom_Camera/.test(c.meta))).forEach(o => {
+      const x = o.props['.xform'] && o.props['.xform'].props['.vals'];
+      if(!x) return;
+      const M = sample(x); if(M.length !== 16) return;
+      const m = /pngExport_(\d+)|(\d+)$/.exec(o.name);
+      cams.push({order: m ? +(m[1] || m[2]) : cams.length, pos:[M[12],M[13],M[14]], fwd:[-M[8],-M[9],-M[10]], up:[M[4],M[5],M[6]]});
+      if(cams.length === 1){
+        const cam = o.children.find(c => /AbcGeom_Camera/.test(c.meta)), core = cam.props['.geom'] && cam.props['.geom'].props['.core'];
+        if(core){ const k = sample(core); if(k[0] > 0 && k[3] > 0){ fov = 2*Math.atan(k[3]*10/2/k[0]); aspect = k[1]/k[3]; } }
+      }
+    });
+    cams.sort((a, b) => a.order - b.order);
+    return {pos, col, cams, fov, aspect};
+  }
+
+  function ply(buf){
+    const u8 = new Uint8Array(buf), td = new TextDecoder();
+    const hEnd = td.decode(u8.subarray(0, Math.min(u8.length, 65536))).indexOf('end_header');
+    if(hEnd < 0 || td.decode(u8.subarray(0, 3)) !== 'ply') throw new Error('Not a PLY file.');
+    let body = hEnd + 10; while(u8[body] === 13 || u8[body] === 10){ body++; if(u8[body-1] === 10) break; }
+    const lines = td.decode(u8.subarray(0, hEnd)).split(/\r?\n/);
+    const fmt = (lines.find(l => l.startsWith('format')) || '').split(/\s+/)[1];
+    if(fmt === 'binary_big_endian') throw new Error('Big-endian PLY is not supported.');
+    const SZ = {char:1,int8:1,uchar:1,uint8:1,short:2,int16:2,ushort:2,uint16:2,int:4,int32:4,uint:4,uint32:4,float:4,float32:4,double:8,float64:8};
+    const elems = []; let cur = null;
+    for(const l of lines){
+      const w = l.trim().split(/\s+/);
+      if(w[0] === 'element'){ cur = {name:w[1], n:+w[2], props:[]}; elems.push(cur); }
+      else if(w[0] === 'property' && cur){ if(w[1] === 'list') cur.list = true; else cur.props.push({type:w[1], name:w[2]}); }
+    }
+    const v = elems.find(e => e.name === 'vertex');
+    if(!v) throw new Error('PLY has no vertex element.');
+    if(elems[0] !== v && fmt !== 'ascii') throw new Error('PLY: vertex element must come first in binary files.');
+    if(v.list) throw new Error('PLY: list properties on vertices are not supported.');
+    const idx = k => v.props.findIndex(p => p.name === k);
+    const ix = ['x','y','z'].map(idx), ic = ['red','green','blue'].map(k => idx(k) >= 0 ? idx(k) : idx('diffuse_' + k));
+    if(ix.some(i => i < 0)) throw new Error('PLY vertices need x, y and z.');
+    const hasC = ic.every(i => i >= 0), n = v.n, pos = new Float32Array(n*3), col = hasC ? new Uint8Array(n*3) : null;
+    const colScale = hasC && /float|double/.test(v.props[ic[0]].type) ? 255 : 1;
+    if(fmt === 'ascii'){
+      const rows = td.decode(u8.subarray(body)).split(/\r?\n/);
+      let r = 0; for(const e of elems){ if(e === v) break; r += e.n; }
+      for(let i = 0; i < n; i++){
+        const w = rows[r + i].trim().split(/\s+/).map(Number);
+        for(let k = 0; k < 3; k++){ pos[i*3+k] = w[ix[k]]; if(hasC) col[i*3+k] = w[ic[k]]*colScale; }
+      }
+    } else {
+      const dv = new DataView(buf), offs = [], stride = v.props.reduce((s, p) => { offs.push(s); return s + SZ[p.type]; }, 0);
+      const get = (o, t) => { switch(t){
+        case 'char': case 'int8': return dv.getInt8(o); case 'uchar': case 'uint8': return dv.getUint8(o);
+        case 'short': case 'int16': return dv.getInt16(o, true); case 'ushort': case 'uint16': return dv.getUint16(o, true);
+        case 'int': case 'int32': return dv.getInt32(o, true); case 'uint': case 'uint32': return dv.getUint32(o, true);
+        case 'float': case 'float32': return dv.getFloat32(o, true); default: return dv.getFloat64(o, true); } };
+      if(body + stride*n > buf.byteLength) throw new Error('PLY file is truncated.');
+      for(let i = 0; i < n; i++){
+        const b = body + i*stride;
+        for(let k = 0; k < 3; k++){
+          pos[i*3+k] = get(b + offs[ix[k]], v.props[ix[k]].type);
+          if(hasC) col[i*3+k] = get(b + offs[ic[k]], v.props[ic[k]].type)*colScale;
+        }
+      }
+    }
+    return {pos, col, cams: [], fov: 0.8, aspect: 16/9};
+  }
+
+  /* SFM1: written by visual-synths/tools/abc_to_bin.py */
+  function sfm(buf){
+    const dv = new DataView(buf);
+    const n = dv.getUint32(4, true), m = dv.getUint32(8, true), f = i => dv.getFloat32(12 + i*4, true);
+    const bmin = [f(2), f(3), f(4)], bmax = [f(5), f(6), f(7)];
+    const q = new Int16Array(buf, 44, n*3), cOff = 44 + Math.ceil(n*6/4)*4, camOff = cOff + Math.ceil(n*3/4)*4;
+    const pos = new Float32Array(n*3);
+    for(let i = 0; i < n*3; i++){ const k = i % 3; pos[i] = bmin[k] + (q[i] + 32768)/65535*(bmax[k] - bmin[k]); }
+    const col = new Uint8Array(buf.slice(cOff, cOff + n*3)), c = new Float32Array(buf, camOff, m*9), cams = [];
+    for(let j = 0; j < m; j++) cams.push({pos:[c[j*9],c[j*9+1],c[j*9+2]], fwd:[c[j*9+3],c[j*9+4],c[j*9+5]], up:[c[j*9+6],c[j*9+7],c[j*9+8]]});
+    return {pos, col, cams, fov: f(0), aspect: f(1)};
+  }
+
+  function parse(buf, name){
+    const head = new TextDecoder().decode(new Uint8Array(buf, 0, Math.min(5, buf.byteLength)));
+    if(head.startsWith('SFM1')) return sfm(buf);
+    if(head === 'Ogawa') return abc(buf);
+    if(head.startsWith('ply')) return ply(buf);
+    throw new Error((name || 'This file') + ' is not an Ogawa Alembic (.abc) or PLY (.ply) point cloud.');
+  }
+  return {parse, abc, ply, sfm};
+})();
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err'), busy = document.getElementById('busy');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), bl:document.getElementById('hudBL'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const small = Math.min(screen.width, screen.height) < 700;
+const P = {
+  view:'orbit', cams:true, auto:!GL.reducedMotion, flySpeed:2.5, blend:0, colorMode:3, frac: small ? 0.5 : 1,
+  dissolve:0.0, drift:0.2, glitch:0.05, scanSpeed:0.3, size:1.3, gain:1.35, scanMode:1, upAxis:'y'
+};
+const DEFAULT_SCAN = {url:'data/city-scan.bin', name:'City block · AliceVision SfM'};
+
+/* ---------------- GPU ---------------- */
+const VS = `#version 300 es
+precision highp float;
+in vec3 aPos; in vec3 aCol;
+uniform mat4 uVP; uniform vec3 uEye;
+uniform float uTime, uScan, uScanMode, uDissolve, uDrift, uGlitch, uSize, uFocal, uDpr, uColorMode, uAlpha, uHasCol, uSolid;
+uniform vec2 uBX, uBY;
+out vec3 vCol; out float vA; out float vKeep; out float vSeed;
+${GL.NOISE}
+void main(){
+  vec3 p = aPos;
+  float y0 = p.y;
+  float seed = hash13(vec3(float(gl_VertexID)*0.0137, 3.1, 7.7));
+  p += vnoise3(p*1.6 + vec3(0.0, uTime*0.07, 0.0)) * uDrift * 0.045;
+  // decomposition front sweeping +x -> -x
+  float span = uBX.y - uBX.x;
+  float front = mix(uBX.y + 0.05*span, uBX.x - 0.35*span, uDissolve);
+  float k = max(0.0, aPos.x - front) / span;
+  vec3 wind = vnoise3(aPos*2.2 + vec3(uTime*0.11, 0.0, uTime*0.05)) + vec3(0.35, 0.55, 0.1);
+  vec3 scatter = vec3(hash13(vec3(seed*91.7,1.3,2.1)), hash13(vec3(seed*53.3,4.1,7.7)), hash13(vec3(seed*17.9,9.2,3.3))) - 0.5;
+  p += (wind * k*k * 2.4 + scatter * k * 0.9) * min(1.0, uDissolve*6.0);
+  // misregistered horizontal slices
+  float band = floor(y0*22.0), tick = floor(uTime*6.0);
+  if(hash13(vec3(band, tick, 3.0)) > 1.0 - uGlitch*0.3) p.x += (hash13(vec3(band, tick, 9.0)) - 0.5) * 0.5 * uGlitch;
+  // scan plane
+  float d = y0 - uScan;
+  float hl = uScanMode > 0.5 ? exp(-d*d*1400.0) : 0.0;
+  float vis = uScanMode > 1.5 ? 1.0 - smoothstep(-0.004, 0.004, d) : 1.0;
+  vec4 cp = uVP * vec4(p, 1.0);
+  float dist = length(p - uEye);
+  float ty = clamp((y0 - uBY.x)/(uBY.y - uBY.x), 0.0, 1.0);
+  vec3 col = vec3(0.86, 0.9, 1.0);
+  if(uColorMode > 0.5 && uColorMode < 1.5) col = cosPal(dist*0.28, vec3(0.55), vec3(0.45), vec3(1.0), vec3(0.0, 0.12, 0.25));
+  else if((uColorMode > 1.5 && uColorMode < 2.5) || (uColorMode > 2.5 && uHasCol < 0.5)) col = cosPal(ty*0.75 + 0.02, vec3(0.5), vec3(0.5), vec3(1.0, 0.7, 0.4), vec3(0.0, 0.15, 0.2));
+  else if(uColorMode > 2.5) col = aCol * (uSolid > 0.5 ? 1.0 : 1.25);
+  col += hl * vec3(0.7, 1.1, 1.3) * 2.2;
+  float fade = 1.0 - smoothstep(0.35, 1.1, k);
+  vKeep = fade * vis * (1.0 - smoothstep(4.0, 9.0, dist));
+  vSeed = seed;
+  vCol = col;
+  vA = uAlpha * vKeep;
+  gl_Position = cp;
+  gl_PointSize = clamp(uSize * uFocal * uDpr * (1.0 + hl*2.0) * (uSolid > 0.5 ? 1.25 : 1.0) * 2.6 / cp.w, 1.0, 48.0);
+}`;
+const FS = `#version 300 es
+precision mediump float;
+in vec3 vCol; in float vA; in float vKeep; in float vSeed; out vec4 o;
+uniform highp float uSolid; uniform float uGain;
+void main(){
+  vec2 c = gl_PointCoord*2.0 - 1.0; float r = dot(c, c);
+  if(r > 1.0) discard;
+  if(uSolid > 0.5){ if(vKeep < vSeed*0.98 + 0.01) discard; o = vec4(vCol*uGain, 1.0); return; }
+  float a = vA * (1.0 - r);
+  o = vec4(vCol * a, 1.0);
+}`;
+const LVS = `#version 300 es
+precision highp float;
+in vec4 aPos; uniform mat4 uVP; uniform vec3 uEye; uniform float uFade; out float vA;
+void main(){ gl_Position = uVP * vec4(aPos.xyz, 1.0); vA = aPos.w * uFade * smoothstep(0.08, 0.3, length(aPos.xyz - uEye)); }`;
+const LFS = `#version 300 es
+precision mediump float;
+in float vA; out vec4 o; uniform float uSolid;
+void main(){ o = uSolid > 0.5 ? vec4(vec3(0.62, 0.66, 0.72)*vA*1.6, 1.0) : vec4(vec3(0.8, 0.88, 1.0)*vA, 1.0); }`;
+
+let prog, lprog;
+try { prog = GL.program(gl, VS, FS); lprog = GL.program(gl, LVS, LFS); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = gl.createVertexArray(), vboP = gl.createBuffer(), vboC = gl.createBuffer();
+gl.bindVertexArray(vao);
+[[vboP,'aPos',3,gl.FLOAT,false],[vboC,'aCol',3,gl.UNSIGNED_BYTE,true]].forEach(([b,n,s,t,norm]) => {
+  const l = gl.getAttribLocation(prog.p, n); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+  if(l >= 0){ gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, s, t, norm, 0, 0); }
+});
+const lvao = gl.createVertexArray(), lvbo = gl.createBuffer();
+gl.bindVertexArray(lvao); gl.bindBuffer(gl.ARRAY_BUFFER, lvbo);
+{ const l = gl.getAttribLocation(lprog.p, 'aPos'); gl.enableVertexAttribArray(l); gl.vertexAttribPointer(l, 4, gl.FLOAT, false, 0, 0); }
+gl.bindVertexArray(null);
+
+/* ---------------- scene: raw dataset -> aligned, centred, uploaded ---------------- */
+let raw = null, rawName = '', nPts = 0, nLine = 0, hasCol = false, bx = [-1,1], by = [-1,1];
+let path = [], fov = 0.8, aspect = 16/9;
+const sub = (a,b) => [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
+const crs = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
+const nrm = a => { const l = Math.hypot(a[0],a[1],a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; };
+const mat = (R, v) => [R[0][0]*v[0]+R[0][1]*v[1]+R[0][2]*v[2], R[1][0]*v[0]+R[1][1]*v[1]+R[1][2]*v[2], R[2][0]*v[0]+R[2][1]*v[1]+R[2][2]*v[2]];
+const UP = {y:[[1,0,0],[0,1,0],[0,0,1]], z:[[1,0,0],[0,0,1],[0,-1,0]], '-y':[[1,0,0],[0,-1,0],[0,0,-1]]};
+
+function shuffle(ds){ // uniform random order, so any prefix is a fair subsample
+  let s = 12345; const r = () => { s = (s + 0x6D2B79F5) | 0; let t = Math.imul(s ^ (s >>> 15), 1 | s); t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t; return ((t ^ (t >>> 14)) >>> 0) / 4294967296; };
+  const p = ds.pos, c = ds.col;
+  for(let i = p.length/3 - 1; i > 0; i--){
+    const j = (r()*(i+1)) | 0;
+    for(let k = 0; k < 3; k++){ let t = p[i*3+k]; p[i*3+k] = p[j*3+k]; p[j*3+k] = t; if(c){ t = c[i*3+k]; c[i*3+k] = c[j*3+k]; c[j*3+k] = t; } }
+  }
+}
+function pct(arr, q){ const a = Float32Array.from(arr).sort(); return a[Math.min(a.length-1, Math.max(0, Math.round(q*(a.length-1))))]; }
+
+function build(){
+  const ds = raw, n = ds.pos.length/3;
+  // 1) camera-up alignment (mean solved "up" -> +Y), 2) user up-axis, 3) centre + scale on the 1-99 % box
+  let R = UP.y;
+  if(ds.cams.length){
+    const m = ds.cams.reduce((s, c) => [s[0]+c.up[0], s[1]+c.up[1], s[2]+c.up[2]], [0,0,0]), y = nrm(m);
+    const x = nrm(crs(Math.abs(y[2]) < 0.9 ? [0,0,1] : [1,0,0], y));
+    R = [x, y, crs(x, y)];
+  }
+  const U = UP[P.upAxis], M = [0,1,2].map(r => [0,1,2].map(c => U[r][0]*R[0][c] + U[r][1]*R[1][c] + U[r][2]*R[2][c]));
+  const pos = new Float32Array(n*3);
+  for(let i = 0; i < n; i++){ const v = mat(M, [ds.pos[i*3], ds.pos[i*3+1], ds.pos[i*3+2]]); pos[i*3] = v[0]; pos[i*3+1] = v[1]; pos[i*3+2] = v[2]; }
+  const step = Math.max(1, Math.floor(n/40000)), lo = [], hi = [];
+  for(let k = 0; k < 3; k++){
+    const s = []; for(let i = 0; i < n; i += step) s.push(pos[i*3+k]);
+    lo.push(pct(s, 0.01)); hi.push(pct(s, 0.99));
+  }
+  const ctr = lo.map((v,k) => (v + hi[k])/2), sc = 2.6/Math.max(hi[0]-lo[0], hi[1]-lo[1], hi[2]-lo[2], 1e-9);
+  for(let i = 0; i < n*3; i++) pos[i] = (pos[i] - ctr[i%3])*sc;
+  bx = [(lo[0]-ctr[0])*sc, (hi[0]-ctr[0])*sc]; by = [(lo[1]-ctr[1])*sc, (hi[1]-ctr[1])*sc];
+  gl.bindBuffer(gl.ARRAY_BUFFER, vboP); gl.bufferData(gl.ARRAY_BUFFER, pos, gl.STATIC_DRAW);
+  hasCol = !!ds.col;
+  gl.bindBuffer(gl.ARRAY_BUFFER, vboC); gl.bufferData(gl.ARRAY_BUFFER, ds.col || new Uint8Array(n*3), gl.STATIC_DRAW);
+  nPts = n;
+
+  // cameras: solved path + frustum wireframes (xyz + alpha per vertex)
+  fov = ds.cams.length ? ds.fov : 0.8; aspect = ds.aspect || 16/9;
+  path = ds.cams.map(c => ({pos: mat(M, c.pos).map((v,k) => (v - ctr[k])*sc), fwd: nrm(mat(M, c.fwd)), up: nrm(mat(M, c.up))}));
+  const L = [], d = 0.07, h = d*Math.tan(fov/2), w = h*aspect;
+  const push = (a, al) => L.push(a[0], a[1], a[2], al);
+  path.forEach((c, i) => {
+    const r = nrm(crs(c.fwd, c.up)), u = nrm(crs(r, c.fwd));
+    const q = [[1,1],[-1,1],[-1,-1],[1,-1]].map(([sx,sy]) => [0,1,2].map(k => c.pos[k] + c.fwd[k]*d + r[k]*w*sx + u[k]*h*sy));
+    for(let j = 0; j < 4; j++){ push(c.pos, 0.14); push(q[j], 0.14); push(q[j], 0.26); push(q[(j+1)%4], 0.26); }
+    if(i){ push(path[i-1].pos, 0.16); push(c.pos, 0.16); }
+  });
+  gl.bindBuffer(gl.ARRAY_BUFFER, lvbo); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(L), gl.STATIC_DRAW);
+  nLine = L.length/4;
+  flyBtn.disabled = path.length < 2; camsBtn.disabled = !path.length;
+  if(path.length < 2 && P.view === 'fly'){ P.view = 'orbit'; setView('orbit'); }
+  if(!hasCol && P.colorMode === 3){ P.colorMode = 2; setColor(2); }
+  hud.tl.textContent = 'PHOTOGRAMMETRY SCAN\n' + rawName;
+}
+
+function use(ds, name){
+  if(!(ds.pos.length >= 3)) throw new Error('No points found in this file.');
+  for(let i = 0; i < ds.pos.length; i++) if(!isFinite(ds.pos[i])) ds.pos[i] = 0;
+  shuffle(ds); raw = ds; rawName = name; build();
+  document.getElementById('reset').hidden = name === DEFAULT_SCAN.name;
+}
+let noteTimer = 0;
+function note(msg, sticky){ busy.textContent = msg; busy.classList.add('on'); clearTimeout(noteTimer); if(!sticky) noteTimer = setTimeout(() => busy.classList.remove('on'), 5000); }
+function done(){ clearTimeout(noteTimer); busy.classList.remove('on'); }
+
+async function loadDefault(){
+  note('Loading scan…', true);
+  try {
+    const res = await fetch(new URL(DEFAULT_SCAN.url, location.href));
+    if(!res.ok) throw new Error('HTTP ' + res.status);
+    const total = +res.headers.get('content-length') || 0, rd = res.body && res.body.getReader();
+    let buf;
+    if(rd && total){
+      const out = new Uint8Array(total); let got = 0;
+      for(;;){ const {done: end, value} = await rd.read(); if(end) break; out.set(value, got); got += value.length; note('Loading scan… ' + Math.round(got/total*100) + '%', true); }
+      buf = out.buffer.slice(0, got);
+    } else buf = await res.arrayBuffer();
+    use(Scan.parse(buf), DEFAULT_SCAN.name); done();
+  } catch(e){ console.error(e); note('Could not load the bundled scan (' + e.message + '). Drop an .abc or .ply file instead.', true); }
+}
+async function loadFile(f){
+  if(!f) return;
+  if(f.size > 600e6){ note('That file is ' + Math.round(f.size/1e6) + ' MB — too large to parse in a browser tab.'); return; }
+  note('Reading ' + f.name + '…', true);
+  try { const buf = await f.arrayBuffer(); await new Promise(r => setTimeout(r, 30)); use(Scan.parse(buf, f.name), f.name); done(); }
+  catch(e){ console.error(e); note(e.message); }
+}
+
+/* ---------------- controls ---------------- */
+const cam = {yaw:0.6, pitch:0.5, dist:2.35, minDist:0.5, maxDist:9, touched:-1e9};
+GL.orbit(cv, cam);
+const flyBtn = document.querySelector('#view button[data-v="fly"]'), camsBtn = document.getElementById('cams');
+let flyS = 0, flyStart = 0;
+const setView = GL.seg('view', P.view, v => { P.view = v; if(v === 'fly'){ flyStart = performance.now(); } });
+const setColor = GL.seg('colorMode', P.colorMode, v => P.colorMode = +v);
+GL.seg('blend', P.blend, v => P.blend = +v);
+GL.seg('count', P.frac, v => P.frac = +v);
+GL.seg('scanMode', P.scanMode, v => { P.scanMode = +v; scanT = 0; });
+GL.seg('upAxis', P.upAxis, v => { P.upAxis = v; if(raw) build(); });
+['dissolve','drift','glitch','scanSpeed','size','gain'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('flySpeed', P, 'flySpeed', v => v.toFixed(1) + ' fr/s');
+GL.fullscreen('fs', stage);
+const toggle = (id, key) => { const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); }); };
+toggle('auto', 'auto'); toggle('cams', 'cams');
+document.getElementById('reset').addEventListener('click', loadDefault);
+document.getElementById('file').addEventListener('change', e => { loadFile(e.target.files[0]); e.target.value = ''; });
+const drop = document.getElementById('drop');
+stage.addEventListener('dragover', e => { e.preventDefault(); drop.classList.add('on'); });
+stage.addEventListener('dragleave', () => drop.classList.remove('on'));
+stage.addEventListener('drop', e => { e.preventDefault(); drop.classList.remove('on'); loadFile(e.dataTransfer.files[0]); });
+
+/* capture path: Catmull-Rom through solved positions and viewing directions */
+function cr(a, b, c, d, t){ const t2 = t*t, t3 = t2*t; return [0,1,2].map(k => 0.5*(2*b[k] + (c[k]-a[k])*t + (2*a[k]-5*b[k]+4*c[k]-d[k])*t2 + (3*b[k]-a[k]-3*c[k]+d[k])*t3)); }
+function pathAt(s){
+  const m = path.length, i = Math.min(m - 2, Math.floor(s)), t = s - i, g = j => path[Math.max(0, Math.min(m-1, j))];
+  return {pos: cr(g(i-1).pos, g(i).pos, g(i+1).pos, g(i+2).pos, t), fwd: nrm(cr(g(i-1).fwd, g(i).fwd, g(i+1).fwd, g(i+2).fwd, t))};
+}
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, scanT = 0, fps = 60, hudAt = 0;
+function frame(now){
+  const rawDt = (now - last)/1000, dt = Math.min(0.05, rawDt); last = now; t += dt;
+  if(rawDt > 0) fps += (1/rawDt - fps)*0.05;
+  GL.fit(cv, 2);
+  gl.viewport(0, 0, cv.width, cv.height);
+  gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  if(!raw) return;
+
+  // dragging while riding the path hands control back to the orbit camera, from where you are
+  let eye, target, fovy = 0.8, fade = 1, frameNo = -1;
+  if(P.view === 'fly' && path.length > 1 && cam.touched > flyStart){
+    const e = pathAt(flyS).pos; cam.dist = Math.max(cam.minDist, Math.min(cam.maxDist, Math.hypot(...e)));
+    cam.pitch = Math.max(-1.45, Math.min(1.45, Math.asin(e[1]/Math.max(1e-6, Math.hypot(...e))))); cam.yaw = Math.atan2(e[0], e[2]);
+    P.view = 'orbit'; setView('orbit');
+  }
+  if(P.view === 'fly' && path.length > 1){
+    const m = path.length - 1;
+    flyS += dt*P.flySpeed; if(flyS >= m) flyS = 0;
+    const q = pathAt(flyS); eye = q.pos; target = [eye[0]+q.fwd[0], eye[1]+q.fwd[1], eye[2]+q.fwd[2]];
+    fovy = fov; fade = Math.max(0, Math.min(1, flyS/1.2, (m - flyS)/1.2)); frameNo = Math.round(flyS);
+  } else {
+    if(P.auto && now - cam.touched > 2500) cam.yaw += dt*0.1;
+    eye = GL.eye(cam); target = [0,0,0];
+  }
+  scanT += dt * P.scanSpeed * 0.35;
+  const ph = P.scanMode === 2 ? (scanT % 1.4) : (scanT % 1);
+  const scanY = by[0] - 0.05 + Math.min(1, ph) * (by[1] - by[0] + 0.1);
+  const vp = GL.mul(GL.persp(fovy, cv.width/cv.height, 0.01, 40), GL.lookAt(eye, target));
+  const n = Math.max(1, Math.floor(nPts*P.frac)), solid = P.blend === 1;
+
+  if(solid){ gl.enable(gl.DEPTH_TEST); gl.depthFunc(gl.LEQUAL); gl.disable(gl.BLEND); }
+  else { gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE); }
+  gl.useProgram(prog.p);
+  const u = prog.u;
+  gl.uniformMatrix4fv(u.uVP, false, vp);
+  gl.uniform3fv(u.uEye, eye);
+  gl.uniform1f(u.uTime, GL.reducedMotion ? t*0.3 : t);
+  gl.uniform1f(u.uScan, scanY);
+  gl.uniform1f(u.uScanMode, P.scanMode);
+  gl.uniform1f(u.uDissolve, P.dissolve);
+  gl.uniform1f(u.uDrift, P.drift);
+  gl.uniform1f(u.uGlitch, GL.reducedMotion ? 0 : P.glitch);
+  gl.uniform1f(u.uSize, P.size);
+  gl.uniform1f(u.uFocal, Math.sqrt(Math.tan(0.4)/Math.tan(fovy/2)));
+  gl.uniform1f(u.uDpr, cv.height/900);
+  gl.uniform1f(u.uColorMode, P.colorMode);
+  gl.uniform1f(u.uHasCol, hasCol ? 1 : 0);
+  gl.uniform1f(u.uSolid, solid ? 1 : 0);
+  gl.uniform1f(u.uGain, P.gain * fade);
+  gl.uniform1f(u.uAlpha, 0.5 * P.gain * Math.sqrt(140000/n) * fade);
+  gl.uniform2f(u.uBX, bx[0], bx[1]);
+  gl.uniform2f(u.uBY, by[0], by[1]);
+  gl.bindVertexArray(vao);
+  gl.drawArrays(gl.POINTS, 0, n);
+
+  if(P.cams && nLine){
+    gl.enable(gl.BLEND); gl.blendFunc(gl.ONE, gl.ONE);
+    gl.useProgram(lprog.p);
+    gl.uniformMatrix4fv(lprog.u.uVP, false, vp);
+    gl.uniform3fv(lprog.u.uEye, eye);
+    gl.uniform1f(lprog.u.uFade, fade);
+    gl.uniform1f(lprog.u.uSolid, solid ? 1 : 0);
+    gl.bindVertexArray(lvao);
+    gl.drawArrays(gl.LINES, 0, nLine);
+  }
+  gl.bindVertexArray(null);
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tr.textContent = 'PTS ' + n.toLocaleString('en-US').replace(/,/g,' ') + '\nCAMS ' + path.length;
+    hud.bl.textContent = (P.scanMode ? 'SCAN Y ' + (scanY>=0?'+':'') + scanY.toFixed(3) : 'SCAN OFF') + '\nDECOMP ' + (P.dissolve*100).toFixed(1) + '%';
+    hud.br.textContent = (frameNo >= 0
+      ? 'FRAME ' + String(frameNo).padStart(3,'0') + ' / ' + (path.length-1) + '  FOV ' + (fovy*180/Math.PI).toFixed(1) + '°'
+      : 'YAW ' + ((((cam.yaw*180/Math.PI)%360)+360)%360).toFixed(1) + '°  PITCH ' + (cam.pitch*180/Math.PI).toFixed(1) + '°') + '\n' + fps.toFixed(0) + ' FPS';
+  }
+}
+loadDefault();
+GL.visibleLoop(stage, frame);
+})();
+</script>
+</body>
+</html>

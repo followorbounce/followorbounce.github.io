@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 117,
+    "pages": 118,
     "repos": 4,
-    "own": 32,
+    "own": 33,
     "aerospace": 47,
     "maya": 7,
     "machinery": 31
@@ -223,6 +223,17 @@
       "title": "Data Matrix",
       "description": "Pixel-exact black-and-white data composition: barcodes, binary fields, waveform plots and a perspective data plane, with optional sine/click sound.",
       "url": "https://followorbounce.github.io/visual-synths/data-matrix",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Photogrammetry Scan",
+      "description": "A real Structure-from-Motion reconstruction (a downtown high-rise block, 225k coloured points, 251 solved cameras) to orbit or fly along its capture path, with scan-plane and decomposition effects; loads your own Meshroom .abc or .ply.",
+      "url": "https://followorbounce.github.io/visual-synths/photogrammetry-scan",
       "tag": "Tool",
       "interactive": true,
       "hidden": true
