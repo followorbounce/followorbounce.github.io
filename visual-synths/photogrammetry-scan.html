@@ -218,7 +218,7 @@ footer a:hover{color:var(--ink);}
   <p><strong>Getting the file onto the page.</strong> The export is an Alembic archive in its Ogawa binary layout — a tree of groups and data blobs addressed by 64-bit offsets. A small reader (in Python for the bundled file, and a JavaScript port on this page for the files you drop) walks that tree to the <code>AbcGeom_Points</code> object and reads <code>P</code> and <code>color</code>, then every camera transform. The bundled scan was converted once into a 2 MB binary (16-bit positions, 8-bit colour) — a quarter of the 8.5 MB original.</p>
   <p><strong>Which way is up.</strong> SfM recovers a scene only up to an unknown rotation, translation and scale — no gravity, no metres. The page takes the average "up" vector of all 251 solved cameras (people and drones hold the horizon level) as vertical, centres on the 1st–99th percentile box of the points so a few stray matches can't shrink the city, and scales it to the same 2.6-unit frame as the other studies. Use <strong>Up axis</strong> if a dropped file without cameras arrives on its side.</p>
   <p><strong>Capture path.</strong> The cameras are sorted by the frame number in their names, which recovers the original flight. Frames were sampled sparsely (about 11° of turn between neighbours), so the view rides a Catmull-Rom spline through the solved positions and blends the solved viewing directions between them. It uses the solved lens: a 26.6° vertical field of view. The white frustums show where each frame was taken.</p>
-  <p><strong>Effects.</strong> Scan plane, decomposition front, drift and slice glitch are the same vertex-shader effects as <a href="/visual-synths/point-cloud-scan">Point Cloud Scan</a>, run on measured points. <strong>Luminous</strong> draws points additively, so dense structure blooms and nothing hides anything. <strong>Solid</strong> uses depth testing and opaque points, which reads closer to a photograph, and in that mode decomposition removes points instead of fading them.</p>
+  <p><strong>Effects.</strong> Scan plane, drift and slice glitch are the same vertex-shader effects as <a href="/visual-synths/point-cloud-scan">Point Cloud Scan</a>, run on measured points. <strong>Decompose</strong> works differently here: each point gets its own random release threshold, so the city comes apart everywhere at once rather than edge-first; a released point curls off its facade and settles at a random position inside the scan's bounding box, where it keeps drifting. At 100% the reconstruction is a uniform random cloud — the same 224,979 measurements with all their structure removed — and pulling the slider back reassembles it exactly. <strong>Luminous</strong> draws points additively, so dense structure blooms and nothing hides anything. <strong>Solid</strong> uses depth testing and opaque points, which reads closer to a photograph.</p>
   <h3>Lineage</h3>
   <p>A study in the language of scan-based installation work — most directly <a href="https://www.ryoichikurokawa.com" target="_blank" rel="noopener">Ryoichi Kurokawa</a>'s decomposing point-cloud landscapes and architecture, and <a href="https://refikanadol.com" target="_blank" rel="noopener">Refik Anadol</a>'s data sculptures built from photographic archives of cities. It is not a recreation of any specific work, and it is not affiliated with either studio.</p>
   <h3>Data</h3>
@@ -544,7 +544,7 @@ precision highp float;
 in vec3 aPos; in vec3 aCol;
 uniform mat4 uVP; uniform vec3 uEye;
 uniform float uTime, uScan, uScanMode, uDissolve, uDrift, uGlitch, uSize, uFocal, uDpr, uColorMode, uAlpha, uHasCol, uSolid;
-uniform vec2 uBX, uBY;
+uniform vec2 uBX, uBY, uBZ;
 out vec3 vCol; out float vA; out float vKeep; out float vSeed;
 ${GL.NOISE}
 void main(){
@@ -552,18 +552,20 @@ void main(){
   float y0 = p.y;
   float seed = hash13(vec3(float(gl_VertexID)*0.0137, 3.1, 7.7));
   p += vnoise3(p*1.6 + vec3(0.0, uTime*0.07, 0.0)) * uDrift * 0.045;
-  // decomposition front sweeping +x -> -x
-  float span = uBX.y - uBX.x;
-  float front = mix(uBX.y + 0.05*span, uBX.x - 0.35*span, uDissolve);
-  float k = max(0.0, aPos.x - front) / span;
-  vec3 wind = vnoise3(aPos*2.2 + vec3(uTime*0.11, 0.0, uTime*0.05)) + vec3(0.35, 0.55, 0.1);
-  vec3 scatter = vec3(hash13(vec3(seed*91.7,1.3,2.1)), hash13(vec3(seed*53.3,4.1,7.7)), hash13(vec3(seed*17.9,9.2,3.3))) - 0.5;
-  p += (wind * k*k * 2.4 + scatter * k * 0.9) * min(1.0, uDissolve*6.0);
+  // decomposition: every point has its own random release threshold, so structure dissolves
+  // everywhere at once; a released point glides to a random spot inside the cloud's box and drifts there
+  float rel = hash13(vec3(seed*47.1, 5.3, 1.9));
+  float w = clamp((uDissolve - rel*0.92) / 0.08, 0.0, 1.0); w = w*w*(3.0 - 2.0*w);
+  vec3 rnd = vec3(hash13(vec3(seed*91.7,1.3,2.1)), hash13(vec3(seed*53.3,4.1,7.7)), hash13(vec3(seed*17.9,9.2,3.3)));
+  vec3 home = mix(vec3(uBX.x, uBY.x, uBZ.x), vec3(uBX.y, uBY.y, uBZ.y), rnd);
+  home += vnoise3(rnd*6.0 + vec3(uTime*0.05, uTime*0.03, 0.0)) * 0.06;
+  vec3 path = vnoise3(aPos*2.2 + vec3(uTime*0.11, 0.0, uTime*0.05)) * 0.25 * sin(3.14159*w); // curl off the facade on the way
+  p = mix(p, home, w) + path;
   // misregistered horizontal slices
   float band = floor(y0*22.0), tick = floor(uTime*6.0);
   if(hash13(vec3(band, tick, 3.0)) > 1.0 - uGlitch*0.3) p.x += (hash13(vec3(band, tick, 9.0)) - 0.5) * 0.5 * uGlitch;
   // scan plane
-  float d = y0 - uScan;
+  float d = p.y - uScan;
   float hl = uScanMode > 0.5 ? exp(-d*d*1400.0) : 0.0;
   float vis = uScanMode > 1.5 ? 1.0 - smoothstep(-0.004, 0.004, d) : 1.0;
   vec4 cp = uVP * vec4(p, 1.0);
@@ -574,8 +576,7 @@ void main(){
   else if((uColorMode > 1.5 && uColorMode < 2.5) || (uColorMode > 2.5 && uHasCol < 0.5)) col = cosPal(ty*0.75 + 0.02, vec3(0.5), vec3(0.5), vec3(1.0, 0.7, 0.4), vec3(0.0, 0.15, 0.2));
   else if(uColorMode > 2.5) col = aCol * (uSolid > 0.5 ? 1.0 : 1.25);
   col += hl * vec3(0.7, 1.1, 1.3) * 2.2;
-  float fade = 1.0 - smoothstep(0.35, 1.1, k);
-  vKeep = fade * vis * (1.0 - smoothstep(4.0, 9.0, dist));
+  vKeep = vis * (1.0 - smoothstep(4.0, 9.0, dist));
   vSeed = seed;
   vCol = col;
   vA = uAlpha * vKeep;
@@ -617,7 +618,7 @@ gl.bindVertexArray(lvao); gl.bindBuffer(gl.ARRAY_BUFFER, lvbo);
 gl.bindVertexArray(null);
 
 /* ---------------- scene: raw dataset -> aligned, centred, uploaded ---------------- */
-let raw = null, rawName = '', nPts = 0, nLine = 0, hasCol = false, bx = [-1,1], by = [-1,1];
+let raw = null, rawName = '', nPts = 0, nLine = 0, hasCol = false, bx = [-1,1], by = [-1,1], bz = [-1,1];
 let path = [], fov = 0.8, aspect = 16/9;
 const sub = (a,b) => [a[0]-b[0], a[1]-b[1], a[2]-b[2]];
 const crs = (a,b) => [a[1]*b[2]-a[2]*b[1], a[2]*b[0]-a[0]*b[2], a[0]*b[1]-a[1]*b[0]];
@@ -654,7 +655,7 @@ function build(){
   }
   const ctr = lo.map((v,k) => (v + hi[k])/2), sc = 2.6/Math.max(hi[0]-lo[0], hi[1]-lo[1], hi[2]-lo[2], 1e-9);
   for(let i = 0; i < n*3; i++) pos[i] = (pos[i] - ctr[i%3])*sc;
-  bx = [(lo[0]-ctr[0])*sc, (hi[0]-ctr[0])*sc]; by = [(lo[1]-ctr[1])*sc, (hi[1]-ctr[1])*sc];
+  bx = [(lo[0]-ctr[0])*sc, (hi[0]-ctr[0])*sc]; by = [(lo[1]-ctr[1])*sc, (hi[1]-ctr[1])*sc]; bz = [(lo[2]-ctr[2])*sc, (hi[2]-ctr[2])*sc];
   gl.bindBuffer(gl.ARRAY_BUFFER, vboP); gl.bufferData(gl.ARRAY_BUFFER, pos, gl.STATIC_DRAW);
   hasCol = !!ds.col;
   gl.bindBuffer(gl.ARRAY_BUFFER, vboC); gl.bufferData(gl.ARRAY_BUFFER, ds.col || new Uint8Array(n*3), gl.STATIC_DRAW);
@@ -798,6 +799,7 @@ function frame(now){
   gl.uniform1f(u.uAlpha, 0.5 * P.gain * Math.sqrt(140000/n) * fade);
   gl.uniform2f(u.uBX, bx[0], bx[1]);
   gl.uniform2f(u.uBY, by[0], by[1]);
+  gl.uniform2f(u.uBZ, bz[0], bz[1]);
   gl.bindVertexArray(vao);
   gl.drawArrays(gl.POINTS, 0, n);
 
