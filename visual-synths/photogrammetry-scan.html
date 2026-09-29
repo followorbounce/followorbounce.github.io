@@ -697,9 +697,11 @@ async function loadDefault(){
     const total = +res.headers.get('content-length') || 0, rd = res.body && res.body.getReader();
     let buf;
     if(rd && total){
-      const out = new Uint8Array(total); let got = 0;
-      for(;;){ const {done: end, value} = await rd.read(); if(end) break; out.set(value, got); got += value.length; note('Loading scan… ' + Math.round(got/total*100) + '%', true); }
-      buf = out.buffer.slice(0, got);
+      // content-length is the transfer size; with gzip it is smaller than the decoded bytes, so only use it for progress
+      const parts = []; let got = 0;
+      for(;;){ const {done: end, value} = await rd.read(); if(end) break; parts.push(value); got += value.length; note('Loading scan… ' + Math.min(99, Math.round(got/total*100)) + '%', true); }
+      const out = new Uint8Array(got); let o = 0; for(const c of parts){ out.set(c, o); o += c.length; }
+      buf = out.buffer;
     } else buf = await res.arrayBuffer();
     use(Scan.parse(buf), DEFAULT_SCAN.name); done();
   } catch(e){ console.error(e); note('Could not load the bundled scan (' + e.message + '). Drop an .abc or .ply file instead.', true); }
