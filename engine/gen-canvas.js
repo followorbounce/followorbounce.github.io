@@ -287,7 +287,7 @@ function linesDraw(t){
 }
 
 // ===== SCAN (after Photogrammetry Scan): the real SfM city, orbited by the pointer; hold to scatter points =====
-var SCAN_N=26000, scan={state:'idle',P:null,R:null,S:null,n:0,yaw:0.6,pitch:0.45,k:0}, img=null, img32=null;
+var SCAN_N=70000, scan={state:'idle',P:null,R:null,S:null,n:0,yaw:0.6,pitch:0.45,k:0}, img=null, img32=null;
 function scanLoad(){
   if(scan.state!=='idle')return; scan.state='loading';
   fetch('/visual-synths/data/city-scan.bin').then(function(r){if(!r.ok)throw 0;return r.arrayBuffer();}).then(function(buf){
@@ -318,7 +318,7 @@ function scanDraw(t){
   scan.pitch+=(0.25+(0.5-my)*0.7-scan.pitch)*0.05;
   scan.k+=((pressed?1:0)-scan.k)*(pressed?0.025:0.05);
   var cy=Math.cos(scan.yaw),sy=Math.sin(scan.yaw),cp=Math.cos(scan.pitch),sp=Math.sin(scan.pitch);
-  var P=scan.P,R=scan.R,S=scan.S,n=scan.n,f=H*2.3,dist=2.8,ps=dpr>1.5?3:2,D=img.data;
+  var P=scan.P,R=scan.R,S=scan.S,n=scan.n,f=H*2.3,dist=2.8,ps=dpr>1.5?2:1,D=img.data;
   var scanY=scan.lo[1]+((t*0.00012)%1)*(scan.hi[1]-scan.lo[1]), sh=0.05*(scan.hi[1]-scan.lo[1]);
   for(var i=0;i<n;i++){
     var x=P[i*3],y=P[i*3+1],z=P[i*3+2];
@@ -328,7 +328,7 @@ function scanDraw(t){
     var zz=dist-Z; if(zz<0.2)continue;
     var u=(W/2+X*f/zz)|0, v=(H*0.47-Y*f/zz)|0;
     if(u<0||v<0||u>=W-ps||v>=H-ps)continue;
-    var dy=y-scanY, hl=Math.abs(dy)<sh?1-Math.abs(dy)/sh:0, c=hl>0.05?ac:k, a=0.62+hl*0.35;
+    var dy=y-scanY, hl=Math.abs(dy)<sh?1-Math.abs(dy)/sh:0, c=hl>0.05?ac:k, a=0.42+hl*0.45;
     for(var oy=0;oy<ps;oy++)for(var ox=0;ox<ps;ox++){var o=((v+oy)*W+u+ox)*4;
       D[o]+=(c[0]-D[o])*a;D[o+1]+=(c[1]-D[o+1])*a;D[o+2]+=(c[2]-D[o+2])*a;}
   }

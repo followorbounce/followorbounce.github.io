@@ -383,8 +383,16 @@ header .brand{{
 .search-wrap{{display:none; border-bottom:1px solid var(--ink); padding-block:4px 20px; background:#efefe9;}}
 .search-wrap.on{{display:block;}}
 #network-search{{
-  flex:0 1 200px; min-width:0; font:inherit; font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em;
+  flex:0 1 200px; width:200px; min-width:0; max-width:100%; font:inherit; font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em;
   padding:6px 10px; border:1px solid var(--ink); background:var(--paper); color:var(--ink); border-radius:0;
+  -webkit-appearance:none; appearance:none;
+}}
+/* phones: the button group may shrink (the search takes what is left), and 16px text stops iOS Safari zooming in on focus */
+@media (max-width:600px){{
+  .head-row{{gap:8px;}}
+  .head-row .brand{{font-size:10.5px; letter-spacing:0.1em; padding:5px 8px; flex:0 0 auto;}}
+  .head-row .hdr-btns{{flex:1 1 auto; min-width:0; justify-content:flex-end;}}
+  #network-search{{flex:1 1 auto; width:auto; font-size:16px; letter-spacing:0; padding:3px 8px;}}
 }}
 #network-search::placeholder{{color:var(--mid);}}
 #search-results{{margin-top:16px; display:none; gap:2px; flex-direction:column;}}
