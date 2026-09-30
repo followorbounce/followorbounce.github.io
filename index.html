@@ -1174,13 +1174,25 @@ function tick(){
     nextT+=stepDur(); step=(step+1)%16;
   }
 }
+/* iOS: Web Audio is "ambient" and silenced by the Ring/Silent switch. Inside the tap we (1) ask for the
+   playback audio session (Safari 16.4+), (2) start a silent looping <audio> element so the page counts as
+   media playback, and (3) play a one-sample buffer to unlock the context. Same technique as Pulse Train. */
+var SILENT='data:audio/wav;base64,UklGRmQGAABXQVZFZm10IBAAAAABAAEAQB8AAEAfAAABAAgAZGF0YUAGAACAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICA', silentEl=null;
+function iosUnlock(){
+  try{ if(navigator.audioSession) navigator.audioSession.type='playback'; }catch(e){}
+  if(!silentEl){ silentEl=document.createElement('audio'); silentEl.setAttribute('playsinline',''); silentEl.setAttribute('aria-hidden','true');
+    silentEl.preload='auto'; silentEl.loop=true; silentEl.src=SILENT; silentEl.style.display='none'; document.body.appendChild(silentEl); }
+  var pr=silentEl.play(); if(pr&&pr.catch) pr.catch(function(){});
+}
 function play(){
+  if(!playing) iosUnlock();                       // must run synchronously inside the user gesture
   if(!ac) build();
-  if(ac.state==='suspended') ac.resume();
+  if(ac.state!=='running'){ var r=ac.resume(); if(r&&r.catch) r.catch(function(){}); }
+  try{ var one=ac.createBufferSource(); one.buffer=ac.createBuffer(1,1,ac.sampleRate); one.connect(ac.destination); one.start(0); }catch(e){}
   playing=!playing; var b=$('ls-play');
   b.setAttribute('aria-pressed',String(playing)); b.innerHTML=playing?'&#9632; Stop':'&#9654; Play';
   if(playing){ step=0; nextT=ac.currentTime+0.05; tick(); timer=setInterval(tick,25); loop(); }
-  else { clearInterval(timer); shown=-1; paintSteps(); }
+  else { clearInterval(timer); shown=-1; paintSteps(); if(silentEl) silentEl.pause(); }
 }
 
 /* ---- UI: steps, sliders, segments, switches ---- */
