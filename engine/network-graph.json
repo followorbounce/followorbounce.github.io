@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 119,
+    "pages": 120,
     "repos": 4,
-    "own": 34,
+    "own": 35,
     "aerospace": 47,
     "maya": 7,
     "machinery": 31
@@ -146,11 +146,23 @@
       "repo": "home",
       "repo_label": "Knowledge Network",
       "category": "Audio Synth",
+      "title": "Audio Synths",
+      "description": "Hub for every sound instrument: SoundOS (desktop only), Pulse Train — Stage II (mobile & desktop), the Node Database, the homepage live rig and the archive.",
+      "url": "https://followorbounce.github.io/audio-synths/",
+      "tag": "Hub",
+      "interactive": false,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Audio Synth",
       "title": "SoundOS",
       "description": "A browser modular synthesizer builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves.",
       "url": "https://followorbounce.github.io/soundos/",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -160,7 +172,8 @@
       "description": "Thirteen units across five labeled groups, with a patchable LFO carrying its own modulation scale per destination.",
       "url": "https://followorbounce.github.io/pulse-train-stage-ii",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -170,7 +183,8 @@
       "description": "Every node in Pulse Train — Stage II, explained three ways: software DSP, underlying math, and real hardware.",
       "url": "https://followorbounce.github.io/pulse-train-node-database",
       "tag": "Read",
-      "interactive": false
+      "interactive": false,
+      "hidden": true
     },
     {
       "repo": "home",

@@ -42,7 +42,9 @@
     {
       "id": "audio-synth",
       "title": "Audio Synth",
+      "hidden": true,
       "pages": [
+        { "slug": "audio-synths", "url": "/audio-synths/", "title": "Audio Synths", "description": "Hub for every sound instrument: SoundOS (desktop only), Pulse Train — Stage II (mobile & desktop), the Node Database, the homepage live rig and the archive.", "tag": "Hub", "interactive": false },
         { "slug": "patch-bay", "url": "/patch-bay", "title": "Patch Bay", "description": "A real, playable generative modular synthesizer — drag real patch cables between Web Audio modules.", "tag": "Tool", "interactive": true, "archived": true },
         { "slug": "signal-chain", "url": "/signal-chain", "title": "Signal Chain", "description": "A universal-node synth: one universal in/out jack instead of typed cables, nine chainable pedal-style units.", "tag": "Tool", "interactive": true, "archived": true },
         { "slug": "pulse-train", "url": "/pulse-train", "title": "Pulse Train", "description": "Precision/microsound synthesis in the minimal/glitch lineage of Ryoji Ikeda, Alva Noto, and Raster-Noton.", "tag": "Tool", "interactive": true, "archived": true },

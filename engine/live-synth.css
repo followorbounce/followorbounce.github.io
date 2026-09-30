@@ -1,0 +1,51 @@
+/* ---- Live audio synth: four nodes in a line inside the frame, output node outside it ---- */
+.livesynth{padding-block:28px; border-bottom:1px solid var(--ink);}
+.ls-keys{font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+.ls-rig{display:grid; grid-template-columns:minmax(0,1fr) 150px; gap:34px; align-items:stretch; outline:none;}
+.ls-frame{position:relative; display:flex; align-items:stretch; border:1px solid var(--ink); background:var(--card-bg,#fff); padding:12px;}
+.ls-node{flex:1 1 0; min-width:0; display:flex; flex-direction:column; gap:7px; border:1px solid var(--line); padding:9px 10px 10px; background:var(--card-bg,#fff); transition:opacity .2s;}
+.ls-node.off{opacity:.45;}
+.ls-nh{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase;}
+.ls-n{color:var(--mid);}
+.ls-t{font-weight:600; flex:1;}
+.ls-sw{width:26px; height:14px; border:1px solid var(--ink); border-radius:8px; background:transparent; position:relative; cursor:pointer; padding:0;}
+.ls-sw::after{content:""; position:absolute; top:2px; left:2px; width:8px; height:8px; border-radius:50%; background:var(--mid); transition:left .15s, background .15s;}
+.ls-sw.on::after{left:14px; background:var(--accent);}
+.ls-scope{display:block; width:100%; height:64px; border:1px solid var(--line); background:var(--paper); cursor:crosshair; touch-action:none;}
+.ls-p{display:grid; grid-template-columns:1fr auto; gap:2px 6px; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+.ls-p output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ls-p input{grid-column:1 / -1; width:100%; margin:0; accent-color:var(--accent); height:16px;}
+.ls-seg{display:flex; flex-wrap:wrap; gap:3px;}
+.ls-seg button, .ls-hold, .ls-play{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; padding:4px 7px; border:1px solid var(--line); background:transparent; color:var(--mid); cursor:pointer; line-height:1.1;}
+.ls-seg button:hover, .ls-hold:hover, .ls-play:hover{border-color:var(--ink); color:var(--ink);}
+.ls-seg button[aria-pressed="true"], .ls-hold[aria-pressed="true"], .ls-play[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.ls-seg .ls-dice{margin-left:auto;}
+.ls-hold{touch-action:none; user-select:none; -webkit-user-select:none;}
+.ls-steps{display:grid; grid-template-columns:repeat(8,1fr); gap:3px;}
+.ls-steps button{aspect-ratio:1; min-height:14px; border:1px solid var(--line); background:transparent; padding:0; cursor:pointer;}
+.ls-steps button.on{background:var(--ink); border-color:var(--ink);}
+.ls-steps button.now{outline:2px solid var(--accent); outline-offset:-1px;}
+.ls-cable{flex:0 0 12px; align-self:center; height:1px; background:var(--ink); position:relative;}
+.ls-cable::after{content:""; position:absolute; right:-1px; top:-3px; border:3.5px solid transparent; border-left:5px solid var(--ink); border-right:0;}
+/* the last cable leaves the frame and plugs into the output node outside it */
+.ls-cable--out{position:absolute; right:-35px; top:50%; width:34px; flex:none;}
+.ls-out{display:flex; flex-direction:column; gap:9px; border:1px solid var(--ink); padding:9px 10px 10px; background:var(--card-bg,#fff);}
+.ls-play{font-size:11px; padding:9px 8px; border-color:var(--ink); color:var(--ink);}
+.ls-meter{--lvl:0; flex:1; min-height:60px; border:1px solid var(--line); position:relative; background:var(--paper);}
+.ls-meter i{position:absolute; left:0; right:0; bottom:0; height:calc(var(--lvl,0)*100%); background:var(--accent);}
+.ls-note{font-family:var(--font-mono); font-size:10px; letter-spacing:.04em; color:var(--mid); margin:10px 0 0;}
+.ls-links{display:grid; grid-template-columns:1fr 1fr; gap:10px;}
+.ls-links .gen-more{margin-top:10px;}
+@media(max-width:980px){
+  .ls-rig{grid-template-columns:1fr; gap:26px;}
+  .ls-frame{display:grid; grid-template-columns:1fr 1fr; gap:8px;}
+  .ls-cable{display:none;}
+  .ls-cable--out{display:block; right:auto; left:50%; top:auto; bottom:-27px; width:1px; height:26px;}
+  .ls-cable--out::after{right:-3px; top:auto; bottom:-1px; border:3.5px solid transparent; border-top:5px solid var(--ink); border-bottom:0;}
+  .ls-out{display:grid; grid-template-columns:auto 1fr 1fr; align-items:center; gap:10px;}
+  .ls-out .ls-meter{min-height:28px; height:28px;}
+  .ls-out .ls-meter i{top:0; right:auto; height:100%; width:calc(var(--lvl,0)*100%);}
+  .ls-links{grid-template-columns:1fr;}
+  .ls-keys{display:none;}
+}
+@media(max-width:520px){ .ls-frame{gap:6px; padding:8px;} .ls-node{padding:7px 7px 8px; gap:6px;} .ls-scope{height:52px;} .ls-steps{gap:2px;} .ls-seg button{padding:4px 5px;} .ls-seg .ls-dice{margin-left:0;} .ls-out{grid-template-columns:1fr 1fr;} .ls-out .ls-nh{display:none;} }

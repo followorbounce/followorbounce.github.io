@@ -1,0 +1,65 @@
+<section class="livesynth" data-hide-when-search aria-labelledby="ls-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="ls-h">Audio synth &middot; <b>live</b></span>
+      <span class="ls-keys">Space play &middot; 1&ndash;4 bypass &middot; D dice &middot; hold F freeze</span>
+    </div>
+    <div class="ls-rig" id="ls-rig" tabindex="-1">
+      <div class="ls-frame">
+        <div class="ls-node" data-node="0">
+          <div class="ls-nh"><span class="ls-n">01</span><span class="ls-t">Pulse</span><button class="ls-sw on" data-sw="0" aria-pressed="true" aria-label="Pulse on/off"></button></div>
+          <canvas class="ls-scope" data-xy="0" aria-label="Pulse scope and XY pad: drag left-right for decay, up-down for pitch"></canvas>
+          <div class="ls-steps" id="ls-steps" aria-label="16-step pattern"></div>
+          <label class="ls-p">Tempo <output id="ls-o-bpm"></output><input type="range" id="ls-bpm" min="80" max="170" step="1"></label>
+          <div class="ls-seg" id="ls-wave"><button data-v="sine">Sine</button><button data-v="click">Click</button><button data-v="tone">Tone</button><button class="ls-dice" id="ls-dice" title="Random pattern (D)">Dice</button></div>
+        </div>
+        <span class="ls-cable" aria-hidden="true"></span>
+        <div class="ls-node" data-node="1">
+          <div class="ls-nh"><span class="ls-n">02</span><span class="ls-t">Filter</span><button class="ls-sw on" data-sw="1" aria-pressed="true" aria-label="Filter on/off"></button></div>
+          <canvas class="ls-scope" data-xy="1" aria-label="Filter scope and XY pad: cutoff and resonance"></canvas>
+          <label class="ls-p">Cutoff <output id="ls-o-cut"></output><input type="range" id="ls-cut" min="0" max="1" step="0.001"></label>
+          <label class="ls-p">Resonance <output id="ls-o-res"></output><input type="range" id="ls-res" min="0" max="1" step="0.001"></label>
+          <label class="ls-p">LFO sweep <output id="ls-o-lfo"></output><input type="range" id="ls-lfo" min="0" max="1" step="0.001"></label>
+          <div class="ls-seg" id="ls-ftype"><button data-v="lowpass">LP</button><button data-v="bandpass">BP</button><button data-v="highpass">HP</button></div>
+        </div>
+        <span class="ls-cable" aria-hidden="true"></span>
+        <div class="ls-node" data-node="2">
+          <div class="ls-nh"><span class="ls-n">03</span><span class="ls-t">Drive</span><button class="ls-sw on" data-sw="2" aria-pressed="true" aria-label="Drive on/off"></button></div>
+          <canvas class="ls-scope" data-xy="2" aria-label="Drive scope and XY pad: drive and bit depth"></canvas>
+          <label class="ls-p">Drive <output id="ls-o-drv"></output><input type="range" id="ls-drv" min="0" max="1" step="0.001"></label>
+          <label class="ls-p">Bits <output id="ls-o-bits"></output><input type="range" id="ls-bits" min="0" max="1" step="0.001"></label>
+          <label class="ls-p">Mix <output id="ls-o-dmix"></output><input type="range" id="ls-dmix" min="0" max="1" step="0.001"></label>
+        </div>
+        <span class="ls-cable" aria-hidden="true"></span>
+        <div class="ls-node" data-node="3">
+          <div class="ls-nh"><span class="ls-n">04</span><span class="ls-t">Space</span><button class="ls-sw on" data-sw="3" aria-pressed="true" aria-label="Space on/off"></button></div>
+          <canvas class="ls-scope" data-xy="3" aria-label="Space scope and XY pad: feedback and mix"></canvas>
+          <label class="ls-p">Feedback <output id="ls-o-fb"></output><input type="range" id="ls-fb" min="0" max="0.85" step="0.001"></label>
+          <label class="ls-p">Mix <output id="ls-o-smix"></output><input type="range" id="ls-smix" min="0" max="1" step="0.001"></label>
+          <div class="ls-seg" id="ls-time"><button data-v="0.25">1/16</button><button data-v="0.5">1/8</button><button data-v="0.75">3/16</button><button data-v="1">1/4</button></div>
+          <button class="ls-hold" id="ls-freeze" aria-pressed="false">Hold to freeze</button>
+        </div>
+        <span class="ls-cable ls-cable--out" aria-hidden="true"></span>
+      </div>
+      <div class="ls-out" aria-label="Output">
+        <div class="ls-nh"><span class="ls-n">OUT</span></div>
+        <button class="ls-play" id="ls-play" aria-pressed="false">&#9654; Play</button>
+        <div class="ls-meter" aria-hidden="true"><i id="ls-meter"></i></div>
+        <label class="ls-p">Volume <output id="ls-o-vol"></output><input type="range" id="ls-vol" min="0" max="1" step="0.001"></label>
+      </div>
+    </div>
+    <p class="ls-note">Sound starts only when you press Play. Drag on any scope to play its two main parameters as an XY pad; tap steps to change the pattern while it runs.</p>
+    <div class="ls-links">
+      <a class="gen-more" href="/audio-synths/">
+        <span class="gen-more-k">Audio Synths</span>
+        <span class="gen-more-d">SoundOS modular builder, Pulse Train &mdash; Stage II performance rack &amp; the archive</span>
+        <span class="gen-more-a">All &rarr;</span>
+      </a>
+      <a class="gen-more" href="/pulse-train-node-database">
+        <span class="gen-more-k">Node Database</span>
+        <span class="gen-more-d">How every node processes the signal &mdash; DSP, the math, and the hardware it comes from</span>
+        <span class="gen-more-a">Read &rarr;</span>
+      </a>
+    </div>
+  </div>
+</section>

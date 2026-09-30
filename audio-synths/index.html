@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Audio Synths — Knowledge Network</title>
+<meta name="description" content="Every playable sound instrument on the site: SoundOS, a desktop modular synth builder; Pulse Train — Stage II, a performance rack for phone and desktop; the Node Database; the homepage live rig; and the archive.">
+<link rel="canonical" href="https://followorbounce.github.io/audio-synths/">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Audio Synths — Knowledge Network">
+<meta property="og:description" content="Every playable sound instrument on the site: SoundOS, a desktop modular synth builder; Pulse Train — Stage II, a performance rack for phone and desktop; the Node Database; the homepage live rig; and the archive.">
+<meta property="og:url" content="https://followorbounce.github.io/audio-synths/">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#96938A;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#7A6BB0;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1180px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+    --line:#332F29; --line-strong:#48443A;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#726F65;
+  --line:#332F29; --line-strong:#48443A;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft);}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(28px,5vw,48px) 18px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:12px;}
+.hero h1{font-size:clamp(1.9rem,5vw,3rem); line-height:1.02; letter-spacing:-0.01em; color:var(--ink); font-family:var(--font-display);}
+.hero p{margin-top:14px; max-width:720px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+.hero p code{font-size:12.5px;}
+
+.grid{padding-block:clamp(20px,4vw,36px) clamp(28px,5vw,48px);}
+.cards{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px;}
+.card{display:flex; flex-direction:column; border:1px solid var(--line-strong); border-radius:6px; overflow:hidden; background:var(--paper-raised); text-decoration:none; color:inherit; transition:border-color 0.15s, transform 0.15s;}
+.card:hover{border-color:var(--live); transform:translateY(-2px);}
+.card-art{background:var(--paper-sunken); padding:18px 20px 10px; border-bottom:1px solid var(--line);}
+.card-art svg{display:block; width:100%; height:64px;}
+.card-body{padding:16px 18px 18px; display:flex; flex-direction:column; gap:8px; flex:1;}
+.card-head{display:flex; align-items:center; justify-content:space-between; gap:8px;}
+.card h3{font-size:14px; letter-spacing:0.01em;}
+.card .tag{font-size:9.5px; letter-spacing:0.08em; text-transform:uppercase; color:var(--ink-faint); border:1px solid var(--line-strong); padding:2px 6px; border-radius:3px; white-space:nowrap;}
+.card p{margin:0; font-size:12.5px; color:var(--ink-soft); line-height:1.65; font-family:var(--font-display); font-weight:500; flex:1;}
+.card .open{font-size:11px; font-weight:700; color:var(--live); letter-spacing:0.02em;}
+
+.group{display:flex; align-items:baseline; justify-content:space-between; gap:12px; flex-wrap:wrap; font-size:1.05rem; text-transform:uppercase; letter-spacing:0.01em; margin:0 0 14px; padding-top:6px;}
+.group span{font-family:var(--font-mono); font-weight:500; font-size:10.5px; letter-spacing:0.1em; color:var(--ink-faint);}
+.cards + .group{margin-top:clamp(28px,5vw,44px);}
+.card-art--dark{background:#000; padding:0; border-bottom-color:#000;}
+.card-art--dark svg{height:auto; aspect-ratio:100/46;}
+.cards--studies{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));}
+.hero p strong{color:var(--ink);}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong);}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about p{max-width:720px; font-size:13px; color:var(--ink-soft); line-height:1.8; margin-bottom:12px; font-family:var(--font-display); font-weight:500;}
+section.about p:last-child{margin-bottom:0;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+.dev{display:inline-flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; padding:2px 7px; border-radius:3px; white-space:nowrap; border:1px solid var(--ink); color:var(--ink);}
+.dev svg{width:auto; height:11px; display:block;}
+.dev--desk{background:var(--ink); color:var(--paper);}
+.card-tags{display:flex; gap:6px; flex-wrap:wrap; align-items:center;}
+.arch{list-style:none; margin:0; padding:0; border-top:1px solid var(--line);}
+.arch li{display:flex; justify-content:space-between; gap:6px 14px; align-items:baseline; padding:10px 2px; border-bottom:1px solid var(--line); flex-wrap:wrap;}
+.arch a{font-family:var(--font-display); font-weight:700; font-size:14px; text-decoration:none; min-width:190px;}
+.arch a:hover{color:var(--live); text-decoration:underline;}
+.arch .d{font-size:12px; color:var(--ink-soft); font-family:var(--font-display); font-weight:500; flex:1 1 280px;}
+.legend{display:flex; gap:10px; flex-wrap:wrap; margin-top:16px;}
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Instrument Family · Sound · Live</div>
+    <h1>Audio Synths</h1>
+    <p>Everything on this site that makes sound — two instruments built for playing live, a reference that takes every node apart, and a four-node rig on the homepage. Each card says where it runs: <strong>SoundOS</strong> is a patching workspace and needs a desktop screen and pointer; <strong>Pulse Train</strong> is laid out to play on a phone as well as a desktop.</p>
+    <div class="legend"><span class="dev dev--desk" title="Needs a desktop or laptop browser"><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Desktop only</span> <span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></div>
+  </div>
+</section>
+
+<section class="grid wrap">
+  <h2 class="group">Instruments <span>Web Audio · runs in the browser</span></h2>
+  <div class="cards cards--studies">
+
+    <a class="card" href="/soundos/">
+      <div class="card-art card-art--dark"><svg viewBox="0 0 100 46" preserveAspectRatio="xMidYMid meet"><rect x="8" y="8" width="16" height="10" fill="none" stroke="#fff" stroke-width="0.8"/><rect x="8" y="28" width="16" height="10" fill="none" stroke="#fff" stroke-width="0.8"/><rect x="34" y="18" width="16" height="10" fill="none" stroke="#fff" stroke-width="0.8"/><rect x="60" y="8" width="16" height="10" fill="none" stroke="#fff" stroke-width="0.8"/><rect x="60" y="28" width="16" height="10" fill="none" stroke="#fff" stroke-width="0.8"/><rect x="82" y="18" width="16" height="10" fill="none" stroke="#fff" stroke-width="0.8"/><path d="M24 13 C30 13 28 23 34 23 M24 33 C30 33 28 23 34 23 M50 23 C55 23 55 13 60 13 M50 23 C55 23 55 33 60 33 M76 13 C80 13 80 23 82 23 M76 33 C80 33 80 23 82 23" fill="none" stroke="#fff" stroke-width="0.6" opacity="0.7"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>SoundOS</h3><span class="card-tags"><span class="dev dev--desk" title="Needs a desktop or laptop browser"><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Desktop only</span></span></div>
+        <p>A modular synth builder: patch nodes with cables, hit Generate and it oscillates continuously like a powered-on rack, with per-node record-and-loop of knob moves, Speed and Compact views, and undo.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/pulse-train-stage-ii">
+      <div class="card-art card-art--dark"><svg viewBox="0 0 100 46" preserveAspectRatio="xMidYMid meet"><polyline points="6.0,34 6.0,12 8.2,12 8.2,34 11.6,34 11.6,12 13.8,12 13.8,34 17.2,34 17.2,12 19.4,12 19.4,34 22.8,34 22.8,12 25.0,12 25.0,34 28.4,34 28.4,12 30.6,12 30.6,34 34.0,34 34.0,12 36.2,12 36.2,34 39.6,34 39.6,12 41.8,12 41.8,34 45.2,34 45.2,12 47.4,12 47.4,34 50.8,34 50.8,12 53.0,12 53.0,34 56.4,34 56.4,12 58.6,12 58.6,34 62.0,34 62.0,12 64.2,12 64.2,34 67.6,34 67.6,12 69.8,12 69.8,34 73.2,34 73.2,12 75.4,12 75.4,34 78.8,34 78.8,12 81.0,12 81.0,34 84.4,34 84.4,12 86.6,12 86.6,34 90.0,34 90.0,12 92.2,12 92.2,34" fill="none" stroke="#fff" stroke-width="0.8"/><path d="M4 40 H96" stroke="#fff" stroke-width="0.4" opacity="0.5"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Pulse Train — Stage II</h3><span class="card-tags"><span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></span></div>
+        <p>The performance rack: thirteen units in five labeled groups, a patchable LFO with its own scale per destination, presets on keys 1–9, and live taping — record and loop every module’s moves, with overdub.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <h2 class="group">Reference &amp; live rig <span>read · play</span></h2>
+  <div class="cards cards--studies">
+
+    <a class="card" href="/pulse-train-node-database">
+      <div class="card-art card-art--dark"><svg viewBox="0 0 100 46" preserveAspectRatio="xMidYMid meet"><rect x="10" y="6" width="8" height="5" fill="#fff"/><path d="M24 8.5 H82" stroke="#fff" stroke-width="0.8" opacity="0.7"/><rect x="10" y="14" width="8" height="5" fill="#fff"/><path d="M24 16.5 H46" stroke="#fff" stroke-width="0.8" opacity="0.7"/><rect x="10" y="22" width="8" height="5" fill="#fff"/><path d="M24 24.5 H56" stroke="#fff" stroke-width="0.8" opacity="0.7"/><rect x="10" y="30" width="8" height="5" fill="#fff"/><path d="M24 32.5 H66" stroke="#fff" stroke-width="0.8" opacity="0.7"/><rect x="10" y="38" width="8" height="5" fill="#fff"/><path d="M24 40.5 H76" stroke="#fff" stroke-width="0.8" opacity="0.7"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Node Database</h3><span class="card-tags"><span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></span></div>
+        <p>Every node in Pulse Train — Stage II explained three ways: the software DSP, the underlying math, and the real hardware it comes from.</p>
+        <span class="open">Read →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/#ls-h">
+      <div class="card-art card-art--dark"><svg viewBox="0 0 100 46" preserveAspectRatio="xMidYMid meet"><rect x="6" y="16" width="14" height="14" fill="none" stroke="#fff" stroke-width="0.8"/><path d="M20 23 H25" stroke="#fff" stroke-width="0.6"/><rect x="25" y="16" width="14" height="14" fill="none" stroke="#fff" stroke-width="0.8"/><path d="M39 23 H44" stroke="#fff" stroke-width="0.6"/><rect x="44" y="16" width="14" height="14" fill="none" stroke="#fff" stroke-width="0.8"/><path d="M58 23 H63" stroke="#fff" stroke-width="0.6"/><rect x="63" y="16" width="14" height="14" fill="none" stroke="#fff" stroke-width="0.8"/><path d="M77 23 H82" stroke="#fff" stroke-width="0.6"/><rect x="3" y="11" width="78" height="24" fill="none" stroke="#fff" stroke-width="0.4" opacity="0.6"/><path d="M77 23 H86" stroke="#fff" stroke-width="0.6"/><rect x="86" y="16" width="10" height="14" fill="#fff"/></svg></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Live rig</h3><span class="card-tags"><span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></span></div>
+        <p>On the homepage: four nodes in a line — Pulse, Filter, Drive, Space — with the output outside the frame. XY-pad scopes, bypass footswitches, a tappable 16-step pattern and hold-to-freeze delay.</p>
+        <span class="open">Play →</span>
+      </div>
+    </a>
+
+  </div>
+
+  <h2 class="group">Archive <span>earlier versions, still playable</span></h2>
+  <ul class="arch">
+    <li><a href="/pulse-train-stage">Pulse Train — Stage</a><span class="d">The stage rack before Stage II, with rave-style Gate and Kill.</span><span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></li>
+    <li><a href="/pulse-train-ii">Pulse Train II</a><span class="d">The second Pulse Train rack.</span><span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></li>
+    <li><a href="/pulse-train">Pulse Train</a><span class="d">The original pulse rack the family grew from.</span><span class="dev" title="Works on phones and desktop browsers"><svg viewBox="0 0 9 12" aria-hidden="true"><rect x="1" y="0.7" width="7" height="10.6" rx="1.3" fill="none" stroke="currentColor" stroke-width="1.3"/></svg><svg viewBox="0 0 16 12" aria-hidden="true"><rect x="1" y="1" width="14" height="8" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M5 11h6" stroke="currentColor" stroke-width="1.4"/></svg> Mobile &amp; desktop</span></li>
+    <li><a href="/signal-chain">Signal Chain</a><span class="d">A linear effects chain, one module after another.</span></li>
+    <li><a href="/patch-bay">Patch Bay</a><span class="d">The first patchable experiment.</span></li>
+  </ul>
+</section>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a> · <a href="/archive.html">Archive</a></span>
+  </div>
+</footer>
+
+</body>
+</html>
