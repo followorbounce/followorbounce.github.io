@@ -1,0 +1,33 @@
+name: OpenSky relay
+
+# OpenSky blocks requests from Cloudflare's network, so this job fetches the global aircraft count
+# and posts only that number to the open-data Worker (workers/open-data). No commits are made.
+# Anonymous OpenSky allows 400 credits/day; states/all costs 4 → every 30 min = 192/day.
+on:
+  schedule:
+    - cron: '7,37 * * * *'
+  workflow_dispatch:
+
+permissions: {}
+
+jobs:
+  relay:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: Fetch OpenSky and post the count
+        env:
+          KEY: ${{ secrets.OPEN_DATA_KEY }}
+        run: |
+          set -euo pipefail
+          curl -sS --fail --max-time 60 -A 'followorbounce.github.io open-data relay' https://opensky-network.org/api/states/all -o states.json
+          python3 - <<'PY' > payload.json
+          import json, datetime
+          d = json.load(open('states.json'))
+          n = len(d.get('states') or [])
+          t = datetime.datetime.fromtimestamp(d['time'], datetime.timezone.utc).isoformat()
+          print(json.dumps({'aircraft': {'count': n, 'asOf': t}}))
+          PY
+          cat payload.json
+          curl -sS --fail --max-time 30 -X POST -H 'Content-Type: application/json' -H "X-Key: $KEY" \
+            --data @payload.json https://fob-open-data.followorbounce.workers.dev/ingest

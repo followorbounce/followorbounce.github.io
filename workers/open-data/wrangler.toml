@@ -1,0 +1,11 @@
+name = "fob-open-data"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+workers_dev = true
+
+[[kv_namespaces]]
+binding = "OPEN_DATA"
+id = "1ff0431937d44a4e9d8f04fee1500b9a"
+
+[triggers]
+crons = ["*/20 * * * *"]
