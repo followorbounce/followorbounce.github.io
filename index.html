@@ -236,6 +236,7 @@ header .brand{
 @media (max-width:420px){
   .od-val{font-size:1.5rem;}
 }
+.od-iss{display:block; margin-top:2px; color:var(--ink); opacity:.75;}
 
 /* ---- Live audio synth: four nodes in a line inside the frame, output node outside it ---- */
 .livesynth{padding-block:28px; border-bottom:1px solid var(--ink);}
@@ -484,15 +485,15 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     </div>
     <div class="od-card od-skel" id="od-card">
       <div class="od-cell" data-key="earthquakes"><a href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127758;</span><span class="od-label">Earthquakes</span></div><span class="od-val">&nbsp;</span><span class="od-sub">24 h &middot; M 1+ &middot; USGS</span></a></div>
-      <div class="od-cell" data-key="aircraft"><a href="https://opensky-network.org/network/explorer" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9992;&#65039;</span><span class="od-label">Aircraft</span></div><span class="od-val">&nbsp;</span><span class="od-sub">tracked now &middot; OpenSky</span></a></div>
-      <div class="od-cell" data-key="ships"><a href="https://www.marinetraffic.com/en/ais/home/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128674;</span><span class="od-label">Ships</span></div><span class="od-val">&nbsp;</span><span class="od-sub">AIS-tracked &middot; MarineTraffic</span></a></div>
+      <div class="od-cell" data-key="aircraft"><a href="https://opensky-network.org/network/explorer" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9992;&#65039;</span><span class="od-label">Aircraft</span></div><span class="od-val">&nbsp;</span><span class="od-sub">worldwide now &middot; OpenSky</span></a></div>
+      <div class="od-cell" data-key="ships"><a href="https://www.digitraffic.fi/en/marine-traffic/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128674;</span><span class="od-label">Ships</span></div><span class="od-val">&nbsp;</span><span class="od-sub">Baltic AIS &middot; Digitraffic</span></a></div>
       <div class="od-cell" data-key="volcanoes"><a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127755;</span><span class="od-label">Volcanic activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active events &middot; NASA EONET</span></a></div>
       <div class="od-cell" data-key="wildfires"><a href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128293;</span><span class="od-label">Wildfires</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active events &middot; NASA EONET</span></a></div>
       <div class="od-cell" data-key="waves"><a href="https://www.ndbc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127754;</span><span class="od-label">Wave height</span></div><span class="od-val">&nbsp;</span><span class="od-sub">N Atlantic &middot; Open-Meteo</span></a></div>
-      <div class="od-cell" data-key="solar"><a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9728;&#65039;</span><span class="od-label">Solar activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">wind speed &middot; NOAA SWPC</span></a></div>
-      <div class="od-cell" data-key="satellites"><a href="https://celestrak.org/satcat/boxscore.php" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128752;</span><span class="od-label">Satellites</span></div><span class="od-val">&nbsp;</span><span class="od-sub">tracked objects &middot; CelesTrak</span></a></div>
+      <div class="od-cell" data-key="solar"><a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9728;&#65039;</span><span class="od-label">Solar activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">solar wind &middot; NOAA</span></a></div>
+      <div class="od-cell" data-key="satellites"><a href="https://celestrak.org/satcat/boxscore.php" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128752;</span><span class="od-label">Satellites</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active &middot; CelesTrak</span><span class="od-sub od-iss"></span></a></div>
     </div>
-    <div class="od-foot" id="od-foot"><span class="od-pulse"></span> Updated <b id="od-ts">&mdash;</b><span class="od-src">Sources: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a> &middot; <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA</a> &middot; <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA</a> &middot; <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a></span></div>
+    <div class="od-foot" id="od-foot"><span class="od-pulse"></span> Updated <b id="od-ts">&mdash;</b><span class="od-src">Sources: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a> &middot; <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA</a> &middot; <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA</a> &middot; <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> &middot; <a href="https://opensky-network.org/" target="_blank" rel="noopener">OpenSky</a> &middot; <a href="https://www.digitraffic.fi/en/" target="_blank" rel="noopener">Digitraffic</a> &middot; <a href="https://celestrak.org/" target="_blank" rel="noopener">CelesTrak</a></span></div>
     <noscript><p style="font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-top:8px;">Live data requires JavaScript.</p></noscript>
   </div>
 </section>
@@ -1018,76 +1019,81 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 
 <script>
 (function(){
-  var TOPICS = [
-    { key:'earthquakes',
-      url:'https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson',
-      parse:function(d){ return d.metadata ? d.metadata.count : null; } },
-    { key:'aircraft',
-      url:'https://opensky-network.org/api/states/all',
-      parse:function(d){ return d.states ? d.states.length : null; } },
-    { key:'ships', url:null },
-    { key:'volcanoes',
-      url:'https://eonet.gsfc.nasa.gov/api/v3/events?category=volcanoes&status=open',
-      parse:function(d){ return d.events ? d.events.length : null; } },
-    { key:'wildfires',
-      url:'https://eonet.gsfc.nasa.gov/api/v3/events?category=wildfires&status=open',
-      parse:function(d){ return d.events ? d.events.length : null; } },
-    { key:'waves',
-      url:'https://marine-api.open-meteo.com/v1/marine?latitude=40&longitude=-30&current=wave_height',
-      parse:function(d){ return d.current ? d.current.wave_height + ' m' : null; },
-      small:true },
-    { key:'solar',
-      url:'https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json',
-      parse:function(d){ return d.WindSpeed ? Math.round(parseFloat(d.WindSpeed)) + ' km/s' : null; },
-      small:true },
-    { key:'satellites', url:null }
-  ];
+  /* Open data · live. Browser-friendly sources are fetched directly; aircraft (OpenSky), ships (Digitraffic)
+     and satellites (CelesTrak) come from our relay, workers/open-data, because those APIs block browsers on
+     other sites or rate-limit per IP. Each tile shows when its number is from, and "—" if it is too old. */
+  var RELAY = 'https://fob-open-data.followorbounce.workers.dev/summary';
+  var STALE = {aircraft: 3*3600e3, ships: 3*3600e3, satellites: 12*3600e3};
 
   var card = document.getElementById('od-card');
   var tsEl = document.getElementById('od-ts');
   if(!card) return;
 
-  function fmt(v){
-    if(typeof v === 'number') return v.toLocaleString();
-    return String(v);
-  }
-
   function pad(n){ return (n < 10 ? '0' : '') + n; }
-
-  function setCell(key, val, small){
-    var cell = card.querySelector('[data-key="' + key + '"]');
-    if(!cell) return;
-    var el = cell.querySelector('.od-val');
+  function hhmm(d){ return pad(d.getHours()) + ':' + pad(d.getMinutes()); }
+  function fmt(v){ return typeof v === 'number' ? v.toLocaleString() : String(v); }
+  function cell(key){ return card.querySelector('[data-key="' + key + '"]'); }
+  function setCell(key, val, opt){
+    opt = opt || {};
+    var c = cell(key); if(!c) return;
+    var el = c.querySelector('.od-val');
     el.textContent = val != null ? fmt(val) : '—';
-    el.className = 'od-val' + (small ? ' sm' : '');
+    el.className = 'od-val' + (opt.small ? ' sm' : '');
+    var sub = c.querySelector('.od-sub');
+    if(sub){ if(!sub.dataset.base) sub.dataset.base = sub.textContent; sub.textContent = sub.dataset.base + (opt.note ? ' · ' + opt.note : ''); }
+    c.title = opt.title || '';
   }
-
-  function fetchTopic(t){
-    if(!t.url){ setCell(t.key, null); return Promise.resolve(); }
+  function getJSON(url){
     var ctrl = typeof AbortController !== 'undefined' ? new AbortController() : null;
     var tid = setTimeout(function(){ if(ctrl) ctrl.abort(); }, 12000);
-    return fetch(t.url, ctrl ? {signal:ctrl.signal} : {})
-      .then(function(r){
-        clearTimeout(tid);
-        if(!r.ok) throw new Error(r.status);
-        return r.json();
-      })
-      .then(function(d){
-        var val = t.parse(d);
-        setCell(t.key, val, t.small);
-      })
-      .catch(function(){
-        clearTimeout(tid);
-        setCell(t.key, null);
+    return fetch(url, ctrl ? {signal: ctrl.signal, cache: 'no-store'} : {cache: 'no-store'})
+      .then(function(r){ clearTimeout(tid); if(!r.ok) throw new Error(r.status); return r.json(); })
+      .catch(function(e){ clearTimeout(tid); throw e; });
+  }
+
+  var direct = [
+    function(){ return getJSON('https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/1.0_day.geojson')
+      .then(function(d){ setCell('earthquakes', d.metadata ? d.metadata.count : null); }); },
+    function(){ return getJSON('https://eonet.gsfc.nasa.gov/api/v3/events?category=volcanoes&status=open')
+      .then(function(d){ setCell('volcanoes', d.events ? d.events.length : null); }); },
+    function(){ return getJSON('https://eonet.gsfc.nasa.gov/api/v3/events?category=wildfires&status=open')
+      .then(function(d){ setCell('wildfires', d.events ? d.events.length : null); }); },
+    function(){ return getJSON('https://marine-api.open-meteo.com/v1/marine?latitude=40&longitude=-30&current=wave_height')
+      .then(function(d){ setCell('waves', d.current ? d.current.wave_height + ' m' : null, {small: true}); }); },
+    /* NOAA SWPC: solar wind speed now ([{proton_speed, time_tag}]) + the latest planetary Kp index */
+    function(){ return Promise.all([
+        getJSON('https://services.swpc.noaa.gov/products/summary/solar-wind-speed.json'),
+        getJSON('https://services.swpc.noaa.gov/products/noaa-planetary-k-index.json').catch(function(){ return null; })
+      ]).then(function(r){
+        var w = r[0] && r[0][0], kp = r[1] && r[1].length ? r[1][r[1].length - 1] : null;
+        var kpv = kp ? parseFloat(kp.Kp != null ? kp.Kp : kp[1]) : NaN;
+        setCell('solar', w && w.proton_speed != null ? Math.round(w.proton_speed) + ' km/s' : null,
+          {small: true, note: isFinite(kpv) ? 'Kp ' + kpv.toFixed(1) + (kpv >= 5 ? ' storm' : '') : '', title: w ? 'Solar wind at ' + w.time_tag + ' UTC' : ''});
+      }); }
+  ];
+
+  function relay(){
+    return getJSON(RELAY).then(function(d){
+      ['aircraft', 'ships', 'satellites'].forEach(function(k){
+        var v = d[k], t = v && Date.parse(v.asOf), fresh = v && isFinite(t) && Date.now() - t < STALE[k];
+        setCell(k, fresh ? v.count : null, {note: fresh ? 'as of ' + hhmm(new Date(t)) : 'no recent data', title: v ? v.source + ', ' + v.asOf : ''});
       });
+    }).catch(function(){ ['aircraft', 'ships', 'satellites'].forEach(function(k){ setCell(k, null); }); });
+  }
+  /* the ISS, live, on the Satellites tile */
+  function iss(){
+    return getJSON('https://api.wheretheiss.at/v1/satellites/25544').then(function(d){
+      var s = cell('satellites') && cell('satellites').querySelector('.od-iss'); if(!s) return;
+      var la = d.latitude, lo = d.longitude;
+      s.textContent = 'ISS now ' + Math.abs(la).toFixed(1) + '°' + (la >= 0 ? 'N' : 'S') + ' ' + Math.abs(lo).toFixed(1) + '°' + (lo >= 0 ? 'E' : 'W') + ' · ' + Math.round(d.altitude) + ' km';
+    }).catch(function(){});
   }
 
   function update(){
-    var promises = TOPICS.map(fetchTopic);
-    Promise.all(promises).then(function(){
+    var jobs = direct.map(function(f){ return f().catch(function(){}); }).concat([relay(), iss()]);
+    Promise.all(jobs).then(function(){
       card.classList.remove('od-skel');
-      var now = new Date();
-      tsEl.textContent = pad(now.getHours()) + ':' + pad(now.getMinutes());
+      tsEl.textContent = hhmm(new Date());
     });
   }
 

@@ -30,3 +30,4 @@
 @media (max-width:420px){
   .od-val{font-size:1.5rem;}
 }
+.od-iss{display:block; margin-top:2px; color:var(--ink); opacity:.75;}

@@ -68,3 +68,14 @@
   - **Sky clock:** a sun with bloom and the moon in today's real phase. Dream time is one day per 120 s; a "Your time" button switches to the real clock. The 2D meadow remains as the fallback.
   - **Verified:** WebGL read-back renders (headless Firefox, via the `__genPreserve` hook) at light noon, light golden hour, dark midnight and dark dawn, with a simulated wake and gust — `gl.getError()` = 0. Fixed along the way: a gust-parting seam (`sign` → smooth ratio), a negative-base `pow()` in the gust ring, and a too-tight pigment threshold. The pigment field moved to the vertex shader for phone performance.
   - **Not verified:** real-GPU frame rate (especially phones), real touch, how the motion feels live.
+- 2026-10-02 — **Open data · live: Aircraft, Ships, Solar activity and Satellites now update** (owner: "data not updating — never from the past implementation").
+  - **Root causes:**
+    - OpenSky's CORS allows only its own origin, so it was blocked in every visitor's browser.
+    - NOAA changed `solar-wind-speed.json` to `[{proton_speed}]`, so the parser read nothing.
+    - Ships and Satellites had `url:null` and were never wired.
+  - **Fix:**
+    - New Cloudflare Worker relay `workers/open-data` (`fob-open-data`): KV storage, a 20-min cron for Digitraffic Baltic AIS, CelesTrak active satellites every ~2 h within its per-IP limit.
+    - OpenSky refuses Cloudflare's network (522), so the GitHub Actions job `opensky-relay.yml` fetches it every 30 min and POSTs the count to `/ingest`.
+    - The NOAA parser is fixed and the Kp index added. The ISS's live position is shown on the Satellites tile.
+    - Every relayed tile shows "as of HH:MM" and goes to "—" when stale.
+  - **Verified:** real headless Firefox with live CORS shows all 8 tiles populated (aircraft 6,374, ships 2,858, satellites 15,965, solar 302 km/s Kp 2.3, ISS lat/lon/alt); a manual run of the Actions relay succeeded.
