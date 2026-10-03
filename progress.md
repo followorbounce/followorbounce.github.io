@@ -54,3 +54,10 @@
 - ROADMAP-2.md may still have unclosed audit items — review before the next whole-site pass.
 - `_llm_code_req` is a stray empty file at root — confirm whether it's load-bearing (e.g. referenced by tooling) or safe to delete.
 - 2026-10-02 (team review follow-up) — Factual fixes: Grasshopper 2007 (as Explicit History), Blender Geometry Nodes 2021 (2.92), transistor history (1947 point-contact by Bardeen & Brattain; junction BJT is Shockley's, 1948/1951). Inner Experience dictionary: "educational, not diagnostic" note at the top linking to crisis resources; international help (112, findahelpline.com). `stanfords-ply/` (883 MB) added to `.gitignore`. `assets/favicon.png` left untracked (unused; the site uses favicon.svg).
+- 2026-10-02 — **Photolithography — Printing With Light** (`photolithography.html`, new category **Making & Fabrication** in `own-pages.json`; workspace roadmap step 2.2). Ten chapters plus 12 checked references.
+  - **Simulators:** a process stepper (positive/negative); spin-coat thickness (∝ 1/√ω, MicroChemicals + Meyerhofer); an exposure simulator with contact/proximity blur √(λ·(g + t_resist)) or projection blur 0.51·λ/NA, threshold development, dose and tone; a microscope-projection calculator (mask dpi ÷ M vs 0.61·λ/NA); a dither lab (threshold, Bayer 8×8, Floyd–Steinberg, 45° screen) that accepts the visitor's own image locally.
+  - **Sourced facts:** Niépce 1827 (Ransom Center); ASML 13 nm @ NA 0.33 / 8 nm @ 0.55, from which the page derives k₁ ≈ 0.32.
+  - **Safety chapter:** TMAH deaths (Lin et al. 2010), HF IDLH 30 ppm (NIOSH), UV (ICNIRP).
+  - No Google Analytics on this page; only the Cloudflare beacon, pending owner decision H1.
+  - **Verified:** jsdom/Node, 24 checks — erf, grating intensity (fixed an under-summing bug for large blur), √(λt) blur, dose widens spaces, k₁ flags, dither coverage = darkness for all methods, Bayer permutation, microscope limits, stepper, theme switch, citations. Headless-Firefox screenshots in light, dark and at 390 px. Fixed a #rgb colour-parsing bug that blacked out the dither preview.
+  - **Not verified:** real-device touch, and file upload in a real browser.

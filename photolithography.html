@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Photolithography — Knowledge Network</title>
+<meta name="description" content="Printing with light, from Niépce's 1827 bitumen heliograph to 8-nanometre EUV: photoresist chemistry, the process step by step, spin coating, an exposure simulator (contact, proximity, projection), shrinking a mask through a microscope, and turning any picture into a printable dot matrix — with safety notes.">
+<link rel="canonical" href="https://followorbounce.github.io/photolithography">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Photolithography — Knowledge Network">
+<meta property="og:description" content="Light, a light-sensitive film and a pattern: the same three ingredients print a 1827 photograph, a circuit board and an 8 nm transistor. Five working simulators, sourced.">
+<meta property="og:url" content="https://followorbounce.github.io/photolithography">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --ink:#0b0b0c; --paper:#f6f6f2; --line:#c9c9c1; --mid:#6e6e68; --paper-raised:#fff; --well:#e9e7e0;
+  --accent:#a13a2f; --accent2:#2f5a8f; --good:#3f7a4f; --warn:#8a5a00; --warn-bg:#fbf1dc;
+  --uv:#6b3fa0; --resist:#c98a2b; --substrate:#8d8f96; --chrome:#2a2a2c;
+  --font-display:'IBM Plex Sans Condensed', sans-serif; --font-body:'IBM Plex Sans', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px); --maxw: 880px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --well:#18181a; --line:#3a3a3e; --mid:#9a9a94;
+    --accent:#d4714e; --accent2:#6690e0; --good:#5cae72; --warn:#e0b355; --warn-bg:#2a2210;
+    --uv:#a98be0; --resist:#d9a24b; --substrate:#6f7178; --chrome:#d8d8d4;
+  }
+}
+:root[data-theme="dark"]{
+  --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --well:#18181a; --line:#3a3a3e; --mid:#9a9a94;
+  --accent:#d4714e; --accent2:#6690e0; --good:#5cae72; --warn:#e0b355; --warn-bg:#2a2210;
+  --uv:#a98be0; --resist:#d9a24b; --substrate:#6f7178; --chrome:#d8d8d4;
+}
+*{box-sizing:border-box;}
+@media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}
+a{color:inherit;}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
+p{margin:0;}
+button,input,select{font-family:inherit;}
+code{font-family:var(--font-mono); background:var(--well); padding:0.08em 0.4em; border-radius:2px; font-size:0.9em;}
+sup{font-size:0.7em;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
+header{border-bottom:1px solid var(--ink); padding-block:14px;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px; display:inline-block;}
+header .back{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none;}
+header .back:hover{text-decoration:underline;}
+.hero{padding-block:clamp(48px,9vw,88px); border-bottom:1px solid var(--ink);}
+.eyebrow{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:18px;}
+.eyebrow::before{content:''; width:22px; height:1px; background:var(--ink);}
+.hero h1{font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.0; margin-bottom:20px;}
+.hero p{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:660px;}
+.toc{margin-top:28px; display:flex; flex-wrap:wrap; gap:8px 18px;}
+.toc a{font-family:var(--font-mono); font-size:12px; letter-spacing:0.03em; text-decoration:none; color:var(--mid); border-bottom:1px solid transparent;}
+.toc a:hover{color:var(--ink); border-bottom-color:var(--ink);}
+section.chapter{padding-block:clamp(44px,7vw,72px); border-bottom:1px solid var(--line);}
+.chapter .kicker{font-family:var(--font-mono); font-size:12px; letter-spacing:0.1em; color:var(--mid); margin-bottom:10px;}
+.chapter h2{font-size:clamp(1.3rem,2.6vw,1.7rem); margin-bottom:18px; line-height:1.15;}
+.chapter p{margin-bottom:16px; max-width:660px;}
+.chapter .lede{font-size:1.05rem;}
+strong{font-weight:600;}
+em.term{font-style:normal; color:var(--accent); font-weight:500;}
+.callout{margin-top:24px; padding:18px 20px; border:1px solid var(--ink); background:var(--paper-raised);}
+.callout .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; color:var(--mid); border:1px solid var(--line); padding:3px 8px; display:inline-block; margin-bottom:8px;}
+.callout p{margin-bottom:8px;}
+.callout p:last-child{margin-bottom:0;}
+.eq{font-family:var(--font-mono); font-size:clamp(14px,2vw,17px); text-align:center; padding:14px 8px;}
+.eq small{display:block; font-size:11.5px; color:var(--mid); margin-top:8px; text-align:left;}
+/* demos */
+.demo{margin-top:26px; border:1px solid var(--ink); background:var(--paper-raised);}
+.demo-stage{padding:14px; background:var(--well);}
+.demo-stage svg,.demo-stage canvas{display:block; width:100%; height:auto; background:var(--paper-raised);}
+.demo-controls{display:flex; align-items:center; gap:12px 18px; flex-wrap:wrap; padding:12px 16px; border-top:1px solid var(--line);}
+.demo-note{font-family:var(--font-mono); font-size:11px; color:var(--mid); padding:0 16px 14px; line-height:1.55;}
+.dbtn{font-family:var(--font-mono); font-size:12px; letter-spacing:0.03em; padding:8px 12px; border:1px solid var(--ink); background:var(--paper); color:var(--ink); cursor:pointer;}
+.dbtn:hover{background:var(--ink); color:var(--paper);}
+.dbtn.on,.dbtn[aria-pressed="true"]{background:var(--ink); color:var(--paper);}
+.dctl{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:11px; color:var(--mid);}
+.dctl input[type=range]{width:130px; accent-color:var(--ink);}
+.dctl select,.dctl input[type=file]{font-family:var(--font-mono); font-size:12px; padding:5px 6px; border:1px solid var(--line); background:var(--paper-raised); color:var(--ink);}
+.dctl output{color:var(--ink); font-weight:600; min-width:5.5em;}
+.readouts{display:grid; grid-template-columns:repeat(auto-fit,minmax(160px,1fr)); border-top:1px solid var(--line);}
+.readouts div{background:var(--paper-raised); padding:10px 14px; font-family:var(--font-mono); font-size:13px; border-right:1px solid var(--line); border-bottom:1px solid var(--line);}
+.readouts span{display:block; font-size:9.5px; letter-spacing:0.06em; text-transform:uppercase; color:var(--mid); margin-bottom:2px;}
+.dstatus{padding:10px 16px; font-family:var(--font-mono); font-size:12.5px; border-top:1px dashed var(--line);}
+.btnrow{display:flex; flex-wrap:wrap; gap:6px;}
+.stepdots{display:flex; gap:4px; flex-wrap:wrap;}
+.stepdots button{width:28px; height:28px; padding:0; font-family:var(--font-mono); font-size:11px; border:1px solid var(--line); background:var(--paper); color:var(--ink); cursor:pointer;}
+.stepdots button.on{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.steptext{padding:14px 16px; border-top:1px solid var(--line); min-height:7.5em;}
+.steptext h3{font-size:1rem; margin-bottom:6px;}
+.steptext p{font-size:0.95rem; max-width:none;}
+.halftone-pair{display:grid; grid-template-columns:1fr 1fr; gap:14px;}
+@media (max-width:640px){ .halftone-pair{grid-template-columns:1fr;} }
+.halftone-pair figure{margin:0;}
+.halftone-pair figcaption{font-family:var(--font-mono); font-size:11px; color:var(--mid); margin-top:6px;}
+.halftone-pair canvas{image-rendering:pixelated; aspect-ratio:1/1;}
+table.apps{width:100%; border-collapse:collapse; margin-top:22px; font-size:0.92rem; background:var(--paper-raised);}
+table.apps th,table.apps td{border-bottom:1px solid var(--line); padding:10px 12px; text-align:left; vertical-align:top;}
+table.apps th{font-family:var(--font-mono); font-size:10.5px; text-transform:uppercase; letter-spacing:0.06em; color:var(--mid); font-weight:500;}
+.table-scroll{overflow-x:auto; border:1px solid var(--ink); margin-top:22px;}
+.table-scroll table.apps{margin-top:0;}
+.safety{margin-top:20px; border:2px solid var(--warn); background:var(--warn-bg); padding:18px 20px;}
+.safety h3{font-size:1rem; margin-bottom:8px; color:var(--warn);}
+.safety p,.safety li{font-size:0.95rem;}
+.safety ul{margin:6px 0 0; padding-left:1.2em;}
+.safety li{margin-bottom:6px;}
+.timeline{margin-top:20px; border-top:1px solid var(--ink);}
+.tl{display:grid; grid-template-columns:5em minmax(0,1fr); gap:16px; padding:12px 0; border-bottom:1px solid var(--line);}
+.tl b.y{font-family:var(--font-mono); font-size:13px;}
+ol.refs{padding-left:0; margin:0; list-style:none; counter-reset:refnum;}
+ol.refs li{counter-increment:refnum; padding:12px 0; border-top:1px solid var(--line); font-size:0.92rem;}
+ol.refs li::before{content:"[" counter(refnum) "] "; font-family:var(--font-mono); color:var(--mid);}
+ol.refs li a{text-decoration:underline; text-decoration-color:var(--line); word-break:break-all;}
+ol.refs li a:hover{text-decoration-color:var(--ink);}
+footer{border-top:1px solid var(--ink); padding-block:40px; font-family:var(--font-mono); font-size:12px; color:var(--mid);}
+footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;}
+footer a{text-decoration:underline;}
+:focus-visible{outline:2px solid var(--ink); outline-offset:2px;}
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<script src="/assets/theme-toggle.js"></script>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <span class="brand">KNOWLEDGE NETWORK</span>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<main>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Chemistry · Optics · Making</div>
+    <h1>Photolithography</h1>
+    <p>Printing with light needs three things: a film that changes when light hits it, a pattern that decides where the light goes, and a way to wash away one of the two states. That's the whole idea. The same three ingredients made the oldest surviving photograph in 1827, make every circuit board, etch the nameplate on a machine, and print the 8-nanometre features of today's chips. What changes from one to the next is only the chemistry and the instruments. This page takes you through all of it, with five simulators that compute live.</p>
+    <div class="toc">
+      <a href="#idea">01 The Idea</a><a href="#resists">02 Resists</a><a href="#process">03 The Process</a>
+      <a href="#spin">04 Spin Coating</a><a href="#exposure">05 Exposure &amp; Resolution</a><a href="#microscope">06 Shrinking With a Microscope</a>
+      <a href="#matrix">07 Any Picture as a Matrix</a><a href="#surfaces">08 Any Surface, Any Size</a><a href="#safety">09 Safety</a><a href="#history">10 History</a><a href="#refs">References</a>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="idea">
+  <div class="wrap">
+    <div class="kicker">01 — The Idea</div>
+    <h2>A stencil made by light</h2>
+    <p class="lede"><em class="term">Lithography</em> means "stone writing": it began as printing from flat stone. <em class="term">Photo</em>lithography replaces the hand-drawn image with one written by light. You coat a surface with a thin <strong>photoresist</strong>, shine light through a <strong>mask</strong> (or project an image), and the light changes the resist's chemistry wherever it lands. A <strong>developer</strong> then dissolves one of the two states, leaving the pattern as a thin stencil sitting on the surface.</p>
+    <p>The stencil is the point. Whatever you do next only touches the bare places: etch them, plate metal into them, deposit a coating, or sandblast them. Then you strip the resist and the pattern is permanently in the material. The resist is just a temporary, extremely precise masking tape that light cuts for you.</p>
+    <p>Joseph Nicéphore Niépce's 1827 heliograph, the oldest surviving camera photograph, was made exactly this way. He dissolved light-sensitive bitumen in oil of lavender, coated a polished pewter plate, and exposed it in a camera for several days <sup>[1]</sup>. Where light fell the bitumen hardened; the unhardened parts were then washed away with solvent, leaving the image as bitumen on bare metal <sup>[2]</sup>. In today's terms, bitumen was a <strong>negative photoresist</strong>.</p>
+  </div>
+</section>
+
+<section class="chapter" id="resists">
+  <div class="wrap">
+    <div class="kicker">02 — Resists</div>
+    <h2>Positive or negative: which part survives</h2>
+    <p>A <strong>positive</strong> resist becomes <em>more</em> soluble where it is exposed: the developer removes the lit areas, so the resist keeps a copy of the mask's dark parts. The classic positive resist is a novolak resin mixed with diazonaphthoquinone (DNQ). DNQ blocks the resin from dissolving, and light converts it into a compound that no longer blocks, so the exposed areas dissolve in an alkaline developer <sup>[3]</sup>.</p>
+    <p>A <strong>negative</strong> resist does the opposite: light (often followed by a bake) cross-links it into an insoluble network, so the lit areas stay <sup>[3]</sup>. Niépce's bitumen and the dry-film resists used on circuit boards are negative. Which one to use depends on what is easier to draw and what the next step needs: lift-off processes, for example, prefer the overhanging sidewalls negative resists can give.</p>
+    <p>Each resist responds to a band of wavelengths. Mercury lamps emit three strong lines that gave the industry its vocabulary: <strong>g-line 435 nm</strong>, <strong>h-line 405 nm</strong> and <strong>i-line 365 nm</strong> <sup>[3]</sup>. Cheap 405 nm and 365 nm LEDs now make the same exposures possible on a workbench. Chips moved to deep-UV lasers at 248 and 193 nm, and then to extreme-UV at 13.5 nm <sup>[8]</sup>.</p>
+  </div>
+</section>
+
+<section class="chapter" id="process">
+  <div class="wrap">
+    <div class="kicker">03 — The Process</div>
+    <h2>From bare surface to pattern, step by step</h2>
+    <p>Step through a complete cycle below and switch between a positive and a negative resist. The steps are the same whether the substrate is a silicon wafer, a copper-clad board or a sheet of steel. Only the chemicals and times change.</p>
+    <div class="demo" id="procDemo">
+      <div class="demo-stage"><svg id="procSvg" viewBox="0 0 760 260" role="img" aria-label="Cross-section of the substrate and resist at the current process step"></svg></div>
+      <div class="demo-controls">
+        <div class="btnrow" role="group" aria-label="Resist tone">
+          <button class="dbtn" id="toneP" aria-pressed="true">Positive resist</button>
+          <button class="dbtn" id="toneN" aria-pressed="false">Negative resist</button>
+        </div>
+        <div class="stepdots" id="stepDots" role="group" aria-label="Process step"></div>
+        <div class="btnrow"><button class="dbtn" id="stepPrev">← Back</button><button class="dbtn" id="stepNext">Next →</button></div>
+      </div>
+      <div class="steptext" id="stepText" aria-live="polite"></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="spin">
+  <div class="wrap">
+    <div class="kicker">04 — Spin Coating</div>
+    <h2>Spin faster, coat thinner</h2>
+    <p>Resist is applied as a liquid and spun: centrifugal force flings off the excess while the solvent evaporates, leaving a film that is remarkably even across the surface. Its final thickness falls roughly with the inverse square root of the spin speed. Double the speed and the film gets about 1.4 times thinner <sup>[4]</sup><sup>[5]</sup>. Thickness matters: thicker resist survives longer etches but blurs fine detail, because the light has farther to travel through it, and in contact printing it widens the gap the light must cross (Chapter 5 uses the thickness you set here).</p>
+    <div class="demo">
+      <div class="demo-stage"><svg id="spinSvg" viewBox="0 0 760 200" role="img" aria-label="Resist film thickness versus spin speed"></svg></div>
+      <div class="demo-controls">
+        <label class="dctl">Resist <select id="spinResist"></select></label>
+        <label class="dctl">Spin speed <input type="range" id="spinRpm" min="1000" max="6000" step="100" value="4000"><output id="spinRpmOut"></output></label>
+      </div>
+      <div class="readouts" id="spinReadout"></div>
+      <div class="demo-note">Model t = t₄₀₀₀·√(4000 / ω), the reciprocal-square-root rule from [4][5]. Reference thicknesses follow the convention that a resist's last two digits give its film thickness at 4000 rpm in 100 nm units [4] (e.g. "…18" ≈ 1.8 µm). Real curves bend at very low and very high speeds.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="exposure">
+  <div class="wrap">
+    <div class="kicker">05 — Exposure &amp; Resolution</div>
+    <h2>How small can light draw?</h2>
+    <p>Light is a wave, so it spreads after passing through an opening in the mask. In <strong>contact</strong> or <strong>proximity</strong> printing the mask sits on or just above the resist, and the smallest feature you can draw is about d = √(λ·g), where g is the distance the light travels from the mask to the resist <sup>[3]</sup>. Even perfect contact has an effective gap: the resist's own thickness. A speck of dust lifting the mask by 20 µm already costs you a lot.</p>
+    <p>In <strong>projection</strong> printing a lens images the mask onto the resist, and the limit becomes R = k₁·λ/NA, where NA is the lens's numerical aperture and k₁ a process factor <sup>[6]</sup>. ASML's numbers show what this means in practice: its 0.33-NA EUV scanners print 13 nm features at λ = 13.5 nm, and the 0.55-NA "High-NA" generation prints 8 nm <sup>[8]</sup>. Work out k₁ from those figures and you get about 0.32 for both, close to the single-exposure floor of 0.25 <sup>[6]</sup>.</p>
+    <div class="callout">
+      <div class="eq">d ≈ √(λ·g) &nbsp;(contact / proximity)&nbsp;&nbsp;·&nbsp;&nbsp;R = k₁·λ / NA &nbsp;(projection)
+        <small>ASML: 13 nm × 0.33 / 13.5 nm = k₁ 0.318 &nbsp;·&nbsp; 8 nm × 0.55 / 13.5 nm = k₁ 0.326 [8]</small></div>
+    </div>
+    <p style="margin-top:24px;">The simulator prints a row of equal lines and spaces. It blurs the mask by the optics you choose, multiplies by the exposure dose, and develops wherever the dose passes the resist's threshold. Change the dose, and lines grow or shrink. Make them too small and the light no longer knows where the lines are.</p>
+    <div class="demo">
+      <div class="demo-stage"><svg id="expSvg" viewBox="0 0 760 330" role="img" aria-label="Mask, light intensity on the resist, and the developed resist profile"></svg></div>
+      <div class="demo-controls">
+        <div class="btnrow" id="expPresets" role="group" aria-label="Presets"></div>
+      </div>
+      <div class="demo-controls">
+        <div class="btnrow" role="group" aria-label="Printing mode">
+          <button class="dbtn" data-mode="contact" aria-pressed="true">Contact / proximity</button>
+          <button class="dbtn" data-mode="projection" aria-pressed="false">Projection</button>
+        </div>
+        <label class="dctl">λ <select id="expLam"></select></label>
+        <label class="dctl" id="gapCtl">Gap <input type="range" id="expGap" min="0" max="1000" step="1" value="0"><output id="expGapOut"></output></label>
+        <label class="dctl" id="naCtl">NA <input type="range" id="expNA" min="0.05" max="0.95" step="0.01" value="0.25"><output id="expNAOut"></output></label>
+      </div>
+      <div class="demo-controls">
+        <label class="dctl">Line width <input type="range" id="expW" min="0" max="1000" step="1" value="500"><output id="expWOut"></output></label>
+        <label class="dctl">Dose <input type="range" id="expDose" min="0.3" max="4" step="0.05" value="2"><output id="expDoseOut"></output></label>
+        <div class="btnrow" role="group" aria-label="Resist tone">
+          <button class="dbtn" data-etone="pos" aria-pressed="true">Positive</button>
+          <button class="dbtn" data-etone="neg" aria-pressed="false">Negative</button>
+        </div>
+      </div>
+      <div class="readouts" id="expReadout"></div>
+      <div class="dstatus" id="expStatus" aria-live="polite"></div>
+      <div class="demo-note">Simplified model: the mask is blurred by a Gaussian whose width is √(λ·g) for contact/proximity [3] (g includes the resist thickness from Chapter 4) or the Airy-disc width 0.51·λ/NA for projection [6]. Dose is in multiples of the clearing dose of an open area. Real lithography software solves the full partially-coherent imaging equations, and real fabs add tricks (off-axis illumination, mask corrections) that print below what this model allows.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="microscope">
+  <div class="wrap">
+    <div class="kicker">06 — Shrinking With a Microscope</div>
+    <h2>The projector, run backwards</h2>
+    <p>A microscope makes small things look big. Run it backwards — put a pattern where your eye would be and the resist where the specimen would be — and it makes big things small. Love, Wolfe, Jacobs and Whitesides at Harvard used exactly this, an ordinary microscope shrinking a printed transparency, to make masters with micron-scale features for soft lithography, no cleanroom needed <sup>[7]</sup>. Swap the transparency for a projector's pixel array and you have <strong>maskless</strong> lithography: the "mask" is whatever image the computer sends.</p>
+    <p>Two limits compete. Demagnification shrinks the printed dots of the mask by the objective's magnification M. But the objective can't resolve detail finer than about 0.61·λ/NA (Chapter 5). Whichever is larger sets your smallest feature, and paying for a finer mask than the optics can use buys you nothing.</p>
+    <div class="demo">
+      <div class="demo-controls">
+        <label class="dctl">Mask <select id="mpMask"></select></label>
+        <label class="dctl">Objective <select id="mpObj"></select></label>
+        <label class="dctl">Light <select id="mpLam"></select></label>
+      </div>
+      <div class="readouts" id="mpReadout"></div>
+      <div class="dstatus" id="mpStatus" aria-live="polite"></div>
+      <div class="demo-note">Mask dot = 25.4 mm ÷ dpi. Optical limit 0.61·λ/NA (Rayleigh) [6]. The field per exposure assumes a 20 mm field number, typical of microscope optics; your objective's own value may differ. Objective markings like "10×/0.25" give M and NA directly.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="matrix">
+  <div class="wrap">
+    <div class="kicker">07 — Any Picture as a Matrix</div>
+    <h2>Grey made of black and white</h2>
+    <p>Resist is close to binary: after development a spot is either there or gone. So how do you print a photograph? The same way newspapers do: turn each grey into a pattern of on/off dots whose density your eye averages back into tone. That is the core of your question: any picture can become a <strong>matrix</strong> of binary features, and the matrix doesn't care about scale. The same grid can be printed with 50 µm dots on a metal plate or 10 nm dots on silicon. Only the chemistry and the instruments change.</p>
+    <p>Choose a method below. <strong>Threshold</strong> loses all midtones. <strong>Ordered dithering</strong> (a Bayer matrix) uses a fixed, regular pattern. <strong>Error diffusion</strong> (Floyd–Steinberg, 1976 <sup>[9]</sup>) passes each pixel's rounding error to its neighbours, which keeps the finest detail. <strong>Halftone screen</strong> grows round dots on a tilted grid, as printing presses do. Then set the smallest feature your process can draw and the physical size of the print: the readout tells you how many features that is.</p>
+    <div class="demo">
+      <div class="demo-stage">
+        <div class="halftone-pair">
+          <figure><canvas id="htSrc" width="256" height="256" aria-label="Source image in grey"></canvas><figcaption>Source (grey)</figcaption></figure>
+          <figure><canvas id="htOut" width="256" height="256" aria-label="Binary dot matrix that would be printed"></canvas><figcaption id="htCap">Printed matrix (binary)</figcaption></figure>
+        </div>
+      </div>
+      <div class="demo-controls">
+        <div class="btnrow" id="htMethods" role="group" aria-label="Method"></div>
+      </div>
+      <div class="demo-controls">
+        <label class="dctl">Smallest feature <select id="htFeat"></select></label>
+        <label class="dctl">Print width <select id="htSize"></select></label>
+        <label class="dctl">Your image <input type="file" id="htFile" accept="image/*"></label>
+        <button class="dbtn" id="htReset">Test pattern</button>
+      </div>
+      <div class="readouts" id="htReadout"></div>
+      <div class="demo-note">Your image stays in your browser: nothing is uploaded. The preview is capped at 256 × 256 dots; the readouts give the true count for the size you chose.</div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="surfaces">
+  <div class="wrap">
+    <div class="kicker">08 — Any Surface, Any Size</div>
+    <h2>The same three ingredients, everywhere</h2>
+    <p>Wherever a resist can be coated and a developer can reach, the process works. That is why photolithography quietly runs so much of manufacturing. The table pairs each job with the version of the three ingredients it uses.</p>
+    <div class="table-scroll">
+      <table class="apps">
+        <thead><tr><th>Application</th><th>Surface</th><th>Resist &amp; light</th><th>What the stencil is used for</th></tr></thead>
+        <tbody>
+          <tr><td>Microchips</td><td>Silicon wafer</td><td>DUV (248/193 nm) and EUV (13.5 nm) resists, projection scanners [8]</td><td>Etch, implant, deposit, layer after layer</td></tr>
+          <tr><td>Circuit boards</td><td>Copper-clad laminate</td><td>Negative dry film, UV through a film or direct imaging</td><td>Etch away the copper the film doesn't cover</td></tr>
+          <tr><td>Photochemical machining</td><td>Thin steel, brass, nickel</td><td>Resist on both sides, UV contact exposure</td><td>Etch right through: stencils, meshes, springs, nameplates</td></tr>
+          <tr><td>Screen-printing stencils</td><td>Fine mesh</td><td>Photo emulsion, UV through a film positive</td><td>Ink passes only where emulsion washed out</td></tr>
+          <tr><td>Microfluidics</td><td>Silicon or glass</td><td>Thick negative resist master, contact or microscope projection [7]</td><td>Mould for casting silicone channels</td></tr>
+          <tr><td>The first photograph</td><td>Pewter</td><td>Bitumen of Judea, sunlight, camera obscura [1][2]</td><td>The image itself</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="margin-top:22px;">Scale runs over six orders of magnitude, from about 10 nm on a chip to dots a millimetre wide on a screen-printed poster, and the principle never changes.</p>
+  </div>
+</section>
+
+<section class="chapter" id="safety">
+  <div class="wrap">
+    <div class="kicker">09 — Safety</div>
+    <h2>Read this before you try any of it</h2>
+    <p>This page explains how photolithography works. It is not a protocol. Every chemical below has a safety data sheet; read it, use the protective equipment it names, and follow your local rules for disposal.</p>
+    <div class="safety" role="note" aria-label="Safety notes">
+      <h3>⚠ Hazards that matter</h3>
+      <ul>
+        <li><strong>UV light.</strong> 365–405 nm exposure lamps and LEDs can injure eyes and skin, and 365 nm light looks dim or invisible, so a harmful exposure can feel harmless. Never look at the source; shield it and wear UV-blocking eyewear. Exposure limits are set by ICNIRP <sup>[12]</sup>.</li>
+        <li><strong>Developers are strong bases.</strong> Sodium and potassium hydroxide solutions burn skin and eyes. The metal-free developer <strong>TMAH</strong> (tetramethylammonium hydroxide) is far worse: skin contact has killed workers. Taiwan's poison centre recorded three deaths after exposure to 25% TMAH, and a worker splashed with the common 2.38% developer needed two days on a ventilator <sup>[11]</sup>. Gloves, goggles and an apron, always.</li>
+        <li><strong>Hydrofluoric acid (HF)</strong>, used to etch glass and silicon oxide, penetrates skin and damages tissue and bone, sometimes without immediate pain. NIOSH lists 30 ppm as immediately dangerous to life <sup>[10]</sup>. It does not belong in a home workshop.</li>
+        <li><strong>Etchants and solvents.</strong> Copper etchants (ferric chloride, persulfates) are corrosive and the spent solution contains dissolved copper, so it is hazardous waste. Acetone and resist thinners are highly flammable; work with ventilation and no open flame.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="history">
+  <div class="wrap">
+    <div class="kicker">10 — History</div>
+    <h2>Two hundred years of printing with light</h2>
+    <div class="timeline">
+      <div class="tl"><b class="y">1827</b><div>Niépce's heliograph: bitumen on pewter, several days in a camera obscura. It is the oldest surviving camera photograph, and its process was photolithography <sup>[1]</sup>.</div></div>
+      <div class="tl"><b class="y">1976</b><div>Floyd and Steinberg publish error diffusion, still the default way to turn grey into binary dots <sup>[9]</sup>.</div></div>
+      <div class="tl"><b class="y">1978</b><div>Meyerhofer explains why spin-coated film thickness falls with the square root of spin speed <sup>[5]</sup>.</div></div>
+      <div class="tl"><b class="y">2001</b><div>Microscope projection photolithography: micron-scale masters with an ordinary microscope and a printed mask <sup>[7]</sup>.</div></div>
+      <div class="tl"><b class="y">2010s</b><div>EUV at 13.5 nm enters chip production; ASML's NXE scanners (NA 0.33) print 13 nm features <sup>[8]</sup>.</div></div>
+      <div class="tl"><b class="y">2025–26</b><div>High-NA EUV (NA 0.55, 8 nm) is planned to support high-volume chip manufacturing <sup>[8]</sup>.</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="chapter" id="refs" style="border-bottom:none;">
+  <div class="wrap">
+    <div class="kicker">References</div>
+    <h2>Sources</h2>
+    <ol class="refs">
+      <li>Harry Ransom Center, The University of Texas at Austin — <a href="https://www.hrc.utexas.edu/niepce-heliograph/" rel="noopener">The Niépce Heliograph</a>. Made in 1827; bitumen dissolved in oil of lavender on a polished pewter plate; several days' exposure in a camera obscura.</li>
+      <li><a href="https://en.wikipedia.org/wiki/View_from_the_Window_at_Le_Gras" rel="noopener">View from the Window at Le Gras</a> — Wikipedia (secondary source with primary citations). The bitumen hardened where lit; unhardened bitumen was washed away with oil of lavender and white petroleum.</li>
+      <li>MicroChemicals GmbH — <a href="https://www.microchemicals.com/technical_information/exposure_photoresist.pdf" rel="noopener">Exposure of Photoresists</a> (technical document). DNQ/novolak positive resists and cross-linked negative resists; g/h/i-line (435/405/365 nm); proximity resolution d = (λ·g)<sup>1/2</sup>.</li>
+      <li>MicroChemicals GmbH — <a href="https://www.microchemicals.com/technical_information/spin_coating_photoresist.pdf" rel="noopener">Spin-coating of Photoresists</a> (technical document). Thickness ∝ 1/√(spin speed); doubling the speed thins the film by ≈ 1.4×; product names encode thickness at 4000 rpm in 100 nm units. See also their <a href="https://www.microchemicals.com/technical_information/development_photoresist.pdf" rel="noopener">development</a> document (NaOH, KOH and 2.38% TMAH developers).</li>
+      <li>Meyerhofer, D. (1978), "Characteristics of resist films produced by spinning", <em>Journal of Applied Physics</em> 49, 3993–3997. <a href="https://doi.org/10.1063/1.325357" rel="noopener">doi:10.1063/1.325357</a></li>
+      <li>Mack, C. (2007), <em>Fundamental Principles of Optical Lithography</em>, Wiley. <a href="https://doi.org/10.1002/9780470723876" rel="noopener">doi:10.1002/9780470723876</a> — resolution R = k₁λ/NA, the Airy disc, and the imaging models behind Chapter 5.</li>
+      <li>Love, J. C., Wolfe, D. B., Jacobs, H. O. &amp; Whitesides, G. M. (2001), "Microscope Projection Photolithography for Rapid Prototyping of Masters with Micron-Scale Features for Use in Soft Lithography", <em>Langmuir</em> 17, 6005–6012. <a href="https://doi.org/10.1021/la010655t" rel="noopener">doi:10.1021/la010655t</a></li>
+      <li>ASML — <a href="https://www.asml.com/en/products/euv-lithography-systems" rel="noopener">EUV lithography systems</a>. 13.5 nm light; NXE systems NA 0.33, 13 nm resolution; EXE "High-NA" systems NA 0.55, 8 nm resolution, supporting high-volume manufacturing in 2025–2026.</li>
+      <li>Floyd, R. W. &amp; Steinberg, L. (1976), "An adaptive algorithm for spatial greyscale", <em>Proceedings of the Society for Information Display</em> 17(2), 75–77.</li>
+      <li>NIOSH Pocket Guide to Chemical Hazards — <a href="https://www.cdc.gov/niosh/npg/npgd0334.html" rel="noopener">Hydrogen fluoride</a>. IDLH 30 ppm; skin absorption; eye and skin burns; bone effects.</li>
+      <li>Lin, C.-C., Yang, C.-C., Ger, J. &amp; Deng, J.-F. (2010), "Tetramethylammonium hydroxide poisoning", <em>Clinical Toxicology</em> 48, 213–217. <a href="https://doi.org/10.3109/15563651003627777" rel="noopener">doi:10.3109/15563651003627777</a> — 13 cases in Taiwan, three deaths after 25% TMAH; severe effects after 2.38% TMAH.</li>
+      <li>ICNIRP (2004), "Guidelines on limits of exposure to ultraviolet radiation of wavelengths between 180 nm and 400 nm (incoherent optical radiation)", <em>Health Physics</em> 87, 171–186. <a href="https://doi.org/10.1097/00004032-200408000-00006" rel="noopener">doi:10.1097/00004032-200408000-00006</a></li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — <a href="/">Index</a></span>
+    <span>Related: <a href="/electronics">Electronics</a> · <a href="/aerospace/parabola-mirrors-and-dishes">Parabola</a></span>
+  </div>
+</footer>
+
+<script>
+(function(){
+"use strict";
+/* ---------- helpers ---------- */
+var SVGNS = 'http://www.w3.org/2000/svg';
+function ns(tag, attrs, parent){ var el = document.createElementNS(SVGNS, tag); for(var k in attrs) el.setAttribute(k, attrs[k]); if(parent) parent.appendChild(el); return el; }
+function txt(parent, x, y, s, size, fill, anchor){ var t = ns('text', {x:x, y:y, 'font-family':'IBM Plex Mono, monospace', 'font-size':size || 11, fill:fill || css('--ink'), 'text-anchor':anchor || 'start'}, parent); t.textContent = s; return t; }
+function css(name){ return getComputedStyle(document.documentElement).getPropertyValue(name).trim() || '#000'; }
+function sig(n, d){ if(!isFinite(n)) return '—'; if(n === 0) return '0'; var p = Math.floor(Math.log10(Math.abs(n))); return n.toFixed(Math.max(0, Math.min(6, d - 1 - p))); }
+function um(v){                    /* length given in micrometres */
+  var a = Math.abs(v);
+  if(a >= 1000) return sig(v/1000, 3) + ' mm';
+  if(a >= 1) return sig(v, 3) + ' µm';
+  return sig(v*1000, 3) + ' nm';
+}
+function readouts(el, rows){ el.innerHTML = rows.map(function(r){ return '<div><span>' + r[0] + '</span>' + r[1] + '</div>'; }).join(''); }
+function press(group, btn){ Array.prototype.forEach.call(group.querySelectorAll('button'), function(b){ b.setAttribute('aria-pressed', b === btn ? 'true' : 'false'); }); }
+function fillSelect(sel, items, def){ sel.innerHTML = ''; items.forEach(function(it, i){ var o = document.createElement('option'); o.value = i; o.textContent = it.label; if(i === def) o.selected = true; sel.appendChild(o); }); }
+/* erf, Abramowitz & Stegun 7.1.26 (|error| < 1.5e-7) */
+function erf(x){ var s = x < 0 ? -1 : 1; x = Math.abs(x); var t = 1/(1 + 0.3275911*x); var y = 1 - (((((1.061405429*t - 1.453152027)*t) + 1.421413741)*t - 0.284496736)*t + 0.254829592)*t*Math.exp(-x*x); return s*y; }
+
+/* ---------- 03 PROCESS STEPPER ---------- */
+var STEPS = [
+  {t:'1 · Clean and dehydrate', p:'Any grease, dust or adsorbed water stops the resist sticking and becomes a defect in the pattern. Surfaces are cleaned with solvents or detergents and baked dry; wafers often get an adhesion promoter.'},
+  {t:'2 · Spin coat', p:'A puddle of liquid resist is spun at a few thousand rpm. The excess flies off and the solvent evaporates, leaving an even film typically 1–10 µm thick (Chapter 4).'},
+  {t:'3 · Soft bake', p:'A short bake on a hotplate drives out most of the remaining solvent so the film is firm, doesn\'t stick to the mask and responds predictably to light.'},
+  {t:'4 · Align and expose', p:'The mask is aligned to any earlier layers and UV light passes through its clear areas. Positive resist: the light makes the exposed areas soluble. Negative resist: it starts cross-linking them. The dose (intensity × time) has to match the resist (Chapter 5).'},
+  {t:'5 · Post-exposure bake', p:'Cross-linking negative resists and chemically amplified resists need a bake after exposure to complete the reaction the light started. Many classic positive resists skip this step.'},
+  {t:'6 · Develop', p:'The developer (for most positive resists an alkaline solution) dissolves one state of the resist. What is left is the stencil: positive keeps the mask\'s dark areas, negative keeps the lit areas.'},
+  {t:'7 · Transfer the pattern', p:'Only the bare surface is touched: etch it (chemically or with plasma), plate metal into it, or deposit a coating over everything and lift off the resist. This is the step that makes the pattern permanent.'},
+  {t:'8 · Strip', p:'The resist has done its job and is removed with a solvent or remover, leaving the pattern in the material. On a chip, the whole cycle repeats for the next layer, dozens of times.'}
+];
+var proc = {step:0, tone:'pos'};
+var MASK_OPEN = [[150, 250], [350, 410], [510, 610]];  /* clear (transmitting) intervals of the mask, x in px */
+function isOpen(x){ return MASK_OPEN.some(function(r){ return x >= r[0] && x < r[1]; }); }
+function renderProc(){
+  var svg = document.getElementById('procSvg'); svg.innerHTML = '';
+  var ink = css('--ink'), res = css('--resist'), sub = css('--substrate'), uv = css('--uv'), chrome = css('--chrome'), mid = css('--mid');
+  var x0 = 60, x1 = 700, subY = 190, subH = 50, resH = 24, st = proc.step, pos = proc.tone === 'pos';
+  /* substrate, etched in the open areas from step 7 on */
+  ns('rect', {x:x0, y:subY, width:x1 - x0, height:subH, fill:sub}, svg);
+  if(st >= 6){
+    var keep = function(x){ var lit = isOpen(x); return pos ? !lit : lit; };   /* where resist remains after develop */
+    for(var x = x0; x < x1; x += 2){ if(!keep(x)) ns('rect', {x:x, y:subY, width:2, height:14, fill:css('--well')}, svg); }
+  }
+  txt(svg, x0, subY + subH + 16, 'substrate (wafer, copper, metal, glass…)', 10, mid);
+  /* resist */
+  if(st >= 1 && st <= 6){
+    for(var x2 = x0; x2 < x1; x2 += 2){
+      var lit = isOpen(x2), present = true, changed = false;
+      if(st >= 3){ changed = lit; }
+      if(st >= 5){ present = pos ? !lit : lit; }
+      if(present) ns('rect', {x:x2, y:subY - resH, width:2, height:resH, fill: changed ? (pos ? css('--well') : css('--accent')) : res, opacity: st === 1 ? 0.6 : (changed && pos ? 0.6 : 1)}, svg);
+    }
+    txt(svg, x1 + 6, subY - 8, 'resist', 10, mid);
+  }
+  /* mask + UV */
+  if(st === 3){
+    var mY = 70;
+    ns('rect', {x:x0, y:mY, width:x1 - x0, height:6, fill:'none', stroke:mid}, svg);
+    for(var x3 = x0; x3 < x1; x3 += 2){ if(!isOpen(x3)) ns('rect', {x:x3, y:mY, width:2, height:6, fill:chrome}, svg); }
+    txt(svg, x0, mY - 8, 'mask: chrome blocks the light', 10, mid);
+    for(var x4 = x0 + 10; x4 < x1; x4 += 22){
+      ns('line', {x1:x4, y1:18, x2:x4, y2:isOpen(x4) ? subY - resH - 2 : mY - 2, stroke:uv, 'stroke-width':1.5}, svg);
+    }
+    txt(svg, x1, 14, 'UV light', 10, uv, 'end');
+  }
+  if(st === 4) txt(svg, (x0 + x1)/2, 120, pos ? 'positive resist: usually no bake needed here' : 'bake completes the cross-linking', 12, ink, 'middle');
+  if(st === 6) txt(svg, (x0 + x1)/2, 120, 'etch / plate / deposit only where the surface is bare', 12, ink, 'middle');
+  if(st === 7) txt(svg, (x0 + x1)/2, 120, 'resist removed — the pattern is now in the material', 12, ink, 'middle');
+  var s = STEPS[st];
+  document.getElementById('stepText').innerHTML = '<h3>' + s.t + '</h3><p>' + s.p + '</p>';
+  Array.prototype.forEach.call(document.querySelectorAll('#stepDots button'), function(b, i){ b.classList.toggle('on', i === st); b.setAttribute('aria-current', i === st ? 'step' : 'false'); });
+}
+(function(){
+  var dots = document.getElementById('stepDots');
+  STEPS.forEach(function(s, i){ var b = document.createElement('button'); b.textContent = i + 1; b.setAttribute('aria-label', s.t); b.addEventListener('click', function(){ proc.step = i; renderProc(); }); dots.appendChild(b); });
+  document.getElementById('stepPrev').addEventListener('click', function(){ proc.step = Math.max(0, proc.step - 1); renderProc(); });
+  document.getElementById('stepNext').addEventListener('click', function(){ proc.step = Math.min(STEPS.length - 1, proc.step + 1); renderProc(); });
+  ['toneP', 'toneN'].forEach(function(id){ document.getElementById(id).addEventListener('click', function(){ proc.tone = id === 'toneP' ? 'pos' : 'neg'; press(this.parentNode, this); renderProc(); }); });
+})();
+
+/* ---------- 04 SPIN COATING ---------- */
+var RESISTS = [
+  {label:'thin positive (…18 type, 1.8 µm @ 4000 rpm)', t4000:1.8},
+  {label:'medium positive (…33 type, 3.3 µm @ 4000 rpm)', t4000:3.3},
+  {label:'thick positive (…62 type, 6.2 µm @ 4000 rpm)', t4000:6.2}
+];
+var spin = {r:0, rpm:4000};
+function spinThickness(t4000, rpm){ return t4000*Math.sqrt(4000/rpm); }
+function resistThickness(){ return spinThickness(RESISTS[spin.r].t4000, spin.rpm); }
+function renderSpin(){
+  var svg = document.getElementById('spinSvg'); svg.innerHTML = '';
+  var ink = css('--ink'), mid = css('--mid'), res = css('--resist'), line = css('--line');
+  var x0 = 60, x1 = 720, y0 = 170, H = 140, tMax = RESISTS[2].t4000*Math.sqrt(4000/1000)*1.05;
+  function X(r){ return x0 + (x1 - x0)*(r - 1000)/5000; }
+  function Y(t){ return y0 - t/tMax*H; }
+  ns('line', {x1:x0, y1:y0, x2:x1, y2:y0, stroke:ink}, svg); ns('line', {x1:x0, y1:y0, x2:x0, y2:y0 - H, stroke:ink}, svg);
+  [1000, 2000, 3000, 4000, 5000, 6000].forEach(function(r){ ns('line', {x1:X(r), y1:y0, x2:X(r), y2:y0 + 4, stroke:ink}, svg); txt(svg, X(r), y0 + 16, r + ' rpm', 10, mid, 'middle'); });
+  [0, 4, 8, 12].forEach(function(t){ if(t <= tMax){ ns('line', {x1:x0 - 4, y1:Y(t), x2:x1, y2:Y(t), stroke:line, 'stroke-dasharray':'2 4'}, svg); txt(svg, x0 - 8, Y(t) + 4, t + ' µm', 10, mid, 'end'); } });
+  RESISTS.forEach(function(r, i){
+    var pts = [];
+    for(var rpm = 1000; rpm <= 6000; rpm += 100) pts.push(X(rpm).toFixed(1) + ',' + Y(spinThickness(r.t4000, rpm)).toFixed(1));
+    ns('polyline', {points:pts.join(' '), fill:'none', stroke: i === spin.r ? res : line, 'stroke-width': i === spin.r ? 3 : 1.5}, svg);
+  });
+  var t = resistThickness();
+  ns('circle', {cx:X(spin.rpm), cy:Y(t), r:5, fill:css('--accent')}, svg);
+  txt(svg, X(spin.rpm) + 8, Y(t) - 8, um(t), 12, ink);
+  document.getElementById('spinRpmOut').textContent = spin.rpm + ' rpm';
+  readouts(document.getElementById('spinReadout'), [
+    ['Film thickness', um(t)],
+    ['At double the speed', um(spinThickness(RESISTS[spin.r].t4000, spin.rpm*2))],
+    ['Contact-print blur from thickness alone (365 nm)', um(Math.sqrt(0.365*t))]
+  ]);
+  renderExp();
+}
+fillSelect(document.getElementById('spinResist'), RESISTS, 0);
+document.getElementById('spinResist').addEventListener('change', function(e){ spin.r = +e.target.value; renderSpin(); });
+document.getElementById('spinRpm').addEventListener('input', function(e){ spin.rpm = +e.target.value; renderSpin(); });
+
+/* ---------- 05 EXPOSURE SIMULATOR ---------- */
+var LAMS = [
+  {label:'436 nm g-line', l:0.436}, {label:'405 nm h-line / LED', l:0.405}, {label:'365 nm i-line / LED', l:0.365},
+  {label:'248 nm KrF', l:0.248}, {label:'193 nm ArF', l:0.193}, {label:'13.5 nm EUV', l:0.0135}
+];
+var W_MIN = 0.005, W_MAX = 500;                     /* line width range, µm */
+function wFromSlider(v){ return W_MIN*Math.pow(W_MAX/W_MIN, v/1000); }
+function sliderFromW(w){ return Math.round(1000*Math.log(w/W_MIN)/Math.log(W_MAX/W_MIN)); }
+function gFromSlider(v){ return v === 0 ? 0 : 0.1*Math.pow(2000, v/1000); }   /* 0, then 0.1 µm … 200 µm */
+function sliderFromG(g){ return g <= 0 ? 0 : Math.round(1000*Math.log(g/0.1)/Math.log(2000)); }
+var exp = {mode:'contact', lam:2, gap:0, na:0.25, w:2, dose:2, tone:'pos'};
+var EXP_PRESETS = [
+  {label:'Kitchen table: 405 nm, 50 µm gap, 100 µm lines', mode:'contact', lam:1, gap:50, w:100, dose:2},
+  {label:'Lab aligner: 365 nm, hard contact, 2 µm lines', mode:'contact', lam:2, gap:0, w:2, dose:2},
+  {label:'Proximity 20 µm gap, 5 µm lines', mode:'contact', lam:2, gap:20, w:5, dose:2},
+  {label:'Microscope 10×/0.25 at 405 nm, 3 µm lines', mode:'projection', lam:1, na:0.25, w:3, dose:2},
+  {label:'EUV NA 0.33, 13 nm lines', mode:'projection', lam:5, na:0.33, w:0.013, dose:2.2},
+  {label:'High-NA EUV 0.55, 8 nm lines', mode:'projection', lam:5, na:0.55, w:0.008, dose:2.2}
+];
+function blurFWHM(){                               /* µm */
+  var l = LAMS[exp.lam].l;
+  if(exp.mode === 'projection') return 0.51*l/exp.na;
+  return Math.sqrt(l*(exp.gap + resistThickness()));
+}
+/* intensity of an equal line/space grating (open spaces of width w, period 2w) blurred by a Gaussian */
+function intensity(x, w, fwhm){
+  var s = fwhm/2.354820045, k = 1/(s*Math.SQRT2), I = 0;
+  var nmax = Math.min(4000, Math.ceil(8*s/(2*w)) + 4);   /* enough periods to cover ±8σ around x */
+  var n0 = Math.round(x/(2*w));
+  for(var n = n0 - nmax; n <= n0 + nmax; n++){ var a = n*2*w - w/2, b = n*2*w + w/2; I += 0.5*(erf((x - a)*k) - erf((x - b)*k)); }
+  return I;
+}
+function simulate(){
+  var w = exp.w, fwhm = blurFWHM(), N = 721, xs = [], I = [], span = 6*w;
+  for(var i = 0; i < N; i++){ var x = -span/2 + span*i/(N - 1); xs.push(x); I.push(intensity(x, w, fwhm)); }
+  var imax = Math.max.apply(null, I), imin = Math.min.apply(null, I);
+  /* developed: positive clears where dose ≥ 1; negative keeps where dose ≥ 1 */
+  var cleared = I.map(function(v){ var hit = v*exp.dose >= 1; return exp.tone === 'pos' ? hit : !hit; });
+  /* width of the cleared feature around x = 0 (the central open space) */
+  var c = Math.floor(N/2), width = null;
+  if(cleared[c] === (exp.tone === 'pos')){
+    var a = c, b = c;
+    while(a > 0 && cleared[a - 1] === cleared[c]) a--;
+    while(b < N - 1 && cleared[b + 1] === cleared[c]) b++;
+    width = (a === 0 || b === N - 1) ? Infinity : xs[b] - xs[a] + span/(N - 1);
+  }
+  return {xs:xs, I:I, imax:imax, imin:imin, cleared:cleared, width:width, fwhm:fwhm, contrast:(imax - imin)/(imax + imin)};
+}
+function renderExp(){
+  var svg = document.getElementById('expSvg'); if(!svg) return; svg.innerHTML = '';
+  var r = simulate(), ink = css('--ink'), mid = css('--mid'), chrome = css('--chrome'), res = css('--resist'), sub = css('--substrate'), acc = css('--accent'), uv = css('--uv');
+  var x0 = 40, x1 = 720, N = r.xs.length;
+  function X(i){ return x0 + (x1 - x0)*i/(N - 1); }
+  /* mask */
+  txt(svg, x0, 18, 'mask', 10, mid);
+  for(var i = 0; i < N - 1; i++){ var x = r.xs[i], m = ((x + exp.w/2)%(2*exp.w) + 2*exp.w)%(2*exp.w); if(m >= exp.w) ns('rect', {x:X(i), y:24, width:(x1 - x0)/(N - 1) + 0.5, height:12, fill:chrome}, svg); }
+  /* dose curve */
+  var yB = 200, H = 140, dmax = Math.max(r.imax*exp.dose, 1.2)*1.08;
+  function Y(d){ return yB - d/dmax*H; }
+  ns('line', {x1:x0, y1:yB, x2:x1, y2:yB, stroke:ink}, svg);
+  ns('line', {x1:x0, y1:Y(1), x2:x1, y2:Y(1), stroke:acc, 'stroke-dasharray':'5 4'}, svg);
+  txt(svg, x1, Y(1) - 5, 'resist threshold', 10, acc, 'end');
+  var pts = r.I.map(function(v, j){ return X(j).toFixed(1) + ',' + Y(v*exp.dose).toFixed(1); });
+  ns('polyline', {points:pts.join(' '), fill:'none', stroke:uv, 'stroke-width':2.2}, svg);
+  txt(svg, x0, 52, 'light dose reaching the resist', 10, mid);
+  /* developed resist */
+  var rY = 238, rH = 22;
+  ns('rect', {x:x0, y:rY + rH, width:x1 - x0, height:24, fill:sub}, svg);
+  for(var k = 0; k < N - 1; k++){ if(!r.cleared[k]) ns('rect', {x:X(k), y:rY, width:(x1 - x0)/(N - 1) + 0.5, height:rH, fill:res}, svg); }
+  txt(svg, x0, rY - 6, 'resist after development', 10, mid);
+  txt(svg, x0, 322, 'width shown: ' + um(6*exp.w) + ' (3 line/space pairs)', 10, mid);
+  /* readouts */
+  document.getElementById('expGapOut').textContent = um(exp.gap);
+  document.getElementById('expNAOut').textContent = exp.na.toFixed(2);
+  document.getElementById('expWOut').textContent = um(exp.w);
+  document.getElementById('expDoseOut').textContent = exp.dose.toFixed(2) + '× clear';
+  document.getElementById('gapCtl').style.display = exp.mode === 'contact' ? '' : 'none';
+  document.getElementById('naCtl').style.display = exp.mode === 'projection' ? '' : 'none';
+  var limit = exp.mode === 'projection' ? 0.25*LAMS[exp.lam].l/exp.na : null;
+  var rows = [
+    ['Blur width (FWHM)', um(r.fwhm)],
+    ['Image contrast', (r.contrast*100).toFixed(0) + '%'],
+    ['Printed space width', r.width === null ? 'none' : (r.width === Infinity ? 'merged' : um(r.width))],
+    ['Mask space width', um(exp.w)]
+  ];
+  if(exp.mode === 'projection') rows.push(['k₁ of this line width', (exp.w*exp.na/LAMS[exp.lam].l).toFixed(2)]);
+  else rows.push(['Effective gap (gap + resist)', um(exp.gap + resistThickness())]);
+  readouts(document.getElementById('expReadout'), rows);
+  var st = document.getElementById('expStatus'), maxD = r.imax*exp.dose, minD = r.imin*exp.dose;
+  if(maxD < 1) st.textContent = 'Underexposed: the brightest point never reaches the threshold, so nothing develops. Raise the dose.';
+  else if(minD >= 1) st.textContent = 'Lines lost: even under the chrome the blurred light passes the threshold, so everything develops. Lower the dose or improve the optics.';
+  else if(r.contrast < 0.15) st.textContent = 'Barely printing: contrast is so low that a tiny dose change wipes out the pattern. The lines are below what these optics can draw.';
+  else {
+    var err = r.width === null || r.width === Infinity ? null : (r.width - exp.w)/exp.w*100;
+    st.textContent = 'Prints. ' + (err === null ? '' : 'The space comes out ' + (Math.abs(err) < 3 ? 'at the mask size' : (err > 0 ? (err).toFixed(0) + '% wider' : (-err).toFixed(0) + '% narrower') + ' than the mask') + ' — adjust the dose to trim it.');
+  }
+  if(limit !== null && exp.w < limit) st.textContent += ' (Below k₁ = 0.25: no single exposure can print this.)';
+}
+(function(){
+  fillSelect(document.getElementById('expLam'), LAMS, exp.lam);
+  var pr = document.getElementById('expPresets');
+  EXP_PRESETS.forEach(function(p){
+    var b = document.createElement('button'); b.className = 'dbtn'; b.textContent = p.label; b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', function(){
+      exp.mode = p.mode; exp.lam = p.lam; exp.w = p.w; exp.dose = p.dose;
+      if(p.gap !== undefined) exp.gap = p.gap; if(p.na !== undefined) exp.na = p.na;
+      syncExp(); press(pr, b); renderExp();
+    });
+    pr.appendChild(b);
+  });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function(b){ b.addEventListener('click', function(){ exp.mode = b.dataset.mode; if(exp.mode === 'contact' && exp.lam === 5) exp.lam = 2; syncExp(); renderExp(); }); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-etone]'), function(b){ b.addEventListener('click', function(){ exp.tone = b.dataset.etone; syncExp(); renderExp(); }); });
+  document.getElementById('expLam').addEventListener('change', function(e){ exp.lam = +e.target.value; renderExp(); });
+  document.getElementById('expGap').addEventListener('input', function(e){ exp.gap = gFromSlider(+e.target.value); renderExp(); });
+  document.getElementById('expNA').addEventListener('input', function(e){ exp.na = +e.target.value; renderExp(); });
+  document.getElementById('expW').addEventListener('input', function(e){ exp.w = wFromSlider(+e.target.value); renderExp(); });
+  document.getElementById('expDose').addEventListener('input', function(e){ exp.dose = +e.target.value; renderExp(); });
+})();
+function syncExp(){
+  document.getElementById('expLam').value = exp.lam;
+  document.getElementById('expGap').value = sliderFromG(exp.gap);
+  document.getElementById('expNA').value = exp.na;
+  document.getElementById('expW').value = sliderFromW(exp.w);
+  document.getElementById('expDose').value = exp.dose;
+  Array.prototype.forEach.call(document.querySelectorAll('[data-mode]'), function(b){ b.setAttribute('aria-pressed', b.dataset.mode === exp.mode ? 'true' : 'false'); });
+  Array.prototype.forEach.call(document.querySelectorAll('[data-etone]'), function(b){ b.setAttribute('aria-pressed', b.dataset.etone === exp.tone ? 'true' : 'false'); });
+}
+
+/* ---------- 06 MICROSCOPE PROJECTION ---------- */
+var MP_MASKS = [
+  {label:'Laser printer, 600 dpi', dpi:600}, {label:'Laser printer, 1200 dpi', dpi:1200},
+  {label:'Imagesetter film, 2400 dpi', dpi:2400}, {label:'Imagesetter film, 5080 dpi', dpi:5080}
+];
+var MP_OBJ = [
+  {label:'4× / 0.10', M:4, NA:0.10}, {label:'10× / 0.25', M:10, NA:0.25}, {label:'20× / 0.40', M:20, NA:0.40},
+  {label:'40× / 0.65', M:40, NA:0.65}, {label:'60× / 0.85', M:60, NA:0.85}
+];
+var MP_LAM = [{label:'405 nm LED', l:0.405}, {label:'365 nm LED', l:0.365}];
+var mp = {mask:1, obj:1, lam:0};
+function renderMP(){
+  var mask = MP_MASKS[mp.mask], ob = MP_OBJ[mp.obj], l = MP_LAM[mp.lam].l;
+  var dot = 25400/mask.dpi, shrunk = dot/ob.M, optic = 0.61*l/ob.NA, eff = Math.max(shrunk, optic), field = 20000/ob.M;
+  readouts(document.getElementById('mpReadout'), [
+    ['Mask dot', um(dot)],
+    ['Dot after ' + ob.M + '× reduction', um(shrunk)],
+    ['Optical limit 0.61 λ/NA', um(optic)],
+    ['Smallest printable feature', um(eff)],
+    ['Field per exposure (≈)', um(field) + ' wide'],
+    ['Features across one field', Math.round(field/eff).toLocaleString('en-US')]
+  ]);
+  document.getElementById('mpStatus').textContent = shrunk >= optic
+    ? 'Mask-limited: the optics could draw ' + (shrunk/optic).toFixed(1) + '× finer than your mask allows. A finer mask or a stronger objective helps.'
+    : 'Optics-limited: the shrunken mask dots (' + um(shrunk) + ') are finer than the objective can resolve. A higher NA or a shorter wavelength helps; a finer mask does not.';
+}
+fillSelect(document.getElementById('mpMask'), MP_MASKS, mp.mask);
+fillSelect(document.getElementById('mpObj'), MP_OBJ, mp.obj);
+fillSelect(document.getElementById('mpLam'), MP_LAM, mp.lam);
+['mpMask', 'mpObj', 'mpLam'].forEach(function(id){ document.getElementById(id).addEventListener('change', function(e){ mp[{mpMask:'mask', mpObj:'obj', mpLam:'lam'}[id]] = +e.target.value; renderMP(); }); });
+
+/* ---------- 07 HALFTONE / DITHER LAB ---------- */
+var HT_FEAT = [
+  {label:'10 nm (EUV)', um:0.01}, {label:'1 µm (contact aligner)', um:1}, {label:'20 µm (microscope / film)', um:20},
+  {label:'100 µm (PCB / etched metal)', um:100}, {label:'0.5 mm (screen print)', um:500}
+];
+var HT_SIZE = [{label:'1 mm', mm:1}, {label:'10 mm', mm:10}, {label:'50 mm', mm:50}, {label:'200 mm', mm:200}, {label:'1 m', mm:1000}];
+var HT_METHODS = [['threshold', 'Threshold'], ['bayer', 'Ordered (Bayer 8×8)'], ['fs', 'Error diffusion (Floyd–Steinberg)'], ['screen', 'Halftone screen 45°']];
+var ht = {method:'fs', feat:3, size:2, gray:null, srcW:256, srcH:256};
+var PREVIEW = 256;
+var BAYER8 = (function(){
+  var m = [[0]];
+  for(var n = 1; n < 8; n *= 2){
+    var nm = [];
+    for(var y = 0; y < 2*n; y++){ nm.push([]); for(var x = 0; x < 2*n; x++){ var q = m[y % n][x % n]*4; nm[y].push(q + [[0, 2], [3, 1]][(y/n) | 0][(x/n) | 0]); } }
+    m = nm;
+  }
+  return m;
+})();
+function makeTestPattern(){
+  var c = document.createElement('canvas'); c.width = 256; c.height = 256; var g = c.getContext('2d');
+  var lin = g.createLinearGradient(0, 0, 256, 0); lin.addColorStop(0, '#000'); lin.addColorStop(1, '#fff');
+  g.fillStyle = lin; g.fillRect(0, 0, 256, 48);
+  var rad = g.createRadialGradient(90, 120, 6, 128, 150, 110); rad.addColorStop(0, '#fff'); rad.addColorStop(0.55, '#888'); rad.addColorStop(1, '#111');
+  g.fillStyle = '#d8d8d8'; g.fillRect(0, 48, 256, 208);
+  g.fillStyle = rad; g.beginPath(); g.arc(128, 150, 90, 0, Math.PI*2); g.fill();
+  g.fillStyle = '#000'; g.font = 'bold 30px sans-serif'; g.textAlign = 'center'; g.fillText('LIGHT', 128, 245);
+  for(var x = 0; x < 256; x += 2){ g.fillStyle = 'rgba(0,0,0,' + (0.5 + 0.5*Math.sin(x*x/900)).toFixed(3) + ')'; g.fillRect(x, 48, 2, 10); }
+  return c;
+}
+function loadGray(source){
+  var w = PREVIEW, h = PREVIEW, scale = Math.min(w/source.width, h/source.height);
+  var c = document.createElement('canvas'); c.width = w; c.height = h; var g = c.getContext('2d');
+  g.fillStyle = '#fff'; g.fillRect(0, 0, w, h);
+  var dw = source.width*scale, dh = source.height*scale; g.drawImage(source, (w - dw)/2, (h - dh)/2, dw, dh);
+  var d = g.getImageData(0, 0, w, h).data, gray = new Float32Array(w*h);
+  for(var i = 0; i < w*h; i++) gray[i] = (0.2126*d[i*4] + 0.7152*d[i*4 + 1] + 0.0722*d[i*4 + 2])/255;
+  ht.gray = gray; ht.srcW = w; ht.srcH = h;
+  var sc = document.getElementById('htSrc').getContext('2d'), sd = sc.createImageData(w, h);
+  for(var j = 0; j < w*h; j++){ var v = Math.round(gray[j]*255); sd.data[j*4] = sd.data[j*4 + 1] = sd.data[j*4 + 2] = v; sd.data[j*4 + 3] = 255; }
+  sc.putImageData(sd, 0, 0);
+}
+/* returns Uint8Array of 1 (resist/ink dot) or 0, size n×n, from the grey image resampled to n×n */
+function dither(gray, W, H, n, method){
+  var src = new Float32Array(n*n), out = new Uint8Array(n*n), x, y;
+  for(y = 0; y < n; y++) for(x = 0; x < n; x++){ src[y*n + x] = gray[Math.min(H - 1, Math.floor((y + 0.5)*H/n))*W + Math.min(W - 1, Math.floor((x + 0.5)*W/n))]; }
+  if(method === 'threshold'){ for(var i = 0; i < n*n; i++) out[i] = src[i] < 0.5 ? 1 : 0; }
+  else if(method === 'bayer'){ for(y = 0; y < n; y++) for(x = 0; x < n; x++) out[y*n + x] = src[y*n + x] < (BAYER8[y & 7][x & 7] + 0.5)/64 ? 1 : 0; }
+  else if(method === 'fs'){
+    var e = Float32Array.from(src);
+    for(y = 0; y < n; y++) for(x = 0; x < n; x++){
+      var k = y*n + x, old = e[k], nw = old < 0.5 ? 0 : 1, err = old - nw; out[k] = nw ? 0 : 1;
+      if(x + 1 < n) e[k + 1] += err*7/16;
+      if(y + 1 < n){ if(x > 0) e[k + n - 1] += err*3/16; e[k + n] += err*5/16; if(x + 1 < n) e[k + n + 1] += err/16; }
+    }
+  } else {   /* AM screen: cells of 8 dots on a 45° grid; dot area = darkness */
+    var cell = 8, ca = Math.SQRT1_2;
+    for(y = 0; y < n; y++) for(x = 0; x < n; x++){
+      var u = (x*ca + y*ca)/cell, v = (-x*ca + y*ca)/cell;
+      var fu = u - Math.floor(u) - 0.5, fv = v - Math.floor(v) - 0.5, dist = Math.sqrt(fu*fu + fv*fv);
+      var dark = 1 - src[y*n + x], rad = Math.sqrt(dark/Math.PI);
+      out[y*n + x] = (dark > 0.94 || dist < rad) ? 1 : 0;   /* near-black: solid, no white cell corners */
+    }
+  }
+  return out;
+}
+function renderHT(){
+  if(!ht.gray) return;
+  var feat = HT_FEAT[ht.feat].um, sizeUm = HT_SIZE[ht.size].mm*1000, across = sizeUm/feat;
+  var n = Math.max(8, Math.min(PREVIEW, Math.round(across)));
+  var bits = dither(ht.gray, ht.srcW, ht.srcH, n, ht.method);
+  var cv = document.getElementById('htOut'); cv.width = n; cv.height = n;
+  var g = cv.getContext('2d'), id = g.createImageData(n, n), paper = css('--paper-raised'), ink = css('--ink');
+  function rgb(h){   /* #rgb, #rrggbb or rgb(r, g, b) */
+    h = String(h).trim(); var m;
+    if((m = /^#([0-9a-f])([0-9a-f])([0-9a-f])$/i.exec(h))) return [parseInt(m[1] + m[1], 16), parseInt(m[2] + m[2], 16), parseInt(m[3] + m[3], 16)];
+    if((m = /^#([0-9a-f]{2})([0-9a-f]{2})([0-9a-f]{2})/i.exec(h))) return [parseInt(m[1], 16), parseInt(m[2], 16), parseInt(m[3], 16)];
+    if((m = /rgba?\((\d+)[ ,]+(\d+)[ ,]+(\d+)/i.exec(h))) return [+m[1], +m[2], +m[3]];
+    return [255, 255, 255];
+  }
+  var P = rgb(paper), I = rgb(ink);
+  for(var i = 0; i < n*n; i++){ var c = bits[i] ? I : P; id.data[i*4] = c[0]; id.data[i*4 + 1] = c[1]; id.data[i*4 + 2] = c[2]; id.data[i*4 + 3] = 255; }
+  g.putImageData(id, 0, 0);
+  document.getElementById('htCap').textContent = 'Printed matrix (binary)' + (across > PREVIEW ? ' — preview ' + n + ' × ' + n : '');
+  var total = across*across;
+  readouts(document.getElementById('htReadout'), [
+    ['Features across', across >= 1e6 ? (across/1e6).toFixed(1) + ' million' : Math.round(across).toLocaleString('en-US')],
+    ['Features in the square', total >= 1e12 ? (total/1e12).toFixed(1) + ' trillion' : total >= 1e9 ? (total/1e9).toFixed(1) + ' billion' : total >= 1e6 ? (total/1e6).toFixed(1) + ' million' : Math.round(total).toLocaleString('en-US')],
+    ['Equivalent dpi', Math.round(25400/feat).toLocaleString('en-US')],
+    ['Print', HT_SIZE[ht.size].label + ' square']
+  ]);
+}
+(function(){
+  var mb = document.getElementById('htMethods');
+  HT_METHODS.forEach(function(m){
+    var b = document.createElement('button'); b.className = 'dbtn'; b.textContent = m[1]; b.setAttribute('aria-pressed', m[0] === ht.method ? 'true' : 'false');
+    b.addEventListener('click', function(){ ht.method = m[0]; press(mb, b); renderHT(); }); mb.appendChild(b);
+  });
+  fillSelect(document.getElementById('htFeat'), HT_FEAT, ht.feat);
+  fillSelect(document.getElementById('htSize'), HT_SIZE, ht.size);
+  document.getElementById('htFeat').addEventListener('change', function(e){ ht.feat = +e.target.value; renderHT(); });
+  document.getElementById('htSize').addEventListener('change', function(e){ ht.size = +e.target.value; renderHT(); });
+  document.getElementById('htReset').addEventListener('click', function(){ loadGray(makeTestPattern()); document.getElementById('htFile').value = ''; renderHT(); });
+  document.getElementById('htFile').addEventListener('change', function(e){
+    var f = e.target.files && e.target.files[0]; if(!f) return;
+    var url = URL.createObjectURL(f), img = new Image();
+    img.onload = function(){ loadGray(img); URL.revokeObjectURL(url); renderHT(); };
+    img.onerror = function(){ URL.revokeObjectURL(url); };
+    img.src = url;
+  });
+})();
+
+/* ---------- boot + theme ---------- */
+function renderAll(){ renderProc(); renderSpin(); renderMP(); renderHT(); }
+syncExp();
+try { loadGray(makeTestPattern()); } catch(e){ /* canvas unavailable */ }
+renderAll();
+new MutationObserver(renderAll).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+if(window.matchMedia) try { window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', renderAll); } catch(e){}
+
+window.__litho = {erf:erf, intensity:intensity, simulate:simulate, spinThickness:spinThickness, dither:dither, exp:exp, renderExp:renderExp, BAYER8:BAYER8, mp:mp, renderMP:renderMP};
+})();
+
+</script>
+</body>
+</html>

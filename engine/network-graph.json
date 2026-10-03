@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 121,
+    "pages": 122,
     "repos": 4,
-    "own": 35,
+    "own": 36,
     "aerospace": 48,
     "maya": 7,
     "machinery": 31
@@ -129,6 +129,16 @@
       "title": "Media Servers II",
       "description": "A real compiled GLSL shader, 3D projection mapping, Gerstner ocean waves, Gray-Scott reaction-diffusion, and curl-noise flow fields.",
       "url": "https://followorbounce.github.io/mediaservers-shaders",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Making & Fabrication",
+      "title": "Photolithography — Printing With Light",
+      "description": "From Niépce's 1827 bitumen heliograph to 8 nm EUV: resist chemistry, the process step by step, spin coating, an exposure simulator, shrinking a mask through a microscope, and any picture as a printable dot matrix — with safety notes.",
+      "url": "https://followorbounce.github.io/photolithography",
       "tag": "Read",
       "interactive": true
     },
