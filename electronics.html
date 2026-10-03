@@ -43,11 +43,11 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e;
-  }
+    --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e; --dk-eceae3:color-mix(in srgb, #eceae3 12%, var(--paper-raised));
+}
 }
 :root[data-theme="dark"]{
-  --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e;
+  --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e; --dk-eceae3:color-mix(in srgb, #eceae3 12%, var(--paper-raised));
 }
 *{box-sizing:border-box;}
 @media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
@@ -60,7 +60,7 @@ a{color:inherit;}
 h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}
 p{margin:0;}
 button{font-family:inherit;}
-code{font-family:var(--font-mono); background:#eceae3; padding:0.08em 0.4em; border-radius:2px; font-size:0.9em;}
+code{font-family:var(--font-mono); background:var(--dk-eceae3,#eceae3); padding:0.08em 0.4em; border-radius:2px; font-size:0.9em;}
 
 .wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}
 
@@ -374,7 +374,7 @@ footer a{text-decoration:underline;}
       <div class="pnside n">N-TYPE<br>excess electrons<br>(phosphorus-doped)</div>
     </div>
     <p style="margin-top:20px;">Push the p-side positive relative to the n-side (forward bias) and that external field pushes back against the junction's own field, narrowing the depletion region until, past roughly 0.6–0.7V for silicon, carriers flood across and current flows freely — a diode. Push the other way (reverse bias) and the depletion region only widens, blocking current almost completely.</p>
-    <p>A bipolar transistor is two junctions back to back — n-p-n or p-n-p — with the middle region, the base, made deliberately thin. Forward-bias the base-emitter junction and electrons flood in from the emitter, as a diode would predict; but because the base is so thin and lightly doped, almost all of those electrons don't stop there — they get swept across the base and pulled into the collector by the reverse-biased base-collector junction's own field, instead of exiting through the base terminal as base current. A small base current therefore "unlocks" a proportionally much larger emitter-to-collector current — the physical origin of current gain, and of every amplifier and every digital switch built from a BJT since Bardeen and Brattain first got this structure to work at Bell Labs on December 16, 1947<sup>[2]</sup>.</p>
+    <p>A bipolar transistor is two junctions back to back — n-p-n or p-n-p — with the middle region, the base, made deliberately thin. Forward-bias the base-emitter junction and electrons flood in from the emitter, as a diode would predict; but because the base is so thin and lightly doped, almost all of those electrons don't stop there — they get swept across the base and pulled into the collector by the reverse-biased base-collector junction's own field, instead of exiting through the base terminal as base current. A small base current therefore "unlocks" a proportionally much larger emitter-to-collector current — the physical origin of current gain, and of every amplifier and every digital switch built from a BJT. The very first transistor, Bardeen and Brattain's point-contact device at Bell Labs on December 16, 1947<sup>[2]</sup>, worked differently; the junction structure described here was William Shockley's, proposed in 1948 and first built in 1951.</p>
     <div class="callout">
       <span class="tag">Same idea, different scale</span>
       <span>A MOSFET gets the same controllable-conduction-channel result electrostatically instead — a voltage on an insulated gate attracts carriers to form a conducting channel underneath it, no base current involved at all — which is why MOSFETs draw essentially zero steady-state control current and dominate modern digital logic.</span>

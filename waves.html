@@ -42,11 +42,11 @@
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){
-    --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e;
-  }
+    --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e; --dk-e0d3c3:color-mix(in srgb, #e0d3c3 28%, var(--paper-raised)); --dk-e7ded3:color-mix(in srgb, #e7ded3 28%, var(--paper-raised)); --dk-efe9e3:color-mix(in srgb, #efe9e3 28%, var(--paper-raised)); --dk-c0a783:color-mix(in srgb, #c0a783 28%, var(--paper-raised)); --dk-c8b293:color-mix(in srgb, #c8b293 28%, var(--paper-raised)); --dk-d0bda3:color-mix(in srgb, #d0bda3 28%, var(--paper-raised)); --dk-d8c8b3:color-mix(in srgb, #d8c8b3 28%, var(--paper-raised));
+}
 }
 :root[data-theme="dark"]{
-  --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e;
+  --ink:#e8e8e4; --paper:#111113; --paper-raised:#1c1c1e; --line:#333; --mid:#888; --accent:#d4714e; --accent2:#6690E0; --accent3:#5CAE72; --good:#5CAE72; --warn:#d4a84e; --card:#1c1c1e; --dk-e0d3c3:color-mix(in srgb, #e0d3c3 28%, var(--paper-raised)); --dk-e7ded3:color-mix(in srgb, #e7ded3 28%, var(--paper-raised)); --dk-efe9e3:color-mix(in srgb, #efe9e3 28%, var(--paper-raised)); --dk-c0a783:color-mix(in srgb, #c0a783 28%, var(--paper-raised)); --dk-c8b293:color-mix(in srgb, #c8b293 28%, var(--paper-raised)); --dk-d0bda3:color-mix(in srgb, #d0bda3 28%, var(--paper-raised)); --dk-d8c8b3:color-mix(in srgb, #d8c8b3 28%, var(--paper-raised));
 }
 *{box-sizing:border-box;}
 @media (prefers-reduced-motion: reduce){ *{transition-duration:.001ms !important; animation-duration:.001ms !important;} }
@@ -120,13 +120,13 @@ em{font-style:normal; color:var(--accent); font-weight:500;}
 .band:last-child{border-right:none;}
 .band .bname{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.03em; font-weight:600; white-space:nowrap;}
 .band .brange{font-family:var(--font-mono); font-size:9px; color:var(--mid); white-space:nowrap; margin-top:2px;}
-.band.b1{background:#efe9e3;}
-.band.b2{background:#e7ded3;}
-.band.b3{background:#e0d3c3;}
-.band.b4{background:#d8c8b3;}
-.band.b5{background:#d0bda3;}
-.band.b6{background:#c8b293;}
-.band.b7{background:#c0a783;}
+.band.b1{background:var(--dk-efe9e3,#efe9e3);}
+.band.b2{background:var(--dk-e7ded3,#e7ded3);}
+.band.b3{background:var(--dk-e0d3c3,#e0d3c3);}
+.band.b4{background:var(--dk-d8c8b3,#d8c8b3);}
+.band.b5{background:var(--dk-d0bda3,#d0bda3);}
+.band.b6{background:var(--dk-c8b293,#c8b293);}
+.band.b7{background:var(--dk-c0a783,#c0a783);}
 .track-axis{position:relative; height:20px; margin-top:4px;}
 .tick{position:absolute; top:0; font-family:var(--font-mono); font-size:9px; color:var(--mid); transform:translateX(-50%); white-space:nowrap;}
 .tick::before{content:''; position:absolute; left:50%; top:-4px; width:1px; height:4px; background:var(--line);}

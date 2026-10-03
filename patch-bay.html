@@ -20,7 +20,7 @@
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --chassis:#eae6dc; --chassis2:#ded9cb; --panel:#f4f1e9; --ink:#1c1b19; --ink-soft:#57534a;
+  --chassis:#eae6dc; --chassis2:#ded9cb; --panel:#f4f1e9; --field:#fff; --ink:#1c1b19; --ink-soft:#57534a;
   --line:#c9c3b3;
   --orange:#ff5a36; --blue:#2f6fed; --yellow:#f2c53d; --teal:#1fa77e; --pink:#e0507a; --purple:#8a5cf6;
   --audio-c:#ff5a36; --cv-c:#2f6fed; --trig-c:#f2c53d;
@@ -28,9 +28,11 @@
   --edge:clamp(16px,4vw,56px); --maxw:1180px;
 }
 @media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){ --chassis:#171613; --chassis2:#201f1b; --panel:#211f1a; --ink:#f0ede3; --ink-soft:#a9a396; --line:#3a362c; }
+  :root:not([data-theme="light"]){ --chassis:#171613; --chassis2:#201f1b; --panel:#211f1a; --field:#2c2a24; --ink:#f0ede3; --ink-soft:#a9a396; --line:#3a362c; --dk-c9ece1:color-mix(in srgb, #c9ece1 22%, var(--panel)); --dk-dbe4fb:color-mix(in srgb, #dbe4fb 22%, var(--panel)); --dk-e2d8fc:color-mix(in srgb, #e2d8fc 22%, var(--panel)); --dk-f6d7e1:color-mix(in srgb, #f6d7e1 22%, var(--panel)); --dk-f8e8b8:color-mix(in srgb, #f8e8b8 22%, var(--panel));
 }
-:root[data-theme="dark"]{ --chassis:#171613; --chassis2:#201f1b; --panel:#211f1a; --ink:#f0ede3; --ink-soft:#a9a396; --line:#3a362c; }
+}
+:root[data-theme="dark"]{ --chassis:#171613; --chassis2:#201f1b; --panel:#211f1a; --field:#2c2a24; --ink:#f0ede3; --ink-soft:#a9a396; --line:#3a362c; --dk-c9ece1:color-mix(in srgb, #c9ece1 22%, var(--panel)); --dk-dbe4fb:color-mix(in srgb, #dbe4fb 22%, var(--panel)); --dk-e2d8fc:color-mix(in srgb, #e2d8fc 22%, var(--panel)); --dk-f6d7e1:color-mix(in srgb, #f6d7e1 22%, var(--panel)); --dk-f8e8b8:color-mix(in srgb, #f8e8b8 22%, var(--panel));
+}
 *{box-sizing:border-box; -webkit-tap-highlight-color:transparent;}
 body{margin:0; background:var(--chassis); color:var(--ink); font-family:var(--font-mono); font-size:13px; line-height:1.6;}
 .wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
@@ -89,11 +91,11 @@ header .back:hover{text-decoration:underline;}
 .module .mtag{font-size:9px; color:var(--ink-soft);}
 /* solid fallback first for browsers without color-mix() (pre-2023 Safari), nicer tint after */
 .module.c-orange .mhead{color:#fff;} .module.c-orange{background:var(--orange); background:color-mix(in srgb, var(--orange) 88%, var(--panel));}
-.module.c-blue{background:#dbe4fb; background:color-mix(in srgb, var(--blue) 14%, var(--panel));}
-.module.c-yellow{background:#f8e8b8; background:color-mix(in srgb, var(--yellow) 30%, var(--panel));}
-.module.c-teal{background:#c9ece1; background:color-mix(in srgb, var(--teal) 20%, var(--panel));}
-.module.c-pink{background:#f6d7e1; background:color-mix(in srgb, var(--pink) 20%, var(--panel));}
-.module.c-purple{background:#e2d8fc; background:color-mix(in srgb, var(--purple) 18%, var(--panel));}
+.module.c-blue{background:var(--dk-dbe4fb,#dbe4fb); background:color-mix(in srgb, var(--blue) 14%, var(--panel));}
+.module.c-yellow{background:var(--dk-f8e8b8,#f8e8b8); background:color-mix(in srgb, var(--yellow) 30%, var(--panel));}
+.module.c-teal{background:var(--dk-c9ece1,#c9ece1); background:color-mix(in srgb, var(--teal) 20%, var(--panel));}
+.module.c-pink{background:var(--dk-f6d7e1,#f6d7e1); background:color-mix(in srgb, var(--pink) 20%, var(--panel));}
+.module.c-purple{background:var(--dk-e2d8fc,#e2d8fc); background:color-mix(in srgb, var(--purple) 18%, var(--panel));}
 .module.c-dark{background:var(--ink); color:#f0ede3;}
 .module.c-dark .mtag{color:#a9a396;}
 
@@ -103,7 +105,7 @@ header .back:hover{text-decoration:underline;}
 .jackgroup{display:flex; flex-direction:column; gap:10px;}
 .jack{display:flex; align-items:center; gap:5px; font-size:9.5px; letter-spacing:0.02em; text-transform:uppercase; cursor:pointer; touch-action:none; padding-block:6px; margin-block:-6px; position:relative; z-index:6;}
 .jack.out{flex-direction:row-reverse;}
-.jack .nub{width:13px; height:13px; border-radius:50%; border:2px solid var(--ink); background:#fff; flex:none;}
+.jack .nub{width:13px; height:13px; border-radius:50%; border:2px solid var(--ink); background:var(--field); flex:none;}
 .jack[data-kind="audio"] .nub{background:var(--audio-c);}
 .jack[data-kind="cv"] .nub{background:var(--cv-c);}
 .jack[data-kind="trig"] .nub{background:var(--trig-c);}
@@ -120,7 +122,7 @@ header .back:hover{text-decoration:underline;}
 
 .krange{display:none;}
 
-select.wave{font-family:var(--font-mono); font-size:10px; padding:4px 6px; border:2px solid var(--ink); border-radius:3px; background:#fff;}
+select.wave{font-family:var(--font-mono); font-size:10px; padding:4px 6px; border:2px solid var(--ink); border-radius:3px; background:var(--field); color:var(--ink);}
 
 /* ===== touch (mobile) rework =====
    On a coarse pointer, spatial cable-dragging can't work at all — starting a
@@ -162,10 +164,10 @@ select.wave{font-family:var(--font-mono); font-size:10px; padding:4px 6px; borde
 .addCable{display:flex; flex-direction:column; gap:8px; border-top:1px dashed var(--line); padding-top:12px;}
 .addCable .fld{display:flex; flex-direction:column; gap:4px;}
 .addCable label{font-size:9px; letter-spacing:0.05em; text-transform:uppercase; color:var(--ink-soft);}
-.addCable select{font-family:var(--font-mono); font-size:12px; padding:10px 8px; border:2px solid var(--ink); border-radius:3px; background:#fff; width:100%;}
+.addCable select{font-family:var(--font-mono); font-size:12px; padding:10px 8px; border:2px solid var(--ink); border-radius:3px; background:var(--field); color:var(--ink); width:100%;}
 
 .steps{display:grid; grid-template-columns:repeat(8,1fr); gap:4px; margin-top:8px;}
-.step{aspect-ratio:1; border:2px solid var(--ink); border-radius:3px; background:#fff; cursor:pointer;}
+.step{aspect-ratio:1; border:2px solid var(--ink); border-radius:3px; background:var(--field); cursor:pointer;}
 .step.on{background:var(--ink);}
 .step.playing{outline:3px solid var(--orange); outline-offset:1px;}
 
