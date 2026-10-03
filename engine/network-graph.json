@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 47
+      "count": 48
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 120,
+    "pages": 121,
     "repos": 4,
     "own": 35,
-    "aerospace": 47,
+    "aerospace": 48,
     "maya": 7,
     "machinery": 31
   },
@@ -675,6 +675,16 @@
       "title": "Gaia Mission",
       "description": "Space Telescopes — PARALLAX",
       "url": "https://followorbounce.github.io/aerospace/parallax-gaia-mission.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Space Telescopes",
+      "title": "Parabola: Mirrors, Dishes & the Focus",
+      "description": "Space Telescopes — PARABOLA",
+      "url": "https://followorbounce.github.io/aerospace/parabola-mirrors-and-dishes.html",
       "tag": "Read",
       "interactive": true
     },
