@@ -61,3 +61,10 @@
   - No Google Analytics on this page; only the Cloudflare beacon, pending owner decision H1.
   - **Verified:** jsdom/Node, 24 checks — erf, grating intensity (fixed an under-summing bug for large blur), √(λt) blur, dose widens spaces, k₁ flags, dither coverage = darkness for all methods, Bayer permutation, microscope limits, stepper, theme switch, citations. Headless-Firefox screenshots in light, dark and at 390 px. Fixed a #rgb colour-parsing bug that blacked out the dither preview.
   - **Not verified:** real-device touch, and file upload in a real browser.
+- 2026-10-02 — **Homepage Meadow rebuilt as a WebGL2 "Dreaming Meadow"** (owner request: more natural motion, more natural but still surreal flowers, a sun and moon that move with the time and the theme, at a Refik Anadol level of production).
+  - **Grass:** 9.5k instanced blades with stiffness, wind gusts and a pointer wake that parts and recovers, plus press-gust rings.
+  - **Flowers:** SDF flowers in drifts that follow the sun by day, close at night and glow.
+  - **Colour:** a pigment colour field flowing through the grass, and a pigment-cloud sky with stars.
+  - **Sky clock:** a sun with bloom and the moon in today's real phase. Dream time is one day per 120 s; a "Your time" button switches to the real clock. The 2D meadow remains as the fallback.
+  - **Verified:** WebGL read-back renders (headless Firefox, via the `__genPreserve` hook) at light noon, light golden hour, dark midnight and dark dawn, with a simulated wake and gust — `gl.getError()` = 0. Fixed along the way: a gust-parting seam (`sign` → smooth ratio), a negative-base `pow()` in the gust ring, and a too-tight pigment threshold. The pigment field moved to the vertex shader for phone performance.
+  - **Not verified:** real-GPU frame rate (especially phones), real touch, how the motion feels live.

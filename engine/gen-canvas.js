@@ -19,7 +19,7 @@ var modes=[
   {id:'grid',   label:'Grid',   hint:'Move to send the wave from the pointer · press and hold to turn squares into circles'},
   {id:'scan',   label:'Scan',   hint:'Move to orbit a real photogrammetry scan · press and hold to scatter its points'},
   {id:'matrix', label:'Matrix', hint:'Move left–right to set the tempo · press and hold to highlight a band'},
-  {id:'flow',   label:'Meadow', hint:'Move through the grass · press to gust'},
+  {id:'flow',   label:'Meadow', hint:'Walk through the grass · press for a gust · the sun and moon follow the clock', opt:'sky'},
   {id:'mesh',   label:'Mesh',   hint:'Move to push the grid · press and hold to pull it in'}
 ];
 var cur='lines';
@@ -157,6 +157,303 @@ function flowDraw(t){
       ctx.beginPath();ctx.ellipse(tipX,tipY-2*dpr,2.5*dpr,4*dpr,s.sway*0.4,0,Math.PI*2);ctx.fill();
     }
   }
+}
+
+// ===== MEADOW v2 (WebGL2): a dreaming meadow =====
+// Instanced grass that bends with stiffness, travelling wind and a pointer wake; GPU-drawn flowers that
+// follow the sun and glow at night; a flowing pigment sky with a sun on its clock arc and the moon in
+// today's real phase. Falls back to the 2D meadow above if WebGL2 is unavailable.
+var M={ok:null,gl:null,cv:null,dpr:1,W:1,H:1,trail:[],gusts:[],inside:false,real:false,dream0:0,dreamT0:0,lastHint:0};
+var DREAM_DAY=120; // seconds per dream-time day
+var TRAIL_N=16, GUST_N=4;
+var GL_COMMON='#version 300 es\nprecision highp float;\n'+
+'uniform vec2 uRes;uniform float uT;uniform float uHorizon;uniform vec4 uTrail[16];uniform vec4 uGust[4];uniform float uWind;\n'+
+'uniform vec3 uSun;uniform vec3 uMoon;uniform float uPhase;uniform float uDark;uniform float uDay;uniform float uGold;\n'+
+'uniform vec3 uZen;uniform vec3 uHor;uniform vec3 uFog;uniform vec3 uLight;\n'+
+'float h21(vec2 p){p=fract(p*vec2(123.34,456.21));p+=dot(p,p+45.32);return fract(p.x*p.y);}\n'+
+'float vnoise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h21(i),h21(i+vec2(1,0)),f.x),mix(h21(i+vec2(0,1)),h21(i+1.),f.x),f.y);}\n'+
+'float fbm(vec2 p){float s=0.,a=.5;for(int i=0;i<5;i++){s+=a*vnoise(p);p=p*2.03+vec2(17.1,9.7);a*=.5;}return s;}\n'+
+// iridescent cosine palette; dark theme a little deeper and more saturated
+'vec3 pal(float t){vec3 a=mix(vec3(.62,.58,.66),vec3(.5,.45,.58),uDark),b=mix(vec3(.32,.3,.32),vec3(.48,.42,.42),uDark);return a+b*cos(6.2832*(vec3(1.)*t+vec3(.0,.33,.67)));}\n'+
+// wind + pointer field -> horizontal bend (in blade heights) at a root position (px, y down)
+'vec3 pal2(float t){return vec3(.52,.52,.62)+vec3(.42,.36,.38)*cos(6.2832*(t+vec3(.55,.72,.92)));}\n'+
+'float bendAt(vec2 base,float z,float phase){\n'+
+'  float x=base.x/uRes.y, t=uT;\n'+
+'  float gust=fbm(vec2(x*.9-t*.32,z*2.+t*.04))*2.-1.;\n'+
+'  float wave=sin(x*4.2-t*1.35+gust*2.4);\n'+
+'  float prevailing=.18+.22*vnoise(vec2(t*.05,3.1));\n'+
+'  float w=(prevailing+wave*.22+gust*.38)*uWind;\n'+
+'  w+=sin(t*(2.1+phase*1.7)+phase*6.2832)*.045*uWind;\n'+
+'  float push=0.;\n'+
+'  for(int i=0;i<16;i++){vec4 tr=uTrail[i]; if(tr.w<=0.)continue; vec2 d=base-tr.xy; d.y*=1.6;\n'+
+'    float r=uRes.y*(.12+.1*z); float f=exp(-dot(d,d)/(r*r)); push+=clamp(d.x/r*1.6,-1.,1.)*f*exp(-tr.z*1.1)*tr.w*1.9;}\n'+
+'  for(int i=0;i<4;i++){vec4 g=uGust[i]; if(g.w<=0.)continue; vec2 d=base-g.xy; d.y*=1.6; float dist=length(d);\n'+
+'    float front=g.z*uRes.y*1.1; float kk=(dist-front)/(uRes.y*.2); float ring=exp(-kk*kk); push+=d.x/(abs(d.x)+uRes.y*.06)*ring*exp(-g.z*.75)*2.4;}\n'+
+'  return w+push;}\n'+
+'float rootY(float z){return uHorizon+pow(z,1.45)*(uRes.y-uHorizon+uRes.y*.06);}\n';
+
+var GL_SKY_VS='#version 300 es\nvoid main(){vec2 p=vec2((gl_VertexID<<1)&2,gl_VertexID&2);gl_Position=vec4(p*2.-1.,0.,1.);}';
+var GL_SKY_FS=GL_COMMON+
+'out vec4 o;\n'+
+'void main(){\n'+
+'  vec2 px=vec2(gl_FragCoord.x,uRes.y-gl_FragCoord.y); vec2 uv=px/uRes;\n'+
+'  float sky=clamp(px.y/uHorizon,0.,1.);\n'+
+'  vec3 col=mix(uZen,uHor,pow(sky,1.6));\n'+
+// flowing pigment clouds (domain-warped fbm), strongest high in the sky, brighter at night
+'  vec2 q=vec2(px.x/uRes.y,px.y/uRes.y)*1.6; float t=uT*.035;\n'+
+'  vec2 w1=vec2(fbm(q+vec2(t,0.)),fbm(q+vec2(5.2,1.3)-vec2(0.,t)));\n'+
+'  vec2 w2=vec2(fbm(q+3.*w1+vec2(1.7,9.2)+t*.6),fbm(q+3.*w1+vec2(8.3,2.8)-t*.4));\n'+
+'  float f=fbm(q+3.5*w2);\n'+
+'  vec3 ink=pal2(f*.9+w2.x*.5+uT*.012)*mix(vec3(1.),vec3(.75,.85,1.25),(1.-uDay)*uDark);\n'+
+'  float amt=smoothstep(.45,.9,f)*(1.-sky*.75)*mix(.16,.42,1.-uDay)*(1.-uDark*.25+uDark*.45*(1.-uDay));\n'+
+'  col=mix(col,ink,amt);\n'+
+// stars
+'  float night=1.-uDay;\n'+
+'  vec2 sg=floor(px/3.); float st=h21(sg); float tw=.6+.4*sin(uT*2.+st*40.);\n'+
+'  col+=vec3(.9,.92,1.)*step(.9965,st)*tw*night*(1.-sky)*mix(.45,1.,uDark);\n'+
+// sun
+'  vec2 sd=px-uSun.xy; float sr=uRes.y*.055; float sdl=length(sd)/sr;\n'+
+'  float sunUp=smoothstep(-.18,.02,uSun.z);\n'+
+'  vec3 sunCol=mix(vec3(1.,.55,.3),vec3(1.,.96,.86),smoothstep(0.,.35,uSun.z));\n'+
+'  col+=sunCol*(smoothstep(1.05,.95,sdl)*.9+exp(-sdl*.55)*.35+exp(-sdl*.12)*.12)*sunUp;\n'+
+// moon with today's phase: light from the sun's side, elongation = phase*2pi
+'  vec2 md=(px-uMoon.xy)/(uRes.y*.045); float mr=length(md);\n'+
+'  float moonUp=smoothstep(-.15,.03,uMoon.z)*mix(.55,1.,night);\n'+
+'  if(mr<1.){float zz=sqrt(1.-mr*mr); float a=uPhase*6.2832; vec3 L=vec3(sin(a),0.,-cos(a));\n'+
+'    float lit=smoothstep(-.06,.12,dot(vec3(md.x,-md.y,zz),L));\n'+
+'    float crater=.82+.18*fbm(md*3.+7.);\n'+
+'    vec3 mc=vec3(.93,.92,.88)*crater; col=mix(col,mix(col*.85+vec3(.04,.045,.07),mc,lit),moonUp*smoothstep(1.,.96,mr));}\n'+
+'  col+=vec3(.75,.8,1.)*exp(-mr*.9)*.16*moonUp*(.3+.7*abs(sin(uPhase*3.1416)));\n'+
+// horizon haze, sun glow across the horizon at golden hour
+'  col+=uLight*exp(-abs(px.y-uHorizon)/(uRes.y*.12))*uGold*.35*exp(-abs(px.x-uSun.x)/(uRes.x*.35));\n'+
+// distant hills with aerial perspective
+'  float hx=px.x/uRes.y;\n'+
+'  float h1=uHorizon-uRes.y*(.06+.07*fbm(vec2(hx*.8,1.3)));\n'+
+'  float h2=uHorizon-uRes.y*(.02+.05*fbm(vec2(hx*1.4+4.,2.7)));\n'+
+'  vec3 hillA=mix(uFog,uZen*.6+vec3(.02,.04,.04),.35), hillB=mix(uFog,vec3(.12,.2,.16)*mix(1.,.35,uDark),.45);\n'+
+'  col=mix(col,hillA,smoothstep(h1-1.,h1+1.,px.y)*.85);\n'+
+'  col=mix(col,hillB,smoothstep(h2-1.,h2+1.,px.y));\n'+
+'  if(px.y>uHorizon){float g=(px.y-uHorizon)/(uRes.y-uHorizon); col=mix(mix(uFog,vec3(.16,.26,.16)*mix(1.,.3,uDark),.6),vec3(.06,.12,.08)*mix(1.,.4,uDark),g);}\n'+
+// vignette + grain
+'  col*=1.-.18*pow(length(uv-.5)*1.25,2.);\n'+
+'  col+=(h21(px+fract(uT)*91.)-.5)*.018;\n'+
+'  o=vec4(col,1.);}';
+
+var GL_BLADE_VS=GL_COMMON+
+'in vec2 aC; in vec4 aB; in vec4 aL;\n'+ // aC: side,v · aB: x01,z,h01,phase · aL: width,hue,stiff,tint
+'out float vV; out float vZ; out float vHue; out float vSide; out float vTint; out float vX; out float vFw;\n'+
+'void main(){\n'+
+'  float z=aB.y, scale=mix(.32,1.,z);\n'+
+'  float yb=rootY(z), xb=(aB.x*1.1-.05)*uRes.x;\n'+
+'  float h=(.07+.17*aB.z)*uRes.y*scale*1.55;\n'+
+'  float b=bendAt(vec2(xb,yb),z,aB.w)/aL.z;\n'+
+'  b=clamp(b,-2.2,2.2);\n'+
+'  float v=aC.y;\n'+
+'  float bx=b*h*.55*v*v;\n'+
+'  float by=-h*v*(1.-.16*min(abs(b),2.)*v);\n'+
+'  float wdt=aL.x*scale*(1.-v)*(1.-v*.25)*uRes.y/280.;\n'+
+'  vec2 p=vec2(xb+bx+aC.x*wdt,yb+by);\n'+
+'  vV=v; vZ=z; vHue=aL.y; vSide=aC.x; vTint=aL.w; vX=xb/uRes.x;\n'+
+'  vec2 fq=vec2(vX*2.6-uT*.07,z*1.8+uT*.025); vFw=fbm(fq+1.7*vec2(fbm(fq+3.1),fbm(fq-1.3+uT*.05)));\n'+
+'  gl_Position=vec4(p.x/uRes.x*2.-1.,1.-p.y/uRes.y*2.,0.,1.);}';
+var GL_BLADE_FS=GL_COMMON+
+'in float vV; in float vZ; in float vHue; in float vSide; in float vTint; in float vX; in float vFw; out vec4 o;\n'+
+'void main(){\n'+
+'  vec3 base=mix(vec3(.10,.20,.12),vec3(.012,.04,.04),uDark);\n'+
+'  vec3 mid=mix(vec3(.34,.52,.30)+vTint*vec3(.08,.06,-.02),vec3(.05,.14,.13),uDark);\n'+
+'  vec3 col=mix(base,mid,smoothstep(0.,.8,vV));\n'+
+'  vec3 irid=pal(vHue+vV*.35+uT*.02);\n'+
+'  col=mix(col,irid*mix(1.,.8,uDark),smoothstep(.55,1.,vV)*mix(.28,.45,uDark));\n'+
+'  col+=uLight*smoothstep(.5,1.,vV)*(.18*uDay+.08)*(.6+.4*vZ);\n'+
+'  float fw=vFw;\n'+
+'  float band=smoothstep(.38,.6,fw)*smoothstep(.2,1.,vV);\n'+
+'  col=mix(col,pal2(fw*1.3+uT*.015)*mix(1.08,1.15,uDark),band*mix(.52,.78,uDark)*mix(1.,1.15,1.-uDay));\n'+
+// light that flows up the blades at night, like data through fibre
+'  float flow=smoothstep(.93,1.,sin(vV*7.-uT*1.6+vHue*31.+vX*9.));\n'+
+'  col+=pal(vHue+.5)*flow*(1.-uDay)*mix(.25,.7,uDark)*smoothstep(.2,.9,vV);\n'+
+'  col=mix(col,uFog,pow(1.-vZ,1.5)*.78);\n'+
+'  float soft=mix(.35,-.6,smoothstep(.86,1.,vZ));\n'+
+'  float a=smoothstep(1.,soft,abs(vSide))*mix(.7,1.,vZ)*mix(1.,.7,smoothstep(.9,1.,vZ));\n'+
+'  o=vec4(col*a,a);}';
+
+var GL_FLOWER_VS=GL_COMMON+
+'in vec2 aQ; in vec4 aB; in vec4 aF;\n'+ // aQ corner -1..1 · aB: x01,z,h01,phase · aF: stiff,petals,hue,size
+'out vec2 vP; out float vHue; out float vPet; out float vZ; out float vRot; out float vSeed;\n'+
+'void main(){\n'+
+'  float z=aB.y, scale=mix(.32,1.,z);\n'+
+'  float yb=rootY(z), xb=(aB.x*1.1-.05)*uRes.x;\n'+
+'  float h=(.07+.17*aB.z)*uRes.y*scale*1.55;\n'+
+'  float b=clamp(bendAt(vec2(xb,yb),z,aB.w)/aF.x,-2.2,2.2);\n'+
+'  vec2 tip=vec2(xb+b*h*.55,yb-h*(1.-.16*min(abs(b),2.)));\n'+
+'  float s=aF.w*uRes.y*.072*mix(.16,1.,z*z)*(.85+.15*sin(uT*.6+aB.w*6.2832));\n'+
+// heliotropism: by day the head leans toward the sun
+'  float lean=clamp((uSun.x-tip.x)/uRes.x,-1.,1.)*.5*uDay+b*.25;\n'+
+'  float c=cos(lean),sn=sin(lean); vec2 q=vec2(aQ.x,aQ.y*.82); q=vec2(c*q.x-sn*q.y,sn*q.x+c*q.y);\n'+
+'  vec2 p=tip+q*s;\n'+
+'  vP=aQ; vHue=aF.z; vPet=aF.y; vZ=z; vRot=aB.w*6.2832+uT*.05; vSeed=aB.w;\n'+
+'  gl_Position=vec4(p.x/uRes.x*2.-1.,1.-p.y/uRes.y*2.,0.,1.);}';
+var GL_FLOWER_FS=GL_COMMON+
+'in vec2 vP; in float vHue; in float vPet; in float vZ; in float vRot; in float vSeed; out vec4 o;\n'+
+'void main(){\n'+
+'  vec2 p=vP; float r=length(p), a=atan(p.y,p.x)+vRot;\n'+
+'  float open=mix(.42,1.,smoothstep(-.05,.3,uSun.z))*(.92+.08*sin(uT*.8+vSeed*30.));\n'+
+'  float lobe=pow(abs(cos(a*vPet*.5)),.55);\n'+
+'  float edge=.62*open*(.55+.45*lobe)+.04*sin(a*vPet*3.)*open;\n'+
+'  float petal=smoothstep(edge+.03,edge-.03,r);\n'+
+'  float inner=smoothstep(edge*.62+.03,edge*.62-.03,r)*step(.5,fract(vSeed*7.));\n'+ // some flowers carry a second ring
+'  float core=smoothstep(.16,.11,r);\n'+
+'  vec3 pc=pal(vHue+r*.55+uT*.015);\n'+
+'  pc=mix(pc,pal(vHue+.35),inner*.6);\n'+
+'  pc*=.75+.25*smoothstep(0.,edge,r)+.15*sin(a*vPet*6.);\n'+ // veins
+'  vec3 cc=mix(vec3(.98,.82,.42),vec3(1.,.9,.6),uDark);\n'+
+'  float night=1.-uDay;\n'+
+'  pc+=vec3(1.)*smoothstep(edge-.14,edge-.01,r)*petal*.28;\n'+
+'  vec3 col=mix(pc,cc,core);\n'+
+'  col=mix(col,uFog,(1.-vZ)*(1.-vZ)*.55);\n'+
+'  float a1=max(petal*.88,core)*mix(.85,1.,vZ);\n'+
+'  float glow=exp(-r*2.6)*night*mix(.25,.8,uDark)*smoothstep(1.,.65,r);\n'+ // bioluminescence at night
+'  vec3 g=pal(vHue+.1)*glow;\n'+
+'  o=vec4(col*a1+g*(1.-a1),a1);}';
+
+var GL_MOTE_VS=GL_COMMON+
+'in vec4 aS; out float vA; out float vHue;\n'+ // x01, band, speed, phase
+'void main(){\n'+
+'  float t=uT*aS.z;\n'+
+'  float x=fract(aS.x+t*.012*(.4+uWind)+sin(t*.31+aS.w*6.)*.02);\n'+
+'  float yb=mix(uHorizon-uRes.y*.08,uRes.y*.97,aS.y);\n'+
+'  vec2 p=vec2(x*uRes.x,yb+sin(t*.53+aS.w*13.)*uRes.y*.035+cos(t*.29+aS.w*5.)*uRes.y*.02);\n'+
+// drawn toward the pointer like moths
+'  for(int i=0;i<16;i++){vec4 tr=uTrail[i]; if(tr.w<=0.)continue; vec2 d=tr.xy-p; float f=exp(-dot(d,d)/pow(uRes.y*.25,2.))*exp(-tr.z*.8); p+=d*f*.22;}\n'+
+'  float blink=.5+.5*sin(uT*(1.3+aS.z)+aS.w*40.);\n'+
+'  vA=mix(.35,blink,1.-uDay)*mix(.55,1.,uDark); vHue=aS.w;\n'+
+'  gl_PointSize=(1.5+2.5*aS.y)*uRes.y/280.*mix(1.,1.6,1.-uDay);\n'+
+'  gl_Position=vec4(p.x/uRes.x*2.-1.,1.-p.y/uRes.y*2.,0.,1.);}';
+var GL_MOTE_FS=GL_COMMON+
+'in float vA; in float vHue; out vec4 o;\n'+
+'void main(){vec2 c=gl_PointCoord-.5; float r=length(c)*2.; float a=exp(-r*r*3.)*vA;\n'+
+'  vec3 col=mix(vec3(1.,.95,.75),pal(vHue)*1.2,1.-uDay);\n'+
+'  o=vec4(col*a,0.);}'; // additive (alpha 0 with premultiplied blending)
+
+function glCompile(gl,vs,fs){
+  function sh(type,src){var s=gl.createShader(type);gl.shaderSource(s,src);gl.compileShader(s);
+    if(!gl.getShaderParameter(s,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(s));return s;}
+  var p=gl.createProgram();gl.attachShader(p,sh(gl.VERTEX_SHADER,vs));gl.attachShader(p,sh(gl.FRAGMENT_SHADER,fs));gl.linkProgram(p);
+  if(!gl.getProgramParameter(p,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(p));
+  var u={},n=gl.getProgramParameter(p,gl.ACTIVE_UNIFORMS);
+  for(var i=0;i<n;i++){var info=gl.getActiveUniform(p,i),name=info.name.replace(/\[0\]$/,'');u[name]=gl.getUniformLocation(p,info.name);}
+  return {p:p,u:u};
+}
+function meadowSetup(){
+  if(M.ok!==null)return M.ok;
+  try{
+    var c=document.createElement('canvas');c.className='gen-gl';c.setAttribute('aria-hidden','true');
+    var gl=c.getContext('webgl2',{alpha:false,antialias:true,premultipliedAlpha:true,preserveDrawingBuffer:!!window.__genPreserve});
+    if(!gl)throw new Error('no webgl2');
+    M.sky=glCompile(gl,GL_SKY_VS,GL_SKY_FS);
+    M.blade=glCompile(gl,GL_BLADE_VS,GL_BLADE_FS);
+    M.flower=glCompile(gl,GL_FLOWER_VS,GL_FLOWER_FS);
+    M.mote=glCompile(gl,GL_MOTE_VS,GL_MOTE_FS);
+    M.gl=gl;M.cv=c;cv.parentNode.insertBefore(c,cv.nextSibling);
+    if(window.__genPreserve){window.__meadow=M;window.__meadowDraw=function(t){meadowDraw(t);};} // test hook (scratch test pages only)
+    c.addEventListener('webglcontextlost',function(e){e.preventDefault();M.ok=false;meadowHide();if(cur==='flow'){flowInit();}});
+    M.ok=true;
+  }catch(e){M.ok=false;M.err=String(e&&e.message||e);}
+  return M.ok;
+}
+function glBuffer(gl,data){var b=gl.createBuffer();gl.bindBuffer(gl.ARRAY_BUFFER,b);gl.bufferData(gl.ARRAY_BUFFER,data,gl.STATIC_DRAW);return b;}
+function glAttr(gl,prog,name,buf,size,stride,off,div){var loc=gl.getAttribLocation(prog,name);if(loc<0)return;gl.bindBuffer(gl.ARRAY_BUFFER,buf);
+  gl.enableVertexAttribArray(loc);gl.vertexAttribPointer(loc,size,gl.FLOAT,false,stride,off);gl.vertexAttribDivisor(loc,div);}
+function meadowBuild(){
+  var gl=M.gl, area=M.W*M.H/(M.dpr*M.dpr);
+  var NB=Math.round(Math.max(2600,Math.min(9500,area/26))), SEG=6;
+  // blade strip geometry
+  var g=[];for(var i=0;i<=SEG;i++){var v=i/SEG;g.push(-1,v,1,v);}
+  var rnd=function(n){return hsh(n*2654435761>>>0);};
+  var blades=[];
+  for(i=0;i<NB;i++){var z=Math.pow(rnd(i*7+1),0.75);blades.push([rnd(i*7+2),z,Math.pow(rnd(i*7+3),1.3),rnd(i*7+4),
+    (1.4+rnd(i*7+5)*2.6),rnd(i*7+6)*0.6+0.15,0.75+rnd(i*7+8)*0.9,rnd(i*7+9)]);}
+  blades.sort(function(a,b){return a[1]-b[1];}); // far to near: GPU keeps primitive order, so blending layers correctly
+  var bd=new Float32Array(NB*8);blades.forEach(function(b,k){bd.set(b,k*8);});
+  // flowers ride the tips of the taller, nearer blades
+  var fl=[];for(i=0;i<NB;i++){var b=blades[i];
+    var drift=0.5+0.5*Math.sin(b[0]*13.0+Math.sin(b[1]*7.0)*2.2)*Math.sin(b[0]*4.3+b[1]*5.1+1.7);
+    if(b[2]>0.45&&b[1]>0.1&&rnd(i*13+3)<0.16*drift*drift){
+    fl.push(b[0],b[1],b[2],b[3], b[6], 4+Math.floor(rnd(i*13+5)*5), rnd(i*13+7), 0.6+rnd(i*13+11)*0.7);}}
+  var NF=fl.length/8;
+  var motes=new Float32Array(700*4);for(i=0;i<700;i++){motes.set([rnd(i*5+101),rnd(i*5+102),0.5+rnd(i*5+103)*0.9,rnd(i*5+104)],i*4);}
+  if(M.bufs)M.bufs.forEach(function(b){gl.deleteBuffer(b);});
+  var gB=glBuffer(gl,new Float32Array(g)), iB=glBuffer(gl,bd), qB=glBuffer(gl,new Float32Array([-1,-1,1,-1,-1,1,1,1])), fB=glBuffer(gl,new Float32Array(fl)), mB=glBuffer(gl,motes);
+  M.bufs=[gB,iB,qB,fB,mB];
+  M.vaoBlade=gl.createVertexArray();gl.bindVertexArray(M.vaoBlade);
+  glAttr(gl,M.blade.p,'aC',gB,2,8,0,0);glAttr(gl,M.blade.p,'aB',iB,4,32,0,1);glAttr(gl,M.blade.p,'aL',iB,4,32,16,1);
+  M.vaoFlower=gl.createVertexArray();gl.bindVertexArray(M.vaoFlower);
+  glAttr(gl,M.flower.p,'aQ',qB,2,8,0,0);glAttr(gl,M.flower.p,'aB',fB,4,32,0,1);glAttr(gl,M.flower.p,'aF',fB,4,32,16,1);
+  M.vaoMote=gl.createVertexArray();gl.bindVertexArray(M.vaoMote);glAttr(gl,M.mote.p,'aS',mB,4,16,0,0);
+  M.vaoSky=gl.createVertexArray();
+  gl.bindVertexArray(null);
+  M.nb=NB;M.nf=NF;M.nverts=(SEG+1)*2;M.nm=700;
+}
+function meadowResize(){
+  var r=cv.getBoundingClientRect();M.dpr=Math.min(window.devicePixelRatio||1,1.5);
+  M.W=Math.max(1,Math.round(r.width*M.dpr));M.H=Math.max(1,Math.round(r.height*M.dpr));
+  M.cv.width=M.W;M.cv.height=M.H;
+}
+function meadowHide(){if(M.cv)M.cv.style.display='none';}
+function meadowInit(){
+  if(!meadowSetup()){flowInit();return;}
+  M.cv.style.display='block';meadowResize();meadowBuild();
+  if(!M.dreamT0){var d=new Date();M.dream0=(d.getHours()+d.getMinutes()/60+d.getSeconds()/3600)/24;M.dreamT0=performance.now();}
+  if(reduced)M.real=true;
+}
+// --- the sky clock: sun on a 24 h arc (rises 06:00 left, noon overhead, sets 18:00 right), moon lagging by its phase ---
+function moonPhase(ms){var days=ms/86400000+2440587.5-2451550.1;var p=(days/29.530588853)%1;return p<0?p+1:p;} // 0 new, 0.5 full
+function dayFrac(now){
+  if(M.real){var d=new Date();return (d.getHours()+d.getMinutes()/60+d.getSeconds()/3600)/24;}
+  var f=(M.dream0+(now-M.dreamT0)/1000/DREAM_DAY)%1;return f<0?f+1:f;
+}
+function clockLabel(f){var m=Math.floor(f*1440),h=Math.floor(m/60);return (h<10?'0':'')+h+':'+((m%60)<10?'0':'')+(m%60);}
+function mix3(a,b,t){return [a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t,a[2]+(b[2]-a[2])*t];}
+function sstep(a,b,x){var t=Math.max(0,Math.min(1,(x-a)/(b-a)));return t*t*(3-2*t);}
+function meadowDraw(t){
+  if(!M.ok){flowDraw(t);return;}
+  var gl=M.gl,W=M.W,H=M.H,dark=isDark()?1:0,now=performance.now(),sec=t/1000;
+  var f=dayFrac(now), th=2*Math.PI*(f-0.25), sunEl=Math.sin(th), ph=moonPhase(Date.now()), thm=th-2*Math.PI*ph, moonEl=Math.sin(thm);
+  var hor=H*0.56, arcH=hor*0.82;
+  var sunX=W*(0.5-0.46*Math.cos(th)), sunY=hor-sunEl*arcH, moonX=W*(0.5-0.46*Math.cos(thm)), moonY=hor-moonEl*arcH;
+  var day=sstep(-0.14,0.24,sunEl), gold=Math.exp(-Math.pow(sunEl/0.17,2));
+  var P=dark?{zd:[.10,.19,.36],hd:[.40,.46,.54],zn:[.008,.010,.03],hn:[.045,.045,.11],gold:[.85,.40,.26],light:[.95,.75,.55]}
+            :{zd:[.50,.68,.90],hd:[.93,.91,.84],zn:[.33,.37,.58],hn:[.68,.70,.83],gold:[1,.72,.55],light:[1,.9,.75]};
+  var zen=mix3(mix3(P.zn,P.zd,day),dark?[.24,.16,.30]:[.62,.52,.66],gold*0.35), horc=mix3(mix3(P.hn,P.hd,day),P.gold,gold*0.8), fog=mix3(horc,zen,0.25);
+  var light=mix3(dark?[.35,.42,.65]:[.75,.8,.95],P.light,day);
+  // pointer trail (ages in seconds) and gust rings
+  var tr=new Float32Array(TRAIL_N*4), gu=new Float32Array(GUST_N*4);
+  M.trail=M.trail.filter(function(p){return now-p.t<2600;});
+  for(var i=0;i<M.trail.length&&i<TRAIL_N;i++){var p=M.trail[M.trail.length-1-i];tr.set([p.x*M.dpr,p.y*M.dpr,(now-p.t)/1000,p.s],i*4);}
+  M.gusts=M.gusts.filter(function(g){return now-g.t<4500;});
+  for(i=0;i<M.gusts.length&&i<GUST_N;i++){var g=M.gusts[i];gu.set([g.x*M.dpr,g.y*M.dpr,(now-g.t)/1000,1],i*4);}
+  var wind=reduced?0.45:1;
+  gl.viewport(0,0,W,H);gl.disable(gl.DEPTH_TEST);gl.enable(gl.BLEND);gl.blendFunc(gl.ONE,gl.ONE_MINUS_SRC_ALPHA);
+  function uniforms(pr){var u=pr.u;gl.useProgram(pr.p);
+    if(u.uRes)gl.uniform2f(u.uRes,W,H);if(u.uT)gl.uniform1f(u.uT,sec);if(u.uHorizon)gl.uniform1f(u.uHorizon,hor);
+    if(u.uTrail)gl.uniform4fv(u.uTrail,tr);if(u.uGust)gl.uniform4fv(u.uGust,gu);if(u.uWind)gl.uniform1f(u.uWind,wind);
+    if(u.uSun)gl.uniform3f(u.uSun,sunX,sunY,sunEl);if(u.uMoon)gl.uniform3f(u.uMoon,moonX,moonY,moonEl);if(u.uPhase)gl.uniform1f(u.uPhase,ph);
+    if(u.uDark)gl.uniform1f(u.uDark,dark);if(u.uDay)gl.uniform1f(u.uDay,day);if(u.uGold)gl.uniform1f(u.uGold,gold);
+    if(u.uZen)gl.uniform3fv(u.uZen,zen);if(u.uHor)gl.uniform3fv(u.uHor,horc);if(u.uFog)gl.uniform3fv(u.uFog,fog);if(u.uLight)gl.uniform3fv(u.uLight,light);}
+  uniforms(M.sky);gl.bindVertexArray(M.vaoSky);gl.disable(gl.BLEND);gl.drawArrays(gl.TRIANGLES,0,3);gl.enable(gl.BLEND);
+  uniforms(M.blade);gl.bindVertexArray(M.vaoBlade);gl.drawArraysInstanced(gl.TRIANGLE_STRIP,0,M.nverts,M.nb);
+  uniforms(M.flower);gl.bindVertexArray(M.vaoFlower);if(M.nf)gl.drawArraysInstanced(gl.TRIANGLE_STRIP,0,4,M.nf);
+  uniforms(M.mote);gl.bindVertexArray(M.vaoMote);gl.drawArrays(gl.POINTS,0,M.nm);
+  gl.bindVertexArray(null);
+  if(now-M.lastHint>1000&&hint){M.lastHint=now;hint.textContent='Walk through the grass · press for a gust · sky '+clockLabel(f)+(M.real?' (your time)':' (dream time)');}
+}
+function meadowPointer(e,kind){
+  if(cur!=='flow'||!M.ok)return;
+  var r=cv.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top,now=performance.now();
+  if(kind==='down'){M.gusts.push({x:x,y:y,t:now});if(M.gusts.length>GUST_N)M.gusts.shift();return;}
+  var last=M.trail[M.trail.length-1];
+  var sp=last?Math.hypot(x-last.x,y-last.y)/Math.max(8,now-last.t):0;
+  if(last&&now-last.t<30&&Math.hypot(x-last.x,y-last.y)<6)return;
+  M.trail.push({x:x,y:y,t:now,s:Math.min(1,0.35+sp*1.4)});if(M.trail.length>TRAIL_N)M.trail.shift();
 }
 
 // ===== MESH =====
@@ -402,8 +699,8 @@ function gridDraw(t){
 }
 
 // -- Mode dispatch --
-var inits={flow:flowInit,mesh:meshInit,lines:linesInit,scan:scanInit,matrix:function(){},grid:gridInit};
-var draws={flow:flowDraw,mesh:meshDraw,lines:linesDraw,scan:scanDraw,matrix:matrixDraw,grid:gridDraw};
+var inits={flow:meadowInit,mesh:meshInit,lines:linesInit,scan:scanInit,matrix:function(){},grid:gridInit};
+var draws={flow:meadowDraw,mesh:meshDraw,lines:linesDraw,scan:scanDraw,matrix:matrixDraw,grid:gridDraw};
 
 function clearCanvas(){
   var p=palette();
@@ -438,6 +735,7 @@ modes.forEach(function(m){
   btn.addEventListener('click',function(){
     cur=m.id;
     bar.querySelectorAll('.gen-mode').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-mode')===cur);});
+    if(cur!=='flow')meadowHide();
     resize();clearCanvas();inits[cur]();setOpts();
     if(!running)startLoop();
   });
@@ -451,6 +749,10 @@ function setOpts(){
   if(!opts)return;
   if(cur!=='lines'&&mic.on)micStop();
   opts.innerHTML='';
+  if(m.opt==='sky'){var sb=document.createElement('button');sb.className='gen-mode'+(M.real?' active':'');sb.textContent='Your time';
+    sb.setAttribute('aria-pressed',M.real?'true':'false');sb.title='Sun and moon at your local time instead of the fast dream-time day';
+    sb.addEventListener('click',function(){M.real=!M.real;sb.classList.toggle('active',M.real);sb.setAttribute('aria-pressed',M.real?'true':'false');
+      if(!M.real){var d=new Date();M.dream0=(d.getHours()+d.getMinutes()/60+d.getSeconds()/3600)/24;M.dreamT0=performance.now();}M.lastHint=0;});opts.appendChild(sb);}
   if(m.opt==='mic'){var b=document.createElement('button');b.className='gen-mode'+(mic.on?' active':'');b.textContent=mic.on?'Mic on':'Mic';
     b.setAttribute('aria-label','Use microphone');b.addEventListener('click',function(){micToggle(b);});opts.appendChild(b);}
 }
@@ -463,10 +765,12 @@ function updatePointer(e){
   mx=Math.max(0,Math.min(1,(e.clientX-r.left)/r.width));
   my=Math.max(0,Math.min(1,(e.clientY-r.top)/r.height));
 }
-cv.addEventListener('pointermove',function(e){updatePointer(e);});
-cv.addEventListener('pointerdown',function(e){pressed=true;updatePointer(e);});
-cv.addEventListener('pointerup',function(){pressed=false;});
-cv.addEventListener('pointerleave',function(){pressed=false;});
+// listen on the frame: the Meadow's WebGL canvas sits on top of the 2D one
+var frame=cv.parentNode;
+frame.addEventListener('pointermove',function(e){updatePointer(e);meadowPointer(e,'move');});
+frame.addEventListener('pointerdown',function(e){pressed=true;updatePointer(e);meadowPointer(e,'down');});
+frame.addEventListener('pointerup',function(){pressed=false;});
+frame.addEventListener('pointerleave',function(){pressed=false;});
 
 // -- Visibility: only animate when in viewport --
 var observer=new IntersectionObserver(function(entries){
