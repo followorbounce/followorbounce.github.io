@@ -79,3 +79,7 @@
     - The NOAA parser is fixed and the Kp index added. The ISS's live position is shown on the Satellites tile.
     - Every relayed tile shows "as of HH:MM" and goes to "—" when stale.
   - **Verified:** real headless Firefox with live CORS shows all 8 tiles populated (aircraft 6,374, ships 2,858, satellites 15,965, solar 302 km/s Kp 2.3, ISS lat/lon/alt); a manual run of the Actions relay succeeded.
+
+## 2026-10-08 — Anatomy shader on the homepage
+- New plugin `engine/anatomy-shader.{css,html,js}` placed under the Audio synth section, linking to `/anatomy-explorer/`. WebGL2 SDF shader in the video-synth idiom (Light Grid / Displacement Field): body on a scan table with contour-line skin; a scan lens (pointer) reveals skeleton, arteries/veins flowing on the heartbeat, nerve signals, beating heart; hold = see through; ECG strip; layer chips. Theme-aware, reduced-motion aware, pauses off-screen.
+- Verified with headless Firefox read-back (`__anaPreserve`): light, dark, hold, lens-on-chest at 1400 px and dark at 390 px phone width. No console errors. Not checked on a real phone.

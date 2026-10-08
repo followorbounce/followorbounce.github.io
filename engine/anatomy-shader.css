@@ -1,0 +1,6 @@
+/* ---- Anatomy shader: scan-lens study, links to /anatomy-explorer/ (engine/anatomy-shader.*) ---- */
+.anashader{padding-block:28px; border-bottom:1px solid var(--ink);}
+.as-frame canvas{display:block; width:100%; height:300px; cursor:crosshair; touch-action:pan-y;}
+@media(max-width:600px){.as-frame canvas{height:220px;}}
+.as-layers .gen-mode[aria-pressed="false"]{background:transparent; color:var(--mid); border-color:var(--line);}
+@media(pointer:coarse){.as-layers .gen-mode{min-height:44px; padding-inline:14px;}}
