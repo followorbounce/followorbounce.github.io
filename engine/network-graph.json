@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 53
+      "count": 58
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 127,
+    "pages": 132,
     "repos": 4,
     "own": 36,
-    "aerospace": 53,
+    "aerospace": 58,
     "maya": 7,
     "machinery": 31
   },
@@ -525,6 +525,56 @@
       "title": "Venera & Vega",
       "description": "Deep Space Probes — FURNACE",
       "url": "https://followorbounce.github.io/aerospace/furnace-venera-vega.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Deep Space Probes",
+      "title": "Juno at Jupiter",
+      "description": "Deep Space Probes — POLAR",
+      "url": "https://followorbounce.github.io/aerospace/polar-juno-jupiter.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "The Sun & Small Bodies",
+      "title": "Parker Solar Probe & Solar Orbiter",
+      "description": "The Sun & Small Bodies — CORONA",
+      "url": "https://followorbounce.github.io/aerospace/corona-parker-solar-orbiter.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "The Sun & Small Bodies",
+      "title": "Rosetta & Philae",
+      "description": "The Sun & Small Bodies — COMET",
+      "url": "https://followorbounce.github.io/aerospace/comet-rosetta-philae.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "The Sun & Small Bodies",
+      "title": "Hayabusa & OSIRIS-REx",
+      "description": "The Sun & Small Bodies — SAMPLE",
+      "url": "https://followorbounce.github.io/aerospace/sample-hayabusa-osiris-rex.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "The Sun & Small Bodies",
+      "title": "DART & Planetary Defence",
+      "description": "The Sun & Small Bodies — IMPACT",
+      "url": "https://followorbounce.github.io/aerospace/impact-dart-planetary-defence.html",
       "tag": "Read",
       "interactive": true
     },

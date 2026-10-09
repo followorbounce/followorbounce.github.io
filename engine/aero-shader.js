@@ -67,11 +67,14 @@ var M=[
 ['2008-10-22','Chandrayaan-1','lunar','','valor-the-chandrayaan-mission','Launch of India’s first Moon mission, which helped confirm water on the Moon.'],
 ['2009-03-07','Kepler','trail','','transit-kepler-telescope','Launch of the planet hunter that found thousands of exoplanets.'],
 ['2009-06-18','Lunar Reconnaissance Orbiter','lunar','','scout-lunar-reconnaissance-orbiter','Launch of the orbiter that has mapped the Moon in detail ever since.'],
+['2010-06-13','Hayabusa comes home','land','earth','sample-hayabusa-osiris-rex','The capsule landed at Woomera with about 1,500 grains of asteroid Itokawa.'],
 ['2011-09-29','Tiangong-1','dock','','palace-tiangong-station','Launch of China’s first space laboratory module.'],
 ['2012-08-06','Curiosity lands','land','mars','skycrane-curiosity-rover','Lowered onto Gale Crater by a rocket-powered sky crane.'],
 ['2012-08-25','Voyager 1 leaves the heliosphere','outer','','voyager-and-pioner','The first spacecraft to cross into interstellar space, at about 121 AU.'],
 ['2013-12-19','Gaia','l2','','parallax-gaia-mission','Launch of the mission measuring the positions of almost two billion stars.'],
+['2014-08-06','Rosetta reaches comet 67P','outer','','comet-rosetta-philae','After ten years and four planetary flybys, Rosetta matched orbits with a comet.'],
 ['2015-07-14','New Horizons at Pluto','outer','','frontier-new-horizons','The first close flyby of Pluto, revealing its heart-shaped nitrogen-ice plain.'],
+['2016-07-05','Juno reaches Jupiter','outer','','polar-juno-jupiter','A 35-minute burn put the first solar-powered Jupiter orbiter into a pole-to-pole orbit.'],
 ['2017-09-15','Cassini’s Grand Finale','outer','','finale-cassini-huygens','After 13 years at Saturn, Cassini dove into the planet’s atmosphere.'],
 ['2019-01-03','Chang’e 4 lands on the far side','land','moon','rabbit-change-far-side','The first landing on the far side of the Moon, in Von Kármán crater, relayed through Queqiao.'],
 ['2020-05-30','Crew Dragon Demo-2','dock','','handoff-commercial-crew-program','The first crew launched to orbit on a commercial spacecraft.'],
@@ -80,10 +83,13 @@ var M=[
 ['2021-04-19','Ingenuity flies','land','mars','jezero-perseverance-rover','The first powered, controlled flight on another planet.'],
 ['2021-04-29','Tianhe core module','dock','','palace-tiangong-station','The core of China’s Tiangong space station was launched.'],
 ['2021-12-25','James Webb Space Telescope','l2','','james-webb-space-telescope','Launch of the largest space telescope, headed to the Sun–Earth L2 point.'],
+['2022-09-26','DART hits Dimorphos','trail','','impact-dart-planetary-defence','The first test of asteroid deflection shortened Dimorphos’s orbit by 33 minutes.'],
 ['2022-11-16','Artemis I','lunar','','campaign-artemis-program','Launch of the uncrewed Orion test flight around the Moon.'],
 ['2023-08-23','Chandrayaan-3 lands','land','moon','valor-the-chandrayaan-mission','The first landing near the lunar south pole.'],
+['2023-09-24','OSIRIS-REx sample lands','land','earth','sample-hayabusa-osiris-rex','The capsule parachuted into Utah with 121.6 g of asteroid Bennu.'],
 ['2024-06-01','Chang’e 6 lands on the far side','land','moon','rabbit-change-far-side','Collected 1,935.3 g of samples, the first ever returned from the Moon’s far side.'],
-['2024-10-14','Europa Clipper','outer','','flyby-europa-clipper','Launch of the mission to study whether Jupiter’s moon Europa could support life.']
+['2024-10-14','Europa Clipper','outer','','flyby-europa-clipper','Launch of the mission to study whether Jupiter’s moon Europa could support life.'],
+['2024-12-24','Parker Solar Probe’s closest pass','trail','','corona-parker-solar-orbiter','Perihelion at 9.86 solar radii, the closest any spacecraft has come to the Sun.']
 ];
 var TYPE={leo:0,dock:1,lunar:2,mars:3,outer:4,l2:5,trail:6,land:7,sub:8};
 var BODY={moon:0,mars:1,venus:2,titan:3,earth:4};
