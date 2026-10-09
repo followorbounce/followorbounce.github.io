@@ -95,7 +95,7 @@ var now=new Date(), today=doy(now.getUTCMonth(),now.getUTCDate()), cur=0, era='t
 function todayPick(){
   var best=0,bd=1e9;
   M.forEach(function(m,i){var p=parts(m[0]),d=doy(p[1],p[2])-today; if(d>182)d-=365; if(d<-182)d+=365;
-    var k=Math.abs(d)+(d>0?0.5:0)+p[0]*1e-5; // past beats upcoming; same day -> the older mission if(k<bd){bd=k;best=i;}});
+    var k=Math.abs(d)+(d>0?0.5:0)+p[0]*1e-5; /* past beats upcoming; same day: the older mission */ if(k<bd){bd=k;best=i;}});
   return best;
 }
 function setList(){

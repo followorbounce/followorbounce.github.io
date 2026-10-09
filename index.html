@@ -1502,8 +1502,8 @@ var FS=['#version 300 es',
 '}',
 'float heart(vec2 p){ vec2 c=p-vec2(-0.238,0.022); float a=-0.6, cs=cos(a), sn=sin(a); c=mat2(cs,-sn,sn,cs)*c;',
 '  float k=1.0+0.09*uBeat; return ell(c,vec2(0.03,0.024)*k); }',
-'float ecg(float x){ return 0.12*exp(-pow((x-0.18)/0.03,2.0)) - 0.15*exp(-pow((x-0.3)/0.008,2.0)) + 1.0*exp(-pow((x-0.32)/0.01,2.0))',
-'  - 0.28*exp(-pow((x-0.345)/0.01,2.0)) + 0.25*exp(-pow((x-0.55)/0.05,2.0)); }',
+'float g2(float x, float c, float w){ float u=(x-c)/w; return exp(-u*u); }',   // no pow() of negatives: undefined in GLSL (NaN on some GPUs)
+'float ecg(float x){ return 0.12*g2(x,0.18,0.03) - 0.15*g2(x,0.3,0.008) + g2(x,0.32,0.01) - 0.28*g2(x,0.345,0.01) + 0.25*g2(x,0.55,0.05); }',
 'void main(){',
 '  vec2 fc=gl_FragCoord.xy; PX=1.0/uL;',
 '  vec2 p=(fc-uC)/uL;',
@@ -1728,7 +1728,7 @@ var now=new Date(), today=doy(now.getUTCMonth(),now.getUTCDate()), cur=0, era='t
 function todayPick(){
   var best=0,bd=1e9;
   M.forEach(function(m,i){var p=parts(m[0]),d=doy(p[1],p[2])-today; if(d>182)d-=365; if(d<-182)d+=365;
-    var k=Math.abs(d)+(d>0?0.5:0)+p[0]*1e-5; // past beats upcoming; same day -> the older mission if(k<bd){bd=k;best=i;}});
+    var k=Math.abs(d)+(d>0?0.5:0)+p[0]*1e-5; /* past beats upcoming; same day: the older mission */ if(k<bd){bd=k;best=i;}});
   return best;
 }
 function setList(){
