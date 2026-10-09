@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 63
+      "count": 68
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 137,
+    "pages": 142,
     "repos": 4,
     "own": 36,
-    "aerospace": 63,
+    "aerospace": 68,
     "maya": 7,
     "machinery": 31
   },
@@ -425,6 +425,36 @@
       "title": "Vostok & Voskhod",
       "description": "Dawn of the Space Age — FIRST",
       "url": "https://followorbounce.github.io/aerospace/first-vostok-voskhod.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "GPS & Satellite Navigation",
+      "description": "Earth Orbit & Applications — NAVIGATOR",
+      "url": "https://followorbounce.github.io/aerospace/navigator-gps.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "Earth Observation Satellites",
+      "description": "Earth Orbit & Applications — SUNSYNC",
+      "url": "https://followorbounce.github.io/aerospace/sunsync-earth-observation.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "Space Debris & the Kessler Syndrome",
+      "description": "Earth Orbit & Applications — DEBRIS",
+      "url": "https://followorbounce.github.io/aerospace/debris-space-junk.html",
       "tag": "Read",
       "interactive": true
     },
@@ -851,6 +881,16 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Human Spaceflight",
+      "title": "Spacesuits & Spacewalks",
+      "description": "Human Spaceflight — SUIT",
+      "url": "https://followorbounce.github.io/aerospace/suit-spacesuits-eva.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Future Exploration",
       "title": "Artemis Base Camp",
       "description": "Future Exploration — HORIZON",
@@ -905,6 +945,16 @@
       "title": "Interstellar Probe Concept",
       "description": "Future Exploration — BEYOND",
       "url": "https://followorbounce.github.io/aerospace/beyond-interstellar-probe.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Future Exploration",
+      "title": "Solar Sails",
+      "description": "Future Exploration — SAIL",
+      "url": "https://followorbounce.github.io/aerospace/sail-solar-sails.html",
       "tag": "Read",
       "interactive": true
     },
