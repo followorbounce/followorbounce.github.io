@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 48
+      "count": 53
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 122,
+    "pages": 127,
     "repos": 4,
     "own": 36,
-    "aerospace": 48,
+    "aerospace": 53,
     "maya": 7,
     "machinery": 31
   },
@@ -411,6 +411,26 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Dawn of the Space Age",
+      "title": "Sputnik, Explorer & the First Satellites",
+      "description": "Dawn of the Space Age — BEEP",
+      "url": "https://followorbounce.github.io/aerospace/beep-sputnik-explorer.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Dawn of the Space Age",
+      "title": "Vostok & Voskhod",
+      "description": "Dawn of the Space Age — FIRST",
+      "url": "https://followorbounce.github.io/aerospace/first-vostok-voskhod.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Space Stations",
       "title": "ISS & Mir",
       "description": "Space Stations — ORBIT",
@@ -501,6 +521,16 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Deep Space Probes",
+      "title": "Venera & Vega",
+      "description": "Deep Space Probes — FURNACE",
+      "url": "https://followorbounce.github.io/aerospace/furnace-venera-vega.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Moon Exploration",
       "title": "Luna & the Moon Race",
       "description": "Moon Exploration — DESCENT",
@@ -555,6 +585,16 @@
       "title": "The Artemis Program",
       "description": "Moon Exploration — CAMPAIGN",
       "url": "https://followorbounce.github.io/aerospace/campaign-artemis-program.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Moon Exploration",
+      "title": "Chang'e & the Far Side of the Moon",
+      "description": "Moon Exploration — RABBIT",
+      "url": "https://followorbounce.github.io/aerospace/rabbit-change-far-side.html",
       "tag": "Read",
       "interactive": true
     },
@@ -745,6 +785,16 @@
       "title": "Commercial Crew Program",
       "description": "Human Spaceflight — HANDOFF",
       "url": "https://followorbounce.github.io/aerospace/handoff-commercial-crew-program.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Human Spaceflight",
+      "title": "Shenzhou & China's Crewed Program",
+      "description": "Human Spaceflight — VESSEL",
+      "url": "https://followorbounce.github.io/aerospace/vessel-shenzhou-program.html",
       "tag": "Read",
       "interactive": true
     },
