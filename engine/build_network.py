@@ -276,6 +276,10 @@ def render_index(graph):
     as_css = open(os.path.join(HERE, "anatomy-shader.css"), encoding="utf-8").read()
     as_html = open(os.path.join(HERE, "anatomy-shader.html"), encoding="utf-8").read()
     as_js = open(os.path.join(HERE, "anatomy-shader.js"), encoding="utf-8").read()
+    # Aerospace mission-of-the-day shader, under the anatomy shader; links to /aerospace/ (see engine/aero-shader.*):
+    ae_css = open(os.path.join(HERE, "aero-shader.css"), encoding="utf-8").read()
+    ae_html = open(os.path.join(HERE, "aero-shader.html"), encoding="utf-8").read()
+    ae_js = open(os.path.join(HERE, "aero-shader.js"), encoding="utf-8").read()
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -423,6 +427,7 @@ header .brand{{
 {od_css}
 {ls_css}
 {as_css}
+{ae_css}
 {cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
@@ -500,6 +505,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {od_html}
 {ls_html}
 {as_html}
+{ae_html}
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -588,6 +594,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {od_js}
 {ls_js}
 {as_js}
+{ae_js}
 <script>
 {gen_js}
 </script>

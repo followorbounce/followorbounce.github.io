@@ -1,0 +1,34 @@
+<section class="aeroshader" data-hide-when-search aria-labelledby="ae-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="ae-h">Aerospace &middot; <b>mission of the day</b></span>
+      <div class="gen-bar">
+        <div class="gen-modes ae-eras" id="ae-eras" role="group" aria-label="Choose a period">
+          <button type="button" class="gen-mode active" data-era="today" aria-pressed="true">Today</button>
+          <button type="button" class="gen-mode" data-era="0" aria-pressed="false">1957&ndash;75</button>
+          <button type="button" class="gen-mode" data-era="1" aria-pressed="false">1976&ndash;99</button>
+          <button type="button" class="gen-mode" data-era="2" aria-pressed="false">2000&ndash;now</button>
+        </div>
+        <div class="gen-modes gen-opts ae-step">
+          <button type="button" class="gen-mode" id="ae-prev" aria-label="Previous mission">&lsaquo;</button>
+          <button type="button" class="gen-mode" id="ae-next" aria-label="Next mission">&rsaquo;</button>
+        </div>
+      </div>
+    </div>
+    <div class="gen-frame ae-frame" id="ae-frame">
+      <canvas id="ae-cv" role="img" aria-label="Animated trajectory of the selected mission"></canvas>
+      <div class="gen-hint" id="ae-hint">Drag to scrub mission time</div>
+      <div class="ae-info" aria-live="polite">
+        <div class="ae-when" id="ae-when">&nbsp;</div>
+        <div class="ae-name" id="ae-name">&nbsp;</div>
+        <p class="ae-what" id="ae-what"></p>
+        <a class="ae-read" id="ae-read" href="/aerospace/">Aerospace Knowledge Hub &rarr;</a>
+      </div>
+    </div>
+    <a class="gen-more" href="/aerospace/">
+      <span class="gen-more-k">Aerospace</span>
+      <span class="gen-more-d">48 bilingual field guides &mdash; stations, probes, the Moon, Mars, telescopes, human spaceflight &amp; the physics behind them</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+  </div>
+</section>

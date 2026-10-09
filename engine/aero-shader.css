@@ -1,0 +1,14 @@
+/* ---- Aerospace shader: mission of the day / by period, links to /aerospace/ (engine/aero-shader.*) ---- */
+.aeroshader{padding-block:28px; border-bottom:1px solid var(--ink);}
+.ae-frame{display:grid; grid-template-columns:minmax(0,1fr) 300px;}
+.ae-frame canvas{display:block; width:100%; height:300px; cursor:ew-resize; touch-action:pan-y;}
+.ae-info{border-left:1px solid var(--line); padding:14px 16px; display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ae-when{font-family:var(--font-mono); font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--mid);}
+.ae-name{font-family:var(--font-mono); font-size:15px; font-weight:600; letter-spacing:.02em; line-height:1.3; color:var(--ink);}
+.ae-what{margin:0; font-size:12.5px; line-height:1.5; color:var(--ink); opacity:.8; flex:1;}
+.ae-read{font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; text-transform:uppercase; color:var(--ink); text-decoration:none; border-top:1px solid var(--line); padding-top:8px;}
+.ae-read:hover, .ae-read:focus-visible{text-decoration:underline;}
+.ae-frame .gen-hint{left:10px; bottom:8px;}
+.ae-step .gen-mode{min-width:30px; font-size:13px;}
+@media(max-width:760px){.ae-step{border-left:0; padding-left:0;} .ae-frame{grid-template-columns:1fr;} .ae-frame canvas{height:230px;} .ae-info{border-left:0; border-top:1px solid var(--line);} .ae-frame .gen-hint{bottom:auto; top:8px;}}
+@media(pointer:coarse){.ae-eras .gen-mode, .ae-step .gen-mode{min-height:44px; padding-inline:12px;}}

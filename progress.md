@@ -83,3 +83,7 @@
 ## 2026-10-08 — Anatomy shader on the homepage
 - New plugin `engine/anatomy-shader.{css,html,js}` placed under the Audio synth section, linking to `/anatomy-explorer/`. WebGL2 SDF shader in the video-synth idiom (Light Grid / Displacement Field): body on a scan table with contour-line skin; a scan lens (pointer) reveals skeleton, arteries/veins flowing on the heartbeat, nerve signals, beating heart; hold = see through; ECG strip; layer chips. Theme-aware, reduced-motion aware, pauses off-screen.
 - Verified with headless Firefox read-back (`__anaPreserve`): light, dark, hold, lens-on-chest at 1400 px and dark at 390 px phone width. No console errors. Not checked on a real phone.
+
+## 2026-10-08 — Aerospace mission-of-the-day shader
+- New plugin `engine/aero-shader.{css,html,js}` under the anatomy shader, linking to `/aerospace/`: 67 dated missions (UTC), Today = nearest anniversary, period chips + stepping, info panel linking to the matching field guide; WebGL2 shader with 9 trajectory types (see CLAUDE.md). Verified by headless read-back: all 9 types at mid-flight and arrival, section layout at 1400 px and 390 px. Not checked on a real phone.
+- Missions with no field guide yet (Sputnik 1, Explorer 1, Vostok 1/6, Voskhod 2, Venera 7, Shenzhou 5) are the input to the aerospace article plan (awaiting the owner's go-ahead).
