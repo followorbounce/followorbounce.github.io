@@ -30,6 +30,7 @@ var M=[
 ['1966-03-16','Gemini 8','dock','','rendezvous-gemini-program','The first docking of two spacecraft in orbit, followed by a stuck-thruster emergency.'],
 ['1966-06-02','Surveyor 1','land','moon','luna-programs','The first US soft landing on the Moon, testing the ground Apollo would stand on.'],
 ['1968-12-21','Apollo 8','lunar','','tranquility-apollo-program','Launch of the first crew to leave Earth orbit and circle the Moon.'],
+['1969-02-21','First N1 launch','sub','','thrust-saturn-v-n1','The Soviet Moon rocket’s 30-engine first stage was shut down by its control system 68.7 s into flight.'],
 ['1969-07-20','Apollo 11 — Eagle has landed','land','moon','tranquility-apollo-program','Armstrong and Aldrin landed in the Sea of Tranquility and walked on the Moon.'],
 ['1970-09-12','Luna 16','lunar','','luna-programs','Launch of the first robotic mission to return lunar soil to Earth.'],
 ['1970-11-17','Lunokhod 1','land','moon','luna-programs','The first robotic rover on another world began 10 months of driving on the Moon.'],
@@ -63,6 +64,7 @@ var M=[
 ['2004-01-04','Spirit lands','land','mars','troy-spirit-rover','The rover planned for 90 sols drove on Mars for six years.'],
 ['2004-01-25','Opportunity lands','land','mars','marathon-opportunity-rover','It drove more than a marathon’s distance over 14 years.'],
 ['2005-01-14','Huygens lands on Titan','land','titan','finale-cassini-huygens','The most distant landing ever made, under the haze of Saturn’s largest moon.'],
+['2006-01-15','Stardust comes home','land','earth','entry-heat-shields','The fastest Earth entry of any returning capsule, 12.9 km/s, under a PICA heat shield.'],
 ['2006-01-19','New Horizons','outer','','frontier-new-horizons','Launch of the fastest spacecraft ever sent from Earth, bound for Pluto.'],
 ['2008-10-22','Chandrayaan-1','lunar','','valor-the-chandrayaan-mission','Launch of India’s first Moon mission, which helped confirm water on the Moon.'],
 ['2009-03-07','Kepler','trail','','transit-kepler-telescope','Launch of the planet hunter that found thousands of exoplanets.'],
@@ -74,6 +76,7 @@ var M=[
 ['2013-12-19','Gaia','l2','','parallax-gaia-mission','Launch of the mission measuring the positions of almost two billion stars.'],
 ['2014-08-06','Rosetta reaches comet 67P','outer','','comet-rosetta-philae','After ten years and four planetary flybys, Rosetta matched orbits with a comet.'],
 ['2015-07-14','New Horizons at Pluto','outer','','frontier-new-horizons','The first close flyby of Pluto, revealing its heart-shaped nitrogen-ice plain.'],
+['2015-12-22','Falcon 9 booster lands','sub','','return-reusable-rockets','The first orbital-class booster to fly back and land upright, at Cape Canaveral.'],
 ['2016-07-05','Juno reaches Jupiter','outer','','polar-juno-jupiter','A 35-minute burn put the first solar-powered Jupiter orbiter into a pole-to-pole orbit.'],
 ['2017-09-15','Cassini’s Grand Finale','outer','','finale-cassini-huygens','After 13 years at Saturn, Cassini dove into the planet’s atmosphere.'],
 ['2019-01-03','Chang’e 4 lands on the far side','land','moon','rabbit-change-far-side','The first landing on the far side of the Moon, in Von Kármán crater, relayed through Queqiao.'],
@@ -88,6 +91,7 @@ var M=[
 ['2023-08-23','Chandrayaan-3 lands','land','moon','valor-the-chandrayaan-mission','The first landing near the lunar south pole.'],
 ['2023-09-24','OSIRIS-REx sample lands','land','earth','sample-hayabusa-osiris-rex','The capsule parachuted into Utah with 121.6 g of asteroid Bennu.'],
 ['2024-06-01','Chang’e 6 lands on the far side','land','moon','rabbit-change-far-side','Collected 1,935.3 g of samples, the first ever returned from the Moon’s far side.'],
+['2024-10-13','Super Heavy caught by the tower','sub','','return-reusable-rockets','Starship’s booster flew back to its launch tower and was caught by its arms.'],
 ['2024-10-14','Europa Clipper','outer','','flyby-europa-clipper','Launch of the mission to study whether Jupiter’s moon Europa could support life.'],
 ['2024-12-24','Parker Solar Probe’s closest pass','trail','','corona-parker-solar-orbiter','Perihelion at 9.86 solar radii, the closest any spacecraft has come to the Sun.']
 ];

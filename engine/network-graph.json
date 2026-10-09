@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 58
+      "count": 63
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 132,
+    "pages": 137,
     "repos": 4,
     "own": 36,
-    "aerospace": 58,
+    "aerospace": 63,
     "maya": 7,
     "machinery": 31
   },
@@ -905,6 +905,56 @@
       "title": "Interstellar Probe Concept",
       "description": "Future Exploration — BEYOND",
       "url": "https://followorbounce.github.io/aerospace/beyond-interstellar-probe.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Rockets & Engineering",
+      "title": "Saturn V & N1",
+      "description": "Rockets & Engineering — THRUST",
+      "url": "https://followorbounce.github.io/aerospace/thrust-saturn-v-n1.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Rockets & Engineering",
+      "title": "Falcon 9, Starship & Reusable Rockets",
+      "description": "Rockets & Engineering — RETURN",
+      "url": "https://followorbounce.github.io/aerospace/return-reusable-rockets.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Rockets & Engineering",
+      "title": "How Rocket Engines Work",
+      "description": "Rockets & Engineering — NOZZLE",
+      "url": "https://followorbounce.github.io/aerospace/nozzle-rocket-engines.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Rockets & Engineering",
+      "title": "Heat Shields & Atmospheric Entry",
+      "description": "Rockets & Engineering — ENTRY",
+      "url": "https://followorbounce.github.io/aerospace/entry-heat-shields.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Rockets & Engineering",
+      "title": "The Deep Space Network",
+      "description": "Rockets & Engineering — LINK",
+      "url": "https://followorbounce.github.io/aerospace/link-deep-space-network.html",
       "tag": "Read",
       "interactive": true
     },
