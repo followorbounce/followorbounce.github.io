@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 68
+      "count": 73
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 142,
+    "pages": 147,
     "repos": 4,
     "own": 36,
-    "aerospace": 68,
+    "aerospace": 73,
     "maya": 7,
     "machinery": 31
   },
@@ -571,6 +571,26 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Deep Space Probes",
+      "title": "Mercury: MESSENGER & BepiColombo",
+      "description": "Deep Space Probes — SCORCH",
+      "url": "https://followorbounce.github.io/aerospace/scorch-mercury-messenger-bepicolombo.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Deep Space Probes",
+      "title": "Magellan's Radar Map of Venus",
+      "description": "Deep Space Probes — VEIL",
+      "url": "https://followorbounce.github.io/aerospace/veil-magellan-venus.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "The Sun & Small Bodies",
       "title": "Parker Solar Probe & Solar Orbiter",
       "description": "The Sun & Small Bodies — CORONA",
@@ -605,6 +625,16 @@
       "title": "DART & Planetary Defence",
       "description": "The Sun & Small Bodies — IMPACT",
       "url": "https://followorbounce.github.io/aerospace/impact-dart-planetary-defence.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "The Sun & Small Bodies",
+      "title": "Dawn at Vesta & Ceres",
+      "description": "The Sun & Small Bodies — BELT",
+      "url": "https://followorbounce.github.io/aerospace/belt-dawn-vesta-ceres.html",
       "tag": "Read",
       "interactive": true
     },
@@ -961,6 +991,16 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Future Exploration",
+      "title": "Uranus & Neptune: the Ice Giants",
+      "description": "Future Exploration — TILT",
+      "url": "https://followorbounce.github.io/aerospace/tilt-uranus-neptune.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Rockets & Engineering",
       "title": "Saturn V & N1",
       "description": "Rockets & Engineering — THRUST",
@@ -1065,6 +1105,16 @@
       "title": "The Mathematics of Music",
       "description": "Foundations & Tools — RESONANCE",
       "url": "https://followorbounce.github.io/aerospace/mathematics-of-music.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Foundations & Tools",
+      "title": "Gravity Assists & the Grand Tour",
+      "description": "Foundations & Tools — SLINGSHOT",
+      "url": "https://followorbounce.github.io/aerospace/slingshot-gravity-assists.html",
       "tag": "Read",
       "interactive": true
     },
