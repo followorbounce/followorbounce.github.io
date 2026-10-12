@@ -280,6 +280,10 @@ def render_index(graph):
     ae_css = open(os.path.join(HERE, "aero-shader.css"), encoding="utf-8").read()
     ae_html = open(os.path.join(HERE, "aero-shader.html"), encoding="utf-8").read()
     ae_js = open(os.path.join(HERE, "aero-shader.js"), encoding="utf-8").read()
+    # Creative network: today's brief + newest public work, live from creative-network.pages.dev (see engine/cn-today.*):
+    cn_css = open(os.path.join(HERE, "cn-today.css"), encoding="utf-8").read()
+    cn_html = open(os.path.join(HERE, "cn-today.html"), encoding="utf-8").read()
+    cn_js = open(os.path.join(HERE, "cn-today.js"), encoding="utf-8").read()
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -428,6 +432,7 @@ header .brand{{
 {ls_css}
 {as_css}
 {ae_css}
+{cn_css}
 {cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
@@ -506,6 +511,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {ls_html}
 {as_html}
 {ae_html}
+{cn_html}
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -595,6 +601,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {ls_js}
 {as_js}
 {ae_js}
+{cn_js}
 <script>
 {gen_js}
 </script>

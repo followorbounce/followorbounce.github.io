@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 73
+      "count": 78
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 147,
+    "pages": 152,
     "repos": 4,
     "own": 36,
-    "aerospace": 73,
+    "aerospace": 78,
     "maya": 7,
     "machinery": 31
   },
@@ -851,6 +851,46 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Space Telescopes",
+      "title": "The Cosmic Microwave Background: COBE, WMAP & Planck",
+      "description": "Space Telescopes — GLOW",
+      "url": "https://followorbounce.github.io/aerospace/glow-cosmic-microwave-background.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Space Telescopes",
+      "title": "Euclid & Roman: Dark Matter and Dark Energy",
+      "description": "Space Telescopes — DARK",
+      "url": "https://followorbounce.github.io/aerospace/dark-euclid-roman.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Space Telescopes",
+      "title": "Gravitational Waves: LIGO, Virgo, KAGRA & LISA",
+      "description": "Space Telescopes — RIPPLE",
+      "url": "https://followorbounce.github.io/aerospace/ripple-gravitational-waves.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Space Telescopes",
+      "title": "Gamma-Ray Bursts: Swift & Fermi",
+      "description": "Space Telescopes — BURST",
+      "url": "https://followorbounce.github.io/aerospace/burst-gamma-ray-bursts.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Human Spaceflight",
       "title": "Mercury & the First Astronauts",
       "description": "Human Spaceflight — ASCENT",
@@ -1115,6 +1155,16 @@
       "title": "Gravity Assists & the Grand Tour",
       "description": "Foundations & Tools — SLINGSHOT",
       "url": "https://followorbounce.github.io/aerospace/slingshot-gravity-assists.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Foundations & Tools",
+      "title": "Spectroscopy: What Starlight Says",
+      "description": "Foundations & Tools — SPECTRUM",
+      "url": "https://followorbounce.github.io/aerospace/spectrum-spectroscopy.html",
       "tag": "Read",
       "interactive": true
     },

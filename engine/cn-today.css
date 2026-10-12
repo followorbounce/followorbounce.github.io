@@ -1,0 +1,23 @@
+/* ---- Creative network: today's brief + newest public work (reuses the .bf-* card from blog-feed.css) ---- */
+.cntoday{padding-block:28px; border-bottom:1px solid var(--ink);}
+.cn-card .bf-cat b{color:var(--ink); font-weight:600;}
+.cn-sub{font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--mid); margin:-4px 0 10px;}
+.cn-fig svg{position:absolute; inset:14px; width:calc(100% - 28px); height:calc(100% - 28px); display:block;}
+.cn-works{margin-top:16px;}
+.cn-works-h{margin-bottom:8px;}
+.cn-grid{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(8,minmax(0,1fr)); gap:8px;}
+.cn-grid li{min-width:0;}
+.cn-tile{display:block; text-decoration:none; color:var(--ink); border:1px solid var(--ink); background:var(--card-bg,#fff);}
+.cn-tile:hover, .cn-tile:focus-visible{outline:2px solid var(--accent); outline-offset:1px;}
+.cn-thumb{position:relative; aspect-ratio:1/1; background:var(--fig-bg,#efefe9); border-bottom:1px solid var(--ink); overflow:hidden;}
+.cn-thumb img{position:absolute; inset:6px; width:calc(100% - 12px); height:calc(100% - 12px); object-fit:contain; opacity:0; transition:opacity .25s ease;}
+.cn-thumb img.ok{opacity:1;}
+.cn-kind{position:absolute; left:0; top:0; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.1em; text-transform:uppercase; background:var(--ink); color:var(--paper); padding:2px 5px;}
+.cn-cap{padding:6px 7px 7px; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.03em; line-height:1.35; min-height:44px;}
+.cn-who{display:block; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.cn-terms{display:block; color:var(--mid); overflow:hidden; text-overflow:ellipsis; white-space:nowrap;}
+.cn-res{display:inline-block; margin-left:4px; border:1px solid var(--line); padding:0 3px; font-size:9px; text-transform:uppercase; color:var(--mid);}
+@media (prefers-reduced-motion: reduce){.cn-thumb img{transition:none;}}
+@media (max-width:980px){.cn-grid{grid-template-columns:repeat(4,minmax(0,1fr));}}
+@media (max-width:600px){.cn-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
+@media (pointer:coarse){.cn-card .bf-read, .bf-all{min-height:44px; display:inline-flex; align-items:center;}}
