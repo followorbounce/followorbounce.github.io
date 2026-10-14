@@ -8,7 +8,7 @@
       "id": "design-experience",
       "title": "Design & Experience",
       "pages": [
-        { "slug": "dictionary-of-design", "url": "/dictionary-of-design/", "title": "Dictionary of Design", "description": "112 art/design terms, illustrated with a small reusable abstract-vector visual grammar — “design of the external world.”", "tag": "Hub", "interactive": true },
+        { "slug": "dictionary-of-design", "url": "/dictionary-of-design/", "title": "Dictionary of Design", "description": "113 art/design terms, illustrated with a small reusable abstract-vector visual grammar — “design of the external world.”", "tag": "Hub", "interactive": true },
         { "slug": "dictionary-of-inner-experience", "url": "/dictionary-of-inner-experience/", "title": "Dictionary of Inner Experience", "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”", "tag": "Hub", "interactive": true }
       ]
     },
