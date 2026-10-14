@@ -284,10 +284,8 @@ def render_index(graph):
     cn_css = open(os.path.join(HERE, "cn-today.css"), encoding="utf-8").read()
     cn_html = open(os.path.join(HERE, "cn-today.html"), encoding="utf-8").read()
     cn_js = open(os.path.join(HERE, "cn-today.js"), encoding="utf-8").read()
-    # Knot Atlas knot of the day, last; reads /knots/feed/ (same origin), see engine/knot-of-day.*:
-    kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
-    kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
-    kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
+    # Knot Atlas "knot of the day" plugin removed from the homepage 2026-10-13 (owner request);
+    # engine/knot-of-day.* kept unused in case it comes back.
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -437,7 +435,6 @@ header .brand{{
 {as_css}
 {ae_css}
 {cn_css}
-{kd_css}
 {cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
@@ -517,7 +514,6 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {as_html}
 {ae_html}
 {cn_html}
-{kd_html}
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -608,7 +604,6 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {as_js}
 {ae_js}
 {cn_js}
-{kd_js}
 <script>
 {gen_js}
 </script>
