@@ -336,6 +336,23 @@ header .brand{
 @media (max-width:600px){.cn-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media (pointer:coarse){.cn-card .bf-read, .bf-all{min-height:44px; display:inline-flex; align-items:center;}}
 
+/* ---- Knot Atlas: knot of the day (reuses the .bf-* card from blog-feed.css) ---- */
+.knotday{padding-block:28px; border-bottom:1px solid var(--ink);}
+.kd-card .bf-sum{-webkit-line-clamp:3;}
+.kd-stepbox{display:flex; gap:10px; align-items:baseline; border-top:1px solid var(--line); padding-top:10px; margin:2px 0 10px; min-height:3.6em;}
+.kd-n{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); white-space:nowrap;}
+.kd-step{margin:0; color:var(--ink-body,#28282a); max-width:62ch;}
+.kd-ctrl{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;}
+.kd-ctrl button{font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; min-height:44px; min-width:44px; padding:0 12px;
+  border:1px solid var(--ink); background:var(--paper); color:var(--ink); cursor:pointer;}
+.kd-ctrl button:hover{background:var(--ink); color:var(--paper);}
+.kd-ctrl button:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.kd-ctrl .kd-play{min-width:84px;}
+.kd-ctrl .kd-shuffle{margin-left:auto;}
+.kd-fig{width:400px; min-height:340px;}
+.kd-fig canvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
+@media (max-width:860px){.kd-fig{width:auto; height:300px;} .kd-ctrl .kd-shuffle{margin-left:0;}}
+
 #cubes-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;}
 #cubes-canvas.on{display:block;}
 body.cubes-on>*:not(#cubes-canvas){position:relative;z-index:1;}
@@ -690,6 +707,44 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <span class="gen-more-a">Open &rarr;</span>
     </a>
     <noscript><p><a href="https://creative-network.pages.dev/">Open the creative network &rarr;</a></p></noscript>
+  </div>
+</section>
+
+<section class="knotday" data-hide-when-search aria-labelledby="kd-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="kd-h">Knot Atlas &middot; <b>knot of the day</b> &middot; tied step by step</span>
+      <a class="bf-all" href="/knots/">All knots &rarr;</a>
+    </div>
+    <article class="bf-card kd-card bf-skel" id="kd-card">
+      <div class="bf-body">
+        <div class="bf-cat" id="kd-cat">Knot of the day</div>
+        <h2 class="bf-title" id="kd-title">Finding today&rsquo;s knot</h2>
+        <p class="bf-sum" id="kd-sum">One moment &mdash; loading the rope model from Knot Atlas.</p>
+        <div class="kd-stepbox">
+          <span class="kd-n" id="kd-n">&nbsp;</span>
+          <p class="kd-step" id="kd-step" aria-live="polite">&nbsp;</p>
+        </div>
+        <div class="kd-ctrl" role="group" aria-label="Steps">
+          <button type="button" id="kd-prev" aria-label="Previous step">&lsaquo;</button>
+          <button type="button" id="kd-play" class="kd-play">Pause</button>
+          <button type="button" id="kd-next" aria-label="Next step">&rsaquo;</button>
+          <button type="button" id="kd-shuffle" class="kd-shuffle">Another knot</button>
+        </div>
+        <div class="bf-meta">
+          <span class="bf-chip" id="kd-chip-a" hidden></span>
+          <span class="bf-chip" id="kd-chip-b" hidden></span>
+          <a class="bf-read" id="kd-open" href="/knots/">Tie it in 3D &rarr;</a>
+        </div>
+      </div>
+      <figure class="bf-fig kd-fig"><canvas id="kd-cv" aria-label="Drawing of the knot being tied"></canvas></figure>
+    </article>
+    <a class="gen-more" href="/knots/">
+      <span class="gen-more-k">Knot Atlas</span>
+      <span class="gen-more-d">Knots as 3D ropes you can turn and tie one step at a time &mdash; stoppers, bends, hitches, loops, braids and splices</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+    <noscript><p><a href="/knots/">Open Knot Atlas &rarr;</a></p></noscript>
   </div>
 </section>
 
@@ -2123,6 +2178,225 @@ if(window.__aePreserve){window.__aeDraw=function(ms){draw(ms);};window.__aeShow=
   fetch(API, {signal: ctl.signal, credentials: 'omit'}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(d){ clearTimeout(to); if(!d || !d.ok) throw 0; render(d); })
     .catch(function(){ clearTimeout(to); fail(); });
+})();
+</script>
+
+<script>
+/* Knot Atlas: knot of the day. Fetches the compact feed published by /knots/ (same origin),
+   picks today's knot with a date-seeded hash, and draws it on a 2D canvas as it is tied,
+   one step at a time. Painter's algorithm on short rope chunks gives over/under. */
+(function () {
+  'use strict';
+  var root = document.getElementById('kd-card');
+  if (!root) return;
+  var BASE = window.__kdBase || '/knots/';
+  var cv = document.getElementById('kd-cv');
+  var ctx = cv.getContext('2d');
+  var el = function (id) { return document.getElementById(id); };
+  var reduce = window.matchMedia && matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var ROPE = { a: ['#d39a2c', '#7a4f0c'], b: ['#2f7f8a', '#14424a'], c: ['#b5523a', '#5c2214'] };
+  var list = [], cur = null, knot = null;
+  var st = { pos: 0, target: 0, playing: !reduce, settled: 0, visible: true };
+  var geo = null;
+
+  function fail() {
+    root.classList.remove('bf-skel');
+    el('kd-title').textContent = 'Knot Atlas';
+    el('kd-sum').textContent = 'The knot of the day could not be loaded just now. Open the atlas to tie knots step by step in 3D.';
+    el('kd-step').textContent = '';
+    el('kd-n').textContent = '';
+    ['kd-prev', 'kd-play', 'kd-next', 'kd-shuffle'].forEach(function (id) { el(id).disabled = true; });
+  }
+  function getJSON(url) {
+    return new Promise(function (res, rej) {
+      var done = false;
+      var t = setTimeout(function () { if (!done) { done = true; rej(new Error('timeout')); } }, 8000);
+      fetch(url, { cache: 'no-cache' }).then(function (r) {
+        if (!r.ok) throw new Error('http ' + r.status);
+        return r.json();
+      }).then(function (j) { if (!done) { done = true; clearTimeout(t); res(j); } })
+        .catch(function (e) { if (!done) { done = true; clearTimeout(t); rej(e); } });
+    });
+  }
+  function dayIndex(n) {
+    var d = new Date();
+    var s = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ':knots';
+    var h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+    return h % n;
+  }
+
+  /* ---------- geometry prep: bounds and chunk lists ---------- */
+  function prep(k) {
+    var xs = [], ys = [];
+    var ropes = k.ropes.map(function (r) {
+      var p = r.p, pts = [];
+      for (var i = 0; i < p.length; i += 3) { pts.push([p[i], p[i + 1], p[i + 2]]); xs.push(p[i]); ys.push(p[i + 1]); }
+      return { c: r.c, pts: pts };
+    });
+    (k.objects || []).forEach(function (o) {
+      var c = o.c, e;
+      if (o.type === 'pole') {
+        var L = o.len / 2, R = o.radius;
+        if (o.axis === 'y') { xs.push(c[0] - R, c[0] + R); ys.push(c[1] - L, c[1] + L); }
+        else { xs.push(c[0] - L, c[0] + L); ys.push(c[1] - R, c[1] + R); }
+      } else { e = o.radius + (o.tube || 0); xs.push(c[0] - e, c[0] + e); ys.push(c[1] - e, c[1] + e); }
+    });
+    var b = { x0: Math.min.apply(null, xs), x1: Math.max.apply(null, xs), y0: Math.min.apply(null, ys), y1: Math.max.apply(null, ys) };
+    return { ropes: ropes, b: b, r: k.r || 0.15, objects: k.objects || [] };
+  }
+
+  function visAt(pos) {
+    var s = knot.steps, i = Math.max(0, Math.min(s.length - 1, Math.floor(pos))), f = pos - i;
+    var a = s[i].v, n = s[Math.min(s.length - 1, i + 1)].v;
+    return a.map(function (v, k) { return v + (n[k] - v) * f; });
+  }
+
+  function css(name, fb) {
+    var v = getComputedStyle(root).getPropertyValue(name).trim();
+    return v || fb;
+  }
+
+  function draw() {
+    if (!geo) return;
+    var dpr = Math.min(2, window.devicePixelRatio || 1);
+    var W = cv.clientWidth, H = cv.clientHeight;
+    if (!W || !H) return;
+    if (cv.width !== Math.round(W * dpr) || cv.height !== Math.round(H * dpr)) { cv.width = Math.round(W * dpr); cv.height = Math.round(H * dpr); }
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    ctx.clearRect(0, 0, W, H);
+    var b = geo.b, pad = 18;
+    var s = Math.min((W - 2 * pad) / (b.x1 - b.x0), (H - 2 * pad) / (b.y1 - b.y0));
+    var ox = (W - (b.x1 - b.x0) * s) / 2, oy = (H - (b.y1 - b.y0) * s) / 2;
+    function X(x) { return ox + (x - b.x0) * s; }
+    function Y(y) { return oy + (b.y1 - y) * s; }
+    var items = [];
+    geo.objects.forEach(function (o) { items.push({ z: o.type === 'ring' || o.type === 'arc' ? -0.001 : 0, o: o }); });
+    var vis = visAt(st.pos), r = geo.r;
+    geo.ropes.forEach(function (rp, k) {
+      var n = Math.round(Math.max(0, Math.min(1, vis[k])) * (rp.pts.length - 1));
+      if (n < 1) return;
+      for (var i = 0; i < n; i += 3) {
+        var j = Math.min(n, i + 3), z = 0;
+        for (var q = i; q <= j; q++) z += rp.pts[q][2];
+        items.push({ z: z / (j - i + 1), rope: rp, i: i, j: j, n: n });
+      }
+    });
+    items.sort(function (a, c) { return a.z - c.z; });
+    var wood = css('--kd-wood', '#d8c39a'), metal = '#9aa3a6';
+    items.forEach(function (it) {
+      if (it.o) {
+        var o = it.o, c = o.c;
+        if (o.type === 'pole') {
+          var L = o.len / 2, R = o.radius;
+          ctx.fillStyle = o.metal ? metal : (o.rope ? '#e7c88a' : wood);
+          if (o.axis === 'y') ctx.fillRect(X(c[0] - R), Y(c[1] + L), 2 * R * s, 2 * L * s);
+          else ctx.fillRect(X(c[0] - L), Y(c[1] + R), 2 * L * s, 2 * R * s);
+        } else {
+          ctx.strokeStyle = metal; ctx.lineWidth = 2 * (o.tube || 0.08) * s;
+          ctx.beginPath();
+          if (o.type === 'ring') ctx.arc(X(c[0]), Y(c[1]), o.radius * s, 0, 2 * Math.PI);
+          else ctx.arc(X(c[0]), Y(c[1]), o.radius * s, -o.a0, -o.a1, true);
+          ctx.stroke();
+        }
+        return;
+      }
+      var p = it.rope.pts, col = ROPE[it.rope.c] || ROPE.a;
+      var a = Math.max(0, it.i - 1), e = Math.min(it.n, it.j + 1);
+      ctx.lineJoin = 'round';
+      ctx.lineCap = (it.i === 0 || it.j === it.n) ? 'round' : 'butt';
+      ctx.strokeStyle = col[1]; ctx.lineWidth = 2 * r * s + 2;
+      ctx.beginPath(); ctx.moveTo(X(p[it.i][0]), Y(p[it.i][1]));
+      for (var q = it.i + 1; q <= it.j; q++) ctx.lineTo(X(p[q][0]), Y(p[q][1]));
+      ctx.stroke();
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = col[0]; ctx.lineWidth = Math.max(1, 2 * r * s - 1.4);
+      ctx.beginPath(); ctx.moveTo(X(p[a][0]), Y(p[a][1]));
+      for (q = a + 1; q <= e; q++) ctx.lineTo(X(p[q][0]), Y(p[q][1]));
+      ctx.stroke();
+    });
+  }
+
+  function showStep(i) {
+    var n = knot.steps.length;
+    el('kd-n').textContent = 'Step ' + (i + 1) + ' / ' + n;
+    el('kd-step').textContent = knot.steps[i].t;
+  }
+  function go(i) {
+    var n = knot.steps.length;
+    st.target = (i + n) % n;
+    if (reduce) st.pos = st.target;
+    st.settled = 0;
+    showStep(st.target);
+  }
+
+  function render(k) {
+    knot = k; geo = prep(k);
+    root.classList.remove('bf-skel');
+    el('kd-cat').textContent = 'Knot of the day · ' + k.chapter;
+    el('kd-title').textContent = k.name;
+    el('kd-sum').textContent = k.brief;
+    var dots = ['', 'Easy', 'Intermediate', 'Advanced'][k.difficulty] || '';
+    el('kd-chip-a').textContent = dots; el('kd-chip-a').hidden = !dots;
+    el('kd-chip-b').textContent = (k.acts || []).slice(0, 2).join(' · '); el('kd-chip-b').hidden = !(k.acts || []).length;
+    el('kd-open').href = BASE + 'knots/' + k.slug + '/';
+    st.pos = 0; st.target = 0; st.settled = 0;
+    if (reduce) { st.pos = st.target = k.steps.length - 1; }
+    showStep(st.target);
+    draw();
+  }
+
+  function load(slug) {
+    return getJSON(BASE + 'feed/' + slug + '.json').then(render);
+  }
+
+  var last = 0;
+  function tick(now) {
+    requestAnimationFrame(tick);
+    if (!knot || !st.visible) return;
+    var dt = Math.min(0.05, (now - last) / 1000 || 0); last = now;
+    var d = st.target - st.pos;
+    if (Math.abs(d) > 1e-3) {
+      if (d < -0.5) st.pos = st.target;
+      else st.pos += Math.sign(d) * Math.min(Math.abs(d), Math.max(0.8, Math.abs(d) * 2) * dt);
+      st.settled = 0;
+      draw();
+    } else {
+      st.pos = st.target;
+      if (!st.settled) { st.settled = now; draw(); }
+      var hold = st.target === knot.steps.length - 1 ? 2600 : 1300;
+      if (st.playing && now - st.settled > hold) go(st.target + 1);
+    }
+  }
+
+  el('kd-prev').addEventListener('click', function () { if (knot) { st.playing = false; el('kd-play').textContent = 'Play'; go(st.target - 1); } });
+  el('kd-next').addEventListener('click', function () { if (knot) { st.playing = false; el('kd-play').textContent = 'Play'; go(st.target + 1); } });
+  el('kd-play').addEventListener('click', function () {
+    st.playing = !st.playing; this.textContent = st.playing ? 'Pause' : 'Play'; st.settled = 0;
+  });
+  el('kd-shuffle').addEventListener('click', function () {
+    if (list.length < 2) return;
+    var j;
+    do { j = Math.floor(Math.random() * list.length); } while (list[j].slug === cur);
+    cur = list[j].slug;
+    load(cur).catch(fail);
+  });
+  if (reduce) { st.playing = false; el('kd-play').textContent = 'Play'; }
+  window.addEventListener('resize', draw);
+  if ('IntersectionObserver' in window) {
+    new IntersectionObserver(function (es) { st.visible = es[0].isIntersecting; if (st.visible) draw(); }).observe(root);
+  }
+  try {
+    new MutationObserver(draw).observe(document.documentElement, { attributes: true, attributeFilter: ['data-theme'] });
+  } catch (e) { /* ignore */ }
+
+  getJSON(BASE + 'feed/index.json').then(function (ix) {
+    list = ix.knots || [];
+    if (!list.length) throw new Error('empty');
+    cur = list[dayIndex(list.length)].slug;
+    return load(cur);
+  }).catch(fail);
+  requestAnimationFrame(tick);
 })();
 </script>
 
