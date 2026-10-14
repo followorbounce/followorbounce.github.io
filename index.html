@@ -336,6 +336,23 @@ header .brand{
 @media (max-width:600px){.cn-grid{grid-template-columns:repeat(2,minmax(0,1fr));}}
 @media (pointer:coarse){.cn-card .bf-read, .bf-all{min-height:44px; display:inline-flex; align-items:center;}}
 
+/* ---- Reckoning: signal of the day (reuses the .bf-* card from blog-feed.css) ---- */
+.sigday{padding-block:28px; border-bottom:1px solid var(--ink);}
+.sd-card .bf-sum{-webkit-line-clamp:3;}
+.sd-note{margin:0 0 12px; font-size:13px; color:var(--mid); max-width:70ch;}
+.sd-morse{display:flex; align-items:center; gap:6px; min-height:18px; margin:0 0 16px;}
+.sd-morse i{display:block; height:10px; background:var(--ink); border-radius:5px;}
+.sd-morse i.dot{width:10px;} .sd-morse i.dash{width:30px;}
+.sd-morse span{font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; color:var(--mid); margin-left:8px;}
+.sd-shuffle{font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; min-height:44px; padding:0 12px;
+  border:1px solid var(--ink); background:var(--paper); color:var(--ink); cursor:pointer;}
+.sd-shuffle:hover{background:var(--ink); color:var(--paper);}
+.sd-shuffle:focus-visible{outline:2px solid var(--accent); outline-offset:2px;}
+.sd-fig{width:300px; min-height:240px; display:flex; align-items:center; justify-content:center;}
+.sd-fig svg{width:78%; height:auto; display:block;}
+.sd-fig .sd-letter{position:absolute; left:14px; top:10px; font-family:var(--font-display); font-weight:700; font-size:28px; line-height:1; color:var(--ink);}
+@media (max-width:860px){.sd-fig{width:auto; height:220px;} .sd-fig svg{width:auto; height:70%;}}
+
 #cubes-canvas{position:fixed;inset:0;z-index:0;pointer-events:none;display:none;}
 #cubes-canvas.on{display:block;}
 body.cubes-on>*:not(#cubes-canvas){position:relative;z-index:1;}
@@ -690,6 +707,36 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <span class="gen-more-a">Open &rarr;</span>
     </a>
     <noscript><p><a href="https://creative-network.pages.dev/">Open the creative network &rarr;</a></p></noscript>
+  </div>
+</section>
+
+<section class="sigday" data-hide-when-search aria-labelledby="sd-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="sd-h">Reckoning &middot; <b>signal of the day</b> &middot; International Code flags</span>
+      <a class="bf-all" href="/reckoning/signal/flags/">All flags &rarr;</a>
+    </div>
+    <article class="bf-card sd-card bf-skel" id="sd-card">
+      <div class="bf-body">
+        <div class="bf-cat" id="sd-cat">Signal of the day</div>
+        <h2 class="bf-title" id="sd-title">Hoisting today&rsquo;s flag</h2>
+        <p class="bf-sum" id="sd-sum">One moment &mdash; loading the code from Reckoning.</p>
+        <p class="sd-note" id="sd-note" hidden></p>
+        <div class="sd-morse" id="sd-morse" aria-hidden="true"></div>
+        <div class="bf-meta">
+          <span class="bf-chip" id="sd-chip" hidden></span>
+          <button type="button" class="sd-shuffle" id="sd-shuffle">Another flag</button>
+          <a class="bf-read" id="sd-open" href="/reckoning/signal/flags/">Read the code &rarr;</a>
+        </div>
+      </div>
+      <figure class="bf-fig sd-fig" id="sd-fig"></figure>
+    </article>
+    <a class="gen-more" href="/reckoning/">
+      <span class="gen-more-k">Reckoning</span>
+      <span class="gen-more-d">An interactive handbook: measure, shape, number, sky &amp; sea, weather, signal, ship and the code of life &mdash; every value traced to a primary standard</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+    <noscript><p><a href="/reckoning/signal/flags/">Open the code flags on Reckoning &rarr;</a></p></noscript>
   </div>
 </section>
 
@@ -2123,6 +2170,60 @@ if(window.__aePreserve){window.__aeDraw=function(ms){draw(ms);};window.__aeShow=
   fetch(API, {signal: ctl.signal, credentials: 'omit'}).then(function(r){ if(!r.ok) throw 0; return r.json(); })
     .then(function(d){ clearTimeout(to); if(!d || !d.ok) throw 0; render(d); })
     .catch(function(){ clearTimeout(to); fail(); });
+})();
+</script>
+
+<script>
+/* Reckoning: signal of the day. Reads the 26 International Code flags (drawn by Reckoning's own flag code,
+   with their single-letter meanings and Morse) from /reckoning/assets/signal-of-day.json (same origin), so this
+   card holds no copy of the code. Picks today's flag with a date-seeded hash; "Another flag" picks at random.
+   Text goes in with textContent; only the flag SVG from that file is inserted as markup. */
+(function () {
+  'use strict';
+  var root = document.getElementById('sd-card');
+  if (!root) return;
+  var URL = window.__sdUrl || '/reckoning/assets/signal-of-day.json';
+  var el = function (id) { return document.getElementById(id); };
+  var flags = [], cur = -1;
+  function fail() {
+    root.classList.remove('bf-skel');
+    el('sd-title').textContent = 'Reckoning';
+    el('sd-sum').textContent = 'The signal of the day could not be loaded just now. Open the code flags to read all 26.';
+    el('sd-shuffle').disabled = true;
+  }
+  function dayIndex(n) {
+    var d = new Date(), s = d.getFullYear() + '-' + (d.getMonth() + 1) + '-' + d.getDate() + ':signal', h = 2166136261;
+    for (var i = 0; i < s.length; i++) { h ^= s.charCodeAt(i); h = Math.imul(h, 16777619) >>> 0; }
+    return h % n;
+  }
+  function show(i) {
+    var f = flags[i]; cur = i;
+    root.classList.remove('bf-skel');
+    el('sd-cat').textContent = 'Signal of the day';
+    el('sd-title').textContent = f.L + ' · ' + f.word;
+    el('sd-sum').textContent = f.meaning;
+    var note = el('sd-note'); note.hidden = !f.note; note.textContent = f.note || '';
+    var m = el('sd-morse'); m.textContent = '';
+    f.morse.split('').forEach(function (c) { var b = document.createElement('i'); b.className = c === '.' ? 'dot' : 'dash'; m.appendChild(b); });
+    var lab = document.createElement('span'); lab.textContent = 'Morse ' + f.morse.replace(/\./g, '·').replace(/-/g, '–'); m.appendChild(lab);
+    var chip = el('sd-chip'); chip.hidden = false; chip.textContent = 'flown alone: ' + f.L;
+    el('sd-open').href = f.url;
+    var fig = el('sd-fig'); fig.innerHTML = f.svg;
+    var L = document.createElement('span'); L.className = 'sd-letter'; L.textContent = f.L; fig.appendChild(L);
+  }
+  var done = false, t = setTimeout(function () { if (!done) { done = true; fail(); } }, 8000);
+  fetch(URL, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error('http ' + r.status); return r.json(); })
+    .then(function (j) {
+      if (done) return; done = true; clearTimeout(t);
+      flags = (j && j.flags || []).filter(function (f) { return f && /^[A-Z]$/.test(f.L) && typeof f.svg === 'string' && f.svg.indexOf('<svg') === 0 && f.svg.indexOf('<script') < 0; });
+      if (!flags.length) return fail();
+      show(dayIndex(flags.length));
+    }).catch(function () { if (!done) { done = true; clearTimeout(t); fail(); } });
+  el('sd-shuffle').addEventListener('click', function () {
+    if (flags.length < 2) return;
+    var i; do { i = Math.floor(Math.random() * flags.length); } while (i === cur);
+    show(i);
+  });
 })();
 </script>
 

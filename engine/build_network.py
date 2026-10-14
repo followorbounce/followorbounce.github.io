@@ -284,6 +284,10 @@ def render_index(graph):
     cn_css = open(os.path.join(HERE, "cn-today.css"), encoding="utf-8").read()
     cn_html = open(os.path.join(HERE, "cn-today.html"), encoding="utf-8").read()
     cn_js = open(os.path.join(HERE, "cn-today.js"), encoding="utf-8").read()
+    # Reckoning signal of the day: a code flag read from /reckoning/assets/signal-of-day.json (see engine/signal-of-day.*):
+    sd_css = open(os.path.join(HERE, "signal-of-day.css"), encoding="utf-8").read()
+    sd_html = open(os.path.join(HERE, "signal-of-day.html"), encoding="utf-8").read()
+    sd_js = open(os.path.join(HERE, "signal-of-day.js"), encoding="utf-8").read()
     # Knot Atlas "knot of the day" plugin removed from the homepage 2026-10-13 (owner request);
     # engine/knot-of-day.* kept unused in case it comes back.
     # own-repo categories whose topic already has a sibling-repo hub card get
@@ -435,6 +439,7 @@ header .brand{{
 {as_css}
 {ae_css}
 {cn_css}
+{sd_css}
 {cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
@@ -514,6 +519,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {as_html}
 {ae_html}
 {cn_html}
+{sd_html}
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -604,6 +610,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {as_js}
 {ae_js}
 {cn_js}
+{sd_js}
 <script>
 {gen_js}
 </script>
