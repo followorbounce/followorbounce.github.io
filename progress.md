@@ -108,3 +108,7 @@
 ## 2026-10-14 — Homepage "edition" layout
 - Owner picked layout B from a local preview (`_preview/layout-b.html`, never pushed) and asked to implement it. Now built by `engine/build_network.py` + new `engine/edition.{css,js}`: sticky section bar with the date, big intro, calendar, 01 Today bento (art task, CN brief, signal, knot, terms), 02 Instruments as four tabs on one stage, 03 Live data, 04 Index. Widgets' own files untouched.
 - Checked: desktop 1280 and phone 390 (no horizontal overflow), dark mode, the synth and aerospace tabs starting hidden (they initialise and draw after switching), inline scripts pass `node --check`.
+
+## 2026-10-15 — Alpha mark; mission-of-the-day script moved to aerospace
+- Creative network card: "Alpha" stage mark at the start of its head row (`.cn-stage`).
+- Mission of the day: the script now lives in the aerospace repo (`aerospace/assets/mission-of-day.js`, also used by the aerospace index) and is loaded at runtime; `engine/aero-shader.js` deleted, markup/CSS stay in `engine/aero-shader.{html,css}`. Same data and drawing; text can now also be Russian (follows `<html lang>`). Rendered and checked from a local root that serves both repos like production.

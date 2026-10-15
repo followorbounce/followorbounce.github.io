@@ -279,7 +279,8 @@ def render_index(graph):
     # Aerospace mission-of-the-day shader, under the anatomy shader; links to /aerospace/ (see engine/aero-shader.*):
     ae_css = open(os.path.join(HERE, "aero-shader.css"), encoding="utf-8").read()
     ae_html = open(os.path.join(HERE, "aero-shader.html"), encoding="utf-8").read()
-    ae_js = open(os.path.join(HERE, "aero-shader.js"), encoding="utf-8").read()
+    # The script itself is canonical in the aerospace repo (also used by its own index), loaded at runtime:
+    ae_js = '<script src="/aerospace/assets/mission-of-day.js" defer></script>'
     # Creative network: today's brief + newest public work, live from creative-network.pages.dev (see engine/cn-today.*):
     cn_css = open(os.path.join(HERE, "cn-today.css"), encoding="utf-8").read()
     cn_html = open(os.path.join(HERE, "cn-today.html"), encoding="utf-8").read()
