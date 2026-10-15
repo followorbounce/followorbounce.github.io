@@ -312,6 +312,36 @@ header .brand{
 @media(max-width:760px){.ae-step{border-left:0; padding-left:0;} .ae-frame{grid-template-columns:1fr;} .ae-frame canvas{height:230px;} .ae-info{border-left:0; border-top:1px solid var(--line);} .ae-frame .gen-hint{bottom:auto; top:8px;}}
 @media(pointer:coarse){.ae-eras .gen-mode, .ae-step .gen-mode{min-height:44px; padding-inline:12px;}}
 
+/* ---- Life in weeks: date of birth -> one row per year of 52 weeks (engine/life-weeks.*) ---- */
+.lifeweeks{padding-block:28px; border-bottom:1px solid var(--ink);}
+.lw-dob{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+.lw-dob input{font-family:var(--font-mono); font-size:16px; padding:5px 8px; border:1px solid var(--ink); background:var(--card-bg,#fff); color:var(--ink); border-radius:0; min-height:36px; color-scheme:light dark;}
+.lw-dob input:focus-visible{outline:2px solid var(--accent); outline-offset:1px;}
+.lw-body{display:grid; grid-template-columns:minmax(0,600px) minmax(0,1fr); gap:20px; align-items:start;}
+.lw-frame{padding:14px 14px 12px;}
+.lw-frame canvas{display:block; width:100%; height:auto; cursor:crosshair; touch-action:manipulation;}
+.lw-tip{position:absolute; z-index:3; pointer-events:none; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.04em; line-height:1.4; background:var(--ink); color:var(--paper); padding:4px 7px; white-space:nowrap; transform:translate(-50%,calc(-100% - 8px));}
+.lw-side{position:sticky; top:72px; display:flex; flex-direction:column; gap:14px; min-width:0;}
+.lw-empty{margin:0; font-size:14px; line-height:1.55; color:var(--ink); border:1px dashed var(--line); padding:14px;}
+.lw-big{display:flex; align-items:baseline; gap:10px; font-family:var(--font-display); font-weight:700; font-size:clamp(2.4rem,5vw,3.4rem); line-height:1; letter-spacing:-.01em;}
+.lw-big small{font-family:var(--font-mono); font-weight:400; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--mid);}
+.lw-line{margin:6px 0 0; font-size:14px; line-height:1.5;}
+.lw-h{margin:16px 0 6px; font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
+.lw-stats{margin:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); border-top:1px solid var(--line);}
+.lw-stats div{padding:8px 10px 8px 0; border-bottom:1px solid var(--line); min-width:0;}
+.lw-stats dt{font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--mid);}
+.lw-stats dd{margin:2px 0 0; font-family:var(--font-mono); font-size:15px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums;}
+.lw-stats dd small{display:block; font-weight:400; font-size:10.5px; color:var(--mid); letter-spacing:.02em;}
+.lw-note{margin:12px 0 0; font-size:11.5px; line-height:1.5; color:var(--mid);}
+.lw-key{display:flex; flex-wrap:wrap; gap:6px 14px; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+.lw-key span{display:inline-flex; align-items:center; gap:6px;}
+.lw-key i{display:inline-block; width:9px; height:9px;}
+.lw-key .k-done{background:var(--ink);} .lw-key .k-now{background:var(--accent);}
+.lw-key .k-left{border:1px solid var(--mid);} .lw-key .k-avg{width:14px; height:0; border-top:2px solid var(--accent);}
+@media(max-width:980px){.lw-body{grid-template-columns:minmax(0,1fr);} .lw-side{position:static;}}
+@media(max-width:600px){.lw-frame{padding:10px 8px 8px;} .lifeweeks .gen-bar{width:100%;} .lw-dob{flex:1 1 100%;} .lw-dob input{flex:1;} #lw-scale{border-left:0; padding-left:0;}}
+@media(pointer:coarse){#lw-scale .gen-mode{min-height:44px; padding-inline:14px;} .lw-dob input{min-height:44px;}}
+
 /* ---- Creative network: today's brief + newest public work (reuses the .bf-* card from blog-feed.css) ---- */
 .cntoday{padding-block:28px; border-bottom:1px solid var(--ink);}
 /* Stage mark: the app is in alpha. First in the head row and never shrinks, so the cell's ellipsis can't cut it. */
@@ -449,7 +479,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-terms .tod-def{font-size:15px; -webkit-line-clamp:7;}
 .ed-terms .tod-name{font-size:1.4rem;}
 /* Instruments: one stage, four tabs. Hidden instruments are display:none, so their animation loops pause (IntersectionObserver). */
-.ed-tabs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--ink); margin-bottom:0;}
+.ed-tabs{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); border:1px solid var(--ink); margin-bottom:0;}
 .ed-tabs button{font:inherit; font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; letter-spacing:.02em; text-align:left; padding:12px 16px; min-height:56px; background:var(--paper); color:var(--ink); border:0; border-left:1px solid var(--ink); cursor:pointer; display:flex; flex-direction:column; gap:2px;}
 .ed-tabs button:first-child{border-left:0;}
 .ed-tabs button small{font-family:var(--font-mono); font-weight:400; font-size:10px; letter-spacing:.1em; color:var(--mid);}
@@ -473,6 +503,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
   .ed-tabs{grid-template-columns:1fr 1fr;}
   .ed-tabs button:nth-child(3){border-left:0;}
   .ed-tabs button:nth-child(n+3){border-top:1px solid var(--ink);}
+  .ed-tabs button:nth-child(5){grid-column:1 / -1; border-left:0;}
   .ed-sub{display:none;}
 }
 
@@ -730,6 +761,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <button type="button" role="tab" id="tab-synth" aria-controls="stage-synth" aria-selected="false" tabindex="-1" data-for="synth">Audio synth<small>4 modules</small></button>
       <button type="button" role="tab" id="tab-ana" aria-controls="stage-ana" aria-selected="false" tabindex="-1" data-for="ana">Anatomy<small>shader</small></button>
       <button type="button" role="tab" id="tab-aero" aria-controls="stage-aero" aria-selected="false" tabindex="-1" data-for="aero">Mission of the day<small>aerospace</small></button>
+      <button type="button" role="tab" id="tab-life" aria-controls="stage-life" aria-selected="false" tabindex="-1" data-for="life">Life in weeks<small>your calendar</small></button>
     </div>
   </div>
   <div class="ed-stage">
@@ -871,6 +903,42 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
       <span class="gen-more-d">78 bilingual field guides &mdash; stations, probes, the Moon, Mars, telescopes, human spaceflight &amp; the physics behind them</span>
       <span class="gen-more-a">Open &rarr;</span>
     </a>
+  </div>
+</section>
+
+<section data-tab="life" id="stage-life" role="tabpanel" aria-labelledby="tab-life" hidden class="lifeweeks" data-hide-when-search aria-labelledby="lw-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="lw-h">Life in weeks &middot; <b>one row = one year of 52 weeks</b></span>
+      <div class="gen-bar">
+        <label class="lw-dob"><span>Date of birth</span><input type="date" id="lw-dob" min="1900-01-01" autocomplete="bday"></label>
+        <div class="gen-modes gen-opts" id="lw-scale" role="group" aria-label="Length of the calendar">
+          <button type="button" class="gen-mode active" data-max="100" aria-pressed="true">100 years</button>
+          <button type="button" class="gen-mode" data-max="120" aria-pressed="false">120 years</button>
+        </div>
+      </div>
+    </div>
+    <div class="lw-body">
+      <div class="gen-frame lw-frame" id="lw-frame">
+        <canvas id="lw-cv" role="img" aria-label="Life calendar: enter a date of birth to fill it in"></canvas>
+        <div class="lw-tip" id="lw-tip" hidden></div>
+      </div>
+      <aside class="lw-side" aria-live="polite">
+        <p class="lw-empty" id="lw-empty">Enter a date of birth to fill in the weeks you have lived. It stays in this browser &mdash; nothing is sent anywhere.</p>
+        <div id="lw-out" hidden>
+          <div class="lw-big"><span id="lw-weeks">0</span><small>weeks lived</small></div>
+          <p class="lw-line" id="lw-line"></p>
+          <h3 class="lw-h">Counted from the calendar</h3>
+          <dl class="lw-stats" id="lw-exact"></dl>
+          <h3 class="lw-h">Your body, on average</h3>
+          <dl class="lw-stats" id="lw-body"></dl>
+          <h3 class="lw-h" id="lw-left-h">Left on this calendar</h3>
+          <dl class="lw-stats" id="lw-left"></dl>
+          <p class="lw-note">Body figures are rough adult averages applied to every day you have lived (children breathe and beat faster); calendar and orbit figures are exact. World average life expectancy at birth &asymp; 73 years (UN World Population Prospects 2024, for 2023).</p>
+        </div>
+        <div class="lw-key" aria-hidden="true"><span><i class="k-done"></i>lived</span><span><i class="k-now"></i>this week</span><span><i class="k-left"></i>ahead</span><span><i class="k-avg"></i>world average</span></div>
+      </aside>
+    </div>
   </div>
 </section>
 
@@ -1922,6 +1990,167 @@ if(window.__anaPreserve)window.__anaDraw=function(ms){draw(ms);};
 </script>
 
 <script src="/aerospace/assets/mission-of-day.js" defer></script>
+<script>
+/* Life in weeks plugin (engine/life-weeks.*). One row per year of life, 52 squares each; a row starts on that
+   year's birthday, so week squares never drift against real birthdays (the 52nd square absorbs the 1-2 extra
+   days of each year). Lived / this week / ahead, a line at the world-average life expectancy, a small gap after
+   every decade. Calendar figures are exact; body figures are labelled averages. The date of birth stays in the
+   browser (localStorage 'fob-dob' as a per-viewer convenience, try/catch). Test hook: window.__lwDob = 'YYYY-MM-DD'
+   before the script pre-fills the date. */
+(function(){
+var cv=document.getElementById('lw-cv');
+if(!cv)return;
+var $=function(id){return document.getElementById(id);};
+var ctx=cv.getContext('2d'), input=$('lw-dob'), tip=$('lw-tip'), frame=$('lw-frame');
+var WORLD_AVG=73, KEY='fob-dob', DAY=864e5;
+var MAX=100, dob=null, geo=null, C={};
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+
+function today(){var n=new Date();return new Date(n.getFullYear(),n.getMonth(),n.getDate());}
+input.max=(function(d){return d.getFullYear()+'-'+String(d.getMonth()+1).padStart(2,'0')+'-'+String(d.getDate()).padStart(2,'0');})(today());
+function parse(v){var m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(v||'');if(!m)return null;
+  var d=new Date(+m[1],+m[2]-1,+m[3]);if(d.getMonth()!==+m[2]-1)return null;
+  if(d>today()||d.getFullYear()<1900)return null;return d;}
+/* Birthday in year dob+y; a 29 Feb birthday falls on 1 Mar in common years (Date rolls over). */
+function bday(y){return new Date(dob.getFullYear()+y,dob.getMonth(),dob.getDate());}
+function addDays(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);}
+function fmt(d){return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();}
+function weekStart(y,c){return addDays(bday(y),7*c);}
+function weekEnd(y,c){return c===51?addDays(bday(y+1),-1):addDays(bday(y),7*c+6);}   /* inclusive */
+function ageNow(){var t=today(),y=t.getFullYear()-dob.getFullYear();if(bday(y)>t)y--;return y;}
+function curCell(){var y=ageNow(),c=Math.min(51,Math.floor((today()-bday(y))/DAY/7));return [y,c];}
+
+/* ---------- colours (re-read on theme change) ---------- */
+function theme(){var cs=getComputedStyle(document.documentElement);
+  function v(n,f){return (cs.getPropertyValue(n)||'').trim()||f;}
+  C.ink=v('--ink','#0b0b0c');C.line=v('--line','#c9c9c1');C.mid=v('--mid','#7a7a74');C.acc=v('--accent','#a6401f');
+  C.bg=getComputedStyle(frame).backgroundColor;draw();}
+
+/* ---------- grid ---------- */
+function layout(){
+  var w=cv.clientWidth||cv.parentNode.clientWidth;if(!w)return null;
+  var gut=w<420?22:30, top=16, pitch=Math.min(11,(w-gut)/52), cell=Math.max(2,pitch-(pitch>6?2:1)), gap=pitch>6?5:3;
+  var rows=MAX, h=top+rows*pitch+Math.floor((rows-1)/10)*gap+2;
+  return {w:w,h:h,gut:gut,top:top,pitch:pitch,cell:cell,gap:gap,rows:rows};
+}
+function rowY(g,y){return g.top+y*g.pitch+Math.floor(y/10)*g.gap;}
+function draw(){
+  var g=layout();if(!g)return;geo=g;
+  var dpr=Math.min(window.devicePixelRatio||1,2);
+  var W=Math.round(g.w*dpr),H=Math.round(g.h*dpr);
+  if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;cv.style.height=g.h+'px';}
+  ctx.setTransform(dpr,0,0,dpr,0,0);ctx.clearRect(0,0,g.w,g.h);
+  var cur=dob?curCell():[-1,-1];
+  ctx.font='9.5px '+(getComputedStyle(cv).getPropertyValue('--font-mono')||'monospace');
+  ctx.fillStyle=C.mid;ctx.textBaseline='middle';
+  /* week numbers along the top, ages down the side */
+  ctx.textAlign='center';
+  [1,10,20,30,40].forEach(function(n){ctx.fillText(String(n),g.gut+(n-0.5)*g.pitch,g.top/2-1);});
+  ctx.textAlign='right';ctx.fillText('52',g.gut+52*g.pitch,g.top/2-1);   /* right-aligned so it never clips */
+  ctx.textAlign='right';
+  for(var y=0;y<g.rows;y++){
+    var ry=rowY(g,y);
+    if(y%10===0)ctx.fillText(String(y),g.gut-6,ry+g.cell/2);
+    for(var c=0;c<52;c++){
+      var x=g.gut+c*g.pitch;
+      if(dob&&(y<cur[0]||y===cur[0]&&c<cur[1])){ctx.fillStyle=C.ink;ctx.fillRect(x,ry,g.cell,g.cell);}
+      else if(y===cur[0]&&c===cur[1]){ctx.fillStyle=C.acc;ctx.fillRect(x-0.5,ry-0.5,g.cell+1,g.cell+1);}
+      else{ctx.strokeStyle=y>=WORLD_AVG?C.line:C.mid;ctx.globalAlpha=y>=WORLD_AVG?0.9:0.55;ctx.lineWidth=1;
+        ctx.strokeRect(x+0.5,ry+0.5,Math.max(1,g.cell-1),Math.max(1,g.cell-1));ctx.globalAlpha=1;}
+    }
+    ctx.fillStyle=C.mid;
+  }
+  /* world-average line, drawn in the gap above that row */
+  if(WORLD_AVG<g.rows){var ly=rowY(g,WORLD_AVG)-(g.pitch-g.cell)/2-0.5;
+    ctx.strokeStyle=C.acc;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(g.gut-4,ly);ctx.lineTo(g.gut+52*g.pitch,ly);ctx.stroke();
+    ctx.fillStyle=C.acc;ctx.textAlign='right';ctx.fillText('avg',g.gut-6,ly);}
+  cv.setAttribute('aria-label',dob?'Life calendar of '+MAX+' years: '+num(lived())+' of '+num(MAX*52)+' weeks lived':'Life calendar: enter a date of birth to fill it in');
+}
+function lived(){var c=curCell();return c[0]*52+c[1];}
+
+/* ---------- tooltip ---------- */
+function cellAt(e){
+  var g=geo;if(!g)return null;var r=cv.getBoundingClientRect(),px=e.clientX-r.left,py=e.clientY-r.top;
+  var c=Math.floor((px-g.gut)/g.pitch);if(c<0||c>51)return null;
+  for(var y=0;y<g.rows;y++){var ry=rowY(g,y);if(py>=ry-1&&py<ry+g.pitch-1)return {y:y,c:c,x:g.gut+c*g.pitch+g.cell/2,ry:ry};}
+  return null;
+}
+function showTip(e){
+  var h=cellAt(e);if(!h){tip.hidden=true;return;}
+  var t='Age '+h.y+' · week '+(h.c+1);
+  if(dob){var s=weekStart(h.y,h.c),en=weekEnd(h.y,h.c),cur=curCell();
+    t+=' · '+fmt(s)+(+en===+s?'':' – '+fmt(en));
+    if(h.y===cur[0]&&h.c===cur[1])t+=' · now';}
+  tip.textContent=t;tip.hidden=false;
+  var fr=frame.getBoundingClientRect(),cr=cv.getBoundingClientRect();
+  var x=cr.left-fr.left+h.x, half=tip.offsetWidth/2;
+  tip.style.left=Math.max(half+4,Math.min(fr.width-half-4,x))+'px';tip.style.top=(cr.top-fr.top+h.ry)+'px';
+}
+cv.addEventListener('pointermove',showTip);
+cv.addEventListener('pointerdown',showTip);
+cv.addEventListener('pointerleave',function(e){if(e.pointerType==='mouse')tip.hidden=true;});
+
+/* ---------- numbers ---------- */
+function num(n){return Math.round(n).toLocaleString('en-GB');}
+function big(n){var a=Math.abs(n);
+  if(a>=1e12)return (n/1e12).toFixed(2)+' trillion';if(a>=1e9)return (n/1e9).toFixed(2)+' billion';
+  if(a>=1e6)return (n/1e6).toFixed(1)+' million';return num(n);}
+function stat(dl,label,value,note){var d=document.createElement('div'),dt=document.createElement('dt'),dd=document.createElement('dd');
+  dt.textContent=label;dd.textContent=value;if(note){var s=document.createElement('small');s.textContent=note;dd.appendChild(s);}
+  d.appendChild(dt);d.appendChild(dd);dl.appendChild(d);}
+function countWeekday(a,b,wd){/* number of days with getDay()===wd in [a,b) */
+  var n=Math.round((b-a)/DAY);if(n<=0)return 0;var first=(wd-a.getDay()+7)%7;return first>=n?0:Math.floor((n-1-first)/7)+1;}
+function render(){
+  $('lw-empty').hidden=!!dob;$('lw-out').hidden=!dob;
+  if(!dob){draw();return;}
+  var t=today(), days=Math.round((t-dob)/DAY), min=days*1440, age=ageNow(), wk=lived();
+  $('lw-weeks').textContent=num(wk);
+  var end=bday(MAX);
+  $('lw-line').textContent='Age '+age+' · '+num(days)+' days · '+(100*wk/(MAX*52)).toFixed(1)+'% of a '+MAX+'-year calendar'+(age<WORLD_AVG?' · '+num(WORLD_AVG*52-wk)+' weeks to the world average':'');
+  var ex=$('lw-exact'),bo=$('lw-body'),le=$('lw-left');ex.textContent='';bo.textContent='';le.textContent='';
+  stat(ex,'Days alive',num(days));
+  stat(ex,'Full moons',num(days/29.530589),'one every 29.53 days');
+  stat(ex,'Around the Sun',big(days*86400*29.78)+' km','with Earth, at 29.78 km/s');
+  stat(ex,'Weekends',num(countWeekday(dob,t,6)),'Saturdays lived');
+  stat(bo,'Heartbeats','≈ '+big(min*70),'at 70 beats a minute');
+  stat(bo,'Breaths','≈ '+big(min*15),'at 15 a minute');
+  stat(bo,'Blood pumped','≈ '+big(min*5)+' L','5 litres a minute');
+  stat(bo,'Asleep','≈ '+(days/3/365.2425).toFixed(1)+' years','8 hours a night');
+  stat(bo,'Blinks','≈ '+big(days*16*60*15),'15 a minute, 16 waking hours');
+  stat(bo,'Meals','≈ '+num(days*3),'three a day');
+  $('lw-left-h').textContent='Left on a '+MAX+'-year calendar';
+  var left=Math.max(0,MAX*52-wk);
+  stat(le,'Weeks',num(left));
+  stat(le,'Weekends',num(countWeekday(t,end,6)));
+  stat(le,'Summers',num(Math.max(0,MAX-age)));
+  draw();
+}
+
+/* ---------- controls ---------- */
+function setDob(v,save){dob=parse(v);
+  try{ if(save){ if(dob)localStorage.setItem(KEY,v); else localStorage.removeItem(KEY);} }catch(e){}
+  render();}
+input.addEventListener('change',function(){setDob(input.value,true);});
+input.addEventListener('input',function(){if(parse(input.value))setDob(input.value,true);});
+document.querySelectorAll('#lw-scale [data-max]').forEach(function(b){b.addEventListener('click',function(){
+  MAX=+b.dataset.max;
+  document.querySelectorAll('#lw-scale [data-max]').forEach(function(o){var on=o===b;o.classList.toggle('active',on);o.setAttribute('aria-pressed',String(on));});
+  tip.hidden=true;render();});});
+var saved=window.__lwDob||null;
+if(!saved){try{saved=localStorage.getItem(KEY);}catch(e){}}
+if(saved&&parse(saved)){input.value=saved;dob=parse(saved);}
+
+theme();render();
+new MutationObserver(theme).observe(document.documentElement,{attributes:true,attributeFilter:['data-theme']});
+if(window.matchMedia)window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',theme);
+var rt=0;window.addEventListener('resize',function(){clearTimeout(rt);rt=setTimeout(function(){tip.hidden=true;draw();},60);});
+/* the tab panel starts hidden (zero width); redraw once it is shown */
+if('ResizeObserver' in window)new ResizeObserver(function(){draw();}).observe(frame);
+/* roll the "this week" square over at midnight */
+setInterval(function(){if(dob)render();},6e5);
+})();
+</script>
+
 <script>
 (function(){
   /* Live from the creative network's public endpoint (CORS-open to this origin only). It answers as a

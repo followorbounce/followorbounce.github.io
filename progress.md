@@ -112,3 +112,7 @@
 ## 2026-10-15 — Alpha mark; mission-of-the-day script moved to aerospace
 - Creative network card: "Alpha" stage mark at the start of its head row (`.cn-stage`).
 - Mission of the day: the script now lives in the aerospace repo (`aerospace/assets/mission-of-day.js`, also used by the aerospace index) and is loaded at runtime; `engine/aero-shader.js` deleted, markup/CSS stay in `engine/aero-shader.{html,css}`. Same data and drawing; text can now also be Russian (follows `<html lang>`). Rendered and checked from a local root that serves both repos like production.
+
+## 2026-10-15 — Life in weeks instrument
+- New fifth Instruments tab (`engine/life-weeks.*`): date of birth → one row per year of 52 weeks, 100/120-year scale, world-average line, hover dates, exact calendar facts + labelled body averages, weeks/weekends/summers left. Owner reviewed a local preview, then asked to push.
+- Checked: hand-verified figures for 1990-06-15 (age 36, 13,271 days, 1,889 weeks, ≈1.34 billion heartbeats); desktop, dark 120-year, phone 390 (grid under the inputs) and empty state; inline scripts pass node --check.

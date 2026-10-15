@@ -1,0 +1,29 @@
+/* ---- Life in weeks: date of birth -> one row per year of 52 weeks (engine/life-weeks.*) ---- */
+.lifeweeks{padding-block:28px; border-bottom:1px solid var(--ink);}
+.lw-dob{display:flex; align-items:center; gap:8px; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+.lw-dob input{font-family:var(--font-mono); font-size:16px; padding:5px 8px; border:1px solid var(--ink); background:var(--card-bg,#fff); color:var(--ink); border-radius:0; min-height:36px; color-scheme:light dark;}
+.lw-dob input:focus-visible{outline:2px solid var(--accent); outline-offset:1px;}
+.lw-body{display:grid; grid-template-columns:minmax(0,600px) minmax(0,1fr); gap:20px; align-items:start;}
+.lw-frame{padding:14px 14px 12px;}
+.lw-frame canvas{display:block; width:100%; height:auto; cursor:crosshair; touch-action:manipulation;}
+.lw-tip{position:absolute; z-index:3; pointer-events:none; font-family:var(--font-mono); font-size:10.5px; letter-spacing:.04em; line-height:1.4; background:var(--ink); color:var(--paper); padding:4px 7px; white-space:nowrap; transform:translate(-50%,calc(-100% - 8px));}
+.lw-side{position:sticky; top:72px; display:flex; flex-direction:column; gap:14px; min-width:0;}
+.lw-empty{margin:0; font-size:14px; line-height:1.55; color:var(--ink); border:1px dashed var(--line); padding:14px;}
+.lw-big{display:flex; align-items:baseline; gap:10px; font-family:var(--font-display); font-weight:700; font-size:clamp(2.4rem,5vw,3.4rem); line-height:1; letter-spacing:-.01em;}
+.lw-big small{font-family:var(--font-mono); font-weight:400; font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--mid);}
+.lw-line{margin:6px 0 0; font-size:14px; line-height:1.5;}
+.lw-h{margin:16px 0 6px; font-family:var(--font-mono); font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:var(--accent);}
+.lw-stats{margin:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(170px,1fr)); border-top:1px solid var(--line);}
+.lw-stats div{padding:8px 10px 8px 0; border-bottom:1px solid var(--line); min-width:0;}
+.lw-stats dt{font-family:var(--font-mono); font-size:10px; letter-spacing:.06em; text-transform:uppercase; color:var(--mid);}
+.lw-stats dd{margin:2px 0 0; font-family:var(--font-mono); font-size:15px; font-weight:600; color:var(--ink); font-variant-numeric:tabular-nums;}
+.lw-stats dd small{display:block; font-weight:400; font-size:10.5px; color:var(--mid); letter-spacing:.02em;}
+.lw-note{margin:12px 0 0; font-size:11.5px; line-height:1.5; color:var(--mid);}
+.lw-key{display:flex; flex-wrap:wrap; gap:6px 14px; font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+.lw-key span{display:inline-flex; align-items:center; gap:6px;}
+.lw-key i{display:inline-block; width:9px; height:9px;}
+.lw-key .k-done{background:var(--ink);} .lw-key .k-now{background:var(--accent);}
+.lw-key .k-left{border:1px solid var(--mid);} .lw-key .k-avg{width:14px; height:0; border-top:2px solid var(--accent);}
+@media(max-width:980px){.lw-body{grid-template-columns:minmax(0,1fr);} .lw-side{position:static;}}
+@media(max-width:600px){.lw-frame{padding:10px 8px 8px;} .lifeweeks .gen-bar{width:100%;} .lw-dob{flex:1 1 100%;} .lw-dob input{flex:1;} #lw-scale{border-left:0; padding-left:0;}}
+@media(pointer:coarse){#lw-scale .gen-mode{min-height:44px; padding-inline:14px;} .lw-dob input{min-height:44px;}}

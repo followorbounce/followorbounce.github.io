@@ -297,6 +297,10 @@ def render_index(graph):
     # Edition layout (2026-10-14): sticky section bar, intro, the "of the day" widgets in a Today bento, the four
     # instruments behind tabs, then Live data and the Index. Widgets keep their own markup; edition.css only
     # re-frames them (see engine/edition.*).
+    # Life in weeks instrument (2026-10-15): date of birth -> one row per year of 52 weeks (see engine/life-weeks.*):
+    lw_css = open(os.path.join(HERE, "life-weeks.css"), encoding="utf-8").read()
+    lw_html = open(os.path.join(HERE, "life-weeks.html"), encoding="utf-8").read()
+    lw_js = open(os.path.join(HERE, "life-weeks.js"), encoding="utf-8").read()
     ed_css = open(os.path.join(HERE, "edition.css"), encoding="utf-8").read()
     ed_js = open(os.path.join(HERE, "edition.js"), encoding="utf-8").read()
     def stage(sec, key, shown=False):
@@ -449,6 +453,7 @@ header .brand{{
 {ls_css}
 {as_css}
 {ae_css}
+{lw_css}
 {cn_css}
 {sd_css}
 {kd_css}
@@ -547,6 +552,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
       <button type="button" role="tab" id="tab-synth" aria-controls="stage-synth" aria-selected="false" tabindex="-1" data-for="synth">Audio synth<small>4 modules</small></button>
       <button type="button" role="tab" id="tab-ana" aria-controls="stage-ana" aria-selected="false" tabindex="-1" data-for="ana">Anatomy<small>shader</small></button>
       <button type="button" role="tab" id="tab-aero" aria-controls="stage-aero" aria-selected="false" tabindex="-1" data-for="aero">Mission of the day<small>aerospace</small></button>
+      <button type="button" role="tab" id="tab-life" aria-controls="stage-life" aria-selected="false" tabindex="-1" data-for="life">Life in weeks<small>your calendar</small></button>
     </div>
   </div>
   <div class="ed-stage">
@@ -554,6 +560,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {stage(ls_html, "synth")}
 {stage(as_html, "ana")}
 {stage(ae_html, "aero")}
+{stage(lw_html, "life")}
   </div>
 </div>
 <div class="ed-block" id="live" data-hide-when-search>
@@ -652,6 +659,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {ls_js}
 {as_js}
 {ae_js}
+{lw_js}
 {cn_js}
 {sd_js}
 {kd_js}

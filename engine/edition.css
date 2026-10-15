@@ -44,7 +44,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-terms .tod-def{font-size:15px; -webkit-line-clamp:7;}
 .ed-terms .tod-name{font-size:1.4rem;}
 /* Instruments: one stage, four tabs. Hidden instruments are display:none, so their animation loops pause (IntersectionObserver). */
-.ed-tabs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--ink); margin-bottom:0;}
+.ed-tabs{display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); border:1px solid var(--ink); margin-bottom:0;}
 .ed-tabs button{font:inherit; font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; letter-spacing:.02em; text-align:left; padding:12px 16px; min-height:56px; background:var(--paper); color:var(--ink); border:0; border-left:1px solid var(--ink); cursor:pointer; display:flex; flex-direction:column; gap:2px;}
 .ed-tabs button:first-child{border-left:0;}
 .ed-tabs button small{font-family:var(--font-mono); font-weight:400; font-size:10px; letter-spacing:.1em; color:var(--mid);}
@@ -68,5 +68,6 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
   .ed-tabs{grid-template-columns:1fr 1fr;}
   .ed-tabs button:nth-child(3){border-left:0;}
   .ed-tabs button:nth-child(n+3){border-top:1px solid var(--ink);}
+  .ed-tabs button:nth-child(5){grid-column:1 / -1; border-left:0;}
   .ed-sub{display:none;}
 }

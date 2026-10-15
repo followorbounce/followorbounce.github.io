@@ -1,0 +1,35 @@
+<section class="lifeweeks" data-hide-when-search aria-labelledby="lw-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="lw-h">Life in weeks &middot; <b>one row = one year of 52 weeks</b></span>
+      <div class="gen-bar">
+        <label class="lw-dob"><span>Date of birth</span><input type="date" id="lw-dob" min="1900-01-01" autocomplete="bday"></label>
+        <div class="gen-modes gen-opts" id="lw-scale" role="group" aria-label="Length of the calendar">
+          <button type="button" class="gen-mode active" data-max="100" aria-pressed="true">100 years</button>
+          <button type="button" class="gen-mode" data-max="120" aria-pressed="false">120 years</button>
+        </div>
+      </div>
+    </div>
+    <div class="lw-body">
+      <div class="gen-frame lw-frame" id="lw-frame">
+        <canvas id="lw-cv" role="img" aria-label="Life calendar: enter a date of birth to fill it in"></canvas>
+        <div class="lw-tip" id="lw-tip" hidden></div>
+      </div>
+      <aside class="lw-side" aria-live="polite">
+        <p class="lw-empty" id="lw-empty">Enter a date of birth to fill in the weeks you have lived. It stays in this browser &mdash; nothing is sent anywhere.</p>
+        <div id="lw-out" hidden>
+          <div class="lw-big"><span id="lw-weeks">0</span><small>weeks lived</small></div>
+          <p class="lw-line" id="lw-line"></p>
+          <h3 class="lw-h">Counted from the calendar</h3>
+          <dl class="lw-stats" id="lw-exact"></dl>
+          <h3 class="lw-h">Your body, on average</h3>
+          <dl class="lw-stats" id="lw-body"></dl>
+          <h3 class="lw-h" id="lw-left-h">Left on this calendar</h3>
+          <dl class="lw-stats" id="lw-left"></dl>
+          <p class="lw-note">Body figures are rough adult averages applied to every day you have lived (children breathe and beat faster); calendar and orbit figures are exact. World average life expectancy at birth &asymp; 73 years (UN World Population Prospects 2024, for 2023).</p>
+        </div>
+        <div class="lw-key" aria-hidden="true"><span><i class="k-done"></i>lived</span><span><i class="k-now"></i>this week</span><span><i class="k-left"></i>ahead</span><span><i class="k-avg"></i>world average</span></div>
+      </aside>
+    </div>
+  </div>
+</section>
