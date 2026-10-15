@@ -190,9 +190,11 @@ def main():
 
     render_index(graph)
     render_archive(archived_entries)
+    render_life_page()
     print(f"Wrote {GRAPH_OUT}")
     print(f"Wrote {INDEX_OUT}")
     print(f"Wrote {os.path.join(REPO_ROOT, 'archive.html')}")
+    print(f"Wrote {LIFE_OUT}")
     print(f"Totals: {graph['totals']}")
 
 
@@ -300,6 +302,8 @@ def render_index(graph):
     # Life in weeks instrument (2026-10-15): date of birth -> one row per year of 52 weeks (see engine/life-weeks.*):
     lw_css = open(os.path.join(HERE, "life-weeks.css"), encoding="utf-8").read()
     lw_html = open(os.path.join(HERE, "life-weeks.html"), encoding="utf-8").read()
+    # Homepage only: a link card to the standalone page (which is generated from the same files).
+    lw_html = lw_html.replace("  </div>\n</section>", '    <a class="gen-more" href="/life-in-weeks">\n      <span class="gen-more-k">Life in weeks</span>\n      <span class="gen-more-d">The full page &mdash; the same calendar, with how every figure is counted</span>\n      <span class="gen-more-a">Open &rarr;</span>\n    </a>\n  </div>\n</section>', 1)
     lw_js = open(os.path.join(HERE, "life-weeks.js"), encoding="utf-8").read()
     ed_css = open(os.path.join(HERE, "edition.css"), encoding="utf-8").read()
     ed_js = open(os.path.join(HERE, "edition.js"), encoding="utf-8").read()
@@ -681,6 +685,115 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 
 
 ARCHIVE_OUT = os.path.join(REPO_ROOT, "archive.html")
+
+
+LIFE_OUT = os.path.join(REPO_ROOT, "life-in-weeks.html")
+
+def render_life_page():
+    """Standalone /life-in-weeks page, generated from the same engine/life-weeks.* files as the homepage tab,
+    so the two never drift. Self-contained output, like every page at the repo root."""
+    css = open(os.path.join(HERE, "life-weeks.css"), encoding="utf-8").read()
+    html = open(os.path.join(HERE, "life-weeks.html"), encoding="utf-8").read()
+    js = open(os.path.join(HERE, "life-weeks.js"), encoding="utf-8").read()
+    dark = "--ink:#e8e8e4;--paper:#111113;--line:#333;--mid:#888;--accent:#d4714e;--card-bg:#1a1a1d;"
+    page = f"""<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Life in Weeks — Knowledge Network</title>
+<meta name="description" content="Your life as a grid of weeks: enter a date of birth and see every week lived on a 100- or 120-year calendar, with the world-average life expectancy marked, exact calendar counts and labelled body averages. Nothing leaves your browser.">
+<link rel="canonical" href="https://followorbounce.github.io/life-in-weeks">
+<meta name="theme-color" content="#f6f6f2">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Life in Weeks — Knowledge Network">
+<meta property="og:description" content="One row per year, 52 squares per row: every week of a life on one page.">
+<meta property="og:url" content="https://followorbounce.github.io/life-in-weeks">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<style>
+:root{{
+  --ink:#0b0b0c; --paper:#f6f6f2; --line:#c9c9c1; --mid:#6e6e68; --accent:#a6401f; --card-bg:#fff;
+  --font-display:'IBM Plex Sans Condensed', sans-serif; --font-body:'IBM Plex Sans', sans-serif; --font-mono:'IBM Plex Mono', monospace;
+  --edge: clamp(16px, 4vw, 56px); --maxw: 1180px;
+}}
+@media (prefers-color-scheme: dark){{ :root:not([data-theme="light"]){{ {dark} }} }}
+:root[data-theme="dark"]{{ {dark} }}
+*{{box-sizing:border-box;}}
+@media (prefers-reduced-motion: reduce){{ *{{transition-duration:.001ms !important;}} }}
+body{{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:16px; line-height:1.6; -webkit-font-smoothing:antialiased;}}
+a{{color:inherit;}}
+h1,h2,h3{{margin:0; font-family:var(--font-display); font-weight:700; text-transform:uppercase; letter-spacing:0.01em;}}
+p{{margin:0;}}
+button,input{{font-family:inherit;}}
+.wrap{{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge);}}
+header{{border-bottom:1px solid var(--ink); padding-block:14px;}}
+header .wrap{{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}}
+header .brand{{font-family:var(--font-mono); font-size:12px; letter-spacing:0.14em; border:1px solid var(--ink); padding:6px 10px; display:inline-block; text-decoration:none;}}
+header .back{{font-family:var(--font-mono); font-size:12px; letter-spacing:0.06em; text-decoration:none; min-height:44px; display:inline-flex; align-items:center;}}
+header .back:hover{{text-decoration:underline;}}
+.hero{{padding-block:clamp(36px,6vw,64px) 8px;}}
+.eyebrow{{font-family:var(--font-mono); font-size:12px; letter-spacing:0.16em; text-transform:uppercase; color:var(--mid); display:flex; align-items:center; gap:10px; margin-bottom:14px;}}
+.eyebrow::before{{content:''; width:22px; height:1px; background:var(--ink);}}
+.hero h1{{font-size:clamp(2.2rem, 6vw, 3.6rem); line-height:1.0; margin-bottom:14px;}}
+.hero p{{font-size:clamp(1.02rem, 1.4vw, 1.15rem); max-width:660px;}}
+/* the few shared homepage rules the widget leans on (blog-feed.css / gen-canvas.css) */
+.bf-head{{display:flex; justify-content:space-between; align-items:baseline; gap:12px; margin-bottom:12px; flex-wrap:wrap;}}
+.bf-eyebrow{{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}}
+.bf-eyebrow b{{color:var(--accent); font-weight:600;}}
+.gen-bar{{display:flex; gap:10px; flex-wrap:wrap; align-items:center;}}
+.gen-modes{{display:flex; gap:4px; flex-wrap:wrap;}}
+.gen-mode{{font-family:var(--font-mono); font-size:10px; letter-spacing:.08em; text-transform:uppercase; padding:4px 10px; border:1px solid var(--line); background:transparent; color:var(--mid); cursor:pointer; line-height:1;}}
+.gen-mode:hover{{border-color:var(--ink); color:var(--ink);}}
+.gen-mode.active{{background:var(--ink); color:var(--paper); border-color:var(--ink);}}
+.gen-mode:focus-visible{{outline:2px solid var(--accent); outline-offset:1px;}}
+.gen-opts{{padding-left:10px; border-left:1px solid var(--line);}}
+.gen-frame{{border:1px solid var(--ink); background:var(--card-bg,#fff); position:relative; overflow:hidden;}}
+{css}
+.lifeweeks{{border-bottom:0;}}
+.how{{padding-block:36px 56px; border-top:1px solid var(--ink);}}
+.how h2{{font-size:1.25rem; margin-bottom:14px;}}
+.how-grid{{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:18px 40px;}}
+.how h3{{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; color:var(--accent); margin-bottom:6px;}}
+.how p{{font-size:14.5px; line-height:1.6; max-width:62ch;}}
+footer{{border-top:1px solid var(--line); padding-block:18px 28px; font-family:var(--font-mono); font-size:11px; letter-spacing:.06em; color:var(--mid);}}
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}}'></script>
+<script src="/assets/theme-toggle.js"></script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">FOLLOW OR BOUNCE</a>
+    <a class="back" href="/#instruments">← Index</a>
+  </div>
+</header>
+<main>
+<div class="hero"><div class="wrap">
+  <div class="eyebrow">Instrument</div>
+  <h1>Life in weeks</h1>
+  <p>Every week of a life on one page: one row per year, 52 squares per row. Enter a date of birth &mdash; it stays in this browser.</p>
+</div></div>
+{html}
+<section class="how" aria-labelledby="how-h"><div class="wrap">
+  <h2 id="how-h">How it&rsquo;s counted</h2>
+  <div class="how-grid">
+    <div><h3>Rows and squares</h3><p>Each row starts on that year&rsquo;s birthday, so the grid never drifts: 52 weeks of 7 days make 364 days, and the last square of each row absorbs the remaining one or two days. A 29&nbsp;February birthday is counted on 1&nbsp;March in common years.</p></div>
+    <div><h3>The average line</h3><p>World life expectancy at birth was about 73 years in 2023 (UN World Population Prospects 2024). It is an average over everyone born, not a forecast for you &mdash; it varies widely by country, sex and decade of birth.</p></div>
+    <div><h3>Exact figures</h3><p>Days alive and weekends come straight from the calendar. Full moons use the mean synodic month (29.530589 days); distance around the Sun uses Earth&rsquo;s mean orbital speed, 29.78&nbsp;km/s.</p></div>
+    <div><h3>Body estimates</h3><p>Heartbeats (70 a minute), breaths (15), blood pumped (5 litres a minute), sleep (8 hours), blinks (15 a minute while awake) and meals (3 a day) are rough adult averages applied to every day. Children&rsquo;s hearts and lungs run faster, so treat them as order-of-magnitude.</p></div>
+  </div>
+</div></section>
+</main>
+<footer><div class="wrap">Generated from engine/life-weeks.* &middot; also on the <a href="/#instruments">homepage</a> under Instruments</div></footer>
+{js}
+</body>
+</html>
+"""
+    with open(LIFE_OUT, "w", encoding="utf-8") as f:
+        f.write(page)
 
 
 def render_archive(archived):

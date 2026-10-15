@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 152,
+    "pages": 153,
     "repos": 4,
-    "own": 36,
+    "own": 37,
     "aerospace": 78,
     "maya": 7,
     "machinery": 31
@@ -149,6 +149,16 @@
       "title": "Password & Passphrase Generator",
       "description": "Client-side only, Web Crypto API, canonical BIP-39 wordlist, no network calls.",
       "url": "https://followorbounce.github.io/password-generator",
+      "tag": "Tool",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Instruments",
+      "title": "Life in Weeks",
+      "description": "Enter a date of birth: every week lived on a 100- or 120-year grid, the world-average life expectancy marked, exact calendar counts and labelled body averages. Nothing leaves the browser.",
+      "url": "https://followorbounce.github.io/life-in-weeks",
       "tag": "Tool",
       "interactive": true
     },
