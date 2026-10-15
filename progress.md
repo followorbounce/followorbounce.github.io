@@ -100,3 +100,7 @@
 - 2026-10-13 — **Dictionary of Design: Interpretation restored as its own term (113 terms).** Owner: Interpretation (personal reading shaped by experience and context) and Semantics (meaning carried by the sign) are different meanings, so the earlier merge was undone. New card in Meaning & Communication (badge New), Semantics definition now contrasts the two; counts updated (page, network-graph.json, own-pages.json, CLAUDE.md); `engine/term-of-day.js` snapshot updated and homepage rebuilt.
 - 2026-10-14 — **Knot of the day plugin removed** from the homepage (owner request); engine files kept, not inlined.
 - 2026-10-14 — **Knot of the day plugin restored** at the bottom of the widget block (after Reckoning), owner request; same engine files, unchanged.
+
+## 2026-10-14 — Daily brief shows the real key visual
+- The brief card showed generic dots instead of today's picture: sample briefs have no uploaded image, the app draws them in code (`CN.Art`), and the public endpoint did not send which art to draw. Now the endpoint sends `image_art`/`image_seed` and the plugin draws it with the app's own `js/art.js` (verified: 2026-10-14 "Swap One Symbol" shows the traffic light with the spinner, desktop + 390 px). Code-drawn art fills the frame (`img.cn-art`).
+- Anatomy card count updated to 2,421 structures.

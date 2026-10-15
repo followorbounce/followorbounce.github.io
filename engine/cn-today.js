@@ -29,6 +29,14 @@
     }
     return svg;
   }
+  /* A brief without an uploaded picture has its key visual drawn in code by the app: load the app's own
+     generator (/js/art.js) so the homepage shows exactly the same picture. It returns an SVG data URI. */
+  function drawArt(kind, seed, ok, bad){
+    function go(){ try { var A = window.CN && window.CN.Art; if(A && A.kinds.indexOf(kind) >= 0) ok(A.uri(kind, seed)); else bad(); } catch(e){ bad(); } }
+    if(window.CN && window.CN.Art) return go();
+    var sc = document.createElement('script'); sc.src = APP + '/js/art.js'; sc.async = true;
+    sc.onload = go; sc.onerror = bad; document.head.appendChild(sc);
+  }
   function render(d){
     var t = d.task;
     card.classList.remove('bf-skel'); card.textContent = '';
@@ -45,13 +53,17 @@
       var r = el('a','bf-read','Answer the brief →'); r.href = link(t.url); meta.appendChild(r);
       body.appendChild(meta); card.appendChild(body);
       var fig = el('a','bf-fig cn-fig'); fig.href = link(t.url); fig.tabIndex = -1; fig.setAttribute('aria-hidden','true');
-      var src = safeImg(t.image_url);
-      if(src){
+      function show(src){
         var im = document.createElement('img'); im.alt = ''; im.decoding = 'async';
         im.addEventListener('load', function(){ im.classList.add('ok'); });
         im.addEventListener('error', function(){ im.remove(); fig.appendChild(dots(t.id)); });
+        if(src.indexOf('data:') === 0) im.className = 'cn-art';   /* code-drawn art fills the frame, as in the app */
         im.src = src; fig.appendChild(im);
-      } else fig.appendChild(dots(t.id));
+      }
+      var src = safeImg(t.image_url);
+      if(src) show(src);
+      else if(/^[a-z]+$/.test(t.image_art || '')) drawArt(t.image_art, String(t.image_seed || 'task-' + t.id), show, function(){ fig.appendChild(dots(t.id)); });
+      else fig.appendChild(dots(t.id));
       card.classList.remove('no-img'); card.appendChild(fig);
     } else fail();
     var works = (d.works || []).filter(function(w){ return safeImg(w.image_url); }).slice(0, 8);
