@@ -314,6 +314,10 @@ header .brand{
 
 /* ---- Creative network: today's brief + newest public work (reuses the .bf-* card from blog-feed.css) ---- */
 .cntoday{padding-block:28px; border-bottom:1px solid var(--ink);}
+/* Stage mark: the app is in alpha. First in the head row and never shrinks, so the cell's ellipsis can't cut it. */
+.cntoday .bf-head{justify-content:flex-start; gap:8px 10px;}
+.cntoday .bf-all{margin-left:auto;}
+.cn-stage{flex:0 0 auto; align-self:center; font-family:var(--font-mono); font-size:9.5px; font-weight:600; letter-spacing:.14em; line-height:1; text-transform:uppercase; color:var(--accent); border:1px solid var(--accent); padding:3px 5px 2px; cursor:help;}
 .cn-card .bf-cat b{color:var(--ink); font-weight:600;}
 .cn-sub{font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--mid); margin:-4px 0 10px;}
 .cn-fig svg{position:absolute; inset:14px; width:calc(100% - 28px); height:calc(100% - 28px); display:block;}
@@ -587,6 +591,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <div class="ed-cell ed-stack"><section class="cntoday" data-hide-when-search aria-labelledby="cn-h">
   <div class="wrap">
     <div class="bf-head">
+      <span class="cn-stage" title="Alpha-stage app: early and changing; features and content may still reset">Alpha</span>
       <span class="bf-eyebrow" id="cn-h">Creative network &middot; <b>daily brief</b> &middot; answer with one image</span>
       <a class="bf-all" href="https://creative-network.pages.dev/#/today">Today in the app &rarr;</a>
     </div>
