@@ -104,3 +104,7 @@
 ## 2026-10-14 — Daily brief shows the real key visual
 - The brief card showed generic dots instead of today's picture: sample briefs have no uploaded image, the app draws them in code (`CN.Art`), and the public endpoint did not send which art to draw. Now the endpoint sends `image_art`/`image_seed` and the plugin draws it with the app's own `js/art.js` (verified: 2026-10-14 "Swap One Symbol" shows the traffic light with the spinner, desktop + 390 px). Code-drawn art fills the frame (`img.cn-art`).
 - Anatomy card count updated to 2,421 structures.
+
+## 2026-10-14 — Homepage "edition" layout
+- Owner picked layout B from a local preview (`_preview/layout-b.html`, never pushed) and asked to implement it. Now built by `engine/build_network.py` + new `engine/edition.{css,js}`: sticky section bar with the date, big intro, calendar, 01 Today bento (art task, CN brief, signal, knot, terms), 02 Instruments as four tabs on one stage, 03 Live data, 04 Index. Widgets' own files untouched.
+- Checked: desktop 1280 and phone 390 (no horizontal overflow), dark mode, the synth and aerospace tabs starting hidden (they initialise and draw after switching), inline scripts pass `node --check`.

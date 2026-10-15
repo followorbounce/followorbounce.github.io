@@ -293,6 +293,13 @@ def render_index(graph):
     kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
     kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
     kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
+    # Edition layout (2026-10-14): sticky section bar, intro, the "of the day" widgets in a Today bento, the four
+    # instruments behind tabs, then Live data and the Index. Widgets keep their own markup; edition.css only
+    # re-frames them (see engine/edition.*).
+    ed_css = open(os.path.join(HERE, "edition.css"), encoding="utf-8").read()
+    ed_js = open(os.path.join(HERE, "edition.js"), encoding="utf-8").read()
+    def stage(sec, key, shown=False):
+        return sec.replace("<section ", '<section data-tab="%s" id="stage-%s" role="tabpanel" aria-labelledby="tab-%s"%s ' % (key, key, key, "" if shown else " hidden"), 1)
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -445,6 +452,7 @@ header .brand{{
 {sd_css}
 {kd_css}
 {cubes_css}
+{ed_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
 .cats-grid{{
@@ -508,23 +516,51 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
   </div>
 </section>
 
-<section class="hero" data-hide-when-search>
-  <div class="wrap">
-    <div class="eyebrow">Index &middot; Dmitrii V &middot; WH6HIS</div>
+<nav class="ed-nav" aria-label="Sections">
+  <div class="wrap ed-nav-row">
+    <span class="ed-date" id="ed-date">Today</span>
+    <a href="#today">Today</a><a href="#instruments">Instruments</a><a href="#live">Live data</a><a href="#index">Index</a>
   </div>
-</section>
-
-{blog_html}
+</nav>
+<div class="ed-intro" data-hide-when-search>
+  <div class="wrap ed-intro-row">
+    <h1 class="ed-title">Follow or Bounce</h1>
+    <p class="ed-lede">A personal index of experiments, field guides, dictionaries and instruments &mdash; with something new every day.</p>
+  </div>
+</div>
 {cal_html}
-{tod_html}
-{gen_html}
+<div class="ed-block" id="today" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">01</span><h2>Today</h2><span class="ed-sub">Changes every day</span></div></div>
+  <div class="wrap ed-bento">
+    <div class="ed-cell ed-wide">{blog_html}</div>
+    <div class="ed-cell ed-stack">{cn_html}</div>
+    <div class="ed-cell ed-stack">{sd_html}</div>
+    <div class="ed-cell ed-stack">{kd_html}</div>
+    <div class="ed-cell ed-terms">{tod_html}</div>
+  </div>
+</div>
+<div class="ed-block" id="instruments" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">02</span><h2>Instruments</h2><span class="ed-sub">Play with them</span></div>
+    <div class="ed-tabs" role="tablist" aria-label="Instruments">
+      <button type="button" role="tab" id="tab-gen" aria-controls="stage-gen" aria-selected="true" data-for="gen">Generative<small>visual synths</small></button>
+      <button type="button" role="tab" id="tab-synth" aria-controls="stage-synth" aria-selected="false" tabindex="-1" data-for="synth">Audio synth<small>4 modules</small></button>
+      <button type="button" role="tab" id="tab-ana" aria-controls="stage-ana" aria-selected="false" tabindex="-1" data-for="ana">Anatomy<small>shader</small></button>
+      <button type="button" role="tab" id="tab-aero" aria-controls="stage-aero" aria-selected="false" tabindex="-1" data-for="aero">Mission of the day<small>aerospace</small></button>
+    </div>
+  </div>
+  <div class="ed-stage">
+{stage(gen_html, "gen", True)}
+{stage(ls_html, "synth")}
+{stage(as_html, "ana")}
+{stage(ae_html, "aero")}
+  </div>
+</div>
+<div class="ed-block" id="live" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">03</span><h2>Live data</h2><span class="ed-sub">The planet right now</span></div></div>
 {od_html}
-{ls_html}
-{as_html}
-{ae_html}
-{cn_html}
-{sd_html}
-{kd_html}
+</div>
+<div class="ed-block ed-index" id="index">
+  <div class="wrap" data-hide-when-search><div class="ed-h"><span class="ed-n">04</span><h2>Index</h2><span class="ed-sub">Everything, by subject</span></div></div>
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -548,6 +584,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 
   </div>
 </section>
+</div>
 
 </main>
 
@@ -617,6 +654,9 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {cn_js}
 {sd_js}
 {kd_js}
+<script>
+{ed_js}
+</script>
 <script>
 {gen_js}
 </script>

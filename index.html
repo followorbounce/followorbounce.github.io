@@ -399,6 +399,79 @@ body.cubes-on>*:not(#cubes-canvas){position:relative;z-index:1;}
 :root[data-theme="dark"] .search-wrap{background:#1a1a1d;}
 :root[data-theme="dark"] #search-results .hit:hover{background:#222;}
 
+/* ---- Edition layout (2026-10-14): sticky section bar, intro, Today bento, Instruments tabs, numbered sections ---- */
+html{scroll-behavior:smooth; scroll-padding-top:56px;}
+.ed-nav{position:sticky; top:0; z-index:20; background:var(--paper); border-bottom:1px solid var(--ink);}
+.ed-nav-row{display:flex; align-items:center; gap:4px; overflow-x:auto; scrollbar-width:none; padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ed-nav-row::-webkit-scrollbar{display:none;}
+.ed-date{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--accent); margin-right:auto; white-space:nowrap; padding-right:16px;}
+.ed-nav a{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; text-decoration:none; white-space:nowrap; padding:0 12px; min-height:44px; display:inline-flex; align-items:center; border-bottom:2px solid transparent;}
+.ed-nav a:hover,.ed-nav a.on{border-bottom-color:var(--accent); color:var(--accent);}
+.ed-intro{border-bottom:1px solid var(--ink); padding-block:clamp(28px,5vw,56px) clamp(20px,3vw,32px);}
+.ed-intro-row{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:24px; align-items:end;}
+.ed-title{font-size:clamp(2.6rem,8vw,6.2rem); line-height:.88; letter-spacing:-.01em;}
+.ed-lede{font-size:clamp(15px,1.6vw,18px); color:var(--ink-body,#28282a); max-width:42ch; justify-self:end;}
+.calwin{padding-block:20px;}
+.calwin .bf-head{display:none;}
+.ed-block{border-bottom:1px solid var(--ink); padding-block:clamp(28px,4vw,44px);}
+.ed-h{display:flex; align-items:baseline; gap:14px; margin-bottom:18px; border-bottom:2px solid var(--ink); padding-bottom:8px;}
+.ed-h h2{font-size:clamp(1.5rem,3vw,2.2rem); line-height:1;}
+.ed-n{font-family:var(--font-mono); font-size:12px; color:var(--accent); letter-spacing:.1em;}
+.ed-sub{margin-left:auto; font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}
+/* Today: a bento of the daily cards. Each widget keeps its own markup; its outer padding/rules are removed in a cell. */
+.ed-bento{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:stretch;}
+.ed-wide{grid-column:span 2;}
+.ed-cell > section{padding:0; border:0; height:100%;}
+.ed-cell > section > .wrap{padding:0; max-width:none; height:100%; display:flex; flex-direction:column;}
+.ed-cell .bf-card{flex:1;}
+.ed-cell .gen-more{display:none;}
+.ed-cell .cn-works{display:none;}
+.ed-stack .bf-card{grid-template-columns:minmax(0,1fr); grid-template-areas:"fig" "body";}
+.ed-stack .bf-card.no-img{grid-template-areas:"body";}
+.ed-stack .bf-fig{width:auto; min-height:0; height:210px; border-left:0; border-bottom:1px solid var(--ink);}
+.ed-stack .bf-read{margin-left:0;}
+.ed-stack .bf-title{font-size:1.45rem;}
+.ed-stack .bf-sum{-webkit-line-clamp:3;}
+.ed-stack .sd-fig svg{width:auto; height:70%;}
+.ed-terms .tod-row{grid-template-columns:1fr; gap:20px; flex:1; grid-auto-rows:1fr;}
+/* One-line labels in cells; the picture takes any spare height so bottoms line up without empty bodies. */
+.ed-cell .bf-head{flex-wrap:nowrap; min-width:0;}
+.ed-cell .bf-eyebrow{white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0;}
+.ed-cell .bf-all{white-space:nowrap; flex:0 0 auto;}
+.ed-stack .bf-card{grid-template-rows:minmax(190px,1fr) auto;}
+.ed-stack .bf-fig,.ed-stack .kd-fig,.ed-stack .sd-fig{height:auto; min-height:190px;}
+.ed-stack .bf-meta{margin-top:6px;}
+.ed-wide .bf-sum{-webkit-line-clamp:9;}
+.ed-terms .tod-def{font-size:15px; -webkit-line-clamp:7;}
+.ed-terms .tod-name{font-size:1.4rem;}
+/* Instruments: one stage, four tabs. Hidden instruments are display:none, so their animation loops pause (IntersectionObserver). */
+.ed-tabs{display:grid; grid-template-columns:repeat(4,minmax(0,1fr)); border:1px solid var(--ink); margin-bottom:0;}
+.ed-tabs button{font:inherit; font-family:var(--font-display); font-weight:700; font-size:1.05rem; text-transform:uppercase; letter-spacing:.02em; text-align:left; padding:12px 16px; min-height:56px; background:var(--paper); color:var(--ink); border:0; border-left:1px solid var(--ink); cursor:pointer; display:flex; flex-direction:column; gap:2px;}
+.ed-tabs button:first-child{border-left:0;}
+.ed-tabs button small{font-family:var(--font-mono); font-weight:400; font-size:10px; letter-spacing:.1em; color:var(--mid);}
+.ed-tabs button[aria-selected="true"]{background:var(--ink); color:var(--paper);}
+.ed-tabs button[aria-selected="true"] small{color:var(--paper); opacity:.7;}
+.ed-stage > section{border-bottom:0; padding-block:18px 0;}
+.ed-stage > section[hidden]{display:none !important;}
+#live .opendata{border-bottom:0; padding-block:0;}
+#live .opendata .bf-head .bf-eyebrow{visibility:hidden;}
+.ed-index .cats{padding-block:8px 0;}
+@media (max-width:980px){
+  .ed-bento{grid-template-columns:repeat(2,minmax(0,1fr));}
+  .ed-wide{grid-column:1 / -1;}
+  .ed-terms{grid-column:1 / -1;} .ed-terms .tod-row{grid-template-columns:1fr 1fr; grid-auto-rows:auto;}
+}
+@media (max-width:640px){
+  .ed-intro-row{grid-template-columns:minmax(0,1fr);} .ed-lede{justify-self:start;}
+  .ed-bento{grid-template-columns:minmax(0,1fr);}
+  .ed-wide,.ed-terms{grid-column:auto;}
+  .ed-terms .tod-row{grid-template-columns:minmax(0,1fr);}
+  .ed-tabs{grid-template-columns:1fr 1fr;}
+  .ed-tabs button:nth-child(3){border-left:0;}
+  .ed-tabs button:nth-child(n+3){border-top:1px solid var(--ink);}
+  .ed-sub{display:none;}
+}
+
 
 .cats{padding-block:clamp(48px,8vw,88px);}
 .cats-grid{
@@ -462,29 +535,18 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="hero" data-hide-when-search>
-  <div class="wrap">
-    <div class="eyebrow">Index &middot; Dmitrii V &middot; WH6HIS</div>
+<nav class="ed-nav" aria-label="Sections">
+  <div class="wrap ed-nav-row">
+    <span class="ed-date" id="ed-date">Today</span>
+    <a href="#today">Today</a><a href="#instruments">Instruments</a><a href="#live">Live data</a><a href="#index">Index</a>
   </div>
-</section>
-
-<section class="blogfeed" data-hide-when-search aria-labelledby="bf-h">
-  <div class="wrap">
-    <div class="bf-head">
-      <span class="bf-eyebrow" id="bf-h">Latest art task &middot; <b>Design, Divine &amp; Future</b> &middot; new post daily</span>
-      <a class="bf-all" href="https://designdivinefuture.wordpress.com/category/art-tasks/">All art tasks &rarr;</a>
-    </div>
-    <article class="bf-card bf-skel no-img" id="bf-card" aria-live="polite">
-      <div class="bf-body">
-        <div class="bf-cat">Art tasks</div>
-        <h2 class="bf-title">Fetching the latest post</h2>
-        <p class="bf-sum">One moment &mdash; asking the blog for its newest entry, a line of text to stand in for the summary.</p>
-      </div>
-    </article>
-    <noscript><p><a href="https://designdivinefuture.wordpress.com/category/art-tasks/">Read the latest art task on Design, Divine &amp; Future &rarr;</a></p></noscript>
+</nav>
+<div class="ed-intro" data-hide-when-search>
+  <div class="wrap ed-intro-row">
+    <h1 class="ed-title">Follow or Bounce</h1>
+    <p class="ed-lede">A personal index of experiments, field guides, dictionaries and instruments &mdash; with something new every day.</p>
   </div>
-</section>
-
+</div>
 <section class="calwin" data-hide-when-search aria-labelledby="cw-h">
   <div class="wrap">
     <div class="bf-head">
@@ -502,7 +564,121 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="todwin" data-hide-when-search aria-labelledby="tod-h">
+<div class="ed-block" id="today" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">01</span><h2>Today</h2><span class="ed-sub">Changes every day</span></div></div>
+  <div class="wrap ed-bento">
+    <div class="ed-cell ed-wide"><section class="blogfeed" data-hide-when-search aria-labelledby="bf-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="bf-h">Latest art task &middot; <b>Design, Divine &amp; Future</b> &middot; new post daily</span>
+      <a class="bf-all" href="https://designdivinefuture.wordpress.com/category/art-tasks/">All art tasks &rarr;</a>
+    </div>
+    <article class="bf-card bf-skel no-img" id="bf-card" aria-live="polite">
+      <div class="bf-body">
+        <div class="bf-cat">Art tasks</div>
+        <h2 class="bf-title">Fetching the latest post</h2>
+        <p class="bf-sum">One moment &mdash; asking the blog for its newest entry, a line of text to stand in for the summary.</p>
+      </div>
+    </article>
+    <noscript><p><a href="https://designdivinefuture.wordpress.com/category/art-tasks/">Read the latest art task on Design, Divine &amp; Future &rarr;</a></p></noscript>
+  </div>
+</section>
+</div>
+    <div class="ed-cell ed-stack"><section class="cntoday" data-hide-when-search aria-labelledby="cn-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="cn-h">Creative network &middot; <b>daily brief</b> &middot; answer with one image</span>
+      <a class="bf-all" href="https://creative-network.pages.dev/#/today">Today in the app &rarr;</a>
+    </div>
+    <article class="bf-card cn-card bf-skel no-img" id="cn-card" aria-live="polite">
+      <div class="bf-body">
+        <div class="bf-cat">Today&rsquo;s brief</div>
+        <h2 class="bf-title">Fetching today&rsquo;s brief</h2>
+        <p class="bf-sum">One moment &mdash; asking the creative network for today&rsquo;s task and the newest public work.</p>
+      </div>
+    </article>
+    <div class="cn-works" id="cn-works" hidden>
+      <div class="cn-works-h"><span class="bf-eyebrow">Newest public work &middot; <b>visual keys &amp; OneFrame</b></span></div>
+      <ul class="cn-grid" id="cn-grid"></ul>
+    </div>
+    <a class="gen-more" href="https://creative-network.pages.dev/">
+      <span class="gen-more-k">Creative network</span>
+      <span class="gen-more-d">A daily design brief, visual-key replies, OneFrame photographs &amp; a portfolio that grows with every answer</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+    <noscript><p><a href="https://creative-network.pages.dev/">Open the creative network &rarr;</a></p></noscript>
+  </div>
+</section>
+</div>
+    <div class="ed-cell ed-stack"><section class="sigday" data-hide-when-search aria-labelledby="sd-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="sd-h">Reckoning &middot; <b>signal of the day</b> &middot; International Code flags</span>
+      <a class="bf-all" href="/reckoning/signal/flags/">All flags &rarr;</a>
+    </div>
+    <article class="bf-card sd-card bf-skel" id="sd-card">
+      <div class="bf-body">
+        <div class="bf-cat" id="sd-cat">Signal of the day</div>
+        <h2 class="bf-title" id="sd-title">Hoisting today&rsquo;s flag</h2>
+        <p class="bf-sum" id="sd-sum">One moment &mdash; loading the code from Reckoning.</p>
+        <p class="sd-note" id="sd-note" hidden></p>
+        <div class="sd-morse" id="sd-morse" aria-hidden="true"></div>
+        <div class="bf-meta">
+          <span class="bf-chip" id="sd-chip" hidden></span>
+          <button type="button" class="sd-shuffle" id="sd-shuffle">Another flag</button>
+          <a class="bf-read" id="sd-open" href="/reckoning/signal/flags/">Read the code &rarr;</a>
+        </div>
+      </div>
+      <figure class="bf-fig sd-fig" id="sd-fig"></figure>
+    </article>
+    <a class="gen-more" href="/reckoning/">
+      <span class="gen-more-k">Reckoning</span>
+      <span class="gen-more-d">An interactive handbook: measure, shape, number, sky &amp; sea, weather, signal, ship and the code of life &mdash; every value traced to a primary standard</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+    <noscript><p><a href="/reckoning/signal/flags/">Open the code flags on Reckoning &rarr;</a></p></noscript>
+  </div>
+</section>
+</div>
+    <div class="ed-cell ed-stack"><section class="knotday" data-hide-when-search aria-labelledby="kd-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="kd-h">Knot Atlas &middot; <b>knot of the day</b> &middot; tied step by step</span>
+      <a class="bf-all" href="/knots/">All knots &rarr;</a>
+    </div>
+    <article class="bf-card kd-card bf-skel" id="kd-card">
+      <div class="bf-body">
+        <div class="bf-cat" id="kd-cat">Knot of the day</div>
+        <h2 class="bf-title" id="kd-title">Finding today&rsquo;s knot</h2>
+        <p class="bf-sum" id="kd-sum">One moment &mdash; loading the rope model from Knot Atlas.</p>
+        <div class="kd-stepbox">
+          <span class="kd-n" id="kd-n">&nbsp;</span>
+          <p class="kd-step" id="kd-step" aria-live="polite">&nbsp;</p>
+        </div>
+        <div class="kd-ctrl" role="group" aria-label="Steps">
+          <button type="button" id="kd-prev" aria-label="Previous step">&lsaquo;</button>
+          <button type="button" id="kd-play" class="kd-play">Pause</button>
+          <button type="button" id="kd-next" aria-label="Next step">&rsaquo;</button>
+          <button type="button" id="kd-shuffle" class="kd-shuffle">Another knot</button>
+        </div>
+        <div class="bf-meta">
+          <span class="bf-chip" id="kd-chip-a" hidden></span>
+          <span class="bf-chip" id="kd-chip-b" hidden></span>
+          <a class="bf-read" id="kd-open" href="/knots/">Tie it in 3D &rarr;</a>
+        </div>
+      </div>
+      <figure class="bf-fig kd-fig"><canvas id="kd-cv" aria-label="Drawing of the knot being tied"></canvas></figure>
+    </article>
+    <a class="gen-more" href="/knots/">
+      <span class="gen-more-k">Knot Atlas</span>
+      <span class="gen-more-d">Knots as 3D ropes you can turn and tie one step at a time &mdash; stoppers, bends, hitches, loops, braids and splices</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+    <noscript><p><a href="/knots/">Open Knot Atlas &rarr;</a></p></noscript>
+  </div>
+</section>
+</div>
+    <div class="ed-cell ed-terms"><section class="todwin" data-hide-when-search aria-labelledby="tod-h">
   <div class="wrap">
     <div class="bf-head">
       <span class="bf-eyebrow" id="tod-h">Term of the day &middot; <b>Dictionaries</b></span>
@@ -539,8 +715,20 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     </div>
   </div>
 </section>
-
-<section class="genwin" data-hide-when-search aria-labelledby="gen-h">
+</div>
+  </div>
+</div>
+<div class="ed-block" id="instruments" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">02</span><h2>Instruments</h2><span class="ed-sub">Play with them</span></div>
+    <div class="ed-tabs" role="tablist" aria-label="Instruments">
+      <button type="button" role="tab" id="tab-gen" aria-controls="stage-gen" aria-selected="true" data-for="gen">Generative<small>visual synths</small></button>
+      <button type="button" role="tab" id="tab-synth" aria-controls="stage-synth" aria-selected="false" tabindex="-1" data-for="synth">Audio synth<small>4 modules</small></button>
+      <button type="button" role="tab" id="tab-ana" aria-controls="stage-ana" aria-selected="false" tabindex="-1" data-for="ana">Anatomy<small>shader</small></button>
+      <button type="button" role="tab" id="tab-aero" aria-controls="stage-aero" aria-selected="false" tabindex="-1" data-for="aero">Mission of the day<small>aerospace</small></button>
+    </div>
+  </div>
+  <div class="ed-stage">
+<section data-tab="gen" id="stage-gen" role="tabpanel" aria-labelledby="tab-gen" class="genwin" data-hide-when-search aria-labelledby="gen-h">
   <div class="wrap">
     <div class="bf-head">
       <span class="bf-eyebrow" id="gen-h">Generative &middot; <b>Interactive</b></span>
@@ -558,28 +746,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="opendata" data-hide-when-search aria-labelledby="od-h">
-  <div class="wrap">
-    <div class="bf-head">
-      <span class="bf-eyebrow" id="od-h">Open data &middot; <b>live</b></span>
-      <button class="bf-all" id="od-refresh" aria-label="Refresh data" style="background:none; cursor:pointer;">Refresh &circlearrowright;</button>
-    </div>
-    <div class="od-card od-skel" id="od-card">
-      <div class="od-cell" data-key="earthquakes"><a href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127758;</span><span class="od-label">Earthquakes</span></div><span class="od-val">&nbsp;</span><span class="od-sub">24 h &middot; M 1+ &middot; USGS</span></a></div>
-      <div class="od-cell" data-key="aircraft"><a href="https://opensky-network.org/network/explorer" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9992;&#65039;</span><span class="od-label">Aircraft</span></div><span class="od-val">&nbsp;</span><span class="od-sub">worldwide now &middot; OpenSky</span></a></div>
-      <div class="od-cell" data-key="ships"><a href="https://www.digitraffic.fi/en/marine-traffic/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128674;</span><span class="od-label">Ships</span></div><span class="od-val">&nbsp;</span><span class="od-sub">Baltic AIS &middot; Digitraffic</span></a></div>
-      <div class="od-cell" data-key="volcanoes"><a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127755;</span><span class="od-label">Volcanic activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active events &middot; NASA EONET</span></a></div>
-      <div class="od-cell" data-key="wildfires"><a href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128293;</span><span class="od-label">Wildfires</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active events &middot; NASA EONET</span></a></div>
-      <div class="od-cell" data-key="waves"><a href="https://www.ndbc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127754;</span><span class="od-label">Wave height</span></div><span class="od-val">&nbsp;</span><span class="od-sub">N Atlantic &middot; Open-Meteo</span></a></div>
-      <div class="od-cell" data-key="solar"><a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9728;&#65039;</span><span class="od-label">Solar activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">solar wind &middot; NOAA</span></a></div>
-      <div class="od-cell" data-key="satellites"><a href="https://celestrak.org/satcat/boxscore.php" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128752;</span><span class="od-label">Satellites</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active &middot; CelesTrak</span><span class="od-sub od-iss"></span></a></div>
-    </div>
-    <div class="od-foot" id="od-foot"><span class="od-pulse"></span> Updated <b id="od-ts">&mdash;</b><span class="od-src">Sources: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a> &middot; <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA</a> &middot; <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA</a> &middot; <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> &middot; <a href="https://opensky-network.org/" target="_blank" rel="noopener">OpenSky</a> &middot; <a href="https://www.digitraffic.fi/en/" target="_blank" rel="noopener">Digitraffic</a> &middot; <a href="https://celestrak.org/" target="_blank" rel="noopener">CelesTrak</a></span></div>
-    <noscript><p style="font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-top:8px;">Live data requires JavaScript.</p></noscript>
-  </div>
-</section>
-
-<section class="livesynth" data-hide-when-search aria-labelledby="ls-h">
+<section data-tab="synth" id="stage-synth" role="tabpanel" aria-labelledby="tab-synth" hidden class="livesynth" data-hide-when-search aria-labelledby="ls-h">
   <div class="wrap">
     <div class="bf-head">
       <span class="bf-eyebrow" id="ls-h">Audio synth &middot; <b>live</b></span>
@@ -645,7 +812,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="anashader" data-hide-when-search aria-labelledby="as-h">
+<section data-tab="ana" id="stage-ana" role="tabpanel" aria-labelledby="tab-ana" hidden class="anashader" data-hide-when-search aria-labelledby="as-h">
   <div class="wrap">
     <div class="bf-head">
       <span class="bf-eyebrow" id="as-h">Anatomy &middot; <b>shader</b></span>
@@ -667,7 +834,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="aeroshader" data-hide-when-search aria-labelledby="ae-h">
+<section data-tab="aero" id="stage-aero" role="tabpanel" aria-labelledby="tab-aero" hidden class="aeroshader" data-hide-when-search aria-labelledby="ae-h">
   <div class="wrap">
     <div class="bf-head">
       <span class="bf-eyebrow" id="ae-h">Aerospace &middot; <b>mission of the day</b></span>
@@ -702,100 +869,34 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 
-<section class="cntoday" data-hide-when-search aria-labelledby="cn-h">
+  </div>
+</div>
+<div class="ed-block" id="live" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">03</span><h2>Live data</h2><span class="ed-sub">The planet right now</span></div></div>
+<section class="opendata" data-hide-when-search aria-labelledby="od-h">
   <div class="wrap">
     <div class="bf-head">
-      <span class="bf-eyebrow" id="cn-h">Creative network &middot; <b>daily brief</b> &middot; answer with one image</span>
-      <a class="bf-all" href="https://creative-network.pages.dev/#/today">Today in the app &rarr;</a>
+      <span class="bf-eyebrow" id="od-h">Open data &middot; <b>live</b></span>
+      <button class="bf-all" id="od-refresh" aria-label="Refresh data" style="background:none; cursor:pointer;">Refresh &circlearrowright;</button>
     </div>
-    <article class="bf-card cn-card bf-skel no-img" id="cn-card" aria-live="polite">
-      <div class="bf-body">
-        <div class="bf-cat">Today&rsquo;s brief</div>
-        <h2 class="bf-title">Fetching today&rsquo;s brief</h2>
-        <p class="bf-sum">One moment &mdash; asking the creative network for today&rsquo;s task and the newest public work.</p>
-      </div>
-    </article>
-    <div class="cn-works" id="cn-works" hidden>
-      <div class="cn-works-h"><span class="bf-eyebrow">Newest public work &middot; <b>visual keys &amp; OneFrame</b></span></div>
-      <ul class="cn-grid" id="cn-grid"></ul>
+    <div class="od-card od-skel" id="od-card">
+      <div class="od-cell" data-key="earthquakes"><a href="https://earthquake.usgs.gov/earthquakes/map/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127758;</span><span class="od-label">Earthquakes</span></div><span class="od-val">&nbsp;</span><span class="od-sub">24 h &middot; M 1+ &middot; USGS</span></a></div>
+      <div class="od-cell" data-key="aircraft"><a href="https://opensky-network.org/network/explorer" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9992;&#65039;</span><span class="od-label">Aircraft</span></div><span class="od-val">&nbsp;</span><span class="od-sub">worldwide now &middot; OpenSky</span></a></div>
+      <div class="od-cell" data-key="ships"><a href="https://www.digitraffic.fi/en/marine-traffic/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128674;</span><span class="od-label">Ships</span></div><span class="od-val">&nbsp;</span><span class="od-sub">Baltic AIS &middot; Digitraffic</span></a></div>
+      <div class="od-cell" data-key="volcanoes"><a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127755;</span><span class="od-label">Volcanic activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active events &middot; NASA EONET</span></a></div>
+      <div class="od-cell" data-key="wildfires"><a href="https://firms.modaps.eosdis.nasa.gov/map/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128293;</span><span class="od-label">Wildfires</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active events &middot; NASA EONET</span></a></div>
+      <div class="od-cell" data-key="waves"><a href="https://www.ndbc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#127754;</span><span class="od-label">Wave height</span></div><span class="od-val">&nbsp;</span><span class="od-sub">N Atlantic &middot; Open-Meteo</span></a></div>
+      <div class="od-cell" data-key="solar"><a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#9728;&#65039;</span><span class="od-label">Solar activity</span></div><span class="od-val">&nbsp;</span><span class="od-sub">solar wind &middot; NOAA</span></a></div>
+      <div class="od-cell" data-key="satellites"><a href="https://celestrak.org/satcat/boxscore.php" target="_blank" rel="noopener"><div class="od-head"><span class="od-icon" aria-hidden="true">&#128752;</span><span class="od-label">Satellites</span></div><span class="od-val">&nbsp;</span><span class="od-sub">active &middot; CelesTrak</span><span class="od-sub od-iss"></span></a></div>
     </div>
-    <a class="gen-more" href="https://creative-network.pages.dev/">
-      <span class="gen-more-k">Creative network</span>
-      <span class="gen-more-d">A daily design brief, visual-key replies, OneFrame photographs &amp; a portfolio that grows with every answer</span>
-      <span class="gen-more-a">Open &rarr;</span>
-    </a>
-    <noscript><p><a href="https://creative-network.pages.dev/">Open the creative network &rarr;</a></p></noscript>
+    <div class="od-foot" id="od-foot"><span class="od-pulse"></span> Updated <b id="od-ts">&mdash;</b><span class="od-src">Sources: <a href="https://earthquake.usgs.gov/" target="_blank" rel="noopener">USGS</a> &middot; <a href="https://eonet.gsfc.nasa.gov/" target="_blank" rel="noopener">NASA</a> &middot; <a href="https://www.swpc.noaa.gov/" target="_blank" rel="noopener">NOAA</a> &middot; <a href="https://open-meteo.com/" target="_blank" rel="noopener">Open-Meteo</a> &middot; <a href="https://opensky-network.org/" target="_blank" rel="noopener">OpenSky</a> &middot; <a href="https://www.digitraffic.fi/en/" target="_blank" rel="noopener">Digitraffic</a> &middot; <a href="https://celestrak.org/" target="_blank" rel="noopener">CelesTrak</a></span></div>
+    <noscript><p style="font-family:var(--font-mono); font-size:12px; color:var(--mid); margin-top:8px;">Live data requires JavaScript.</p></noscript>
   </div>
 </section>
 
-<section class="sigday" data-hide-when-search aria-labelledby="sd-h">
-  <div class="wrap">
-    <div class="bf-head">
-      <span class="bf-eyebrow" id="sd-h">Reckoning &middot; <b>signal of the day</b> &middot; International Code flags</span>
-      <a class="bf-all" href="/reckoning/signal/flags/">All flags &rarr;</a>
-    </div>
-    <article class="bf-card sd-card bf-skel" id="sd-card">
-      <div class="bf-body">
-        <div class="bf-cat" id="sd-cat">Signal of the day</div>
-        <h2 class="bf-title" id="sd-title">Hoisting today&rsquo;s flag</h2>
-        <p class="bf-sum" id="sd-sum">One moment &mdash; loading the code from Reckoning.</p>
-        <p class="sd-note" id="sd-note" hidden></p>
-        <div class="sd-morse" id="sd-morse" aria-hidden="true"></div>
-        <div class="bf-meta">
-          <span class="bf-chip" id="sd-chip" hidden></span>
-          <button type="button" class="sd-shuffle" id="sd-shuffle">Another flag</button>
-          <a class="bf-read" id="sd-open" href="/reckoning/signal/flags/">Read the code &rarr;</a>
-        </div>
-      </div>
-      <figure class="bf-fig sd-fig" id="sd-fig"></figure>
-    </article>
-    <a class="gen-more" href="/reckoning/">
-      <span class="gen-more-k">Reckoning</span>
-      <span class="gen-more-d">An interactive handbook: measure, shape, number, sky &amp; sea, weather, signal, ship and the code of life &mdash; every value traced to a primary standard</span>
-      <span class="gen-more-a">Open &rarr;</span>
-    </a>
-    <noscript><p><a href="/reckoning/signal/flags/">Open the code flags on Reckoning &rarr;</a></p></noscript>
-  </div>
-</section>
-
-<section class="knotday" data-hide-when-search aria-labelledby="kd-h">
-  <div class="wrap">
-    <div class="bf-head">
-      <span class="bf-eyebrow" id="kd-h">Knot Atlas &middot; <b>knot of the day</b> &middot; tied step by step</span>
-      <a class="bf-all" href="/knots/">All knots &rarr;</a>
-    </div>
-    <article class="bf-card kd-card bf-skel" id="kd-card">
-      <div class="bf-body">
-        <div class="bf-cat" id="kd-cat">Knot of the day</div>
-        <h2 class="bf-title" id="kd-title">Finding today&rsquo;s knot</h2>
-        <p class="bf-sum" id="kd-sum">One moment &mdash; loading the rope model from Knot Atlas.</p>
-        <div class="kd-stepbox">
-          <span class="kd-n" id="kd-n">&nbsp;</span>
-          <p class="kd-step" id="kd-step" aria-live="polite">&nbsp;</p>
-        </div>
-        <div class="kd-ctrl" role="group" aria-label="Steps">
-          <button type="button" id="kd-prev" aria-label="Previous step">&lsaquo;</button>
-          <button type="button" id="kd-play" class="kd-play">Pause</button>
-          <button type="button" id="kd-next" aria-label="Next step">&rsaquo;</button>
-          <button type="button" id="kd-shuffle" class="kd-shuffle">Another knot</button>
-        </div>
-        <div class="bf-meta">
-          <span class="bf-chip" id="kd-chip-a" hidden></span>
-          <span class="bf-chip" id="kd-chip-b" hidden></span>
-          <a class="bf-read" id="kd-open" href="/knots/">Tie it in 3D &rarr;</a>
-        </div>
-      </div>
-      <figure class="bf-fig kd-fig"><canvas id="kd-cv" aria-label="Drawing of the knot being tied"></canvas></figure>
-    </article>
-    <a class="gen-more" href="/knots/">
-      <span class="gen-more-k">Knot Atlas</span>
-      <span class="gen-more-d">Knots as 3D ropes you can turn and tie one step at a time &mdash; stoppers, bends, hitches, loops, braids and splices</span>
-      <span class="gen-more-a">Open &rarr;</span>
-    </a>
-    <noscript><p><a href="/knots/">Open Knot Atlas &rarr;</a></p></noscript>
-  </div>
-</section>
-
+</div>
+<div class="ed-block ed-index" id="index">
+  <div class="wrap" data-hide-when-search><div class="ed-h"><span class="ed-n">04</span><h2>Index</h2><span class="ed-sub">Everything, by subject</span></div></div>
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -1044,6 +1145,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
 
   </div>
 </section>
+</div>
 
 </main>
 
@@ -2514,6 +2616,52 @@ if(window.__aePreserve){window.__aeDraw=function(ms){draw(ms);};window.__aeShow=
 })();
 </script>
 
+<script>
+(function(){
+  /* Edition date in the sticky bar. */
+  var d = new Date();
+  document.getElementById('ed-date').textContent = d.toLocaleDateString('en-GB', {weekday:'long', day:'numeric', month:'long', year:'numeric'});
+
+  /* Instrument tabs: one stage section at a time. Hidden sections are display:none, so their animation loops
+     pause (each instrument watches its own visibility); a resize event lets the shown canvas re-measure.
+     The last choice is a per-viewer convenience only (localStorage may be blocked; the default is Generative). */
+  var tabs = Array.prototype.slice.call(document.querySelectorAll('.ed-tabs [role=tab]'));
+  var secs = document.querySelectorAll('.ed-stage > section');
+  var KEY = 'fob-instrument';
+  function pick(key, focus){
+    tabs.forEach(function(t){
+      var on = t.dataset.for === key;
+      t.setAttribute('aria-selected', on ? 'true' : 'false'); t.tabIndex = on ? 0 : -1;
+      if(on && focus) t.focus();
+    });
+    for(var i = 0; i < secs.length; i++) secs[i].hidden = secs[i].dataset.tab !== key;
+    window.dispatchEvent(new Event('resize'));
+    try { localStorage.setItem(KEY, key); } catch(e){}
+  }
+  tabs.forEach(function(t, i){
+    t.addEventListener('click', function(){ pick(t.dataset.for); });
+    t.addEventListener('keydown', function(e){
+      var n = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if(e.key === 'Home') n = -i; if(e.key === 'End') n = tabs.length - 1 - i;
+      if(!n) return;
+      e.preventDefault(); pick(tabs[(i + n + tabs.length) % tabs.length].dataset.for, true);
+    });
+  });
+  var saved = null;
+  try { saved = localStorage.getItem(KEY); } catch(e){}
+  if(saved && saved !== 'gen' && tabs.some(function(t){ return t.dataset.for === saved; })) pick(saved);
+
+  /* Highlight the section in view. */
+  var links = document.querySelectorAll('.ed-nav a');
+  if('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(es){
+      es.forEach(function(e){ if(e.isIntersecting) for(var i = 0; i < links.length; i++) links[i].classList.toggle('on', links[i].getAttribute('href') === '#' + e.target.id); });
+    }, {rootMargin:'-40% 0px -55% 0px'});
+    ['today','instruments','live','index'].forEach(function(id){ var el = document.getElementById(id); if(el) io.observe(el); });
+  }
+})();
+
+</script>
 <script>
 (function(){
 var cv=document.getElementById('gen-cv');
