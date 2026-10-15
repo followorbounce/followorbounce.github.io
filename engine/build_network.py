@@ -288,8 +288,11 @@ def render_index(graph):
     sd_css = open(os.path.join(HERE, "signal-of-day.css"), encoding="utf-8").read()
     sd_html = open(os.path.join(HERE, "signal-of-day.html"), encoding="utf-8").read()
     sd_js = open(os.path.join(HERE, "signal-of-day.js"), encoding="utf-8").read()
-    # Knot Atlas "knot of the day" plugin removed from the homepage 2026-10-13 (owner request);
-    # engine/knot-of-day.* kept unused in case it comes back.
+    # Knot Atlas knot of the day, last widget (under Reckoning); reads /knots/feed/ (same origin), see engine/knot-of-day.*.
+    # Removed 2026-10-14 morning, restored the same day at the owner's request.
+    kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
+    kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
+    kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
     # own-repo categories whose topic already has a sibling-repo hub card get
     # merged into that hub's card instead of rendered standalone, so e.g.
     # "Machinery" doesn't appear as two adjacent, identically-titled boxes.
@@ -440,6 +443,7 @@ header .brand{{
 {ae_css}
 {cn_css}
 {sd_css}
+{kd_css}
 {cubes_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
@@ -520,6 +524,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {ae_html}
 {cn_html}
 {sd_html}
+{kd_html}
 <section class="cats">
   <div class="wrap cats-grid">
 
@@ -611,6 +616,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {ae_js}
 {cn_js}
 {sd_js}
+{kd_js}
 <script>
 {gen_js}
 </script>
