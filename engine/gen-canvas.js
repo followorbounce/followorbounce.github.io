@@ -23,6 +23,20 @@ var modes=[
   {id:'mesh',   label:'Mesh',   hint:'Move to push the grid · press and hold to pull it in'}
 ];
 var cur='lines';
+// Starting mode (2026-10-16): until the visitor picks a mode, each visit opens a different one (never the one
+// auto-shown last time, kept in fob-gen-auto); once they pick, that mode (fob-gen-mode) is reopened instead.
+// Per-viewer convenience only: localStorage may be blocked, and then the pick is just random.
+function genLoad(k){try{return localStorage.getItem(k);}catch(e){return null;}}
+function genStore(k,v){try{localStorage.setItem(k,v);}catch(e){}}
+(function(){
+  var ids=modes.map(function(m){return m.id;});
+  var saved=genLoad('fob-gen-mode');
+  if(saved&&ids.indexOf(saved)>=0){cur=saved;return;}
+  var last=genLoad('fob-gen-auto');
+  var pool=ids.filter(function(id){return id!==last;});
+  cur=pool[Math.floor(Math.random()*pool.length)];
+  genStore('fob-gen-auto',cur);
+})();
 
 function palette(){
   var d=isDark();
@@ -733,7 +747,7 @@ modes.forEach(function(m){
   btn.textContent=m.label;
   btn.setAttribute('data-mode',m.id);
   btn.addEventListener('click',function(){
-    cur=m.id;
+    cur=m.id;genStore('fob-gen-mode',cur);
     bar.querySelectorAll('.gen-mode').forEach(function(b){b.classList.toggle('active',b.getAttribute('data-mode')===cur);});
     if(cur!=='flow')meadowHide();
     resize();clearCanvas();inits[cur]();setOpts();

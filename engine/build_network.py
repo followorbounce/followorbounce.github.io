@@ -296,8 +296,8 @@ def render_index(graph):
     kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
     kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
     kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
-    # Edition layout (2026-10-14): sticky section bar, intro, the "of the day" widgets in a Today bento, the four
-    # instruments behind tabs, then Live data and the Index. Widgets keep their own markup; edition.css only
+    # Edition layout (2026-10-14): sticky section bar, intro, the "of the day" widgets in a Today bento, the
+    # Generative canvas on its own (2026-10-16), the other four instruments behind tabs, then Live data and the Index. Widgets keep their own markup; edition.css only
     # re-frames them (see engine/edition.*).
     # Life in weeks instrument (2026-10-15): date of birth -> one row per year of 52 weeks (see engine/life-weeks.*):
     lw_css = open(os.path.join(HERE, "life-weeks.css"), encoding="utf-8").read()
@@ -529,7 +529,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <nav class="ed-nav" aria-label="Sections">
   <div class="wrap ed-nav-row">
     <span class="ed-date" id="ed-date">Today</span>
-    <a href="#today">Today</a><a href="#instruments">Instruments</a><a href="#live">Live data</a><a href="#index">Index</a>
+    <a href="#today">Today</a><a href="#generative">Generative</a><a href="#instruments">Instruments</a><a href="#live">Live data</a><a href="#index">Index</a>
   </div>
 </nav>
 <div class="ed-intro" data-hide-when-search>
@@ -549,30 +549,34 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
     <div class="ed-cell ed-terms">{tod_html}</div>
   </div>
 </div>
+<div class="ed-block" id="generative" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">02</span><h2>Generative</h2><span class="ed-sub">Visual synths</span></div></div>
+  <div class="ed-solo">
+{gen_html}
+  </div>
+</div>
 <div class="ed-block" id="instruments" data-hide-when-search>
-  <div class="wrap"><div class="ed-h"><span class="ed-n">02</span><h2>Instruments</h2><span class="ed-sub">Play with them</span></div>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">03</span><h2>Instruments</h2><span class="ed-sub">Play with them</span></div>
     <div class="ed-tabs" role="tablist" aria-label="Instruments">
-      <button type="button" role="tab" id="tab-gen" aria-controls="stage-gen" aria-selected="true" data-for="gen">Generative<small>visual synths</small></button>
-      <button type="button" role="tab" id="tab-synth" aria-controls="stage-synth" aria-selected="false" tabindex="-1" data-for="synth">Audio synth<small>4 modules</small></button>
+      <button type="button" role="tab" id="tab-synth" aria-controls="stage-synth" aria-selected="true" data-for="synth">Audio synth<small>4 modules</small></button>
       <button type="button" role="tab" id="tab-ana" aria-controls="stage-ana" aria-selected="false" tabindex="-1" data-for="ana">Anatomy<small>shader</small></button>
       <button type="button" role="tab" id="tab-aero" aria-controls="stage-aero" aria-selected="false" tabindex="-1" data-for="aero">Mission of the day<small>aerospace</small></button>
       <button type="button" role="tab" id="tab-life" aria-controls="stage-life" aria-selected="false" tabindex="-1" data-for="life">Life in weeks<small>your calendar</small></button>
     </div>
   </div>
   <div class="ed-stage">
-{stage(gen_html, "gen", True)}
-{stage(ls_html, "synth")}
+{stage(ls_html, "synth", True)}
 {stage(as_html, "ana")}
 {stage(ae_html, "aero")}
 {stage(lw_html, "life")}
   </div>
 </div>
 <div class="ed-block" id="live" data-hide-when-search>
-  <div class="wrap"><div class="ed-h"><span class="ed-n">03</span><h2>Live data</h2><span class="ed-sub">The planet right now</span></div></div>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">04</span><h2>Live data</h2><span class="ed-sub">The planet right now</span></div></div>
 {od_html}
 </div>
 <div class="ed-block ed-index" id="index">
-  <div class="wrap" data-hide-when-search><div class="ed-h"><span class="ed-n">04</span><h2>Index</h2><span class="ed-sub">Everything, by subject</span></div></div>
+  <div class="wrap" data-hide-when-search><div class="ed-h"><span class="ed-n">05</span><h2>Index</h2><span class="ed-sub">Everything, by subject</span></div></div>
 <section class="cats">
   <div class="wrap cats-grid">
 
