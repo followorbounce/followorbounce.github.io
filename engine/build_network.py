@@ -491,7 +491,7 @@ def render_index(graph):
 <script type="application/ld+json">
 {{"@context":"https://schema.org","@graph":[
  {{"@type":"WebSite","@id":"https://followorbounce.github.io/#site","url":"https://followorbounce.github.io/","name":"Follow or Bounce","inLanguage":"en","publisher":{{"@id":"https://followorbounce.github.io/#author"}}}},
- {{"@type":"Person","@id":"https://followorbounce.github.io/#author","name":"Dmitrii V","url":"https://followorbounce.github.io/","sameAs":["https://github.com/followorbounce","https://followorbounce.com/","https://designdivinefuture.wordpress.com/"]}}
+ {{"@type":"Person","@id":"https://followorbounce.github.io/#author","name":"Dmitrii V","url":"https://followorbounce.github.io/","sameAs":["https://github.com/followorbounce","https://designdivinefuture.wordpress.com/"]}}
 ]}}
 </script>
 
