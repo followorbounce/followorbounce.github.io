@@ -376,7 +376,8 @@
       "description": "An interactive 3D human body built from 1,635 real BodyParts3D structures — skeleton, muscles, organs, vessels, brain — with blood-flow and nerve-signal pulses.",
       "url": "https://followorbounce.github.io/anatomy-explorer/",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -386,7 +387,8 @@
       "description": "Convert any Gregorian date across 28 historical and contemporary calendar systems, with verified conversion math.",
       "url": "https://followorbounce.github.io/world-calendar-explorer/",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -396,7 +398,8 @@
       "description": "A living global atlas of 205 countries and territories, compared side by side across sourced core statistics.",
       "url": "https://followorbounce.github.io/country-atlas/",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",
@@ -406,7 +409,8 @@
       "description": "Compare any two U.S. states on a tile grid or map, plus a government view of party control across four layers.",
       "url": "https://followorbounce.github.io/us-states-atlas/",
       "tag": "Tool",
-      "interactive": true
+      "interactive": true,
+      "hidden": true
     },
     {
       "repo": "home",

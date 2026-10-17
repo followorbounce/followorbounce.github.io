@@ -305,6 +305,10 @@ def render_index(graph):
     # Homepage only: a link card to the standalone page (which is generated from the same files).
     lw_html = lw_html.replace("  </div>\n</section>", '    <a class="gen-more" href="/life-in-weeks">\n      <span class="gen-more-k">Life in weeks</span>\n      <span class="gen-more-d">The full page &mdash; the same calendar, with how every figure is counted</span>\n      <span class="gen-more-a">Open &rarr;</span>\n    </a>\n  </div>\n</section>', 1)
     lw_js = open(os.path.join(HERE, "life-weeks.js"), encoding="utf-8").read()
+    # Country atlas border graph tab (2026-10-16): markup + CSS here, graph code/data loaded from /country-atlas/.
+    cb_css = open(os.path.join(HERE, "country-borders.css"), encoding="utf-8").read()
+    cb_html = open(os.path.join(HERE, "country-borders.html"), encoding="utf-8").read()
+    cb_js = open(os.path.join(HERE, "country-borders.js"), encoding="utf-8").read()
     ed_css = open(os.path.join(HERE, "edition.css"), encoding="utf-8").read()
     ed_js = open(os.path.join(HERE, "edition.js"), encoding="utf-8").read()
     def stage(sec, key, shown=False):
@@ -458,6 +462,7 @@ header .brand{{
 {as_css}
 {ae_css}
 {lw_css}
+{cb_css}
 {cn_css}
 {sd_css}
 {kd_css}
@@ -562,6 +567,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
       <button type="button" role="tab" id="tab-ana" aria-controls="stage-ana" aria-selected="false" tabindex="-1" data-for="ana">Anatomy<small>shader</small></button>
       <button type="button" role="tab" id="tab-aero" aria-controls="stage-aero" aria-selected="false" tabindex="-1" data-for="aero">Mission of the day<small>aerospace</small></button>
       <button type="button" role="tab" id="tab-life" aria-controls="stage-life" aria-selected="false" tabindex="-1" data-for="life">Life in weeks<small>your calendar</small></button>
+      <button type="button" role="tab" id="tab-atlas" aria-controls="stage-atlas" aria-selected="false" tabindex="-1" data-for="atlas">Country atlas<small>borders</small></button>
     </div>
   </div>
   <div class="ed-stage">
@@ -569,6 +575,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {stage(as_html, "ana")}
 {stage(ae_html, "aero")}
 {stage(lw_html, "life")}
+{stage(cb_html, "atlas")}
   </div>
 </div>
 <div class="ed-block" id="live" data-hide-when-search>
@@ -668,6 +675,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {as_js}
 {ae_js}
 {lw_js}
+{cb_js}
 {cn_js}
 {sd_js}
 {kd_js}

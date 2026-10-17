@@ -1,0 +1,35 @@
+<section class="cborders" data-hide-when-search aria-labelledby="cb-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="cb-h">Country atlas &middot; <b>borders</b></span>
+      <div class="gen-bar">
+        <div class="gen-modes b-zoom" role="group" aria-label="Zoom">
+          <button type="button" class="gen-mode bz-out" aria-label="Zoom out">&minus;</button>
+          <button type="button" class="gen-mode bz-in" aria-label="Zoom in">+</button>
+          <button type="button" class="gen-mode bz-reset">Whole map</button>
+        </div>
+      </div>
+    </div>
+    <p class="b-how">Click a flag to see its neighbours. It stays selected until you click another flag.</p>
+    <div class="b-main">
+      <div class="b-frame">
+        <svg id="borderGraph" viewBox="0 0 1200 640" role="img" aria-label="Graph of land borders between countries, laid out roughly by geography."></svg>
+        <p class="cb-wait" id="cb-wait">Loading the border graph&hellip;</p>
+      </div>
+      <aside class="b-panel" id="borderPanel" aria-live="polite"></aside>
+    </div>
+    <div class="b-legend" aria-hidden="true">
+      <span><svg viewBox="0 0 34 10"><path d="M2,5 L32,5" class="be be-land"/></svg>Land border</span>
+      <span><svg viewBox="0 0 34 10"><path d="M2,5 L32,5" class="be be-via-territory"/></svg>Through an overseas territory or exclave</span>
+      <span><svg viewBox="0 0 34 10"><path d="M2,5 L32,5" class="be be-disputed"/></svg>Disputed</span>
+    </div>
+    <div class="b-stats" id="borderStats"></div>
+    <div class="cb-anom-h">Territorial anomalies</div>
+    <div id="borderAnomalies"></div>
+    <a class="gen-more" href="/country-atlas/">
+      <span class="gen-more-k">Country Comparison Atlas</span>
+      <span class="gen-more-d">Compare any two of 203 countries and territories &mdash; with the full border list and its sources</span>
+      <span class="gen-more-a">Open &rarr;</span>
+    </a>
+  </div>
+</section>

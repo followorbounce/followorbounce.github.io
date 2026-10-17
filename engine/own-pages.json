@@ -101,6 +101,7 @@
     {
       "id": "explorers-apps",
       "title": "Explorers & Apps",
+      "hidden": true,
       "pages": [
         { "slug": "anatomy-explorer", "url": "/anatomy-explorer/", "title": "Anatomy Explorer", "description": "An interactive 3D human body built from 1,635 real BodyParts3D structures — skeleton, muscles, organs, vessels, brain — with blood-flow and nerve-signal pulses.", "tag": "Tool", "interactive": true },
         { "slug": "world-calendar-explorer", "url": "/world-calendar-explorer/", "title": "World Calendar Explorer", "description": "Convert any Gregorian date across 28 historical and contemporary calendar systems, with verified conversion math.", "tag": "Tool", "interactive": true },
