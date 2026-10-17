@@ -167,7 +167,7 @@ PROJECT_SITEMAPS = ["aerospace", "knots", "machinery", "Maya-Calendar", "reckoni
 # Project pages with no sitemap of their own and not listed in own-pages.json.
 EXTRA_URLS = [
     "/tarot/", "/tarot/deck", "/us-states-atlas/government", "/world-calendar-explorer/timezones",
-    "/BayCurrentDiving/", "/vta/", "/archive",
+    "/BayCurrentDiving/", "/archive",
 ]
 
 
