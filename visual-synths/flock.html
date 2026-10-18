@@ -1,0 +1,1267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Flock — Video Synths</title>
+<meta name="description" content="Reynolds' boids in 3D: a flock of starlings or a school of sardines that forms from three local rules (separation, alignment, cohesion). Hunt it, lure it, drop objects in its path, and switch to Vectors to see every rule as a coloured force. WebGL 2.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/flock">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Flock — Video Synths">
+<meta property="og:description" content="Reynolds' boids in 3D: a flock of starlings or a school of sardines that forms from three local rules (separation, alignment, cohesion). Hunt it, lure it, drop objects in its path, and switch to Vectors to see every rule as a coloured force. WebGL 2.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/flock">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+/* Flock additions */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.stage[data-tool="place"] canvas{cursor:copy;} .stage[data-tool="predator"] canvas, .stage[data-tool="bait"] canvas{cursor:crosshair;}
+.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.legend[hidden]{display:none;}
+.legend i{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.ctl .lab + .seg{margin-bottom:6px;}
+.ctl .sub[hidden]{display:none;}
+.ctl .sub{display:flex; flex-direction:column; gap:6px;}
+.ctl .sub > label{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+section.about i{font-style:italic;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} }
+@media (max-width:640px){ .legend{font-size:8.5px;} .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+
+<body>
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 07 · after Craig Reynolds' Boids, 1987</div>
+    <h1>Flock</h1>
+    <p>No bird in this flock knows the shape it is part of. Each one follows three local rules: <strong>keep your distance</strong>, <strong>match your neighbours' heading</strong>, <strong>stay close to them</strong>. The swirling form comes out of those rules alone. Watch it as starlings over a reed bed or sardines in open water, then take the picture apart: switch to <strong>Vectors</strong> to see the three rules as coloured forces on every bird. You can hunt the flock, lure it, drop objects in its way, or change the rules while it flies.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="A flock of birds or a school of fish simulated with Reynolds' boids rules. Move the pointer over the stage to act as a predator, a lure or to place objects, depending on the Pointer setting."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud bl legend" id="legend" hidden><span><i style="background:#FF4538"></i>Separation</span><span><i style="background:#38CCFF"></i>Alignment</span><span><i style="background:#FFC71F"></i>Cohesion</span><span><i style="background:#DB73FF"></i>Other steering</span><span><i style="background:#fff"></i>Heading · field of view</span></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Species</span>
+      <div class="seg" id="species">
+        <button data-v="starlings">Starlings</button>
+        <button data-v="sardines">Sardines</button>
+      </div>
+      <span class="lab">Behaviour</span>
+      <div class="seg" id="preset">
+        <button data-v="murmuration">Murmuration</button>
+        <button data-v="swarm">Swarm</button>
+        <button data-v="mill">Mill</button>
+        <button data-v="stream">Stream</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Layers</span>
+      <div class="seg" id="layers">
+        <button data-l="natural">Natural</button>
+        <button data-l="vectors">Vectors</button>
+        <button data-l="links">Neighbours</button>
+        <button data-l="trails">Trails</button>
+        <button data-l="objects">Objects</button>
+      </div>
+      <span class="lab">Vectors show</span>
+      <div class="seg" id="rule">
+        <button data-v="all">All rules</button>
+        <button data-v="sep">Separation</button>
+        <button data-v="ali">Alignment</button>
+        <button data-v="coh">Cohesion</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Pointer</span>
+      <div class="seg" id="tool">
+        <button data-v="predator">Predator</button>
+        <button data-v="bait">Lure</button>
+        <button data-v="place">Place object</button>
+        <button data-v="look">Look</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="patrol" aria-pressed="true">Predator on patrol</button>
+        <button class="btn" id="clear">Clear objects</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="sep">Separation <output for="sep"></output></label>
+      <input id="sep" type="range" min="0" max="3" step="0.05">
+      <label for="ali">Alignment <output for="ali"></output></label>
+      <input id="ali" type="range" min="0" max="3" step="0.05">
+      <label for="coh">Cohesion <output for="coh"></output></label>
+      <input id="coh" type="range" min="0" max="3" step="0.05">
+    </div>
+    <div class="ctl">
+      <span class="lab">Neighbours</span>
+      <div class="seg" id="topo">
+        <button data-v="metric">Everyone in range</button>
+        <button data-v="topo">Nearest k</button>
+      </div>
+      <div id="kRow" class="sub">
+        <label for="k">k nearest <output for="k"></output></label>
+        <input id="k" type="range" min="1" max="20" step="1">
+      </div>
+      <label for="radius">Perception radius <output for="radius"></output></label>
+      <input id="radius" type="range" min="0.06" max="0.4" step="0.01">
+      <label for="fov">Field of view <output for="fov"></output></label>
+      <input id="fov" type="range" min="90" max="360" step="5">
+    </div>
+    <div class="ctl">
+      <label for="lead">Informed leaders <output for="lead"></output></label>
+      <input id="lead" type="range" min="0" max="0.4" step="0.01">
+      <label for="lure">Centre lure <output for="lure"></output></label>
+      <input id="lure" type="range" min="0" max="2" step="0.05">
+      <label for="level">Keep level <output for="level"></output></label>
+      <input id="level" type="range" min="0" max="1" step="0.05">
+    </div>
+    <div class="ctl">
+      <label for="count">Count <output for="count"></output></label>
+      <input id="count" type="range" min="50" max="6000" step="50">
+      <label for="speed">Top speed <output for="speed"></output></label>
+      <input id="speed" type="range" min="0.15" max="1.2" step="0.01">
+      <label for="force">Turn force <output for="force"></output></label>
+      <input id="force" type="range" min="0.3" max="4" step="0.05">
+      <label for="noise">Noise <output for="noise"></output></label>
+      <input id="noise" type="range" min="0" max="1.5" step="0.01">
+    </div>
+    <div class="ctl">
+      <span class="lab">Camera</span>
+      <div class="seg" id="camera">
+        <button data-v="drift">Drift</button>
+        <button data-v="fixed">Still</button>
+        <button data-v="ride">Ride along</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="pause" aria-pressed="false">Pause</button>
+        <button class="btn" id="scatter">Scatter</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Predator: the pointer is a hawk or a tuna, and the flock breaks around it. Lure: the flock is drawn to the pointer. Place object: click to drop a sphere, click it again to remove it. Look: drag to turn the view, scroll to zoom, click a bird to follow its forces. Keys 1–4 pick a behaviour; Space pauses.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>Three rules, no leader.</strong> Every frame, each boid looks only at the neighbours it can perceive and turns according to three steering rules. <strong>Separation</strong> pushes it away from neighbours that are too close (inside half the perception radius, harder the closer they are). <strong>Alignment</strong> turns its velocity towards the average velocity of its neighbours. <strong>Cohesion</strong> pulls it towards their average position. Each rule gives an acceleration, the three are weighted by the sliders, summed and capped at the turn force. Speed stays between a floor and a ceiling, because a starling or a sardine can't hover. Nothing anywhere stores the shape of the flock. It exists only as the result of thousands of these local decisions, which is what Craig Reynolds set out to show in 1987.</p>
+  <p><strong>What a boid can see.</strong> <strong>Perception radius</strong> sets how far it looks. <strong>Field of view</strong> takes out a blind spot behind it, so the rules are not symmetric: a bird reacts to those ahead of it more than those behind. <strong>Everyone in range</strong> is Reynolds' metric rule: every neighbour within the radius counts. <strong>Nearest k</strong> is the topological rule found in real starling flocks by Ballerini and colleagues (2008): each bird tracks a fixed number of nearest neighbours, about seven, however tightly or loosely the flock is packed. That is why a real murmuration stays connected while it stretches and thins. In this study the k nearest are still taken only from within the perception radius.</p>
+  <p><strong>Everything else.</strong> The flock flies inside a soft ellipsoid of air (or water); the closer it gets to the edge, the harder it is turned back, so it swoops instead of hitting a wall. <strong>Objects</strong> push boids away and sideways, so they flow round them, and no boid can enter one. The <strong>predator</strong> is faster than the flock but turns worse. Boids within its reach flee, and they raise an <strong>alarm</strong> that passes from neighbour to neighbour with a short lag. The alarmed birds roll away, and the roll shows as a dark band running through the flock: a simple model of the agitation waves filmed in real starling flocks under attack. <strong>Informed leaders</strong> are the few who know where to go: they steer towards a goal that switches ends every few seconds, and the rest follow them without knowing they exist (Couzin and colleagues, 2005). <strong>Centre lure</strong> is a fixed point that pulls the flock in, the way a bait ball holds a school. <strong>Keep level</strong> damps vertical motion, as fish hold depth.</p>
+  <p><strong>The numbers in the corner.</strong> <strong>Polarisation</strong> is the length of the average heading: 1 means every boid points the same way, near 0 means they point every way. <strong>Milling</strong> is the average of each boid's angular momentum about the flock's centre, from the position and heading unit vectors: near 1 means they all circle the centre the same way. Together they tell apart the four presets, which match the collective states that Couzin and colleagues (2002) described: <strong>Swarm</strong> (both low), <strong>Mill</strong> (high milling), <strong>Stream</strong> (high polarisation) and <strong>Murmuration</strong>, which keeps switching between the two as the flock turns.</p>
+  <p><strong>Layers.</strong> <strong>Natural</strong> draws each boid as a bird with flapping wings or a fish with a beating tail, banked into its turns, in its own world. <strong>Vectors</strong> darkens that world and draws the three rules as coloured forces (a sample of boids, or every boid when you pick a single rule), plus one focus boid in large: its perception radius, its blind spot, its personal space and lines to its neighbours. With Natural off you get the bare diagram on black: the world's box and every boid as a heading. <strong>Neighbours</strong> draws who listens to whom (up to eight links per boid, for a sample of boids). <strong>Trails</strong> draws where 420 of them have just been.</p>
+  <h3>Lineage</h3>
+  <p>Craig W. Reynolds, <a href="https://www.red3d.com/cwr/boids/" target="_blank" rel="noopener">“Flocks, Herds, and Schools: A Distributed Behavioral Model”</a>, SIGGRAPH ’87 (Computer Graphics 21(4), 25–34). The name is his: “bird-oid object”. Further work this study draws on: T. Vicsek et al., “Novel type of phase transition in a system of self-driven particles”, Physical Review Letters 75 (1995), the source of polarisation as an order parameter; I. D. Couzin, J. Krause, R. James, G. D. Ruxton and N. R. Franks, “Collective memory and spatial sorting in animal groups”, Journal of Theoretical Biology 218 (2002); I. D. Couzin et al., “Effective leadership and decision-making in animal groups on the move”, Nature 433 (2005); M. Ballerini et al., “Interaction ruling animal collective behavior depends on topological rather than metric distance”, PNAS 105 (2008); A. Procaccini et al., “Propagating waves in starling, <i>Sturnus vulgaris</i>, flocks under predation”, Animal Behaviour 82 (2011). This is an independent study; it is not affiliated with any of these authors.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>This is a steering model for pictures, not a fitted biological model. The rule weights are chosen by eye; nothing here is measured from real birds or fish, and the presets are tuned to land in each state, not to predict when real animals do.</li>
+    <li>The four states show up in the polarisation and milling readouts, but they are not guaranteed. Murmuration and Stream keep changing as the flock turns, and Mill needs the centre lure: without it the school slips into a stream within a few turns.</li>
+    <li>Wingbeats and tail beats are slowed so they read on screen (a real starling flaps about ten to fifteen times a second). Bodies are low-polygon shapes and are not to scale with the flock's spacing.</li>
+    <li>The simulation runs on the CPU with a uniform grid for neighbour search. On a slow device the study lowers the count by itself until you set Count by hand. With reduced motion set in your system, everything runs at 40 % speed.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { el.setPointerCapture(e.pointerId); pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+</script>
+<script id="flock-sim">
+/* ---- Flock: Reynolds boids in 3D, DOM-free (the page draws it; tools/ can test it) ---- */
+const Flock = (function(){
+'use strict';
+const MAXN = 6000, KMAX = 8;          // KMAX = neighbour links kept per boid for drawing
+const BOX = [1.7, 0.8, 0.95];         // half extents of the world box
+function rnd(s){ s = Math.sin(s*12.9898)*43758.5453; return s - Math.floor(s); }
+
+function create(){
+  const F = n => new Float32Array(n);
+  const S = {
+    n:0, box:BOX,
+    p:F(MAXN*3), v:F(MAXN*3), sp:F(MAXN*3), sv:F(MAXN*3), sal:F(MAXN),   // s* = copies in grid order, for cache-friendly neighbour scans
+    rs:F(MAXN*3), ra:F(MAXN*3), rc:F(MAXN*3), ro:F(MAXN*3),   // last step's rule accelerations, for drawing
+    phase:F(MAXN), bank:F(MAXN), alarm:F(MAXN), alarm2:F(MAXN), amp:F(MAXN), acc:F(MAXN),
+    nb:new Int32Array(MAXN*KMAX), nbn:new Uint8Array(MAXN),
+    order:new Int32Array(MAXN), cellOf:new Int32Array(MAXN), start:new Int32Array(1), gdim:[1,1,1], cs:1,
+    obstacles:[],                                  // {x,y,z,r}
+    pred:{on:false, p:[0,1.6,0], v:[0.3,0,0], mode:'patrol', target:-1, t:0, phase:0, aim:null},
+    bait:null,                                      // [x,y,z] or null
+    goal:[1.2,0,0], goalT:0,                        // where the informed few are heading
+    pol:0, mill:0, centroid:[0,0,0], t:0, kd:F(32), kj:new Int32Array(32)
+  };
+  return S;
+}
+
+function spawn(S, i, near){
+  const b = S.box, p = S.p, v = S.v, k = i*3;
+  if(near >= 0){
+    const q = near*3;
+    p[k] = p[q] + (Math.random()-0.5)*0.1; p[k+1] = p[q+1] + (Math.random()-0.5)*0.1; p[k+2] = p[q+2] + (Math.random()-0.5)*0.1;
+    v[k] = v[q]; v[k+1] = v[q+1]; v[k+2] = v[q+2];
+  } else {
+    p[k] = (Math.random()*2-1)*b[0]*0.6; p[k+1] = (Math.random()*2-1)*b[1]*0.6; p[k+2] = (Math.random()*2-1)*b[2]*0.6;
+    const a = Math.random()*6.283, e = (Math.random()-0.5)*0.6;
+    v[k] = Math.cos(a)*Math.cos(e)*0.3; v[k+1] = Math.sin(e)*0.3; v[k+2] = Math.sin(a)*Math.cos(e)*0.3;
+  }
+  S.phase[i] = Math.random()*6.283; S.bank[i] = 0; S.alarm[i] = 0; S.amp[i] = 1;
+}
+
+function setCount(S, n){
+  n = Math.max(1, Math.min(MAXN, n|0));
+  for(let i = S.n; i < n; i++) spawn(S, i, S.n > 0 ? (Math.random()*S.n)|0 : -1);
+  S.n = n;
+}
+function scatter(S){ for(let i = 0; i < S.n; i++) spawn(S, i, -1); }
+
+/* counting-sort uniform grid over the box (cell size = search radius) */
+function buildGrid(S, cs){
+  const b = S.box, gx = Math.max(1, Math.ceil(2*b[0]/cs)), gy = Math.max(1, Math.ceil(2*b[1]/cs)), gz = Math.max(1, Math.ceil(2*b[2]/cs));
+  const G = gx*gy*gz;
+  if(S.start.length < G+1) S.start = new Int32Array(G+1); else S.start.fill(0, 0, G+1);
+  S.gdim[0] = gx; S.gdim[1] = gy; S.gdim[2] = gz; S.cs = cs;
+  const p = S.p, cell = S.cellOf, st = S.start;
+  for(let i = 0; i < S.n; i++){
+    let cx = Math.floor((p[i*3]+b[0])/cs), cy = Math.floor((p[i*3+1]+b[1])/cs), cz = Math.floor((p[i*3+2]+b[2])/cs);
+    cx = cx < 0 ? 0 : cx >= gx ? gx-1 : cx; cy = cy < 0 ? 0 : cy >= gy ? gy-1 : cy; cz = cz < 0 ? 0 : cz >= gz ? gz-1 : cz;
+    const c = (cz*gy + cy)*gx + cx; cell[i] = c; st[c+1]++;
+  }
+  for(let c = 0; c < G; c++) st[c+1] += st[c];
+  const fill = new Int32Array(st.subarray(0, G));
+  for(let i = 0; i < S.n; i++) S.order[fill[cell[i]]++] = i;
+  const sp = S.sp, sv = S.sv, v = S.v, al = S.alarm;
+  for(let o = 0; o < S.n; o++){
+    const i = S.order[o], i3 = i*3, o3 = o*3;
+    sp[o3] = p[i3]; sp[o3+1] = p[i3+1]; sp[o3+2] = p[i3+2]; sv[o3] = v[i3]; sv[o3+1] = v[i3+1]; sv[o3+2] = v[i3+2]; S.sal[o] = al[i];
+  }
+}
+
+/*
+  P: sep, ali, coh (weights) · radius · fov (deg) · topo (bool) · k · speed (max) · minSpeed (fraction) · force · noise
+  One step of the three rules plus containment, objects, predator and bait.
+*/
+function step(S, P, dt){
+  const n = S.n, p = S.p, v = S.v, b = S.box;
+  const R = P.radius, search = R, R2 = R*R, Rs = 0.5*R;
+  const cosHalf = P.fov >= 359 ? -2 : Math.cos(P.fov*Math.PI/360);
+  const Fm = P.force, vmax = P.speed, vmin = P.speed*P.minSpeed;
+  buildGrid(S, search);
+  const gx = S.gdim[0], gy = S.gdim[1], gz = S.gdim[2], st = S.start, ord = S.order;
+  const kd = S.kd, kj = S.kj, K = Math.min(P.k|0, 30);
+  const pr = S.pred, prOn = pr.on, fear = P.fear || 0.45;
+  const al = S.alarm, al2 = S.alarm2, P3 = S.sp, V3 = S.sv, SAL = S.sal;
+  for(let i = 0; i < n; i++){
+    const i3 = i*3, px = p[i3], py = p[i3+1], pz = p[i3+2], vx = v[i3], vy = v[i3+1], vz = v[i3+2];
+    const sp = Math.hypot(vx, vy, vz) || 1e-6, hx = vx/sp, hy = vy/sp, hz = vz/sp;
+    const c = S.cellOf[i], cx = c % gx, cy = ((c/gx)|0) % gy, cz = (c/(gx*gy))|0;
+    let sx=0, sy=0, sz=0, axs=0, ays=0, azs=0, mx=0, my=0, mz=0, cnt=0, kn=0, amax=0, links=0;
+    const nbBase = i*KMAX;
+    for(let dz = -1; dz <= 1; dz++){ const z = cz+dz; if(z < 0 || z >= gz) continue;
+    for(let dy = -1; dy <= 1; dy++){ const y = cy+dy; if(y < 0 || y >= gy) continue;
+    for(let dx = -1; dx <= 1; dx++){ const x = cx+dx; if(x < 0 || x >= gx) continue;
+      const cc = (z*gy + y)*gx + x;
+      for(let o = st[cc], e = st[cc+1]; o < e; o++){
+        const j3 = o*3, ex = P3[j3]-px, ey = P3[j3+1]-py, ez = P3[j3+2]-pz, d2 = ex*ex + ey*ey + ez*ez;
+        if(d2 >= R2 || d2 < 1e-12) continue;
+        const d = Math.sqrt(d2);
+        if((ex*hx + ey*hy + ez*hz)/d < cosHalf) continue;          // behind: in the blind spot
+        if(P.topo){                                                 // keep the k nearest, sorted
+          if(kn < K || d < kd[kn-1]){
+            let q = kn < K ? kn++ : kn-1;
+            while(q > 0 && kd[q-1] > d){ kd[q] = kd[q-1]; kj[q] = kj[q-1]; q--; }
+            kd[q] = d; kj[q] = o;
+          }
+        } else {
+          cnt++; mx += P3[j3]; my += P3[j3+1]; mz += P3[j3+2]; axs += V3[j3]; ays += V3[j3+1]; azs += V3[j3+2];
+          if(d < Rs){ const w = (1 - d/Rs)/d; sx -= ex*w; sy -= ey*w; sz -= ez*w; }
+          if(SAL[o] > amax) amax = SAL[o];
+          if(links < KMAX) S.nb[nbBase + links++] = ord[o];
+        }
+      }
+    }}}
+    if(P.topo){
+      for(let q = 0; q < kn; q++){
+        const o = kj[q], j3 = o*3, d = kd[q];
+        cnt++; mx += P3[j3]; my += P3[j3+1]; mz += P3[j3+2]; axs += V3[j3]; ays += V3[j3+1]; azs += V3[j3+2];
+        if(d < Rs){ const w = (1 - d/Rs)/d; sx -= (P3[j3]-px)*w; sy -= (P3[j3+1]-py)*w; sz -= (P3[j3+2]-pz)*w; }
+        if(SAL[o] > amax) amax = SAL[o];
+        if(links < KMAX) S.nb[nbBase + links++] = ord[o];
+      }
+    }
+    S.nbn[i] = links;
+
+    // the three rules, as accelerations
+    let fsx = 0, fsy = 0, fsz = 0, fax = 0, fay = 0, faz = 0, fcx = 0, fcy = 0, fcz = 0;
+    if(cnt > 0){
+      const ws = P.sep*Fm*2.0; fsx = sx*ws; fsy = sy*ws; fsz = sz*ws;
+      const wa = P.ali*2.0; fax = (axs/cnt - vx)*wa; fay = (ays/cnt - vy)*wa; faz = (azs/cnt - vz)*wa;
+      const wc = P.coh*Fm/R; fcx = (mx/cnt - px)*wc; fcy = (my/cnt - py)*wc; fcz = (mz/cnt - pz)*wc;
+    }
+    let ax = fsx + fax + fcx, ay = fsy + fay + fcy, az = fsz + faz + fcz;
+    const am = Math.hypot(ax, ay, az), cap = Fm*2.5;
+    if(am > cap){ const s = cap/am; ax *= s; ay *= s; az *= s; }
+
+    // everything else (walls, objects, predator, bait, noise) is added after the cap: avoidance comes first
+    let ox = 0, oy = 0, oz = 0;
+    { // containment: a soft ellipsoid (the airspace over the roost); outside 70 % of it the pull grows with the square
+      const qx = px/b[0], qy = py/b[1], qz = pz/b[2], qd = Math.hypot(qx, qy, qz);
+      if(qd > 0.7){ const u = (qd - 0.7)/0.3, s = Fm*3*u*u/qd; ox -= qx/b[0]*s; oy -= qy/b[1]*s; oz -= qz/b[2]*s; }
+    }
+    for(let k = 0; k < S.obstacles.length; k++){
+      const ob = S.obstacles[k], ex = px - ob.x, ey = py - ob.y, ez = pz - ob.z, d = Math.hypot(ex, ey, ez) || 1e-6, reach = ob.r + 0.28;
+      if(d < reach){
+        const u = (reach - d)/0.28, s = Fm*7*u*u/d;
+        ox += ex*s; oy += ey*s; oz += ez*s;
+        // steer round, not just back: push sideways off the line of travel (Reynolds' steer-to-avoid)
+        const along = (ex*hx + ey*hy + ez*hz)/d;
+        if(along < 0){ const t = Fm*3*u*(-along); ox += (ex/d - along*hx)*t; oy += (ey/d - along*hy)*t; oz += (ez/d - along*hz)*t; }
+      }
+    }
+    let trig = 0, side = 0;
+    if(prOn){
+      const ex = px - pr.p[0], ey = py - pr.p[1], ez = pz - pr.p[2], d = Math.hypot(ex, ey, ez) || 1e-6;
+      if(d < fear){
+        const u = 1 - d/fear, s = Fm*9*u/d;
+        ox += ex*s; oy += ey*s; oz += ez*s; trig = u > 0.15 ? 1 : u/0.15;
+        side = ex*hz - ez*hx;                       // which side the threat is on, for the roll
+      }
+    }
+    if(S.bait){
+      const ex = S.bait[0]-px, ey = S.bait[1]-py, ez = S.bait[2]-pz, d = Math.hypot(ex, ey, ez) || 1e-6;
+      if(d < 1.4){ const s = Fm*1.6*(1 - d/1.4)/d; ox += ex*s; oy += ey*s; oz += ez*s; }
+    }
+    if(P.lead > 0 && rnd(i + 0.5) < P.lead){       // informed individuals: a few know where to go (Couzin et al. 2005)
+      const ex = S.goal[0]-px, ey = S.goal[1]-py, ez = S.goal[2]-pz, d = Math.hypot(ex, ey, ez) || 1e-6, s = Fm*1.1/d;
+      ox += ex*s; oy += ey*s; oz += ez*s;
+    }
+    if(P.lure > 0){                                    // a fixed lure at the centre: what the school circles in a mill
+      const d = Math.hypot(px, py, pz) || 1e-6, s = P.lure*Fm*Math.min(1, d/0.5)/d;
+      ox -= px*s; oy -= py*s; oz -= pz*s;
+    }
+    if(P.level > 0) oy -= (vy*3 + py*1.5)*P.level;     // keep level: hold depth / altitude
+    S.ro[i3] = ox;  S.ro[i3+1] = oy;  S.ro[i3+2] = oz;      // drawn as 'other steering' (noise left out: it would only flicker)
+    if(P.noise > 0){
+      const s = P.noise*Fm*1.8;
+      ox += (Math.random()*2-1)*s; oy += (Math.random()*2-1)*s*0.6; oz += (Math.random()*2-1)*s;
+    }
+    ax += ox; ay += oy; az += oz;
+
+    S.rs[i3] = fsx; S.rs[i3+1] = fsy; S.rs[i3+2] = fsz;
+    S.ra[i3] = fax; S.ra[i3+1] = fay; S.ra[i3+2] = faz;
+    S.rc[i3] = fcx; S.rc[i3+1] = fcy; S.rc[i3+2] = fcz;
+
+    // alarm spreads from neighbour to neighbour with a lag: the agitation wave
+    const target = Math.max(trig, amax*0.93);
+    al2[i] = target > al[i] ? al[i] + (target - al[i])*Math.min(1, dt*7) : Math.max(0, al[i] - dt*0.7);
+
+    // integrate (velocity first, then the speed band, then position)
+    let nvx = vx + ax*dt, nvy = vy + ay*dt, nvz = vz + az*dt;
+    let ns = Math.hypot(nvx, nvy, nvz) || 1e-6;
+    const hi = vmax*(1 + 0.4*al[i]);
+    if(ns > hi){ nvx *= hi/ns; nvy *= hi/ns; nvz *= hi/ns; ns = hi; }
+    else if(ns < vmin){ nvx *= vmin/ns; nvy *= vmin/ns; nvz *= vmin/ns; ns = vmin; }
+    v[i3] = nvx; v[i3+1] = nvy; v[i3+2] = nvz;
+    S.acc[i] = Math.hypot(ax, ay, az);
+
+    // bank into the turn (lateral acceleration on the right axis); roll away from a threat
+    const rx = nvz/ns, rz = -nvx/ns, rl = Math.hypot(rx, rz) || 1;   // right = up x forward
+    const lat = (ax*rx + az*rz)/rl;
+    let bk = Math.max(-1.1, Math.min(1.1, -lat/(Fm*1.6)));
+    bk += al[i]*(side > 0 ? -0.9 : 0.9)*(trig > 0 ? 1 : 0.6);
+    S.bank[i] += (bk - S.bank[i])*Math.min(1, dt*5);
+  }
+  for(let i = 0; i < n; i++){
+    const i3 = i*3;
+    p[i3] += v[i3]*dt; p[i3+1] += v[i3+1]*dt; p[i3+2] += v[i3+2]*dt;
+    for(let a = 0; a < 3; a++){                       // hard wall just outside the soft one
+      const lim = b[a] + 0.12;
+      if(p[i3+a] > lim){ p[i3+a] = lim; if(v[i3+a] > 0) v[i3+a] *= -0.5; }
+      else if(p[i3+a] < -lim){ p[i3+a] = -lim; if(v[i3+a] < 0) v[i3+a] *= -0.5; }
+    }
+    for(let k = 0; k < S.obstacles.length; k++){       // never inside an object
+      const ob = S.obstacles[k], ex = p[i3]-ob.x, ey = p[i3+1]-ob.y, ez = p[i3+2]-ob.z, d = Math.hypot(ex, ey, ez);
+      if(d < ob.r && d > 1e-6){ const s = ob.r/d; p[i3] = ob.x + ex*s; p[i3+1] = ob.y + ey*s; p[i3+2] = ob.z + ez*s; }
+    }
+    const t = al[i]; al[i] = al2[i]; al2[i] = t;
+  }
+  stepPredator(S, P, dt);
+  S.goalT -= dt;
+  if(S.goalT <= 0){                                   // the goal swaps ends of the space every ~9 s
+    S.goalT = 8 + Math.random()*3;
+    const side = S.goal[0] > 0 ? -1 : 1;
+    S.goal[0] = side*b[0]*0.85; S.goal[1] = (Math.random()-0.5)*b[1]*0.6; S.goal[2] = (Math.random()-0.5)*b[2]*0.9;
+  }
+  S.t += dt;
+  measure(S);
+}
+
+/* the predator: in patrol it picks a boid at the flock's edge, stoops at it, overshoots, climbs away, repeats.
+   It is faster than the flock but turns worse, which is why it can be dodged. */
+function stepPredator(S, P, dt){
+  const pr = S.pred; if(!pr.on) return;
+  const vmax = P.speed*1.45, Fm = P.force*0.9, p = pr.p, v = pr.v;
+  let tx, ty, tz;
+  if(pr.mode === 'pointer' && pr.aim){ tx = pr.aim[0]; ty = pr.aim[1]; tz = pr.aim[2]; }
+  else {
+    pr.t -= dt;
+    if(pr.t <= 0 || pr.target < 0 || pr.target >= S.n){
+      if(pr.target === -2 || pr.target >= S.n){ pr.target = (Math.random()*S.n)|0; pr.t = 4.5; }     // attack
+      else { pr.target = -2; pr.t = 3; pr.away = [(Math.random()*2-1)*S.box[0], S.box[1]*0.9, (Math.random()*2-1)*S.box[2]]; } // climb away
+    }
+    if(pr.target >= 0){ const q = pr.target*3; tx = S.p[q]; ty = S.p[q+1]; tz = S.p[q+2]; }
+    else { tx = pr.away[0]; ty = pr.away[1]; tz = pr.away[2]; }
+  }
+  let dx = tx - p[0], dy = ty - p[1], dz = tz - p[2]; const d = Math.hypot(dx, dy, dz) || 1e-6;
+  const dvx = dx/d*vmax - v[0], dvy = dy/d*vmax - v[1], dvz = dz/d*vmax - v[2], dm = Math.hypot(dvx, dvy, dvz) || 1e-6;
+  const s = Math.min(1, Fm*1.8/dm);
+  v[0] += dvx*s*dt*2; v[1] += dvy*s*dt*2; v[2] += dvz*s*dt*2;
+  const sp = Math.hypot(v[0], v[1], v[2]) || 1e-6;
+  if(sp > vmax){ v[0] *= vmax/sp; v[1] *= vmax/sp; v[2] *= vmax/sp; }
+  p[0] += v[0]*dt; p[1] += v[1]*dt; p[2] += v[2]*dt;
+  if(pr.target >= 0 && d < 0.05) pr.t = Math.min(pr.t, 0.6);   // made its pass: overshoot, then climb
+  pr.phase += dt*6.283*1.4;
+}
+
+/* order parameters: polarisation |Σ v̂|/N (1 = all one way) and milling |Σ r̂ × v̂|/N (1 = all circling one axis) */
+function measure(S){
+  const n = S.n, p = S.p, v = S.v; if(!n) return;
+  let cx = 0, cy = 0, cz = 0;
+  for(let i = 0; i < n*3; i += 3){ cx += p[i]; cy += p[i+1]; cz += p[i+2]; }
+  cx /= n; cy /= n; cz /= n;
+  let px = 0, py = 0, pz = 0, mx = 0, my = 0, mz = 0;
+  for(let i = 0; i < n*3; i += 3){
+    const s = Math.hypot(v[i], v[i+1], v[i+2]) || 1, hx = v[i]/s, hy = v[i+1]/s, hz = v[i+2]/s;
+    px += hx; py += hy; pz += hz;
+    let rx = p[i]-cx, ry = p[i+1]-cy, rz = p[i+2]-cz; const r = Math.hypot(rx, ry, rz) || 1; rx /= r; ry /= r; rz /= r;
+    mx += ry*hz - rz*hy; my += rz*hx - rx*hz; mz += rx*hy - ry*hx;
+  }
+  S.pol = Math.hypot(px, py, pz)/n; S.mill = Math.hypot(mx, my, mz)/n;
+  S.centroid[0] = cx; S.centroid[1] = cy; S.centroid[2] = cz;
+}
+
+/* four collective states, as rule settings for this model (see the page's How it works) */
+const PRESETS = {
+  murmuration: {sep:1.3, ali:2.2, coh:0.9, radius:0.15, fov:290, topo:true,  k:7,  noise:0.12, lead:0.03, lure:0, level:0},
+  swarm:       {sep:1.2, ali:0.0, coh:1.2, radius:0.18, fov:360, topo:false, k:7,  noise:0.55, lead:0,    lure:0, level:0},
+  mill:        {sep:1.3, ali:1.0, coh:0.8, radius:0.16, fov:260, topo:false, k:7,  noise:0.04, lead:0,    lure:1.0, level:0.8},
+  stream:      {sep:1.2, ali:2.4, coh:0.7, radius:0.16, fov:300, topo:false, k:7,  noise:0.04, lead:0.15, lure:0, level:0.3}
+};
+return {create, step, setCount, scatter, measure, PRESETS, MAXN, KMAX, rnd};
+})();
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const legend = document.getElementById('legend');
+const gl = cv.getContext('webgl2', {antialias:true, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const coarse = window.matchMedia('(pointer: coarse)').matches;
+const SPECIES = {
+  starlings:{name:'Starlings', speed:0.55, minSpeed:0.55, size:0.027, fear:0.45},
+  sardines: {name:'Sardines',  speed:0.42, minSpeed:0.45, size:0.042, fear:0.4}
+};
+const P = Object.assign({
+  species:'starlings', preset:'murmuration', count: coarse ? 900 : 1800, force:1.6,
+  natural:true, vectors:false, links:false, trails:false, objects:false,
+  rule:'all', tool:'predator', patrol:true, camera:'drift', paused:false
+}, Flock.PRESETS.murmuration);
+Object.assign(P, {speed:SPECIES.starlings.speed, minSpeed:SPECIES.starlings.minSpeed, fear:SPECIES.starlings.fear});
+const S = Flock.create();
+Flock.setCount(S, P.count);
+let countTouched = false;
+
+/* ---------------- shaders ---------------- */
+const BG_VS = `#version 300 es
+in vec2 aPos; void main(){ gl_Position = vec4(aPos, 0.0, 1.0); }`;
+const BG_FS = `#version 300 es
+precision highp float; precision highp int;
+uniform vec2 uRes; uniform float uTime, uYaw, uPitch, uScrim; uniform int uMode;
+out vec4 o;
+${GL.NOISE}
+vec3 sky(vec2 uv, float asp){
+  float hz = 0.26 - uPitch*0.9, y = uv.y - hz, x = uv.x*asp - uYaw*1.4;
+  vec3 low = vec3(0.97,0.72,0.55), mid = vec3(0.60,0.60,0.70), zen = vec3(0.21,0.27,0.42);
+  vec3 c = mix(low, mid, smoothstep(0.0, 0.32, y));
+  c = mix(c, zen, smoothstep(0.28, 0.95, y));
+  vec2 sun = vec2(0.72*asp - uYaw*1.4, hz + 0.07);
+  float sd = length(vec2(uv.x*asp, uv.y) - sun);
+  c += vec3(1.0,0.78,0.52)*(exp(-sd*7.0)*0.45 + exp(-sd*40.0)*0.5);
+  float cl = fbm(vec3(x*1.6 + uTime*0.006, y*7.0, uTime*0.008));
+  cl = smoothstep(0.52, 0.78, cl)*smoothstep(-0.02, 0.12, y)*(1.0 - smoothstep(0.35, 0.8, y));
+  c = mix(c, mix(vec3(0.98,0.80,0.68), vec3(0.45,0.44,0.55), smoothstep(0.0,0.5,y)), cl*0.55);
+  float ridge = hz + 0.018*fbm(vec3(x*7.0, 1.0, 0.0)) + 0.012*vnoise(vec3(x*60.0, 2.0, 0.0)) - 0.012;
+  float g = 1.0 - smoothstep(ridge - 0.0015, ridge + 0.0015, uv.y);
+  vec3 gc = mix(vec3(0.10,0.09,0.11), vec3(0.32,0.25,0.25), smoothstep(ridge - 0.06, ridge, uv.y)*0.5);
+  return mix(c, gc, g);
+}
+vec3 water(vec2 uv, float asp){
+  float x = uv.x*asp - uYaw*1.2, y = uv.y + uPitch*0.6;
+  vec3 c = mix(vec3(0.005,0.045,0.085), vec3(0.07,0.36,0.50), pow(clamp(y, 0.0, 1.0), 1.5));
+  float r = fbm(vec3((x - (1.0 - y)*0.45)*2.4, 0.5, uTime*0.05));
+  c += vec3(0.45,0.80,0.95)*pow(max(r - 0.35, 0.0)*2.2, 3.0)*0.32*smoothstep(0.0, 1.0, y);
+  vec2 q = vec2(x*16.0, y*16.0/(0.35 + y));                      // squeezed towards the surface: we look up at it
+  float k = abs(vnoise(vec3(q, uTime*0.5)) - vnoise(vec3(q*1.6 + 3.1, uTime*0.65)));
+  c += vec3(0.60,0.88,0.98)*pow(1.0 - k, 16.0)*0.22*smoothstep(0.7, 1.0, y);
+  c += vec3(0.35,0.65,0.75)*smoothstep(0.86, 1.0, y)*0.18;
+  vec2 g = vec2(x*38.0, y*38.0 + uTime*0.35); vec2 gi = floor(g), gf = fract(g) - 0.5;
+  float h = hash13(vec3(gi, 3.0));
+  if(h > 0.965){ float d = length(gf - (vec2(hash13(vec3(gi,1.0)), hash13(vec3(gi,2.0))) - 0.5)*0.6); c += vec3(0.5,0.6,0.6)*(1.0 - smoothstep(0.03, 0.09, d))*0.25; }
+  return c;
+}
+void main(){
+  vec2 uv = gl_FragCoord.xy/uRes; float asp = uRes.x/uRes.y;
+  vec3 c = uMode == 0 ? sky(uv, asp) : uMode == 1 ? water(uv, asp) : vec3(0.0);
+  c *= 1.0 - 0.62*uScrim;
+  o = vec4(c, 1.0);
+}`;
+
+const BODY_VS = `#version 300 es
+layout(location=0) in vec3 aLocal;
+layout(location=1) in vec3 aNorm;
+layout(location=2) in float aFlex;
+layout(location=3) in vec4 iPos;
+layout(location=4) in vec4 iVel;
+layout(location=5) in vec4 iExt;
+uniform mat4 uVP; uniform vec3 uEye; uniform float uSize; uniform int uSpecies;
+out vec3 vN; out vec3 vW; out float vKind; out float vSeed; out float vAlarm;
+void main(){
+  vec3 f = iVel.xyz; float fl = length(f); f = fl > 1e-5 ? f/fl : vec3(0,0,1);
+  vec3 r = cross(vec3(0,1,0), f); float rl = length(r); r = rl < 1e-3 ? vec3(1,0,0) : r/rl;
+  vec3 u = cross(f, r);
+  float cb = cos(iVel.w), sb = sin(iVel.w);
+  vec3 r2 = r*cb + u*sb, u2 = u*cb - r*sb;
+  vec3 p = aLocal, n = aNorm;
+  if(uSpecies == 0){
+    float s = sin(iPos.w)*iExt.y;
+    p.y += s*0.42*aFlex; p.x *= 1.0 - 0.16*abs(s)*aFlex;
+    n = normalize(n + vec3(0.0, 0.0, 0.0));
+  } else {
+    float w = sin(iPos.w - p.z*7.0)*0.13*aFlex*aFlex;
+    p.x += w; n.x -= cos(iPos.w - p.z*7.0)*0.9*aFlex*aFlex*0.13*7.0*0.3;
+  }
+  float sc = uSize*(iExt.z > 0.5 ? (uSpecies == 0 ? 2.3 : 3.2) : 0.82 + 0.36*iExt.w);
+  vec3 wp = iPos.xyz + (r2*p.x + u2*p.y + f*p.z)*sc;
+  vN = normalize(r2*n.x + u2*n.y + f*n.z); vW = wp; vKind = iExt.z; vSeed = iExt.w; vAlarm = iExt.x;
+  gl_Position = uVP*vec4(wp, 1.0);
+}`;
+const BODY_FS = `#version 300 es
+precision highp float; precision highp int;
+in vec3 vN; in vec3 vW; in float vKind; in float vSeed; in float vAlarm;
+uniform vec3 uEye, uFog; uniform int uSpecies; uniform float uScrim, uFogNear, uFogFar;
+out vec4 o;
+void main(){
+  vec3 n = normalize(vN); if(!gl_FrontFacing) n = -n;
+  vec3 V = normalize(uEye - vW);
+  if(dot(n, V) < 0.0) n = -n;
+  float dist = length(uEye - vW), fog = smoothstep(uFogNear, uFogFar, dist);
+  vec3 c;
+  if(uSpecies == 0){
+    vec3 L = normalize(vec3(0.6, 0.35, -0.5));
+    float dif = max(dot(n, L), 0.0), spec = pow(max(dot(reflect(-L, n), V), 0.0), 18.0);
+    vec3 gloss = mix(vec3(0.35,0.18,0.45), vec3(0.15,0.42,0.30), vSeed);
+    c = vKind > 0.5 ? vec3(0.20,0.21,0.24) + dif*vec3(0.10,0.09,0.08) : vec3(0.045,0.045,0.06) + dif*0.05 + spec*gloss*0.6;
+    c = mix(c, uFog, fog*0.72);
+  } else {
+    vec3 Lu = normalize(vec3(0.15, 1.0, 0.25));
+    float up = n.y, back = smoothstep(0.1, 0.75, up), belly = smoothstep(-0.2, -0.8, up);
+    vec3 base = vKind > 0.5 ? mix(vec3(0.24,0.30,0.36), vec3(0.03,0.07,0.13), back) : mix(vec3(0.62,0.70,0.76), vec3(0.08,0.20,0.32), back);
+    base = mix(base, vec3(0.86,0.90,0.92), belly*0.7);
+    vec3 H = normalize(Lu + V);
+    float flash = pow(max(dot(n, H), 0.0), 10.0)*(1.0 - back)*(vKind > 0.5 ? 0.3 : 1.0);
+    c = base*(0.45 + 0.55*max(dot(n, Lu)*0.5 + 0.5, 0.0)) + vec3(0.85,0.95,1.0)*flash*0.9;
+    c = mix(c, uFog, fog*0.9);
+  }
+  c *= 1.0 - 0.62*uScrim;
+  o = vec4(c, 1.0);
+}`;
+
+const SEG_VS = `#version 300 es
+layout(location=0) in vec2 aQ;          // x: 0..1 along, y: -1..1 across
+layout(location=1) in vec4 iA;          // xyz, width (css px)
+layout(location=2) in vec4 iB;          // xyz, unused
+layout(location=3) in vec4 iC;          // rgba
+uniform mat4 uVP; uniform vec2 uRes; uniform float uDpr;
+out vec4 vC; out float vY;
+void main(){
+  vec4 a = uVP*vec4(iA.xyz, 1.0), b = uVP*vec4(iB.xyz, 1.0);
+  if(a.w < 0.05 || b.w < 0.05){ gl_Position = vec4(2.0, 2.0, 2.0, 1.0); return; }
+  vec2 sa = a.xy/a.w*uRes*0.5, sb = b.xy/b.w*uRes*0.5, d = sb - sa;
+  float l = length(d); d = l > 1e-4 ? d/l : vec2(1.0, 0.0);
+  vec2 nrm = vec2(-d.y, d.x);
+  vec4 p = mix(a, b, aQ.x);
+  float w = iA.w*uDpr*0.5 + 0.5;
+  p.xy += nrm*aQ.y*w/(uRes*0.5)*p.w;
+  vC = iC; vY = aQ.y*w;
+  gl_Position = p;
+}`;
+const SEG_FS = `#version 300 es
+precision highp float; precision highp int;
+in vec4 vC; in float vY; out vec4 o;
+void main(){ o = vec4(vC.rgb, vC.a); }`;
+
+const SPH_VS = `#version 300 es
+layout(location=0) in vec2 aQ;
+layout(location=1) in vec4 iS;          // centre, radius
+uniform mat4 uVP; uniform vec3 uCamR, uCamU;
+out vec2 vQ; out vec3 vC; out float vR;
+void main(){
+  vQ = aQ*1.08; vC = iS.xyz; vR = iS.w;
+  vec3 w = iS.xyz + (uCamR*vQ.x + uCamU*vQ.y)*iS.w;
+  gl_Position = uVP*vec4(w, 1.0);
+}`;
+const SPH_FS = `#version 300 es
+precision highp float; precision highp int;
+in vec2 vQ; in vec3 vC; in float vR;
+uniform vec3 uCamR, uCamU, uCamB, uFog; uniform int uLook; uniform float uScrim;
+out vec4 o;
+${GL.NOISE}
+void main(){
+  float r2 = dot(vQ, vQ); if(r2 > 1.0) discard;
+  float z = sqrt(1.0 - r2);
+  vec3 n = normalize(uCamR*vQ.x + uCamU*vQ.y + uCamB*z), w = vC + n*vR;
+  vec3 c;
+  if(uLook == 2){
+    float e = sqrt(r2);
+    c = vec3(1.0)*(smoothstep(0.93, 0.965, e)) + vec3(0.06)*(1.0 - smoothstep(0.93, 0.965, e));
+  } else {
+    vec3 L = uLook == 0 ? normalize(vec3(0.6, 0.35, -0.5)) : normalize(vec3(0.15, 1.0, 0.25));
+    float m = fbm(w*6.0), dif = max(dot(n, L), 0.0);
+    vec3 base = uLook == 0 ? mix(vec3(0.62,0.56,0.54), vec3(0.80,0.74,0.70), m) : mix(vec3(0.10,0.14,0.15), vec3(0.24,0.30,0.28), m);
+    c = base*(0.35 + 0.75*dif);
+    c = mix(c, uFog, uLook == 0 ? 0.25 : 0.45);
+    c *= 1.0 - 0.62*uScrim;
+  }
+  o = vec4(c, 1.0);
+}`;
+
+let progBG, progBody, progSeg, progSph;
+try {
+  progBG = GL.program(gl, BG_VS, BG_FS); progBody = GL.program(gl, BODY_VS, BODY_FS);
+  progSeg = GL.program(gl, SEG_VS, SEG_FS); progSph = GL.program(gl, SPH_VS, SPH_FS);
+} catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+
+/* ---------------- meshes (unit body length, +z forward, +x right, +y up) ---------------- */
+function buildMesh(tris){                 // tris: [[x,y,z,flex] x3] ... -> interleaved pos, normal, flex
+  const out = [];
+  for(const t of tris){
+    const [a, b, c] = t, u = [b[0]-a[0], b[1]-a[1], b[2]-a[2]], v = [c[0]-a[0], c[1]-a[1], c[2]-a[2]];
+    let n = [u[1]*v[2]-u[2]*v[1], u[2]*v[0]-u[0]*v[2], u[0]*v[1]-u[1]*v[0]]; const l = Math.hypot(...n) || 1; n = n.map(x => x/l);
+    for(const p of t) out.push(p[0], p[1], p[2], n[0], n[1], n[2], p[3]);
+  }
+  return new Float32Array(out);
+}
+function birdMesh(){
+  const N = [0,0,0.5,0], L = [-0.09,0,0.08,0], R = [0.09,0,0.08,0], T = [0,0,-0.3,0], Bk = [0,0.045,0.06,0], Be = [0,-0.07,0.04,0];
+  const tris = [[N,L,Bk],[N,Bk,R],[L,T,Bk],[Bk,T,R],[N,Be,L],[N,R,Be],[L,Be,T],[Be,R,T],
+    [[0,0,-0.22,0],[-0.13,0,-0.5,0],[0.13,0,-0.5,0]]];
+  for(const s of [-1, 1]){
+    const rf = [0.07*s,0,0.16,0.05], rb = [0.07*s,0,-0.06,0.05], mid = [0.46*s,0,0.1,0.5], tip = [0.95*s,0,-0.16,1];
+    tris.push([rf, mid, rb], [mid, tip, rb]);
+  }
+  return buildMesh(tris);
+}
+function fishMesh(){
+  const rings = [[0.5,0,0],[0.36,0.085,0.042],[0.16,0.12,0.058],[-0.06,0.105,0.05],[-0.26,0.065,0.03],[-0.38,0.028,0.013]];
+  const flex = z => Math.max(0, Math.min(1, (0.35 - z)/0.9));
+  const ring = ([z,h,w]) => [[0,h,z,flex(z)],[w,0,z,flex(z)],[0,-h,z,flex(z)],[-w,0,z,flex(z)]];
+  const tris = [];
+  for(let k = 0; k < rings.length - 1; k++){
+    const A = ring(rings[k]), B = ring(rings[k+1]);
+    for(let q = 0; q < 4; q++){ const q2 = (q+1)%4; tris.push([A[q], B[q], B[q2]], [A[q], B[q2], A[q2]]); }
+  }
+  const pz = -0.37, fl = flex(-0.55);
+  tris.push([[0,0.01,pz,flex(pz)],[0,0.17,-0.58,fl],[0,0,-0.48,fl]], [[0,-0.01,pz,flex(pz)],[0,0,-0.48,fl],[0,-0.17,-0.58,fl]]);
+  tris.push([[0,0.12,0.12,flex(0.12)],[0,0.19,-0.02,flex(-0.02)],[0,0.105,-0.08,flex(-0.08)]]);   // dorsal fin
+  return buildMesh(tris);
+}
+const MESH = {starlings: birdMesh(), sardines: fishMesh()};
+
+const MAXI = Flock.MAXN + 1;
+const inst = new Float32Array(MAXI*12);
+const bodyVAO = gl.createVertexArray(), meshVBO = gl.createBuffer(), instVBO = gl.createBuffer();
+gl.bindVertexArray(bodyVAO);
+gl.bindBuffer(gl.ARRAY_BUFFER, meshVBO);
+gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 28, 0);
+gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.FLOAT, false, 28, 12);
+gl.enableVertexAttribArray(2); gl.vertexAttribPointer(2, 1, gl.FLOAT, false, 28, 24);
+gl.bindBuffer(gl.ARRAY_BUFFER, instVBO); gl.bufferData(gl.ARRAY_BUFFER, inst.byteLength, gl.DYNAMIC_DRAW);
+for(let k = 0; k < 3; k++){ gl.enableVertexAttribArray(3+k); gl.vertexAttribPointer(3+k, 4, gl.FLOAT, false, 48, k*16); gl.vertexAttribDivisor(3+k, 1); }
+let meshCount = 0;
+function setMesh(){ const m = MESH[P.species]; gl.bindBuffer(gl.ARRAY_BUFFER, meshVBO); gl.bufferData(gl.ARRAY_BUFFER, m, gl.STATIC_DRAW); meshCount = m.length/7; }
+setMesh();
+
+const bgVAO = gl.createVertexArray();
+gl.bindVertexArray(bgVAO);
+{ const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); }
+
+const SEGMAX = 70000, seg = new Float32Array(SEGMAX*12);
+const segVAO = gl.createVertexArray(), segVBO = gl.createBuffer();
+gl.bindVertexArray(segVAO);
+{ const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([0,-1, 1,-1, 0,1, 1,-1, 1,1, 0,1]), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); }
+gl.bindBuffer(gl.ARRAY_BUFFER, segVBO); gl.bufferData(gl.ARRAY_BUFFER, seg.byteLength, gl.DYNAMIC_DRAW);
+for(let k = 0; k < 3; k++){ gl.enableVertexAttribArray(1+k); gl.vertexAttribPointer(1+k, 4, gl.FLOAT, false, 48, k*16); gl.vertexAttribDivisor(1+k, 1); }
+
+const sphVAO = gl.createVertexArray(), sphVBO = gl.createBuffer(), sph = new Float32Array(16*4);
+gl.bindVertexArray(sphVAO);
+{ const b = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, b); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 1,-1, -1,1, 1,-1, 1,1, -1,1]), gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0); }
+gl.bindBuffer(gl.ARRAY_BUFFER, sphVBO); gl.bufferData(gl.ARRAY_BUFFER, sph.byteLength, gl.DYNAMIC_DRAW);
+gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 4, gl.FLOAT, false, 0, 0); gl.vertexAttribDivisor(1, 1);
+gl.bindVertexArray(null);
+
+/* ---------------- segment list ---------------- */
+let ns = 0;
+function line(ax, ay, az, bx, by, bz, w, r, g, b, a){
+  if(ns >= SEGMAX) return;
+  const o = ns*12; ns++;
+  seg[o] = ax; seg[o+1] = ay; seg[o+2] = az; seg[o+3] = w;
+  seg[o+4] = bx; seg[o+5] = by; seg[o+6] = bz; seg[o+7] = 0;
+  seg[o+8] = r; seg[o+9] = g; seg[o+10] = b; seg[o+11] = a;
+}
+function ring(cx, cy, cz, e1, e2, rad, w, c, a, a0, a1, dash){
+  const N = 64, from = a0 === undefined ? 0 : a0, to = a1 === undefined ? Math.PI*2 : a1;
+  for(let k = 0; k < N; k++){
+    if(dash && k % 2) continue;
+    const t0 = from + (to - from)*k/N, t1 = from + (to - from)*(k+1)/N;
+    const c0 = Math.cos(t0)*rad, s0 = Math.sin(t0)*rad, c1 = Math.cos(t1)*rad, s1 = Math.sin(t1)*rad;
+    line(cx + e1[0]*c0 + e2[0]*s0, cy + e1[1]*c0 + e2[1]*s0, cz + e1[2]*c0 + e2[2]*s0,
+         cx + e1[0]*c1 + e2[0]*s1, cy + e1[1]*c1 + e2[1]*s1, cz + e1[2]*c1 + e2[2]*s1, w, c[0], c[1], c[2], a);
+  }
+}
+const COL = {sep:[1.0,0.27,0.22], ali:[0.22,0.80,1.0], coh:[1.0,0.78,0.12], oth:[0.86,0.45,1.0]};
+
+/* ---------------- camera ---------------- */
+const cam = {yaw:0, pitch:0.1, dist:4.4, uyaw:0, upitch:0, zoom:1, eye:[0,0,4], tgt:[0,0,0], fwd:[0,0,-1], r:[1,0,0], u:[0,1,0], fov:0.66, ride:null};
+function camera(t, aspect){
+  const C = S.centroid;
+  let eye, tgt, fov = 0.66;
+  if(P.camera === 'ride'){
+    const i = focus*3, v = S.v, sp = Math.hypot(v[i], v[i+1], v[i+2]) || 1, f = [v[i]/sp, v[i+1]/sp, v[i+2]/sp];
+    const want = [S.p[i] - f[0]*0.5, S.p[i+1] - f[1]*0.5 + 0.12, S.p[i+2] - f[2]*0.5];
+    const look = [S.p[i] + f[0]*0.7, S.p[i+1] + f[1]*0.7, S.p[i+2] + f[2]*0.7];
+    if(!cam.ride) cam.ride = {e:want.slice(), t:look.slice()};
+    for(let k = 0; k < 3; k++){ cam.ride.e[k] += (want[k] - cam.ride.e[k])*0.08; cam.ride.t[k] += (look[k] - cam.ride.t[k])*0.12; }
+    eye = cam.ride.e; tgt = cam.ride.t; fov = 1.0;
+  } else {
+    cam.ride = null;
+    const drift = P.camera === 'drift';
+    cam.yaw = cam.uyaw + (drift ? 0.5*Math.sin(t*0.045) : 0);
+    cam.pitch = Math.max(-0.5, Math.min(1.2, cam.upitch + 0.1 + (drift ? 0.08*Math.sin(t*0.031) : 0)));
+    const fit = Math.max(4.0, 2.25/(Math.tan(fov/2)*aspect));
+    cam.dist = fit*cam.zoom;
+    for(let k = 0; k < 3; k++) cam.tgt[k] += (C[k]*0.45 - cam.tgt[k])*0.02;
+    tgt = cam.tgt;
+    const cp = Math.cos(cam.pitch);
+    eye = [tgt[0] + cam.dist*cp*Math.sin(cam.yaw), tgt[1] + cam.dist*Math.sin(cam.pitch), tgt[2] + cam.dist*cp*Math.cos(cam.yaw)];
+  }
+  let f = [tgt[0]-eye[0], tgt[1]-eye[1], tgt[2]-eye[2]]; let l = Math.hypot(...f); f = f.map(x => x/l);
+  let r = [-f[2], 0, f[0]]; l = Math.hypot(...r) || 1; r = r.map(x => x/l);
+  const u = [r[1]*f[2]-r[2]*f[1], r[2]*f[0]-r[0]*f[2], r[0]*f[1]-r[1]*f[0]];
+  cam.eye = eye; cam.fwd = f; cam.r = r; cam.u = u; cam.fov = fov; cam.aspect = aspect;
+  return GL.mul(GL.persp(fov, aspect, 0.03, 40), GL.lookAt(eye, tgt));
+}
+/* pointer -> world: the ray through the pointer meets the plane through the camera target, facing the camera */
+function pointerWorld(nx, ny){
+  const th = Math.tan(cam.fov/2), d = [cam.fwd[0] + cam.r[0]*nx*th*cam.aspect + cam.u[0]*ny*th, cam.fwd[1] + cam.r[1]*nx*th*cam.aspect + cam.u[1]*ny*th, cam.fwd[2] + cam.r[2]*nx*th*cam.aspect + cam.u[2]*ny*th];
+  const C = P.camera === 'ride' ? [S.p[focus*3], S.p[focus*3+1], S.p[focus*3+2]] : cam.tgt;
+  const den = d[0]*cam.fwd[0] + d[1]*cam.fwd[1] + d[2]*cam.fwd[2];
+  const t = ((C[0]-cam.eye[0])*cam.fwd[0] + (C[1]-cam.eye[1])*cam.fwd[1] + (C[2]-cam.eye[2])*cam.fwd[2])/den;
+  const b = S.box;
+  return [Math.max(-b[0], Math.min(b[0], cam.eye[0] + d[0]*t)), Math.max(-b[1], Math.min(b[1], cam.eye[1] + d[1]*t)), Math.max(-b[2], Math.min(b[2], cam.eye[2] + d[2]*t))];
+}
+function project(VP, x, y, z){
+  const w = VP[3]*x + VP[7]*y + VP[11]*z + VP[15];
+  return [(VP[0]*x + VP[4]*y + VP[8]*z + VP[12])/w, (VP[1]*x + VP[5]*y + VP[9]*z + VP[13])/w, w];
+}
+
+/* ---------------- controls ---------------- */
+const sliders = {};
+const fmt2 = v => v.toFixed(2);
+[['sep',fmt2],['ali',fmt2],['coh',fmt2],['radius',fmt2],['fov',v => v.toFixed(0) + '°'],['k',v => v.toFixed(0)],
+ ['lead',v => (v*100).toFixed(0) + '%'],['lure',fmt2],['level',fmt2],['speed',fmt2],['force',fmt2],['noise',fmt2],['count',v => v.toFixed(0)]]
+ .forEach(([k, f]) => { sliders[k] = {el:GL.slider(k, P, k, f), f}; });
+function syncSliders(){ for(const k in sliders){ const s = sliders[k]; s.el.value = P[k]; const o = document.querySelector('output[for="'+k+'"]'); if(o) o.textContent = s.f(P[k]); } }
+const setPreset = GL.seg('preset', P.preset, v => { P.preset = v; Object.assign(P, Flock.PRESETS[v]); syncSliders(); setTopo(P.topo ? 'topo' : 'metric'); kRow(); });
+['sep','ali','coh','radius','fov','k','lead','lure','level','noise'].forEach(k => sliders[k].el.addEventListener('input', () => { P.preset = ''; setPreset(''); }));
+sliders.count.el.addEventListener('input', () => { countTouched = true; Flock.setCount(S, P.count); trailReset(); if(focus >= S.n) focus = 0; });
+const setTopo = GL.seg('topo', P.topo ? 'topo' : 'metric', v => { P.topo = v === 'topo'; P.preset = ''; setPreset(''); kRow(); });
+function kRow(){ document.getElementById('kRow').hidden = !P.topo; }
+kRow();
+GL.seg('species', P.species, v => {
+  P.species = v; const sp = SPECIES[v]; P.speed = sp.speed; P.minSpeed = sp.minSpeed; P.fear = sp.fear;
+  syncSliders(); setMesh();
+});
+GL.seg('rule', P.rule, v => P.rule = v);
+GL.seg('camera', P.camera, v => { P.camera = v; });
+const setTool = GL.seg('tool', P.tool, v => { P.tool = v; S.bait = null; stage.dataset.tool = v; if(v === 'place'){ P.objects = true; layerBtns.objects.setAttribute('aria-pressed','true'); } });
+stage.dataset.tool = P.tool;
+const layerBtns = {};
+['natural','vectors','links','trails','objects'].forEach(k => {
+  const b = document.querySelector('#layers [data-l="'+k+'"]'); layerBtns[k] = b;
+  b.setAttribute('aria-pressed', String(P[k]));
+  b.addEventListener('click', () => {
+    P[k] = !P[k];
+    if(!P.natural && !P.vectors && !P.links && !P.trails){ if(k === 'natural') P.vectors = true; else P.natural = true; }   // never an empty stage: Natural off alone = the diagram
+    for(const q in layerBtns) layerBtns[q].setAttribute('aria-pressed', String(P[q]));
+  });
+});
+const toggle = (id, key, on) => { const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); if(on) on(); }); return b; };
+toggle('patrol', 'patrol');
+const pauseBtn = toggle('pause', 'paused');
+document.getElementById('scatter').addEventListener('click', () => { Flock.scatter(S); trailReset(); });
+document.getElementById('clear').addEventListener('click', () => { S.obstacles.length = 0; });
+GL.fullscreen('fs', stage);
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select')) return;
+  const keys = {'1':'murmuration','2':'swarm','3':'mill','4':'stream'};
+  if(keys[e.key]){ P.preset = keys[e.key]; Object.assign(P, Flock.PRESETS[P.preset]); setPreset(P.preset); syncSliders(); setTopo(P.topo ? 'topo' : 'metric'); kRow(); }
+  else if(e.key === ' ' && e.target === document.body){ e.preventDefault(); P.paused = !P.paused; pauseBtn.setAttribute('aria-pressed', String(P.paused)); }
+});
+
+/* ---------------- pointer ---------------- */
+const ptr = {nx:0, ny:0, over:false, down:false, drag:null};
+let focus = 0;
+const toNdc = e => { const r = cv.getBoundingClientRect(); ptr.nx = (e.clientX - r.left)/r.width*2 - 1; ptr.ny = 1 - (e.clientY - r.top)/r.height*2; };
+cv.addEventListener('pointermove', e => {
+  ptr.over = true; toNdc(e);
+  if(ptr.drag && P.tool === 'look'){ cam.uyaw -= (e.clientX - ptr.drag[0])*0.005; cam.upitch = Math.max(-0.6, Math.min(1.1, cam.upitch + (e.clientY - ptr.drag[1])*0.004)); ptr.drag = [e.clientX, e.clientY]; ptr.moved = true; }
+});
+cv.addEventListener('pointerdown', e => {
+  ptr.down = true; ptr.over = true; toNdc(e); try { cv.setPointerCapture(e.pointerId); } catch(_){}
+  ptr.drag = [e.clientX, e.clientY]; ptr.moved = false;
+  if(P.tool === 'place') placeOrRemove();
+});
+cv.addEventListener('pointerup', e => {
+  if(P.tool === 'look' && !ptr.moved) pickFocus();
+  ptr.down = false; ptr.drag = null;
+  if(e.pointerType !== 'mouse') ptr.over = false;
+});
+cv.addEventListener('pointercancel', () => { ptr.down = false; ptr.drag = null; ptr.over = false; });
+cv.addEventListener('pointerleave', () => { ptr.over = false; ptr.down = false; ptr.drag = null; });
+cv.addEventListener('wheel', e => { if(P.tool !== 'look') return; e.preventDefault(); cam.zoom = Math.max(0.45, Math.min(1.8, cam.zoom*Math.exp(e.deltaY*0.0012))); }, {passive:false});
+let lastVP = null;
+function placeOrRemove(){
+  if(!lastVP) return;
+  for(let k = 0; k < S.obstacles.length; k++){
+    const o = S.obstacles[k], s = project(lastVP, o.x, o.y, o.z), e = project(lastVP, o.x + cam.r[0]*o.r, o.y + cam.r[1]*o.r, o.z + cam.r[2]*o.r);
+    if(Math.hypot((s[0]-ptr.nx)*cam.aspect, s[1]-ptr.ny) < Math.abs(e[0]-s[0])*cam.aspect*1.05){ S.obstacles.splice(k, 1); return; }
+  }
+  if(S.obstacles.length >= 12) S.obstacles.shift();
+  const w = pointerWorld(ptr.nx, ptr.ny);
+  S.obstacles.push({x:w[0], y:w[1], z:w[2], r:0.14 + Math.random()*0.1});
+}
+function pickFocus(){
+  if(!lastVP) return;
+  let best = 1e9, bi = focus;
+  for(let i = 0; i < S.n; i++){
+    const s = project(lastVP, S.p[i*3], S.p[i*3+1], S.p[i*3+2]); if(s[2] <= 0) continue;
+    const d = Math.hypot((s[0]-ptr.nx)*cam.aspect, s[1]-ptr.ny); if(d < best){ best = d; bi = i; }
+  }
+  if(best < 0.08){ focus = bi; if(!P.vectors){ P.vectors = true; layerBtns.vectors.setAttribute('aria-pressed','true'); } }
+}
+
+/* ---------------- trails ---------------- */
+const TN = 420, TH = 26, trail = new Float32Array(TN*TH*3);
+let tHead = 0, tFill = 0, tTick = 0;
+function trailReset(){ tFill = 0; }
+function trailPush(){
+  const m = Math.min(TN, S.n);
+  for(let i = 0; i < m; i++){ const o = (i*TH + tHead)*3, q = i*3; trail[o] = S.p[q]; trail[o+1] = S.p[q+1]; trail[o+2] = S.p[q+2]; }
+  tHead = (tHead + 1) % TH; tFill = Math.min(TH, tFill + 1);
+}
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), fps = 60, simMs = 4, hudAt = 0, slowFor = 0, t = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(1/30, raw); last = now;
+  const speed = GL.reducedMotion ? 0.4 : 1;
+  t += dt*speed;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, coarse ? 1.5 : 2);
+  const W = cv.width, H = cv.height, aspect = W/H, dpr = W/Math.max(1, cv.getBoundingClientRect().width);
+  const VP = camera(t, aspect); lastVP = VP;
+
+  // tools
+  const aim = (ptr.over && P.tool !== 'look' && P.tool !== 'place') ? pointerWorld(ptr.nx, ptr.ny) : null;
+  if(P.tool === 'predator' && aim){ S.pred.on = true; S.pred.mode = 'pointer'; S.pred.aim = aim; }
+  else { S.pred.mode = 'patrol'; S.pred.aim = null; S.pred.on = P.patrol; }
+  S.bait = P.tool === 'bait' && aim ? aim : null;
+  const obstaclesKept = S.obstacles;
+  if(!P.objects) S.obstacles = [];
+
+  if(!P.paused){
+    const t0 = performance.now();
+    Flock.step(S, P, dt*speed);
+    simMs += (performance.now() - t0 - simMs)*0.05;
+    if(++tTick % 3 === 0) trailPush();
+    // keep the frame rate: until the visitor sets Count, shed boids while the simulation is too slow
+    if(!countTouched && simMs > 9 && S.n > 300){ if(++slowFor > 90){ P.count = Math.round(S.n*0.75); Flock.setCount(S, P.count); syncSliders(); slowFor = 0; simMs = 6; } }
+    else slowFor = 0;
+  }
+  S.obstacles = obstaclesKept;
+
+  // instances
+  const n = S.n, p = S.p, v = S.v;
+  for(let i = 0; i < n; i++){
+    const o = i*12, q = i*3;
+    inst[o] = p[q]; inst[o+1] = p[q+1]; inst[o+2] = p[q+2];
+    if(!P.paused) S.phase[i] += dt*speed*6.283*(P.species === 'starlings' ? 1.7 + Math.min(1, S.acc[i]/(P.force*2))*1.6 + S.alarm[i]*1.5 : 1.6 + 2.2*Math.hypot(v[q], v[q+1], v[q+2])/P.speed);
+    inst[o+3] = S.phase[i];
+    inst[o+4] = v[q]; inst[o+5] = v[q+1]; inst[o+6] = v[q+2]; inst[o+7] = S.bank[i];
+    const glide = P.species === 'starlings' ? Math.max(0.15, Math.min(1, 0.6 + 0.8*Math.sin(t*0.7 + i*1.37) + S.alarm[i])) : 1;
+    inst[o+8] = S.alarm[i]; inst[o+9] = glide; inst[o+10] = 0; inst[o+11] = Flock.rnd(i + 0.25);
+  }
+  let ni = n;
+  if(S.pred.on){
+    const o = n*12, pr = S.pred;
+    inst[o] = pr.p[0]; inst[o+1] = pr.p[1]; inst[o+2] = pr.p[2]; inst[o+3] = pr.phase;
+    inst[o+4] = pr.v[0]; inst[o+5] = pr.v[1]; inst[o+6] = pr.v[2]; inst[o+7] = 0;
+    inst[o+8] = 0; inst[o+9] = 0.8; inst[o+10] = 1; inst[o+11] = 0.5; ni++;
+  }
+
+  const look = P.natural ? (P.species === 'starlings' ? 0 : 1) : 2;
+  const scrim = P.natural && (P.vectors || P.links) ? 1 : 0;
+  const fog = look === 0 ? [0.78,0.68,0.66] : [0.03,0.17,0.25];
+
+  gl.viewport(0, 0, W, H);
+  gl.disable(gl.DEPTH_TEST); gl.disable(gl.BLEND);
+  gl.useProgram(progBG.p);
+  gl.uniform2f(progBG.u.uRes, W, H); gl.uniform1f(progBG.u.uTime, t); gl.uniform1f(progBG.u.uYaw, cam.yaw); gl.uniform1f(progBG.u.uPitch, cam.pitch);
+  gl.uniform1f(progBG.u.uScrim, scrim); gl.uniform1i(progBG.u.uMode, look);
+  gl.bindVertexArray(bgVAO); gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  gl.enable(gl.DEPTH_TEST); gl.clear(gl.DEPTH_BUFFER_BIT);
+  if(P.objects && S.obstacles.length){
+    const m = Math.min(16, S.obstacles.length);
+    for(let k = 0; k < m; k++){ const ob = S.obstacles[k]; sph[k*4] = ob.x; sph[k*4+1] = ob.y; sph[k*4+2] = ob.z; sph[k*4+3] = ob.r; }
+    gl.useProgram(progSph.p); const u = progSph.u;
+    gl.uniformMatrix4fv(u.uVP, false, VP);
+    gl.uniform3fv(u.uCamR, cam.r); gl.uniform3fv(u.uCamU, cam.u); gl.uniform3f(u.uCamB, -cam.fwd[0], -cam.fwd[1], -cam.fwd[2]);
+    gl.uniform3fv(u.uFog, fog); gl.uniform1i(u.uLook, look); gl.uniform1f(u.uScrim, scrim);
+    gl.bindVertexArray(sphVAO); gl.bindBuffer(gl.ARRAY_BUFFER, sphVBO); gl.bufferSubData(gl.ARRAY_BUFFER, 0, sph, 0, m*4);
+    gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, m);
+  }
+  if(P.natural){
+    gl.useProgram(progBody.p); const u = progBody.u;
+    gl.uniformMatrix4fv(u.uVP, false, VP); gl.uniform3fv(u.uEye, cam.eye);
+    gl.uniform1f(u.uSize, SPECIES[P.species].size); gl.uniform1i(u.uSpecies, P.species === 'starlings' ? 0 : 1);
+    gl.uniform3fv(u.uFog, fog); gl.uniform1f(u.uScrim, scrim);
+    gl.uniform1f(u.uFogNear, cam.dist*0.75); gl.uniform1f(u.uFogFar, cam.dist*1.9);
+    gl.bindVertexArray(bodyVAO); gl.bindBuffer(gl.ARRAY_BUFFER, instVBO); gl.bufferSubData(gl.ARRAY_BUFFER, 0, inst, 0, ni*12);
+    gl.drawArraysInstanced(gl.TRIANGLES, 0, meshCount, ni);
+  }
+
+  // line layers
+  ns = 0;
+  const ink = look === 0 && !scrim ? [0.08,0.08,0.12] : [0.93,0.95,1.0];
+  const Ls = 0.042;                                         // acceleration -> length on screen
+  if(!P.natural){                                           // diagram: the box and every boid as an arrow
+    const b = S.box;
+    for(const [a, c] of [[[-1,-1,-1],[1,-1,-1]],[[-1,1,-1],[1,1,-1]],[[-1,-1,1],[1,-1,1]],[[-1,1,1],[1,1,1]],[[-1,-1,-1],[-1,1,-1]],[[1,-1,-1],[1,1,-1]],[[-1,-1,1],[-1,1,1]],[[1,-1,1],[1,1,1]],[[-1,-1,-1],[-1,-1,1]],[[1,-1,-1],[1,-1,1]],[[-1,1,-1],[-1,1,1]],[[1,1,-1],[1,1,1]]])
+      line(a[0]*b[0], a[1]*b[1], a[2]*b[2], c[0]*b[0], c[1]*b[1], c[2]*b[2], 1, 1, 1, 1, 0.18);
+    for(let i = 0; i < n; i++){
+      const q = i*3, sp = Math.hypot(v[q], v[q+1], v[q+2]) || 1, fx = v[q]/sp, fy = v[q+1]/sp, fz = v[q+2]/sp, L = 0.045;
+      const al = S.alarm[i];
+      line(p[q] - fx*L, p[q+1] - fy*L, p[q+2] - fz*L, p[q] + fx*L*0.6, p[q+1] + fy*L*0.6, p[q+2] + fz*L*0.6, 1.1 + al*1.2, 1, 1, 1, 0.5 + 0.5*al);
+    }
+  }
+  if(P.trails && tFill > 2){
+    const m = Math.min(TN, n);
+    for(let i = 0; i < m; i++){
+      for(let k = 1; k < tFill; k++){
+        const a = (i*TH + (tHead - k + TH) % TH)*3, b = (i*TH + (tHead - k - 1 + TH) % TH)*3;
+        if(Math.abs(trail[a] - trail[b]) + Math.abs(trail[a+1] - trail[b+1]) + Math.abs(trail[a+2] - trail[b+2]) > 0.3) continue;
+        line(trail[a], trail[a+1], trail[a+2], trail[b], trail[b+1], trail[b+2], 1, ink[0], ink[1], ink[2], 0.5*(1 - k/tFill));
+      }
+    }
+  }
+  if(P.links){
+    const stride = Math.max(1, Math.ceil(n/900));
+    for(let i = 0; i < n; i += stride){
+      const q = i*3, m = S.nbn[i];
+      for(let k = 0; k < m; k++){ const j = S.nb[i*Flock.KMAX + k]*3; line(p[q], p[q+1], p[q+2], p[j], p[j+1], p[j+2], 1, ink[0], ink[1], ink[2], 0.3); }
+    }
+  }
+  if(P.vectors){
+    const one = P.rule !== 'all', stride = one ? 1 : Math.max(1, Math.ceil(n/360));
+    const show = (arr, c, i, w, a) => { const q = i*3; line(p[q], p[q+1], p[q+2], p[q] + arr[q]*Ls, p[q+1] + arr[q+1]*Ls, p[q+2] + arr[q+2]*Ls, w, c[0], c[1], c[2], a); };
+    for(let i = 0; i < n; i += stride){
+      if(i === focus) continue;
+      if(P.rule === 'all' || P.rule === 'sep') show(S.rs, COL.sep, i, 1.1, 0.85);
+      if(P.rule === 'all' || P.rule === 'ali') show(S.ra, COL.ali, i, 1.1, 0.85);
+      if(P.rule === 'all' || P.rule === 'coh') show(S.rc, COL.coh, i, 1.1, 0.85);
+      if(P.rule === 'all') show(S.ro, COL.oth, i, 1, 0.6);
+    }
+    // the focus boid: its perception radius, field of view, neighbours and rule vectors, drawn large
+    const q = focus*3, sp = Math.hypot(v[q], v[q+1], v[q+2]) || 1, f = [v[q]/sp, v[q+1]/sp, v[q+2]/sp];
+    let e2 = [f[1]*cam.fwd[2]-f[2]*cam.fwd[1], f[2]*cam.fwd[0]-f[0]*cam.fwd[2], f[0]*cam.fwd[1]-f[1]*cam.fwd[0]];
+    const l2 = Math.hypot(...e2); e2 = l2 > 1e-4 ? e2.map(x => x/l2) : cam.u;
+    const half = Math.min(Math.PI, P.fov*Math.PI/360);
+    ring(p[q], p[q+1], p[q+2], f, e2, P.radius, 1.6, [1,1,1], 0.95, -half, half);
+    if(half < Math.PI){
+      for(const s of [-1, 1]){ const c = Math.cos(half), sn = Math.sin(half)*s; line(p[q], p[q+1], p[q+2], p[q] + (f[0]*c + e2[0]*sn)*P.radius, p[q+1] + (f[1]*c + e2[1]*sn)*P.radius, p[q+2] + (f[2]*c + e2[2]*sn)*P.radius, 1.2, 1, 1, 1, 0.7); }
+      ring(p[q], p[q+1], p[q+2], f, e2, P.radius, 1, [1,1,1], 0.35, half, Math.PI*2 - half, true);
+    }
+    ring(p[q], p[q+1], p[q+2], f, e2, P.radius*0.5, 1, COL.sep, 0.6, 0, Math.PI*2, true);
+    for(let k = 0; k < S.nbn[focus]; k++){ const j = S.nb[focus*Flock.KMAX + k]*3; line(p[q], p[q+1], p[q+2], p[j], p[j+1], p[j+2], 1.2, 1, 1, 1, 0.75); }
+    const big = (arr, c) => line(p[q], p[q+1], p[q+2], p[q] + arr[q]*Ls*2.2, p[q+1] + arr[q+1]*Ls*2.2, p[q+2] + arr[q+2]*Ls*2.2, 3, c[0], c[1], c[2], 1);
+    big(S.rs, COL.sep); big(S.ra, COL.ali); big(S.rc, COL.coh); big(S.ro, COL.oth);
+    line(p[q], p[q+1], p[q+2], p[q] + v[q]*0.35, p[q+1] + v[q+1]*0.35, p[q+2] + v[q+2]*0.35, 2.2, 1, 1, 1, 1);
+  }
+  if((P.vectors || !P.natural)){
+    if(S.pred.on) ring(S.pred.p[0], S.pred.p[1], S.pred.p[2], cam.r, cam.u, P.fear, 1.4, COL.sep, 0.8, 0, Math.PI*2, true);
+    if(S.bait) ring(S.bait[0], S.bait[1], S.bait[2], cam.r, cam.u, 0.06, 2, COL.coh, 1);
+    if(P.objects) for(const ob of S.obstacles) ring(ob.x, ob.y, ob.z, cam.r, cam.u, ob.r + 0.28, 1, COL.oth, 0.6, 0, Math.PI*2, true);
+    if(!P.natural && S.pred.on){ const pr = S.pred, sp = Math.hypot(...pr.v) || 1; line(pr.p[0], pr.p[1], pr.p[2], pr.p[0] + pr.v[0]/sp*0.12, pr.p[1] + pr.v[1]/sp*0.12, pr.p[2] + pr.v[2]/sp*0.12, 3, COL.sep[0], COL.sep[1], COL.sep[2], 1); }
+  } else if(S.bait){
+    ring(S.bait[0], S.bait[1], S.bait[2], cam.r, cam.u, 0.05, 1.6, look === 0 ? [0.25,0.18,0.1] : [1,0.85,0.4], 0.8);
+  }
+  if(ns){
+    gl.disable(gl.DEPTH_TEST); gl.enable(gl.BLEND); gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    gl.useProgram(progSeg.p); const u = progSeg.u;
+    gl.uniformMatrix4fv(u.uVP, false, VP); gl.uniform2f(u.uRes, W, H); gl.uniform1f(u.uDpr, dpr);
+    gl.bindVertexArray(segVAO); gl.bindBuffer(gl.ARRAY_BUFFER, segVBO); gl.bufferSubData(gl.ARRAY_BUFFER, 0, seg, 0, ns*12);
+    gl.drawArraysInstanced(gl.TRIANGLES, 0, 6, ns);
+    gl.disable(gl.BLEND);
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    const pre = P.preset ? P.preset.toUpperCase() : 'CUSTOM';
+    hud.tl.textContent = 'FLOCK · ' + SPECIES[P.species].name.toUpperCase() + '\n' + pre + ' · ' + (P.topo ? 'TOPOLOGICAL k ' + P.k : 'METRIC r ' + P.radius.toFixed(2)) + (P.paused ? '\nPAUSED' : '');
+    hud.tr.textContent = 'N ' + S.n + (S.pred.on ? ' · PREDATOR' : '') + '\nPOLARISATION ' + S.pol.toFixed(2) + '\nMILLING ' + S.mill.toFixed(2) + (P.vectors ? '\nFOCUS #' + focus + ' · ' + S.nbn[focus] + ' NEIGHBOURS' : '');
+    hud.br.textContent = fps.toFixed(0) + ' FPS · SIM ' + simMs.toFixed(1) + ' MS';
+    legend.hidden = !P.vectors;
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__flockTest) window.__flockTest({S, P, frame, gl, cv, setMesh});
+})();
+</script>
+</body>
+</html>
