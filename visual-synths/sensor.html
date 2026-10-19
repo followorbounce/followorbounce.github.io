@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Sensor — Video Synths</title>
+<meta name="description" content="Forty-eight strata of fine lines bent by a data stream you do not see: a tide model, a machine log, your typing rhythm or your hand. Hover to reveal the raw signal; turn on sound to hear the strata. WebGL 2 instrument.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/sensor">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sensor — Video Synths">
+<meta property="og:description" content="Forty-eight strata of fine lines bent by a data stream you do not see: a tide model, a machine log, your typing rhythm or your hand. Hover to reveal the raw signal; turn on sound to hear the strata. WebGL 2 instrument.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/sensor">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from sensor.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Sensor</h1>
+    <p>Forty-eight lines lie across the stage like layers of rock. A stream of numbers runs underneath them, and each layer takes it a little later than the one above, so a change ripples down through the strata and leaves a record of itself. You never see the stream itself unless you ask: hover over the stage, or hold it on a touch screen, and the raw signal appears in red along the bottom. Choose what drives it: the tide, a machine's log, your typing, your hand.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Many horizontal lines bending as a hidden signal passes through them. Hover or hold to reveal the signal."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Hidden stream</span>
+      <div class="seg" id="stream">
+        <button data-v="0">Tide</button>
+        <button data-v="1">Machine</button>
+        <button data-v="2">Your typing</button>
+        <button data-v="3">Your hand</button>
+      </div>
+      <label for="pace">Pace <output for="pace"></output></label>
+      <input id="pace" type="range" min="0.2" max="3" step="0.05">
+    </div>
+    <div class="ctl">
+      <label for="gain">Bend <output for="gain"></output></label>
+      <input id="gain" type="range" min="0" max="2" step="0.01">
+      <label for="delay">Delay between strata <output for="delay"></output></label>
+      <input id="delay" type="range" min="0" max="40" step="1">
+      <label for="window">Time across the stage <output for="window"></output></label>
+      <input id="window" type="range" min="4" max="30" step="0.5">
+    </div>
+    <div class="ctl">
+      <label for="lines">Strata <output for="lines"></output></label>
+      <input id="lines" type="range" min="8" max="48" step="1">
+      <label for="weight">Line weight <output for="weight"></output></label>
+      <input id="weight" type="range" min="0.5" max="3" step="0.05">
+      <div class="row">
+        <button class="btn" id="reveal" aria-pressed="false">Always reveal</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="invert" aria-pressed="false">Invert</button>
+        <button class="btn" id="sound">Sound</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+      <p class="hint" id="typeHint" hidden>Type anywhere on the page (outside the sliders): each key is a pulse in the stream.</p>
+    </div>
+  </div>
+  <p class="hint">Hover over the stage (or hold it on a touch screen) to see the hidden stream in red · keys 1–4 pick the stream when you are not typing into it · Sound starts only when you press it.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A record, not a graph.</strong> The stream is sampled sixty times a second into a ring of 2,048 values kept on the GPU. Across the stage, each line shows the last few seconds of the stream (newest at the right), and line <em>k</em> reads it <em>k</em> × <strong>Delay</strong> samples later than the top one, with a bend that grows towards the bottom. A spike therefore enters at the right of the top line and steps down through the strata, the way an event is laid down in sediment. The lines are drawn in a fragment shader as one-pixel-smooth distances, so they stay sharp at any size.</p>
+  <p><strong>The streams.</strong> <strong>Tide</strong> is a harmonic tide model: the four largest constituents, M2 (12.42 h), S2 (12.00 h), K1 (23.93 h) and O1 (25.82 h), with illustrative amplitudes. Pace runs it at hours per second, so you see springs and neaps beat. <strong>Machine</strong> is a made-up process log: a duty cycle that ramps, holds and drops, with chatter, and now and then a fault spike. <strong>Your typing</strong> turns every key you press into a pulse that decays. <strong>Your hand</strong> is the speed of your pointer over the stage. Every stream is scaled by its own running loudness, so quiet and loud streams both bend the strata.</p>
+  <p><strong>Sound.</strong> Eight sine voices on a pentatonic scale, one for each band of strata. Each voice's pitch bends with the stream as its band receives it, so the sound moves downwards with the record. Nothing is sampled; it is the same delayed values that bend the lines.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of data as hidden driver: a real stream shaping motion without ever being shown, and the image as a stratified record of time. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The tide amplitudes are illustrative, not a prediction for any harbour; the periods are the real ones.</li>
+    <li>The machine log is synthetic. Real sensor archives can be added later as bundled files.</li>
+    <li>Your typing and pointer stay on your device; nothing is recorded or sent.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {stream:0, pace:1, gain:1, delay:12, window:12, lines:40, weight:1.1, reveal:false, invert:false};
+const NAMES = ['TIDE', 'MACHINE', 'YOUR TYPING', 'YOUR HAND'];
+const HN = 2048;
+
+const FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uHist; uniform vec2 uRes; uniform float uHead, uGain, uDelay, uWin, uLines, uWeight, uReveal, uInvert;
+float sig(float back){ return texture(uHist, vec2((uHead - back + 0.5)/${HN}.0, 0.5)).r; }
+void main(){
+  vec2 fc = gl_FragCoord.xy; float y = fc.y/uRes.y, x = fc.x/uRes.x;
+  float px = 1.0/uRes.y, v = 0.0;
+  float back = (1.0 - x)*uWin*60.0;
+  for(int i = 0; i < 48; i++){
+    float fi = float(i); if(fi >= uLines) break;
+    float k = fi/max(uLines - 1.0, 1.0);
+    float base = 0.9 - k*0.74;
+    float s = sig(back + fi*uDelay);
+    float yy = base + s*uGain*0.045*(0.3 + 0.9*k);
+    float d = abs(y - yy)/px;
+    v += (1.0 - smoothstep(uWeight*0.5, uWeight*0.5 + 1.0, d))*(0.4 + 0.6*(1.0 - k*0.5));
+  }
+  vec3 c = vec3(min(v, 1.0))*0.86;
+  // the hidden stream itself, in red, along the bottom
+  float ry = 0.075 + sig(back)*0.04;
+  float rd = abs(y - ry)/px;
+  c = mix(c, vec3(0.95, 0.2, 0.14), uReveal*(1.0 - smoothstep(0.7, 1.7, rd)));
+  c = mix(c, vec3(0.95, 0.94, 0.9) - c*0.92, uInvert);
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+const hist = new Float32Array(HN), histTex = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, histTex);
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.R32F, HN, 1, 0, gl.RED, gl.FLOAT, hist);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+/* ---------------- controls ---------------- */
+const typeHint = document.getElementById('typeHint');
+const setStream = GL.seg('stream', P.stream, v => { P.stream = +v; typeHint.hidden = P.stream !== 2; rms = 0.3; });
+['pace','gain'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('delay', P, 'delay', v => v.toFixed(0) + ' samples');
+GL.slider('window', P, 'window', v => v.toFixed(1) + ' s');
+GL.slider('lines', P, 'lines', v => v.toFixed(0));
+GL.slider('weight', P, 'weight', v => v.toFixed(2) + ' px');
+GL.fullscreen('fs', stage);
+const toggle = (id, key) => { const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); }); };
+toggle('reveal', 'reveal'); toggle('invert', 'invert');
+
+/* inputs for the personal streams */
+let keyPulse = 0, handSpeed = 0, over = false, held = false, lastPtr = null;
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select,button')) return;
+  if(P.stream === 2){ keyPulse += 1; return; }
+  if(e.key >= '1' && e.key <= '4'){ P.stream = +e.key - 1; setStream(P.stream); typeHint.hidden = P.stream !== 2; }
+});
+cv.addEventListener('pointermove', e => {
+  over = true;
+  const now = performance.now();
+  if(lastPtr){ const dt = Math.max(1, now - lastPtr.t); handSpeed = Math.min(4, handSpeed + Math.hypot(e.clientX - lastPtr.x, e.clientY - lastPtr.y)/dt*0.08); }
+  lastPtr = {x:e.clientX, y:e.clientY, t:now};
+});
+cv.addEventListener('pointerdown', () => { held = true; over = true; });
+cv.addEventListener('pointerup', e => { held = false; if(e.pointerType !== 'mouse') over = false; });
+cv.addEventListener('pointerleave', () => { over = false; held = false; lastPtr = null; });
+
+/* ---------------- streams ---------------- */
+const TIDE = [[12.4206, 1.0, 0], [12.0, 0.46, 1.1], [23.9345, 0.30, 2.3], [25.8193, 0.21, 0.4]];   // period h, amplitude, phase
+const mach = {state:0, t:0, v:0, target:0};
+let tideHours = 0, rms = 0.3;
+function sample(dt){
+  if(P.stream === 0){
+    tideHours += dt*P.pace*2.5;      // 2.5 tide-hours per second at pace 1
+    let s = 0; for(const [T, A, ph] of TIDE) s += A*Math.cos(2*Math.PI*tideHours/T + ph);
+    return s;
+  }
+  if(P.stream === 1){
+    mach.t -= dt*P.pace;
+    if(mach.t <= 0){ mach.state = (mach.state + 1) % 4; mach.t = [1.6, 3.2, 0.8, 2.4][mach.state]*(0.7 + Math.random()*0.6); mach.target = [1.2, 1.0, -0.6, 0.1][mach.state]; }
+    const rate = mach.state === 0 ? 1.2 : mach.state === 2 ? 6 : 3;
+    mach.v += (mach.target - mach.v)*Math.min(1, dt*P.pace*rate);
+    let s = mach.v + (mach.state === 1 ? 0.06*Math.sin(performance.now()*0.05) : 0) + (Math.random() - 0.5)*0.04;
+    if(Math.random() < dt*P.pace*0.08) s += 2.2;   // a rare fault spike
+    return s;
+  }
+  if(P.stream === 2){ keyPulse *= Math.exp(-dt*P.pace*3); return keyPulse; }
+  handSpeed *= Math.exp(-dt*P.pace*2.5); return handSpeed;
+}
+
+/* ---------------- sound: eight voices, one per band of strata ---------------- */
+let voices = null;
+const SCALE = [110, 130.81, 146.83, 164.81, 196, 220, 261.63, 293.66];
+const soundOn = GLX.soundButton('sound', A => {
+  const ac = A.ac, bus = ac.createGain(), dl = ac.createDelay(1), fbk = ac.createGain();
+  bus.gain.value = 0.5; dl.delayTime.value = 0.31; fbk.gain.value = 0.35;
+  bus.connect(A.master); bus.connect(dl); dl.connect(fbk); fbk.connect(dl); dl.connect(A.master);
+  voices = SCALE.map(f => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.value = 0.05; o.connect(g); g.connect(bus); o.start(); return {o, g, f}; });
+});
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), fps = 60, hudAt = 0, head = 0, acc = 0, revealNow = 0, lastRaw = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 2);
+  // sample at a fixed 60 Hz whatever the frame rate
+  acc += dt*sp;
+  let wrote = false;
+  while(acc >= 1/60){
+    acc -= 1/60;
+    const s = sample(1/60); lastRaw = s;
+    rms += (s*s - rms)*0.004;
+    const v = Math.tanh(s/Math.max(0.15, Math.sqrt(rms))*0.8);
+    head = (head + 1) % HN; hist[head] = v; wrote = true;
+  }
+  if(wrote){ gl.bindTexture(gl.TEXTURE_2D, histTex); gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, HN, 1, gl.RED, gl.FLOAT, hist); }
+  revealNow += (((P.reveal || over || held) ? 1 : 0) - revealNow)*0.15;
+
+  gl.useProgram(prog.p); const U = prog.u;
+  const dpr = cv.width/Math.max(1, cv.getBoundingClientRect().width);
+  gl.uniform2f(U.uRes, cv.width, cv.height); gl.uniform1f(U.uHead, head); gl.uniform1f(U.uGain, P.gain);
+  gl.uniform1f(U.uDelay, P.delay); gl.uniform1f(U.uWin, P.window); gl.uniform1f(U.uLines, P.lines);
+  gl.uniform1f(U.uWeight, P.weight*dpr); gl.uniform1f(U.uReveal, revealNow); gl.uniform1f(U.uInvert, P.invert ? 1 : 0);
+  GLX.pass(gl, vao, prog, null, cv.width, cv.height, {uHist: histTex});
+
+  if(voices && soundOn()){
+    const ac = GLX._ac.ac;
+    voices.forEach((v, i) => {
+      const k = i/7, line = Math.round(k*(P.lines - 1));
+      const s = hist[((head - Math.round(line*P.delay)) % HN + HN) % HN];
+      v.o.frequency.setTargetAtTime(v.f*Math.pow(2, s*P.gain*0.25), ac.currentTime, 0.04);
+      v.g.gain.setTargetAtTime(0.025 + 0.04*Math.abs(s), ac.currentTime, 0.05);
+    });
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'SENSOR · ' + P.lines + ' STRATA\nSTREAM ' + (revealNow > 0.5 ? NAMES[P.stream] + ' ' + lastRaw.toFixed(2) : 'HIDDEN');
+    hud.tr.textContent = 'DELAY ' + P.delay + ' · ' + P.window.toFixed(1) + ' S';
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv});
+})();
+</script>
+</body>
+</html>

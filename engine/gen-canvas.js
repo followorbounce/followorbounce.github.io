@@ -677,7 +677,7 @@ function matrixDraw(t){
   ctx.fillStyle=rgba(0.35);ctx.fillRect(Math.round(mx*W),0,lw,H); // playhead
 }
 
-// ===== GRID (in the spirit of Nonotak's light installations): black and white, squares <-> circles on a grid, driven by waves =====
+// ===== GRID (light-installation language): black and white, squares <-> circles on a grid, driven by waves =====
 var grid={morph:0,seq:0};
 function gridInit(){grid.morph=0;}
 function rrect(x,y,w,h,r){r=Math.min(r,w/2,h/2);ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath();}

@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 154,
+    "pages": 161,
     "repos": 4,
-    "own": 38,
+    "own": 45,
     "aerospace": 78,
     "maya": 7,
     "machinery": 31
@@ -290,6 +290,83 @@
       "title": "Light Grid",
       "description": "Black-and-white light installation study: a lattice of squares and circles that rotate, breathe, outline, run as bars, flip in counterphase and ripple into moiré rings on a travelling wave; signed-distance fragment shader with full controls.",
       "url": "https://followorbounce.github.io/visual-synths/light-grid",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Cone",
+      "description": "Laser beams on rotating mounts sweep cones, cylinders and fans through a hazy black room: volumetric single-scattering study in red, with a white key beam, grain, slow phases and optional FM sound.",
+      "url": "https://followorbounce.github.io/visual-synths/cone",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Erosion",
+      "description": "A real photogrammetry scan of a city block (225,000 points) falling apart along a release front, pooling like liquid at the ground and rebuilding; four release patterns.",
+      "url": "https://followorbounce.github.io/visual-synths/erosion",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Ring",
+      "description": "One laser circle drawn over and over in haze, leaving a fading trace on a photosensitive wall; rings tilt in space, and sound (internal or microphone) holds them or breaks them into fragments.",
+      "url": "https://followorbounce.github.io/visual-synths/ring",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Threshold",
+      "description": "Contour bands of a moving noise field in black, grey and red: paint pressure, trigger accumulate, saturate and release events, and play a drone driven by the same numbers.",
+      "url": "https://followorbounce.github.io/visual-synths/threshold",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Chain",
+      "description": "Video-feedback instrument built from visible, reorderable passes (transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue, fade), each with its explanation and GLSL line.",
+      "url": "https://followorbounce.github.io/visual-synths/chain",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Sensor",
+      "description": "Forty-eight strata of fine lines bent by a hidden data stream (harmonic tide model, machine log, your typing, your hand); hover to reveal the raw signal; eight-voice sound.",
+      "url": "https://followorbounce.github.io/visual-synths/sensor",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Upside Down",
+      "description": "Light beams fall onto a simulated water surface and continue below it, refracted by Snell's law and mirrored by ripples you make; each beam is a voice detuned by the waves.",
+      "url": "https://followorbounce.github.io/visual-synths/upside-down",
       "tag": "Tool",
       "interactive": true,
       "hidden": true

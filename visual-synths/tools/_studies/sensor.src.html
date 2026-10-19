@@ -1,0 +1,235 @@
+{"title": "Sensor", "desc": "Forty-eight strata of fine lines bent by a data stream you do not see: a tide model, a machine log, your typing rhythm or your hand. Hover to reveal the raw signal; turn on sound to hear the strata. WebGL 2 instrument."}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Sensor</h1>
+    <p>Forty-eight lines lie across the stage like layers of rock. A stream of numbers runs underneath them, and each layer takes it a little later than the one above, so a change ripples down through the strata and leaves a record of itself. You never see the stream itself unless you ask: hover over the stage, or hold it on a touch screen, and the raw signal appears in red along the bottom. Choose what drives it: the tide, a machine's log, your typing, your hand.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Many horizontal lines bending as a hidden signal passes through them. Hover or hold to reveal the signal."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Hidden stream</span>
+      <div class="seg" id="stream">
+        <button data-v="0">Tide</button>
+        <button data-v="1">Machine</button>
+        <button data-v="2">Your typing</button>
+        <button data-v="3">Your hand</button>
+      </div>
+      <label for="pace">Pace <output for="pace"></output></label>
+      <input id="pace" type="range" min="0.2" max="3" step="0.05">
+    </div>
+    <div class="ctl">
+      <label for="gain">Bend <output for="gain"></output></label>
+      <input id="gain" type="range" min="0" max="2" step="0.01">
+      <label for="delay">Delay between strata <output for="delay"></output></label>
+      <input id="delay" type="range" min="0" max="40" step="1">
+      <label for="window">Time across the stage <output for="window"></output></label>
+      <input id="window" type="range" min="4" max="30" step="0.5">
+    </div>
+    <div class="ctl">
+      <label for="lines">Strata <output for="lines"></output></label>
+      <input id="lines" type="range" min="8" max="48" step="1">
+      <label for="weight">Line weight <output for="weight"></output></label>
+      <input id="weight" type="range" min="0.5" max="3" step="0.05">
+      <div class="row">
+        <button class="btn" id="reveal" aria-pressed="false">Always reveal</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="invert" aria-pressed="false">Invert</button>
+        <button class="btn" id="sound">Sound</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+      <p class="hint" id="typeHint" hidden>Type anywhere on the page (outside the sliders): each key is a pulse in the stream.</p>
+    </div>
+  </div>
+  <p class="hint">Hover over the stage (or hold it on a touch screen) to see the hidden stream in red · keys 1–4 pick the stream when you are not typing into it · Sound starts only when you press it.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A record, not a graph.</strong> The stream is sampled sixty times a second into a ring of 2,048 values kept on the GPU. Across the stage, each line shows the last few seconds of the stream (newest at the right), and line <em>k</em> reads it <em>k</em> × <strong>Delay</strong> samples later than the top one, with a bend that grows towards the bottom. A spike therefore enters at the right of the top line and steps down through the strata, the way an event is laid down in sediment. The lines are drawn in a fragment shader as one-pixel-smooth distances, so they stay sharp at any size.</p>
+  <p><strong>The streams.</strong> <strong>Tide</strong> is a harmonic tide model: the four largest constituents, M2 (12.42 h), S2 (12.00 h), K1 (23.93 h) and O1 (25.82 h), with illustrative amplitudes. Pace runs it at hours per second, so you see springs and neaps beat. <strong>Machine</strong> is a made-up process log: a duty cycle that ramps, holds and drops, with chatter, and now and then a fault spike. <strong>Your typing</strong> turns every key you press into a pulse that decays. <strong>Your hand</strong> is the speed of your pointer over the stage. Every stream is scaled by its own running loudness, so quiet and loud streams both bend the strata.</p>
+  <p><strong>Sound.</strong> Eight sine voices on a pentatonic scale, one for each band of strata. Each voice's pitch bends with the stream as its band receives it, so the sound moves downwards with the record. Nothing is sampled; it is the same delayed values that bend the lines.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of data as hidden driver: a real stream shaping motion without ever being shown, and the image as a stratified record of time. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The tide amplitudes are illustrative, not a prediction for any harbour; the periods are the real ones.</li>
+    <li>The machine log is synthetic. Real sensor archives can be added later as bundled files.</li>
+    <li>Your typing and pointer stay on your device; nothing is recorded or sent.</li>
+  </ul>
+</section>
+
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {stream:0, pace:1, gain:1, delay:12, window:12, lines:40, weight:1.1, reveal:false, invert:false};
+const NAMES = ['TIDE', 'MACHINE', 'YOUR TYPING', 'YOUR HAND'];
+const HN = 2048;
+
+const FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uHist; uniform vec2 uRes; uniform float uHead, uGain, uDelay, uWin, uLines, uWeight, uReveal, uInvert;
+float sig(float back){ return texture(uHist, vec2((uHead - back + 0.5)/${HN}.0, 0.5)).r; }
+void main(){
+  vec2 fc = gl_FragCoord.xy; float y = fc.y/uRes.y, x = fc.x/uRes.x;
+  float px = 1.0/uRes.y, v = 0.0;
+  float back = (1.0 - x)*uWin*60.0;
+  for(int i = 0; i < 48; i++){
+    float fi = float(i); if(fi >= uLines) break;
+    float k = fi/max(uLines - 1.0, 1.0);
+    float base = 0.9 - k*0.74;
+    float s = sig(back + fi*uDelay);
+    float yy = base + s*uGain*0.045*(0.3 + 0.9*k);
+    float d = abs(y - yy)/px;
+    v += (1.0 - smoothstep(uWeight*0.5, uWeight*0.5 + 1.0, d))*(0.4 + 0.6*(1.0 - k*0.5));
+  }
+  vec3 c = vec3(min(v, 1.0))*0.86;
+  // the hidden stream itself, in red, along the bottom
+  float ry = 0.075 + sig(back)*0.04;
+  float rd = abs(y - ry)/px;
+  c = mix(c, vec3(0.95, 0.2, 0.14), uReveal*(1.0 - smoothstep(0.7, 1.7, rd)));
+  c = mix(c, vec3(0.95, 0.94, 0.9) - c*0.92, uInvert);
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+const hist = new Float32Array(HN), histTex = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, histTex);
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.R32F, HN, 1, 0, gl.RED, gl.FLOAT, hist);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+
+/* ---------------- controls ---------------- */
+const typeHint = document.getElementById('typeHint');
+const setStream = GL.seg('stream', P.stream, v => { P.stream = +v; typeHint.hidden = P.stream !== 2; rms = 0.3; });
+['pace','gain'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('delay', P, 'delay', v => v.toFixed(0) + ' samples');
+GL.slider('window', P, 'window', v => v.toFixed(1) + ' s');
+GL.slider('lines', P, 'lines', v => v.toFixed(0));
+GL.slider('weight', P, 'weight', v => v.toFixed(2) + ' px');
+GL.fullscreen('fs', stage);
+const toggle = (id, key) => { const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); }); };
+toggle('reveal', 'reveal'); toggle('invert', 'invert');
+
+/* inputs for the personal streams */
+let keyPulse = 0, handSpeed = 0, over = false, held = false, lastPtr = null;
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select,button')) return;
+  if(P.stream === 2){ keyPulse += 1; return; }
+  if(e.key >= '1' && e.key <= '4'){ P.stream = +e.key - 1; setStream(P.stream); typeHint.hidden = P.stream !== 2; }
+});
+cv.addEventListener('pointermove', e => {
+  over = true;
+  const now = performance.now();
+  if(lastPtr){ const dt = Math.max(1, now - lastPtr.t); handSpeed = Math.min(4, handSpeed + Math.hypot(e.clientX - lastPtr.x, e.clientY - lastPtr.y)/dt*0.08); }
+  lastPtr = {x:e.clientX, y:e.clientY, t:now};
+});
+cv.addEventListener('pointerdown', () => { held = true; over = true; });
+cv.addEventListener('pointerup', e => { held = false; if(e.pointerType !== 'mouse') over = false; });
+cv.addEventListener('pointerleave', () => { over = false; held = false; lastPtr = null; });
+
+/* ---------------- streams ---------------- */
+const TIDE = [[12.4206, 1.0, 0], [12.0, 0.46, 1.1], [23.9345, 0.30, 2.3], [25.8193, 0.21, 0.4]];   // period h, amplitude, phase
+const mach = {state:0, t:0, v:0, target:0};
+let tideHours = 0, rms = 0.3;
+function sample(dt){
+  if(P.stream === 0){
+    tideHours += dt*P.pace*2.5;      // 2.5 tide-hours per second at pace 1
+    let s = 0; for(const [T, A, ph] of TIDE) s += A*Math.cos(2*Math.PI*tideHours/T + ph);
+    return s;
+  }
+  if(P.stream === 1){
+    mach.t -= dt*P.pace;
+    if(mach.t <= 0){ mach.state = (mach.state + 1) % 4; mach.t = [1.6, 3.2, 0.8, 2.4][mach.state]*(0.7 + Math.random()*0.6); mach.target = [1.2, 1.0, -0.6, 0.1][mach.state]; }
+    const rate = mach.state === 0 ? 1.2 : mach.state === 2 ? 6 : 3;
+    mach.v += (mach.target - mach.v)*Math.min(1, dt*P.pace*rate);
+    let s = mach.v + (mach.state === 1 ? 0.06*Math.sin(performance.now()*0.05) : 0) + (Math.random() - 0.5)*0.04;
+    if(Math.random() < dt*P.pace*0.08) s += 2.2;   // a rare fault spike
+    return s;
+  }
+  if(P.stream === 2){ keyPulse *= Math.exp(-dt*P.pace*3); return keyPulse; }
+  handSpeed *= Math.exp(-dt*P.pace*2.5); return handSpeed;
+}
+
+/* ---------------- sound: eight voices, one per band of strata ---------------- */
+let voices = null;
+const SCALE = [110, 130.81, 146.83, 164.81, 196, 220, 261.63, 293.66];
+const soundOn = GLX.soundButton('sound', A => {
+  const ac = A.ac, bus = ac.createGain(), dl = ac.createDelay(1), fbk = ac.createGain();
+  bus.gain.value = 0.5; dl.delayTime.value = 0.31; fbk.gain.value = 0.35;
+  bus.connect(A.master); bus.connect(dl); dl.connect(fbk); fbk.connect(dl); dl.connect(A.master);
+  voices = SCALE.map(f => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = f; g.gain.value = 0.05; o.connect(g); g.connect(bus); o.start(); return {o, g, f}; });
+});
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), fps = 60, hudAt = 0, head = 0, acc = 0, revealNow = 0, lastRaw = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 2);
+  // sample at a fixed 60 Hz whatever the frame rate
+  acc += dt*sp;
+  let wrote = false;
+  while(acc >= 1/60){
+    acc -= 1/60;
+    const s = sample(1/60); lastRaw = s;
+    rms += (s*s - rms)*0.004;
+    const v = Math.tanh(s/Math.max(0.15, Math.sqrt(rms))*0.8);
+    head = (head + 1) % HN; hist[head] = v; wrote = true;
+  }
+  if(wrote){ gl.bindTexture(gl.TEXTURE_2D, histTex); gl.texSubImage2D(gl.TEXTURE_2D, 0, 0, 0, HN, 1, gl.RED, gl.FLOAT, hist); }
+  revealNow += (((P.reveal || over || held) ? 1 : 0) - revealNow)*0.15;
+
+  gl.useProgram(prog.p); const U = prog.u;
+  const dpr = cv.width/Math.max(1, cv.getBoundingClientRect().width);
+  gl.uniform2f(U.uRes, cv.width, cv.height); gl.uniform1f(U.uHead, head); gl.uniform1f(U.uGain, P.gain);
+  gl.uniform1f(U.uDelay, P.delay); gl.uniform1f(U.uWin, P.window); gl.uniform1f(U.uLines, P.lines);
+  gl.uniform1f(U.uWeight, P.weight*dpr); gl.uniform1f(U.uReveal, revealNow); gl.uniform1f(U.uInvert, P.invert ? 1 : 0);
+  GLX.pass(gl, vao, prog, null, cv.width, cv.height, {uHist: histTex});
+
+  if(voices && soundOn()){
+    const ac = GLX._ac.ac;
+    voices.forEach((v, i) => {
+      const k = i/7, line = Math.round(k*(P.lines - 1));
+      const s = hist[((head - Math.round(line*P.delay)) % HN + HN) % HN];
+      v.o.frequency.setTargetAtTime(v.f*Math.pow(2, s*P.gain*0.25), ac.currentTime, 0.04);
+      v.g.gain.setTargetAtTime(0.025 + 0.04*Math.abs(s), ac.currentTime, 0.05);
+    });
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'SENSOR · ' + P.lines + ' STRATA\nSTREAM ' + (revealNow > 0.5 ? NAMES[P.stream] + ' ' + lastRaw.toFixed(2) : 'HIDDEN');
+    hud.tr.textContent = 'DELAY ' + P.delay + ' · ' + P.window.toFixed(1) + ' S';
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv});
+})();
+</script>

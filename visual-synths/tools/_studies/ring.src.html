@@ -1,0 +1,259 @@
+{"title": "Ring", "desc": "One laser circle drawn over and over in haze, leaving a fading trace on a photosensitive wall; rings tilt slowly in space, and sound (internal or your microphone) holds them together or breaks them into fragments. WebGL 2 study."}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 10</div>
+    <h1>Ring</h1>
+    <p>A single point of laser light runs round a circle, again and again. The wall behind it is photosensitive: it glows where the beam has just been and fades over seconds, so the circle is always being drawn and always disappearing. Slow it down and you see a comet; speed it up and appearing and fading blur into one ring. Add more rings, let them tilt, and give them sound: low tones hold a ring steady, high tones break it into fragments.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="A laser point tracing a glowing circle that fades behind it, in haze."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <label for="rings">Rings <output for="rings"></output></label>
+      <input id="rings" type="range" min="1" max="4" step="1">
+      <label for="speed">Speed <output for="speed"></output></label>
+      <input id="speed" type="range" min="0.05" max="6" step="0.01">
+      <label for="radius">Radius <output for="radius"></output></label>
+      <input id="radius" type="range" min="0.1" max="0.45" step="0.005">
+    </div>
+    <div class="ctl">
+      <label for="persist">Wall persistence <output for="persist"></output></label>
+      <input id="persist" type="range" min="0.2" max="12" step="0.1">
+      <label for="tilt">Tilt in space <output for="tilt"></output></label>
+      <input id="tilt" type="range" min="0" max="1" step="0.01">
+      <label for="haze">Haze <output for="haze"></output></label>
+      <input id="haze" type="range" min="0" max="1.5" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="brk">Breakage <output for="brk"></output></label>
+      <input id="brk" type="range" min="0" max="1" step="0.01">
+      <span class="lab">Sound drives breakage</span>
+      <div class="seg" id="audio">
+        <button data-v="off">Off</button>
+        <button data-v="synth">Internal</button>
+        <button data-v="mic">Microphone</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Light</span>
+      <div class="seg" id="colour">
+        <button data-v="0">Green</button>
+        <button data-v="1">White</button>
+        <button data-v="2">Blue</button>
+        <button data-v="3">Red</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="beam" aria-pressed="true">Beam from emitter</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Internal sound plays a low drone with high chimes; the microphone uses the sound of your room. Either starts only when you pick it, and microphone audio never leaves your device.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A wall that remembers.</strong> The wall is a half-float texture read back every frame, multiplied by <code>e^(−dt/τ)</code> where τ is <strong>Wall persistence</strong> in seconds, and then the beam is added. The beam's head moves a long way between frames at high speed, so the whole arc it swept since the last frame is deposited, not just its end point; that is why fast rings are solid instead of dotted. On top of the wall, the head itself and the beam from the emitter glow in haze: two octaves of drifting noise scale the glow, so the light is uneven, the way it is in a real room with smoke.</p>
+  <p><strong>Rings in space.</strong> Each ring is a circle on its own plane. <strong>Tilt in space</strong> turns those planes slowly, so a circle becomes an ellipse and opens again, and several rings cross like the orbits of a mechanism. The rings run at related speeds (1, 1.5, 2.25…), so they line up and drift apart over long periods.</p>
+  <p><strong>Sound into structure.</strong> The sound is split into a low band (below 200 Hz) and a high band (above 2 kHz). Low energy pulls each ring's radius towards a steady value; high energy raises <strong>Breakage</strong>, which gates the deposit into fragments and shakes the radius, so the circle comes apart into dashes and reforms when the sound drops. The internal synth holds a drone and adds high chimes at random moments so you can hear and see the mapping without a microphone.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of laser light in space: the beam made visible by haze, one continuous path drawn until appearing and fading blur, photosensitive surfaces that keep a trace, and sound turned directly into structure. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The haze is a 2D layer in front of the wall, not a volume; the emitter beam is a straight line in the image.</li>
+    <li>Real lasers scan too fast for the eye at these speeds; here the head is always drawn so you can follow it.</li>
+    <li>Nothing flashes: the head is a moving point and the wall fades smoothly. Reduced motion slows everything to 30 %.</li>
+  </ul>
+</section>
+
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {rings:1, speed:1.6, radius:0.3, persist:3, tilt:0.35, haze:0.7, brk:0, audio:'off', colour:0, beam:true};
+const COLOURS = [[0.45, 1.0, 0.62], [1, 0.97, 0.92], [0.35, 0.65, 1.0], [1.0, 0.16, 0.1]];
+
+const DEPOSIT = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uPrev; uniform vec2 uRes; uniform float uKeep, uN, uTime, uBreak;
+uniform vec4 uRing[4];   // radius, angle from, angle to, unused
+uniform vec4 uPlane[4];  // tilt cos, roll, jitter, unused
+float h(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)))*43758.5453); }
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  float w = texture(uPrev, vUv).r*uKeep;
+  float px = 1.0/uRes.y;
+  for(int i = 0; i < 4; i++){
+    if(float(i) >= uN) break;
+    vec4 R = uRing[i], L = uPlane[i];
+    float c = cos(-L.y), s = sin(-L.y);
+    vec2 q = mat2(c, -s, s, c)*p; q.y /= max(L.x, 0.05);
+    float r = length(q), a = atan(q.y, q.x);
+    float a0 = R.y, a1 = R.z;
+    float span = a1 - a0, rel = mod(a - a0, 6.2831853);
+    float inside = rel <= span + 0.002 ? 1.0 : 0.0;
+    // fragments: gate the arc by angle cells when breakage rises
+    float cell = floor(a*7.0 + floor(uTime*3.0)*1.7);
+    float gate = step(uBreak*0.85, h(vec2(cell, float(i))));
+    float rr = R.x*(1.0 + L.z*(h(vec2(floor(a*40.0), floor(uTime*20.0))) - 0.5));
+    float d = abs(r - rr)/px*max(L.x, 0.05);
+    w += inside*gate*exp(-d*d/1.6)*0.9;
+  }
+  o = vec4(min(w, 4.0), 0.0, 0.0, 1.0);
+}`;
+const SHOW = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uWall; uniform vec2 uRes; uniform vec3 uCol; uniform float uTime, uHaze, uN, uBeam;
+uniform vec2 uHead[4];
+${GL.NOISE}
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y, px = 1.0/uRes;
+  float w = texture(uWall, vUv).r;
+  float glow = 0.0;
+  for(int k = 0; k < 12; k++){ float a = float(k)*0.5236 + 0.26, rr = (k % 2 == 0) ? 3.0 : 9.0; glow += texture(uWall, vUv + vec2(cos(a), sin(a))*px*rr).r; }
+  glow /= 12.0;
+  float haze = uHaze*(0.35 + 0.65*(0.6*vnoise(vec3(p*2.5, uTime*0.07)) + 0.4*vnoise(vec3(p*6.0 + 3.0, uTime*0.11))));
+  vec3 c = uCol*(w*0.9 + glow*(0.35 + haze*0.6));
+  vec2 em = vec2(0.0, -0.62);
+  for(int i = 0; i < 4; i++){
+    if(float(i) >= uN) break;
+    vec2 hp = uHead[i];
+    c += vec3(1.0)*exp(-length(p - hp)*uRes.y*0.18)*0.9 + uCol*exp(-length(p - hp)*25.0)*0.25*(0.4 + haze);
+    if(uBeam > 0.5){
+      vec2 ab = hp - em, ap = p - em; float t = clamp(dot(ap, ab)/dot(ab, ab), 0.0, 1.0);
+      float d = length(ap - ab*t);
+      c += uCol*(exp(-d*uRes.y*0.6)*0.5 + exp(-d*60.0)*0.06)*haze*smoothstep(0.0, 0.15, t);
+    }
+  }
+  c = c/(1.0 + c*0.3);
+  o = vec4(pow(max(c, 0.0), vec3(0.4545)), 1.0);
+}`;
+let dep, show;
+try { dep = GL.program(gl, GLX.VS, DEPOSIT); show = GL.program(gl, GLX.VS, SHOW); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+let wall = null, W = 0, H = 0;
+
+/* ---------------- controls ---------------- */
+GL.slider('rings', P, 'rings', v => v.toFixed(0));
+['speed','tilt','haze','brk'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('radius', P, 'radius', v => v.toFixed(3));
+GL.slider('persist', P, 'persist', v => v.toFixed(1) + ' s');
+GL.seg('colour', P.colour, v => P.colour = +v);
+GL.fullscreen('fs', stage);
+const beamBtn = document.getElementById('beam');
+beamBtn.addEventListener('click', () => { P.beam = !P.beam; beamBtn.setAttribute('aria-pressed', String(P.beam)); });
+
+/* ---------------- sound: internal synth or microphone, analysed into low and high bands ---------------- */
+let an = null, fbuf = null, synth = null, mic = null, low = 0, high = 0;
+const setAudio = GL.seg('audio', P.audio, v => startAudio(v));
+function stopAll(){
+  if(synth){ synth.stop(); synth = null; }
+  if(mic){ mic.st.getTracks().forEach(x => x.stop()); mic.src.disconnect(); mic = null; }
+}
+function startAudio(v){
+  stopAll(); P.audio = v;
+  if(v === 'off'){ an = null; return; }
+  const A = GLX.audio(); if(!A){ setAudio('off'); P.audio = 'off'; return; }
+  if(A.ac.state === 'suspended') A.ac.resume();
+  A.master.gain.setTargetAtTime(0.8, A.ac.currentTime, 0.1);
+  const ac = A.ac;
+  an = ac.createAnalyser(); an.fftSize = 2048; an.smoothingTimeConstant = 0.6; fbuf = new Uint8Array(an.frequencyBinCount);
+  if(v === 'synth'){
+    const drone = ac.createOscillator(), d2 = ac.createOscillator(), g = ac.createGain();
+    drone.frequency.value = 55; d2.frequency.value = 82.5; g.gain.value = 0.12;
+    drone.connect(g); d2.connect(g); g.connect(an); g.connect(A.master); drone.start(); d2.start();
+    const chimeBus = ac.createGain(); chimeBus.gain.value = 0.08; chimeBus.connect(an); chimeBus.connect(A.master);
+    let alive = true;
+    const chime = () => {
+      if(!alive) return;
+      const o = ac.createOscillator(), e = ac.createGain(), f = [2637, 3136, 3520, 4186][Math.floor(Math.random()*4)];
+      o.type = 'triangle'; o.frequency.value = f; e.gain.value = 0; o.connect(e); e.connect(chimeBus);
+      const t = ac.currentTime; e.gain.linearRampToValueAtTime(1, t + 0.01); e.gain.exponentialRampToValueAtTime(0.001, t + 1.6);
+      o.start(t); o.stop(t + 1.7);
+      setTimeout(chime, 1800 + Math.random()*5000);
+    };
+    setTimeout(chime, 1200);
+    synth = {stop(){ alive = false; drone.stop(); d2.stop(); g.disconnect(); chimeBus.disconnect(); }};
+  } else {
+    if(!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia){ setAudio('off'); P.audio = 'off'; return; }
+    navigator.mediaDevices.getUserMedia({audio:true}).then(st => {
+      if(P.audio !== 'mic'){ st.getTracks().forEach(x => x.stop()); return; }
+      const src = ac.createMediaStreamSource(st); src.connect(an); mic = {st, src};
+    }).catch(() => { setAudio('off'); P.audio = 'off'; an = null; });
+  }
+}
+function bands(){
+  if(!an){ low += (0 - low)*0.1; high += (0 - high)*0.1; return; }
+  an.getByteFrequencyData(fbuf);
+  const hz = GLX._ac.ac.sampleRate/an.fftSize;
+  let l = 0, ln = 0, hgh = 0, hn = 0;
+  for(let i = 1; i < fbuf.length; i++){ const f = i*hz; if(f < 200){ l += fbuf[i]; ln++; } else if(f > 2000 && f < 9000){ hgh += fbuf[i]; hn++; } }
+  low += ((ln ? l/ln/255 : 0) - low)*0.15; high += ((hn ? hgh/hn/255 : 0)*2.2 - high)*0.25;
+}
+
+/* ---------------- frame ---------------- */
+const ringU = new Float32Array(16), planeU = new Float32Array(16), headU = new Float32Array(8);
+const ang = [0, 1.7, 3.1, 4.4], SPEEDS = [1, 1.5, 2.25, 3.375];
+let last = performance.now(), t = 0, fps = 60, hudAt = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  t += dt*sp;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 1.5);
+  if(!wall || W !== cv.width || H !== cv.height){ if(wall) wall.free(); W = cv.width; H = cv.height; wall = GLX.pingpong(gl, W, H); }
+  bands();
+  const breakNow = Math.min(1, Math.max(P.brk, high));
+  for(let i = 0; i < 4; i++){
+    const a0 = ang[i], da = dt*sp*P.speed*SPEEDS[i]*(i % 2 ? -1 : 1);
+    ang[i] = a0 + da;
+    const from = da >= 0 ? a0 : a0 + da, span = Math.min(Math.abs(da), 6.283);
+    const R = P.radius*(1 - i*0.16)*(1 + 0.04*Math.sin(t*0.5 + i)*(1 - low));
+    const tiltA = P.tilt*(0.5 + 0.5*Math.sin(t*0.13*(1 + i*0.4) + i*1.3))*1.35;
+    const roll = t*0.05*(i % 2 ? -1 : 1) + i*0.7;
+    ringU.set([R, from, from + span, 0], i*4);
+    planeU.set([Math.cos(tiltA), roll, breakNow*0.12, 0], i*4);
+    const lx = Math.cos(ang[i])*R, ly = Math.sin(ang[i])*R*Math.cos(tiltA), c = Math.cos(roll), s = Math.sin(roll);
+    headU.set([lx*c - ly*s, lx*s + ly*c], i*2);
+  }
+  gl.useProgram(dep.p);
+  gl.uniform2f(dep.u.uRes, W, H); gl.uniform1f(dep.u.uKeep, Math.exp(-dt*sp/P.persist)); gl.uniform1f(dep.u.uN, P.rings);
+  gl.uniform1f(dep.u.uTime, t); gl.uniform1f(dep.u.uBreak, breakNow);
+  gl.uniform4fv(dep.u.uRing, ringU); gl.uniform4fv(dep.u.uPlane, planeU);
+  GLX.pass(gl, vao, dep, wall.b, W, H, {uPrev: wall.a.tex}); wall.swap();
+  gl.useProgram(show.p);
+  gl.uniform2f(show.u.uRes, W, H); gl.uniform3fv(show.u.uCol, COLOURS[P.colour]); gl.uniform1f(show.u.uTime, t);
+  gl.uniform1f(show.u.uHaze, P.haze); gl.uniform1f(show.u.uN, P.rings); gl.uniform1f(show.u.uBeam, P.beam ? 1 : 0);
+  gl.uniform2fv(show.u.uHead, headU);
+  GLX.pass(gl, vao, show, null, W, H, {uWall: wall.a.tex});
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'RING · ' + P.rings + (P.rings > 1 ? ' RINGS' : ' RING') + '\n' + (P.speed*SPEEDS[0]/(2*Math.PI)).toFixed(2) + ' TURNS/S';
+    hud.tr.textContent = (P.audio === 'off' ? 'SOUND OFF' : P.audio === 'mic' ? 'MICROPHONE' : 'INTERNAL') + '\nLOW ' + Math.round(low*100) + ' · HIGH ' + Math.round(Math.min(1, high)*100) + '\nBREAKAGE ' + Math.round(breakNow*100) + '%';
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv});
+})();
+</script>

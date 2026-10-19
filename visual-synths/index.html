@@ -11,13 +11,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Video Synths — Knowledge Network</title>
-<meta name="description" content="Every live image-making piece on the site: four WebGL installation studies (point-cloud scan, displacement field, particle fluid, data matrix) and five knob-driven visual instruments.">
+<meta name="description" content="Every live image-making piece on the site: ten WebGL installation studies (point clouds, scans, data, light, lasers, a flock) and nine playable visual instruments, most with sound.">
 <link rel="canonical" href="https://followorbounce.github.io/visual-synths/">
 <meta name="theme-color" content="#F4F4F1">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Video Synths — Knowledge Network">
-<meta property="og:description" content="Four WebGL installation studies — Point Cloud Scan, Displacement Field, Latent Flow, Data Matrix — plus Palette Synth, Additive Wave Sculptor, Lissajous Plotter, Spectral Visualizer and the Complex-Plane Fractal Mapper.">
+<meta property="og:description" content="Every live image-making piece on the site: ten WebGL installation studies (point clouds, scans, data, light, lasers, a flock) and nine playable visual instruments, most with sound.">
 <meta property="og:url" content="https://followorbounce.github.io/visual-synths/">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,6 +82,7 @@ header .back:hover{color:var(--ink); text-decoration:underline;}
 .cards + .group{margin-top:clamp(28px,5vw,44px);}
 .card-art--dark{background:#000; padding:0; border-bottom-color:#000;}
 .card-art--dark svg{height:auto; aspect-ratio:100/46;}
+.card-art--dark img{display:block; width:100%; height:auto; aspect-ratio:100/46; object-fit:cover;}
 .cards--studies{grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr));}
 .hero p strong{color:var(--ink);}
 
@@ -111,7 +112,7 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument Family · Generative · Interactive</div>
     <h1>Video Synths</h1>
-    <p>Everything on this site that makes images live — twelve pieces where form, colour and motion are computed every frame instead of drawn. Seven are <strong>installation studies</strong>: full-frame WebGL works built in the language of museum and festival pieces — point-cloud scans, a real photogrammetry reconstruction, displacement sheets, particle fluids, pure data, a grid of light, a flock of boids. Five are <strong>instruments</strong>: smaller, knob-driven tools that share one colour engine.</p>
+    <p>Everything on this site that makes images live — nineteen pieces where form, colour and motion are computed every frame instead of drawn. Ten are <strong>installation studies</strong>: full-frame WebGL works built in the language of museum and festival pieces — point-cloud scans, a real photogrammetry reconstruction, displacement sheets, particle fluids, pure data, a grid of light, a flock of boids, lasers in haze, a scan that erodes, a ring of light. Nine are <strong>instruments</strong>: playable pieces, from knob-driven colour tools to feedback chains, contour fields, hidden-data strata and beams in water, most with sound.</p>
   </div>
 </section>
 
@@ -182,10 +183,73 @@ footer a:hover{color:var(--ink);}
       </div>
     </a>
 
+    <a class="card" href="/visual-synths/cone">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/cone.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Cone</h3><span class="tag">3D · Light</span></div>
+        <p>Laser beams on rotating mounts sweep cones, cylinders and fans through a hazy black room. Red light, one white key beam, grain, and slow phases from calm to intense.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/erosion">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/erosion.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Erosion</h3><span class="tag">3D · Scan</span></div>
+        <p>The real city-block scan as 225,000 points, kept with its flaws, falling apart along a release front, pooling like liquid at the ground and rebuilding.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/ring">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/ring.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Ring</h3><span class="tag">2D · Light</span></div>
+        <p>One laser circle drawn over and over in haze, leaving a fading trace on a photosensitive wall. Low sound holds it together, high sound breaks it apart.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
   </div>
 
-  <h2 class="group">Instruments <span>Canvas &amp; WebGL · shared knob + palette kit</span></h2>
+  <h2 class="group">Instruments <span>Canvas &amp; WebGL · playable, most with sound</span></h2>
   <div class="cards">
+
+    <a class="card" href="/visual-synths/threshold">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/threshold.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Threshold</h3><span class="tag">Field · Sound</span></div>
+        <p>Contour bands of a moving field in black, grey and red. Paint pressure, trigger accumulate, saturate and release, and play a drone shaped by the same numbers.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/chain">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/chain.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Chain</h3><span class="tag">Feedback · Passes</span></div>
+        <p>Build a video-feedback effect from passes you can see and reorder: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/sensor">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/sensor.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Sensor</h3><span class="tag">Lines · Sound</span></div>
+        <p>Forty-eight strata of fine lines bent by a stream you do not see: a tide model, a machine log, your typing or your hand. Hover to reveal it.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/upside-down">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/upside-down.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Upside Down</h3><span class="tag">Light · Water · Sound</span></div>
+        <p>Beams fall onto water and continue below it, refracted and mirrored by a surface you ripple with your hand. Each beam is a voice.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
 
     <a class="card" href="/visual-synths/palette-synth">
       <div class="card-art"><svg viewBox="0 0 100 64" preserveAspectRatio="none"><defs><linearGradient id="gPalette" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#D6483F"/><stop offset="0.5" stop-color="#3F9457"/><stop offset="1" stop-color="#3D6FD1"/></linearGradient></defs><rect x="0" y="0" width="100" height="64" fill="url(#gPalette)"/></svg></div>
@@ -238,7 +302,7 @@ footer a:hover{color:var(--ink);}
 <section class="about wrap">
   <h2>How the family fits together</h2>
   <p>Every piece is a fully self-contained single <code>.html</code> file. The five instruments share two things instead of rebuilding them: the knob/range-slider control and Palette Synth's cosine-gradient colour formula <code>a + b·cos(2π(c·t + d))</code>, both in <code>/assets/visual-synth-kit.js</code>. The installation studies don't load the kit, but reuse the same formula inside their shaders — Latent Flow colours up to a million particles with it; Point Cloud Scan uses it for depth and thermal colour.</p>
-  <p>The studies are in conversation with the scan-, data- and light-based installation work of <a href="https://www.ryoichikurokawa.com" target="_blank" rel="noopener">Ryoichi Kurokawa</a>, <a href="https://refikanadol.com" target="_blank" rel="noopener">Refik Anadol</a>, <a href="https://www.ryojiikeda.com" target="_blank" rel="noopener">Ryoji Ikeda</a>, <a href="https://www.nonotak.com" target="_blank" rel="noopener">NONOTAK</a>, <a href="https://ouchhh.tv/" target="_blank" rel="noopener">Ouchhh</a> and <a href="https://www.fuseworks.it" target="_blank" rel="noopener">fuse*</a>. They study a visual language; they are not recreations of specific works and are not affiliated with any of those artists. Each study's page explains its maths, its lineage and its limits.</p>
+  <p>The studies work in the visual languages of scan-, data- and light-based installation art: point clouds, data landscapes, beams in haze, grids of light, feedback and flocks. They study a language; none recreates a specific work. Each study's page explains its maths, its lineage and its limits.</p>
   <p>Retired: Audio-Reactive Diffusion (unreliable on many GPUs) now lives in the <a href="/archive.html">archive</a>.</p>
 </section>
 

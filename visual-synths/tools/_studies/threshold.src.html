@@ -1,0 +1,241 @@
+{"title": "Threshold", "desc": "A field of grain with moving contour bands: paint pressure with the pointer, trigger accumulate, saturate and release events, and hear a drone shaped by the same numbers. Black, grey and red. WebGL 2 instrument."}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Threshold</h1>
+    <p>An invisible field rises and falls under the screen. You only see where it crosses a level: thin bright bands, like the contour lines of weather. Press and drag to pile pressure into the field and watch the bands bend around your hand. Trigger events to accumulate, saturate and release. Where the field saturates, it turns red. Turn on Sound and the drone follows the same numbers: pitch from the threshold, brightness from the pressure, a burst of noise on every saturation.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="cross" aria-label="Contour bands of a moving field in black, grey and red. Press and drag to add pressure to the field."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Events</span>
+      <div class="row">
+        <button class="btn" id="evAcc">Accumulate</button>
+        <button class="btn" id="evSat">Saturate</button>
+        <button class="btn" id="evRel">Release</button>
+        <button class="btn" id="evClear">Clear</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="weather" aria-pressed="true">Weather</button>
+        <button class="btn" id="sound">Sound</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="level">Threshold <output for="level"></output></label>
+      <input id="level" type="range" min="0.3" max="0.7" step="0.005">
+      <label for="bands">Bands <output for="bands"></output></label>
+      <input id="bands" type="range" min="1" max="6" step="1">
+      <label for="bw">Band width <output for="bw"></output></label>
+      <input id="bw" type="range" min="0.5" max="6" step="0.1">
+    </div>
+    <div class="ctl">
+      <label for="scale">Scale <output for="scale"></output></label>
+      <input id="scale" type="range" min="1" max="8" step="0.1">
+      <label for="flow">Flow <output for="flow"></output></label>
+      <input id="flow" type="range" min="0" max="0.4" step="0.005">
+      <label for="decay">Pressure decay <output for="decay"></output></label>
+      <input id="decay" type="range" min="0.05" max="2" step="0.05">
+    </div>
+    <div class="ctl">
+      <label for="red">Red <output for="red"></output></label>
+      <input id="red" type="range" min="0" max="1" step="0.01">
+      <label for="grain">Grain <output for="grain"></output></label>
+      <input id="grain" type="range" min="0" max="0.3" step="0.005">
+      <span class="lab">Palette</span>
+      <div class="seg" id="pal">
+        <button data-v="0">Black</button>
+        <button data-v="1">Inverted</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Press and drag on the stage to add pressure · keys A accumulate, S saturate, R release, C clear · Sound starts only when you press it.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A field and a level.</strong> The body of the image is fractal noise (five octaves of value noise) drifting slowly, plus a pressure map you paint. Nothing of the field itself is drawn. A pixel lights up only where the field crosses the threshold or of one of the levels stacked above and below it, so you see contour lines, the way a weather map shows pressure. Each band is measured in screen pixels (the distance to the level divided by how fast the field changes across one pixel), so a band keeps the <strong>Band width</strong> you set wherever the field is steep or flat.</p>
+  <p><strong>Pressure.</strong> Pressing paints a soft Gaussian into a half-resolution buffer that is read back every frame and multiplied by a decay factor, <code>p ← p·e^(−k·dt) + brush</code>. The bands bend around what you paint and relax as it fades. <strong>Accumulate</strong> lifts the whole field for a few seconds, <strong>Release</strong> drains the pressure map faster, and <strong>Saturate</strong> pushes a second, finer noise field over its own threshold so the hottest cells turn red, then lets it fall back.</p>
+  <p><strong>Weather.</strong> With Weather on, the threshold drifts on two slow, unrelated sine cycles, so bands appear, merge and vanish without repeating for a long time. The grain is renewed every frame and is stronger where the image is bright, like film. <strong>Sound</strong> is three detuned sawtooth oscillators through a low-pass filter: the threshold sets the pitch, total pressure opens the filter, and every Saturate fires a band of noise. There are no samples.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of threshold systems: rules, levels and saturation instead of drawn forms, a palette of black, grey and red, grain as surface, and sound made from the same events as the image. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The field is noise, not a physical model: pressure doesn't flow or conserve, it only adds and fades.</li>
+    <li>Saturate brightens red cells over about a second and fades them over three; it can't be triggered faster than three times a second, so nothing flashes.</li>
+    <li>On very large screens the pressure buffer is at half resolution, so painted edges are slightly soft.</li>
+  </ul>
+</section>
+
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {level:0.5, bands:3, bw:1.4, scale:3, flow:0.08, decay:0.5, red:0.6, grain:0.09, pal:0, weather:true};
+
+const BRUSH = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uPrev; uniform vec2 uBrush; uniform float uDown, uDecay, uAspect, uDrain;
+void main(){
+  float p = texture(uPrev, vUv).r*uDecay*uDrain;
+  vec2 d = (vUv - uBrush)*vec2(uAspect, 1.0);
+  p += uDown*exp(-dot(d, d)/0.006)*0.09;
+  o = vec4(min(p, 1.5), 0.0, 0.0, 1.0);
+}`;
+const SHOW = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uPress; uniform vec2 uRes;
+uniform float uTime, uLevel, uBands, uBw, uScale, uFlow, uRed, uSat, uAcc, uGrain, uPal;
+${GL.NOISE}
+float fbm2(vec2 p, float z){ float s = 0.0, a = 0.5; for(int i = 0; i < 5; i++){ s += a*vnoise(vec3(p, z)); p = p*2.03 + vec2(1.7, 9.2); a *= 0.5; } return s; }
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  float f = fbm2(p*uScale + vec2(0.0, uTime*uFlow), uTime*uFlow*0.5) + texture(uPress, vUv).r*0.5 + uAcc*0.12;
+  // a little of the field's own gradient sets how wide a pixel is in field units, so bands keep one width
+  float fw = fwidth(f);
+  float v = 0.0;
+  for(int k = 0; k < 6; k++){
+    if(float(k) >= uBands) break;
+    float lv = uLevel + (float(k) - floor(uBands*0.5))*0.045;
+    float dpx = abs(f - lv)/max(fw, 1e-5);                     // distance to the level in pixels
+    v += (1.0 - smoothstep(uBw*0.5, uBw*0.5 + 1.0, dpx))*(k == int(floor(uBands*0.5)) ? 1.0 : 0.5);
+  }
+  float g = fbm2(p*uScale*2.3 - vec2(uTime*uFlow*0.7, 0.0) + 3.1, 4.0 + uTime*0.02);
+  float hot = smoothstep(1.0 - 0.35*uRed - 0.25*uSat, 1.02 - 0.35*uRed - 0.25*uSat, g + (f - uLevel)*0.6) * (0.25 + 0.75*uSat) * step(0.001, uRed);
+  float gv = min(v, 1.0)*0.88 + 0.04*smoothstep(uLevel - 0.12, uLevel, f);
+  float n = fract(sin(dot(floor(gl_FragCoord.xy*0.8) + fract(uTime*24.0)*vec2(71.3, 19.7), vec2(12.9898, 78.233)))*43758.5453) - 0.5;
+  gv = clamp(gv + n*uGrain*(0.3 + gv + 0.2*f), 0.0, 1.0);
+  vec3 c = mix(vec3(gv), vec3(0.94, 0.93, 0.9)*(1.0 - gv), uPal);
+  c = mix(c, vec3(0.82, 0.07, 0.05), clamp(hot, 0.0, 1.0)*0.9);
+  o = vec4(c, 1.0);
+}`;
+
+let brush, show;
+try { brush = GL.program(gl, GLX.VS, BRUSH); show = GL.program(gl, GLX.VS, SHOW); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+let press = null;
+
+/* ---------------- controls ---------------- */
+const levelEl = GL.slider('level', P, 'level', v => v.toFixed(3));
+GL.slider('bands', P, 'bands', v => v.toFixed(0));
+GL.slider('bw', P, 'bw', v => v.toFixed(1) + ' px');
+['scale','flow','decay','red'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('grain', P, 'grain', v => v.toFixed(3));
+GL.seg('pal', P.pal, v => P.pal = +v);
+GL.fullscreen('fs', stage);
+const wBtn = document.getElementById('weather');
+wBtn.addEventListener('click', () => { P.weather = !P.weather; wBtn.setAttribute('aria-pressed', String(P.weather)); });
+levelEl.addEventListener('input', () => { P.weather = false; wBtn.setAttribute('aria-pressed', 'false'); });
+
+/* events: each one is an envelope; Saturate is rate-limited so nothing can flash */
+const ev = {acc:0, sat:0, drain:0, satCount:0};
+const canSat = GLX.flashGuard();
+function accumulate(){ ev.acc = Math.min(2, ev.acc + 1); }
+function saturate(now){ if(!canSat(now)) return; ev.satT = 1; ev.satCount++; if(noise) burst(); }
+function release(){ ev.drain = 1.5; }
+function clear(){ if(press){ for(const t of [press.a, press.b]){ gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); } ev.acc = 0; pressure = 0; }
+ev.satT = 0;
+document.getElementById('evAcc').addEventListener('click', accumulate);
+document.getElementById('evSat').addEventListener('click', () => saturate(performance.now()));
+document.getElementById('evRel').addEventListener('click', release);
+document.getElementById('evClear').addEventListener('click', clear);
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select')) return;
+  const k = e.key.toLowerCase();
+  if(k === 'a') accumulate(); else if(k === 's') saturate(performance.now()); else if(k === 'r') release(); else if(k === 'c') clear();
+});
+
+/* pointer paints pressure */
+const ptr = {x:0.5, y:0.5, down:false};
+const at = e => { const r = cv.getBoundingClientRect(); ptr.x = (e.clientX - r.left)/r.width; ptr.y = 1 - (e.clientY - r.top)/r.height; };
+cv.addEventListener('pointerdown', e => { ptr.down = true; at(e); try { cv.setPointerCapture(e.pointerId); } catch(_){} });
+cv.addEventListener('pointermove', at);
+cv.addEventListener('pointerup', () => ptr.down = false);
+cv.addEventListener('pointercancel', () => ptr.down = false);
+
+/* ---------------- sound: three detuned saws, a filter, a noise band for saturation ---------------- */
+let drone = null, noise = null, pressure = 0;
+const soundOn = GLX.soundButton('sound', A => {
+  const ac = A.ac, lp = ac.createBiquadFilter(), g = ac.createGain();
+  lp.type = 'lowpass'; lp.frequency.value = 300; lp.Q.value = 4; g.gain.value = 0.12; lp.connect(g); g.connect(A.master);
+  const oscs = [0, 7, -12].map((c, i) => { const o = ac.createOscillator(); o.type = 'sawtooth'; o.detune.value = c*100 + (i - 1)*6; o.frequency.value = 55; o.connect(lp); o.start(); return o; });
+  drone = {oscs, lp};
+  const len = ac.sampleRate*1.5, buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < len; i++) d[i] = (Math.random()*2 - 1)*Math.pow(1 - i/len, 2);
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 1.2;
+  const ng = ac.createGain(); ng.gain.value = 0.25; bp.connect(ng); ng.connect(A.master);
+  noise = {buf, bp};
+});
+function burst(){ if(!soundOn() || !noise) return; const ac = GLX._ac.ac, s = ac.createBufferSource(); s.buffer = noise.buf; s.connect(noise.bp); s.start(); }
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, pw = 0, ph = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  t += dt*sp;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height, w2 = Math.max(64, W >> 1), h2 = Math.max(64, H >> 1);
+  if(!press || pw !== w2 || ph !== h2){ if(press) press.free(); press = GLX.pingpong(gl, w2, h2); pw = w2; ph = h2; }
+
+  if(P.weather){
+    P.level = 0.5 + 0.075*Math.sin(t*0.13) + 0.035*Math.sin(t*0.051 + 2);
+    levelEl.value = P.level; document.querySelector('output[for="level"]').textContent = P.level.toFixed(3);
+  }
+  ev.acc = Math.max(0, ev.acc - dt*0.35);
+  ev.drain = Math.max(0, ev.drain - dt*0.8);
+  ev.satT = Math.max(0, ev.satT - dt*0.33);
+  const satEnv = Math.min(1, ev.satT*3)*Math.min(1, ev.satT*1.2 + 0.0001);
+  pressure = pressure*Math.exp(-P.decay*dt)*(1 - ev.drain*dt*2) + (ptr.down ? dt*0.6 : 0);
+
+  // pressure pass
+  gl.useProgram(brush.p);
+  gl.uniform2f(brush.u.uBrush, ptr.x, ptr.y); gl.uniform1f(brush.u.uDown, ptr.down ? 1 : 0);
+  gl.uniform1f(brush.u.uDecay, Math.exp(-P.decay*dt)); gl.uniform1f(brush.u.uDrain, Math.max(0, 1 - ev.drain*dt*3)); gl.uniform1f(brush.u.uAspect, W/H);
+  GLX.pass(gl, vao, brush, press.b, w2, h2, {uPrev: press.a.tex}); press.swap();
+
+  gl.useProgram(show.p);
+  const U = show.u;
+  gl.uniform2f(U.uRes, W, H); gl.uniform1f(U.uTime, t); gl.uniform1f(U.uLevel, P.level); gl.uniform1f(U.uBands, P.bands);
+  gl.uniform1f(U.uBw, P.bw*cv.width/Math.max(1, cv.getBoundingClientRect().width)); gl.uniform1f(U.uScale, P.scale); gl.uniform1f(U.uFlow, P.flow); gl.uniform1f(U.uRed, P.red);
+  gl.uniform1f(U.uSat, satEnv); gl.uniform1f(U.uAcc, ev.acc); gl.uniform1f(U.uGrain, P.grain); gl.uniform1f(U.uPal, P.pal);
+  GLX.pass(gl, vao, show, null, W, H, {uPress: press.a.tex});
+
+  if(drone && soundOn()){
+    const ac = GLX._ac.ac, f = 55*Math.pow(2, (P.level - 0.5)*8 + ev.acc*0.25);
+    drone.oscs.forEach(o => o.frequency.setTargetAtTime(f, ac.currentTime, 0.15));
+    drone.lp.frequency.setTargetAtTime(220 + 2400*Math.min(1, pressure*0.6 + ev.acc*0.3 + satEnv*0.5), ac.currentTime, 0.1);
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'THRESHOLD ' + P.level.toFixed(3) + (P.weather ? '\nWEATHER' : '\nHELD');
+    hud.tr.textContent = 'PRESSURE ' + Math.min(9.99, pressure).toFixed(2) + '\nSATURATIONS ' + ev.satCount;
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, ev, ptr, accumulate, saturate});
+})();
+</script>

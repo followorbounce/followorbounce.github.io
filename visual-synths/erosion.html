@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Erosion — Video Synths</title>
+<meta name="description" content="A real photogrammetry scan of a city block as 225,000 points, kept with its flaws, slowly falling apart: release fronts move through it, points drop, pool like liquid at the ground, and the block rebuilds. WebGL 2 study.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/erosion">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Erosion — Video Synths">
+<meta property="og:description" content="A real photogrammetry scan of a city block as 225,000 points, kept with its flaws, slowly falling apart: release fronts move through it, points drop, pool like liquid at the ground, and the block rebuilds. WebGL 2 study.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/erosion">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from erosion.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 09</div>
+    <h1>Erosion</h1>
+    <p>A city block as it came out of a photogrammetry solve: 225,000 coloured points, with the holes, smears and floating specks that every scan has. Those flaws are kept. Then the block comes apart. A release front moves through it, points let go and fall, and they settle at the ground as a spreading pool, as if the stone had turned liquid. After a pause it all flies back up and the block stands again. Drag to walk around it.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="drag" aria-label="A point-cloud scan of a city block falling apart into a pool of points and rebuilding. Drag to orbit, scroll or pinch to zoom."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Release</span>
+      <div class="seg" id="pattern">
+        <button data-v="0">Front</button>
+        <button data-v="1">From the top</button>
+        <button data-v="2">Random</button>
+        <button data-v="3">Signal</button>
+      </div>
+      <span class="lab">Cycle</span>
+      <div class="seg" id="mode">
+        <button data-v="auto">Auto</button>
+        <button data-v="erode">Erode</button>
+        <button data-v="rebuild">Rebuild</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="speed">Erosion speed <output for="speed"></output></label>
+      <input id="speed" type="range" min="0.2" max="3" step="0.05">
+      <label for="visc">Flow at the ground <output for="visc"></output></label>
+      <input id="visc" type="range" min="0" max="2" step="0.01">
+      <label for="grav">Gravity <output for="grav"></output></label>
+      <input id="grav" type="range" min="0.3" max="3" step="0.05">
+    </div>
+    <div class="ctl">
+      <span class="lab">Colour</span>
+      <div class="seg" id="colour">
+        <button data-v="0">As scanned</button>
+        <button data-v="1">White</button>
+        <button data-v="2">Ember</button>
+      </div>
+      <label for="size">Point size <output for="size"></output></label>
+      <input id="size" type="range" min="0.5" max="3" step="0.05">
+      <label for="frac">Points shown <output for="frac"></output></label>
+      <input id="frac" type="range" min="0.1" max="1" step="0.01">
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Drag to walk around · scroll or pinch to zoom · the camera drifts on its own after a few seconds · keys 1–4 pick the release pattern, E erodes, B rebuilds.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>Every point knows when it lets go.</strong> Each point gets a release time between 0 and 1. <strong>Front</strong> sweeps across the block along a direction that turns a little every cycle. <strong>From the top</strong> releases the highest points first. <strong>Random</strong> lets go anywhere. <strong>Signal</strong> shapes the front with a hidden sum of slow waves, so the block erodes in bays and headlands you never see the cause of. A little noise is added to every release time so no front is perfectly straight.</p>
+  <p><strong>Falling and pooling.</strong> Once released, a point falls under gravity, <code>y = y₀ − ½·g·τ²</code>, and keeps its colour. When it reaches the ground it doesn't stop dead: it slides outward from the block, further the higher it fell, as <strong>Flow at the ground</strong> allows, and settles into a thin layer. That makes a pool instead of a pile. Rebuilding plays the same motion backwards. All of this is worked out in the vertex shader from the time alone, so 225,000 points cost no more than drawing them.</p>
+  <p><strong>The scan.</strong> The block is the same reconstruction used in the Photogrammetry Scan study: points from a Structure-from-Motion solve (AliceVision/Meshroom), stored as 16-bit positions and 8-bit colours in a 2 MB file. "Up" is the average up direction of the 251 solved cameras; the ground is set just below the lowest two percent of points. Nothing is cleaned: smears along the camera paths and stray points in the air fall with everything else.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of scan-based work that treats a survey as material rather than as a record: imperfect captures kept as they are, and a process (erosion, melting) acting on them. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>There is no collision between points: the pool is a rule (slide outward, settle low), not a fluid simulation.</li>
+    <li>The scan's source is unknown. It is a sample reconstruction whose file names suggest rendered aerial footage, so it is not presented as a survey of a real, named place.</li>
+    <li>On phones half of the points are shown by default; raise Points shown if your device keeps up.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const small = Math.min(screen.width, screen.height) < 700;
+const P = {pattern:0, mode:'auto', speed:1, visc:1, grav:1, colour:0, size:1.3, frac: small ? 0.5 : 1};
+const PATTERNS = ['FRONT', 'FROM THE TOP', 'RANDOM', 'SIGNAL'];
+
+const VS = `#version 300 es
+precision highp float;
+layout(location=0) in vec3 aPos; layout(location=1) in vec3 aCol;
+uniform mat4 uVP; uniform vec3 uEye;
+uniform float uProg, uSpeedG, uVisc, uSize, uFocal, uDpr, uPattern, uSweep, uGround, uTop, uColour, uSeed;
+uniform vec2 uCenter;
+out vec3 vCol; out float vFall;
+float h(float n){ return fract(sin(n*12.9898 + uSeed)*43758.5453); }
+void main(){
+  float id = float(gl_VertexID), r0 = h(id*0.0137), r1 = h(id*0.0291 + 3.1), r2 = h(id*0.0071 + 7.7);
+  vec3 p = aPos;
+  float hn = clamp((p.y - uGround)/max(uTop - uGround, 1e-3), 0.0, 1.0);
+  vec2 dir = vec2(cos(uSweep), sin(uSweep));
+  float along = dot(p.xz - uCenter, dir)*0.32 + 0.5;
+  float rel;
+  if(uPattern < 0.5) rel = along;
+  else if(uPattern < 1.5) rel = 1.0 - hn;
+  else if(uPattern < 2.5) rel = r0;
+  else rel = 0.5 + 0.22*sin(p.x*1.7 + uSweep) + 0.16*sin(p.z*2.9 - uSweep*2.0) + 0.1*sin((p.x + p.z)*5.0);
+  rel = clamp(rel*0.82 + r0*0.18, 0.0, 1.0);
+  // seconds since this point let go
+  float tau = (uProg*1.25 - rel)*6.0;
+  float fall = 0.0;
+  if(tau > 0.0){
+    float H = p.y - uGround, g = 1.6*uSpeedG;
+    float tl = sqrt(2.0*H/g);
+    if(tau < tl){ p.y -= 0.5*g*tau*tau; fall = tau/tl*0.6; }
+    else {
+      float s = 1.0 - exp(-(tau - tl)*1.4);
+      vec2 out2 = p.xz - uCenter; float ol = length(out2); out2 = ol > 1e-4 ? out2/ol : vec2(1.0, 0.0);
+      out2 = normalize(out2*0.7 + (vec2(r1, r2) - 0.5)*2.2);
+      p.xz += out2*s*(0.08 + H*0.55)*(0.35 + r2)*uVisc;
+      p.y = uGround + 0.004 + r1*0.02*(1.0 - s*0.7);
+      fall = 0.6 + 0.4*s;
+    }
+  }
+  vFall = fall;
+  vCol = uColour < 0.5 ? aCol : uColour < 1.5 ? vec3(0.92) : mix(vec3(1.0, 0.55, 0.25), vec3(0.55, 0.08, 0.04), fall);
+  vec4 c = uVP*vec4(p, 1.0);
+  gl_Position = c;
+  gl_PointSize = clamp(uSize*uDpr*uFocal/max(c.w, 0.1), 1.0, 6.0*uDpr);
+}`;
+const FS = `#version 300 es
+precision highp float;
+in vec3 vCol; in float vFall; out vec4 o;
+void main(){
+  vec2 d = gl_PointCoord - 0.5; if(dot(d, d) > 0.25) discard;
+  o = vec4(vCol*(0.85 + 0.25*vFall), 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+
+/* ---------------- controls ---------------- */
+const setPattern = GL.seg('pattern', P.pattern, v => { P.pattern = +v; });
+const setMode = GL.seg('mode', P.mode, v => { P.mode = v; });
+['speed','visc','grav','size'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('frac', P, 'frac', v => Math.round(v*100) + '%');
+GL.seg('colour', P.colour, v => P.colour = +v);
+GL.fullscreen('fs', stage);
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select')) return;
+  if(e.key >= '1' && e.key <= '4'){ P.pattern = +e.key - 1; setPattern(P.pattern); }
+  if(e.key === 'e' || e.key === 'E'){ P.mode = 'erode'; setMode('erode'); }
+  if(e.key === 'b' || e.key === 'B'){ P.mode = 'rebuild'; setMode('rebuild'); }
+});
+const cam = {yaw:0.7, pitch:0.32, dist:2.9, minDist:1.2, maxDist:9, touched:-1e9};
+GL.orbit(cv, cam);
+
+/* ---------------- the scan (SFM1, same file as Photogrammetry Scan) ---------------- */
+let N = 0, vao = null, ground = 0, top = 1;
+function sfm(buf){
+  const dv = new DataView(buf);
+  const n = dv.getUint32(4, true), m = dv.getUint32(8, true), f = i => dv.getFloat32(12 + i*4, true);
+  const bmin = [f(2), f(3), f(4)], bmax = [f(5), f(6), f(7)];
+  const q = new Int16Array(buf, 44, n*3), cOff = 44 + Math.ceil(n*6/4)*4, camOff = cOff + Math.ceil(n*3/4)*4;
+  const pos = new Float32Array(n*3);
+  for(let i = 0; i < n*3; i++){ const k = i % 3; pos[i] = bmin[k] + (q[i] + 32768)/65535*(bmax[k] - bmin[k]); }
+  const col = new Uint8Array(buf.slice(cOff, cOff + n*3)), c = new Float32Array(buf, camOff, m*9);
+  const up = [0, 0, 0]; for(let j = 0; j < m; j++){ up[0] += c[j*9+6]; up[1] += c[j*9+7]; up[2] += c[j*9+8]; }
+  return {n, pos, col, up};
+}
+function prepare(s){
+  // rotate so the cameras' mean up is +y, centre on the footprint, scale to about 3 units across
+  let u = s.up, l = Math.hypot(...u) || 1; u = u.map(x => x/l);
+  let a = Math.abs(u[0]) < 0.9 ? [1, 0, 0] : [0, 0, 1];
+  let x = [a[1]*u[2]-a[2]*u[1], a[2]*u[0]-a[0]*u[2], a[0]*u[1]-a[1]*u[0]]; l = Math.hypot(...x); x = x.map(v => v/l);
+  const z = [x[1]*u[2]-x[2]*u[1], x[2]*u[0]-x[0]*u[2], x[0]*u[1]-x[1]*u[0]];
+  const n = s.n, p = new Float32Array(n*3), ys = new Float32Array(n);
+  let mx = 0, mz = 0;
+  for(let i = 0; i < n; i++){
+    const X = s.pos[i*3], Y = s.pos[i*3+1], Z = s.pos[i*3+2];
+    p[i*3] = X*x[0] + Y*x[1] + Z*x[2]; p[i*3+1] = X*u[0] + Y*u[1] + Z*u[2]; p[i*3+2] = X*z[0] + Y*z[1] + Z*z[2];
+    ys[i] = p[i*3+1]; mx += p[i*3]; mz += p[i*3+2];
+  }
+  mx /= n; mz /= n;
+  const sorted = Float32Array.from(ys).sort();
+  const g = sorted[Math.floor(n*0.02)], tp = sorted[Math.floor(n*0.995)];
+  let ext = 0; for(let i = 0; i < n; i++) ext = Math.max(ext, Math.abs(p[i*3] - mx), Math.abs(p[i*3+2] - mz));
+  const k = 1.6/Math.max(ext*0.8, 1e-3);
+  for(let i = 0; i < n; i++){ p[i*3] = (p[i*3] - mx)*k; p[i*3+1] = (p[i*3+1] - g)*k; p[i*3+2] = (p[i*3+2] - mz)*k; }
+  ground = -0.002; top = (tp - g)*k;
+  // shuffle order so "Points shown" thins evenly
+  const idx = new Uint32Array(n); for(let i = 0; i < n; i++) idx[i] = i;
+  for(let i = n - 1; i > 0; i--){ const j = Math.floor(Math.random()*(i + 1)); const t = idx[i]; idx[i] = idx[j]; idx[j] = t; }
+  const P2 = new Float32Array(n*3), C2 = new Uint8Array(n*3);
+  for(let i = 0; i < n; i++){ const j = idx[i]; P2.set(p.subarray(j*3, j*3 + 3), i*3); C2.set(s.col.subarray(j*3, j*3 + 3), i*3); }
+  vao = gl.createVertexArray(); gl.bindVertexArray(vao);
+  const pb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, pb); gl.bufferData(gl.ARRAY_BUFFER, P2, gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0);
+  const cb = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, cb); gl.bufferData(gl.ARRAY_BUFFER, C2, gl.STATIC_DRAW);
+  gl.enableVertexAttribArray(1); gl.vertexAttribPointer(1, 3, gl.UNSIGNED_BYTE, true, 0, 0);
+  gl.bindVertexArray(null);
+  N = n;
+}
+hud.tl.textContent = 'LOADING SCAN…';
+fetch('data/city-scan.bin').then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+  .then(buf => prepare(sfm(buf)))
+  .catch(e => fail('The scan could not be loaded (' + e.message + '). Reload the page to try again.'));
+
+/* ---------------- cycle: hold → erode → rest → rebuild ---------------- */
+const cyc = {phase:'hold', t:0, prog:0, sweep:0.4, seed:0};
+function stepCycle(dt){
+  const e = 1/(14/P.speed);
+  if(P.mode === 'erode'){ cyc.phase = 'erode'; cyc.prog = Math.min(1, cyc.prog + dt*e); return; }
+  if(P.mode === 'rebuild'){ cyc.phase = 'rebuild'; cyc.prog = Math.max(0, cyc.prog - dt*e*1.6); return; }
+  cyc.t += dt;
+  if(cyc.phase === 'hold' && cyc.t > 5){ cyc.phase = 'erode'; cyc.t = 0; }
+  else if(cyc.phase === 'erode'){ cyc.prog = Math.min(1, cyc.prog + dt*e); if(cyc.prog >= 1){ cyc.phase = 'rest'; cyc.t = 0; } }
+  else if(cyc.phase === 'rest' && cyc.t > 4){ cyc.phase = 'rebuild'; cyc.t = 0; }
+  else if(cyc.phase === 'rebuild'){ cyc.prog = Math.max(0, cyc.prog - dt*e*1.6); if(cyc.prog <= 0){ cyc.phase = 'hold'; cyc.t = 0; cyc.sweep += 1.3; cyc.seed = Math.random()*100; } }
+}
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, fps = 60, hudAt = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  t += dt*sp;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 2);
+  const W = cv.width, H = cv.height, dpr = W/Math.max(1, cv.getBoundingClientRect().width);
+  gl.viewport(0, 0, W, H); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+  if(!vao) return;
+  stepCycle(dt*sp);
+  if(now - cam.touched > 4000 && !GL.reducedMotion) cam.yaw += dt*0.04;
+  const tgt = [0, top*0.3, 0], cp = Math.cos(cam.pitch);
+  const eye = [tgt[0] + cam.dist*cp*Math.sin(cam.yaw), tgt[1] + cam.dist*Math.sin(cam.pitch), tgt[2] + cam.dist*cp*Math.cos(cam.yaw)];
+  const fov = 0.8, VP = GL.mul(GL.persp(fov, W/H, 0.02, 60), GL.lookAt(eye, tgt));
+  gl.enable(gl.DEPTH_TEST);
+  gl.useProgram(prog.p); const U = prog.u;
+  gl.uniformMatrix4fv(U.uVP, false, VP); gl.uniform3fv(U.uEye, eye);
+  gl.uniform1f(U.uProg, cyc.prog); gl.uniform1f(U.uSpeedG, P.grav); gl.uniform1f(U.uVisc, P.visc);
+  gl.uniform1f(U.uSize, P.size); gl.uniform1f(U.uFocal, H/(2*Math.tan(fov/2))*0.004); gl.uniform1f(U.uDpr, dpr);
+  gl.uniform1f(U.uPattern, P.pattern); gl.uniform1f(U.uSweep, cyc.sweep); gl.uniform1f(U.uGround, ground); gl.uniform1f(U.uTop, top);
+  gl.uniform1f(U.uColour, P.colour); gl.uniform1f(U.uSeed, cyc.seed); gl.uniform2f(U.uCenter, 0, 0);
+  gl.bindVertexArray(vao);
+  gl.drawArrays(gl.POINTS, 0, Math.max(1, Math.floor(N*P.frac)));
+  gl.bindVertexArray(null);
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'EROSION · ' + PATTERNS[P.pattern] + '\n' + cyc.phase.toUpperCase() + ' ' + Math.round(cyc.prog*100) + '%';
+    hud.tr.textContent = Math.floor(N*P.frac).toLocaleString('en') + ' POINTS\nCITY BLOCK · SfM';
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, cyc});
+})();
+</script>
+</body>
+</html>

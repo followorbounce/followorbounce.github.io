@@ -1,0 +1,270 @@
+{"title": "Upside Down", "desc": "A fan of light beams falls onto a water surface and continues below it: refracted into the water and mirrored by a surface you can ripple with your hand. Each beam is a voice, detuned by the waves. WebGL 2 instrument."}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Upside Down</h1>
+    <p>Beams of light come down from above and meet water. At the surface each one splits: part of it bends into the water and fades with depth, and part of it bounces back as a reflection. The reflection is a mirror that trembles: touch the water and rings spread across it, bending every reflected beam. Turn on Sound and each beam becomes a voice, detuned by the waves at the point where it meets the water.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="cross" aria-label="Light beams falling onto a water surface, continuing below and reflected in rippling water. Press on the water to make ripples."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <label for="beams">Beams <output for="beams"></output></label>
+      <input id="beams" type="range" min="1" max="9" step="1">
+      <label for="spread">Spread <output for="spread"></output></label>
+      <input id="spread" type="range" min="0.1" max="1.6" step="0.01">
+      <label for="sway">Sway <output for="sway"></output></label>
+      <input id="sway" type="range" min="0" max="1" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="level">Water level <output for="level"></output></label>
+      <input id="level" type="range" min="0.25" max="0.65" step="0.005">
+      <label for="clarity">Clarity <output for="clarity"></output></label>
+      <input id="clarity" type="range" min="0" max="1" step="0.01">
+      <label for="drop">Ripple size <output for="drop"></output></label>
+      <input id="drop" type="range" min="0.2" max="2" step="0.01">
+    </div>
+    <div class="ctl">
+      <span class="lab">Light</span>
+      <div class="seg" id="colour">
+        <button data-v="0">Ice</button>
+        <button data-v="1">Green</button>
+        <button data-v="2">Red</button>
+        <button data-v="3">White</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="rain" aria-pressed="false">Rain</button>
+        <button class="btn" id="calm">Calm the water</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="sound">Sound</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+      <p class="hint">Sound: one sine voice per beam on a pentatonic scale; the waves at each beam's landing point bend its pitch.</p>
+    </div>
+  </div>
+  <p class="hint">Press or drag on the stage to drop ripples · lower on the stage is nearer to you on the water · Rain drops ripples on its own · Sound starts only when you press it.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>The water.</strong> The surface is a 256 × 128 height field simulated with the discrete wave equation, two textures taking turns: <code>h′ = (sum of the four neighbours)/2 − h_prev</code>, times a damping just under one. A drop adds a small Gaussian bump; the equation turns it into rings that spread, reflect at the edges and die away. The field lies on the water plane seen at a low angle: rows just below the waterline are far away and rows at the bottom of the stage are close, so ripples flatten into ellipses towards the horizon.</p>
+  <p><strong>Splitting the light.</strong> Above the water, each beam is a line from its emitter to its landing point, glowing in a little haze. Below, two things happen. The <strong>refracted</strong> beam carries on into the water, bent towards the local surface normal by Snell's law with water's index of 1.33, and fades with depth as <strong>Clarity</strong> allows (Beer–Lambert, <code>e^(−k·d)</code>), shifting towards blue-green. The <strong>reflection</strong> is the scene above, mirrored at the waterline and displaced by the slope of the waves at each point, so every ripple bends every reflected beam at once.</p>
+  <p><strong>Sound.</strong> Each beam is a sine voice on a pentatonic scale, quiet and sustained. The height of the water where a beam lands bends that voice's pitch up or down by up to a semitone, so a ripple passing under the fan plays across the voices in the order it reaches them.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of light and medium: beams made visible by what they pass through, water and reflection multiplying them downwards, and the viewer's touch as the disturbance. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>This is a picture model, not optics: there is one bounce, no caustics on a floor, and the reflection is of the beams only.</li>
+    <li>The wave equation runs at a fixed resolution, so very small ripples on very large screens look soft.</li>
+    <li>The waves need a device that can render to floating-point textures; where it can't, the water stays calm and the mirror still works.</li>
+    <li>No flashing: drops make rings that spread, not bursts of light. Reduced motion slows everything to 30 %.</li>
+  </ul>
+</section>
+
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {beams:6, spread:0.9, sway:0.4, level:0.42, clarity:0.6, drop:1, colour:0, rain:false};
+const COLOURS = [[0.55, 0.85, 1.0], [0.45, 1.0, 0.6], [1.0, 0.2, 0.12], [1, 0.97, 0.92]];
+const MAXB = 9, SW = 256, SH = 128, MAXD = 8;
+
+const WAVE = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uPrev; uniform vec2 uTexel; uniform float uDamp, uN;
+uniform vec4 uDrop[${MAXD}];   // x, z, strength, radius
+void main(){
+  vec2 c = texture(uPrev, vUv).rg;
+  float s = texture(uPrev, vUv + vec2(uTexel.x, 0.0)).r + texture(uPrev, vUv - vec2(uTexel.x, 0.0)).r
+          + texture(uPrev, vUv + vec2(0.0, uTexel.y)).r + texture(uPrev, vUv - vec2(0.0, uTexel.y)).r;
+  float h = (s*0.5 - c.g)*uDamp;
+  for(int i = 0; i < ${MAXD}; i++){
+    if(float(i) >= uN) break;
+    vec4 d = uDrop[i]; vec2 q = (vUv - d.xy)*vec2(2.0, 1.0);
+    h += d.z*exp(-dot(q, q)/(d.w*d.w));
+  }
+  o = vec4(h, c.r, 0.0, 1.0);
+}`;
+const SHOW = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uWater; uniform vec2 uRes, uTexel; uniform float uTime, uWL, uClarity, uN; uniform vec3 uCol;
+uniform vec2 uE[${MAXB}]; uniform vec2 uH[${MAXB}];
+${GL.NOISE}
+float seg(vec2 p, vec2 a, vec2 b, out float t){ vec2 ab = b - a, ap = p - a; t = clamp(dot(ap, ab)/dot(ab, ab), 0.0, 1.0); return length(ap - ab*t); }
+float beams(vec2 p){
+  float v = 0.0, t;
+  for(int i = 0; i < ${MAXB}; i++){
+    if(float(i) >= uN) break;
+    float d = seg(p, uE[i], uH[i], t);
+    v += (exp(-d*uRes.y*0.55)*0.9 + exp(-d*45.0)*0.07)*smoothstep(0.0, 0.08, t);
+  }
+  return v;
+}
+vec2 surfUv(vec2 p){ float z = clamp((uWL - p.y)/(uWL + 0.5), 0.0, 1.0); return vec2(vUv.x, 1.0 - z); }
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  float haze = 0.55 + 0.45*vnoise(vec3(p*3.0, uTime*0.08));
+  vec3 c = vec3(0.0);
+  if(p.y >= uWL){
+    c = uCol*beams(p)*haze;
+  } else {
+    vec2 su = surfUv(p);
+    float hx = texture(uWater, su + vec2(uTexel.x, 0.0)).r - texture(uWater, su - vec2(uTexel.x, 0.0)).r;
+    float hz = texture(uWater, su + vec2(0.0, uTexel.y)).r - texture(uWater, su - vec2(0.0, uTexel.y)).r;
+    float depth = uWL - p.y, persp = 0.3 + depth*1.6;
+    // reflection: the scene above, mirrored and bent by the wave slopes
+    vec2 m = vec2(p.x + hx*0.9*persp, 2.0*uWL - p.y + hz*1.4*persp);
+    float fres = 0.25 + 0.5*exp(-depth*2.5);
+    c += uCol*beams(m)*fres*0.8;
+    // refraction: each beam continues into the water, bent towards the local normal, fading with depth
+    for(int i = 0; i < ${MAXB}; i++){
+      if(float(i) >= uN) break;
+      vec2 Hp = uH[i], d = normalize(Hp - uE[i]);
+      vec2 su2 = vec2((Hp.x/(uRes.x/uRes.y)) + 0.5, 0.82);
+      float tilt = (texture(uWater, su2 + vec2(uTexel.x, 0.0)).r - texture(uWater, su2 - vec2(uTexel.x, 0.0)).r)*3.0;
+      vec2 n = normalize(vec2(-tilt, 1.0));
+      float ci = -dot(n, d), eta = 1.0/1.33, k = 1.0 - eta*eta*(1.0 - ci*ci);
+      vec2 r = eta*d + (eta*ci - sqrt(max(k, 0.0)))*n;
+      float t, dist = seg(p, Hp, Hp + r*1.2, t);
+      float att = exp(-t*1.2*(1.0 + 4.0*(1.0 - uClarity)));
+      c += mix(uCol, vec3(0.2, 0.75, 0.7), 0.35)*(exp(-dist*uRes.y*0.4)*0.7 + exp(-dist*30.0)*0.08)*att;
+    }
+    // the surface catches a little light where beams land, and the water body is faintly lit
+    c += uCol*0.003*(1.0 - smoothstep(0.0, 0.6, depth));
+    // the ripples themselves: a faint sheen where the surface tilts towards the light
+    c += uCol*clamp(hz*35.0, 0.0, 1.0)*0.05*(0.4 + exp(-depth*3.0));
+  }
+  // the waterline itself
+  c += uCol*0.35*(1.0 - smoothstep(0.0, 1.5/uRes.y, abs(p.y - uWL)));
+  c = c/(1.0 + c*0.3);
+  o = vec4(pow(max(c, 0.0), vec3(0.4545)), 1.0);
+}`;
+let wave, show;
+try { wave = GL.program(gl, GLX.VS, WAVE); show = GL.program(gl, GLX.VS, SHOW); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+const water = GLX.pingpong(gl, SW, SH);
+const hfloat = !!GLX._hf;
+
+/* ---------------- controls ---------------- */
+GL.slider('beams', P, 'beams', v => v.toFixed(0));
+['spread','sway','clarity','drop'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('level', P, 'level', v => Math.round(v*100) + '%');
+GL.seg('colour', P.colour, v => P.colour = +v);
+GL.fullscreen('fs', stage);
+const rainBtn = document.getElementById('rain');
+rainBtn.addEventListener('click', () => { P.rain = !P.rain; rainBtn.setAttribute('aria-pressed', String(P.rain)); });
+document.getElementById('calm').addEventListener('click', () => { for(const t of [water.a, water.b]){ gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); });
+
+/* drops: pointer → a point on the water plane */
+const drops = [];
+function dropAt(sx, sy, k){
+  // sx, sy in 0..1 of the stage (y up); the water line sits at P.level of the height
+  const wl = P.level;
+  const z = sy < wl ? Math.min(1, (wl - sy)/wl) : 0.08;
+  if(drops.length < MAXD) drops.push([sx, 1 - z, 0.5*P.drop*(k || 1), 0.012 + 0.02*P.drop]);
+}
+const ptr = {down:false, last:0};
+const at = e => { const r = cv.getBoundingClientRect(); return [(e.clientX - r.left)/r.width, 1 - (e.clientY - r.top)/r.height]; };
+cv.addEventListener('pointerdown', e => { ptr.down = true; try { cv.setPointerCapture(e.pointerId); } catch(_){} const a = at(e); dropAt(a[0], a[1]); });
+cv.addEventListener('pointermove', e => { if(!ptr.down) return; const now = performance.now(); if(now - ptr.last < 40) return; ptr.last = now; const a = at(e); dropAt(a[0], a[1], 0.5); });
+cv.addEventListener('pointerup', () => ptr.down = false);
+cv.addEventListener('pointercancel', () => ptr.down = false);
+
+/* ---------------- sound: one voice per beam ---------------- */
+let voices = null;
+const SCALE = [146.83, 164.81, 196, 220, 246.94, 293.66, 329.63, 392, 440];
+const soundOn = GLX.soundButton('sound', A => {
+  const ac = A.ac, bus = ac.createGain(), lp = ac.createBiquadFilter();
+  bus.gain.value = 0.6; lp.type = 'lowpass'; lp.frequency.value = 2500; bus.connect(lp); lp.connect(A.master);
+  voices = SCALE.map(f => { const o = ac.createOscillator(), g = ac.createGain(); o.frequency.value = f; g.gain.value = 0; o.connect(g); g.connect(bus); o.start(); return {o, g, f}; });
+});
+const probe = hfloat ? new Float32Array(4) : new Uint8Array(4);
+
+/* ---------------- frame ---------------- */
+const E = new Float32Array(MAXB*2), Hh = new Float32Array(MAXB*2), dropU = new Float32Array(MAXD*4);
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, rainT = 0, simAcc = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  t += dt*sp;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height, asp = W/H, wl = (P.level - 0.5);
+
+  if(P.rain){ rainT -= dt*sp; if(rainT <= 0){ rainT = 0.15 + Math.random()*0.5; dropAt(Math.random(), Math.random()*P.level*0.95, 0.4 + Math.random()*0.5); } }
+  // beams: emitters in a tight cluster above, landing points spread along the water
+  const n = P.beams;
+  for(let i = 0; i < n; i++){
+    const f = n === 1 ? 0 : i/(n - 1) - 0.5;
+    E[i*2] = f*0.12; E[i*2+1] = 0.56;
+    Hh[i*2] = f*P.spread*asp*0.9 + 0.1*P.sway*Math.sin(t*0.4 + i*1.3); Hh[i*2+1] = wl;
+  }
+  // water: step the wave equation at a fixed 60 Hz
+  simAcc += dt*sp;
+  let steps = 0;
+  while(hfloat && simAcc >= 1/60 && steps < 3){
+    simAcc -= 1/60; steps++;
+    // each landing beam disturbs the water a little
+    if(drops.length < MAXD && Math.random() < 0.25){ const i = Math.floor(Math.random()*n); drops.push([Hh[i*2]/asp + 0.5, 0.86, 0.04, 0.01]); }
+    dropU.fill(0); drops.slice(0, MAXD).forEach((d, i) => dropU.set(d, i*4));
+    gl.useProgram(wave.p);
+    gl.uniform2f(wave.u.uTexel, 1/SW, 1/SH); gl.uniform1f(wave.u.uDamp, 0.985); gl.uniform1f(wave.u.uN, Math.min(MAXD, drops.length));
+    gl.uniform4fv(wave.u.uDrop, dropU);
+    GLX.pass(gl, vao, wave, water.b, SW, SH, {uPrev: water.a.tex}); water.swap();
+    drops.length = 0;
+  }
+  gl.useProgram(show.p); const U = show.u;
+  gl.uniform2f(U.uRes, W, H); gl.uniform2f(U.uTexel, 1/SW, 1/SH); gl.uniform1f(U.uTime, t); gl.uniform1f(U.uWL, wl);
+  gl.uniform1f(U.uClarity, P.clarity); gl.uniform1f(U.uN, n); gl.uniform3fv(U.uCol, COLOURS[P.colour]);
+  gl.uniform2fv(U.uE, E); gl.uniform2fv(U.uH, Hh);
+  GLX.pass(gl, vao, show, null, W, H, {uWater: water.a.tex});
+
+  if(voices && soundOn()){
+    const ac = GLX._ac.ac;
+    gl.bindFramebuffer(gl.FRAMEBUFFER, water.a.fb);
+    for(let i = 0; i < MAXB; i++){
+      const v = voices[i];
+      if(i >= n){ v.g.gain.setTargetAtTime(0, ac.currentTime, 0.1); continue; }
+      const x = Math.max(0, Math.min(SW - 1, Math.round((Hh[i*2]/asp + 0.5)*SW)));
+      gl.readPixels(x, Math.round(0.82*SH), 1, 1, gl.RGBA, hfloat ? gl.FLOAT : gl.UNSIGNED_BYTE, probe);
+      const h = hfloat ? probe[0] : (probe[0]/255 - 0.5);
+      v.o.frequency.setTargetAtTime(v.f*Math.pow(2, Math.max(-1, Math.min(1, h*6))/12), ac.currentTime, 0.03);
+      v.g.gain.setTargetAtTime(0.035, ac.currentTime, 0.1);
+    }
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'UPSIDE DOWN · ' + n + (n > 1 ? ' BEAMS' : ' BEAM') + '\nWATER ' + Math.round(P.level*100) + '% · CLARITY ' + Math.round(P.clarity*100) + '%';
+    hud.tr.textContent = (P.rain ? 'RAIN\n' : '') + 'n = 1.33';
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, dropAt});
+})();
+</script>

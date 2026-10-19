@@ -1,0 +1,337 @@
+{"title": "Chain", "desc": "Build a video-feedback effect from passes you can see: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade. Reorder them, read what each one does and its shader line, and paint into the loop. WebGL 2 instrument."}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Chain</h1>
+    <p>Point a camera at its own screen and the image falls into itself: the oldest trick in video art, and the root of most live visuals. Here the loop is opened up. Every frame the last frame goes back through a chain of passes, each a small full-screen shader, and a new shape is drawn on top. Change the order and the same passes make a different image. Every pass says what it does and shows its line of GLSL. Press and drag on the stage to paint into the loop.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="cross" aria-label="A video feedback image built from a chain of passes. Press and drag to paint into it."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Preset</span>
+      <div class="seg" id="preset">
+        <button data-v="tunnel">Tunnel</button>
+        <button data-v="smoke">Smoke</button>
+        <button data-v="melt">Melt</button>
+        <button data-v="crystal">Crystal</button>
+        <button data-v="echo">Echo</button>
+      </div>
+      <span class="lab">Source</span>
+      <div class="seg" id="source">
+        <button data-v="0">Square</button>
+        <button data-v="1">Circle</button>
+        <button data-v="2">Line</button>
+        <button data-v="3">Dots</button>
+        <button data-v="4">None</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="size">Source size <output for="size"></output></label>
+      <input id="size" type="range" min="0.03" max="0.45" step="0.005">
+      <label for="spin">Source spin <output for="spin"></output></label>
+      <input id="spin" type="range" min="-2" max="2" step="0.01">
+      <span class="lab">Colour</span>
+      <div class="seg" id="colour">
+        <button data-v="0">Cycle</button>
+        <button data-v="1">White</button>
+        <button data-v="2">Ember</button>
+        <button data-v="3">Ice</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="pause" aria-pressed="false">Freeze</button>
+        <button class="btn" id="clear">Clear</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="chain-h">The chain <span id="chainCount"></span></h2>
+  <ol class="chain" id="chain"></ol>
+  <div class="add">
+    <label for="addType" class="lab">Add a pass</label>
+    <select id="addType"></select>
+    <button class="btn" id="addBtn">Add</button>
+  </div>
+  <p class="hint">Passes run top to bottom, every frame, on the previous frame. ↑ and ↓ move a pass, × removes it, ? shows what it does. Up to eight passes. Press and drag on the stage to paint.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A loop of textures.</strong> Two half-float textures take turns: one holds the last frame, the other receives the next. Each pass in the chain is one full-screen draw that reads a texture and writes the next. After the last pass, the source shape (and anything you paint) is drawn over the result, and that becomes the frame the next loop starts from. What you see is the loop's current state, shown as it is.</p>
+  <p><strong>Why order matters.</strong> The passes don't commute. A blur before a threshold makes soft blobs crisp; a threshold before a blur makes crisp shapes soft. A small zoom before a fade makes a tunnel whose walls dim with depth; a fade before a hue shift makes every generation a new colour. Five presets show classic orders. Change one pass and you get a new instrument.</p>
+  <p><strong>Stability.</strong> Feedback multiplies whatever is in the loop every frame, so any pass that adds energy (an edge filter, a sharp threshold) needs a <strong>Fade</strong> somewhere to keep the image from saturating to white. Half-float textures keep slow fades smooth instead of banding into steps.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of image-pass systems: complex effects built only from operations on whole images, in the tradition of analogue video feedback, and the habit of opening the machinery so anyone can learn from it. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Melt is an approximation of pixel sorting: it drags the brightest value downwards over a fixed reach instead of sorting columns.</li>
+    <li>Strong feedback can build to bright, fast-changing images. Changes are capped so the whole frame cannot flash more than three times a second, and reduced motion slows the loop.</li>
+    <li>No camera or video input yet; the sources are drawn shapes and your painting.</li>
+  </ul>
+</section>
+
+<style>
+.chain-h{font-size:0.95rem; text-transform:uppercase; letter-spacing:0.02em; margin:18px 0 10px;}
+.chain-h span{font-family:var(--font-mono); font-weight:500; font-size:11px; color:var(--ink-faint); letter-spacing:.1em;}
+.chain{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr)); gap:10px;}
+.pass{border:1px solid var(--line-strong); background:var(--paper-raised); padding:10px 12px 12px; display:flex; flex-direction:column; gap:7px; min-width:0;}
+.pass-top{display:flex; align-items:center; gap:6px;}
+.pass-top .n{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); width:1.6em;}
+.pass-top b{font-family:var(--font-display); font-size:14px; flex:1;}
+.pass-top button{font-family:var(--font-mono); font-size:13px; width:32px; height:32px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; border-radius:2px;}
+.pass-top button:hover{color:var(--ink); border-color:var(--ink);}
+.pass-top button:disabled{opacity:.3; cursor:default;}
+.pass .ex{font-size:12px; color:var(--ink-soft); line-height:1.6; font-family:var(--font-display);}
+.pass .ex code{display:block; margin-top:6px; white-space:pre-wrap; word-break:break-word; font-size:11px;}
+.pass label{display:flex; justify-content:space-between; font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-soft);}
+.pass label output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.pass input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.add{display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding-block:12px 4px;}
+@media (pointer:coarse){ .pass-top button{width:44px; height:44px;} }
+</style>
+
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* the passes: id, name, two parameters with ranges, what it does, its key line of GLSL */
+const TYPES = [
+ {id:'transform', name:'Transform', a:['Rotate', -0.2, 0.2, 0.03], b:['Zoom', 0.9, 1.1, 1.02],
+  ex:'Reads the last frame slightly rotated and scaled about the centre. Zoom above 1 pulls the image inwards: a tunnel.', code:'p = rot(-a) * (uv - c) / zoom + c;'},
+ {id:'blur', name:'Blur', a:['Radius', 0, 6, 1.5], b:['Mix', 0, 1, 1],
+  ex:'Averages each pixel with eight neighbours at the given distance in pixels. Blurs spread and soften every generation.', code:'o = (sum of 9 taps) / 9.0;'},
+ {id:'displace', name:'Displace', a:['Amount', 0, 1, 0.35], b:['Scale', 0.5, 12, 3],
+  ex:'Moves each pixel by a slowly changing noise field before reading it. Repeated, it turns shapes into smoke.', code:'o = tex(uv + (noise(uv*scale, t) - 0.5) * a * 0.05);'},
+ {id:'melt', name:'Melt', a:['Reach', 0, 1, 0.5], b:['Mix', 0, 1, 0.6],
+  ex:'Takes the brightest value from above each pixel within the reach, so bright areas drip downwards. A cheap cousin of pixel sorting.', code:'m = max(m, tex(uv + vec2(0, i*reach)) * (1 - i/14));'},
+ {id:'threshold', name:'Threshold', a:['Level', 0, 1, 0.35], b:['Softness', 0.005, 0.3, 0.05],
+  ex:'Keeps colour only where brightness passes the level. It cuts soft gradients into hard shapes.', code:'o = c * smoothstep(level - soft, level + soft, luma(c));'},
+ {id:'edge', name:'Edge', a:['Strength', 0, 3, 1], b:['Mix', 0, 1, 0.6],
+  ex:'A Sobel filter: bright where brightness changes fast, dark elsewhere. In a loop, outlines of outlines ripple outwards.', code:'e = length(vec2(gx, gy)); o = mix(c, c * e * k, mix);'},
+ {id:'kaleido', name:'Kaleidoscope', a:['Segments', 2, 12, 6], b:['Turn', -1, 1, 0],
+  ex:'Folds the image into equal wedges around the centre, mirroring every other one.', code:'a = mod(atan(p.y, p.x) + turn, seg); a = abs(a - seg/2.0);'},
+ {id:'mirror', name:'Mirror', a:['Axis', 0, 1, 0], b:['Mix', 0, 1, 1],
+  ex:'Copies one half onto the other: left onto right when Axis is below 0.5, bottom onto top above it.', code:'p.x = p.x < 0.5 ? p.x : 1.0 - p.x;'},
+ {id:'hue', name:'Hue shift', a:['Shift', -0.1, 0.1, 0.015], b:['Saturation', 0, 1.5, 1],
+  ex:'Rotates every colour a little around the colour wheel each frame, so each generation of the loop wears a different colour.', code:'c = mix(vec3(luma), hueRotate(c, shift), sat);'},
+ {id:'fade', name:'Fade', a:['Keep', 0.8, 1, 0.95], b:['Floor', 0, 0.02, 0.0],
+  ex:'Multiplies the image by a little less than one. Without a fade, most loops fill up to white.', code:'o = max(c * keep - floor, 0.0);'}
+];
+const T = Object.fromEntries(TYPES.map((t, i) => [t.id, Object.assign({index:i}, t)]));
+const PRESETS = {
+  tunnel:{source:0, size:0.16, spin:0.6, colour:0, chain:[['transform', 0.035, 1.04], ['hue', 0.012, 1], ['fade', 0.93, 0.001]]},
+  smoke:{source:1, size:0.08, spin:0, colour:1, chain:[['displace', 0.45, 3], ['blur', 1.2, 1], ['transform', 0, 1.006], ['fade', 0.975, 0.001]]},
+  melt:{source:3, size:0.2, spin:0.4, colour:2, chain:[['melt', 0.55, 0.7], ['displace', 0.12, 6], ['fade', 0.975, 0.0005]]},
+  crystal:{source:0, size:0.22, spin:0.35, colour:3, chain:[['kaleido', 6, 0], ['transform', 0.012, 0.97], ['hue', 0.008, 1], ['fade', 0.9, 0.002]]},
+  echo:{source:1, size:0.3, spin:0, colour:0, chain:[['transform', 0.0, 0.955], ['hue', 0.025, 1.1], ['threshold', 0.08, 0.06], ['fade', 0.94, 0]]}
+};
+const P = {source:0, size:0.16, spin:0.6, colour:0, paused:false};
+let chain = [];
+
+const STAGE = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uIn; uniform int uType; uniform float uA, uB, uTime; uniform vec2 uRes;
+${GL.NOISE}
+vec4 S(vec2 uv){ return texture(uIn, uv); }
+float luma(vec3 c){ return dot(c, vec3(0.299, 0.587, 0.114)); }
+vec3 hueRot(vec3 c, float a){ const vec3 k = vec3(0.57735); float ca = cos(a); return c*ca + cross(k, c)*sin(a) + k*dot(k, c)*(1.0 - ca); }
+void main(){
+  vec2 uv = vUv, px = 1.0/uRes; float asp = uRes.x/uRes.y;
+  vec4 c = S(uv);
+  if(uType == 0){ vec2 p = uv - 0.5; p.x *= asp; float s = sin(-uA), co = cos(-uA); p = mat2(co, -s, s, co)*p/uB; p.x /= asp; c = S(p + 0.5); }
+  else if(uType == 1){ vec4 sum = vec4(0.0); for(int y = -1; y <= 1; y++) for(int x = -1; x <= 1; x++) sum += S(uv + vec2(x, y)*px*uA); c = mix(c, sum/9.0, uB); }
+  else if(uType == 2){ vec2 n = vec2(vnoise(vec3(uv*uB, uTime*0.2)), vnoise(vec3(uv*uB + 7.3, uTime*0.2))) - 0.5; c = S(uv + n*uA*0.05); }
+  else if(uType == 3){ vec4 m = c; for(int i = 1; i < 14; i++){ m = max(m, S(uv + vec2(0.0, float(i)*uA*0.006))*(1.0 - float(i)/14.0)); } c = mix(c, m, uB); }
+  else if(uType == 4){ c = c*smoothstep(uA - uB, uA + uB, luma(c.rgb)); }
+  else if(uType == 5){
+    float tl = luma(S(uv + px*vec2(-1, 1)).rgb), t = luma(S(uv + px*vec2(0, 1)).rgb), tr = luma(S(uv + px*vec2(1, 1)).rgb);
+    float l = luma(S(uv + px*vec2(-1, 0)).rgb), r = luma(S(uv + px*vec2(1, 0)).rgb);
+    float bl = luma(S(uv + px*vec2(-1, -1)).rgb), b = luma(S(uv + px*vec2(0, -1)).rgb), br = luma(S(uv + px*vec2(1, -1)).rgb);
+    float gx = (tr + 2.0*r + br) - (tl + 2.0*l + bl), gy = (tl + 2.0*t + tr) - (bl + 2.0*b + br);
+    c = mix(c, vec4(c.rgb*length(vec2(gx, gy))*uA*3.0, 1.0), uB);
+  }
+  else if(uType == 6){ vec2 p = uv - 0.5; p.x *= asp; float seg = 6.2831853/floor(uA), a = mod(atan(p.y, p.x) + uB*3.14159, seg); a = abs(a - seg*0.5); p = length(p)*vec2(cos(a), sin(a)); p.x /= asp; c = S(p + 0.5); }
+  else if(uType == 7){ vec2 p = uv; if(uA < 0.5) p.x = p.x < 0.5 ? p.x : 1.0 - p.x; else p.y = p.y < 0.5 ? p.y : 1.0 - p.y; c = mix(c, S(p), uB); }
+  else if(uType == 8){ vec3 h = hueRot(c.rgb, uA*6.2831853); c.rgb = max(mix(vec3(luma(h)), h, uB), 0.0); }
+  else if(uType == 9){ c.rgb = max(c.rgb*uA - uB, 0.0); }
+  o = vec4(c.rgb, 1.0);
+}`;
+const SOURCE = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uIn; uniform vec2 uRes, uPaint; uniform float uTime, uSize, uAng, uShape, uPainting; uniform vec3 uCol;
+float sdBox(vec2 p, vec2 b){ vec2 d = abs(p) - b; return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0); }
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  float s = sin(uAng), co = cos(uAng); vec2 q = mat2(co, -s, s, co)*p;
+  float px = 1.5/uRes.y, d = 1e9;
+  if(uShape < 0.5) d = abs(sdBox(q, vec2(uSize))) - px;
+  else if(uShape < 1.5) d = abs(length(q) - uSize) - px;
+  else if(uShape < 2.5) d = sdBox(q, vec2(uSize*1.6, px));
+  else if(uShape < 3.5){ vec2 g = q - uSize*0.5*vec2(cos(uTime*1.7), sin(uTime*2.3)); d = length(g) - uSize*0.12; }
+  float v = 1.0 - smoothstep(0.0, px, d);
+  vec2 m = (uPaint - 0.5)*vec2(uRes.x/uRes.y, 1.0);
+  v = max(v, uPainting*(1.0 - smoothstep(0.01, 0.018, length(p - m))));
+  vec3 prev = texture(uIn, vUv).rgb;
+  o = vec4(max(prev, uCol*v), 1.0);
+}`;
+const SHOW = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uIn; uniform float uGain;
+void main(){ vec3 c = texture(uIn, vUv).rgb*uGain; c = c/(1.0 + max(c - 1.0, 0.0)); o = vec4(pow(clamp(c, 0.0, 1.0), vec3(0.4545)), 1.0); }`;
+
+let stageP, srcP, showP;
+try { stageP = GL.program(gl, GLX.VS, STAGE); srcP = GL.program(gl, GLX.VS, SOURCE); showP = GL.program(gl, GLX.VS, SHOW); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+let fb = null, work = null, W = 0, H = 0;
+
+/* ---------------- chain UI ---------------- */
+const list = document.getElementById('chain'), addType = document.getElementById('addType');
+TYPES.forEach(t => { const o = document.createElement('option'); o.value = t.id; o.textContent = t.name; addType.appendChild(o); });
+const fmt = v => Math.abs(v) < 10 ? v.toFixed(3).replace(/0+$/, '').replace(/\.$/, '') : v.toFixed(1);
+function render(){
+  list.innerHTML = '';
+  chain.forEach((s, i) => {
+    const t = T[s.type], li = document.createElement('li'); li.className = 'pass';
+    const ida = 'p' + i + 'a', idb = 'p' + i + 'b';
+    li.innerHTML = `<div class="pass-top"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t.name}</b>
+      <button data-act="up" aria-label="Move ${t.name} up" ${i === 0 ? 'disabled' : ''}>↑</button>
+      <button data-act="down" aria-label="Move ${t.name} down" ${i === chain.length - 1 ? 'disabled' : ''}>↓</button>
+      <button data-act="info" aria-label="What ${t.name} does" aria-expanded="${s.open ? 'true' : 'false'}">?</button>
+      <button data-act="del" aria-label="Remove ${t.name}">×</button></div>
+      <div class="ex" ${s.open ? '' : 'hidden'}>${t.ex}<code>${t.code}</code></div>
+      <label for="${ida}">${t.a[0]} <output for="${ida}">${fmt(s.a)}</output></label>
+      <input id="${ida}" type="range" min="${t.a[1]}" max="${t.a[2]}" step="${(t.a[2] - t.a[1])/200}" value="${s.a}">
+      <label for="${idb}">${t.b[0]} <output for="${idb}">${fmt(s.b)}</output></label>
+      <input id="${idb}" type="range" min="${t.b[1]}" max="${t.b[2]}" step="${(t.b[2] - t.b[1])/200}" value="${s.b}">`;
+    li.querySelector('#' + ida).addEventListener('input', e => { s.a = +e.target.value; li.querySelector('output[for="' + ida + '"]').textContent = fmt(s.a); setPreset(''); });
+    li.querySelector('#' + idb).addEventListener('input', e => { s.b = +e.target.value; li.querySelector('output[for="' + idb + '"]').textContent = fmt(s.b); setPreset(''); });
+    li.querySelector('.pass-top').addEventListener('click', e => {
+      const b = e.target.closest('button'); if(!b) return;
+      if(!li.isConnected || chain[i] !== s) return;          // a button from a list that has since been redrawn
+      const act = b.dataset.act;
+      if(act === 'up' && i > 0){ [chain[i - 1], chain[i]] = [chain[i], chain[i - 1]]; }
+      else if(act === 'down' && i < chain.length - 1){ [chain[i + 1], chain[i]] = [chain[i], chain[i + 1]]; }
+      else if(act === 'del'){ chain.splice(i, 1); }
+      else if(act === 'info'){ s.open = !s.open; }
+      if(act !== 'info') setPreset('');
+      render();
+      const again = list.children[act === 'up' ? i - 1 : act === 'down' ? i + 1 : i];
+      if(again){ const bb = again.querySelector('[data-act="' + act + '"]'); if(bb && !bb.disabled) bb.focus(); }
+    });
+    list.appendChild(li);
+  });
+  document.getElementById('chainCount').textContent = chain.length + ' of 8 passes';
+  document.getElementById('addBtn').disabled = chain.length >= 8;
+}
+document.getElementById('addBtn').addEventListener('click', () => {
+  if(chain.length >= 8) return;
+  const t = T[addType.value]; chain.push({type:t.id, a:t.a[3], b:t.b[3], open:true}); setPreset(''); render();
+});
+const setPreset = GL.seg('preset', 'tunnel', v => loadPreset(v));
+const setSource = GL.seg('source', P.source, v => P.source = +v);
+const setColour = GL.seg('colour', P.colour, v => P.colour = +v);
+const sizeEl = GL.slider('size', P, 'size', v => v.toFixed(3));
+const spinEl = GL.slider('spin', P, 'spin', v => v.toFixed(2));
+function loadPreset(name){
+  const pr = PRESETS[name]; if(!pr) return;
+  chain = pr.chain.map(([type, a, b]) => ({type, a, b, open:false}));
+  P.source = pr.source; P.size = pr.size; P.spin = pr.spin; P.colour = pr.colour;
+  setSource(P.source); setColour(P.colour); setPreset(name);
+  sizeEl.value = P.size; spinEl.value = P.spin;
+  document.querySelector('output[for="size"]').textContent = P.size.toFixed(3); document.querySelector('output[for="spin"]').textContent = P.spin.toFixed(2);
+  clearLoop(); render();
+}
+GL.fullscreen('fs', stage);
+const pauseBtn = document.getElementById('pause');
+pauseBtn.addEventListener('click', () => { P.paused = !P.paused; pauseBtn.setAttribute('aria-pressed', String(P.paused)); });
+document.getElementById('clear').addEventListener('click', () => clearLoop());
+function clearLoop(){ if(!fb) return; for(const t of [fb.a, fb.b, work.a, work.b]){ gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); }
+
+/* paint */
+const ptr = {x:0.5, y:0.5, down:false};
+const at = e => { const r = cv.getBoundingClientRect(); ptr.x = (e.clientX - r.left)/r.width; ptr.y = 1 - (e.clientY - r.top)/r.height; };
+cv.addEventListener('pointerdown', e => { ptr.down = true; at(e); try { cv.setPointerCapture(e.pointerId); } catch(_){} });
+cv.addEventListener('pointermove', at);
+cv.addEventListener('pointerup', () => ptr.down = false);
+cv.addEventListener('pointercancel', () => ptr.down = false);
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, gain = 1, lumaPrev = 0, guard = GLX.flashGuard();
+const IDX = {transform:0, blur:1, displace:2, melt:3, threshold:4, edge:5, kaleido:6, mirror:7, hue:8, fade:9};
+const pal = t => [0.5 + 0.5*Math.cos(6.2832*(t)), 0.5 + 0.5*Math.cos(6.2832*(t + 0.33)), 0.5 + 0.5*Math.cos(6.2832*(t + 0.67))];
+let frameNo = 0, rowBuf = null, lumaNow = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 1.25);
+  if(!fb || W !== cv.width || H !== cv.height){ if(fb){ fb.free(); work.free(); } W = cv.width; H = cv.height; fb = GLX.pingpong(gl, W, H); work = GLX.pingpong(gl, W, H); }
+  const step = !P.paused && (!GL.reducedMotion || frameNo % 3 === 0);
+  if(step){
+    t += dt*sp;
+    let src = fb.a;
+    for(const s of chain){
+      gl.useProgram(stageP.p);
+      gl.uniform1i(stageP.u.uType, IDX[s.type]); gl.uniform1f(stageP.u.uA, s.a); gl.uniform1f(stageP.u.uB, s.b);
+      gl.uniform1f(stageP.u.uTime, t); gl.uniform2f(stageP.u.uRes, W, H);
+      GLX.pass(gl, vao, stageP, work.b, W, H, {uIn: src.tex});
+      work.swap(); src = work.a;
+    }
+    gl.useProgram(srcP.p);
+    const col = P.colour === 0 ? pal(t*0.07) : P.colour === 1 ? [1, 1, 1] : P.colour === 2 ? [1, 0.45, 0.15] : [0.45, 0.85, 1];
+    gl.uniform2f(srcP.u.uRes, W, H); gl.uniform2f(srcP.u.uPaint, ptr.x, ptr.y); gl.uniform1f(srcP.u.uTime, t);
+    gl.uniform1f(srcP.u.uSize, P.size); gl.uniform1f(srcP.u.uAng, t*P.spin); gl.uniform1f(srcP.u.uShape, P.source);
+    gl.uniform1f(srcP.u.uPainting, ptr.down ? 1 : 0); gl.uniform3fv(srcP.u.uCol, col);
+    GLX.pass(gl, vao, srcP, fb.b, W, H, {uIn: src.tex});
+    fb.swap();
+  }
+  // flash guard: measure mean brightness on a coarse grid; if it jumps, ease the display gain instead of cutting
+  // read one row through the middle (every 4th frame) to watch the average brightness
+  if((++frameNo & 3) === 0){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb.a.fb);
+    const n = Math.min(W, 256), y = Math.floor(H*0.5);
+    if(!rowBuf || rowBuf.length !== n*4) rowBuf = GLX._hf ? new Float32Array(n*4) : new Uint8Array(n*4);
+    gl.readPixels(Math.floor((W - n)/2), y, n, 1, gl.RGBA, GLX._hf ? gl.FLOAT : gl.UNSIGNED_BYTE, rowBuf);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    let lsum = 0; for(let k = 0; k < n*4; k += 4) lsum += rowBuf[k] + rowBuf[k+1] + rowBuf[k+2];
+    lumaNow = Math.min(1, lsum/(n*3*(GLX._hf ? 1 : 255)));
+  }
+  if(Math.abs(lumaNow - lumaPrev) > 0.35 && !guard(now)) gain = Math.max(0.35, gain*0.85); else gain += (1 - gain)*0.05;
+  lumaPrev += (lumaNow - lumaPrev)*0.3;
+  gl.useProgram(showP.p); gl.uniform1f(showP.u.uGain, gain);
+  GLX.pass(gl, vao, showP, null, W, H, {uIn: fb.a.tex});
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'CHAIN · ' + chain.length + ' PASSES\n' + (chain.map(s => T[s.type].name.toUpperCase()).join(' → ') || 'EMPTY');
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+loadPreset('tunnel');
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, loadPreset, get chain(){ return chain; }, ptr});
+})();
+</script>

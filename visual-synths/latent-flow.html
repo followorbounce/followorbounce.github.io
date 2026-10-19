@@ -188,7 +188,7 @@ footer a:hover{color:var(--ink);}
   <p>Each particle's position, velocity and age live in a GPU buffer and are advanced every frame by a vertex shader using <strong>transform feedback</strong> — the CPU never touches them after the first frame. Every particle also has a home on the current form, derived from its index; <em>Cohesion</em> is the stiffness of a spring toward that home. When a particle's age runs out it respawns there, so the sculpture keeps re-forming even while the flow tears it apart.</p>
   <p>Frames accumulate in a half-float buffer that fades by the <em>Trails</em> factor each frame, then pass through a <code>1 − e<sup>−x</sup></code> tone curve, so dense regions saturate softly instead of clipping. Colour is Palette Synth's cosine gradient <code>a + b·cos(2π(c·t + d))</code> indexed by particle speed.</p>
   <h3>Lineage</h3>
-  <p>In the spirit of the fluid "data painting" and data-sculpture installations of <a href="https://refikanadol.com" target="_blank" rel="noopener">Refik Anadol</a> and <a href="https://ouchhh.tv/" target="_blank" rel="noopener">Ouchhh</a>, and the generative particle systems of <a href="https://www.fuseworks.it" target="_blank" rel="noopener">fuse*</a>. No machine-learning model or dataset is involved here — the "latent" is a mathematical flow — and it is not a recreation of or affiliated with any of those works.</p>
+  <p>A study in the language of fluid "data painting", data sculpture and generative particle systems. No machine-learning model or dataset is involved here; the "latent" is a mathematical flow. It recreates no specific work.</p>
   <h3>Limits</h3>
   <ul>
     <li>One million particles needs a capable GPU; if the frame rate drops below ~30, step down to 262k or 65k.</li>

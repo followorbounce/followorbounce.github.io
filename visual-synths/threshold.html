@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Threshold — Video Synths</title>
+<meta name="description" content="A field of grain with moving contour bands: paint pressure with the pointer, trigger accumulate, saturate and release events, and hear a drone shaped by the same numbers. Black, grey and red. WebGL 2 instrument.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/threshold">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Threshold — Video Synths">
+<meta property="og:description" content="A field of grain with moving contour bands: paint pressure with the pointer, trigger accumulate, saturate and release events, and hear a drone shaped by the same numbers. Black, grey and red. WebGL 2 instrument.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/threshold">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from threshold.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Threshold</h1>
+    <p>An invisible field rises and falls under the screen. You only see where it crosses a level: thin bright bands, like the contour lines of weather. Press and drag to pile pressure into the field and watch the bands bend around your hand. Trigger events to accumulate, saturate and release. Where the field saturates, it turns red. Turn on Sound and the drone follows the same numbers: pitch from the threshold, brightness from the pressure, a burst of noise on every saturation.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="cross" aria-label="Contour bands of a moving field in black, grey and red. Press and drag to add pressure to the field."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Events</span>
+      <div class="row">
+        <button class="btn" id="evAcc">Accumulate</button>
+        <button class="btn" id="evSat">Saturate</button>
+        <button class="btn" id="evRel">Release</button>
+        <button class="btn" id="evClear">Clear</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="weather" aria-pressed="true">Weather</button>
+        <button class="btn" id="sound">Sound</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="level">Threshold <output for="level"></output></label>
+      <input id="level" type="range" min="0.3" max="0.7" step="0.005">
+      <label for="bands">Bands <output for="bands"></output></label>
+      <input id="bands" type="range" min="1" max="6" step="1">
+      <label for="bw">Band width <output for="bw"></output></label>
+      <input id="bw" type="range" min="0.5" max="6" step="0.1">
+    </div>
+    <div class="ctl">
+      <label for="scale">Scale <output for="scale"></output></label>
+      <input id="scale" type="range" min="1" max="8" step="0.1">
+      <label for="flow">Flow <output for="flow"></output></label>
+      <input id="flow" type="range" min="0" max="0.4" step="0.005">
+      <label for="decay">Pressure decay <output for="decay"></output></label>
+      <input id="decay" type="range" min="0.05" max="2" step="0.05">
+    </div>
+    <div class="ctl">
+      <label for="red">Red <output for="red"></output></label>
+      <input id="red" type="range" min="0" max="1" step="0.01">
+      <label for="grain">Grain <output for="grain"></output></label>
+      <input id="grain" type="range" min="0" max="0.3" step="0.005">
+      <span class="lab">Palette</span>
+      <div class="seg" id="pal">
+        <button data-v="0">Black</button>
+        <button data-v="1">Inverted</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Press and drag on the stage to add pressure · keys A accumulate, S saturate, R release, C clear · Sound starts only when you press it.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A field and a level.</strong> The body of the image is fractal noise (five octaves of value noise) drifting slowly, plus a pressure map you paint. Nothing of the field itself is drawn. A pixel lights up only where the field crosses the threshold or of one of the levels stacked above and below it, so you see contour lines, the way a weather map shows pressure. Each band is measured in screen pixels (the distance to the level divided by how fast the field changes across one pixel), so a band keeps the <strong>Band width</strong> you set wherever the field is steep or flat.</p>
+  <p><strong>Pressure.</strong> Pressing paints a soft Gaussian into a half-resolution buffer that is read back every frame and multiplied by a decay factor, <code>p ← p·e^(−k·dt) + brush</code>. The bands bend around what you paint and relax as it fades. <strong>Accumulate</strong> lifts the whole field for a few seconds, <strong>Release</strong> drains the pressure map faster, and <strong>Saturate</strong> pushes a second, finer noise field over its own threshold so the hottest cells turn red, then lets it fall back.</p>
+  <p><strong>Weather.</strong> With Weather on, the threshold drifts on two slow, unrelated sine cycles, so bands appear, merge and vanish without repeating for a long time. The grain is renewed every frame and is stronger where the image is bright, like film. <strong>Sound</strong> is three detuned sawtooth oscillators through a low-pass filter: the threshold sets the pitch, total pressure opens the filter, and every Saturate fires a band of noise. There are no samples.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of threshold systems: rules, levels and saturation instead of drawn forms, a palette of black, grey and red, grain as surface, and sound made from the same events as the image. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The field is noise, not a physical model: pressure doesn't flow or conserve, it only adds and fades.</li>
+    <li>Saturate brightens red cells over about a second and fades them over three; it can't be triggered faster than three times a second, so nothing flashes.</li>
+    <li>On very large screens the pressure buffer is at half resolution, so painted edges are slightly soft.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {level:0.5, bands:3, bw:1.4, scale:3, flow:0.08, decay:0.5, red:0.6, grain:0.09, pal:0, weather:true};
+
+const BRUSH = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uPrev; uniform vec2 uBrush; uniform float uDown, uDecay, uAspect, uDrain;
+void main(){
+  float p = texture(uPrev, vUv).r*uDecay*uDrain;
+  vec2 d = (vUv - uBrush)*vec2(uAspect, 1.0);
+  p += uDown*exp(-dot(d, d)/0.006)*0.09;
+  o = vec4(min(p, 1.5), 0.0, 0.0, 1.0);
+}`;
+const SHOW = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uPress; uniform vec2 uRes;
+uniform float uTime, uLevel, uBands, uBw, uScale, uFlow, uRed, uSat, uAcc, uGrain, uPal;
+${GL.NOISE}
+float fbm2(vec2 p, float z){ float s = 0.0, a = 0.5; for(int i = 0; i < 5; i++){ s += a*vnoise(vec3(p, z)); p = p*2.03 + vec2(1.7, 9.2); a *= 0.5; } return s; }
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  float f = fbm2(p*uScale + vec2(0.0, uTime*uFlow), uTime*uFlow*0.5) + texture(uPress, vUv).r*0.5 + uAcc*0.12;
+  // a little of the field's own gradient sets how wide a pixel is in field units, so bands keep one width
+  float fw = fwidth(f);
+  float v = 0.0;
+  for(int k = 0; k < 6; k++){
+    if(float(k) >= uBands) break;
+    float lv = uLevel + (float(k) - floor(uBands*0.5))*0.045;
+    float dpx = abs(f - lv)/max(fw, 1e-5);                     // distance to the level in pixels
+    v += (1.0 - smoothstep(uBw*0.5, uBw*0.5 + 1.0, dpx))*(k == int(floor(uBands*0.5)) ? 1.0 : 0.5);
+  }
+  float g = fbm2(p*uScale*2.3 - vec2(uTime*uFlow*0.7, 0.0) + 3.1, 4.0 + uTime*0.02);
+  float hot = smoothstep(1.0 - 0.35*uRed - 0.25*uSat, 1.02 - 0.35*uRed - 0.25*uSat, g + (f - uLevel)*0.6) * (0.25 + 0.75*uSat) * step(0.001, uRed);
+  float gv = min(v, 1.0)*0.88 + 0.04*smoothstep(uLevel - 0.12, uLevel, f);
+  float n = fract(sin(dot(floor(gl_FragCoord.xy*0.8) + fract(uTime*24.0)*vec2(71.3, 19.7), vec2(12.9898, 78.233)))*43758.5453) - 0.5;
+  gv = clamp(gv + n*uGrain*(0.3 + gv + 0.2*f), 0.0, 1.0);
+  vec3 c = mix(vec3(gv), vec3(0.94, 0.93, 0.9)*(1.0 - gv), uPal);
+  c = mix(c, vec3(0.82, 0.07, 0.05), clamp(hot, 0.0, 1.0)*0.9);
+  o = vec4(c, 1.0);
+}`;
+
+let brush, show;
+try { brush = GL.program(gl, GLX.VS, BRUSH); show = GL.program(gl, GLX.VS, SHOW); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+let press = null;
+
+/* ---------------- controls ---------------- */
+const levelEl = GL.slider('level', P, 'level', v => v.toFixed(3));
+GL.slider('bands', P, 'bands', v => v.toFixed(0));
+GL.slider('bw', P, 'bw', v => v.toFixed(1) + ' px');
+['scale','flow','decay','red'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('grain', P, 'grain', v => v.toFixed(3));
+GL.seg('pal', P.pal, v => P.pal = +v);
+GL.fullscreen('fs', stage);
+const wBtn = document.getElementById('weather');
+wBtn.addEventListener('click', () => { P.weather = !P.weather; wBtn.setAttribute('aria-pressed', String(P.weather)); });
+levelEl.addEventListener('input', () => { P.weather = false; wBtn.setAttribute('aria-pressed', 'false'); });
+
+/* events: each one is an envelope; Saturate is rate-limited so nothing can flash */
+const ev = {acc:0, sat:0, drain:0, satCount:0};
+const canSat = GLX.flashGuard();
+function accumulate(){ ev.acc = Math.min(2, ev.acc + 1); }
+function saturate(now){ if(!canSat(now)) return; ev.satT = 1; ev.satCount++; if(noise) burst(); }
+function release(){ ev.drain = 1.5; }
+function clear(){ if(press){ for(const t of [press.a, press.b]){ gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); } ev.acc = 0; pressure = 0; }
+ev.satT = 0;
+document.getElementById('evAcc').addEventListener('click', accumulate);
+document.getElementById('evSat').addEventListener('click', () => saturate(performance.now()));
+document.getElementById('evRel').addEventListener('click', release);
+document.getElementById('evClear').addEventListener('click', clear);
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select')) return;
+  const k = e.key.toLowerCase();
+  if(k === 'a') accumulate(); else if(k === 's') saturate(performance.now()); else if(k === 'r') release(); else if(k === 'c') clear();
+});
+
+/* pointer paints pressure */
+const ptr = {x:0.5, y:0.5, down:false};
+const at = e => { const r = cv.getBoundingClientRect(); ptr.x = (e.clientX - r.left)/r.width; ptr.y = 1 - (e.clientY - r.top)/r.height; };
+cv.addEventListener('pointerdown', e => { ptr.down = true; at(e); try { cv.setPointerCapture(e.pointerId); } catch(_){} });
+cv.addEventListener('pointermove', at);
+cv.addEventListener('pointerup', () => ptr.down = false);
+cv.addEventListener('pointercancel', () => ptr.down = false);
+
+/* ---------------- sound: three detuned saws, a filter, a noise band for saturation ---------------- */
+let drone = null, noise = null, pressure = 0;
+const soundOn = GLX.soundButton('sound', A => {
+  const ac = A.ac, lp = ac.createBiquadFilter(), g = ac.createGain();
+  lp.type = 'lowpass'; lp.frequency.value = 300; lp.Q.value = 4; g.gain.value = 0.12; lp.connect(g); g.connect(A.master);
+  const oscs = [0, 7, -12].map((c, i) => { const o = ac.createOscillator(); o.type = 'sawtooth'; o.detune.value = c*100 + (i - 1)*6; o.frequency.value = 55; o.connect(lp); o.start(); return o; });
+  drone = {oscs, lp};
+  const len = ac.sampleRate*1.5, buf = ac.createBuffer(1, len, ac.sampleRate), d = buf.getChannelData(0);
+  for(let i = 0; i < len; i++) d[i] = (Math.random()*2 - 1)*Math.pow(1 - i/len, 2);
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.frequency.value = 1800; bp.Q.value = 1.2;
+  const ng = ac.createGain(); ng.gain.value = 0.25; bp.connect(ng); ng.connect(A.master);
+  noise = {buf, bp};
+});
+function burst(){ if(!soundOn() || !noise) return; const ac = GLX._ac.ac, s = ac.createBufferSource(); s.buffer = noise.buf; s.connect(noise.bp); s.start(); }
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, pw = 0, ph = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  t += dt*sp;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height, w2 = Math.max(64, W >> 1), h2 = Math.max(64, H >> 1);
+  if(!press || pw !== w2 || ph !== h2){ if(press) press.free(); press = GLX.pingpong(gl, w2, h2); pw = w2; ph = h2; }
+
+  if(P.weather){
+    P.level = 0.5 + 0.075*Math.sin(t*0.13) + 0.035*Math.sin(t*0.051 + 2);
+    levelEl.value = P.level; document.querySelector('output[for="level"]').textContent = P.level.toFixed(3);
+  }
+  ev.acc = Math.max(0, ev.acc - dt*0.35);
+  ev.drain = Math.max(0, ev.drain - dt*0.8);
+  ev.satT = Math.max(0, ev.satT - dt*0.33);
+  const satEnv = Math.min(1, ev.satT*3)*Math.min(1, ev.satT*1.2 + 0.0001);
+  pressure = pressure*Math.exp(-P.decay*dt)*(1 - ev.drain*dt*2) + (ptr.down ? dt*0.6 : 0);
+
+  // pressure pass
+  gl.useProgram(brush.p);
+  gl.uniform2f(brush.u.uBrush, ptr.x, ptr.y); gl.uniform1f(brush.u.uDown, ptr.down ? 1 : 0);
+  gl.uniform1f(brush.u.uDecay, Math.exp(-P.decay*dt)); gl.uniform1f(brush.u.uDrain, Math.max(0, 1 - ev.drain*dt*3)); gl.uniform1f(brush.u.uAspect, W/H);
+  GLX.pass(gl, vao, brush, press.b, w2, h2, {uPrev: press.a.tex}); press.swap();
+
+  gl.useProgram(show.p);
+  const U = show.u;
+  gl.uniform2f(U.uRes, W, H); gl.uniform1f(U.uTime, t); gl.uniform1f(U.uLevel, P.level); gl.uniform1f(U.uBands, P.bands);
+  gl.uniform1f(U.uBw, P.bw*cv.width/Math.max(1, cv.getBoundingClientRect().width)); gl.uniform1f(U.uScale, P.scale); gl.uniform1f(U.uFlow, P.flow); gl.uniform1f(U.uRed, P.red);
+  gl.uniform1f(U.uSat, satEnv); gl.uniform1f(U.uAcc, ev.acc); gl.uniform1f(U.uGrain, P.grain); gl.uniform1f(U.uPal, P.pal);
+  GLX.pass(gl, vao, show, null, W, H, {uPress: press.a.tex});
+
+  if(drone && soundOn()){
+    const ac = GLX._ac.ac, f = 55*Math.pow(2, (P.level - 0.5)*8 + ev.acc*0.25);
+    drone.oscs.forEach(o => o.frequency.setTargetAtTime(f, ac.currentTime, 0.15));
+    drone.lp.frequency.setTargetAtTime(220 + 2400*Math.min(1, pressure*0.6 + ev.acc*0.3 + satEnv*0.5), ac.currentTime, 0.1);
+  }
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'THRESHOLD ' + P.level.toFixed(3) + (P.weather ? '\nWEATHER' : '\nHELD');
+    hud.tr.textContent = 'PRESSURE ' + Math.min(9.99, pressure).toFixed(2) + '\nSATURATIONS ' + ev.satCount;
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, ev, ptr, accumulate, saturate});
+})();
+</script>
+</body>
+</html>

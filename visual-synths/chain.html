@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Chain — Video Synths</title>
+<meta name="description" content="Build a video-feedback effect from passes you can see: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade. Reorder them, read what each one does and its shader line, and paint into the loop. WebGL 2 instrument.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/chain">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chain — Video Synths">
+<meta property="og:description" content="Build a video-feedback effect from passes you can see: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade. Reorder them, read what each one does and its shader line, and paint into the loop. WebGL 2 instrument.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/chain">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from chain.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument</div>
+    <h1>Chain</h1>
+    <p>Point a camera at its own screen and the image falls into itself: the oldest trick in video art, and the root of most live visuals. Here the loop is opened up. Every frame the last frame goes back through a chain of passes, each a small full-screen shader, and a new shape is drawn on top. Change the order and the same passes make a different image. Every pass says what it does and shows its line of GLSL. Press and drag on the stage to paint into the loop.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="cross" aria-label="A video feedback image built from a chain of passes. Press and drag to paint into it."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Preset</span>
+      <div class="seg" id="preset">
+        <button data-v="tunnel">Tunnel</button>
+        <button data-v="smoke">Smoke</button>
+        <button data-v="melt">Melt</button>
+        <button data-v="crystal">Crystal</button>
+        <button data-v="echo">Echo</button>
+      </div>
+      <span class="lab">Source</span>
+      <div class="seg" id="source">
+        <button data-v="0">Square</button>
+        <button data-v="1">Circle</button>
+        <button data-v="2">Line</button>
+        <button data-v="3">Dots</button>
+        <button data-v="4">None</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="size">Source size <output for="size"></output></label>
+      <input id="size" type="range" min="0.03" max="0.45" step="0.005">
+      <label for="spin">Source spin <output for="spin"></output></label>
+      <input id="spin" type="range" min="-2" max="2" step="0.01">
+      <span class="lab">Colour</span>
+      <div class="seg" id="colour">
+        <button data-v="0">Cycle</button>
+        <button data-v="1">White</button>
+        <button data-v="2">Ember</button>
+        <button data-v="3">Ice</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="pause" aria-pressed="false">Freeze</button>
+        <button class="btn" id="clear">Clear</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+
+  <h2 class="chain-h">The chain <span id="chainCount"></span></h2>
+  <ol class="chain" id="chain"></ol>
+  <div class="add">
+    <label for="addType" class="lab">Add a pass</label>
+    <select id="addType"></select>
+    <button class="btn" id="addBtn">Add</button>
+  </div>
+  <p class="hint">Passes run top to bottom, every frame, on the previous frame. ↑ and ↓ move a pass, × removes it, ? shows what it does. Up to eight passes. Press and drag on the stage to paint.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>A loop of textures.</strong> Two half-float textures take turns: one holds the last frame, the other receives the next. Each pass in the chain is one full-screen draw that reads a texture and writes the next. After the last pass, the source shape (and anything you paint) is drawn over the result, and that becomes the frame the next loop starts from. What you see is the loop's current state, shown as it is.</p>
+  <p><strong>Why order matters.</strong> The passes don't commute. A blur before a threshold makes soft blobs crisp; a threshold before a blur makes crisp shapes soft. A small zoom before a fade makes a tunnel whose walls dim with depth; a fade before a hue shift makes every generation a new colour. Five presets show classic orders. Change one pass and you get a new instrument.</p>
+  <p><strong>Stability.</strong> Feedback multiplies whatever is in the loop every frame, so any pass that adds energy (an edge filter, a sharp threshold) needs a <strong>Fade</strong> somewhere to keep the image from saturating to white. Half-float textures keep slow fades smooth instead of banding into steps.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of image-pass systems: complex effects built only from operations on whole images, in the tradition of analogue video feedback, and the habit of opening the machinery so anyone can learn from it. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Melt is an approximation of pixel sorting: it drags the brightest value downwards over a fixed reach instead of sorting columns.</li>
+    <li>Strong feedback can build to bright, fast-changing images. Changes are capped so the whole frame cannot flash more than three times a second, and reduced motion slows the loop.</li>
+    <li>No camera or video input yet; the sources are drawn shapes and your painting.</li>
+  </ul>
+</section>
+
+<style>
+.chain-h{font-size:0.95rem; text-transform:uppercase; letter-spacing:0.02em; margin:18px 0 10px;}
+.chain-h span{font-family:var(--font-mono); font-weight:500; font-size:11px; color:var(--ink-faint); letter-spacing:.1em;}
+.chain{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(auto-fill,minmax(min(100%,280px),1fr)); gap:10px;}
+.pass{border:1px solid var(--line-strong); background:var(--paper-raised); padding:10px 12px 12px; display:flex; flex-direction:column; gap:7px; min-width:0;}
+.pass-top{display:flex; align-items:center; gap:6px;}
+.pass-top .n{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); width:1.6em;}
+.pass-top b{font-family:var(--font-display); font-size:14px; flex:1;}
+.pass-top button{font-family:var(--font-mono); font-size:13px; width:32px; height:32px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; border-radius:2px;}
+.pass-top button:hover{color:var(--ink); border-color:var(--ink);}
+.pass-top button:disabled{opacity:.3; cursor:default;}
+.pass .ex{font-size:12px; color:var(--ink-soft); line-height:1.6; font-family:var(--font-display);}
+.pass .ex code{display:block; margin-top:6px; white-space:pre-wrap; word-break:break-word; font-size:11px;}
+.pass label{display:flex; justify-content:space-between; font-size:10px; letter-spacing:.09em; text-transform:uppercase; color:var(--ink-soft);}
+.pass label output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.pass input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.add{display:flex; flex-wrap:wrap; align-items:center; gap:8px; padding-block:12px 4px;}
+@media (pointer:coarse){ .pass-top button{width:44px; height:44px;} }
+</style>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* the passes: id, name, two parameters with ranges, what it does, its key line of GLSL */
+const TYPES = [
+ {id:'transform', name:'Transform', a:['Rotate', -0.2, 0.2, 0.03], b:['Zoom', 0.9, 1.1, 1.02],
+  ex:'Reads the last frame slightly rotated and scaled about the centre. Zoom above 1 pulls the image inwards: a tunnel.', code:'p = rot(-a) * (uv - c) / zoom + c;'},
+ {id:'blur', name:'Blur', a:['Radius', 0, 6, 1.5], b:['Mix', 0, 1, 1],
+  ex:'Averages each pixel with eight neighbours at the given distance in pixels. Blurs spread and soften every generation.', code:'o = (sum of 9 taps) / 9.0;'},
+ {id:'displace', name:'Displace', a:['Amount', 0, 1, 0.35], b:['Scale', 0.5, 12, 3],
+  ex:'Moves each pixel by a slowly changing noise field before reading it. Repeated, it turns shapes into smoke.', code:'o = tex(uv + (noise(uv*scale, t) - 0.5) * a * 0.05);'},
+ {id:'melt', name:'Melt', a:['Reach', 0, 1, 0.5], b:['Mix', 0, 1, 0.6],
+  ex:'Takes the brightest value from above each pixel within the reach, so bright areas drip downwards. A cheap cousin of pixel sorting.', code:'m = max(m, tex(uv + vec2(0, i*reach)) * (1 - i/14));'},
+ {id:'threshold', name:'Threshold', a:['Level', 0, 1, 0.35], b:['Softness', 0.005, 0.3, 0.05],
+  ex:'Keeps colour only where brightness passes the level. It cuts soft gradients into hard shapes.', code:'o = c * smoothstep(level - soft, level + soft, luma(c));'},
+ {id:'edge', name:'Edge', a:['Strength', 0, 3, 1], b:['Mix', 0, 1, 0.6],
+  ex:'A Sobel filter: bright where brightness changes fast, dark elsewhere. In a loop, outlines of outlines ripple outwards.', code:'e = length(vec2(gx, gy)); o = mix(c, c * e * k, mix);'},
+ {id:'kaleido', name:'Kaleidoscope', a:['Segments', 2, 12, 6], b:['Turn', -1, 1, 0],
+  ex:'Folds the image into equal wedges around the centre, mirroring every other one.', code:'a = mod(atan(p.y, p.x) + turn, seg); a = abs(a - seg/2.0);'},
+ {id:'mirror', name:'Mirror', a:['Axis', 0, 1, 0], b:['Mix', 0, 1, 1],
+  ex:'Copies one half onto the other: left onto right when Axis is below 0.5, bottom onto top above it.', code:'p.x = p.x < 0.5 ? p.x : 1.0 - p.x;'},
+ {id:'hue', name:'Hue shift', a:['Shift', -0.1, 0.1, 0.015], b:['Saturation', 0, 1.5, 1],
+  ex:'Rotates every colour a little around the colour wheel each frame, so each generation of the loop wears a different colour.', code:'c = mix(vec3(luma), hueRotate(c, shift), sat);'},
+ {id:'fade', name:'Fade', a:['Keep', 0.8, 1, 0.95], b:['Floor', 0, 0.02, 0.0],
+  ex:'Multiplies the image by a little less than one. Without a fade, most loops fill up to white.', code:'o = max(c * keep - floor, 0.0);'}
+];
+const T = Object.fromEntries(TYPES.map((t, i) => [t.id, Object.assign({index:i}, t)]));
+const PRESETS = {
+  tunnel:{source:0, size:0.16, spin:0.6, colour:0, chain:[['transform', 0.035, 1.04], ['hue', 0.012, 1], ['fade', 0.93, 0.001]]},
+  smoke:{source:1, size:0.08, spin:0, colour:1, chain:[['displace', 0.45, 3], ['blur', 1.2, 1], ['transform', 0, 1.006], ['fade', 0.975, 0.001]]},
+  melt:{source:3, size:0.2, spin:0.4, colour:2, chain:[['melt', 0.55, 0.7], ['displace', 0.12, 6], ['fade', 0.975, 0.0005]]},
+  crystal:{source:0, size:0.22, spin:0.35, colour:3, chain:[['kaleido', 6, 0], ['transform', 0.012, 0.97], ['hue', 0.008, 1], ['fade', 0.9, 0.002]]},
+  echo:{source:1, size:0.3, spin:0, colour:0, chain:[['transform', 0.0, 0.955], ['hue', 0.025, 1.1], ['threshold', 0.08, 0.06], ['fade', 0.94, 0]]}
+};
+const P = {source:0, size:0.16, spin:0.6, colour:0, paused:false};
+let chain = [];
+
+const STAGE = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uIn; uniform int uType; uniform float uA, uB, uTime; uniform vec2 uRes;
+${GL.NOISE}
+vec4 S(vec2 uv){ return texture(uIn, uv); }
+float luma(vec3 c){ return dot(c, vec3(0.299, 0.587, 0.114)); }
+vec3 hueRot(vec3 c, float a){ const vec3 k = vec3(0.57735); float ca = cos(a); return c*ca + cross(k, c)*sin(a) + k*dot(k, c)*(1.0 - ca); }
+void main(){
+  vec2 uv = vUv, px = 1.0/uRes; float asp = uRes.x/uRes.y;
+  vec4 c = S(uv);
+  if(uType == 0){ vec2 p = uv - 0.5; p.x *= asp; float s = sin(-uA), co = cos(-uA); p = mat2(co, -s, s, co)*p/uB; p.x /= asp; c = S(p + 0.5); }
+  else if(uType == 1){ vec4 sum = vec4(0.0); for(int y = -1; y <= 1; y++) for(int x = -1; x <= 1; x++) sum += S(uv + vec2(x, y)*px*uA); c = mix(c, sum/9.0, uB); }
+  else if(uType == 2){ vec2 n = vec2(vnoise(vec3(uv*uB, uTime*0.2)), vnoise(vec3(uv*uB + 7.3, uTime*0.2))) - 0.5; c = S(uv + n*uA*0.05); }
+  else if(uType == 3){ vec4 m = c; for(int i = 1; i < 14; i++){ m = max(m, S(uv + vec2(0.0, float(i)*uA*0.006))*(1.0 - float(i)/14.0)); } c = mix(c, m, uB); }
+  else if(uType == 4){ c = c*smoothstep(uA - uB, uA + uB, luma(c.rgb)); }
+  else if(uType == 5){
+    float tl = luma(S(uv + px*vec2(-1, 1)).rgb), t = luma(S(uv + px*vec2(0, 1)).rgb), tr = luma(S(uv + px*vec2(1, 1)).rgb);
+    float l = luma(S(uv + px*vec2(-1, 0)).rgb), r = luma(S(uv + px*vec2(1, 0)).rgb);
+    float bl = luma(S(uv + px*vec2(-1, -1)).rgb), b = luma(S(uv + px*vec2(0, -1)).rgb), br = luma(S(uv + px*vec2(1, -1)).rgb);
+    float gx = (tr + 2.0*r + br) - (tl + 2.0*l + bl), gy = (tl + 2.0*t + tr) - (bl + 2.0*b + br);
+    c = mix(c, vec4(c.rgb*length(vec2(gx, gy))*uA*3.0, 1.0), uB);
+  }
+  else if(uType == 6){ vec2 p = uv - 0.5; p.x *= asp; float seg = 6.2831853/floor(uA), a = mod(atan(p.y, p.x) + uB*3.14159, seg); a = abs(a - seg*0.5); p = length(p)*vec2(cos(a), sin(a)); p.x /= asp; c = S(p + 0.5); }
+  else if(uType == 7){ vec2 p = uv; if(uA < 0.5) p.x = p.x < 0.5 ? p.x : 1.0 - p.x; else p.y = p.y < 0.5 ? p.y : 1.0 - p.y; c = mix(c, S(p), uB); }
+  else if(uType == 8){ vec3 h = hueRot(c.rgb, uA*6.2831853); c.rgb = max(mix(vec3(luma(h)), h, uB), 0.0); }
+  else if(uType == 9){ c.rgb = max(c.rgb*uA - uB, 0.0); }
+  o = vec4(c.rgb, 1.0);
+}`;
+const SOURCE = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uIn; uniform vec2 uRes, uPaint; uniform float uTime, uSize, uAng, uShape, uPainting; uniform vec3 uCol;
+float sdBox(vec2 p, vec2 b){ vec2 d = abs(p) - b; return length(max(d, 0.0)) + min(max(d.x, d.y), 0.0); }
+void main(){
+  vec2 p = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  float s = sin(uAng), co = cos(uAng); vec2 q = mat2(co, -s, s, co)*p;
+  float px = 1.5/uRes.y, d = 1e9;
+  if(uShape < 0.5) d = abs(sdBox(q, vec2(uSize))) - px;
+  else if(uShape < 1.5) d = abs(length(q) - uSize) - px;
+  else if(uShape < 2.5) d = sdBox(q, vec2(uSize*1.6, px));
+  else if(uShape < 3.5){ vec2 g = q - uSize*0.5*vec2(cos(uTime*1.7), sin(uTime*2.3)); d = length(g) - uSize*0.12; }
+  float v = 1.0 - smoothstep(0.0, px, d);
+  vec2 m = (uPaint - 0.5)*vec2(uRes.x/uRes.y, 1.0);
+  v = max(v, uPainting*(1.0 - smoothstep(0.01, 0.018, length(p - m))));
+  vec3 prev = texture(uIn, vUv).rgb;
+  o = vec4(max(prev, uCol*v), 1.0);
+}`;
+const SHOW = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+uniform sampler2D uIn; uniform float uGain;
+void main(){ vec3 c = texture(uIn, vUv).rgb*uGain; c = c/(1.0 + max(c - 1.0, 0.0)); o = vec4(pow(clamp(c, 0.0, 1.0), vec3(0.4545)), 1.0); }`;
+
+let stageP, srcP, showP;
+try { stageP = GL.program(gl, GLX.VS, STAGE); srcP = GL.program(gl, GLX.VS, SOURCE); showP = GL.program(gl, GLX.VS, SHOW); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+let fb = null, work = null, W = 0, H = 0;
+
+/* ---------------- chain UI ---------------- */
+const list = document.getElementById('chain'), addType = document.getElementById('addType');
+TYPES.forEach(t => { const o = document.createElement('option'); o.value = t.id; o.textContent = t.name; addType.appendChild(o); });
+const fmt = v => Math.abs(v) < 10 ? v.toFixed(3).replace(/0+$/, '').replace(/\.$/, '') : v.toFixed(1);
+function render(){
+  list.innerHTML = '';
+  chain.forEach((s, i) => {
+    const t = T[s.type], li = document.createElement('li'); li.className = 'pass';
+    const ida = 'p' + i + 'a', idb = 'p' + i + 'b';
+    li.innerHTML = `<div class="pass-top"><span class="n">${String(i + 1).padStart(2, '0')}</span><b>${t.name}</b>
+      <button data-act="up" aria-label="Move ${t.name} up" ${i === 0 ? 'disabled' : ''}>↑</button>
+      <button data-act="down" aria-label="Move ${t.name} down" ${i === chain.length - 1 ? 'disabled' : ''}>↓</button>
+      <button data-act="info" aria-label="What ${t.name} does" aria-expanded="${s.open ? 'true' : 'false'}">?</button>
+      <button data-act="del" aria-label="Remove ${t.name}">×</button></div>
+      <div class="ex" ${s.open ? '' : 'hidden'}>${t.ex}<code>${t.code}</code></div>
+      <label for="${ida}">${t.a[0]} <output for="${ida}">${fmt(s.a)}</output></label>
+      <input id="${ida}" type="range" min="${t.a[1]}" max="${t.a[2]}" step="${(t.a[2] - t.a[1])/200}" value="${s.a}">
+      <label for="${idb}">${t.b[0]} <output for="${idb}">${fmt(s.b)}</output></label>
+      <input id="${idb}" type="range" min="${t.b[1]}" max="${t.b[2]}" step="${(t.b[2] - t.b[1])/200}" value="${s.b}">`;
+    li.querySelector('#' + ida).addEventListener('input', e => { s.a = +e.target.value; li.querySelector('output[for="' + ida + '"]').textContent = fmt(s.a); setPreset(''); });
+    li.querySelector('#' + idb).addEventListener('input', e => { s.b = +e.target.value; li.querySelector('output[for="' + idb + '"]').textContent = fmt(s.b); setPreset(''); });
+    li.querySelector('.pass-top').addEventListener('click', e => {
+      const b = e.target.closest('button'); if(!b) return;
+      if(!li.isConnected || chain[i] !== s) return;          // a button from a list that has since been redrawn
+      const act = b.dataset.act;
+      if(act === 'up' && i > 0){ [chain[i - 1], chain[i]] = [chain[i], chain[i - 1]]; }
+      else if(act === 'down' && i < chain.length - 1){ [chain[i + 1], chain[i]] = [chain[i], chain[i + 1]]; }
+      else if(act === 'del'){ chain.splice(i, 1); }
+      else if(act === 'info'){ s.open = !s.open; }
+      if(act !== 'info') setPreset('');
+      render();
+      const again = list.children[act === 'up' ? i - 1 : act === 'down' ? i + 1 : i];
+      if(again){ const bb = again.querySelector('[data-act="' + act + '"]'); if(bb && !bb.disabled) bb.focus(); }
+    });
+    list.appendChild(li);
+  });
+  document.getElementById('chainCount').textContent = chain.length + ' of 8 passes';
+  document.getElementById('addBtn').disabled = chain.length >= 8;
+}
+document.getElementById('addBtn').addEventListener('click', () => {
+  if(chain.length >= 8) return;
+  const t = T[addType.value]; chain.push({type:t.id, a:t.a[3], b:t.b[3], open:true}); setPreset(''); render();
+});
+const setPreset = GL.seg('preset', 'tunnel', v => loadPreset(v));
+const setSource = GL.seg('source', P.source, v => P.source = +v);
+const setColour = GL.seg('colour', P.colour, v => P.colour = +v);
+const sizeEl = GL.slider('size', P, 'size', v => v.toFixed(3));
+const spinEl = GL.slider('spin', P, 'spin', v => v.toFixed(2));
+function loadPreset(name){
+  const pr = PRESETS[name]; if(!pr) return;
+  chain = pr.chain.map(([type, a, b]) => ({type, a, b, open:false}));
+  P.source = pr.source; P.size = pr.size; P.spin = pr.spin; P.colour = pr.colour;
+  setSource(P.source); setColour(P.colour); setPreset(name);
+  sizeEl.value = P.size; spinEl.value = P.spin;
+  document.querySelector('output[for="size"]').textContent = P.size.toFixed(3); document.querySelector('output[for="spin"]').textContent = P.spin.toFixed(2);
+  clearLoop(); render();
+}
+GL.fullscreen('fs', stage);
+const pauseBtn = document.getElementById('pause');
+pauseBtn.addEventListener('click', () => { P.paused = !P.paused; pauseBtn.setAttribute('aria-pressed', String(P.paused)); });
+document.getElementById('clear').addEventListener('click', () => clearLoop());
+function clearLoop(){ if(!fb) return; for(const t of [fb.a, fb.b, work.a, work.b]){ gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clearColor(0,0,0,1); gl.clear(gl.COLOR_BUFFER_BIT); } gl.bindFramebuffer(gl.FRAMEBUFFER, null); }
+
+/* paint */
+const ptr = {x:0.5, y:0.5, down:false};
+const at = e => { const r = cv.getBoundingClientRect(); ptr.x = (e.clientX - r.left)/r.width; ptr.y = 1 - (e.clientY - r.top)/r.height; };
+cv.addEventListener('pointerdown', e => { ptr.down = true; at(e); try { cv.setPointerCapture(e.pointerId); } catch(_){} });
+cv.addEventListener('pointermove', at);
+cv.addEventListener('pointerup', () => ptr.down = false);
+cv.addEventListener('pointercancel', () => ptr.down = false);
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, gain = 1, lumaPrev = 0, guard = GLX.flashGuard();
+const IDX = {transform:0, blur:1, displace:2, melt:3, threshold:4, edge:5, kaleido:6, mirror:7, hue:8, fade:9};
+const pal = t => [0.5 + 0.5*Math.cos(6.2832*(t)), 0.5 + 0.5*Math.cos(6.2832*(t + 0.33)), 0.5 + 0.5*Math.cos(6.2832*(t + 0.67))];
+let frameNo = 0, rowBuf = null, lumaNow = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  GL.fit(cv, 1.25);
+  if(!fb || W !== cv.width || H !== cv.height){ if(fb){ fb.free(); work.free(); } W = cv.width; H = cv.height; fb = GLX.pingpong(gl, W, H); work = GLX.pingpong(gl, W, H); }
+  const step = !P.paused && (!GL.reducedMotion || frameNo % 3 === 0);
+  if(step){
+    t += dt*sp;
+    let src = fb.a;
+    for(const s of chain){
+      gl.useProgram(stageP.p);
+      gl.uniform1i(stageP.u.uType, IDX[s.type]); gl.uniform1f(stageP.u.uA, s.a); gl.uniform1f(stageP.u.uB, s.b);
+      gl.uniform1f(stageP.u.uTime, t); gl.uniform2f(stageP.u.uRes, W, H);
+      GLX.pass(gl, vao, stageP, work.b, W, H, {uIn: src.tex});
+      work.swap(); src = work.a;
+    }
+    gl.useProgram(srcP.p);
+    const col = P.colour === 0 ? pal(t*0.07) : P.colour === 1 ? [1, 1, 1] : P.colour === 2 ? [1, 0.45, 0.15] : [0.45, 0.85, 1];
+    gl.uniform2f(srcP.u.uRes, W, H); gl.uniform2f(srcP.u.uPaint, ptr.x, ptr.y); gl.uniform1f(srcP.u.uTime, t);
+    gl.uniform1f(srcP.u.uSize, P.size); gl.uniform1f(srcP.u.uAng, t*P.spin); gl.uniform1f(srcP.u.uShape, P.source);
+    gl.uniform1f(srcP.u.uPainting, ptr.down ? 1 : 0); gl.uniform3fv(srcP.u.uCol, col);
+    GLX.pass(gl, vao, srcP, fb.b, W, H, {uIn: src.tex});
+    fb.swap();
+  }
+  // flash guard: measure mean brightness on a coarse grid; if it jumps, ease the display gain instead of cutting
+  // read one row through the middle (every 4th frame) to watch the average brightness
+  if((++frameNo & 3) === 0){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb.a.fb);
+    const n = Math.min(W, 256), y = Math.floor(H*0.5);
+    if(!rowBuf || rowBuf.length !== n*4) rowBuf = GLX._hf ? new Float32Array(n*4) : new Uint8Array(n*4);
+    gl.readPixels(Math.floor((W - n)/2), y, n, 1, gl.RGBA, GLX._hf ? gl.FLOAT : gl.UNSIGNED_BYTE, rowBuf);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    let lsum = 0; for(let k = 0; k < n*4; k += 4) lsum += rowBuf[k] + rowBuf[k+1] + rowBuf[k+2];
+    lumaNow = Math.min(1, lsum/(n*3*(GLX._hf ? 1 : 255)));
+  }
+  if(Math.abs(lumaNow - lumaPrev) > 0.35 && !guard(now)) gain = Math.max(0.35, gain*0.85); else gain += (1 - gain)*0.05;
+  lumaPrev += (lumaNow - lumaPrev)*0.3;
+  gl.useProgram(showP.p); gl.uniform1f(showP.u.uGain, gain);
+  GLX.pass(gl, vao, showP, null, W, H, {uIn: fb.a.tex});
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'CHAIN · ' + chain.length + ' PASSES\n' + (chain.map(s => T[s.type].name.toUpperCase()).join(' → ') || 'EMPTY');
+    hud.br.textContent = fps.toFixed(0) + ' FPS';
+  }
+}
+loadPreset('tunnel');
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, loadPreset, get chain(){ return chain; }, ptr});
+})();
+</script>
+</body>
+</html>

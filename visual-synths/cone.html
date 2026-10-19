@@ -1,0 +1,616 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Cone — Video Synths</title>
+<meta name="description" content="Laser beams on rotating mounts sweep cones, cylinders and fans through a hazy black room. Red light, one white key beam, grain, and slow phases from calm to intense. Volumetric WebGL 2 study with optional sound.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/cone">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Cone — Video Synths">
+<meta property="og:description" content="Laser beams on rotating mounts sweep cones, cylinders and fans through a hazy black room. Red light, one white key beam, grain, and slow phases from calm to intense. Volumetric WebGL 2 study with optional sound.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/cone">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from cone.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Installation study 08</div>
+    <h1>Cone</h1>
+    <p>A black room, a little haze, and lasers on rotating mounts. Each beam is a line of light; turn it around a vertical axis and it sweeps a cone, stand it upright on a turning ring and it sweeps a cylinder, rock it and it opens a fan. The haze is what makes light visible: where it thickens, the beams burn brighter; where it thins, they almost vanish. The piece drifts through phases, from a slow, narrow calm to fast, wide intensity, the way weather does. Drag to walk around the room.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="drag" aria-label="Red laser beams sweeping through haze in a dark room. Drag to orbit the view, scroll or pinch to zoom."></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud br" id="hudBR"></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Sweep</span>
+      <div class="seg" id="sweep">
+        <button data-v="0">Cone</button>
+        <button data-v="1">Cylinder</button>
+        <button data-v="2">Fan</button>
+      </div>
+      <span class="lab">Mounts</span>
+      <div class="seg" id="layout">
+        <button data-v="0">Row</button>
+        <button data-v="1">Ring</button>
+        <button data-v="2">Ceiling grid</button>
+      </div>
+      <label for="count">Emitters <output for="count"></output></label>
+      <input id="count" type="range" min="1" max="12" step="1">
+    </div>
+    <div class="ctl">
+      <span class="lab">Phase</span>
+      <div class="row">
+        <button class="btn" id="auto" aria-pressed="true">Weather</button>
+      </div>
+      <label for="phase">Calm ↔ intense <output for="phase"></output></label>
+      <input id="phase" type="range" min="0" max="1" step="0.01">
+      <label for="spin">Rotation <output for="spin"></output></label>
+      <input id="spin" type="range" min="0" max="2" step="0.01">
+      <label for="tilt">Opening <output for="tilt"></output></label>
+      <input id="tilt" type="range" min="0.05" max="1" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="haze">Haze <output for="haze"></output></label>
+      <input id="haze" type="range" min="0" max="2" step="0.01">
+      <label for="width">Beam width <output for="width"></output></label>
+      <input id="width" type="range" min="0.5" max="4" step="0.05">
+      <label for="grain">Grain <output for="grain"></output></label>
+      <input id="grain" type="range" min="0" max="0.2" step="0.005">
+    </div>
+    <div class="ctl">
+      <span class="lab">Light</span>
+      <div class="seg" id="colour">
+        <button data-v="0">Red</button>
+        <button data-v="1">White</button>
+        <button data-v="2">Cyan</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="key" aria-pressed="true">White key beam</button>
+        <button class="btn" id="floor" aria-pressed="true">Floor spots</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Stage</span>
+      <div class="row">
+        <button class="btn" id="sound">Sound</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+      <p class="hint">Sound: one FM voice per emitter, its pitch bent by the beam's angle. It starts only when you press Sound.</p>
+    </div>
+  </div>
+  <p class="hint">Drag to walk around the room · scroll or pinch to zoom · the camera drifts on its own after a few seconds · keys 1–3 pick the sweep, W toggles weather.</p>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>Beams as lines, light as distance.</strong> There is no geometry. For every pixel the shader casts a ray from the eye and, for each beam, finds the point where the ray passes closest to the beam's segment (two skew lines have one closest pair of points, found in closed form). The light reaching the eye is a narrow Gaussian of that distance, times the haze density at that point, times a slow fall-off along the beam. A beam's width is never allowed to drop below the size of a pixel at that depth, and its brightness is scaled down by the same factor, so far beams stay smooth instead of shimmering.</p>
+  <p><strong>Sweeps.</strong> A <strong>Cone</strong> mount turns a beam tilted by the <strong>Opening</strong> angle around a vertical axis, so the beam sweeps a cone whose tip is the emitter. A <strong>Cylinder</strong> keeps every beam vertical and turns the whole ring of emitters. A <strong>Fan</strong> rocks each beam back and forth in one plane. Where a beam meets the floor it leaves a spot; the spots trace circles, ellipses and lines that show the sweep from above.</p>
+  <p><strong>Haze and weather.</strong> The haze is two octaves of 3D value noise drifting on a slow wind, so beams brighten and fade as they pass through denser air. <strong>Weather</strong> moves the piece between calm (slow turning, narrow openings, thin haze) and intense (fast, wide, dense) on a cycle of about a minute, with smooth transitions. Turn Weather off to hold a phase by hand. The grain is per-pixel noise renewed every frame and kept faint, like film stock.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of laser architecture: light as the only material, a restricted palette, mechanical rotation turned into volumes of light, and systems that move through phases instead of loops. It recreates no specific installation.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Single scattering only: light is not bounced from haze to haze, and beams do not cast shadows on each other.</li>
+    <li>The beams are lines with no divergence; real laser beams spread slightly and speckle.</li>
+    <li>No flashing by design: brightness changes come from continuous motion. With reduced motion set, everything runs at 30 % speed.</li>
+    <li>Twelve beams at full-screen 4K is heavy; the study renders at a capped resolution and keeps the frame rate by lowering it further if needed.</li>
+  </ul>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), errBox = document.getElementById('err');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), br:document.getElementById('hudBR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This study needs WebGL 2, which this browser or device does not provide.'); return; }
+
+const P = {sweep:0, layout:0, count:7, auto:true, phase:0.35, spin:1, tilt:0.45, haze:1, width:1.4, grain:0.04, colour:0, key:true, floor:true};
+const MAXB = 12;
+const COLOURS = [[1.0, 0.09, 0.06], [1.0, 0.97, 0.92], [0.3, 0.9, 1.0]];
+const SWEEPS = ['CONE', 'CYLINDER', 'FAN'], LAYOUTS = ['ROW', 'RING', 'GRID'];
+
+const FS = `#version 300 es
+precision highp float;
+uniform vec2 uRes; uniform float uTime, uGrain, uHaze, uWidth, uFloor, uPixAng;
+uniform vec3 uEye, uFwd, uRight, uUp;
+uniform int uN;
+uniform vec3 uO[${MAXB}]; uniform vec3 uD[${MAXB}]; uniform vec3 uC[${MAXB}]; uniform float uL[${MAXB}];
+out vec4 o;
+float h3(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx + 31.32); return fract((p.x + p.y)*p.z); }
+float vn(vec3 x){ vec3 i = floor(x), f = fract(x); f = f*f*(3.0 - 2.0*f);
+  return mix(mix(mix(h3(i), h3(i+vec3(1,0,0)), f.x), mix(h3(i+vec3(0,1,0)), h3(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(h3(i+vec3(0,0,1)), h3(i+vec3(1,0,1)), f.x), mix(h3(i+vec3(0,1,1)), h3(i+vec3(1,1,1)), f.x), f.y), f.z); }
+float haze(vec3 p){
+  vec3 w = vec3(uTime*0.11, uTime*0.03, -uTime*0.07);
+  return uHaze*(0.25 + 0.75*(0.62*vn(p*0.55 + w) + 0.38*vn(p*1.7 - w*1.6)));
+}
+void main(){
+  vec2 q = (gl_FragCoord.xy - 0.5*uRes)/uRes.y;
+  vec3 v = normalize(uFwd + uRight*q.x*uPixAng*uRes.y + uUp*q.y*uPixAng*uRes.y);
+  vec3 col = vec3(0.0);
+  // floor: where the ray meets y = 0
+  float sf = v.y < -1e-4 ? -uEye.y/v.y : 1e9;
+  vec3 F = uEye + v*sf;
+  for(int i = 0; i < ${MAXB}; i++){
+    if(i >= uN) break;
+    vec3 ob = uO[i], d = uD[i]; float L = uL[i];
+    // closest approach of the eye ray and the beam segment
+    vec3 w0 = uEye - ob; float b = dot(v, d), dd = dot(v, w0), e = dot(d, w0);
+    float den = 1.0 - b*b;
+    float u = den > 1e-5 ? (e - b*dd)/den : 0.0;
+    u = clamp(u, 0.0, L);
+    vec3 P = ob + d*u;
+    float s = dot(P - uEye, v);
+    if(s > 0.0 && s < sf + 0.05){
+      float dist = length(uEye + v*s - P);
+      float foot = s*uPixAng*1.2, w = max(uWidth*0.006, foot);
+      float k = uWidth*0.006/w;
+      float g = exp(-dist*dist/(w*w))*k*1.6 + exp(-dist/(0.12 + w*6.0))*0.09;
+      // a beam seen end-on would pile up light along the line of sight: cap by the angle
+      g *= smoothstep(0.0, 0.08, sqrt(max(den, 0.0)));
+      col += uC[i]*g*haze(P)*exp(-u*0.07);
+    }
+    if(uFloor > 0.5 && sf < 1e8 && d.y < -1e-3){
+      vec3 H = ob + d*L;
+      float r = length(F.xz - H.xz);
+      col += uC[i]*(exp(-r*r/0.0012)*0.9 + exp(-r*6.0)*0.05)*smoothstep(1e8, 0.0, sf);
+    }
+  }
+  // the floor itself catches a little scattered light
+  if(sf < 1e8){ col += vec3(0.012)*exp(-length(F.xz)*0.5); }
+  col = col/(1.0 + col*0.35);
+  vec3 g = pow(max(col, 0.0), vec3(0.4545));
+  g += (fract(sin(dot(gl_FragCoord.xy + fract(uTime*17.0)*vec2(91.7, 37.3), vec2(12.9898, 78.233)))*43758.5453) - 0.5)*uGrain*(0.35 + g);
+  o = vec4(g, 1.0);
+}`;
+
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+
+/* ---------------- controls ---------------- */
+GL.seg('layout', P.layout, v => P.layout = +v);
+const setColour = GL.seg('colour', P.colour, v => P.colour = +v);
+GL.slider('count', P, 'count', v => v.toFixed(0));
+const phaseEl = GL.slider('phase', P, 'phase', v => v.toFixed(2));
+['spin','tilt','haze','width'].forEach(k => GL.slider(k, P, k, v => v.toFixed(2)));
+GL.slider('grain', P, 'grain', v => v.toFixed(3));
+GL.fullscreen('fs', stage);
+const toggle = (id, key, on) => { const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); if(on) on(); }); return b; };
+const autoBtn = toggle('auto', 'auto'); toggle('key', 'key'); toggle('floor', 'floor');
+phaseEl.addEventListener('input', () => { P.auto = false; autoBtn.setAttribute('aria-pressed', 'false'); });
+const setSweep = GL.seg('sweep', P.sweep, v => P.sweep = +v);
+window.addEventListener('keydown', e => {
+  if(e.target.closest && e.target.closest('input,textarea,select')) return;
+  if(e.key >= '1' && e.key <= '3'){ P.sweep = +e.key - 1; setSweep(P.sweep); }
+  if(e.key === 'w' || e.key === 'W'){ P.auto = !P.auto; autoBtn.setAttribute('aria-pressed', String(P.auto)); }
+});
+
+/* camera: orbit around the middle of the room */
+const cam = {yaw:0.5, pitch:0.1, dist:6.6, minDist:3, maxDist:12, touched:-1e9};
+GL.orbit(cv, cam);
+
+/* ---------------- sound: one FM voice per emitter ---------------- */
+let voices = null;
+const NOTES = [55, 65.41, 73.42, 82.41, 98, 110, 130.81, 146.83, 164.81, 196, 220, 261.63];
+const soundOn = GLX.soundButton('sound', A => {
+  const ac = A.ac, lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 1400; lp.connect(A.master);
+  voices = NOTES.map(f => {
+    const car = ac.createOscillator(), mod = ac.createOscillator(), mg = ac.createGain(), g = ac.createGain();
+    car.frequency.value = f; mod.frequency.value = f*2.01; mg.gain.value = 0; g.gain.value = 0;
+    mod.connect(mg); mg.connect(car.frequency); car.connect(g); g.connect(lp); car.start(); mod.start();
+    return {car, mg, g, f};
+  });
+});
+
+/* ---------------- frame ---------------- */
+const beams = {o:new Float32Array(MAXB*3), d:new Float32Array(MAXB*3), c:new Float32Array(MAXB*3), l:new Float32Array(MAXB)};
+let last = performance.now(), t = 0, fps = 60, hudAt = 0, angle = 0, phaseNow = P.phase, scale = 1;
+const ease = x => x*x*(3 - 2*x);
+function mounts(n){
+  const out = [];
+  for(let i = 0; i < n; i++){
+    const f = n === 1 ? 0.5 : i/(n - 1);
+    if(P.layout === 0) out.push([-2.6 + 5.2*f, 3.1, 0]);
+    else if(P.layout === 1){ const a = i/n*Math.PI*2; out.push([Math.cos(a)*1.9, 3.1, Math.sin(a)*1.9]); }
+    else { const c = Math.ceil(Math.sqrt(n)), r = Math.floor(i/c), k = i % c, rows = Math.ceil(n/c); out.push([-2.2 + 4.4*(c === 1 ? 0.5 : k/(c - 1)), 3.1, -1.6 + 3.2*(rows === 1 ? 0.5 : r/(rows - 1))]); }
+  }
+  return out;
+}
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, raw); last = now;
+  const sp = GL.reducedMotion ? 0.3 : 1;
+  t += dt*sp;
+  if(raw > 0) fps += (1/raw - fps)*0.05;
+  // keep the frame rate: lower the render scale when slow, raise it back when there is room
+  if(fps < 40 && scale > 0.5) scale -= 0.01; else if(fps > 56 && scale < 1) scale += 0.005;
+  GL.fit(cv, 1.25*scale);
+
+  // weather: a slow, smooth cycle between calm and intense
+  if(P.auto){
+    const w = 0.5 + 0.5*Math.sin(t*0.1 - 1.2) * (0.8 + 0.2*Math.sin(t*0.037));
+    phaseNow += (ease(Math.min(1, Math.max(0, w))) - phaseNow)*0.02;
+    P.phase = phaseNow; phaseEl.value = P.phase; document.querySelector('output[for="phase"]').textContent = P.phase.toFixed(2);
+  } else phaseNow = P.phase;
+  const ph = phaseNow;
+  angle += dt*sp*P.spin*(0.25 + 1.6*ph);
+  const open = P.tilt*(0.35 + 0.65*ph);
+  const hazeNow = P.haze*(0.55 + 0.6*ph);
+
+  if(now - cam.touched > 4000 && !GL.reducedMotion){ cam.yaw += dt*0.03; }
+  const tgt = [0, 1.45, 0], cp = Math.cos(cam.pitch);
+  const eye = [tgt[0] + cam.dist*cp*Math.sin(cam.yaw), Math.max(0.3, tgt[1] + cam.dist*Math.sin(cam.pitch)), tgt[2] + cam.dist*cp*Math.cos(cam.yaw)];
+  let f = [tgt[0]-eye[0], tgt[1]-eye[1], tgt[2]-eye[2]], l = Math.hypot(...f); f = f.map(x => x/l);
+  let r = [-f[2], 0, f[0]]; l = Math.hypot(...r) || 1; r = r.map(x => x/l);
+  const u = [r[1]*f[2]-r[2]*f[1], r[2]*f[0]-r[0]*f[2], r[0]*f[1]-r[1]*f[0]];
+  const fov = 0.9, pixAng = 2*Math.tan(fov/2)/cv.height;
+
+  const M = mounts(P.count);
+  const base = COLOURS[P.colour];
+  for(let i = 0; i < MAXB; i++){
+    if(i >= P.count) break;
+    const o = M[i], ph_i = i*0.83;
+    let d;
+    if(P.sweep === 0){ const th = open*1.2, a = angle*(i % 2 ? -1 : 1) + ph_i; d = [Math.sin(th)*Math.cos(a), -Math.cos(th), Math.sin(th)*Math.sin(a)]; }
+    else if(P.sweep === 1){ const a = angle*0.6, R = Math.hypot(o[0], o[2]) || 1; const ang = Math.atan2(o[2], o[0]) + a; o[0] = Math.cos(ang)*R*(0.6 + open*0.6); o[2] = Math.sin(ang)*R*(0.6 + open*0.6); d = [0.04*Math.sin(angle + ph_i), -1, 0.04*Math.cos(angle + ph_i)]; }
+    else { const s = Math.sin(angle*1.3 + ph_i)*open*1.25; d = [Math.sin(s), -Math.cos(s), 0]; }
+    const dl = Math.hypot(...d); d = d.map(x => x/dl);
+    const L = d[1] < -1e-3 ? o[1]/(-d[1]) : 12;
+    beams.o.set(o, i*3); beams.d.set(d, i*3); beams.l[i] = Math.min(L, 14);
+    const key = P.key && i === Math.floor((P.count - 1)/2) && P.colour !== 1;
+    beams.c.set(key ? COLOURS[1].map(x => x*0.8) : base, i*3);
+    if(voices && soundOn()){
+      const v = voices[i], ac = GLX._ac.ac;
+      v.car.frequency.setTargetAtTime(v.f*Math.pow(2, 0.25*Math.sin(Math.atan2(d[2], d[0]))/12*4), ac.currentTime, 0.05);
+      v.mg.gain.setTargetAtTime(v.f*(0.3 + 2.5*ph)*P.spin, ac.currentTime, 0.1);
+      v.g.gain.setTargetAtTime(0.05, ac.currentTime, 0.1);
+    }
+  }
+  if(voices) for(let i = P.count; i < MAXB; i++) voices[i].g.gain.setTargetAtTime(0, GLX._ac.ac.currentTime, 0.1);
+
+  gl.useProgram(prog.p);
+  const U = prog.u;
+  gl.uniform2f(U.uRes, cv.width, cv.height);
+  gl.uniform1f(U.uTime, t); gl.uniform1f(U.uGrain, P.grain); gl.uniform1f(U.uHaze, hazeNow); gl.uniform1f(U.uWidth, P.width);
+  gl.uniform1f(U.uFloor, P.floor ? 1 : 0); gl.uniform1f(U.uPixAng, pixAng);
+  gl.uniform3fv(U.uEye, eye); gl.uniform3fv(U.uFwd, f); gl.uniform3fv(U.uRight, r); gl.uniform3fv(U.uUp, u);
+  gl.uniform1i(U.uN, P.count);
+  gl.uniform3fv(U.uO, beams.o); gl.uniform3fv(U.uD, beams.d); gl.uniform3fv(U.uC, beams.c); gl.uniform1fv(U.uL, beams.l);
+  GLX.pass(gl, vao, prog, null, cv.width, cv.height);
+
+  if(now - hudAt > 250){
+    hudAt = now;
+    hud.tl.textContent = 'CONE\n' + (P.auto ? 'WEATHER · ' : '') + (ph < 0.33 ? 'CALM' : ph < 0.66 ? 'RISING' : 'INTENSE') + ' ' + ph.toFixed(2);
+    hud.tr.textContent = P.count + ' EMITTERS\n' + SWEEPS[P.sweep] + ' · ' + LAYOUTS[P.layout];
+    hud.br.textContent = fps.toFixed(0) + ' FPS · ' + Math.round(scale*100) + '%';
+  }
+}
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv});
+})();
+</script>
+</body>
+</html>
