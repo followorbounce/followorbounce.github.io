@@ -134,10 +134,22 @@
     });
   }
 
+  // every step of the knot sits in the same grid cell; only the current one is visible,
+  // so the box always has the height of the longest step and the page never jumps
+  function buildSteps(k) {
+    var box = el('kd-step');
+    box.textContent = '';
+    k.steps.forEach(function (s, i) {
+      var sp = document.createElement('span');
+      sp.className = 'kd-s'; sp.textContent = s.t; sp.setAttribute('aria-hidden', 'true');
+      box.appendChild(sp);
+    });
+  }
   function showStep(i) {
-    var n = knot.steps.length;
+    var n = knot.steps.length, kids = el('kd-step').children;
     el('kd-n').textContent = 'Step ' + (i + 1) + ' / ' + n;
-    el('kd-step').textContent = knot.steps[i].t;
+    for (var j = 0; j < kids.length; j++) { var on = j === i; kids[j].classList.toggle('on', on); kids[j].setAttribute('aria-hidden', on ? 'false' : 'true'); }
+    el('kd-live').textContent = 'Step ' + (i + 1) + ': ' + knot.steps[i].t;
   }
   function go(i) {
     var n = knot.steps.length;
@@ -157,6 +169,7 @@
     el('kd-chip-a').textContent = dots; el('kd-chip-a').hidden = !dots;
     el('kd-chip-b').textContent = (k.acts || []).slice(0, 2).join(' · '); el('kd-chip-b').hidden = !(k.acts || []).length;
     el('kd-open').href = BASE + 'knots/' + k.slug + '/';
+    buildSteps(k);
     st.pos = 0; st.target = 0; st.settled = 0;
     if (reduce) { st.pos = st.target = k.steps.length - 1; }
     showStep(st.target);

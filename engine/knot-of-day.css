@@ -1,9 +1,12 @@
 /* ---- Knot Atlas: knot of the day (reuses the .bf-* card from blog-feed.css) ---- */
 .knotday{padding-block:28px; border-bottom:1px solid var(--ink);}
-.kd-card .bf-sum{-webkit-line-clamp:3;}
-.kd-stepbox{display:flex; gap:10px; align-items:baseline; border-top:1px solid var(--line); padding-top:10px; margin:2px 0 10px; min-height:3.6em;}
+.kd-card .bf-sum{-webkit-line-clamp:3; min-height:calc(3*1.6em);}
+.kd-stepbox{display:flex; gap:10px; align-items:baseline; border-top:1px solid var(--line); padding-top:10px; margin:2px 0 10px; min-height:3.6em; position:relative;}
 .kd-n{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); white-space:nowrap;}
-.kd-step{margin:0; color:var(--ink-body,#28282a); max-width:62ch;}
+.kd-step{margin:0; color:var(--ink-body,#28282a); max-width:62ch; display:grid; flex:1; min-width:0;}
+.kd-step .kd-s{grid-area:1/1; visibility:hidden;}
+.kd-step .kd-s.on{visibility:visible;}
+.kd-live{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
 .kd-ctrl{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:14px;}
 .kd-ctrl button{font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; min-height:44px; min-width:44px; padding:0 12px;
   border:1px solid var(--ink); background:var(--paper); color:var(--ink); cursor:pointer;}
