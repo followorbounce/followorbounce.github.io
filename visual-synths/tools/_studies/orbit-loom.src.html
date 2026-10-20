@@ -1,0 +1,439 @@
+{"title": "Orbit Loom", "desc": "A sun-synchronous satellite weaves its ground track over the Earth, one thread per orbit, crossing the equator at the same local time every time, until the pattern repeats. J2 orbital mechanics, a repeat-orbit solver checked against Landsat and Sentinel-2, live swath coverage. WebGL 2 data sculpture with sound."}
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Aerospace piece 05 · Data sculpture</div>
+    <h1>Orbit Loom</h1>
+    <p>An Earth-observation satellite circles the planet about fourteen times a day, from pole to pole, while the Earth turns beneath it. Each orbit lays one thread across the map, a little to the west of the last. After sixteen days Landsat's threads close into a cloth and the pattern starts again exactly where it began. Its orbit is tilted so that Earth's equatorial bulge turns it once a year, in step with the Sun: every thread crosses the equator at the same local time, mid-morning, wherever it is.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="A world map in black and grey with fine white ground-track lines accumulating from a satellite in a near-polar orbit, and a day–night line."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="wall-label" id="label"><b id="labelHead"></b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Satellite</span>
+      <div class="seg" id="preset">
+        <button data-v="landsat">Landsat 9</button>
+        <button data-v="s2">Sentinel-2</button>
+        <button data-v="terra">Terra (MODIS)</button>
+      </div>
+      <label for="alt">Altitude <output for="alt"></output></label>
+      <input id="alt" type="range" min="400" max="1200" step="0.1">
+    </div>
+    <div class="ctl">
+      <label for="ltdn">Equator crossing, local time <output for="ltdn"></output></label>
+      <input id="ltdn" type="range" min="6" max="18" step="0.25">
+      <label for="swath">Swath width <output for="swath"></output></label>
+      <input id="swath" type="range" min="1.3" max="3.4" step="0.01">
+      <div class="row"><button class="btn" id="snap">Snap to a repeating orbit</button></div>
+    </div>
+    <div class="ctl">
+      <label for="speed">Speed <output for="speed"></output></label>
+      <input id="speed" type="range" min="-0.7" max="1.3" step="0.01">
+      <div class="row">
+        <button class="btn" id="pause">Pause</button>
+        <button class="btn" id="clear">Start over</button>
+      </div>
+      <span class="lab">Show</span>
+      <div class="row">
+        <button class="btn" id="cover" aria-pressed="true">Swath</button>
+        <button class="btn" id="night" aria-pressed="true">Night side</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Room</span>
+      <div class="row">
+        <button class="btn" id="snd">Sound</button>
+        <button class="btn" id="lab">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Changing the altitude keeps the orbit sun-synchronous: the inclination follows from the altitude. Sound starts only when you press Sound: one note for each equator crossing.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span>Inclination for a sun-synchronous orbit</span><span>degrees</span></div><canvas id="plotA"></canvas><div class="note">Higher orbits feel less of the bulge, so they must tilt further past the pole to keep pace with the Sun.</div></div>
+    <div class="plot"><div class="cap"><span>Ground seen so far</span><span>% of Earth between the track's limits</span></div><canvas id="plotB"></canvas><div class="note">Measured on the map as the swath sweeps, area-weighted. A wide swath covers the Earth in a day or two; a narrow one needs the whole cycle.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>The orbit.</strong> A circular orbit around an Earth with its equatorial bulge (the J2 term, 1.08263 × 10⁻³). The bulge makes the orbit's plane turn: <code>Ω̇ = −(3/2)·n·J2·(R/a)²·cos i</code>. Choosing the inclination so that Ω̇ matches the Sun's yearly motion, 360° in 365.2422 days, gives a sun-synchronous orbit: the guide's formula. The bulge also speeds up the satellite's motion around the orbit, <code>u̇ = n·[1 + (3/4)·J2·(R/a)²·(8cos²i − 2)]</code>, which sets the nodal period, from one equator crossing to the next of the same kind.</p>
+  <p><strong>The weave.</strong> Each point of the track is the satellite's direction from Earth's centre turned into latitude and longitude, with the Earth rotating underneath at 7.2921 × 10⁻⁵ rad/s (sidereal). Successive tracks cross the equator further west by the angle the Earth turns in one nodal period. The pattern repeats when a whole number of orbits fits a whole number of days, measured against the turning orbit plane: <code>N·T<sub>nodal</sub> = D·2π/(ω<sub>E</sub> − Ω̇)</code>. <em>Snap</em> solves that for the altitude. Sentinel-2's 143 orbits in 10 days come out at 786.1 km, its published altitude. Landsat's 233 in 16 give a semi-major axis of 7,077.7 km, which is how Landsat's orbit is specified; the familiar "705 km" is the height above the ground near the equator rather than above the 6,378 km reference radius used here. The gap between neighbouring tracks at the equator, 2πR/N, is Landsat's 172 km between paths.</p>
+  <p><strong>Local time.</strong> The orbit plane is set so the descending crossing of the equator (heading south, on the day side) happens at the chosen local mean solar time. The Sun's position and the day–night line come from a standard low-precision solar formula; the night side is shaded.</p>
+  <p><strong>Coverage.</strong> The swath, the strip the instrument sees, is painted onto a coverage map as the satellite moves; the percentage is the painted area weighted by the cosine of latitude, within the latitudes the swath can reach.</p>
+  <h3>Lineage</h3>
+  <p>A data sculpture in the language of weaving: one thread at a time, the newest bright and the older ones fading, a cloth that only shows its pattern when the cycle closes. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>J2 only and a circular orbit; real satellites trim their orbits for drag and higher-order gravity, and use a slightly eccentric "frozen" orbit. The Earth is drawn as a sphere, so latitudes are geocentric.</li>
+    <li>Local time is mean solar time; the real Sun runs up to 16 minutes ahead or behind it through the year (the equation of time), which the day–night line includes only roughly.</li>
+    <li>The swath is a strip perpendicular to the track on the map; real instruments see a curved footprint.</li>
+    <li>The coastline is Natural Earth at 1:110 million, public domain.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>D. A. Vallado, Fundamentals of Astrodynamics and Applications: secular J2 rates.</li>
+    <li>USGS, Landsat 9 mission: 705 km, 16-day repeat, 233 orbits (WRS-2), descending node near 10:00 local time, 185 km swath.</li>
+    <li>ESA, Sentinel-2 mission guide: 786 km, 10-day repeat, 143 orbits, descending node 10:30, 290 km swath.</li>
+    <li>NASA, Terra: 705 km, 16-day repeat, descending node 10:30; MODIS swath 2,330 km.</li>
+    <li>Natural Earth, land at 1:110m (public domain), via world-atlas TopoJSON.</li>
+  </ul>
+  <a class="guide-link" href="/aerospace/sunsync-earth-observation">Read the guide: SUNSYNC — Earth Observation →</a>
+</section>
+
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This piece needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* ---------------- orbit mechanics (guide constants) ---------------- */
+const MU = 398600.4418, RE = 6378.137, J2 = 1.08263e-3, YEAR = 365.2422*86400, WE = 7.2921158553e-5, D2R = Math.PI/180;
+const OMEGA_SSO = 2*Math.PI/YEAR;
+const nOf = a => Math.sqrt(MU/(a*a*a));
+function ssoInc(a){ const c = -OMEGA_SSO/(1.5*nOf(a)*J2*Math.pow(RE/a, 2)); return Math.acos(Math.max(-1, Math.min(1, c))); }
+function rates(a, i){
+  const n = nOf(a), k = J2*Math.pow(RE/a, 2), ci = Math.cos(i);
+  return {n, Od: -1.5*n*k*ci, ud: n*(1 + 0.75*k*(8*ci*ci - 2))};
+}
+/* repeat solver: N orbits in D days (sun-synchronous) */
+function repeatAlt(N, D){
+  let lo = RE + 300, hi = RE + 1500;
+  const f = a => { const r = rates(a, ssoInc(a)); return N*(2*Math.PI/r.ud) - D*2*Math.PI/(WE - r.Od); };
+  for(let k = 0; k < 80; k++){ const m = (lo + hi)/2; if(f(lo)*f(m) <= 0) hi = m; else lo = m; }
+  return (lo + hi)/2 - RE;
+}
+/* the Sun, low precision (Astronomical Almanac): right ascension, declination, mean longitude */
+function sun(ms){
+  const d = ms/86400000 + 2440587.5 - 2451545.0, L = (280.460 + 0.9856474*d)*D2R, g = (357.528 + 0.9856003*d)*D2R;
+  const lam = L + (1.915*Math.sin(g) + 0.020*Math.sin(2*g))*D2R, eps = (23.439 - 0.0000004*d)*D2R;
+  return {ra: Math.atan2(Math.cos(eps)*Math.sin(lam), Math.cos(lam)), dec: Math.asin(Math.sin(eps)*Math.sin(lam)), L, d};
+}
+function gmst(ms){ const d = ms/86400000 + 2440587.5 - 2451545.0; return ((280.46061837 + 360.98564736629*d) % 360)*D2R; }
+
+/* ---------------- state ---------------- */
+const PRESETS = {
+  landsat:{name:'Landsat 9', alt:705, N:233, D:16, ltdn:10.0, swath:185, note:'USGS/NASA, launched 2021'},
+  s2:{name:'Sentinel-2', alt:786, N:143, D:10, ltdn:10.5, swath:290, note:'ESA Copernicus, launched 2015'},
+  terra:{name:'Terra (MODIS)', alt:705, N:233, D:16, ltdn:10.5, swath:2330, note:'NASA, launched 1999'}
+};
+const P = {preset:'landsat', alt:705, ltdn:10, logswath:Math.log10(185), speed:0, paused:false, cover:true, night:true};
+const T0 = Date.now();
+let simT = 0, orb = null, lastDraw = 0, crossings = 0, covHist = [], prevLat = null;
+function setupOrbit(){
+  const a = RE + P.alt, i = ssoInc(a), r = rates(a, i);
+  const S = sun(T0);
+  // descending node (heading south) at local mean time LTDN: node longitude relative to the mean Sun
+  const OmegaDesc = S.L + (P.ltdn - 12)*Math.PI/12;      // right ascension of the descending node at T0
+  orb = {a, i, Od:r.Od, ud:r.ud, n:r.n, Om0: OmegaDesc + Math.PI, u0: Math.PI, Tn:2*Math.PI/r.ud};   // start at the descending node
+}
+function subPoint(t){
+  const u = orb.u0 + orb.ud*t, Om = orb.Om0 + orb.Od*t, ci = Math.cos(orb.i), si = Math.sin(orb.i);
+  const x = Math.cos(Om)*Math.cos(u) - Math.sin(Om)*Math.sin(u)*ci, y = Math.sin(Om)*Math.cos(u) + Math.cos(Om)*Math.sin(u)*ci, z = Math.sin(u)*si;
+  let lon = Math.atan2(y, x) - gmst(T0 + t*1000); lon = ((lon + Math.PI) % (2*Math.PI) + 2*Math.PI) % (2*Math.PI) - Math.PI;
+  return {lat: Math.asin(z), lon, u};
+}
+
+/* ---------------- GL: weave and coverage targets, line program, display ---------------- */
+const MW = 2048, MH = 1024, CW = 512, CH = 256;
+const weave = GLX.pingpong(gl, MW, MH), cover = GLX.target(gl, CW, CH, {byte:true}), coverDisp = GLX.target(gl, MW/2, MH/2, {byte:true});
+const LINE_VS = `#version 300 es
+layout(location=0) in vec3 aP;   // lon, lat (radians), value
+out float vV;
+void main(){ vV = aP.z; gl_Position = vec4(aP.x/3.14159265, aP.y/1.5707963, 0.0, 1.0); }`;
+const LINE_FS = `#version 300 es
+precision highp float; in float vV; out vec4 o; uniform vec4 uCol;
+void main(){ o = uCol*vV; }`;
+const FADE_FS = `#version 300 es
+precision highp float; in vec2 vUv; out vec4 o; uniform sampler2D uPrev; uniform float uKeep;
+void main(){ o = texture(uPrev, vUv)*uKeep; }`;
+const SHOW_FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+float sq(float x){ return x*x; }
+uniform sampler2D uWeave, uLand, uCover; uniform vec2 uRes, uSat; uniform vec3 uSun; uniform float uNight, uShowCover, uT;
+float h1(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)))*43758.5453); }
+void main(){
+  // fit the 2:1 map into the stage, centred
+  vec2 frag = gl_FragCoord.xy;
+  float mw = min(uRes.x, uRes.y*2.0), mh = mw*0.5;
+  vec2 m = (frag - 0.5*(uRes - vec2(mw, mh)))/vec2(mw, mh);
+  if(m.x < 0.0 || m.x > 1.0 || m.y < 0.0 || m.y > 1.0){ o = vec4(0.0, 0.0, 0.0, 1.0); return; }
+  float lon = (m.x - 0.5)*6.2831853, lat = (m.y - 0.5)*3.1415927;
+  vec3 c = vec3(0.0);
+  float land = texture(uLand, m).r, coast = texture(uLand, m).g;
+  c += vec3(0.075)*land + vec3(0.22)*coast;
+  // graticule every 30 degrees, equator a little brighter
+  vec2 gd = vec2(lon, lat)/0.5235988; vec2 fw = fwidth(gd);
+  vec2 gl2 = smoothstep(fw*1.2, vec2(0.0), abs(fract(gd + 0.5) - 0.5));
+  c += vec3(0.05)*max(gl2.x, gl2.y) + vec3(0.07)*smoothstep(fw.y*1.5, 0.0, abs(lat/0.5235988));
+  // night side
+  vec3 nrm = vec3(cos(lat)*cos(lon), cos(lat)*sin(lon), sin(lat));
+  float sd = dot(nrm, uSun);
+  float day = smoothstep(-0.05, 0.05, sd);
+  c *= mix(1.0, mix(0.45, 1.0, day), uNight);
+  c += vec3(0.10, 0.08, 0.05)*day*uNight*0.25;
+  c += vec3(0.35, 0.30, 0.22)*exp(-sq(sd/0.006))*uNight*0.35;
+  // coverage tint
+  float cov = texture(uCover, m).r;
+  c += vec3(0.025, 0.05, 0.11)*cov*uShowCover;
+  // threads
+  vec4 w = texture(uWeave, m);
+  c += vec3(0.95, 0.96, 1.0)*(1.0 - exp(-w.r*1.6));
+  // the satellite now
+  vec2 sp = vec2(uSat.x/6.2831853 + 0.5, uSat.y/3.1415927 + 0.5);
+  vec2 dp = (m - sp)*vec2(mw, mh); float ds = length(dp);
+  c += vec3(1.0)*exp(-ds*0.55)*1.3 + vec3(1.0, 0.45, 0.3)*exp(-ds*0.08)*0.18;
+  c = pow(max(c, 0.0), vec3(0.4545)) + (h1(frag + fract(uT)*17.0) - 0.5)*0.01;
+  o = vec4(c, 1.0);
+}`;
+let lineP, fadeP, showP;
+try { lineP = GL.program(gl, LINE_VS, LINE_FS); fadeP = GL.program(gl, GLX.VS, FADE_FS); showP = GL.program(gl, GLX.VS, SHOW_FS); }
+catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+const lineVao = gl.createVertexArray(), lineBuf = gl.createBuffer();
+gl.bindVertexArray(lineVao); gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf); gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 3, gl.FLOAT, false, 0, 0); gl.bindVertexArray(null);
+const landTex = gl.createTexture();
+gl.bindTexture(gl.TEXTURE_2D, landTex); gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, 1, 1, 0, gl.RGBA, gl.UNSIGNED_BYTE, new Uint8Array([0, 0, 0, 255]));
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT);
+function clearTargets(){ [weave.a, weave.b, cover, coverDisp].forEach(t => { gl.bindFramebuffer(gl.FRAMEBUFFER, t.fb); gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); }); gl.bindFramebuffer(gl.FRAMEBUFFER, null); }
+
+/* land: decode the TopoJSON and rasterise fill (red) and coastline (green) into a texture */
+function loadLand(topo){
+  const sx = topo.transform.scale, tr = topo.transform.translate;
+  const arcs = topo.arcs.map(a => { let x = 0, y = 0; return a.map(p => { x += p[0]; y += p[1]; return [x*sx[0] + tr[0], y*sx[1] + tr[1]]; }); });
+  const ring = idx => { let pts = []; idx.forEach(k => { const a = k >= 0 ? arcs[k] : arcs[~k].slice().reverse(); pts = pts.concat(pts.length ? a.slice(1) : a); }); return pts; };
+  const W = 2048, H = 1024, c = document.createElement('canvas'); c.width = W; c.height = H;
+  const x = c.getContext('2d'), X = lo => (lo + 180)/360*W, Y = la => (90 - la)/180*H;
+  x.fillStyle = '#000'; x.fillRect(0, 0, W, H);
+  const polys = [];
+  topo.objects.land.geometries.forEach(g => { const list = g.type === 'Polygon' ? [g.arcs] : g.arcs; list.forEach(poly => polys.push(poly.map(ring))); });
+  const path = () => { x.beginPath(); polys.forEach(poly => poly.forEach(r => { r.forEach((p, i) => i ? x.lineTo(X(p[0]), Y(p[1])) : x.moveTo(X(p[0]), Y(p[1]))); x.closePath(); })); };
+  x.globalCompositeOperation = 'lighter';
+  path(); x.fillStyle = 'rgb(255,0,0)'; x.fill('evenodd');
+  path(); x.strokeStyle = 'rgb(0,255,0)'; x.lineWidth = 1.2; x.stroke();
+  gl.bindTexture(gl.TEXTURE_2D, landTex);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE, c);
+  gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, false);
+}
+
+/* draw the track from t0 to t1 into the weave (thread) and coverage (swath) targets */
+const segBuf = [];
+function trackSegments(t0, t1, swathKm){
+  const steps = Math.max(2, Math.ceil((t1 - t0)/20)), thread = [], strip = [];
+  let prev = subPoint(t0);
+  const hw = swathKm/2/RE;              // half-width in radians of arc
+  for(let k = 1; k <= steps; k++){
+    const t = t0 + (t1 - t0)*k/steps, cur = subPoint(t);
+    if(Math.abs(cur.lon - prev.lon) < Math.PI){
+      thread.push(prev.lon, prev.lat, 1, cur.lon, cur.lat, 1);
+      // swath: offsets perpendicular to the track direction on the sphere, mapped to lon/lat
+      const dlon = (cur.lon - prev.lon)*Math.cos(cur.lat), dlat = cur.lat - prev.lat, L = Math.hypot(dlon, dlat) || 1;
+      const px = -dlat/L, py = dlon/L;
+      const off = (p, s) => [p.lon + s*hw*px/Math.max(0.05, Math.cos(p.lat)), p.lat + s*hw*py];
+      const a1 = off(prev, 1), a2 = off(prev, -1), b1 = off(cur, 1), b2 = off(cur, -1);
+      if(Math.abs(a1[0] - b2[0]) < Math.PI && Math.abs(a2[0] - b1[0]) < Math.PI) strip.push(a1[0], a1[1], 1, a2[0], a2[1], 1, b1[0], b1[1], 1, a2[0], a2[1], 1, b2[0], b2[1], 1, b1[0], b1[1], 1);
+    }
+    prev = cur;
+  }
+  return {thread:new Float32Array(thread), strip:new Float32Array(strip)};
+}
+function drawInto(target, w, h, data, mode, col, blendMax){
+  if(!data.length) return;
+  gl.bindFramebuffer(gl.FRAMEBUFFER, target.fb); gl.viewport(0, 0, w, h);
+  gl.useProgram(lineP.p); gl.uniform4fv(lineP.u.uCol, col);
+  gl.bindVertexArray(lineVao); gl.bindBuffer(gl.ARRAY_BUFFER, lineBuf); gl.bufferData(gl.ARRAY_BUFFER, data, gl.STREAM_DRAW);
+  gl.enable(gl.BLEND); gl.blendEquation(blendMax ? gl.MAX : gl.FUNC_ADD); gl.blendFunc(gl.ONE, gl.ONE);
+  gl.drawArrays(mode, 0, data.length/3);
+  gl.disable(gl.BLEND); gl.blendEquation(gl.FUNC_ADD);
+}
+
+/* ---------------- coverage measurement (read back the small coverage map) ---------------- */
+const covPx = new Uint8Array(CW*CH*4);
+function measureCoverage(){
+  gl.bindFramebuffer(gl.FRAMEBUFFER, cover.fb); gl.readPixels(0, 0, CW, CH, gl.RGBA, gl.UNSIGNED_BYTE, covPx);
+  const limit = orb.i > Math.PI/2 ? Math.PI - orb.i : orb.i, latMax = Math.min(Math.PI/2, limit + (Math.pow(10, P.logswath)/2)/RE);
+  let a = 0, s = 0;
+  for(let y = 0; y < CH; y++){
+    const lat = ((y + 0.5)/CH - 0.5)*Math.PI; if(Math.abs(lat) > latMax) continue;
+    const w = Math.cos(lat);
+    for(let x = 0; x < CW; x++){ a += w; if(covPx[(y*CW + x)*4] > 127) s += w; }
+  }
+  return s/a;
+}
+
+/* ---------------- readouts and controls ---------------- */
+const R = MUSEUM.readouts('ro', [
+  ['inc', 'Inclination', 'model'], ['per', 'Nodal period', 'model'], ['opd', 'Orbits per day', 'model'], ['shift', 'Shift per orbit at the equator', 'model'],
+  ['rep', 'Repeat cycle', 'model'], ['gap', 'Track spacing after the cycle', 'model'], ['node', 'Orbit plane turns', 'model'], ['vg', 'Ground speed', 'model'],
+  ['cov', 'Ground seen so far', 'model'], ['time', 'Elapsed', 'model'], ['check', 'Check: repeat altitude', 'data']
+]);
+const fmt = MUSEUM.fmt;
+const altEl = GL.slider('alt', P, 'alt', v => v.toFixed(1) + ' km');
+const ltEl = GL.slider('ltdn', P, 'ltdn', v => String(Math.floor(v)).padStart(2, '0') + ':' + String(Math.round((v % 1)*60)).padStart(2, '0'));
+const swEl = GL.slider('swath', P, 'logswath', v => Math.round(Math.pow(10, v)).toLocaleString('en-GB') + ' km');
+GL.slider('speed', P, 'speed', v => fmt(Math.pow(10, v), 1) + ' orbits/s');
+const setPreset = GL.seg('preset', P.preset, v => applyPreset(v));
+let repeatNow = null;
+function findRepeat(){
+  // smallest cycle (≤ 30 days) whose repeat altitude lies within 3 km of the current altitude
+  const a = RE + P.alt, r = rates(a, ssoInc(a)), opd = 86400*2*Math.PI/r.ud/(2*Math.PI/(WE - r.Od))*(86400/86400);
+  const perDay = (2*Math.PI/(WE - r.Od))/(2*Math.PI/r.ud);
+  for(let D = 1; D <= 30; D++){ const N = Math.round(perDay*D); if(Math.abs(repeatAlt(N, D) - P.alt) < 1.5 && gcd(N, D) === 1) return {N, D}; }
+  return null;
+}
+function gcd(a, b){ return b ? gcd(b, a % b) : a; }
+function restart(){ setupOrbit(); simT = 0; lastDraw = 0; crossings = 0; covHist = []; prevLat = null; clearTargets(); repeatNow = findRepeat(); plotDirty = true; }
+function applyPreset(k){
+  const p = PRESETS[k]; P.preset = k; P.alt = Math.round(repeatAlt(p.N, p.D)*10)/10; P.ltdn = p.ltdn; P.logswath = Math.log10(p.swath);
+  altEl.value = P.alt; ltEl.value = P.ltdn; swEl.value = P.logswath; [altEl, ltEl, swEl].forEach(el => el.dispatchEvent(new Event('input')));
+  P.preset = k; setPreset(k); restart(); showLabel();
+}
+[altEl, ltEl].forEach(el => el.addEventListener('input', () => { if(el === document.activeElement || P.preset === 'custom'){ P.preset = 'custom'; setPreset(''); restart(); showLabel(); } }));
+swEl.addEventListener('input', () => { if(swEl === document.activeElement){ P.preset = 'custom'; setPreset(''); restart(); } });
+document.getElementById('snap').addEventListener('click', () => {
+  const a = RE + P.alt, r = rates(a, ssoInc(a)), perDay = (2*Math.PI/(WE - r.Od))/(2*Math.PI/r.ud);
+  let best = null; for(let D = 1; D <= 26; D++){ const N = Math.round(perDay*D); if(gcd(N, D) !== 1) continue; const h = repeatAlt(N, D); if(!best || Math.abs(h - P.alt) < Math.abs(best.h - P.alt)) best = {N, D, h}; }
+  if(best){ P.alt = Math.round(best.h*10)/10; altEl.value = P.alt; document.querySelector('output[for="alt"]').textContent = P.alt.toFixed(1) + ' km'; P.preset = 'custom'; setPreset(''); restart(); showLabel(); }
+});
+const pauseBtn = document.getElementById('pause');
+pauseBtn.addEventListener('click', () => { P.paused = !P.paused; pauseBtn.setAttribute('aria-pressed', String(P.paused)); pauseBtn.textContent = P.paused ? 'Play' : 'Pause'; });
+document.getElementById('clear').addEventListener('click', restart);
+['cover', 'night'].forEach(id => { const b = document.getElementById(id); b.addEventListener('click', () => { P[id] = !P[id]; b.setAttribute('aria-pressed', String(P[id])); }); });
+GL.fullscreen('fs', stage);
+MUSEUM.label('lab', 'label', false);
+function showLabel(){
+  const p = PRESETS[P.preset];
+  document.getElementById('labelHead').textContent = p ? p.name + ' · ' + p.note : 'Your orbit';
+  const rep = repeatNow ? repeatNow.N + ' orbits in ' + repeatNow.D + (repeatNow.D > 1 ? ' days' : ' day') : 'no short repeat at this altitude';
+  document.getElementById('labelText').textContent = 'Every thread crosses the equator heading south at ' + document.querySelector('output[for="ltdn"]').textContent + ' local time. ' + (repeatNow ? 'The weave closes after ' + rep + ', then repeats exactly.' : 'At this altitude the tracks never quite repeat; press Snap to find the nearest repeating orbit.');
+}
+
+/* ---------------- sound: one note per equator crossing, pitch from the crossing longitude ---------------- */
+let bus = null;
+const soundOn = GLX.soundButton('snd', A => { bus = A.ac.createGain(); bus.gain.value = 0.22; bus.connect(A.master); });
+const SCALE = [0, 2, 4, 7, 9, 12, 14, 16, 19, 21];
+function note(lon, desc){
+  if(!bus || !soundOn()) return;
+  const ac = GLX._ac.ac, t = ac.currentTime, k = Math.floor((lon + Math.PI)/(2*Math.PI)*SCALE.length) % SCALE.length;
+  const f = 220*Math.pow(2, SCALE[k]/12)*(desc ? 1 : 0.5);
+  const o = ac.createOscillator(), e = ac.createGain(); o.type = desc ? 'sine' : 'triangle'; o.frequency.value = f;
+  e.gain.value = 0; o.connect(e); e.connect(bus);
+  e.gain.linearRampToValueAtTime(desc ? 0.5 : 0.18, t + 0.02); e.gain.exponentialRampToValueAtTime(0.0005, t + 2.4);
+  o.start(t); o.stop(t + 2.5);
+}
+
+/* ---------------- plots ---------------- */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let plotDirty = true;
+function drawPlots(){
+  const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), accent = MUSEUM.css('--accent', '#B5452A'), data = MUSEUM.css('--data', '#2F5AA1');
+  PA.frame(400, 1200, 96.5, 101, {xticks:[400, 600, 800, 1000, 1200], yticks:[97, 98, 99, 100, 101], xlab:'altitude, km'});
+  const pts = []; for(let h = 400; h <= 1200; h += 10) pts.push([h, ssoInc(RE + h)/D2R]);
+  PA.line(pts, ink, 1.6);
+  Object.values(PRESETS).forEach(p => { if(p.name.startsWith('Terra')) return; PA.dot(p.alt, ssoInc(RE + p.alt)/D2R, faint, p.name); });
+  PA.dot(P.alt, orb.i/D2R, data);
+  const days = repeatNow ? repeatNow.D : 16;
+  PB.frame(0, days, 0, 100, {xticks:Array.from({length:Math.floor(days/2) + 1}, (_, k) => k*2), yticks:[0, 25, 50, 75, 100], xlab:'days', ylab:'%'});
+  PB.line(covHist, accent, 1.8);
+  if(covHist.length){ const l = covHist[covHist.length - 1]; PB.dot(l[0], l[1], data, fmt(l[1], 1) + ' %'); }
+}
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, hudAt = 0, roAt = 0, covAt = 0, plotAt = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, Math.max(0, raw)); last = now;
+  t += dt;
+  if(!orb) return;
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height;
+  if(ov.width !== W || ov.height !== H){ ov.width = W; ov.height = H; }
+  const cycleEnd = (repeatNow ? repeatNow.D : 16)*86400;
+  if(!P.paused){
+    simT += dt*Math.pow(10, P.speed)*orb.Tn*(GL.reducedMotion ? 0.3 : 1);
+    if(simT > cycleEnd*1.02){ restart(); }
+  }
+  // draw new track since the last frame; fade the thread layer so older threads dim over about two days
+  const keep = Math.exp(-(simT - lastDraw)/(2.2*86400));
+  gl.useProgram(fadeP.p); gl.uniform1f(fadeP.u.uKeep, keep);
+  GLX.pass(gl, vao, fadeP, weave.b, MW, MH, {uPrev: weave.a.tex}); weave.swap();
+  if(simT > lastDraw){
+    const segs = trackSegments(lastDraw, simT, Math.pow(10, P.logswath));
+    drawInto(weave.a, MW, MH, segs.thread, gl.LINES, [0.9, 0, 0, 1], false);
+    drawInto(cover, CW, CH, segs.strip, gl.TRIANGLES, [1, 1, 1, 1], true);
+    drawInto(coverDisp, MW/2, MH/2, segs.strip, gl.TRIANGLES, [1, 1, 1, 1], true);
+    // equator crossings
+    const steps = Math.max(1, Math.ceil((simT - lastDraw)/30));
+    for(let k = 1; k <= steps; k++){ const tt = lastDraw + (simT - lastDraw)*k/steps, p = subPoint(tt); if(prevLat !== null && Math.sign(p.lat) !== Math.sign(prevLat)){ crossings++; note(p.lon, p.lat < prevLat); } prevLat = p.lat; }
+    lastDraw = simT;
+  }
+  const sp = subPoint(simT), S = sun(T0 + simT*1000), th = gmst(T0 + simT*1000);
+  const sunLon = S.ra - th, sv = [Math.cos(S.dec)*Math.cos(sunLon), Math.cos(S.dec)*Math.sin(sunLon), Math.sin(S.dec)];
+  gl.useProgram(showP.p);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, weave.a.tex); gl.uniform1i(showP.u.uWeave, 0);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, landTex); gl.uniform1i(showP.u.uLand, 1);
+  gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, coverDisp.tex); gl.uniform1i(showP.u.uCover, 2);
+  gl.uniform2f(showP.u.uRes, W, H); gl.uniform2f(showP.u.uSat, sp.lon, sp.lat); gl.uniform3fv(showP.u.uSun, sv);
+  gl.uniform1f(showP.u.uNight, P.night ? 1 : 0); gl.uniform1f(showP.u.uShowCover, P.cover ? 1 : 0); gl.uniform1f(showP.u.uT, t);
+  gl.bindVertexArray(vao); gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H); gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  if(now - covAt > 700){ covAt = now; const c = measureCoverage()*100; covHist.push([simT/86400, c]); if(covHist.length > 4000) covHist.shift(); plotDirty = true; R.cov.set(fmt(c, 1) + ' %', 'area-weighted, swath ' + Math.round(Math.pow(10, P.logswath)).toLocaleString('en-GB') + ' km'); }
+  // overlay: latitude labels and the local time at the satellite
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, W, H);
+  const dpr = W/Math.max(1, cv.getBoundingClientRect().width), f = Math.round(9.5*dpr);
+  const mw = Math.min(W, H*2), mh = mw/2, ox = (W - mw)/2, oy = (H - mh)/2;
+  octx.font = f + 'px "IBM Plex Mono", monospace'; octx.fillStyle = 'rgba(236,234,228,0.38)'; octx.textAlign = 'left';
+  [-60, -30, 0, 30, 60].forEach(la => octx.fillText((la > 0 ? la + '° N' : la < 0 ? -la + '° S' : 'EQUATOR'), ox + f*0.6, oy + mh*(0.5 - la/180) - f*0.3));
+  if(now - hudAt > 150){
+    hudAt = now;
+    const p = PRESETS[P.preset], ha = Math.atan2(Math.sin(sp.lon + th - S.L), Math.cos(sp.lon + th - S.L)), lt = (ha/(Math.PI/12) + 12 + 24) % 24;
+    hud.tl.textContent = (p ? p.name : 'YOUR ORBIT').toUpperCase() + '\nORBIT ' + (Math.floor(simT/orb.Tn) + 1) + (repeatNow ? ' OF ' + repeatNow.N : '') + ' · DAY ' + fmt(simT/86400, 2);
+    hud.tr.textContent = 'LOCAL TIME BELOW ' + String(Math.floor(lt)).padStart(2, '0') + ':' + String(Math.floor((lt % 1)*60)).padStart(2, '0') + '\n' + fmt(Math.abs(sp.lat/D2R), 1) + '° ' + (sp.lat >= 0 ? 'N' : 'S') + ' · ' + fmt(Math.abs(sp.lon/D2R), 1) + '° ' + (sp.lon >= 0 ? 'E' : 'W');
+  }
+  if(now - roAt > 400){
+    roAt = now;
+    const perDay = (2*Math.PI/(WE - orb.Od))/orb.Tn, shift = 2*Math.PI*RE*(orb.Tn*(WE - orb.Od))/(2*Math.PI);
+    R.inc.set(fmt(orb.i/D2R, 2) + '°', 'sun-synchronous at ' + fmt(P.alt, 1) + ' km (J2)');
+    R.per.set(fmt(orb.Tn/60, 2) + ' min', 'from one descending crossing to the next');
+    R.opd.set(fmt(perDay, 3), 'per day measured against the turning plane');
+    R.shift.set(fmt(shift, 0) + ' km west', 'the Earth turns ' + fmt(orb.Tn*(WE - orb.Od)/D2R, 2) + '° per orbit');
+    R.rep.set(repeatNow ? repeatNow.N + ' orbits / ' + repeatNow.D + ' d' : 'none ≤ 30 days', repeatNow ? 'exact repeat at ' + fmt(repeatAlt(repeatNow.N, repeatNow.D), 1) + ' km' : 'press Snap');
+    R.gap.set(repeatNow ? fmt(2*Math.PI*RE/repeatNow.N, 1) + ' km' : '–', repeatNow ? '2πR ÷ ' + repeatNow.N + ' at the equator' : '');
+    R.node.set(fmt(orb.Od*86400/D2R, 4) + '°/day', 'the Sun moves ' + fmt(360/365.2422, 4) + '°/day');
+    R.vg.set(fmt(orb.ud*RE, 2) + ' km/s', 'orbital speed ' + fmt(Math.sqrt(MU/orb.a), 2) + ' km/s');
+    R.time.set(fmt(simT/86400, 2) + ' days', crossings + ' equator crossings');
+    const pr = PRESETS[P.preset] || PRESETS.landsat;
+    R.check.set(fmt(repeatAlt(pr.N, pr.D), 1) + ' km', pr.name + ' ' + pr.N + '/' + pr.D + ', a = ' + fmt(repeatAlt(pr.N, pr.D) + RE, 1) + ' km; usually quoted as ' + pr.alt + ' km');
+  }
+  if(plotDirty || now - plotAt > 1000){ plotAt = now; plotDirty = false; drawPlots(); }
+}
+const ORDER = ['landsat', 's2', 'terra'];
+MUSEUM.install('inst', stage, () => { document.getElementById('label').classList.add('on'); applyPreset('landsat'); P.speed = 0.6; }, s => {
+  if(repeatNow && simT > repeatNow.D*86400*0.999){ applyPreset(ORDER[(ORDER.indexOf(P.preset) + 1) % ORDER.length]); P.speed = 0.6; }
+});
+applyPreset('landsat');
+fetch('/visual-synths/data/land-110m.json').then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); }).then(loadLand).catch(e => console.error('land', e));
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{repeatAlt, ssoInc, rates, subPoint, setT:v => { simT = v; }, run:(sec) => { const step = 600; for(let s = 0; s < sec; s += step){ simT += step; frame(performance.now()); } }, measureCoverage, get:() => ({orb, repeatNow, simT})}});
+window.addEventListener('resize', () => { plotDirty = true; });
+})();
+</script>

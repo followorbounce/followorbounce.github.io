@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 161,
+    "pages": 167,
     "repos": 4,
-    "own": 45,
+    "own": 51,
     "aerospace": 78,
     "maya": 7,
     "machinery": 31
@@ -323,6 +323,72 @@
       "title": "Ring",
       "description": "One laser circle drawn over and over in haze, leaving a fading trace on a photosensitive wall; rings tilt in space, and sound (internal or microphone) holds them or breaks them into fragments.",
       "url": "https://followorbounce.github.io/visual-synths/ring",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Light-Day",
+      "description": "A radio pulse leaves Earth every hour and travels to Voyager 1 at the speed of light, in true proportion; on 18 November 2026 Voyager 1 is one light-day away. Light time solved from JPL Horizons ephemerides.",
+      "url": "https://followorbounce.github.io/visual-synths/light-day",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Chirp",
+      "description": "Two black holes spiral in; their gravitational waves leave as tightening spiral lines. LIGO's GW150914 data, its numerical-relativity waveform, the simple formula's match with the data, and the chirp as sound.",
+      "url": "https://followorbounce.github.io/visual-synths/chirp",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Plume",
+      "description": "A rocket exhaust with shock diamonds computed from the nozzle area ratio and the air at each altitude: isentropic flow, US Standard Atmosphere 1976, Prandtl–Meyer turn, Schmucker separation.",
+      "url": "https://followorbounce.github.io/visual-synths/plume",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Re-entry",
+      "description": "A capsule in the plasma it makes, driven by a step-by-step entry simulation: Sutton–Graves heating, the shield's blackbody glow and Billig's bow shock. Apollo 11, Stardust, Apollo 7.",
+      "url": "https://followorbounce.github.io/visual-synths/re-entry",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Orbit Loom",
+      "description": "A sun-synchronous satellite weaves its ground track one orbit at a time until the pattern repeats; J2 rates, a repeat-orbit solver checked against Landsat and Sentinel-2, live swath coverage.",
+      "url": "https://followorbounce.github.io/visual-synths/orbit-loom",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Relic",
+      "description": "The real Planck SMICA map of the cosmic microwave background drawn from its HEALPix pixels: add our motion's dipole, blur to COBE's beam, read the map's statistics, hear its power spectrum.",
+      "url": "https://followorbounce.github.io/visual-synths/relic",
       "tag": "Tool",
       "interactive": true,
       "hidden": true

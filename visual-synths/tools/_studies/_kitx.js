@@ -75,3 +75,75 @@ void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
   /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
   flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
 };
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};

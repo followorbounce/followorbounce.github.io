@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Relic — Video Synths</title>
+<meta name="description" content="The oldest light in the universe, as Planck mapped it: the real SMICA all-sky map of the cosmic microwave background, rendered on the GPU from its HEALPix pixels. Switch on our own motion and watch the dipole swamp everything; blur it to COBE's 7° beam; read the statistics of the actual map; hear its power spectrum as a chord.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/relic">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Relic — Video Synths">
+<meta property="og:description" content="The oldest light in the universe, as Planck mapped it: the real SMICA all-sky map of the cosmic microwave background, rendered on the GPU from its HEALPix pixels. Switch on our own motion and watch the dipole swamp everything; blur it to COBE's 7° beam; read the statistics of the actual map; hear its power spectrum as a chord.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/relic">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+/* museum panels for the aerospace pieces: readouts, plots, wall label, installation mode */
+:root{--accent:#B5452A; --data:#2F5AA1;}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#E07A5F; --data:#8FB0E8; } }
+:root[data-theme="dark"]{ --accent:#E07A5F; --data:#8FB0E8; }
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong); margin-top:18px;}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:10px 12px 11px; min-width:0;}
+.readouts .k{font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-family:var(--font-display); font-weight:700; font-size:1.18rem; line-height:1.25; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--ink); overflow-wrap:anywhere;}
+.readouts .s{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+.src-tag{font-size:8.5px; letter-spacing:.1em; padding:0 4px; border:1px solid currentColor; border-radius:2px; line-height:1.5; white-space:nowrap;}
+.src-tag.data{color:var(--data);} .src-tag.model{color:var(--accent);} .src-tag.drawn{color:var(--ink-faint);}
+.plots{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin-top:16px;}
+.plot{border:1px solid var(--line-strong); background:var(--paper-raised); min-width:0;}
+.plot .cap{display:flex; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); padding:8px 10px 0;}
+.plot canvas{display:block; width:100%; height:190px; touch-action:pan-y;}
+.plot .note{font-size:10.5px; color:var(--ink-faint); padding:0 10px 8px;}
+.stage .wall-label{position:absolute; left:14px; bottom:14px; max-width:min(440px, calc(100% - 28px)); background:rgba(0,0,0,.78); color:#ECEAE4; border-left:2px solid #fff; padding:11px 14px 12px; font-family:var(--font-display); font-weight:500; font-size:12.5px; line-height:1.55; display:none; z-index:3;}
+.stage .wall-label.on{display:block;}
+.stage .wall-label b{display:block; font-family:var(--font-mono); font-weight:500; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage canvas.overlay{pointer-events:none;}
+.stage.installing, .stage.installing canvas{cursor:none;}
+.stage.installing .wall-label{font-size:clamp(13px,1.2vw,19px); max-width:min(640px, 46%);}
+.stage.installing .hud{font-size:clamp(10px,0.9vw,15px);}
+.sources{font-size:12px;}
+.sources li{margin-bottom:6px;}
+.sources a{overflow-wrap:anywhere;}
+.guide-link{display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; text-decoration:none; color:var(--ink);}
+.guide-link:hover{border-color:var(--ink);}
+@media (max-width:640px){ .stage .wall-label{font-size:11.5px; left:10px; bottom:10px; padding:8px 10px;} .readouts .v{font-size:1.02rem;} }
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from relic.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Aerospace piece 06 · Beam and medium</div>
+    <h1>Relic</h1>
+    <p>Wherever you point a radio telescope, the sky glows at 2.7 degrees above absolute zero: light released 380,000 years after the Big Bang, stretched ever since. The glow is the same in every direction to one part in a thousand, and that one part is our own motion. Take it away and what is left are the ripples, one part in a hundred thousand, that grew into every galaxy. This is the real map, made by ESA's Planck satellite.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" class="cross" aria-label="An oval map of the whole sky covered in fine hot and cold patches of the cosmic microwave background. A magnifying lens follows the pointer."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="wall-label" id="label"><b id="labelHead"></b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">What you see</span>
+      <div class="seg" id="layer">
+        <button data-v="mono">Uniform glow</button>
+        <button data-v="dip">+ Our motion</button>
+        <button data-v="cmb">The ripples</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="earth" aria-pressed="false">Include Earth's orbit today</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Telescope</span>
+      <div class="seg" id="beam">
+        <button data-v="cobe">COBE 1992 · 7°</button>
+        <button data-v="wmap">WMAP 2003 · 13′</button>
+        <button data-v="planck">Planck 2015 · 10′</button>
+      </div>
+      <span class="lab">View</span>
+      <div class="seg" id="view">
+        <button data-v="moll">Whole sky</button>
+        <button data-v="globe">Sphere</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Show</span>
+      <div class="row">
+        <button class="btn" id="mask" aria-pressed="false">Where the Galaxy was removed</button>
+        <button class="btn" id="lens" aria-pressed="true">Lens</button>
+      </div>
+      <span class="lab">Colour</span>
+      <div class="seg" id="cmap">
+        <button data-v="0">Warm and cold</button>
+        <button data-v="1">Grey</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Room</span>
+      <div class="row">
+        <button class="btn" id="snd">Chord</button>
+        <button class="btn" id="lab">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Point at the map to magnify it and read the temperature there. The chord plays the sky's power spectrum: one note per peak, softened by the telescope's beam exactly as the beam softens the map. It starts only when you press Chord.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span>Ripple size against angular scale</span><span>µK · multipole ℓ</span></div><canvas id="plotA"></canvas><div class="note">Grey: the sky's spectrum (the guide's Planck-based curve). Dark: what this telescope's beam lets through. ℓ ≈ 180°/angle, so ℓ = 220 means patches about a degree across.</div></div>
+    <div class="plot"><div class="cap"><span>Temperatures in this map</span><span>pixels outside the Galaxy mask</span></div><canvas id="plotB"></canvas><div class="note">Bars: the map's actual pixel values. Line: a bell curve with the same mean and spread. The ripples are almost perfectly Gaussian.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>The map.</strong> Planck's 2015 SMICA map of the cosmic microwave background (CMB) is stored as 12,582,912 HEALPix pixels at 10′ resolution, in Galactic coordinates. The page carries it at a quarter of that, 3,145,728 pixels of 6.9′ (Nside 512, each the average of four), in steps of 4 µK. The graphics card turns every screen pixel into a direction on the sky (Mollweide projection, or a sphere), finds the HEALPix pixel that contains it, and colours it. Galactic longitude 0, the centre of the Milky Way, is at the middle; longitude increases to the left, as on astronomers' maps.</p>
+  <p><strong>Telescopes.</strong> A telescope's beam blurs the sky. Planck's map is shown at its own 10′. WMAP's 13.2′ is made by blurring a little further on the card. COBE's 7° is a separate copy made by smoothing the map with a 7° Gaussian on the sphere; it shows what COBE's maps looked like, not COBE's own data. In the plot, each beam multiplies the spectrum by <code>e<sup>−ℓ(ℓ+1)σ²/2</sup></code>, σ = FWHM/√(8 ln 2), the guide's formula.</p>
+  <p><strong>Our motion.</strong> The SMICA map has the average temperature and the dipole removed. The page puts them back exactly: a sky at T₀ = 2.72548 K seen from a frame moving at speed β = v/c looks like <code>T(θ) = T₀ / (γ(1 − β cos θ))</code>, with the Sun's velocity from Planck (369.82 km/s towards Galactic longitude 264.02°, latitude 48.25°, the guide's values). <em>Include Earth's orbit today</em> adds Earth's 29.8 km/s around the Sun for today's date, which shifts the dipole by up to 0.27 mK through the year; Planck used this yearly change to calibrate itself.</p>
+  <p><strong>Statistics.</strong> The histogram, spread and extremes are computed in your browser from the map's own pixels, leaving out the pixels flagged by Planck's confidence mask (mostly the Galactic plane, where the CMB had to be estimated through the Milky Way's own glow).</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of beam and medium: a field of fine grain, an instrument's resolution as a visible choice, a single slow change that overturns the picture. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Temperatures are stored to 4 µK and limited to ±508 µK (2 pixels in 100,000 reach the limit, all near the Galactic plane).</li>
+    <li>The COBE and WMAP views blur Planck's map; they are not those missions' data, which were noisier.</li>
+    <li>The chord's notes are the spectrum's peaks; pitch is ℓ ÷ 2 in hertz, an arbitrary choice that keeps the first peak at 110 Hz.</li>
+    <li>Nothing flashes; switching layers fades over half a second.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>ESA and the Planck Collaboration (2015), COM_CMB_IQU-smica_1024_R2.02_full, Planck Legacy Archive. <a href="https://pla.esac.esa.int/">pla.esac.esa.int</a></li>
+    <li>Planck Collaboration (2020), Planck 2018 results I and VI: dipole 3,362.08 µK towards (264.021°, 48.253°); cosmological parameters.</li>
+    <li>D. J. Fixsen (2009), "The temperature of the cosmic microwave background", ApJ 707: T₀ = 2.72548 K.</li>
+    <li>K. M. Górski et al. (2005), "HEALPix: a framework for high-resolution discretization and fast analysis of data distributed on the sphere", ApJ 622.</li>
+  </ul>
+  <a class="guide-link" href="/aerospace/glow-cosmic-microwave-background">Read the guide: GLOW — Cosmic Microwave Background →</a>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This piece needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* ---------------- constants (the guide's) ---------------- */
+const T0 = 2.72548, C_KMS = 299792.458, V_SUN = 369.82, L_DIP = 264.021, B_DIP = 48.253, D2R = Math.PI/180;
+const SPEC = [[2,30],[20,32],[60,40],[120,56],[220.1,74.7],[300,62],[411.7,41.0],[546,48.8],[680,38],[810,40],[1000,28],[1400,16],[2000,7],[3000,2]];
+function dTl(l){ if(l <= SPEC[0][0]) return SPEC[0][1]; for(let i = 1; i < SPEC.length; i++){ if(l <= SPEC[i][0]){ const a = SPEC[i - 1], b = SPEC[i], u = (Math.log(l) - Math.log(a[0]))/(Math.log(b[0]) - Math.log(a[0])); return a[1] + (b[1] - a[1])*(1 - Math.cos(Math.PI*u))/2; } } return SPEC[SPEC.length - 1][1]; }
+const BEAMS = {cobe:{fwhm:420, name:'COBE DMR', year:1992}, wmap:{fwhm:13.2, name:'WMAP', year:2003}, planck:{fwhm:10, name:'Planck SMICA', year:2015}};
+function beamB(l, fwhm){ const s = fwhm/60*D2R/Math.sqrt(8*Math.LN2); return Math.exp(-l*(l + 1)*s*s/2); }
+function lHalf(fwhm){ const s = fwhm/60*D2R/Math.sqrt(8*Math.LN2); return (-1 + Math.sqrt(1 + 8*Math.LN2/(s*s)))/2; }
+function galVec(l, b){ return [Math.cos(b*D2R)*Math.cos(l*D2R), Math.cos(b*D2R)*Math.sin(l*D2R), Math.sin(b*D2R)]; }
+/* Earth's velocity around the Sun today, in Galactic coordinates */
+function earthVelGal(ms){
+  const d = ms/86400000 + 2440587.5 - 2451545.0, L = (280.460 + 0.9856474*d)*D2R, g = (357.528 + 0.9856003*d)*D2R;
+  const lam = L + (1.915*Math.sin(g) + 0.020*Math.sin(2*g))*D2R;          // Sun's ecliptic longitude; Earth moves towards lam − 90°
+  const v = 29.78, ve = [v*Math.cos(lam - Math.PI/2), v*Math.sin(lam - Math.PI/2), 0], eps = 23.4393*D2R;
+  const eq = [ve[0], ve[1]*Math.cos(eps), ve[1]*Math.sin(eps)];
+  const M = [[-0.0548755604, -0.8734370902, -0.4838350155], [0.4941094279, -0.4448296300, 0.7469822445], [-0.8676661490, -0.1980763734, 0.4559837762]];
+  return M.map(r => r[0]*eq[0] + r[1]*eq[1] + r[2]*eq[2]);
+}
+
+/* ---------------- HEALPix (ring scheme) ---------------- */
+function ang2pix(ns, z, phi){
+  const za = Math.abs(z), tt = (((phi % (2*Math.PI)) + 2*Math.PI) % (2*Math.PI))/(Math.PI/2), npix = 12*ns*ns, ncap = 2*ns*(ns - 1);
+  if(za <= 2/3){
+    const t1 = ns*(0.5 + tt), t2 = ns*z*0.75, jp = Math.trunc(t1 - t2), jm = Math.trunc(t1 + t2), ir = ns + 1 + jp - jm, ks = 1 - (ir & 1);
+    let ip = Math.floor((jp + jm - ns + ks + 1)/2); ip = ((ip % (4*ns)) + 4*ns) % (4*ns);
+    return ncap + (ir - 1)*4*ns + ip;
+  }
+  const tp = tt - Math.floor(tt), tmp = ns*Math.sqrt(3*(1 - za)), jp = Math.trunc(tp*tmp), jm = Math.trunc((1 - tp)*tmp), ir = jp + jm + 1;
+  let ip = Math.trunc(tt*ir); ip = ip % (4*ir);
+  return z > 0 ? 2*ir*(ir - 1) + ip : npix - 2*ir*(ir + 1) + ip;
+}
+function pix2ang(ns, p){
+  const npix = 12*ns*ns, ncap = 2*ns*(ns - 1);
+  if(p < ncap){ const ir = Math.floor((1 + Math.sqrt(1 + 2*p))/2), iphi = p - 2*ir*(ir - 1) + 1; return [1 - ir*ir/(3*ns*ns), (iphi - 0.5)*Math.PI/(2*ir)]; }
+  if(p < npix - ncap){ const q = p - ncap, ir = Math.floor(q/(4*ns)) + ns, iphi = q % (4*ns) + 1, fodd = ((ir + ns) & 1) ? 1 : 0.5; return [(2*ns - ir)*2/(3*ns), (iphi - fodd)*Math.PI/(2*ns)]; }
+  const q = npix - p, ir = Math.floor((1 + Math.sqrt(2*q - 1))/2), iphi = 4*ir + 1 - (q - 2*ir*(ir - 1)); return [-1 + ir*ir/(3*ns*ns), (iphi - 0.5)*Math.PI/(2*ir)];
+}
+
+/* ---------------- data ---------------- */
+let MAP = null;   // {ns, nsC, s1, s2, I (Int8Array), mask (Uint8Array bits), C (Int8Array)}
+function parse(buf){
+  const dv = new DataView(buf);
+  if(String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2), dv.getUint8(3)) !== 'CMB1') throw new Error('bad map file');
+  const ns = dv.getUint32(4, true), nsC = dv.getUint32(8, true), s1 = dv.getFloat32(12, true), s2 = dv.getFloat32(16, true);
+  const n = 12*ns*ns, nC = 12*nsC*nsC; let o = 20;
+  const I = new Int8Array(buf, o, n); o += n;
+  const mask = new Uint8Array(buf, o, n/8); o += n/8;
+  const C = new Int8Array(buf, o, nC);
+  return {ns, nsC, s1, s2, I, mask, C, n, nC};
+}
+const good = p => 1 - ((MAP.mask[p >> 3] >> (p & 7)) & 1);    // file bit = 1 where the pixel is outside Planck's confidence mask
+
+/* ---------------- GL ---------------- */
+const FS = `#version 300 es
+precision highp float; precision highp int;
+in vec2 vUv; out vec4 o;
+uniform highp usampler2D uMap; uniform highp usampler2D uCobe;
+uniform vec2 uRes, uPtr; uniform float uT, uView, uRot, uLens, uLensOn, uMaskOn, uCmap, uScale, uSigma;
+uniform float uWMono, uWDip, uWCmb, uBeam;        // layer weights; beam 0 Planck, 1 WMAP, 2 COBE
+uniform vec3 uBeta;                               // velocity / c in Galactic xyz
+uniform float uS1, uS2;
+const float PI = 3.14159265;
+int ang2pix(int ns, float z, float phi){
+  float za = abs(z), tt = mod(phi, 2.0*PI)/(0.5*PI);
+  int npix = 12*ns*ns, ncap = 2*ns*(ns - 1);
+  if(za <= 2.0/3.0){
+    float t1 = float(ns)*(0.5 + tt), t2 = float(ns)*z*0.75;
+    int jp = int(t1 - t2), jm = int(t1 + t2), ir = ns + 1 + jp - jm, ks = 1 - (ir & 1);
+    int ip = (jp + jm - ns + ks + 1)/2; ip = ip - (4*ns)*int(floor(float(ip)/float(4*ns)));
+    return ncap + (ir - 1)*4*ns + ip;
+  }
+  float tp = tt - floor(tt), tmp = float(ns)*sqrt(3.0*(1.0 - za));
+  int jp = int(tp*tmp), jm = int((1.0 - tp)*tmp), ir = jp + jm + 1;
+  int ip = int(tt*float(ir)); ip = ip - 4*ir*(ip/(4*ir));
+  return z > 0.0 ? 2*ir*(ir - 1) + ip : npix - 2*ir*(ir + 1) + ip;
+}
+float valP(vec3 n, out float good){
+  float z = clamp(n.z, -1.0, 1.0), phi = atan(n.y, n.x);
+  int p = ang2pix(512, z, phi);
+  uvec2 t = texelFetch(uMap, ivec2(p % 2048, p / 2048), 0).rg;
+  good = float(t.g);
+  return (float(t.r) - 128.0)*uS1;
+}
+float valC(vec3 n){
+  float z = clamp(n.z, -1.0, 1.0), phi = atan(n.y, n.x);
+  int p = ang2pix(64, z, phi);
+  uint t = texelFetch(uCobe, ivec2(p % 256, p / 256), 0).r;
+  return (float(t) - 128.0)*uS2;
+}
+vec3 tangentRot(vec3 n, float ang, float rad){
+  vec3 a = normalize(abs(n.z) < 0.9 ? cross(n, vec3(0.0, 0.0, 1.0)) : cross(n, vec3(1.0, 0.0, 0.0)));
+  vec3 b = cross(n, a);
+  return normalize(n*cos(rad) + (a*cos(ang) + b*sin(ang))*sin(rad));
+}
+float cmbAt(vec3 n, out float good){
+  if(uBeam > 1.5) { good = 1.0; return valC(n); }
+  float g0; float v = valP(n, g0); good = g0;
+  if(uBeam > 0.5){
+    float acc = v, g1;
+    for(int k = 0; k < 6; k++){ acc += valP(tangentRot(n, float(k)*1.0471976, uSigma*2.0), g1)/6.0; }
+    v = acc/2.0;
+  }
+  return v;
+}
+vec3 colourOf(float x){                // x in [-1, 1]
+  x = clamp(x, -1.0, 1.0);
+  if(uCmap > 0.5) return vec3(0.5 + 0.5*x);
+  vec3 cold = vec3(0.05, 0.22, 0.72), cool = vec3(0.35, 0.62, 0.95), mid = vec3(0.95, 0.94, 0.88), warm = vec3(1.0, 0.62, 0.22), hot = vec3(0.78, 0.12, 0.06);
+  if(x < -0.5) return mix(cold, cool, (x + 1.0)*2.0);
+  if(x < 0.0) return mix(cool, mid, (x + 0.5)*2.0);
+  if(x < 0.5) return mix(mid, warm, x*2.0);
+  return mix(warm, hot, (x - 0.5)*2.0);
+}
+// screen -> direction; returns false outside the sky
+bool dirAt(vec2 frag, out vec3 n){
+  vec2 c = 0.5*uRes;
+  if(uView < 0.5){
+    float h = min(uRes.y*0.92, uRes.x*0.46), w = 2.0*h;
+    vec2 q = (frag - c)/vec2(w*0.5, h*0.5)*vec2(2.0*sqrt(2.0), sqrt(2.0));
+    if(q.x*q.x/8.0 + q.y*q.y/2.0 > 1.0) return false;
+    float th = asin(clamp(q.y/sqrt(2.0), -1.0, 1.0));
+    float lat = asin(clamp((2.0*th + sin(2.0*th))/PI, -1.0, 1.0));
+    float lon = PI*q.x/(2.0*sqrt(2.0)*cos(th));
+    float l = -lon;
+    n = vec3(cos(lat)*cos(l), cos(lat)*sin(l), sin(lat));
+    return true;
+  }
+  float r = min(uRes.x, uRes.y)*0.46;
+  vec2 q = (frag - c)/r; float d2 = dot(q, q);
+  if(d2 > 1.0) return false;
+  vec3 v = vec3(sqrt(1.0 - d2), -q.x, q.y);          // looking along +x, then turn the sphere
+  float cr = cos(uRot), sr = sin(uRot);
+  n = vec3(cr*v.x - sr*v.y, sr*v.x + cr*v.y, v.z);
+  return true;
+}
+float h1(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)))*43758.5453); }
+void main(){
+  vec2 frag = gl_FragCoord.xy;
+  vec3 n; vec3 c = vec3(0.0);
+  vec2 dl = frag - uPtr; float lensR = min(uRes.x, uRes.y)*0.17;
+  bool inLens = uLensOn > 0.5 && length(dl) < lensR;
+  bool ok;
+  if(inLens){
+    vec3 n0; ok = dirAt(uPtr, n0);
+    if(ok){ vec2 q = dl/lensR*uLens; n = tangentRot(n0, atan(q.y, -q.x), length(q)); n = normalize(n); }
+  } else ok = dirAt(frag, n);
+  if(!ok){ o = vec4(vec3(0.0) + (h1(frag) - 0.5)*0.01, 1.0); return; }
+  float good; float cmb = cmbAt(n, good);
+  float beta = length(uBeta), gam = 1.0/sqrt(1.0 - beta*beta);
+  float dip = (2.72548/(gam*(1.0 - dot(n, uBeta))) - 2.72548)*1e6;
+  float v = uWCmb*cmb + uWDip*(dip + cmb);
+  float x = v/uScale;
+  c = mix(colourOf(x), vec3(0.98, 0.62, 0.25)*0.82, uWMono);
+  if(uMaskOn > 0.5 && good < 0.5){ float hatch = step(0.5, fract((frag.x + frag.y)/7.0)); c = mix(c, vec3(0.08), 0.75*hatch + 0.15); }
+  if(inLens){ float e = smoothstep(lensR - 2.0, lensR, length(dl)); c = mix(c, vec3(1.0), e*0.8); }
+  c += (h1(frag + fract(uT)*13.0) - 0.5)*0.012;
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+const texMap = gl.createTexture(), texCobe = gl.createTexture();
+function upload(){
+  const W = 2048, H = MAP.n/W, buf = new Uint8Array(W*H*2);
+  for(let p = 0; p < MAP.n; p++){ buf[p*2] = MAP.I[p] + 128; buf[p*2 + 1] = good(p); }
+  gl.bindTexture(gl.TEXTURE_2D, texMap); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RG8UI, W, H, 0, gl.RG_INTEGER, gl.UNSIGNED_BYTE, buf);
+  [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.NEAREST));
+  const Wc = 256, Hc = MAP.nC/Wc, bc = new Uint8Array(Wc*Hc);
+  for(let p = 0; p < MAP.nC; p++) bc[p] = MAP.C[p] + 128;
+  gl.bindTexture(gl.TEXTURE_2D, texCobe);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8UI, Wc, Hc, 0, gl.RED_INTEGER, gl.UNSIGNED_BYTE, bc);
+  [gl.TEXTURE_MIN_FILTER, gl.TEXTURE_MAG_FILTER].forEach(k => gl.texParameteri(gl.TEXTURE_2D, k, gl.NEAREST));
+}
+
+/* ---------------- state and controls ---------------- */
+const P = {layer:'cmb', beam:'planck', view:'moll', mask:false, lens:true, earth:false, cmap:0};
+const W8 = {mono:0, dip:0, cmb:1}, Wt = {mono:0, dip:0, cmb:1};
+const setLayer = GL.seg('layer', P.layer, v => { P.layer = v; showLabel(); stats = null; });
+GL.seg('beam', P.beam, v => { P.beam = v; showLabel(); stats = null; plotDirty = true; retuneChord(); });
+GL.seg('view', P.view, v => { P.view = v; });
+GL.seg('cmap', String(P.cmap), v => { P.cmap = +v; });
+['mask', 'lens', 'earth'].forEach(id => { const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[id])); b.addEventListener('click', () => { P[id] = !P[id]; b.setAttribute('aria-pressed', String(P[id])); }); });
+GL.fullscreen('fs', stage);
+MUSEUM.label('lab', 'label', false);
+const LBL = {
+  mono:['The same in every direction', 'At first sight the sky glows at 2.72548 K everywhere: to one part in a thousand, every direction is the same. COBE measured this spectrum in 1990 as the most perfect black body ever seen.'],
+  dip:['One part in a thousand: our motion', 'The Sun moves at 370 km/s relative to this light, towards the constellation Crater. Ahead of us the glow is Doppler-shifted 3.4 thousandths of a degree warmer, behind us cooler. It swamps everything else.'],
+  cmb:['One part in a hundred thousand: the ripples', 'Remove our motion and the ripples remain: sound waves in the hot gas of the young universe, frozen when the light was set free 380,000 years after the Big Bang. The typical patch is about a degree across.']
+};
+function showLabel(){ const L = LBL[P.layer]; document.getElementById('labelHead').textContent = L[0]; document.getElementById('labelText').textContent = L[1] + (P.layer === 'cmb' ? ' Seen through ' + BEAMS[P.beam].name + ' (' + BEAMS[P.beam].year + ').' : ''); }
+showLabel();
+
+/* pointer: lens and value under it */
+let ptr = null;
+cv.addEventListener('pointermove', e => { const r = cv.getBoundingClientRect(), d = cv.width/r.width; ptr = [(e.clientX - r.left)*d, (r.bottom - e.clientY)*d]; });
+cv.addEventListener('pointerleave', () => { ptr = null; });
+cv.addEventListener('pointerdown', e => { const r = cv.getBoundingClientRect(), d = cv.width/r.width; ptr = [(e.clientX - r.left)*d, (r.bottom - e.clientY)*d]; });
+function dirAtJS(x, y, W, H, rot){
+  if(P.view === 'moll'){
+    const h = Math.min(H*0.92, W*0.46), w = 2*h, qx = (x - W/2)/(w/2)*2*Math.SQRT2, qy = (y - H/2)/(h/2)*Math.SQRT2;
+    if(qx*qx/8 + qy*qy/2 > 1) return null;
+    const th = Math.asin(qy/Math.SQRT2), lat = Math.asin((2*th + Math.sin(2*th))/Math.PI), l = -Math.PI*qx/(2*Math.SQRT2*Math.cos(th));
+    return [Math.cos(lat)*Math.cos(l), Math.cos(lat)*Math.sin(l), Math.sin(lat)];
+  }
+  const r = Math.min(W, H)*0.46, qx = (x - W/2)/r, qy = (y - H/2)/r, d2 = qx*qx + qy*qy; if(d2 > 1) return null;
+  const v = [Math.sqrt(1 - d2), -qx, qy], c = Math.cos(rot), s = Math.sin(rot);
+  return [c*v[0] - s*v[1], s*v[0] + c*v[1], v[2]];
+}
+function valueAt(n){
+  const z = n[2], phi = Math.atan2(n[1], n[0]);
+  if(P.beam === 'cobe'){ const p = ang2pix(MAP.nsC, z, phi); return {v:MAP.C[p]*MAP.s2, good:true}; }
+  const p = ang2pix(MAP.ns, z, phi); return {v:MAP.I[p]*MAP.s1, good:!!good(p), p};
+}
+function betaVec(){
+  const s = galVec(L_DIP, B_DIP).map(x => x*V_SUN);
+  if(P.earth){ const e = earthVelGal(Date.now()); return s.map((x, i) => (x + e[i])/C_KMS); }
+  return s.map(x => x/C_KMS);
+}
+
+/* ---------------- statistics from the actual pixels ---------------- */
+let stats = null;
+function computeStats(){
+  const vals = [], src = P.beam === 'cobe' ? MAP.C : MAP.I, sc = P.beam === 'cobe' ? MAP.s2 : MAP.s1, n = src.length;
+  let s = 0, s2 = 0, s3 = 0, s4 = 0, m = 0, hi = -1e9, lo = 1e9, hiP = 0, loP = 0, masked = 0;
+  for(let p = 0; p < n; p++){
+    let ok = true;
+    if(P.beam !== 'cobe'){ ok = !!good(p); if(!ok){ masked++; continue; } }
+    const v = src[p]*sc; s += v; s2 += v*v; m++; if(v > hi){ hi = v; hiP = p; } if(v < lo){ lo = v; loP = p; }
+  }
+  const mean = s/m, varr = s2/m - mean*mean, sd = Math.sqrt(varr);
+  for(let p = 0; p < n; p++){ if(P.beam !== 'cobe' && !good(p)) continue; const d = (src[p]*sc - mean)/sd; s3 += d*d*d; s4 += d*d*d*d; }
+  const hw = P.beam === 'cobe' ? 10 : 8, nb = Math.round(400/hw), hist = new Float64Array(2*nb + 1);   // bin widths are whole multiples of the storage step
+  for(let p = 0; p < n; p++){ if(P.beam !== 'cobe' && !good(p)) continue; const k = Math.round(src[p]*sc/hw) + nb; if(k >= 0 && k <= 2*nb) hist[k]++; }
+  const ns = P.beam === 'cobe' ? MAP.nsC : MAP.ns, a1 = pix2ang(ns, hiP), a2 = pix2ang(ns, loP);
+  const gl_ = a => [(((a[1]/D2R) % 360) + 360) % 360, 90 - Math.acos(a[0])/D2R];
+  return {mean, sd, skew:s3/m, kurt:s4/m - 3, hi, lo, hiAt:gl_(a1), loAt:gl_(a2), hist, hw, nb, m, masked:P.beam === 'cobe' ? 0 : masked/n, smoothedNote:P.beam === 'wmap'};
+}
+
+/* ---------------- chord: the spectrum's peaks, filtered by the beam ---------------- */
+let chord = null;
+const PEAKS = [[220.1, 74.7], [546, 48.8], [810, 40], [1130, 24], [1450, 14]];
+const soundOn = GLX.soundButton('snd', A => {
+  const ac = A.ac, bus = ac.createGain(); bus.gain.value = 0.25; bus.connect(A.master);
+  chord = PEAKS.map(pk => { const o = ac.createOscillator(), g = ac.createGain(); o.type = 'sine'; o.frequency.value = pk[0]/2; g.gain.value = 0; o.connect(g); g.connect(bus); o.start(); return {o, g, pk}; });
+  const low = ac.createOscillator(), lg = ac.createGain(); low.frequency.value = 20; low.type = 'sine'; lg.gain.value = 0; low.connect(lg); lg.connect(bus); low.start();
+  chord.low = {o:low, g:lg};
+  retuneChord();
+});
+function retuneChord(){
+  if(!chord) return;
+  const ac = GLX._ac.ac, t = ac.currentTime, fw = BEAMS[P.beam].fwhm;
+  chord.forEach(c => { const a = c.pk[1]/75*beamB(c.pk[0], fw); c.g.gain.setTargetAtTime(0.32*a*a, t, 0.4); });
+  chord.low.g.gain.setTargetAtTime(P.beam === 'cobe' ? 0.12 : 0.03, t, 0.4);
+}
+
+/* ---------------- plots ---------------- */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let plotDirty = true;
+function drawPlots(){
+  const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), accent = MUSEUM.css('--accent', '#B5452A'), data = MUSEUM.css('--data', '#2F5AA1');
+  PA.frame(Math.log10(2), Math.log10(2500), 0, 85, {xticks:[1, 2, 3].map(Number), xfmt:v => String(Math.round(Math.pow(10, v))), yticks:[0, 20, 40, 60, 80], ylab:'µK', xlab:'ℓ (log)'});
+  const sky = [], seen = [], fw = BEAMS[P.beam].fwhm;
+  for(let lg = Math.log10(2); lg <= Math.log10(2500); lg += 0.01){ const l = Math.pow(10, lg); sky.push([lg, dTl(l)]); seen.push([lg, dTl(l)*beamB(l, fw)]); }
+  PA.line(sky, faint, 1.2); PA.line(seen, ink, 1.8);
+  const lh = lHalf(fw); PA.vline(Math.log10(lh), accent, BEAMS[P.beam].name + ' halves at ℓ ' + Math.round(lh));
+  if(stats){
+    let mx = 0; stats.hist.forEach(v => mx = Math.max(mx, v));
+    PB.frame(-400, 400, 0, 1.08, {xticks:[-400, -200, 0, 200, 400], yticks:[0, 0.5, 1], yfmt:v => v ? v.toFixed(1) : '0', xlab:'µK', ylab:'relative'});
+    const ctx = PB.ctx; ctx.fillStyle = data;
+    for(let k = 0; k <= 2*stats.nb; k++){ const x0 = (k - stats.nb)*stats.hw - stats.hw/2, x1 = x0 + stats.hw, y = stats.hist[k]/mx; if(y <= 0) continue; ctx.globalAlpha = 0.55; ctx.fillRect(PB.X(x0), PB.Y(y), Math.max(1, PB.X(x1) - PB.X(x0) - 1), PB.Y(0) - PB.Y(y)); }
+    ctx.globalAlpha = 1;
+    const g = []; for(let x = -400; x <= 400; x += 4) g.push([x, Math.exp(-0.5*Math.pow((x - stats.mean)/stats.sd, 2))]);
+    PB.line(g, ink, 1.5);
+  }
+}
+
+/* ---------------- readouts ---------------- */
+const R = MUSEUM.readouts('ro', [
+  ['t0', 'Average temperature', 'data'], ['dip', 'Dipole', 'data'], ['v', 'Our speed through the glow', 'model'], ['ptr', 'Under the pointer', 'data'],
+  ['rms', 'Spread of the ripples', 'data'], ['shape', 'Shape of the distribution', 'data'], ['ext', 'Hottest and coldest', 'data'], ['beamR', 'Beam', 'model'],
+  ['pix', 'Pixels', 'data'], ['maskR', 'Galaxy mask', 'data']
+]);
+const fmt = MUSEUM.fmt;
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, rot = 0, hudAt = 0, roAt = 0, plotAt = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, Math.max(0, raw)); last = now;
+  t += dt; rot += dt*0.05*(GL.reducedMotion ? 0.3 : 1);
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height;
+  if(ov.width !== W || ov.height !== H){ ov.width = W; ov.height = H; }
+  if(!MAP){ gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); return; }
+  ['mono', 'dip', 'cmb'].forEach(k => { const tgt = P.layer === k ? 1 : 0; W8[k] += (tgt - W8[k])*Math.min(1, dt*5); });
+  const scale = P.layer === 'dip' ? 3500 : (P.beam === 'cobe' ? 120 : 300);
+  Wt.scale = Wt.scale ? Wt.scale + (scale - Wt.scale)*Math.min(1, dt*5) : scale;
+  const b = betaVec();
+  const sig = (BEAMS.wmap.fwhm*BEAMS.wmap.fwhm - 10.8*10.8);
+  const sigExtra = Math.sqrt(Math.max(sig, 0))/2.3548/60*D2R;
+  gl.useProgram(prog.p);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texMap); gl.uniform1i(prog.u.uMap, 0);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texCobe); gl.uniform1i(prog.u.uCobe, 1);
+  gl.uniform2f(prog.u.uRes, W, H); gl.uniform2f(prog.u.uPtr, ptr ? ptr[0] : -1e4, ptr ? ptr[1] : -1e4);
+  gl.uniform1f(prog.u.uT, t); gl.uniform1f(prog.u.uView, P.view === 'moll' ? 0 : 1); gl.uniform1f(prog.u.uRot, rot);
+  gl.uniform1f(prog.u.uLens, 0.075); gl.uniform1f(prog.u.uLensOn, P.lens && ptr ? 1 : 0); gl.uniform1f(prog.u.uMaskOn, P.mask ? 1 : 0);
+  gl.uniform1f(prog.u.uCmap, P.cmap); gl.uniform1f(prog.u.uScale, Wt.scale); gl.uniform1f(prog.u.uSigma, sigExtra);
+  gl.uniform1f(prog.u.uWMono, W8.mono); gl.uniform1f(prog.u.uWDip, W8.dip); gl.uniform1f(prog.u.uWCmb, W8.cmb);
+  gl.uniform1f(prog.u.uBeam, P.beam === 'planck' ? 0 : P.beam === 'wmap' ? 1 : 2);
+  gl.uniform3fv(prog.u.uBeta, b); gl.uniform1f(prog.u.uS1, MAP.s1); gl.uniform1f(prog.u.uS2, MAP.s2);
+  GLX.pass(gl, vao, prog, null, W, H, {});
+
+  // overlay: colour bar and coordinates
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, W, H);
+  const dpr = W/Math.max(1, cv.getBoundingClientRect().width), f = Math.round(9.5*dpr);
+  octx.font = f + 'px "IBM Plex Mono", monospace';
+  const narrow = W/dpr < 640, bw = Math.min(W*(narrow ? 0.5 : 0.3), 300*dpr), bx = W - bw - f*1.6, by = H - f*(narrow ? 6.2 : 2.6);
+  if(W8.mono < 0.5){
+    for(let i = 0; i < 64; i++){ const x = i/63*2 - 1; octx.fillStyle = colourCss(x); octx.fillRect(bx + i/64*bw, by, bw/64 + 1, f*0.6); }
+    octx.fillStyle = 'rgba(236,234,228,0.65)'; octx.textAlign = 'left'; octx.fillText(P.layer === 'dip' ? '−3.5 mK' : '−' + Math.round(scale) + ' µK', bx, by - f*0.5);
+    octx.textAlign = 'right'; octx.fillText(P.layer === 'dip' ? '+3.5 mK' : '+' + Math.round(scale) + ' µK', bx + bw, by - f*0.5);
+  } else { octx.fillStyle = 'rgba(236,234,228,0.65)'; octx.textAlign = 'right'; octx.fillText('2.72548 K IN EVERY DIRECTION', bx + bw, by); }
+  if(P.view === 'moll'){
+    const h = Math.min(H*0.92, W*0.46);
+    octx.fillStyle = 'rgba(236,234,228,0.45)'; octx.textAlign = 'center';
+    octx.fillText('GALACTIC CENTRE', W/2, H/2 - h/2 - f*0.4 < f*3 ? H/2 + h/2 + f*1.2 : H/2 - h/2 - f*0.4);
+  }
+  if(now - hudAt > 150){
+    hudAt = now;
+    hud.tl.textContent = 'COSMIC MICROWAVE BACKGROUND · ' + BEAMS[P.beam].name.toUpperCase() + '\n' + (P.layer === 'mono' ? 'T₀ = 2.72548 K' : P.layer === 'dip' ? 'T₀ + OUR MOTION, ±3.4 MK' : 'RIPPLES, ±' + Math.round(scale) + ' µK');
+    if(ptr && MAP){ const n = dirAtJS(ptr[0], ptr[1], W, H, rot); if(n){ const l = (((Math.atan2(n[1], n[0])/D2R) % 360) + 360) % 360, bb = Math.asin(n[2])/D2R, va = valueAt(n); const bv = betaVec(), bt = Math.hypot(...bv), gm = 1/Math.sqrt(1 - bt*bt), dip = (T0/(gm*(1 - (n[0]*bv[0] + n[1]*bv[1] + n[2]*bv[2]))) - T0)*1e6; hud.tr.textContent = 'ℓ ' + fmt(l, 1) + '° · b ' + (bb >= 0 ? '+' : '−') + fmt(Math.abs(bb), 1) + '°\n' + (P.layer === 'dip' ? fmt((dip + va.v)/1000, 3) + ' MK' : (va.v >= 0 ? '+' : '−') + fmt(Math.abs(va.v), 0) + ' µK') + (va.good ? '' : ' · MASKED'); R.ptr.set((P.layer === 'dip' ? fmt((dip + va.v)/1000, 3) + ' mK' : (va.v >= 0 ? '+' : '−') + fmt(Math.abs(va.v), 0) + ' µK'), 'ℓ ' + fmt(l, 1) + '°, b ' + fmt(bb, 1) + '°' + (va.good ? '' : ', inside the mask')); } else { hud.tr.textContent = ''; } }
+    else hud.tr.textContent = 'POINT AT THE SKY';
+  }
+  if(now - roAt > 500){
+    roAt = now;
+    if(!stats) { stats = computeStats(); plotDirty = true; }
+    const bv = betaVec(), bt = Math.hypot(...bv), gm = 1/Math.sqrt(1 - bt*bt), amp = (T0/(gm*(1 - bt)) - T0/(gm*(1 + bt)))/2*1000;
+    R.t0.set('2.72548 K', 'COBE FIRAS, Fixsen 2009; −270.42 °C');
+    R.dip.set(fmt(amp, 3) + ' mK', P.earth ? 'today, Sun + Earth' : 'Planck 2018: 3.362 mK');
+    R.v.set(fmt(bt*C_KMS, 1) + ' km/s', P.earth ? 'Sun 369.8 plus Earth\'s 29.8 today' : 'the Sun, towards ℓ 264.0°, b +48.3°');
+    R.rms.set(fmt(stats.sd, 1) + ' µK', 'mean ' + fmt(stats.mean, 1) + ' µK over ' + fmt(stats.m, 0) + ' pixels' + (P.beam === 'wmap' ? ' (Planck pixels; WMAP blur on screen only)' : ''));
+    R.shape.set('skew ' + fmt(stats.skew, 3), 'excess kurtosis ' + fmt(stats.kurt, 3) + '; Gaussian is 0 and 0');
+    R.ext.set('+' + fmt(stats.hi, 0) + ' / −' + fmt(-stats.lo, 0) + ' µK', (stats.hi >= 508 || stats.lo <= -508 ? 'at the ±508 µK storage limit; ' : '') + 'hottest at ℓ ' + fmt(stats.hiAt[0], 0) + '°, b ' + fmt(stats.hiAt[1], 0) + '°; coldest at ℓ ' + fmt(stats.loAt[0], 0) + '°, b ' + fmt(stats.loAt[1], 0) + '°');
+    const fw = BEAMS[P.beam].fwhm; R.beamR.set(fw >= 60 ? fmt(fw/60, 0) + '° wide' : fmt(fw, 1) + '′ wide', 'details smaller than ℓ ≈ ' + fmt(lHalf(fw), 0) + ' are halved');
+    R.pix.set(P.beam === 'cobe' ? '49,152' : '3,145,728', P.beam === 'cobe' ? 'HEALPix Nside 64, 55′ each' : 'HEALPix Nside 512, 6.9′ each');
+    R.maskR.set(P.beam === 'cobe' ? '–' : fmt(stats.masked*100, 1) + ' %', P.beam === 'cobe' ? '' : 'of the sky left out: Planck\'s confidence mask');
+  }
+  if(plotDirty || now - plotAt > 2000){ plotAt = now; plotDirty = false; drawPlots(); }
+}
+function colourCss(x){
+  if(P.cmap) { const v = Math.round((0.5 + 0.5*x)*255); return 'rgb(' + v + ',' + v + ',' + v + ')'; }
+  const S = [[-1, [0.05, 0.22, 0.72]], [-0.5, [0.35, 0.62, 0.95]], [0, [0.95, 0.94, 0.88]], [0.5, [1.0, 0.62, 0.22]], [1, [0.78, 0.12, 0.06]]];
+  let i = 0; while(i < 3 && x > S[i + 1][0]) i++;
+  const u = (x - S[i][0])/(S[i + 1][0] - S[i][0]), c = S[i][1].map((v, k) => v + (S[i + 1][1][k] - v)*u);
+  return 'rgb(' + c.map(v => Math.round(v*255)).join(',') + ')';
+}
+const ORDER = [['mono', 'planck'], ['dip', 'planck'], ['cmb', 'cobe'], ['cmb', 'wmap'], ['cmb', 'planck']];
+let instIdx = 0;
+MUSEUM.install('inst', stage, () => { document.getElementById('label').classList.add('on'); instIdx = 0; P.view = 'globe'; }, s => {
+  if(Math.floor(s) % 25 === 0){ const o = ORDER[instIdx++ % ORDER.length]; P.layer = o[0]; P.beam = o[1]; setLayer(o[0]); document.querySelectorAll('#beam button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === o[1]))); showLabel(); stats = null; retuneChord(); }
+});
+fetch('/visual-synths/data/cmb-planck.bin').then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+  .then(buf => { MAP = parse(buf); upload(); if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{ang2pix, pix2ang, valueAt, computeStats, setPtr:v => { ptr = v; }, MAP:() => MAP}}); })
+  .catch(e => { console.error(e); fail('Could not load the Planck map (' + e.message + ').'); });
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+window.addEventListener('resize', () => { plotDirty = true; });
+})();
+</script>
+</body>
+</html>

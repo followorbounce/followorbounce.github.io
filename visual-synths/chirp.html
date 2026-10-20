@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Chirp — Video Synths</title>
+<meta name="description" content="Two black holes spiral together and space carries their gravitational waves outward as tightening spiral lines. Built on LIGO's open data for GW150914 and its numerical-relativity waveform; play the real chirp, compare the simple formula with the data, try your own masses. WebGL 2 data sculpture with sound.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/chirp">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Chirp — Video Synths">
+<meta property="og:description" content="Two black holes spiral together and space carries their gravitational waves outward as tightening spiral lines. Built on LIGO's open data for GW150914 and its numerical-relativity waveform; play the real chirp, compare the simple formula with the data, try your own masses. WebGL 2 data sculpture with sound.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/chirp">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+/* museum panels for the aerospace pieces: readouts, plots, wall label, installation mode */
+:root{--accent:#B5452A; --data:#2F5AA1;}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#E07A5F; --data:#8FB0E8; } }
+:root[data-theme="dark"]{ --accent:#E07A5F; --data:#8FB0E8; }
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong); margin-top:18px;}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:10px 12px 11px; min-width:0;}
+.readouts .k{font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-family:var(--font-display); font-weight:700; font-size:1.18rem; line-height:1.25; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--ink); overflow-wrap:anywhere;}
+.readouts .s{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+.src-tag{font-size:8.5px; letter-spacing:.1em; padding:0 4px; border:1px solid currentColor; border-radius:2px; line-height:1.5; white-space:nowrap;}
+.src-tag.data{color:var(--data);} .src-tag.model{color:var(--accent);} .src-tag.drawn{color:var(--ink-faint);}
+.plots{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin-top:16px;}
+.plot{border:1px solid var(--line-strong); background:var(--paper-raised); min-width:0;}
+.plot .cap{display:flex; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); padding:8px 10px 0;}
+.plot canvas{display:block; width:100%; height:190px; touch-action:pan-y;}
+.plot .note{font-size:10.5px; color:var(--ink-faint); padding:0 10px 8px;}
+.stage .wall-label{position:absolute; left:14px; bottom:14px; max-width:min(440px, calc(100% - 28px)); background:rgba(0,0,0,.78); color:#ECEAE4; border-left:2px solid #fff; padding:11px 14px 12px; font-family:var(--font-display); font-weight:500; font-size:12.5px; line-height:1.55; display:none; z-index:3;}
+.stage .wall-label.on{display:block;}
+.stage .wall-label b{display:block; font-family:var(--font-mono); font-weight:500; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage canvas.overlay{pointer-events:none;}
+.stage.installing, .stage.installing canvas{cursor:none;}
+.stage.installing .wall-label{font-size:clamp(13px,1.2vw,19px); max-width:min(640px, 46%);}
+.stage.installing .hud{font-size:clamp(10px,0.9vw,15px);}
+.sources{font-size:12px;}
+.sources li{margin-bottom:6px;}
+.sources a{overflow-wrap:anywhere;}
+.guide-link{display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; text-decoration:none; color:var(--ink);}
+.guide-link:hover{border-color:var(--ink);}
+@media (max-width:640px){ .stage .wall-label{font-size:11.5px; left:10px; bottom:10px; padding:8px 10px;} .readouts .v{font-size:1.02rem;} }
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from chirp.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Aerospace piece 02 · Data sculpture &amp; light</div>
+    <h1>Chirp</h1>
+    <p>On 14 September 2015 two black holes, about 36 and 31 times the mass of the Sun, merged 1.3 billion light-years away. For the last tenth of a second they circled each other hundreds of times a second, and the space around them carried the motion outward as waves. The lines on the stage are those waves in the plane of the orbit, crest after crest, tightening as the orbit shrinks, then a single ringing after the merger. Below is what LIGO actually recorded at Hanford and Livingston, and the sound of it.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Spiral lines of gravitational waves radiating from two black holes that orbit faster and faster and then merge."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud bl legend" id="hudBL"></div>
+    <div class="wall-label" id="label"><b id="labelHead"></b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Event</span>
+      <div class="seg" id="preset">
+        <button data-v="nr">GW150914 · full physics</button>
+        <button data-v="pn">GW150914 · simple formula</button>
+        <button data-v="bns">GW170817 · neutron stars</button>
+        <button data-v="heavy">GW190521 · heaviest</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="m1">Mass 1 <output for="m1"></output></label>
+      <input id="m1" type="range" min="1" max="100" step="0.1">
+      <label for="m2">Mass 2 <output for="m2"></output></label>
+      <input id="m2" type="range" min="1" max="100" step="0.1">
+      <label for="dist">Distance <output for="dist"></output></label>
+      <input id="dist" type="range" min="1.3" max="3.9" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="slow">Slow motion <output for="slow"></output></label>
+      <input id="slow" type="range" min="0" max="3" step="0.01">
+      <label for="view">Field of view <output for="view"></output></label>
+      <input id="view" type="range" min="2.3" max="4.6" step="0.01">
+      <div class="row">
+        <button class="btn" id="pause">Pause</button>
+        <button class="btn" id="l1" aria-pressed="false">Show Livingston</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Sound</span>
+      <div class="seg" id="sndSrc">
+        <button data-v="model">The waveform</button>
+        <button data-v="data">Hanford data</button>
+      </div>
+      <div class="seg" id="pitch">
+        <button data-v="1">True pitch</button>
+        <button data-v="4">Two octaves up</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="hear">Hear it</button>
+        <button class="btn" id="lab">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Hear it plays the chirp once at its true speed while the stage runs in real time. At true pitch most of it lies between 35 and 250 Hz, below what phone speakers reproduce; two octaves up plays it four times faster. Moving a mass slider switches to the simple formula for your own binary.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span id="capA">Strain at Hanford, whitened</span><span id="capA2">data · model</span></div><canvas id="plotA"></canvas><div class="note" id="noteA">Grey: what the detector recorded, with its noise divided out and filtered to 35–350 Hz. Coloured: the model, processed the same way.</div></div>
+    <div class="plot"><div class="cap"><span>Frequency against time</span><span>Hanford · model track</span></div><canvas id="plotB"></canvas><div class="note">The bright ridge is the chirp in the data. The line is the model's frequency; move the masses and it moves away from the ridge.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>Two waveforms.</strong> <em>Full physics</em> uses the numerical-relativity waveform that LIGO published with the discovery: Einstein's equations solved on a supercomputer for black holes of these masses. <em>Simple formula</em> is what you can do by hand: the leading-order chirp from the guide, where the time left before merger is <code>τ = (5/256)(G𝓜/c³)<sup>−5/3</sup>(πf)<sup>−8/3</sup></code> and 𝓜 is the chirp mass, then a ringing at the frequency and damping time of the final black hole (fits by Berti and colleagues, final spin from Rezzolla and colleagues, energy radiated from a standard fit), joined by a smooth bridge. The bridge is our choice, not physics.</p>
+  <p><strong>The test against the data.</strong> The page takes LIGO's Hanford recording, divides out the detector's noise spectrum (whitening) and keeps 35–350 Hz. It processes the chosen waveform the same way, slides it in time and phase, and reports the best normalised overlap: 1 would be a perfect copy, and stretches of pure noise score about 0.17 (0.22 at most in 22 trials). The full-physics waveform reaches 0.76. The simple formula stays near 0.3 whatever masses you choose: it is right about the early chirp but falls many cycles behind in the last orbits, which is why gravitational-wave astronomy needs numerical relativity. Livingston recorded the same signal flipped in sign, because its arms are rotated relative to Hanford's, and earlier; the page finds the delay by the same sliding test.</p>
+  <p><strong>The picture.</strong> The stage is the orbital plane, seen from above, at true scale in kilometres in the source's own time. Each point shows the wave that left the binary <code>r/c</code> earlier: <code>h ∝ A(t − r/c)·cos(2Φ(t − r/c) − 2φ)</code>, so crests form two spiral arms. Lines are drawn along the crests and between them; brightness is the wave's amplitude with the 1/r fall-off removed so the outer waves stay visible. Near the binary, within about a sixth of a wavelength, the wave picture does not apply and the lines fade. Black holes are drawn at their Schwarzschild radius, 2.95 km per solar mass, with separation from Kepler's law at the current frequency.</p>
+  <p><strong>Distance and redshift.</strong> Masses are given as at the source. The waves stretch on their way here, so the detector sees every frequency lower and every duration longer by (1 + z); z comes from the distance in a flat universe with H₀ = 67.7 km/s/Mpc and Ω<sub>m</sub> = 0.31. Strain at Earth is for a binary seen face-on, the most favourable orientation.</p>
+  <h3>Lineage</h3>
+  <p>A study in the language of light as structure: fine white lines on black, one flash at the climax, then quiet rings moving out of the frame. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Spins are ignored in the simple formula; GW150914's were small. The neutron-star preset ends when the stars touch (radius 12 km each); what happens after is not modelled.</li>
+    <li>Only GW150914's data is bundled; for the other events the plots show the model alone.</li>
+    <li>The wave field in the plane is the quadrupole far-field pattern; the orbit is drawn from Kepler's law even in the last orbit, where it is only indicative.</li>
+    <li>Nothing flashes more than once per loop; the merger glow rises and fades over tens of milliseconds of slowed time. Reduced motion slows the loop further.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>LIGO Scientific Collaboration and Virgo Collaboration, Gravitational Wave Open Science Center: GW150914 strain, H1 and L1, 4 kHz, 32 s (GWTC-1 release), and the numerical-relativity waveform for GW150914. <a href="https://gwosc.org/eventapi/html/GWTC-1-confident/GW150914/v3/">gwosc.org</a></li>
+    <li>B. P. Abbott et al. (2016), "Observation of Gravitational Waves from a Binary Black Hole Merger", Phys. Rev. Lett. 116, 061102 (arrival-time difference 6.9 ms).</li>
+    <li>GWTC-1 and GWTC-2 catalogue parameters for GW150914, GW170817 and GW190521 (GWOSC event pages).</li>
+    <li>E. Berti, V. Cardoso, C. Will (2006), ringdown fits; L. Rezzolla et al. (2008), final spin of equal-mass mergers.</li>
+  </ul>
+  <a class="guide-link" href="/aerospace/ripple-gravitational-waves">Read the guide: RIPPLE — Gravitational Waves →</a>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), bl:document.getElementById('hudBL')};
+hud.bl.style.whiteSpace = 'pre';
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This piece needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* ---------------- physics ---------------- */
+const TS = 4.925490947e-6, C_KM = 299792.458, GM_KM = 1.32712440018e11, RS_KM = 2*GM_KM/(C_KM*C_KM), MPC_M = 3.0856775814913673e22, MSUN_KG = 1.98847e30;
+const H0 = 67.7, OM = 0.31;
+function dlOfZ(z){ let s = 0; const n = 400; for(let i = 0; i < n; i++){ const zz = (i + 0.5)/n*z; s += 1/Math.sqrt(OM*Math.pow(1 + zz, 3) + 1 - OM); } return (1 + z)*C_KM/H0*s*z/n; }
+function zOfDl(d){ let lo = 0, hi = 3; for(let k = 0; k < 50; k++){ const m = (lo + hi)/2; if(dlOfZ(m) < d) lo = m; else hi = m; } return (lo + hi)/2; }
+function remnant(m1, m2){
+  const M = m1 + m2, eta = m1*m2/(M*M), Mc = M*Math.pow(eta, 0.6);
+  const af = 2*Math.sqrt(3)*eta - 3.871*eta*eta + 4.028*eta*eta*eta;
+  const erad = ((1 - Math.sqrt(8/9))*eta + 0.498*eta*eta)*M, Mf = M - erad;
+  const frd = (1 - 0.63*Math.pow(1 - af, 0.3))/(2*Math.PI*TS*Mf), Q = 0.7 + 1.4187*Math.pow(1 - af, -0.499), trd = Q/(Math.PI*frd);
+  return {M, eta, Mc, af, erad, Mf, frd, trd};
+}
+const tauOf = (Mc, f) => 5/256*Math.pow(TS*Mc, -5/3)*Math.pow(Math.PI*f, -8/3);
+const fOfTau = (Mc, tau) => Math.pow(256*tau/5, -3/8)*Math.pow(TS*Mc, -5/8)/Math.PI;
+const fdotOf = (Mc, f) => 96/5*Math.pow(Math.PI, 8/3)*Math.pow(TS*Mc, 5/3)*Math.pow(f, 11/3);
+/* the simple formula: leading-order chirp + ringdown fit, joined smoothly; masses in the frame you want (source or detector) */
+function simple(m1, m2, fs, flo, ns){
+  const R = remnant(m1, m2), Mc = R.Mc;
+  const out = {R, ns};
+  let tEnd, fAt, ampAt;
+  if(ns){
+    const fc = Math.sqrt(GM_KM*R.M/Math.pow(24, 3))/Math.PI;           // GW frequency at contact, radius 12 km each
+    const tc = -tauOf(Mc, fc);
+    fAt = t => t < tc ? fOfTau(Mc, -t) : fc; ampAt = (t, f) => Math.pow(f, 2/3)*(t < tc ? 1 : Math.exp(-(t - tc)/0.0006));
+    out.tPeak = tc; tEnd = tc + 0.006; out.fEnd = fc;
+  } else {
+    const fj = 0.5*R.frd, tj = -tauOf(Mc, fj), tm = (R.frd - fj)/fdotOf(Mc, fj);
+    const tpk = tj + tm*Math.log((R.frd - fj)/(0.05*R.frd)), apk = Math.pow(0.95*R.frd, 2/3);
+    fAt = t => t < tj ? fOfTau(Mc, -t) : R.frd - (R.frd - fj)*Math.exp(-(t - tj)/tm);
+    ampAt = (t, f) => t < tpk ? Math.pow(f, 2/3) : apk*Math.exp(-(t - tpk)/R.trd);
+    out.tPeak = tpk; tEnd = tpk + 12*R.trd + 0.01; out.fEnd = fj;
+  }
+  const t0 = -tauOf(Mc, flo), n = Math.max(2, Math.ceil((tEnd - t0)*fs));
+  const A = new Float32Array(n), Ph = new Float64Array(n), F = new Float32Array(n);
+  let ph = 0, amax = 0;
+  for(let i = 0; i < n; i++){ const t = t0 + i/fs, f = fAt(t); F[i] = f; A[i] = ampAt(t, f); ph += f/fs; Ph[i] = ph; amax = Math.max(amax, A[i]); }
+  const iPk = Math.min(n - 1, Math.round((out.tPeak - t0)*fs)), phPk = Ph[iPk];
+  for(let i = 0; i < n; i++){ A[i] /= amax; Ph[i] -= phPk; }
+  return Object.assign(out, {t0: t0 - out.tPeak, fs, n, A, Ph, F});      // times relative to the peak
+}
+
+/* ---------------- radix-2 FFT for whitening ---------------- */
+function fft(re, im, inv){
+  const n = re.length;
+  for(let i = 1, j = 0; i < n; i++){ let b = n >> 1; for(; j & b; b >>= 1) j ^= b; j ^= b; if(i < j){ let t = re[i]; re[i] = re[j]; re[j] = t; t = im[i]; im[i] = im[j]; im[j] = t; } }
+  for(let len = 2; len <= n; len <<= 1){
+    const a = 2*Math.PI/len*(inv ? 1 : -1), wr = Math.cos(a), wi = Math.sin(a);
+    for(let i = 0; i < n; i += len){ let cr = 1, ci = 0; for(let k = 0; k < len/2; k++){ const p = i + k, q = p + len/2, vr = re[q]*cr - im[q]*ci, vi = re[q]*ci + im[q]*cr; re[q] = re[p] - vr; im[q] = im[p] - vi; re[p] += vr; im[p] += vi; const t = cr*wr - ci*wi; ci = cr*wi + ci*wr; cr = t; } }
+  }
+  if(inv) for(let i = 0; i < n; i++){ re[i] /= n; im[i] /= n; }
+}
+
+/* ---------------- data ---------------- */
+let D = null;          // GW150914 bundle
+function b64i16(s, scale){ const bin = atob(s), u = new Uint8Array(bin.length); for(let i = 0; i < bin.length; i++) u[i] = bin.charCodeAt(i); const v = new Int16Array(u.buffer), o = new Float32Array(v.length); for(let i = 0; i < v.length; i++) o[i] = v[i]/scale; return o; }
+function asdAt(f){ const F = D.asd_f, A = D.asd; if(f <= F[0]) return A[0]; if(f >= F[F.length - 1]) return A[A.length - 1]; let i = 1; while(F[i] < f) i++; const u = Math.log(f/F[i - 1])/Math.log(F[i]/F[i - 1]); return Math.exp(Math.log(A[i - 1])*(1 - u) + Math.log(A[i])*u); }
+/* whiten a model (cos and sin quadratures) sampled at 4096 Hz in detector time; returns two arrays */
+function whiten(Wv){
+  const N = 8192, fs = 4096, out = [];
+  const off = Math.max(0, Math.round((-1.9 - Wv.t0)*fs)), n = Math.min(N, Wv.n - off);   // the 2 s ending just after the peak
+  out.t0 = Wv.t0 + off/fs;
+  for(const q of [0, 1]){
+    const re = new Float64Array(N), im = new Float64Array(N);
+    for(let i = 0; i < n; i++){ const a = Wv.A[off + i], p = 2*Math.PI*Wv.Ph[off + i]; re[i] = a*(q ? Math.sin(p) : Math.cos(p)); }
+    fft(re, im, false);
+    for(let k = 0; k <= N/2; k++){
+      const f = k*fs/N, band = Math.min(1, Math.max(0, (f - 30)/10))*Math.min(1, Math.max(0, (370 - f)/30)), g = band/asdAt(Math.max(f, 1));
+      re[k] *= g; im[k] *= g; if(k > 0 && k < N/2){ re[N - k] *= g; im[N - k] *= g; }
+    }
+    fft(re, im, true);
+    out.push(Float32Array.from(re.subarray(0, n)));
+  }
+  return out;
+}
+/* best normalised overlap of a whitened model with a data series, over time shifts and phase */
+function overlapWith(data, wc, ws, mt0, lagLo, lagHi){
+  const fs = 4096, t0 = D.t0, i0 = Math.round((-0.35 - t0)*fs), i1 = Math.round((0.08 - t0)*fs);
+  let dd = 0; for(let i = i0; i < i1; i++) dd += data[i]*data[i];
+  let best = {ov:0, lag:0, ph:0};
+  for(let lag = lagLo; lag <= lagHi; lag += 1/fs){
+    let a = 0, b = 0, cc = 0, ss = 0;
+    for(let i = i0; i < i1; i++){
+      const t = t0 + i/fs, u = (t - lag - mt0)*fs, j = Math.floor(u);
+      if(j < 0 || j >= wc.length - 1) continue;
+      const fr = u - j, c = wc[j]*(1 - fr) + wc[j + 1]*fr, s = ws[j]*(1 - fr) + ws[j + 1]*fr;
+      a += c*data[i]; b += s*data[i]; cc += c*c; ss += s*s;
+    }
+    const ov = Math.hypot(a/Math.sqrt(cc || 1), b/Math.sqrt(ss || 1))/Math.sqrt(2*dd)*Math.SQRT2;
+    if(ov > best.ov) best = {ov, lag, ph:Math.atan2(b, a), amp:Math.hypot(a, b)/(cc || 1)};
+  }
+  return best;
+}
+
+/* ---------------- spectrogram of the Hanford data (computed once) ---------------- */
+let SPEC = null;
+function spectrogram(x){
+  const N = 512, hop = 16, fs = 4096, cols = [], win = new Float64Array(N);
+  for(let i = 0; i < N; i++) win[i] = 0.5 - 0.5*Math.cos(2*Math.PI*i/(N - 1));
+  const kMax = Math.ceil(420/fs*1024);
+  for(let s = 0; s + N <= x.length; s += hop){
+    const re = new Float64Array(1024), im = new Float64Array(1024);
+    for(let i = 0; i < N; i++) re[i] = x[s + i]*win[i];
+    fft(re, im, false);
+    const col = new Float32Array(kMax); for(let k = 0; k < kMax; k++) col[k] = re[k]*re[k] + im[k]*im[k];
+    cols.push({t: D.t0 + (s + N/2)/fs, p: col});
+  }
+  let mx = 0; cols.forEach(c => c.p.forEach(v => mx = Math.max(mx, v)));
+  return {cols, kMax, df: fs/1024, mx};
+}
+
+/* ---------------- state ---------------- */
+const PRESETS = {
+  nr:{m1:35.6, m2:30.6, d:440, z:0.09, src:'nr', name:'GW150914', note:'full physics: numerical relativity'},
+  pn:{m1:35.6, m2:30.6, d:440, z:0.09, src:'pn', name:'GW150914', note:'simple formula'},
+  bns:{m1:1.46, m2:1.27, d:40, z:0.0099, src:'pn', name:'GW170817', note:'two neutron stars, simple formula'},
+  heavy:{m1:85, m2:66, d:5300, z:0.82, src:'pn', name:'GW190521', note:'heaviest of the early events, simple formula'}
+};
+const P = {preset:'nr', m1:35.6, m2:30.6, logd:Math.log10(440), z:0.09, src:'nr', slow:Math.log10(40), view:Math.log10(12000), l1:false, sndSrc:'model', pitch:1, paused:false};
+let VIS = null, DET = null, WH = null, MATCH = null, L1M = null;
+let loopT = 0, realtimeUntil = 0, mergerGlow = 0;
+
+/* visual waveform in the source frame (texture) and detector-frame waveform for plots and sound */
+function build(){
+  const pr = PRESETS[P.preset], z = P.z, ns = P.m1 < 3 && P.m2 < 3;
+  if(P.src === 'nr' && D){
+    const nr = D.nr, fs = 4096, n = nr.A.length;
+    DET = {t0:nr.t0, fs, n, A:Float32Array.from(nr.A), Ph:Float64Array.from(nr.ph), R:remnant(P.m1*(1 + z), P.m2*(1 + z)), tPeak:0, ns:false};
+    DET.F = new Float32Array(n); for(let i = 1; i < n - 1; i++) DET.F[i] = (DET.Ph[i + 1] - DET.Ph[i - 1])*fs/2; DET.F[0] = DET.F[1]; DET.F[n - 1] = DET.F[n - 2];
+    VIS = {t0:nr.t0/(1 + z), fs:fs*(1 + z), n, A:DET.A, Ph:DET.Ph, F:DET.F.map(f => f*(1 + z)), R:remnant(P.m1, P.m2), ns:false};
+  } else {
+    DET = simple(P.m1*(1 + z), P.m2*(1 + z), 4096, ns ? 40 : 18, ns);
+    VIS = simple(P.m1, P.m2, ns ? 16384 : 8192, ns ? 150 : 25, ns);
+  }
+  uploadVis();
+  WH = D ? whiten(DET) : null;
+  MATCH = (D && WH) ? overlapWith(D.H1, WH[0], WH[1], WH.t0, -0.04, 0.04) : null;
+  L1M = (D && WH) ? overlapWith(D.L1, WH[0], WH[1], WH.t0, -0.04, 0.04) : null;
+  audioBuf = null;
+  loopStart();
+  plotDirty = true;
+}
+/* loop window in source time: from where the GW frequency passes fStart to the end plus the time to leave the view */
+function fStartVis(){ return VIS.ns ? 150 : Math.max(25, Math.min(40, 0.15*VIS.R.frd)); }
+function loopStart(){
+  const fs0 = fStartVis(); let i = 0; while(i < VIS.n - 1 && VIS.F[i] < fs0) i++;
+  VIS.tLoop0 = VIS.t0 + i/VIS.fs; loopT = VIS.tLoop0;
+}
+
+/* ---------------- GL ---------------- */
+const FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+float sq(float x){ return x*x; }
+uniform sampler2D uWave; uniform int uN; uniform float uT0, uDt;   // samples: r = amplitude, g = phase (cycles)
+uniform vec2 uRes; uniform float uT, uView, uC, uGlow, uLines;
+uniform vec4 uBH[2];   // x, y (km), radius (km), visible
+uniform vec3 uRem;     // radius (km), visible, unused
+float hash(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)))*43758.5453); }
+vec2 wave(float t){
+  float u = (t - uT0)/uDt; if(u < 0.0) return vec2(0.0);
+  int i = int(floor(u)); if(i >= uN - 1) return vec2(0.0);
+  float f = u - float(i);
+  vec2 a = texelFetch(uWave, ivec2(i % 1024, i / 1024), 0).rg, b = texelFetch(uWave, ivec2((i + 1) % 1024, (i + 1) / 1024), 0).rg;
+  return mix(a, b, f);
+}
+void main(){
+  vec2 q = (gl_FragCoord.xy - 0.5*uRes)/uRes.y*2.0*uView;     // km
+  float r = length(q), phi = atan(q.y, q.x);
+  float pxKm = 2.0*uView/uRes.y;
+  vec2 w = wave(uT - r/uC);
+  float A = w.r;
+  // local wavelength from the phase gradient: lines fade where r is inside ~1/6 wavelength (near zone)
+  vec2 w2 = wave(uT - (r + 50.0)/uC);
+  float fr = abs(w.g - w2.g)*uC/50.0;                // GW frequency in Hz (cycles per second of retarded time)
+  float lam = uC/max(fr, 1.0);
+  float near = smoothstep(lam*0.08, lam*0.22, r);
+  float u = w.g - phi/3.14159265;                    // crests at integer u: two spiral arms
+  float K = uLines;
+  float v = u*K, dv = K*(fwidth(w.g) + pxKm/(3.14159265*max(r, pxKm)));
+  float ln = 1.0 - smoothstep(0.0, 1.2*dv + 0.02, abs(fract(v + 0.5) - 0.5));
+  float crest = 0.5 + 0.5*cos(6.2831853*u);
+  float bright = A*near*(0.18 + 0.82*crest*crest);
+  vec3 c = vec3(0.93, 0.95, 1.0)*ln*bright;
+  c += vec3(0.25, 0.3, 0.4)*A*near*crest*0.035;
+  // black holes: horizon (black), photon ring
+  for(int k = 0; k < 2; k++){
+    if(uBH[k].w < 0.5) continue;
+    float d = length(q - uBH[k].xy), R = uBH[k].z;
+    c *= smoothstep(R*0.98, R*1.02 + pxKm, d);
+    c += vec3(1.0)*exp(-sq((d - 1.5*R)/(pxKm*1.2 + R*0.05)))*0.8;
+  }
+  if(uRem.y > 0.5){
+    float d = length(q), R = uRem.x;
+    c *= smoothstep(R*0.98, R*1.02 + pxKm, d);
+    c += vec3(1.0)*exp(-sq((d - 1.5*R)/(pxKm*1.2 + R*0.05)))*0.8;
+  }
+  c += vec3(1.0, 0.88, 0.8)*uGlow*exp(-r/(uView*0.06))*0.9;
+  c = c/(1.0 + c*0.4);
+  c = pow(max(c, 0.0), vec3(0.4545)) + (hash(gl_FragCoord.xy + fract(uT*97.0)) - 0.5)*0.01;
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+if(!prog.u.uBH) prog.u.uBH = gl.getUniformLocation(prog.p, 'uBH[0]');
+const vao = GLX.quad(gl);
+const tex = gl.createTexture();
+function uploadVis(){
+  const n = VIS.n, rows = Math.ceil(n/1024), buf = new Float32Array(1024*rows*2);
+  for(let i = 0; i < n; i++){ buf[i*2] = VIS.A[i]; buf[i*2 + 1] = VIS.Ph[i]; }
+  gl.bindTexture(gl.TEXTURE_2D, tex);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.RG32F, 1024, rows, 0, gl.RG, gl.FLOAT, buf);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+}
+function sampleVis(t){ const u = (t - VIS.t0)*VIS.fs; if(u < 0) return null; const i = Math.floor(u); if(i >= VIS.n - 1) return null; const f = u - i; return {A:VIS.A[i]*(1 - f) + VIS.A[i + 1]*f, Ph:VIS.Ph[i]*(1 - f) + VIS.Ph[i + 1]*f, F:VIS.F[i]*(1 - f) + VIS.F[i + 1]*f}; }
+
+/* ---------------- readouts ---------------- */
+const R = MUSEUM.readouts('ro', [
+  ['mc', 'Chirp mass', 'model'], ['mt', 'Final black hole', 'model'], ['erad', 'Energy radiated', 'model'], ['frd', 'Ringdown', 'model'],
+  ['fnow', 'Wave frequency now', 'model'], ['sep', 'Separation now', 'model'], ['v', 'Orbital speed now', 'model'], ['h', 'Strain at Earth now', 'model'],
+  ['cyc', 'Cycles above 35 Hz', 'model'], ['match', 'Match with Hanford data', 'data'], ['delay', 'Livingston vs Hanford', 'data']
+]);
+const fmt = MUSEUM.fmt;
+
+/* ---------------- controls ---------------- */
+const m1El = GL.slider('m1', P, 'm1', v => v.toFixed(1) + ' M☉'), m2El = GL.slider('m2', P, 'm2', v => v.toFixed(1) + ' M☉');
+const dEl = GL.slider('dist', P, 'logd', v => Math.round(Math.pow(10, v)).toLocaleString('en-GB') + ' Mpc');
+GL.slider('slow', P, 'slow', v => '×' + Math.round(Math.pow(10, v)));
+const viewEl = GL.slider('view', P, 'view', v => Math.round(Math.pow(10, v)).toLocaleString('en-GB') + ' km');
+const setPreset = GL.seg('preset', P.preset, v => applyPreset(v));
+let rebuildT = 0;
+function custom(){ setPreset(''); P.preset = 'custom'; P.src = 'pn'; P.z = zOfDl(Math.pow(10, P.logd)); clearTimeout(rebuildT); rebuildT = setTimeout(build, 120); }
+[m1El, m2El, dEl].forEach(el => el.addEventListener('input', custom));
+function setVal(el, key, v){ P[key] = v; el.value = v; el.dispatchEvent(new Event('input')); }
+function applyPreset(k){
+  const pr = PRESETS[k]; if(!pr) return;
+  P.preset = k; P.src = pr.src; P.z = pr.z;
+  [[m1El, 'm1', pr.m1], [m2El, 'm2', pr.m2], [dEl, 'logd', Math.log10(pr.d)]].forEach(a => { P[a[1]] = a[2]; a[0].value = a[2]; const o = document.querySelector('output[for="' + a[0].id + '"]'); if(o) o.textContent = a[1] === 'logd' ? Math.round(pr.d).toLocaleString('en-GB') + ' Mpc' : a[2].toFixed(1) + ' M☉'; });
+  const ns = pr.m1 < 3;
+  P.slow = Math.log10(ns ? 20 : k === 'heavy' ? 20 : 40); document.getElementById('slow').value = P.slow; document.querySelector('output[for="slow"]').textContent = '×' + Math.round(Math.pow(10, P.slow));
+  P.view = Math.log10(ns ? 2500 : k === 'heavy' ? 30000 : 12000); viewEl.value = P.view; document.querySelector('output[for="view"]').textContent = Math.round(Math.pow(10, P.view)).toLocaleString('en-GB') + ' km';
+  setPreset(k); build(); showLabel(k);
+}
+const pauseBtn = document.getElementById('pause');
+pauseBtn.addEventListener('click', () => { P.paused = !P.paused; pauseBtn.setAttribute('aria-pressed', String(P.paused)); pauseBtn.textContent = P.paused ? 'Play' : 'Pause'; });
+const l1Btn = document.getElementById('l1'); l1Btn.addEventListener('click', () => { P.l1 = !P.l1; l1Btn.setAttribute('aria-pressed', String(P.l1)); plotDirty = true; });
+GL.seg('sndSrc', P.sndSrc, v => { P.sndSrc = v; audioBuf = null; });
+GL.seg('pitch', String(P.pitch), v => { P.pitch = +v; audioBuf = null; });
+GL.fullscreen('fs', stage);
+MUSEUM.label('lab', 'label', false);
+const LABELS = {
+  nr:['GW150914 · 14 September 2015, 09:50:45 UTC', 'Two black holes of about 36 and 31 solar masses merged into one of about 63. Three Suns\' worth of mass left as gravitational waves in less than a second. Here: the waveform computed from Einstein\'s equations.'],
+  pn:['The formula you can do by hand', 'Newton\'s orbit plus the energy carried away by waves gives the chirp: the frequency climbs as the orbit shrinks. It is right early on and falls behind in the last orbits; compare its match with the data.'],
+  bns:['GW170817 · 17 August 2017', 'Two neutron stars, each a little heavier than the Sun and about 24 km across. Their chirp lasted about a minute in the detectors. A gamma-ray burst followed 1.7 seconds later.'],
+  heavy:['GW190521 · 21 May 2019', 'The heaviest of the early events: about 85 and 66 solar masses, so heavy that only the last few orbits were in the detectors\' range. The waves travelled about seven billion years.'],
+  custom:['Your binary', 'The simple formula, scaled to your masses and distance. Lighter pairs chirp longer and higher; heavier pairs are brief and low.']
+};
+function showLabel(k){ const L = LABELS[k] || LABELS.custom; document.getElementById('labelHead').textContent = L[0]; document.getElementById('labelText').textContent = L[1]; }
+showLabel('nr');
+const ORDER = ['nr', 'pn', 'bns', 'heavy'];
+MUSEUM.install('inst', stage, () => { document.getElementById('label').classList.add('on'); applyPreset('nr'); }, s => { if(Math.floor(s) % 45 === 0){ const k = ORDER[(ORDER.indexOf(P.preset) + 1) % ORDER.length]; applyPreset(k); } });
+
+/* ---------------- sound ---------------- */
+let audioBuf = null, audioKey = '';
+function makeBuffer(ac){
+  const sr = ac.sampleRate, pitch = P.pitch;
+  let src, srcFs, t0;
+  if(P.sndSrc === 'data' && D){ src = D.H1; srcFs = 4096; t0 = D.t0; }
+  else { const n = DET.n; src = new Float32Array(n); for(let i = 0; i < n; i++) src[i] = DET.A[i]*Math.cos(2*Math.PI*DET.Ph[i]); srcFs = DET.fs; t0 = DET.t0; }
+  // play from 0.6 s before the peak (whole signal for the neutron stars, capped at 30 s) to 0.15 s after
+  const from = P.sndSrc === 'data' ? -0.6 : Math.max(t0, DET.ns ? -30 : -0.6), to = 0.15;
+  const dur = (to - from)/pitch, n = Math.ceil(dur*sr), b = ac.createBuffer(1, n, sr), ch = b.getChannelData(0);
+  let mx = 0;
+  for(let i = 0; i < n; i++){ const t = from + i/sr*pitch, u = (t - t0)*srcFs, j = Math.floor(u); const v = (j >= 0 && j < src.length - 1) ? src[j]*(1 - (u - j)) + src[j + 1]*(u - j) : 0; ch[i] = v; mx = Math.max(mx, Math.abs(v)); }
+  const fade = Math.min(n/4, sr*0.02);
+  for(let i = 0; i < n; i++){ let g = 0.85/(mx || 1); if(i < fade) g *= i/fade; if(i > n - fade) g *= (n - i)/fade; ch[i] *= g; }
+  return {b, from, to};
+}
+document.getElementById('hear').addEventListener('click', () => {
+  const A = GLX.audio(); if(!A) return;
+  if(A.ac.state === 'suspended') A.ac.resume();
+  A.master.gain.setTargetAtTime(0.8, A.ac.currentTime, 0.05);
+  if(!audioBuf) audioBuf = makeBuffer(A.ac);
+  const s = A.ac.createBufferSource(); s.buffer = audioBuf.b; s.connect(A.master); s.start();
+  // run the stage in real time over the same stretch (source frame = detector time / (1 + z))
+  loopT = audioBuf.from/(1 + P.z); realtimeUntil = audioBuf.to/(1 + P.z); realRate = P.pitch/(1 + P.z);
+});
+let realRate = 1;
+
+/* ---------------- plots ---------------- */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let plotDirty = true, specImg = null;
+function drawPlots(tDet){
+  const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), accent = MUSEUM.css('--accent', '#B5452A'), data = MUSEUM.css('--data', '#2F5AA1');
+  const isEvt = D && (P.preset === 'nr' || P.preset === 'pn' || P.preset === 'custom');
+  const x0 = DET.ns ? -1.2 : -0.3, x1 = DET.ns ? 0.02 : 0.06;
+  document.getElementById('capA').textContent = isEvt ? 'Strain at ' + (P.l1 ? 'Livingston' : 'Hanford') + ', whitened' : 'Model strain, ' + PRESETS[P.preset].name;
+  document.getElementById('noteA').textContent = isEvt ? 'Grey: what the detector recorded, with its noise divided out and filtered to 35–350 Hz' + (P.l1 ? ', Livingston shifted by the measured delay and flipped' : '') + '. Coloured: the model, processed the same way and fitted in time and phase.' : 'Only GW150914\'s recording is bundled; this is the model waveform at the detector, not data.';
+  if(isEvt){
+    PA.frame(x0, x1, -1.05, 1.05, {xticks:[-0.3, -0.2, -0.1, 0], xfmt:v => (v*1000).toFixed(0) + ' ms', yticks:[-1, 0, 1], ylab:'', xlab:'time from the peak'});
+    const src = P.l1 ? D.L1 : D.H1, M = P.l1 ? L1M : MATCH, sh = P.l1 ? (MATCH.lag - L1M.lag) : 0, sg = P.l1 ? -1 : 1;
+    const pts = []; let mx = 0;
+    for(let i = 0; i < src.length; i++){ const t = D.t0 + i/4096 - (MATCH ? MATCH.lag : 0) + sh; if(t >= x0 && t <= x1){ mx = Math.max(mx, Math.abs(src[i])); } }
+    for(let i = 0; i < src.length; i++){ const t = D.t0 + i/4096 - (MATCH ? MATCH.lag : 0) + sh; if(t >= x0 - 0.01 && t <= x1 + 0.01) pts.push([t, sg*src[i]/mx]); }
+    PA.line(pts, faint, 1);
+    if(WH && M){
+      const mp = []; const cph = Math.cos(M.ph), sph = Math.sin(M.ph);
+      for(let j = 0; j < WH[0].length; j++){ const t = WH.t0 + j/4096; if(t < x0 || t > x1) continue; const v = (WH[0][j]*cph + WH[1][j]*sph)*M.amp; mp.push([t, sg*v/mx]); }
+      PA.line(mp, accent, 1.5);
+    }
+  } else {
+    PA.frame(x0, x1, -1.05, 1.05, {xticks:DET.ns ? [-1, -0.5, 0] : [-0.3, -0.2, -0.1, 0], xfmt:v => (v*1000).toFixed(0) + ' ms', yticks:[-1, 0, 1], xlab:'time from the peak'});
+    const mp = []; for(let j = 0; j < DET.n; j += DET.ns ? 1 : 1){ const t = DET.t0 + j/DET.fs; if(t < x0 || t > x1) continue; mp.push([t, DET.A[j]*Math.cos(2*Math.PI*DET.Ph[j])]); }
+    PA.line(mp, accent, 1.2);
+  }
+  PA.vline(tDet, data);
+  // frequency plot
+  PB.frame(x0, x1, 0, DET.ns ? 1600 : 420, {xticks:DET.ns ? [-1, -0.5, 0] : [-0.3, -0.2, -0.1, 0], xfmt:v => (v*1000).toFixed(0) + ' ms', yticks:DET.ns ? [0, 500, 1000, 1500] : [0, 100, 200, 300, 400], ylab:'Hz', xlab:'time from the peak'});
+  if(isEvt && SPEC){
+    const ctx = PB.ctx, colW = Math.max(1, PB.X(16/4096) - PB.X(0) + 1);
+    for(const c of SPEC.cols){
+      const t = c.t - MATCH.lag; if(t < x0 || t > x1) continue;
+      for(let k = 0; k < SPEC.kMax; k++){
+        const f = k*SPEC.df; if(f < 20 || f > 420) continue;
+        const v = Math.pow(c.p[k]/SPEC.mx, 0.6);
+        if(v < 0.2) continue;
+        ctx.fillStyle = 'rgba(' + (P.l1 ? '120,120,120' : '47,90,161') + ',' + Math.min(0.9, v).toFixed(3) + ')';
+        const y0 = PB.Y(f - SPEC.df/2), y1 = PB.Y(f + SPEC.df/2);
+        ctx.fillRect(PB.X(t) - colW/2, y1, colW, y0 - y1 + 0.5);
+      }
+    }
+  }
+  const tr = []; for(let j = 0; j < DET.n; j += 2){ const t = DET.t0 + j/DET.fs; if(t < x0 || t > x1 || DET.A[j] < 0.03) continue; tr.push([t, DET.F[j]]); }
+  PB.line(tr, accent, 1.8);
+  PB.vline(tDet, data);
+}
+
+/* ---------------- frame ---------------- */
+const bhU = new Float32Array(8);
+let last = performance.now(), hudAt = 0, roAt = 0, plotAt = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, Math.max(0, raw)); last = now;
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height;
+  if(ov.width !== W || ov.height !== H){ ov.width = W; ov.height = H; }
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, W, H);
+  if(!VIS){ gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); return; }
+  const viewKm = Math.pow(10, P.view);
+  const tEndLoop = VIS.t0 + (VIS.n - 1)/VIS.fs + viewKm*1.6/C_KM;
+  if(realtimeUntil){ loopT += dt*realRate; if(loopT > realtimeUntil + viewKm/C_KM){ realtimeUntil = 0; } }
+  else if(!P.paused){ loopT += dt/Math.pow(10, P.slow)*(GL.reducedMotion ? 0.4 : 1); if(loopT > tEndLoop + 0.5/Math.pow(10, P.slow)) loopT = VIS.tLoop0; }
+  const s = sampleVis(loopT), tPeak = 0;
+  // black holes from Kepler at the current frequency; one remnant after the peak
+  const R0 = VIS.R, M = R0.M;
+  const merged = loopT > tPeak - 0.0002/(1 + 0) && (!VIS.ns || loopT > tPeak);
+  if(s && !merged){
+    const w = Math.PI*s.F, a = Math.pow(GM_KM*M/(w*w), 1/3), ang = Math.PI*s.Ph;
+    const r1 = a*P.m2/M, r2 = a*P.m1/M;
+    const rad = VIS.ns ? 12 : RS_KM*P.m1, rad2 = VIS.ns ? 12 : RS_KM*P.m2;
+    bhU.set([r1*Math.cos(ang), r1*Math.sin(ang), rad, 1, -r2*Math.cos(ang), -r2*Math.sin(ang), rad2, 1]);
+  } else bhU.set([0, 0, 0, 0, 0, 0, 0, 0]);
+  const showRem = merged && !VIS.ns;
+  mergerGlow += ((Math.abs(loopT - tPeak) < 0.004 ? 1 : 0) - mergerGlow)*Math.min(1, dt*(realtimeUntil ? 30 : 6));
+
+  gl.useProgram(prog.p);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, tex); gl.uniform1i(prog.u.uWave, 0);
+  gl.uniform1i(prog.u.uN, VIS.n); gl.uniform1f(prog.u.uT0, VIS.t0); gl.uniform1f(prog.u.uDt, 1/VIS.fs);
+  gl.uniform2f(prog.u.uRes, W, H); gl.uniform1f(prog.u.uT, loopT); gl.uniform1f(prog.u.uView, viewKm); gl.uniform1f(prog.u.uC, C_KM);
+  gl.uniform1f(prog.u.uGlow, mergerGlow*(VIS.ns ? 0.6 : 1)); gl.uniform1f(prog.u.uLines, 4);
+  gl.uniform4fv(prog.u.uBH, bhU); gl.uniform3f(prog.u.uRem, RS_KM*R0.Mf, showRem ? 1 : 0, 0);
+  gl.bindVertexArray(vao); gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H); gl.drawArrays(gl.TRIANGLES, 0, 3);
+
+  // overlay: scale bar and labels
+  const dpr = W/Math.max(1, cv.getBoundingClientRect().width), f = Math.round(10*dpr);
+  const kmPerPx = 2*viewKm/H, nice = [100, 200, 500, 1000, 2000, 5000, 10000, 20000, 50000].find(v => v/kmPerPx > W*0.12) || 50000;
+  const bx = W - f*2 - nice/kmPerPx, by = H - f*2.2;
+  octx.fillStyle = 'rgba(236,234,228,0.7)'; octx.fillRect(bx, by, nice/kmPerPx, Math.max(1, dpr));
+  octx.fillRect(bx, by - 3*dpr, Math.max(1, dpr), 6*dpr); octx.fillRect(bx + nice/kmPerPx, by - 3*dpr, Math.max(1, dpr), 6*dpr);
+  octx.font = f + 'px "IBM Plex Mono", monospace'; octx.textAlign = 'center';
+  octx.fillText(nice.toLocaleString('en-GB') + ' KM', bx + nice/kmPerPx/2, by - f*0.6);
+  if(s && !merged && bhU[3] > 0){
+    const toPx = (x, y) => [W/2 + x/kmPerPx, H/2 - y/kmPerPx];
+    const p1 = toPx(bhU[0], bhU[1]), p2 = toPx(bhU[4], bhU[5]), sepPx = Math.hypot(p1[0] - p2[0], p1[1] - p2[1]);
+    if(sepPx > f*7){ octx.fillStyle = 'rgba(236,234,228,0.6)'; octx.textAlign = 'left'; octx.fillText(P.m1.toFixed(1) + ' M☉', p1[0] + f, p1[1] - f); octx.fillText(P.m2.toFixed(1) + ' M☉', p2[0] + f, p2[1] - f); }
+  }
+
+  if(now - hudAt > 120){
+    hudAt = now;
+    const tDet = loopT*(1 + P.z);
+    hud.tl.textContent = (PRESETS[P.preset] ? PRESETS[P.preset].name + ' · ' + PRESETS[P.preset].note : 'YOUR BINARY · simple formula').toUpperCase() + '\nSOURCE TIME FROM PEAK  ' + (loopT*1000 >= 0 ? '+' : '−') + Math.abs(loopT*1000).toFixed(1) + ' MS\n' + (realtimeUntil ? 'REAL TIME' : P.paused ? 'PAUSED' : '×' + Math.round(Math.pow(10, P.slow)) + ' SLOWER THAN LIFE');
+    hud.tr.textContent = s ? 'WAVE ' + Math.round(s.F) + ' HZ AT SOURCE\n' + Math.round(s.F/(1 + P.z)) + ' HZ AT EARTH' : '';
+    hud.bl.textContent = 'LINES: CRESTS OF THE WAVE IN THE ORBITAL PLANE\nBRIGHTNESS: AMPLITUDE, 1/R FALL-OFF REMOVED';
+  }
+  if(now - roAt > 300 && DET){
+    roAt = now;
+    const Rs = remnant(P.m1, P.m2), z = P.z, d = Math.pow(10, P.logd);
+    R.mc.set(fmt(Rs.Mc, 2) + ' M☉', 'at Earth ' + fmt(Rs.Mc*(1 + z), 2) + ' M☉ (z = ' + fmt(z, 3) + ')');
+    R.mt.set(VIS.ns ? 'not modelled' : fmt(Rs.Mf, 1) + ' M☉', VIS.ns ? 'neutron stars: outcome uncertain' : 'spin ' + fmt(Rs.af, 2) + ' of the maximum; from ' + fmt(Rs.M, 1) + ' M☉');
+    R.erad.set(VIS.ns ? '–' : fmt(Rs.erad, 2) + ' M☉c²', VIS.ns ? '' : MUSEUM.sci(Rs.erad*MSUN_KG*8.98755e16, 1) + ' J' + (P.preset === 'nr' || P.preset === 'pn' ? ' · published 3.1 M☉c²' : ''));
+    R.frd.set(VIS.ns ? '–' : fmt(Rs.frd/(1 + z), 0) + ' Hz at Earth', VIS.ns ? '' : 'damping time ' + fmt(Rs.trd*(1 + z)*1000, 1) + ' ms');
+    if(s){
+      const w = Math.PI*s.F, a = Math.pow(GM_KM*Rs.M/(w*w), 1/3), v = Math.pow(GM_KM*Rs.M*w, 1/3)/C_KM;
+      const fDet = s.F/(1 + z), McDet = Rs.Mc*(1 + z);
+      const h = 4/(d*MPC_M)*Math.pow(McDet*GM_KM*1e9/9e16, 5/3)*Math.pow(Math.PI*fDet/299792458, 2/3);
+      R.fnow.set(fmt(s.F, 0) + ' Hz', fmt(fDet, 0) + ' Hz at Earth');
+      const merged2 = loopT > 0;
+      R.sep.set(merged2 && !VIS.ns ? 'merged' : fmt(a, 0) + ' km', merged2 && !VIS.ns ? '' : fmt(a/(RS_KM*Rs.M), 1) + ' Schwarzschild radii of the total mass');
+      R.v.set(merged2 && !VIS.ns ? '–' : fmt(v, 2) + ' c', merged2 && !VIS.ns ? '' : fmt(v*C_KM, 0) + ' km/s, Kepler');
+      R.h.set(merged2 && !VIS.ns ? '–' : MUSEUM.sci(h, 1), 'face-on, simple formula, at ' + Math.round(d).toLocaleString('en-GB') + ' Mpc');
+    } else { ['fnow', 'sep', 'v', 'h'].forEach(k => R[k].set('–', 'before the band')); }
+    const cyc = Math.pow(TS*Rs.Mc*(1 + z), -5/3)*(Math.pow(35, -5/3) - Math.pow(Math.max(35.01, DET.fEnd || Rs.frd*0.5/(1 + z)), -5/3))/(32*Math.pow(Math.PI, 8/3));
+    R.cyc.set(fmt(Math.max(0, cyc), 0), 'leading-order count to ' + (VIS.ns ? 'contact' : 'the bridge'));
+    if(MATCH && (P.preset === 'nr' || P.preset === 'pn' || P.preset === 'custom')){
+      R.match.set(fmt(MATCH.ov, 2), 'noise alone ≈ 0.17 · full physics ' + (D ? fmt(D.nr_match, 2) : '0.76'));
+      R.delay.set((L1M.lag - MATCH.lag < 0 ? '−' : '+') + fmt(Math.abs(L1M.lag - MATCH.lag)*1000, 1) + ' ms', 'Livingston first, sign flipped · published 6.9 ms');
+    } else { R.match.set('–', 'no data bundled for this event'); R.delay.set('–', ''); }
+  }
+  if(plotDirty || now - plotAt > 100){ plotAt = now; plotDirty = false; drawPlots(loopT*(1 + P.z)); }
+}
+
+fetch('/visual-synths/data/gw150914.json').then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.json(); })
+  .then(j => {
+    D = j; D.H1 = b64i16(j.H1, 32000); D.L1 = b64i16(j.L1, 32000); D.nrw = b64i16(j.nrw, 32000);
+    SPEC = spectrogram(D.H1);
+    applyPreset('nr');
+    if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{build, applyPreset, setT:t => { loopT = t; }, get:() => ({MATCH, L1M, VIS, DET}), simple, remnant, zOfDl}});
+  })
+  .catch(e => { console.error(e); fail('Could not load the LIGO data (' + e.message + ').'); });
+GL.visibleLoop(stage, frame);
+window.addEventListener('resize', () => { plotDirty = true; });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Light-Day — Video Synths</title>
+<meta name="description" content="A radio pulse leaves Earth every hour and travels to Voyager 1 at the speed of light, drawn in true proportion. On 18 November 2026 Voyager 1 is one light-day from Earth. Light time solved from JPL Horizons ephemerides; WebGL 2 data sculpture.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/light-day">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Light-Day — Video Synths">
+<meta property="og:description" content="A radio pulse leaves Earth every hour and travels to Voyager 1 at the speed of light, drawn in true proportion. On 18 November 2026 Voyager 1 is one light-day from Earth. Light time solved from JPL Horizons ephemerides; WebGL 2 data sculpture.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/light-day">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+/* museum panels for the aerospace pieces: readouts, plots, wall label, installation mode */
+:root{--accent:#B5452A; --data:#2F5AA1;}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#E07A5F; --data:#8FB0E8; } }
+:root[data-theme="dark"]{ --accent:#E07A5F; --data:#8FB0E8; }
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong); margin-top:18px;}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:10px 12px 11px; min-width:0;}
+.readouts .k{font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-family:var(--font-display); font-weight:700; font-size:1.18rem; line-height:1.25; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--ink); overflow-wrap:anywhere;}
+.readouts .s{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+.src-tag{font-size:8.5px; letter-spacing:.1em; padding:0 4px; border:1px solid currentColor; border-radius:2px; line-height:1.5; white-space:nowrap;}
+.src-tag.data{color:var(--data);} .src-tag.model{color:var(--accent);} .src-tag.drawn{color:var(--ink-faint);}
+.plots{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin-top:16px;}
+.plot{border:1px solid var(--line-strong); background:var(--paper-raised); min-width:0;}
+.plot .cap{display:flex; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); padding:8px 10px 0;}
+.plot canvas{display:block; width:100%; height:190px; touch-action:pan-y;}
+.plot .note{font-size:10.5px; color:var(--ink-faint); padding:0 10px 8px;}
+.stage .wall-label{position:absolute; left:14px; bottom:14px; max-width:min(440px, calc(100% - 28px)); background:rgba(0,0,0,.78); color:#ECEAE4; border-left:2px solid #fff; padding:11px 14px 12px; font-family:var(--font-display); font-weight:500; font-size:12.5px; line-height:1.55; display:none; z-index:3;}
+.stage .wall-label.on{display:block;}
+.stage .wall-label b{display:block; font-family:var(--font-mono); font-weight:500; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage canvas.overlay{pointer-events:none;}
+.stage.installing, .stage.installing canvas{cursor:none;}
+.stage.installing .wall-label{font-size:clamp(13px,1.2vw,19px); max-width:min(640px, 46%);}
+.stage.installing .hud{font-size:clamp(10px,0.9vw,15px);}
+.sources{font-size:12px;}
+.sources li{margin-bottom:6px;}
+.sources a{overflow-wrap:anywhere;}
+.guide-link{display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; text-decoration:none; color:var(--ink);}
+.guide-link:hover{border-color:var(--ink);}
+@media (max-width:640px){ .stage .wall-label{font-size:11.5px; left:10px; bottom:10px; padding:8px 10px;} .readouts .v{font-size:1.02rem;} }
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from light-day.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Aerospace piece 01 · Data sculpture</div>
+    <h1>Light-Day</h1>
+    <p>Every hour, on the hour, a pulse of light leaves Earth for Voyager 1. The width of this stage is one light-day, the distance light covers in 24 hours, so each pulse needs a full day to cross it. Twenty-four of them are always on their way, an hour apart, and the oldest is just reaching the spacecraft. On <strong>18 November 2026 at 10:16 UTC</strong> Voyager 1 is one light-day from Earth for the first time. Distances come from JPL's ephemerides, not a sketch, and they show that "one light-day" has three slightly different moments, depending on which way the light is going.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Thin lines of light from Earth at the left to Voyager 1 and Voyager 2 at the right, with pulses travelling outward along them at the speed of light, drawn to scale."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="wall-label" id="label"><b id="labelHead">Voyager 1 · launched 5 September 1977</b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Clock</span>
+      <div class="seg" id="clock">
+        <button data-v="live">Now (live)</button>
+        <button data-v="free">Any date</button>
+      </div>
+      <label for="date">Date <output for="date" id="dateOut"></output></label>
+      <input id="date" type="range" min="0" max="1" step="0.0001">
+      <span class="lab">Time runs</span>
+      <div class="seg" id="speed">
+        <button data-v="1">Real time</button>
+        <button data-v="60">1 h per min</button>
+        <button data-v="3600">1 day per 24 s</button>
+        <button data-v="86400">1 day per s</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Signals</span>
+      <div class="row">
+        <button class="btn" id="send">Send a pulse to Voyager 1</button>
+        <button class="btn" id="hourly" aria-pressed="true">Hourly pulses</button>
+      </div>
+      <div class="row">
+        <button class="btn" id="moment">Go to the light-day moment</button>
+      </div>
+      <span class="lab">Scale</span>
+      <div class="seg" id="scale">
+        <button data-v="lin">True proportion</button>
+        <button data-v="log">Logarithmic</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Show</span>
+      <div class="row">
+        <button class="btn" id="v2" aria-pressed="true">Voyager 2</button>
+        <button class="btn" id="planets" aria-pressed="true">Planets</button>
+        <button class="btn" id="downlink" aria-pressed="true">Downlink</button>
+      </div>
+      <span class="lab">Room</span>
+      <div class="row">
+        <button class="btn" id="snd">Sound</button>
+        <button class="btn" id="lab">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint" id="pulseNote">Your pulses are kept in this browser only, so you can come back and see where they are. Sound starts only when you press Sound: a tone for the downlink and a bell each time a pulse reaches Voyager 1.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span>One-way light time, 1977–2036</span><span>Voyager 1 · Voyager 2</span></div><canvas id="plotA"></canvas><div class="note">The 24-hour line is one light-day. Each year's ripple is Earth going round the Sun.</div></div>
+    <div class="plot"><div class="cap"><span id="plotBCap">This year</span><span>hours</span></div><canvas id="plotB"></canvas><div class="note">Where the curve falls, Voyager 1 is coming closer to us: Earth is moving towards it faster than it moves away.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>Real positions.</strong> The page loads the positions and velocities of Voyager 1, Voyager 2, Earth, the Sun and the four giant planets from NASA JPL's Horizons system, every 5 days (10 for the Sun and planets) from October 1977 to December 2036, relative to the barycentre of the Solar System. Between samples it interpolates with cubic Hermite curves, which use the velocities too. Clock time (UTC) is converted to the ephemeris time scale (TDB) with the leap-second table.</p>
+  <p><strong>Light time solved, not looked up.</strong> A signal received on Earth at time <code>T</code> left the spacecraft at <code>T − τ</code>, where <code>c·τ = |S(T − τ) − E(T)|</code>. The page solves this by iteration for every frame. A command sent at <code>t</code> reaches the spacecraft at <code>t + τ</code> with <code>c·τ = |S(t + τ) − E(t)|</code>; that is a different number, by a few seconds, because both bodies move while the light travels. The barycentre matters too: the Sun itself moves about a thousand kilometres while the signal is on its way. Checked against JPL's own one-way distances at 4,300 dates: the difference is under 0.1 km from 1990 on.</p>
+  <p><strong>Three moments.</strong> Voyager 1's distance from Earth at one instant equals one light-day on 18 November 2026 at 10:16:07 UTC. A command needs a full day from 17 November at 18:24:45 UTC, about 16 hours earlier, because the spacecraft keeps moving away while the light chases it. A signal arriving at Earth took a full day from 19 November at 02:17:27 UTC, about 16 hours later, because it set out a day before, when the spacecraft was closer. The HUD's light time is the command's (uplink); the readouts give all three. Voyager 2 reaches one light-day on 1 November 2035 at 07:05 UTC.</p>
+  <p><strong>What you see.</strong> Earth is at the left. The horizontal axis is distance from Earth measured in light time, in true proportion, and the stage is a little wider than one light-day. Voyager 1's lines rise to the right and Voyager 2's fall. The lines are drawn as a beam and spread towards the spacecraft; that spread is exaggerated for the eye. A pulse leaves Earth every hour on the hour and moves at the speed of light on this scale. Faint marks moving the other way are the downlink, the signal coming home. Planets are placed at their distance from Earth on the chosen date (they are not on the line to Voyager; the axis is distance only).</p>
+  <p><strong>The signal itself.</strong> Signal strength uses the link budget from the guide, which is calibrated on JPL's design table for Voyager 2 in 1996 (−145.5 dBm received from 48.6 AU) and assumes the 12.3 W X-band transmitter. The Doppler shift is the one-way shift of the 8.4 GHz downlink from the range rate. "Above the horizon" uses the three Deep Space Network complexes and the spacecraft's direction in the J2000 frame (precession since 2000 moves it by about a third of a degree, which is ignored).</p>
+  <h3>Lineage</h3>
+  <p>A data sculpture in the language of light as material: a black room, fine parallel lines, time made visible as distance. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>Interpolation is exact to well under a kilometre from 1990 on, but within a few days of the 1979 Jupiter and 1980 Saturn flybys the 5-day samples smooth the turn, so light times there can be off by a few milliseconds.</li>
+    <li>Dates after 2026 use JPL's prediction, which assumes Voyager fires no thrusters. Leap seconds after 2017 are assumed to stay at 37 s.</li>
+    <li>The beam's spread and the planets' vertical places are drawn for clarity. Gravitational delay of the signal (tens of microseconds) is ignored.</li>
+    <li>Real commands use the S-band uplink near 2.1 GHz and are sent only when a Deep Space Network dish is scheduled for Voyager; a pulse here leaves whenever you ask.</li>
+    <li>Nothing flashes. With reduced motion the stage still runs at real speed, which is very slow.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>JPL Solar System Dynamics, Horizons system: Voyager 1 (−31), Voyager 2 (−32), Earth, Sun, Jupiter–Neptune, barycentric ecliptic J2000 state vectors, fetched 19 October 2026. <a href="https://ssd.jpl.nasa.gov/horizons/">ssd.jpl.nasa.gov/horizons</a></li>
+    <li>NASA Science (2026), "Voyager 1: What Is a Light-Day" (18 November 2026). <a href="https://science.nasa.gov/mission/voyager/voyager-1/voyager-1-what-is-a-light-day/">science.nasa.gov</a></li>
+    <li>R. Ludwig, J. Taylor (2002), Voyager Telecommunications, DESCANSO series, JPL (link budget, frequencies).</li>
+  </ul>
+  <a class="guide-link" href="/aerospace/link-deep-space-network">Read the guide: LINK — Deep Space Network →</a>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This piece needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* ---------------- constants ---------------- */
+const AU_KM = 149597870.7, C_KMS = 299792.458, C_AU_D = C_KMS*86400/AU_KM, DAY = 86400000;
+const LD_MS = Date.UTC(2026, 10, 18, 10, 16, 7);                  // Voyager 1 one light-day away: instantaneous distance (checked against this ephemeris)
+const LD_UP = Date.UTC(2026, 10, 17, 18, 24, 45), LD_DOWN = Date.UTC(2026, 10, 19, 2, 17, 27);   // a command needs 24 h / a received signal took 24 h
+const OBL = 23.4392911*Math.PI/180;                                // J2000 obliquity
+const DSN = [['Goldstone', 35.4267, -116.8900], ['Madrid', 40.4314, -4.2481], ['Canberra', -35.4014, 148.9817]];
+const LEAP = [[1977,16],[1978,17],[1979,18],[1980,19],[1981.5,20],[1982.5,21],[1983.5,22],[1985.5,23],[1988,24],[1990,25],[1991,26],[1992.5,27],[1993.5,28],[1994.5,29],[1996,30],[1997.5,31],[1999,32],[2006,33],[2009,34],[2012.5,35],[2015.5,36],[2017,37]];
+function tdbJD(ms){
+  const yr = 1970 + ms/(365.25*DAY); let tai = 16;
+  for(const l of LEAP) if(l[0] <= yr) tai = l[1];
+  return ms/DAY + 2440587.5 + (32.184 + tai)/86400;
+}
+
+/* ---------------- ephemeris: Hermite interpolation of JPL state vectors ---------------- */
+let EPH = null;
+function parseEph(buf){
+  const dv = new DataView(buf);
+  if(String.fromCharCode(dv.getUint8(0), dv.getUint8(1), dv.getUint8(2), dv.getUint8(3)) !== 'VGR1') throw new Error('bad ephemeris file');
+  const names = ['v1','v2','earth','sun','jup','sat','ura','nep'], n = dv.getUint32(4, true), out = {};
+  let o = 8;
+  for(let b = 0; b < n; b++){
+    const jd0 = dv.getFloat64(o, true), step = dv.getFloat64(o + 8, true), cnt = dv.getUint32(o + 16, true), hp = dv.getUint32(o + 20, true); o += 24;
+    const pos = hp ? new Float64Array(buf.slice(o, o + cnt*24)) : new Float32Array(buf.slice(o, o + cnt*12)); o += cnt*(hp ? 24 : 12);
+    const vel = new Float32Array(buf.slice(o, o + cnt*12)); o += cnt*12;
+    while(o % 8) o++;
+    out[names[b]] = {jd0, step, cnt, pos, vel};
+  }
+  return out;
+}
+function at(body, jd, r){
+  const B = EPH[body]; let u = (jd - B.jd0)/B.step; u = Math.max(0, Math.min(B.cnt - 1.000001, u));
+  const i = Math.floor(u), s = u - i, s2 = s*s, s3 = s2*s;
+  const h00 = 2*s3 - 3*s2 + 1, h10 = s3 - 2*s2 + s, h01 = -2*s3 + 3*s2, h11 = s3 - s2;
+  r = r || [0, 0, 0];
+  for(let k = 0; k < 3; k++) r[k] = h00*B.pos[i*3 + k] + h10*B.vel[i*3 + k]*B.step + h01*B.pos[i*3 + 3 + k] + h11*B.vel[i*3 + 3 + k]*B.step;
+  return r;
+}
+const tA = [0,0,0], tB = [0,0,0];
+function dist(a, b){ return Math.hypot(a[0] - b[0], a[1] - b[1], a[2] - b[2]); }
+/* downlink: light received at Earth at jd left the body tau days earlier */
+function downTau(body, jd){ at('earth', jd, tA); let tau = 0; for(let k = 0; k < 6; k++){ tau = dist(at(body, jd - tau, tB), tA)/C_AU_D; } return tau; }
+/* uplink: light sent from Earth at jd reaches the body tau days later */
+function upTau(body, jd){ at('earth', jd, tA); let tau = 0; for(let k = 0; k < 6; k++){ tau = dist(at(body, jd + tau, tB), tA)/C_AU_D; } return tau; }
+/* round trip: send at jd, immediate reply, received at jd + up + back */
+function roundTrip(body, jd){ const up = upTau(body, jd), S = at(body, jd + up, [0,0,0]); let back = up; for(let k = 0; k < 6; k++){ back = dist(S, at('earth', jd + up + back, tA))/C_AU_D; } return [up, back]; }
+function helioAU(body, jd){ return dist(at(body, jd, [0,0,0]), at('sun', jd, tA)); }
+function geoAU(body, jd){ return dist(at(body, jd, [0,0,0]), at('earth', jd, tA)); }
+
+/* ---------------- link budget from the guide (JPL Voyager 2 table calibration) ---------------- */
+function db(x){ return 10*Math.log10(x); }
+function gainDb(D, fGHz){ const lam = C_KMS*1000/(fGHz*1e9); return db(0.65*Math.pow(Math.PI*D/lam, 2)); }
+function received(dAU, dish){ const f = 8.415, lam = C_KMS*1000/(f*1e9); return db(12.3*1000) + gainDb(3.66, f) + gainDb(dish, f) - 20*Math.log10(4*Math.PI*dAU*AU_KM*1000/lam) - 0.42; }
+
+/* ---------------- sky direction and DSN elevation ---------------- */
+function elevations(ms, jd){
+  const tau = downTau('v1', jd), S = at('v1', jd - tau, [0,0,0]), E = at('earth', jd, tA);
+  const x = S[0] - E[0], y = S[1] - E[1], z = S[2] - E[2];
+  const ye = y*Math.cos(OBL) - z*Math.sin(OBL), ze = y*Math.sin(OBL) + z*Math.cos(OBL);
+  const ra = Math.atan2(ye, x), dec = Math.atan2(ze, Math.hypot(x, ye));
+  const gmst = ((280.46061837 + 360.98564736629*(ms/DAY + 2440587.5 - 2451545.0)) % 360)*Math.PI/180;
+  return DSN.map(s => { const lat = s[1]*Math.PI/180, H = gmst + s[2]*Math.PI/180 - ra; return [s[0], Math.asin(Math.sin(lat)*Math.sin(dec) + Math.cos(lat)*Math.cos(dec)*Math.cos(H))*180/Math.PI]; });
+}
+
+/* ---------------- state ---------------- */
+const P = {clock:'live', speed:1, scale:'lin', hourly:true, v2:true, planets:true, downlink:true};
+const D0 = Date.UTC(1977, 9, 2), D1 = Date.UTC(2036, 11, 30);
+let simMs = Date.now();
+let pulses = [];
+try { pulses = JSON.parse(localStorage.getItem('lightday-pulses') || '[]').filter(x => typeof x === 'number').slice(-8); } catch(e){ pulses = []; }
+function savePulses(){ try { localStorage.setItem('lightday-pulses', JSON.stringify(pulses)); } catch(e){} }
+
+/* ---------------- shader: two beams of fine lines, pulses, downlink, ticks ---------------- */
+const FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+float sq(float x){ return x*x; }
+uniform vec2 uRes; uniform float uTime;
+uniform vec2 uEarth;            // px
+uniform vec4 uBeam[2];          // end x, end y (px), half-width at end (px), visible
+uniform float uPx[48];          // pulse x in px (V1 beam); <0 = unused
+uniform float uPKind[48];       // 0 hourly, 1 yours
+uniform float uDown[2];         // downlink phase offset in px (moves towards Earth)
+uniform float uDownSpace;       // px between downlink marks
+uniform float uTick[30];        // hour ticks x px
+uniform float uNTick;
+float hash(float n){ return fract(sin(n)*43758.5453); }
+float beam(int b, vec2 p, out float along){
+  vec4 B = uBeam[b]; along = 0.0;
+  if(B.w < 0.5) return 0.0;
+  vec2 e = vec2(B.x, B.y) - uEarth;
+  float s = (p.x - uEarth.x)/max(e.x, 1.0);
+  if(s < 0.0 || s > 1.0) return 0.0;
+  along = s;
+  float cy = uEarth.y + e.y*s;
+  const float N = 20.0;
+  float hw = mix(1.2, B.z, s);
+  float bulge = 0.0, glow = 0.0;
+  if(b == 0){
+    for(int i = 0; i < 48; i++){
+      float x = uPx[i]; if(x < 0.0) continue;
+      float g = exp(-sq((p.x - x)/(uRes.x*0.0045)));
+      bulge += g*(uPKind[i] > 0.5 ? 0.7 : 0.28);
+    }
+  }
+  float sp = 2.0*hw/(N - 1.0)*(1.0 + bulge);
+  float k = clamp(floor((p.y - cy)/sp + (N - 1.0)*0.5 + 0.5), 0.0, N - 1.0);
+  float yl = cy + (k - (N - 1.0)*0.5)*sp;
+  float slope = (e.y + (k - (N - 1.0)*0.5)*2.0*(B.z - 1.2)/(N - 1.0))/max(e.x, 1.0);
+  float d = abs(p.y - yl)/sqrt(1.0 + slope*slope);
+  float flick = 0.82 + 0.18*hash(k + float(b)*31.0);
+  float line = exp(-d*d*1.8)*flick*(0.22 + 0.36*s);
+  return line*(1.0 + bulge*3.0);
+}
+void main(){
+  vec2 p = vec2(gl_FragCoord.x, uRes.y - gl_FragCoord.y);   // y down, like the overlay canvas
+  vec3 c = vec3(0.0);
+  float a0, a1;
+  float l0 = beam(0, p, a0), l1 = beam(1, p, a1);
+  c += vec3(0.96, 0.95, 0.92)*l0 + vec3(0.62, 0.66, 0.72)*l1*0.85;
+  // pulse fronts on the V1 beam: a short bright bar across the beam
+  vec4 B = uBeam[0]; vec2 e = vec2(B.x, B.y) - uEarth;
+  for(int i = 0; i < 48; i++){
+    float x = uPx[i]; if(x < 0.0) continue;
+    float s = (x - uEarth.x)/max(e.x, 1.0); if(s < 0.0 || s > 1.0) continue;
+    float cy = uEarth.y + e.y*s, hw = mix(1.2, B.z, s)*1.9 + 6.0;
+    float dx = abs(p.x - x), dy = abs(p.y - cy);
+    float bar = exp(-dx*dx*0.35)*smoothstep(hw, hw*0.6, dy);
+    vec3 col = uPKind[i] > 0.5 ? vec3(1.0, 0.27, 0.16) : vec3(1.0);
+    c += col*bar*0.75 + col*exp(-length(vec2(dx*0.5, dy*0.35))*0.3)*0.05;
+  }
+  // downlink: short marks moving towards Earth along each beam's centre
+  for(int b = 0; b < 2; b++){
+    vec4 Bb = uBeam[b]; if(Bb.w < 0.5 || uDownSpace <= 0.0) continue;
+    vec2 eb = vec2(Bb.x, Bb.y) - uEarth;
+    float s = (p.x - uEarth.x)/max(eb.x, 1.0); if(s < 0.0 || s > 1.0) continue;
+    float cy = uEarth.y + eb.y*s;
+    float ph = mod(p.x + uDown[b], uDownSpace)/uDownSpace;
+    float mark = smoothstep(0.0, 0.02, ph)*smoothstep(0.10, 0.03, ph);
+    c += vec3(0.55, 0.75, 1.0)*mark*exp(-sq(p.y - cy)*0.5)*0.55;
+  }
+  // hour ticks along a baseline under the beams
+  float base = uEarth.y + uRes.y*0.27;
+  for(int i = 0; i < 30; i++){
+    if(float(i) >= uNTick) break;
+    float x = uTick[i];
+    float t = exp(-sq(p.x - x)*1.2)*step(abs(p.y - base), (mod(float(i), 6.0) < 0.5 ? 9.0 : 4.0));
+    c += vec3(0.75)*t*0.7;
+  }
+  c += vec3(0.32)*exp(-sq(p.y - base)*1.5)*step(uEarth.x, p.x)*step(p.x, uRes.x - uEarth.x*0.25);
+  // Earth
+  float de = length(p - uEarth);
+  c += vec3(0.55, 0.75, 1.0)*exp(-de*0.5)*1.4 + vec3(0.3, 0.45, 0.8)*exp(-de*0.15)*0.10;
+  // spacecraft
+  for(int b = 0; b < 2; b++){ vec4 Bb = uBeam[b]; if(Bb.w < 0.5) continue; float ds = length(p - Bb.xy); c += vec3(1.0)*exp(-ds*0.7)*(b == 0 ? 1.4 : 0.9); }
+  c = pow(max(c, 0.0), vec3(0.4545)) + (hash(dot(gl_FragCoord.xy, vec2(1.0, 157.0)) + fract(uTime)*13.0) - 0.5)*0.012;
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+['uPx', 'uPKind', 'uTick', 'uDown', 'uBeam'].forEach(n => { if(!prog.u[n]) prog.u[n] = gl.getUniformLocation(prog.p, n + '[0]'); });
+const vao = GLX.quad(gl);
+
+/* ---------------- readouts ---------------- */
+const R = MUSEUM.readouts('ro', [
+  ['lt', 'One-way light time', 'model'], ['cmd', 'A command sent now arrives', 'model'], ['rt', 'Round trip', 'model'],
+  ['dist', 'Distance from Earth', 'model'], ['sun', 'Distance from the Sun', 'model'], ['rr', 'Range rate', 'model'],
+  ['dop', 'Doppler shift at 8.4 GHz', 'model'], ['inst', 'Distance now, in light time', 'model'], ['ld', 'One light-day', 'model'], ['dsn', 'Above the horizon', 'model'],
+  ['pr', 'Signal at a 70 m dish', 'model']
+]);
+
+/* ---------------- formatting ---------------- */
+const pad = (n, w) => String(n).padStart(w || 2, '0');
+function hms(days, dec){ const s = days*86400, h = Math.floor(s/3600), m = Math.floor(s%3600/60), sec = s - h*3600 - m*60; return h + ' h ' + pad(m) + ' m ' + (dec ? sec.toFixed(1).padStart(4, '0') : pad(Math.floor(sec))) + ' s'; }
+function utc(ms, sec){ const d = new Date(ms); return d.getUTCDate() + ' ' + ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'][d.getUTCMonth()] + ' ' + d.getUTCFullYear() + ', ' + pad(d.getUTCHours()) + ':' + pad(d.getUTCMinutes()) + (sec ? ':' + pad(d.getUTCSeconds()) : '') + ' UTC'; }
+function span(ms){ const a = Math.abs(ms), d = Math.floor(a/DAY), h = Math.floor(a%DAY/3600000), m = Math.floor(a%3600000/60000), s = Math.floor(a%60000/1000); return (d ? d + ' d ' : '') + pad(h) + ' h ' + pad(m) + ' m ' + pad(s) + ' s'; }
+
+/* ---------------- controls ---------------- */
+const dateEl = document.getElementById('date'), dateOut = document.getElementById('dateOut');
+const setClock = GL.seg('clock', P.clock, v => { P.clock = v; if(v === 'live'){ simMs = Date.now(); P.speed = 1; setSpeed('1'); } });
+const setSpeed = GL.seg('speed', String(P.speed), v => { P.speed = +v; if(P.speed !== 1 && P.clock === 'live'){ P.clock = 'free'; setClock('free'); } });
+dateEl.addEventListener('input', () => { P.clock = 'free'; setClock('free'); simMs = D0 + (+dateEl.value)*(D1 - D0); });
+GL.seg('scale', P.scale, v => P.scale = v);
+function toggle(id, key){ const b = document.getElementById(id); b.setAttribute('aria-pressed', String(P[key])); b.addEventListener('click', () => { P[key] = !P[key]; b.setAttribute('aria-pressed', String(P[key])); }); }
+toggle('hourly', 'hourly'); toggle('v2', 'v2'); toggle('planets', 'planets'); toggle('downlink', 'downlink');
+document.getElementById('send').addEventListener('click', () => {
+  if(!EPH) return;
+  pulses.push(simMs); pulses = pulses.slice(-8); savePulses();
+  const jd = tdbJD(simMs), rt = roundTrip('v1', jd);
+  document.getElementById('pulseNote').textContent = 'Your pulse left at ' + utc(simMs, true) + '. It reaches Voyager 1 at ' + utc(simMs + rt[0]*DAY, true) + '; a reply sent at once would be back at ' + utc(simMs + (rt[0] + rt[1])*DAY) + '. Kept in this browser only.';
+});
+document.getElementById('moment').addEventListener('click', () => { P.clock = 'free'; setClock('free'); P.speed = 1; setSpeed('1'); simMs = LD_MS - 120000; });
+GL.fullscreen('fs', stage);
+MUSEUM.label('lab', 'label', false);
+
+/* rotating wall-label texts */
+const LABELS = [
+  ['Voyager 1 · launched 5 September 1977', () => 'A signal from Earth now takes ' + (EPH ? hms(upTau('v1', tdbJD(simMs))) : '…') + ' to reach it. The stage is one light-day wide, in true proportion.'],
+  ['Every hour, on the hour', () => 'A pulse of light leaves Earth. Twenty-four are always on their way; the oldest is just arriving at the spacecraft.'],
+  ['18 November 2026, 10:16 UTC', () => 'Voyager 1 is one light-day from Earth. A command sent from 17 November, 18:25 UTC already needs more than a day, because the spacecraft moves on while the light travels; a signal received from 19 November, 02:17 UTC left it more than a day earlier.'],
+  ['Closer, for a while', () => 'From late January to late April each year Voyager 1 comes closer to us: Earth on its orbit swings towards it faster than the spacecraft moves away.'],
+  ['Voyager 2', () => 'Launched sixteen days before Voyager 1, on a slower path. It reaches one light-day in November 2035.']
+];
+let labelIdx = 0;
+function showLabel(i){ labelIdx = i % LABELS.length; document.getElementById('labelHead').textContent = LABELS[labelIdx][0]; document.getElementById('labelText').textContent = LABELS[labelIdx][1](); }
+showLabel(0);
+MUSEUM.install('inst', stage, () => { P.clock = 'live'; setClock('live'); simMs = Date.now(); P.speed = 1; setSpeed('1'); P.scale = 'lin'; document.getElementById('label').classList.add('on'); }, s => { if(Math.floor(s) % 40 === 0) showLabel(labelIdx + 1); });
+
+/* ---------------- sound: the downlink as a tone, a bell when a pulse arrives ---------------- */
+let tone = null, bellBus = null;
+const soundOn = GLX.soundButton('snd', A => {
+  const ac = A.ac, o = ac.createOscillator(), g = ac.createGain(), f = ac.createBiquadFilter();
+  o.type = 'sine'; o.frequency.value = 8420.43e6/Math.pow(2, 24);       // the X-band carrier, 24 octaves down
+  g.gain.value = 0.05; f.type = 'lowpass'; f.frequency.value = 900;
+  o.connect(f); f.connect(g); g.connect(A.master); o.start();
+  tone = {o, g};
+  bellBus = ac.createGain(); bellBus.gain.value = 0.18; bellBus.connect(A.master);
+});
+function bell(red){
+  if(!bellBus || !soundOn()) return;
+  const ac = GLX._ac.ac, t = ac.currentTime;
+  [1, 2.76, 5.4].forEach((m, i) => {
+    const o = ac.createOscillator(), e = ac.createGain();
+    o.frequency.value = (red ? 587.3 : 880)*m; e.gain.value = 0; o.connect(e); e.connect(bellBus);
+    e.gain.linearRampToValueAtTime(0.5/(i + 1), t + 0.01); e.gain.exponentialRampToValueAtTime(0.0005, t + 2.6/(i + 1));
+    o.start(t); o.stop(t + 2.8);
+  });
+}
+
+/* ---------------- plots ---------------- */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let curveA = null, plotAt = 0;
+function buildCurves(){
+  curveA = {v1:[], v2:[]};
+  for(let ms = D0; ms <= D1; ms += 15*DAY){ const jd = tdbJD(ms), y = 1970 + ms/(365.2425*DAY); curveA.v1.push([y, downTau('v1', jd)*24]); curveA.v2.push([y, downTau('v2', jd)*24]); }
+}
+function drawPlots(){
+  const accent = MUSEUM.css('--accent', '#B5452A'), data = MUSEUM.css('--data', '#2F5AA1'), ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E');
+  const yNow = 1970 + simMs/(365.2425*DAY), jd = tdbJD(simMs);
+  PA.frame(1977, 2037, 0, 28, {xticks:[1980,1990,2000,2010,2020,2030], yticks:[0,6,12,18,24], ylab:'hours', xlab:'year'});
+  PA.hline(24, accent); PA.text(1978, 25.2, 'one light-day', accent);
+  PA.line(curveA.v2, faint, 1.3); PA.line(curveA.v1, ink, 1.6);
+  PA.vline(yNow, data); PA.dot(yNow, downTau('v1', jd)*24, data);
+  const yr = new Date(simMs).getUTCFullYear(), a = Date.UTC(yr, 0, 1), b = Date.UTC(yr + 1, 0, 1), pts = [];
+  let lo = 1e9, hi = -1e9;
+  for(let ms = a; ms <= b; ms += 2*DAY){ const v = downTau('v1', tdbJD(ms))*24; pts.push([(ms - a)/DAY, v]); lo = Math.min(lo, v); hi = Math.max(hi, v); }
+  if(yr === 2026){ lo = Math.min(lo, 23.9); hi = Math.max(hi, 24.1); }
+  const padY = (hi - lo)*0.12 + 0.01;
+  document.getElementById('plotBCap').textContent = 'Voyager 1 in ' + yr;
+  const MON = ['J','F','M','A','M','J','J','A','S','O','N','D'];
+  PB.frame(0, (b - a)/DAY, lo - padY, hi + padY, {xticks:[0,31,59,90,120,151,181,212,243,273,304,334], xfmt:v => MON[[0,31,59,90,120,151,181,212,243,273,304,334].indexOf(v)], yticks:[Math.ceil((lo - padY)*4)/4, Math.round((lo + hi)*2)/4, Math.floor((hi + padY)*4)/4].filter((v, i, s) => s.indexOf(v) === i), yfmt:v => v.toFixed(2)});
+  if(24 > lo - padY && 24 < hi + padY) PB.hline(24, accent, '24 h');
+  PB.line(pts, ink, 1.6);
+  const x = (simMs - a)/DAY; PB.vline(x, data); PB.dot(x, downTau('v1', jd)*24, data);
+}
+
+/* ---------------- frame ---------------- */
+const pxArr = new Float32Array(48), kindArr = new Float32Array(48), tickArr = new Float32Array(30), beamArr = new Float32Array(8), downArr = new Float32Array(2);
+let last = performance.now(), hudAt = 0, roAt = 0, W = 0, H = 0, lastArrivals = new Set(), firstFrame = true;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.1, Math.max(0, raw)); last = now;
+  if(P.clock === 'live') simMs = Date.now();
+  else { simMs += dt*1000*P.speed; if(simMs > D1){ simMs = D1; } if(simMs < D0) simMs = D0; }
+  GL.fit(cv, 1.5);
+  if(W !== cv.width || H !== cv.height){ W = cv.width; H = cv.height; }
+  const r = ov.getBoundingClientRect(), dpr = cv.width/Math.max(1, r.width);
+  if(ov.width !== cv.width || ov.height !== cv.height){ ov.width = cv.width; ov.height = cv.height; }
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, ov.width, ov.height);
+  if(!EPH){ gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT); return; }
+
+  const jd = tdbJD(simMs);
+  const tau1 = downTau('v1', jd), tau2 = downTau('v2', jd), up1 = upTau('v1', jd);
+  /* x mapping: light time (days) -> px */
+  const ex = W*0.06, ey = H*0.50, span1 = W*0.88;
+  const LMAX = 1.06, LOG0 = Math.log10(0.8/86400);      // log scale from 0.8 light-seconds
+  const X = d => P.scale === 'lin' ? ex + d/LMAX*span1 : ex + Math.max(0, (Math.log10(Math.max(d, 1e-9)) - LOG0)/(Math.log10(LMAX) - LOG0))*span1;
+  const x1 = X(tau1), x2 = X(tau2);
+  beamArr.set([x1, ey - H*0.17, H*0.026, 1, x2, ey + H*0.15, H*0.02, P.v2 ? 1 : 0]);
+  /* pulses: hourly (computed) + yours */
+  pxArr.fill(-1); kindArr.fill(0); let n = 0;
+  const arrivals = new Set();
+  if(P.hourly){
+    const lastHour = Math.floor(simMs/3600000)*3600000;
+    for(let k = 0; k < 40 && n < 40; k++){
+      const ts = lastHour - k*3600000, age = (simMs - ts)/DAY;
+      if(age > up1 + 2/24) break;
+      if(age <= up1){ pxArr[n] = X(age); kindArr[n] = 0; n++; }
+      else arrivals.add('h' + ts);
+    }
+  }
+  for(const ts of pulses){
+    const age = (simMs - ts)/DAY;
+    if(age < 0) continue;
+    if(age <= up1 && n < 48){ pxArr[n] = X(age); kindArr[n] = 1; n++; }
+    else if(age > up1 && age < up1 + 0.2) arrivals.add('y' + ts);
+  }
+  if(!firstFrame) for(const a of arrivals) if(!lastArrivals.has(a)) bell(a[0] === 'y');
+  lastArrivals = arrivals; firstFrame = false;
+  /* hour ticks on the axis */
+  let nt = 0; for(let h = 1; h <= 25 && nt < 30; h++){ const x = X(h/24); if(x < W - ex*0.25){ tickArr[nt++] = x; } }
+  /* downlink marks: spaced one light-hour (lin) or a fixed px (log), moving at c */
+  const spacePx = P.scale === 'lin' ? span1/LMAX/24/4 : W*0.02;
+  const moved = P.scale === 'lin' ? ((simMs/DAY)/LMAX*span1) % spacePx : ((simMs/1000)*W*0.002) % spacePx;
+  downArr[0] = moved; downArr[1] = moved;
+
+  gl.useProgram(prog.p);
+  gl.uniform2f(prog.u.uRes, W, H); gl.uniform1f(prog.u.uTime, now/1000);
+  gl.uniform2f(prog.u.uEarth, ex, ey);
+  gl.uniform4fv(prog.u.uBeam, beamArr);
+  gl.uniform1fv(prog.u.uPx, pxArr); gl.uniform1fv(prog.u.uPKind, kindArr);
+  gl.uniform1fv(prog.u.uDown, downArr); gl.uniform1f(prog.u.uDownSpace, P.downlink ? spacePx : 0);
+  gl.uniform1fv(prog.u.uTick, tickArr); gl.uniform1f(prog.u.uNTick, nt);
+  GLX.pass(gl, vao, prog, null, W, H, {});
+
+  /* overlay labels */
+  const f = Math.max(10, Math.round(10.5*dpr)), base = ey + H*0.27;
+  octx.font = f + 'px "IBM Plex Mono", monospace'; octx.textBaseline = 'alphabetic';
+  octx.fillStyle = 'rgba(236,234,228,0.78)'; octx.textAlign = 'left';
+  octx.fillText('EARTH', ex - f*0.6, ey - f*1.4);
+  octx.textAlign = 'right';
+  const yv1 = ey - H*0.17 - H*0.026 - f*1.2;
+  octx.fillText('VOYAGER 1', Math.min(x1 + f*0.5, W - f), yv1 - f*1.2);
+  octx.fillStyle = 'rgba(236,234,228,0.55)';
+  octx.fillText(hms(up1, true).toUpperCase() + ' AWAY FOR A COMMAND', Math.min(x1 + f*0.5, W - f), yv1);
+  if(P.v2){ octx.fillStyle = 'rgba(236,234,228,0.6)'; octx.fillText('VOYAGER 2 · ' + hms(tau2).toUpperCase(), Math.min(x2 + f*0.5, W - f), ey + H*0.15 + f*2.0); }
+  octx.textAlign = 'center'; octx.fillStyle = 'rgba(236,234,228,0.5)';
+  for(let h = 1; h <= 25; h++){ const x = X(h/24); if(x > W - ex*0.25) break; if(P.scale === 'lin' ? h % 6 === 0 : (h === 1 || h % 6 === 0)) octx.fillText(h + ' H', x, base + f*1.7); }
+  if(P.scale === 'log'){ [[1/86400, '1 S'], [60/86400, '1 MIN']].forEach(m => { const x = X(m[0]); octx.fillText(m[1], x, base + f*1.7); octx.fillRect(x - 0.5, base - 6, 1, 12); }); }
+  /* one light-day mark */
+  const xld = X(1); octx.strokeStyle = 'rgba(255,90,60,0.7)'; octx.setLineDash([3*dpr, 4*dpr]); octx.beginPath(); octx.moveTo(xld, H*0.12); octx.lineTo(xld, base); octx.stroke(); octx.setLineDash([]);
+  octx.fillStyle = 'rgba(255,120,90,0.85)'; const wld = octx.measureText('ONE LIGHT-DAY').width; octx.fillText('ONE LIGHT-DAY', Math.min(xld, W - wld/2 - f), H*0.12 - f*0.5);
+  /* planets at their distance from Earth */
+  if(P.planets){
+    octx.textAlign = 'center';
+    const pls = [['sun', 'SUN'], ['jup', 'JUPITER'], ['sat', 'SATURN'], ['ura', 'URANUS'], ['nep', 'NEPTUNE']].map(pl => [X(geoAU(pl[0], jd)/C_AU_D), pl[1]]).filter(q => q[0] < W).sort((a, b) => a[0] - b[0]);
+    const ends = [-1e9, -1e9, -1e9];
+    pls.forEach(q => {
+      const x = q[0], w = octx.measureText(q[1]).width;
+      let lv = 0; while(lv < 2 && ends[lv] > x - w/2 - f*0.6) lv++;
+      ends[lv] = x + w/2;
+      const y = base - f*(1.4 + lv*1.25);
+      octx.fillStyle = 'rgba(236,234,228,0.75)'; octx.beginPath(); octx.arc(x, base, 2.2*dpr, 0, 6.2832); octx.fill();
+      octx.fillStyle = 'rgba(236,234,228,0.22)'; octx.fillRect(x - 0.5*dpr, y + f*0.25, dpr, base - y - f*0.25 - 3*dpr);
+      octx.fillStyle = 'rgba(236,234,228,0.5)'; octx.fillText(q[1], x, y);
+    });
+    if(P.scale === 'log'){ const x = X(384400/C_KMS/86400); octx.fillStyle = 'rgba(236,234,228,0.75)'; octx.beginPath(); octx.arc(x, base, 2*dpr, 0, 6.2832); octx.fill(); octx.fillStyle = 'rgba(236,234,228,0.45)'; octx.fillText('MOON', x, base - f*1.2); }
+  }
+  /* your pulses: small captions */
+  octx.textAlign = 'left'; octx.fillStyle = 'rgba(255,110,80,0.9)';
+  for(const ts of pulses){ const age = (simMs - ts)/DAY; if(age >= 0 && age <= up1){ const x = X(age); octx.fillText('YOUR PULSE · ' + hms(up1 - age).toUpperCase() + ' TO GO', Math.min(x + f*0.6, W - f*22), ey - H*0.17*(age/Math.max(up1, 1e-6)) - H*0.07); } }
+
+  if(now - hudAt > 200){
+    hudAt = now;
+    hud.tl.textContent = utc(simMs, true).toUpperCase() + (P.clock === 'live' ? ' · LIVE' : P.speed > 1 ? ' · ×' + P.speed : '') + '\nLIGHT TIME TO VOYAGER 1  ' + hms(up1, true).toUpperCase();
+    const dl = simMs - LD_MS;
+    hud.tr.textContent = (dl < 0 ? 'ONE LIGHT-DAY IN\n' + span(dl) : 'ONE LIGHT-DAY PASSED\n' + span(dl) + ' AGO').toUpperCase();
+    if(P.clock === 'free') { dateEl.value = (simMs - D0)/(D1 - D0); }
+    dateOut.textContent = new Date(simMs).toISOString().slice(0, 10);
+  }
+  if(now - roAt > 500){
+    roAt = now;
+    const rt = roundTrip('v1', jd), dAU = geoAU('v1', jd);
+    R.lt.set(hms(tau1, true), 'what arrives now left Voyager 1 at ' + utc(simMs - tau1*DAY));
+    R.cmd.set(utc(simMs + rt[0]*DAY, true), 'uplink light time ' + hms(rt[0], true));
+    R.rt.set(hms(rt[0] + rt[1]), 'a reply sent at once is back at ' + utc(simMs + (rt[0] + rt[1])*DAY));
+    R.dist.set(MUSEUM.fmt(dAU*AU_KM/1e9, 3) + ' billion km', MUSEUM.fmt(dAU, 3) + ' AU (astronomical units)');
+    R.sun.set(MUSEUM.fmt(helioAU('v1', jd), 2) + ' AU', 'Voyager 2: ' + MUSEUM.fmt(helioAU('v2', jd), 2) + ' AU');
+    const rr = (downTau('v1', jd + 0.5/24) - downTau('v1', jd - 0.5/24))*C_KMS*24;
+    R.rr.set((rr >= 0 ? '+' : '−') + MUSEUM.fmt(Math.abs(rr), 2) + ' km/s', rr >= 0 ? 'moving away from Earth' : 'coming closer to Earth');
+    R.dop.set((rr >= 0 ? '−' : '+') + MUSEUM.fmt(Math.abs(8420.43e6*rr/C_KMS/1000), 0) + ' kHz', 'one-way, received ' + (rr >= 0 ? 'lower' : 'higher') + ' than sent');
+    const dl = simMs - LD_MS;
+    R.ld.set(dl < 0 ? 'in ' + span(dl).replace(/ \d\d s$/, '') : span(dl).replace(/ \d\d s$/, '') + ' ago', '18 Nov 2026, 10:16:07 UTC. A command needs 24 h from 17 Nov 18:25; a received signal took 24 h from 19 Nov 02:17');
+    R.inst.set(hms(geoAU('v1', jd)/C_AU_D, true), 'light time for the distance at this instant');
+    const el = elevations(simMs, jd), up = el.filter(e => e[1] > 6);
+    R.dsn.set(up.length ? up.map(e => e[0] + ' ' + Math.round(e[1]) + '°').join(' · ') : 'none of the three', 'Deep Space Network complexes, elevation above 6°');
+    R.pr.set(MUSEUM.fmt(received(dAU, 70), 1) + ' dBm', '34 m dish: ' + MUSEUM.fmt(received(dAU, 34), 1) + ' dBm · 12.3 W sent');
+    if(stage.classList.contains('installing') || document.getElementById('label').classList.contains('on')) document.getElementById('labelText').textContent = LABELS[labelIdx][1]();
+  }
+  if(now - plotAt > 1000){ plotAt = now; drawPlots(); }
+}
+frame(performance.now());
+
+fetch('/visual-synths/data/voyager-ephemeris.bin').then(r => { if(!r.ok) throw new Error('HTTP ' + r.status); return r.arrayBuffer(); })
+  .then(buf => { EPH = parseEph(buf); buildCurves(); plotAt = 0; if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{downTau, upTau, roundTrip, tdbJD, geoAU, setSim:ms => { P.clock = 'free'; simMs = ms; }}}); })
+  .catch(e => { console.error(e); fail('Could not load the ephemeris data (' + e.message + ').'); });
+GL.visibleLoop(stage, frame);
+window.addEventListener('resize', () => { plotAt = 0; });
+})();
+</script>
+</body>
+</html>

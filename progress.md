@@ -124,6 +124,14 @@
 - Checked: headless captures of all layers, sardines and phone layout (390 px); scripted control test (23 checks: presets, sliders, species, layer rules, predator/lure on pointer, place + remove object, no boid inside an object, count up/down, pause, scatter, finite state, no GL or window errors).
 - Hub card + counts (twelve pieces, seven studies, "All 12" under the homepage canvas), own-pages entry in the hidden Video Synth category.
 
+## 2026-10-19 — Six aerospace pieces (Light-Day, Chirp, Plume, Re-entry, Orbit Loom, Relic)
+- Owner asked for the six aerospace plates of the Lineages proposal, scientific and at museum-interface level. Built with `tools/_studies/build.py`; hub group "Aerospace pieces" (25 pieces, homepage "All 25"); own-pages entries; each guide links back.
+- Real data: JPL Horizons barycentric state vectors (Voyager 1/2, Earth, Sun, giant planets, 1977–2036), LIGO GWOSC GW150914 H1/L1 strain + NR waveform, Planck 2015 SMICA map (Nside 512 + COBE-beam copy), Natural Earth land. Scripts and sources: `visual-synths/tools/_aero/README.md`.
+- Museum layer: readouts tagged DATA/MODEL/DRAWN, theme-aware plots, wall label, installation mode, sources and limits sections on every page.
+- Checked: light time vs JPL < 0.1 km (1990+); three light-day moments; NR/H1 match 0.753, L1 −6.84 ms; repeat altitudes 786.1 km and a = 7,077.7 km; Apollo 11 6.40 g; CMB rms 100.2 µK, Gaussian. Every inline script passes `node --check`; headless GL read-back renders of each piece in several states; scripted control pass (every button, sliders at min/mid/max) on the final build: no script or GL errors; phone 390 px without overflow; dark mode.
+- Fixed on the way: Light-Day's first moment (downlink) replaced by the instantaneous distance; Chirp's angle seam; Plume's negative Isp under separation (now Schmucker with the nozzle cut at separation), NaN bar from a negative smoothstep width; Re-entry skip-out with lift held up (steering rule added), Stardust drawn as a 60° sphere-cone; Orbit Loom local-time wrap; Relic's inverted mask bit and histogram aliasing.
+- Not checked: real GPUs/iPhone, sound by ear, the rAF loop over hours (installation mode), Light-Day's live behaviour on 18 Nov itself.
+
 ## 2026-10-18 — Seven new video-synth pieces (from the Lineages proposal)
 - Owner picked from the proposal page: **Cone**, **Erosion**, **Ring** (studies 08–10) and **Threshold**, **Chain**, **Sensor**, **Upside Down** (WebGL instruments, most with opt-in sound). Generated from `visual-synths/tools/_studies/` (see CLAUDE.md).
 - Owner rule: reference artists are never named. Removed the names from the Lineage sections of Data Matrix, Displacement Field, Latent Flow, Photogrammetry Scan, Point Cloud Scan, Light Grid, the hub's closing paragraph, a gen-canvas.js comment and these notes.

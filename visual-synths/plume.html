@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Plume — Video Synths</title>
+<meta name="description" content="A rocket exhaust with its shock diamonds, computed from the nozzle's area ratio and the air pressure at each altitude: over-expanded at sea level, ideal at the design altitude, ballooning in near vacuum. Isentropic flow, US Standard Atmosphere 1976, Prandtl–Meyer expansion. WebGL 2 study with sound.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/plume">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Plume — Video Synths">
+<meta property="og:description" content="A rocket exhaust with its shock diamonds, computed from the nozzle's area ratio and the air pressure at each altitude: over-expanded at sea level, ideal at the design altitude, ballooning in near vacuum. Isentropic flow, US Standard Atmosphere 1976, Prandtl–Meyer expansion. WebGL 2 study with sound.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/plume">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+/* museum panels for the aerospace pieces: readouts, plots, wall label, installation mode */
+:root{--accent:#B5452A; --data:#2F5AA1;}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#E07A5F; --data:#8FB0E8; } }
+:root[data-theme="dark"]{ --accent:#E07A5F; --data:#8FB0E8; }
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong); margin-top:18px;}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:10px 12px 11px; min-width:0;}
+.readouts .k{font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-family:var(--font-display); font-weight:700; font-size:1.18rem; line-height:1.25; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--ink); overflow-wrap:anywhere;}
+.readouts .s{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+.src-tag{font-size:8.5px; letter-spacing:.1em; padding:0 4px; border:1px solid currentColor; border-radius:2px; line-height:1.5; white-space:nowrap;}
+.src-tag.data{color:var(--data);} .src-tag.model{color:var(--accent);} .src-tag.drawn{color:var(--ink-faint);}
+.plots{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin-top:16px;}
+.plot{border:1px solid var(--line-strong); background:var(--paper-raised); min-width:0;}
+.plot .cap{display:flex; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); padding:8px 10px 0;}
+.plot canvas{display:block; width:100%; height:190px; touch-action:pan-y;}
+.plot .note{font-size:10.5px; color:var(--ink-faint); padding:0 10px 8px;}
+.stage .wall-label{position:absolute; left:14px; bottom:14px; max-width:min(440px, calc(100% - 28px)); background:rgba(0,0,0,.78); color:#ECEAE4; border-left:2px solid #fff; padding:11px 14px 12px; font-family:var(--font-display); font-weight:500; font-size:12.5px; line-height:1.55; display:none; z-index:3;}
+.stage .wall-label.on{display:block;}
+.stage .wall-label b{display:block; font-family:var(--font-mono); font-weight:500; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage canvas.overlay{pointer-events:none;}
+.stage.installing, .stage.installing canvas{cursor:none;}
+.stage.installing .wall-label{font-size:clamp(13px,1.2vw,19px); max-width:min(640px, 46%);}
+.stage.installing .hud{font-size:clamp(10px,0.9vw,15px);}
+.sources{font-size:12px;}
+.sources li{margin-bottom:6px;}
+.sources a{overflow-wrap:anywhere;}
+.guide-link{display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; text-decoration:none; color:var(--ink);}
+.guide-link:hover{border-color:var(--ink);}
+@media (max-width:640px){ .stage .wall-label{font-size:11.5px; left:10px; bottom:10px; padding:8px 10px;} .readouts .v{font-size:1.02rem;} }
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from plume.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Aerospace piece 03 · Light architecture</div>
+    <h1>Plume</h1>
+    <p>A rocket nozzle is shaped for one outside pressure. Below that altitude the air squeezes the exhaust: shock waves cross inside the jet and leave a chain of bright diamonds. At the design altitude the jet leaves straight. Above it the gas spreads out, and in near vacuum the plume opens into a vast, faint fan. Everything on the stage, from the angle at the lip to the spacing of the diamonds, is computed from the engine and the air.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="Side view of a rocket nozzle and its exhaust plume with shock diamonds, changing with altitude."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="wall-label" id="label"><b id="labelHead"></b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Engine</span>
+      <div class="seg" id="engine">
+        <button data-v="f1">F-1</button>
+        <button data-v="rs25">RS-25</button>
+        <button data-v="rl10">RL10B-2</button>
+      </div>
+      <span class="lab">Propellants</span>
+      <div class="seg" id="prop">
+        <button data-v="rp1">Kerosene + oxygen</button>
+        <button data-v="lh2">Hydrogen + oxygen</button>
+        <button data-v="ch4">Methane + oxygen</button>
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="alt">Altitude <output for="alt"></output></label>
+      <input id="alt" type="range" min="0" max="100" step="0.1">
+      <div class="row">
+        <button class="btn" id="climb" aria-pressed="false">Climb</button>
+      </div>
+      <label for="zoom">View length <output for="zoom"></output></label>
+      <input id="zoom" type="range" min="4" max="40" step="0.5">
+    </div>
+    <div class="ctl">
+      <label for="eps">Area ratio, exit ÷ throat <output for="eps"></output></label>
+      <input id="eps" type="range" min="0.6" max="2.5" step="0.01">
+      <label for="pc">Chamber pressure <output for="pc"></output></label>
+      <input id="pc" type="range" min="2" max="30" step="0.1">
+    </div>
+    <div class="ctl">
+      <span class="lab">Room</span>
+      <div class="row">
+        <button class="btn" id="snd">Sound</button>
+        <button class="btn" id="lab">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+      <span class="lab">Show</span>
+      <div class="row">
+        <button class="btn" id="diag" aria-pressed="false">Shock lines</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Changing the area ratio or chamber pressure keeps the engine's propellants and makes it your own engine. Sound starts only when you press Sound.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span>Pressure at the exit and outside</span><span>kPa, log scale</span></div><canvas id="plotA"></canvas><div class="note">Where the lines cross is the design altitude: the exhaust leaves at exactly the outside pressure.</div></div>
+    <div class="plot"><div class="cap"><span>Specific impulse with altitude</span><span>seconds</span></div><canvas id="plotB"></canvas><div class="note">Solid: this nozzle. Dashed: a nozzle reshaped at every altitude to match the air, the best any fixed shape could do there.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>The nozzle.</strong> Gas expands from the chamber through the throat, where it reaches the speed of sound, to the exit. For an ideal gas with ratio of specific heats γ the exit Mach number follows from the area ratio alone, and the exit pressure from the Mach number: <code>p<sub>e</sub>/p<sub>c</sub> = (1 + (γ−1)/2·M<sub>e</sub>²)<sup>−γ/(γ−1)</sup></code>. These are the guide's relations (NASA Glenn), solved by bisection. Specific impulse is the thrust coefficient, including the pressure term <code>ε(p<sub>e</sub> − p<sub>a</sub>)/p<sub>c</sub></code>, times the characteristic velocity c* of the propellants, divided by g₀; losses are ignored, so real engines run a few percent lower.</p>
+  <p><strong>The air.</strong> Outside pressure comes from the US Standard Atmosphere 1976, layer by layer to 86 km, and an exponential tail above it. (The guide uses a single 7.2 km scale height; the layers matter for the design altitude.)</p>
+  <p><strong>The plume.</strong> Once outside, the jet adjusts to the outside pressure. Its fully expanded Mach number comes from the chamber-to-outside pressure ratio and its fully expanded diameter from the same area–Mach relation. If the exit pressure is higher than outside, the gas turns outward around the lip by the Prandtl–Meyer angle <code>ν(M<sub>j</sub>) − ν(M<sub>e</sub>)</code>; if lower, an oblique shock turns it inward by the angle that raises its pressure to the outside value (θ–β–M relation). The boundary then overshoots and oscillates around the fully expanded diameter, with shock cells about <code>1.22·D<sub>j</sub>·√(M<sub>j</sub>² − 1)</code> long (Prandtl's rule of thumb, as in the guide; Tam's analysis gives 1.31). In strongly under-expanded jets (exit pressure more than twice the outside) a normal shock, the Mach disk, stands at about <code>0.67·D*·√(p<sub>c</sub>/p<sub>a</sub>)</code> from the exit, where D* is the throat diameter. That correlation (Crist, Sherman and Glass) was measured on sonic nozzles; for a bell nozzle it is an estimate.</p>
+  <p><strong>Separation.</strong> When the exhaust leaves far below the outside pressure, the air pushes back along the wall and the flow separates inside the nozzle. The page uses Schmucker's criterion: separation where the wall pressure falls below <code>p<sub>a</sub>·(1.88·M − 1)<sup>−0.64</sup></code>. Past it, the jet leaves the wall at the separation point, and thrust is computed as if the nozzle ended there. Between 60 % and 100 % of the limit the page says "at the edge": a one-dimensional estimate cannot decide, because the pressure on a bell's wall near the exit is higher than the average. The RS-25 at sea level sits in that band and in reality runs attached once started; vacuum engines such as the RL10B-2 separate at sea level.</p>
+  <p><strong>Colour.</strong> The light is drawn, not computed. Kerosene burns rich and sooty: hot carbon glows yellow-orange, and leftover fuel burns again where the jet mixes with air. Hydrogen and methane burn clean; their plumes are almost transparent with bluish or pinkish diamonds where shocks reheat the gas. The afterburning glow fades as the air thins.</p>
+  <h3>Lineage</h3>
+  <p>A study in light architecture: a restricted palette of black, white and one warm colour, structure made visible by a medium, flicker at the edges and stillness at the core. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>One γ and one c* per propellant pair (typical values, listed in the readouts); real exhaust chemistry changes along the nozzle and plume.</li>
+    <li>The boundary's oscillation, decay and the mixing layer are a model of the shape, scaled by the computed lengths and angles, not a flow simulation. Shock cells decay faster in reality as the mixing layer eats the core.</li>
+    <li>No vehicle around the engine, no free-stream flow: in flight the air moving past the vehicle changes the plume's shape, and above about 40 km neighbouring plumes merge.</li>
+    <li>Exit diameters (for sound and scale) are approximate: F-1 3.7 m, RS-25 2.3 m (from the guide's sea-level and vacuum thrust), RL10B-2 2.15 m.</li>
+    <li>Flicker in the mixing layer is smooth noise, not strobing; reduced motion slows it.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>NASA Glenn Research Center, Beginner's Guide to Rockets: isentropic flow, nozzle design, Prandtl–Meyer and oblique shock relations.</li>
+    <li>U.S. Standard Atmosphere, 1976 (NOAA, NASA, USAF).</li>
+    <li>S. Crist, P. M. Sherman, D. R. Glass (1966), "Study of the highly underexpanded sonic jet", AIAA Journal 4(1).</li>
+    <li>H. Schmucker (1973), flow separation criterion for rocket nozzles (TU München report; as summarised in G. Hagemann et al., "Flow separation and side-loads in rocket nozzles", AIAA 99-2762).</li>
+    <li>Engine values: F-1 and RS-25 chamber pressures and area ratios as in the guide; RL10B-2 about 4.4 MPa and 280:1 (Aerojet Rocketdyne data, approximate).</li>
+  </ul>
+  <a class="guide-link" href="/aerospace/nozzle-rocket-engines">Read the guide: NOZZLE — Rocket Engines →</a>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This piece needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* ---------------- gas dynamics (guide relations) ---------------- */
+function areaRatio(M, g){ return (1/M)*Math.pow((2/(g + 1))*(1 + (g - 1)/2*M*M), (g + 1)/(2*(g - 1))); }
+function machFromArea(eps, g){ let lo = 1, hi = 60; for(let k = 0; k < 100; k++){ const m = 0.5*(lo + hi); if(areaRatio(m, g) < eps) lo = m; else hi = m; } return 0.5*(lo + hi); }
+function pRatio(M, g){ return Math.pow(1 + (g - 1)/2*M*M, -g/(g - 1)); }
+function machFromP(pr, g){ return Math.sqrt(2/(g - 1)*(Math.pow(pr, (g - 1)/g) - 1)); }          // pr = p0/p
+function nu(M, g){ if(M <= 1) return 0; const a = Math.sqrt((g + 1)/(g - 1)); return a*Math.atan(Math.sqrt((M*M - 1)/(a*a))) - Math.atan(Math.sqrt(M*M - 1)); }
+function cF(eps, g, pc, pa){
+  const Me = machFromArea(eps, g), pe = pRatio(Me, g)*pc;
+  const mom = Math.sqrt(2*g*g/(g - 1)*Math.pow(2/(g + 1), (g + 1)/(g - 1))*(1 - Math.pow(pe/pc, (g - 1)/g)));
+  return {cf:mom + eps*(pe - pa)/pc, Me, pe, mom};
+}
+function cStar(g, Tc, Mw){ const R = 8314.462/Mw; return Math.sqrt(g*R*Tc)/(g*Math.sqrt(Math.pow(2/(g + 1), (g + 1)/(g - 1)))); }
+/* oblique shock: deflection for a pressure ratio p2/p1 (weak branch) */
+function shockTurn(M, g, p21){
+  const s2 = ((p21 - 1)*(g + 1)/(2*g) + 1)/(M*M); if(s2 > 1) return null;
+  const b = Math.asin(Math.sqrt(s2));
+  const th = Math.atan(2/Math.tan(b)*(M*M*Math.sin(b)*Math.sin(b) - 1)/(M*M*(g + Math.cos(2*b)) + 2));
+  return {beta:b, theta:th};
+}
+/* US Standard Atmosphere 1976 to 86 km, exponential above */
+const ATM_H = [0, 11000, 20000, 32000, 47000, 51000, 71000, 84852], ATM_L = [-0.0065, 0, 0.001, 0.0028, 0, -0.0028, -0.002], GMR = 0.034163195;
+const ATM_T = [288.15], ATM_P = [101325];
+for(let i = 1; i < ATM_H.length; i++){ const L = ATM_L[i - 1], dh = ATM_H[i] - ATM_H[i - 1]; ATM_T[i] = ATM_T[i - 1] + L*dh; ATM_P[i] = L === 0 ? ATM_P[i - 1]*Math.exp(-GMR*dh/ATM_T[i - 1]) : ATM_P[i - 1]*Math.pow(ATM_T[i - 1]/ATM_T[i], GMR/L); }
+function pAir(hKm){
+  const H = 6356766*hKm*1000/(6356766 + hKm*1000);
+  if(H >= ATM_H[7]) return ATM_P[7]*Math.exp(-(H - ATM_H[7])/5800);
+  let i = 0; while(i < 6 && H >= ATM_H[i + 1]) i++;
+  const L = ATM_L[i], T = ATM_T[i] + L*(H - ATM_H[i]);
+  return L === 0 ? ATM_P[i]*Math.exp(-GMR*(H - ATM_H[i])/ATM_T[i]) : ATM_P[i]*Math.pow(ATM_T[i]/T, GMR/L);
+}
+
+/* ---------------- engines and propellants ---------------- */
+const PSI = 6894.757;
+const PROPS = {
+  rp1:{name:'kerosene + oxygen', g:1.22, Tc:3670, Mw:22.0, core:[1.0, 0.86, 0.62], glow:[1.0, 0.45, 0.12], soot:1.0},
+  lh2:{name:'hydrogen + oxygen', g:1.20, Tc:3500, Mw:13.5, core:[0.86, 0.80, 1.0], glow:[0.95, 0.55, 0.75], soot:0.0},
+  ch4:{name:'methane + oxygen', g:1.21, Tc:3550, Mw:20.5, core:[0.72, 0.82, 1.0], glow:[0.55, 0.45, 1.0], soot:0.15}
+};
+const ENGINES = {
+  f1:{name:'F-1', prop:'rp1', eps:16, pc:1100*PSI, De:3.7, note:'Saturn V first stage, 1967–73'},
+  rs25:{name:'RS-25', prop:'lh2', eps:77.5, pc:3000*PSI, De:2.3, note:'Space Shuttle and SLS'},
+  rl10:{name:'RL10B-2', prop:'lh2', eps:280, pc:4.4e6, De:2.15, note:'upper stage, built for vacuum'}
+};
+const P = {engine:'rs25', prop:'lh2', eps:77.5, pc:3000*PSI, De:2.3, alt:0, zoom:14, climb:false, diag:false, custom:false};
+
+/* nozzle performance at an outside pressure, with Schmucker's separation: past it the nozzle is cut where the jet leaves the wall */
+function perf(pa){
+  const g = PROPS[P.prop].g, C0 = cF(P.eps, g, P.pc, pa), ratio = C0.pe/pa;
+  const schm = Math.pow(1.88*C0.Me - 1, -0.64);
+  const sepState = ratio >= schm ? 'none' : ratio >= 0.6*schm ? 'near' : 'sep';
+  let epsEff = P.eps;
+  if(sepState === 'sep'){
+    let lo = 1.05, hi = C0.Me;
+    for(let k = 0; k < 60; k++){ const m = (lo + hi)/2; if(pRatio(m, g)*P.pc/pa > Math.pow(1.88*m - 1, -0.64)) lo = m; else hi = m; }
+    epsEff = areaRatio((lo + hi)/2, g);
+  }
+  const C = sepState === 'sep' ? cF(epsEff, g, P.pc, pa) : C0;
+  return {cf:C.cf, Me:C.Me, pe:C.pe, pe1d:C0.pe, Me1d:C0.Me, ratio, schm, sepState, epsEff};
+}
+/* everything the picture and the readouts need, in units of the exit diameter */
+function solve(){
+  const pr = PROPS[P.prop], g = pr.g, pa = Math.max(pAir(P.alt), 1e-4);
+  const Q = perf(pa), C0 = {pe:Q.pe1d, Me:Q.Me1d}, ratio = Q.ratio, schm = Q.schm, sepState = Q.sepState, epsEff = Q.epsEff, Msep = Q.Me;
+  const C = {cf:Q.cf}, Me = Q.Me, pe = Q.pe;
+  const Mj = Math.min(14, machFromP(P.pc/pa, g));
+  const Dj = Math.sqrt(areaRatio(Mj, g)/P.eps);           // fully expanded diameter ÷ exit diameter
+  const Dt = 1/Math.sqrt(P.eps);                            // throat diameter ÷ exit diameter
+  const rEff = pe/pa;
+  let theta = 0, mode = 'ideal';
+  if(rEff > 1.03){ mode = 'under'; theta = nu(Mj, g) - nu(Me, g); }
+  else if(rEff < 0.97){ mode = 'over'; const s = shockTurn(Me, g, 1/rEff); theta = s ? -s.theta : -0.35; if(!s) mode = 'over-strong'; }
+  theta = Math.max(-0.6, Math.min(1.45, theta));
+  const sep = sepState === 'sep';
+  const r0 = 0.5*Math.sqrt(epsEff/P.eps), rt = 0.5/Math.sqrt(P.eps), Ln = 0.8*(0.5 - rt)/Math.tan(0.2618);
+  const sx = sep ? -Ln + Ln*(1 - Math.pow(Math.max(0, 1 - (r0 - rt)/(0.5 - rt)), 1/1.7)) : 0;
+  const L = 1.22*Dj*Math.sqrt(Math.max(Mj*Mj - 1, 1e-4));
+  const xMach = 0.67*Dt*Math.sqrt(P.pc/pa);
+  const cs = cStar(g, pr.Tc, pr.Mw), isp = C.cf*cs/9.80665;
+  const Uj = Math.sqrt(2*g/(g - 1)*8314.462/pr.Mw*pr.Tc*(1 - Math.pow(pa/P.pc, (g - 1)/g)));
+  return {pr, g, pa, pe, pe1d:C0.pe, Me1d:C0.Me, ratio, schm, sepState, epsEff, Msep, r0, sx, Me, Mj, Dj, Dt, theta, mode, sep, L, xMach, cf:C.cf, cs, isp, Uj};
+}
+function designAlt(){ const g = PROPS[P.prop].g, pe = pRatio(machFromArea(P.eps, g), g)*P.pc; let lo = 0, hi = 200; if(pAir(0) < pe) return 0; for(let k = 0; k < 60; k++){ const m = (lo + hi)/2; if(pAir(m) > pe) lo = m; else hi = m; } return (lo + hi)/2; }
+function ispOpt(h){ const pr = PROPS[P.prop], g = pr.g, pa = Math.max(pAir(h), 1e-6), Me = machFromP(P.pc/pa, g), eps = areaRatio(Me, g); return cF(eps, g, P.pc, pa).cf*cStar(g, pr.Tc, pr.Mw)/9.80665; }
+
+/* ---------------- shader ---------------- */
+const FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+float sq(float x){ return x*x; }
+uniform vec2 uRes; uniform float uT, uZoom, uX0;
+uniform float uEps, uTheta, uDj, uL, uXMach, uMach, uSep, uRatio, uAir, uSoot, uDiag, uMode, uR0, uSX;
+uniform vec3 uCore, uGlow;
+${GL.NOISE}
+float h1(float n){ return fract(sin(n)*43758.5453); }
+// nozzle wall radius (exit diameter = 1): throat 0.5/sqrt(eps), bell of length ~ 80 % of a 15-degree cone
+float nozLen(){ return 0.8*(0.5 - 0.5/sqrt(uEps))/tan(0.2618); }
+float wallR(float x){ float Ln = nozLen(), s = clamp((x + Ln)/Ln, 0.0, 1.0); float rt = 0.5/sqrt(uEps); return rt + (0.5 - rt)*(1.0 - pow(1.0 - s, 1.7)); }
+// jet boundary: starts at the lip with angle theta, oscillates around Dj/2 with cell length L, decays downstream
+float boundary(float x, out float cellPh){
+  float Rj = 0.5*uDj, k = 6.2831853/max(uL, 0.05);
+  float a0 = uR0 - Rj, t = tan(uTheta);
+  float A = sqrt(a0*a0 + sq(t/k)), ph = atan(-t/k, a0);
+  float dec = exp(-x/(3.5*max(uL, 0.05)));
+  cellPh = x/max(uL, 0.05);
+  float r = Rj + A*cos(k*x + ph)*dec;
+  float spread = 0.035*x;              // mixing layer eats into the plume and widens it
+  return max(r, 0.04) + spread;
+}
+void main(){
+  vec2 frag = gl_FragCoord.xy;
+  float s = uZoom/uRes.x;
+  vec2 p = vec2(uX0 + frag.x*s, (frag.y - 0.5*uRes.y)*s);   // exit diameters; nozzle exit at x = 0
+  float y = abs(p.y);
+  vec3 c = vec3(0.0);
+  float Ln = nozLen();
+  float sepX = uSX;                                    // separation point inside the bell (0 when attached)
+  if(p.x < 0.0){
+    // inside the nozzle: hot core glow, wall outline
+    float rw = wallR(p.x);
+    if(p.x > -Ln - 0.05){
+      float wall = exp(-sq((y - rw)/(1.2*s)));
+      c += vec3(0.55)*wall;
+      float inside = smoothstep(rw, rw - 2.0*s, y);
+      if(p.x < sepX) c += uCore*inside*0.10*(0.6 + 0.4*smoothstep(-Ln, 0.0, p.x));
+      if(uSep > 0.5) c += vec3(1.0, 0.55, 0.45)*exp(-sq((p.x - sepX)/(1.5*s)))*smoothstep(rw + 0.01, rw - 0.03, y)*smoothstep(rw*0.4, rw*0.9, y)*0.6;
+    }
+  }
+  if(p.x >= sepX){
+    float cph;
+    float rb = boundary(p.x - sepX, cph);
+    if(p.x < 0.0) rb = min(rb, wallR(p.x) - 0.01);
+    float edge = 0.05 + 0.045*max(p.x, 0.0);             // mixing-layer thickness
+    float inCore = smoothstep(rb + edge*0.3, rb - edge*0.3, y);
+    float far = exp(-p.x/(9.0 + 18.0*(1.0 - uAir)));      // light fades downstream
+    float rarefy = pow(0.5/max(rb, 0.5), 2.0*(1.0 - uAir));          // in near vacuum the gas thins as it spreads
+    // shock cells: X pattern of shock lines meeting on the axis, bright recompression behind each crossing
+    float f = fract(cph), n = floor(cph);
+    float cellFade = exp(-n*0.42)*inCore;
+    float shockY = rb*abs(1.0 - 2.0*f);
+    float lines = exp(-sq((y - shockY)/(2.2*s + 0.012)))*cellFade;
+    float diamond = exp(-sq((f - 0.58)/0.13))*smoothstep(rb*0.95, 0.0, y + rb*0.25*abs(f - 0.58)*4.0)*cellFade;
+    float cells = uMode > 0.5 ? 1.0 : 0.0;
+    // Mach disk for strongly under-expanded jets
+    float md = 0.0;
+    if(uMach > 0.5 && uXMach < 40.0){ md = exp(-sq((p.x - uXMach)/(2.5*s + 0.02)))*smoothstep(0.42*rb, 0.30*rb, y)*rarefy; }
+    float turb = fbm(vec3(p.x*2.2 - uT*3.0, p.y*3.0, uT*0.4));
+    float mix_ = smoothstep(rb - edge, rb, y)*smoothstep(rb + edge*1.6, rb, y)*(0.45 + 0.9*turb);
+    vec3 core = uCore*inCore*0.22*rarefy;
+    vec3 shock = mix(uCore, vec3(1.0), 0.6)*(lines*0.55*uDiag + diamond*1.6)*cells + vec3(1.0)*md*1.4;
+    float burn = uAir*(0.25 + 0.75*uSoot);
+    vec3 afterglow = uGlow*mix_*(0.15 + 1.1*burn)*rarefy;
+    c += (core + shock + afterglow)*far;
+    // soot: kerosene plumes glow orange downstream where fuel burns with air
+    c += uGlow*uSoot*uAir*smoothstep(1.0, 6.0, p.x)*smoothstep(rb + edge*2.0, rb*0.5, y)*fbm(vec3(p.x*1.1 - uT*2.0, p.y*1.6, uT*0.3))*0.55*far;
+  }
+  // exit plane marker
+  c += vec3(0.25)*exp(-sq(p.x/(1.0*s)))*step(y, 0.5)*0.4;
+  c = c/(1.0 + c*0.35);
+  c = pow(max(c, 0.0), vec3(0.4545));
+  c += (h1(dot(frag, vec2(1.0, 113.0)) + fract(uT)*7.0) - 0.5)*0.012;
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+
+/* ---------------- readouts ---------------- */
+const R = MUSEUM.readouts('ro', [
+  ['pa', 'Outside pressure', 'model'], ['pe', 'Exit pressure', 'model'], ['ratio', 'Exit ÷ outside', 'model'], ['me', 'Mach number at the exit', 'model'],
+  ['mj', 'Mach number, fully expanded', 'model'], ['angle', 'Turn at the lip', 'model'], ['cell', 'Shock-cell length', 'model'], ['mach', 'Mach disk', 'model'],
+  ['isp', 'Specific impulse', 'model'], ['cf', 'Thrust coefficient', 'model'], ['design', 'Design altitude', 'model'], ['gas', 'Propellant model', 'model']
+]);
+const fmt = MUSEUM.fmt;
+
+/* ---------------- controls ---------------- */
+const epsEl = document.getElementById('eps'), pcEl = document.getElementById('pc');
+const altEl = GL.slider('alt', P, 'alt', v => v.toFixed(1) + ' km');
+GL.slider('zoom', P, 'zoom', v => v.toFixed(1) + ' exit diameters');
+const epsOut = document.querySelector('output[for="eps"]'), pcOut = document.querySelector('output[for="pc"]');
+function showEng(){ epsEl.value = Math.log10(P.eps); pcEl.value = P.pc/1e6; epsOut.textContent = fmt(P.eps, P.eps < 30 ? 1 : 0) + ' : 1'; pcOut.textContent = fmt(P.pc/1e6, 1) + ' MPa (' + fmt(P.pc/PSI, 0) + ' psi)'; }
+epsEl.addEventListener('input', () => { P.eps = Math.pow(10, +epsEl.value); custom(); showEng(); });
+pcEl.addEventListener('input', () => { P.pc = +pcEl.value*1e6; custom(); showEng(); });
+const setEngine = GL.seg('engine', P.engine, v => applyEngine(v));
+const setProp = GL.seg('prop', P.prop, v => { P.prop = v; custom(); });
+function custom(){ P.custom = true; setEngine(''); showLabel(); plotDirty = true; }
+function applyEngine(k){ const e = ENGINES[k]; P.engine = k; P.custom = false; P.prop = e.prop; P.eps = e.eps; P.pc = e.pc; P.De = e.De; setEngine(k); setProp(e.prop); showEng(); showLabel(); plotDirty = true; }
+const climbBtn = document.getElementById('climb');
+climbBtn.addEventListener('click', () => { P.climb = !P.climb; climbBtn.setAttribute('aria-pressed', String(P.climb)); if(P.climb && P.alt > 95) P.alt = 0; });
+const diagBtn = document.getElementById('diag'); diagBtn.addEventListener('click', () => { P.diag = !P.diag; diagBtn.setAttribute('aria-pressed', String(P.diag)); });
+altEl.addEventListener('input', () => { if(P.climb){ P.climb = false; climbBtn.setAttribute('aria-pressed', 'false'); } plotDirty = true; });
+GL.fullscreen('fs', stage);
+MUSEUM.label('lab', 'label', false);
+function showLabel(){
+  const S = solve(), e = ENGINES[P.engine];
+  document.getElementById('labelHead').textContent = P.custom ? 'Your engine · ' + S.pr.name : e.name + ' · ' + e.note;
+  const msg = S.sep ? 'At this altitude the air pushes into the bell: the flow separates from the wall inside the nozzle. This is why vacuum engines are not fired at sea level.'
+    : S.sepState === 'near' ? 'Over-expanded, at the edge: by a one-dimensional estimate the exhaust is close to separating from the wall. Real bell nozzles keep more pressure near the wall, and the RS-25 runs attached at sea level once started.'
+    : S.mode === 'over' || S.mode === 'over-strong' ? 'Over-expanded: the exhaust leaves below the outside pressure, so the air squeezes it. Shocks from the lip cross on the axis and reheat the gas: the bright diamonds.'
+    : S.mode === 'under' ? (S.ratio > 50 ? 'Near vacuum: the gas leaves far above the outside pressure and turns outward around the lip, so the plume opens into a wide, faint fan.' : 'Under-expanded: the exhaust leaves above the outside pressure and expands outward at the lip, overshoots, and comes back: cells again, longer now.')
+    : 'Ideally expanded: the exhaust leaves at the outside pressure and the jet goes out almost straight. This is the altitude the nozzle was shaped for.';
+  document.getElementById('labelText').textContent = msg;
+}
+
+/* ---------------- sound: mixing noise centred on St 0.2, a faint tone at the shock-cell frequency ---------------- */
+let voice = null;
+const soundOn = GLX.soundButton('snd', A => {
+  const ac = A.ac, n = ac.sampleRate*2, b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0);
+  let pink = 0; for(let i = 0; i < n; i++){ pink = 0.97*pink + 0.03*(Math.random()*2 - 1); d[i] = pink*4 + (Math.random()*2 - 1)*0.15; }
+  const src = ac.createBufferSource(); src.buffer = b; src.loop = true;
+  const bp = ac.createBiquadFilter(); bp.type = 'bandpass'; bp.Q.value = 0.7;
+  const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.frequency.value = 2400;
+  const g = ac.createGain(); g.gain.value = 0.0;
+  const tone = ac.createOscillator(), tg = ac.createGain(); tone.type = 'triangle'; tg.gain.value = 0;
+  src.connect(bp); bp.connect(lp); lp.connect(g); g.connect(A.master); tone.connect(tg); tg.connect(A.master);
+  src.start(); tone.start();
+  voice = {bp, g, tone, tg, ac};
+});
+function updateSound(S){
+  if(!voice || !soundOn()) return;
+  const Djm = S.Dj*P.De, fPeak = 0.2*S.Uj/Math.max(Djm, 0.3);        // Strouhal 0.2 mixing noise
+  const t = voice.ac.currentTime;
+  voice.bp.frequency.setTargetAtTime(Math.min(1800, Math.max(40, fPeak*4)), t, 0.2);   // two octaves up so small speakers carry it
+  voice.g.gain.setTargetAtTime(0.25*(0.3 + 0.7*Math.min(1, S.pa/101325*3 + 0.15)), t, 0.2);
+  const Lm = S.L*P.De, fCell = 0.7*S.Uj/(Lm*(1 + 0.7*S.Mj/2));
+  const cellsOn = S.mode !== 'ideal' && S.ratio < 50 && Lm < 60;
+  voice.tone.frequency.setTargetAtTime(Math.min(2000, Math.max(60, fCell*4)), t, 0.2);
+  voice.tg.gain.setTargetAtTime(cellsOn ? 0.03 : 0, t, 0.3);
+}
+
+/* ---------------- plots ---------------- */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let plotDirty = true;
+function drawPlots(S){
+  const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), accent = MUSEUM.css('--accent', '#B5452A'), data = MUSEUM.css('--data', '#2F5AA1');
+  PA.frame(0, 100, 1e-3, 200, {logy:true, xticks:[0, 20, 40, 60, 80, 100], yticks:[1e-3, 1e-2, 0.1, 1, 10, 100], yfmt:v => String(v), xlab:'altitude, km'});
+  const air = []; for(let h = 0; h <= 100; h += 1) air.push([h, pAir(h)/1000]);
+  PA.line(air, ink, 1.6); PA.hline(S.pe1d/1000, accent); PA.text(2, S.pe1d/1000*1.5, 'exit ' + fmt(S.pe1d/1000, S.pe1d < 1e4 ? 1 : 0) + ' kPa', accent);
+  PA.text(60, pAir(55)/1000*2, 'outside air', faint);
+  const dh = designAlt(); if(dh > 0) PA.vline(dh, accent, 'design ' + fmt(dh, 1) + ' km');
+  PA.vline(P.alt, data); PA.dot(P.alt, S.pa/1000, data);
+  const pts = [], opt = []; let lo = 1e9, hi = 0;
+  for(let h = 0; h <= 100; h += 1){ const c = perf(pAir(h)).cf*S.cs/9.80665, o = ispOpt(h); pts.push([h, c]); opt.push([h, o]); lo = Math.min(lo, c); hi = Math.max(hi, o); }
+  lo = Math.max(0, Math.floor((lo - 10)/50)*50); hi = Math.ceil((hi + 10)/50)*50;
+  const stepY = hi - lo > 300 ? 100 : 50;
+  const yt = []; for(let v = lo; v <= hi; v += stepY) yt.push(v);
+  PB.frame(0, 100, lo, hi, {xticks:[0, 20, 40, 60, 80, 100], yticks:yt, xlab:'altitude, km'});
+  PB.line(opt, faint, 1.2, [4, 3]); PB.line(pts, ink, 1.6);
+  let hSep = -1; for(let h = 0; h <= 100; h += 0.5){ if(perf(pAir(h)).sepState === 'sep') hSep = h; else if(hSep >= 0) break; }
+  if(hSep >= 0) PB.vline(hSep, accent, 'separated below ' + fmt(hSep, 0) + ' km');
+  PB.vline(P.alt, data); PB.dot(P.alt, S.isp, data, fmt(S.isp, 0) + ' s');
+}
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, hudAt = 0, roAt = 0, plotAt = 0, lastMode = '';
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, Math.max(0, raw)); last = now;
+  t += dt*(GL.reducedMotion ? 0.3 : 1);
+  if(P.climb){ P.alt += dt*1.4; if(P.alt >= 100){ P.alt = 100; P.climb = false; climbBtn.setAttribute('aria-pressed', 'false'); } altEl.value = P.alt; document.querySelector('output[for="alt"]').textContent = P.alt.toFixed(1) + ' km'; }
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height;
+  if(ov.width !== W || ov.height !== H){ ov.width = W; ov.height = H; }
+  const S = solve();
+  const x0 = -0.16*P.zoom;
+  gl.useProgram(prog.p);
+  gl.uniform2f(prog.u.uRes, W, H); gl.uniform1f(prog.u.uT, t); gl.uniform1f(prog.u.uZoom, P.zoom); gl.uniform1f(prog.u.uX0, x0);
+  gl.uniform1f(prog.u.uEps, P.eps); gl.uniform1f(prog.u.uTheta, S.theta); gl.uniform1f(prog.u.uDj, Math.min(S.Dj, 40)); gl.uniform1f(prog.u.uL, Math.min(S.L, 400));
+  gl.uniform1f(prog.u.uXMach, S.xMach); gl.uniform1f(prog.u.uMach, S.mode === 'under' && S.ratio > 2.0 ? 1 : 0);
+  gl.uniform1f(prog.u.uSep, S.sep ? 1 : 0); gl.uniform1f(prog.u.uRatio, S.ratio); gl.uniform1f(prog.u.uR0, S.r0); gl.uniform1f(prog.u.uSX, S.sx);
+  gl.uniform1f(prog.u.uAir, Math.min(1, Math.pow(S.pa/101325, 0.35))); gl.uniform1f(prog.u.uSoot, S.pr.soot);
+  gl.uniform1f(prog.u.uDiag, P.diag ? 1 : 0.25); gl.uniform1f(prog.u.uMode, S.mode === 'ideal' ? 0.6 : 1);
+  gl.uniform3fv(prog.u.uCore, S.pr.core); gl.uniform3fv(prog.u.uGlow, S.pr.glow);
+  GLX.pass(gl, vao, prog, null, W, H, {});
+
+  /* overlay: scale in exit diameters, labels */
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, W, H);
+  const dpr = W/Math.max(1, cv.getBoundingClientRect().width), f = Math.round(10*dpr), pxPer = W/P.zoom, X = x => (x - x0)*pxPer;
+  octx.font = f + 'px "IBM Plex Mono", monospace'; octx.fillStyle = 'rgba(236,234,228,0.55)'; octx.textAlign = 'center';
+  const step = P.zoom > 24 ? 5 : P.zoom > 10 ? 2 : 1;
+  for(let k = 0; k * step <= P.zoom; k++){ const x = X(k*step); if(x > W) break; octx.fillRect(x, H - f*2.6, Math.max(1, dpr*0.8), f*0.7); if(k) octx.fillText(k*step + ' D', x, H - f*1.1); }
+  octx.textAlign = 'left'; octx.fillText('EXIT', X(0) + f*0.4, H - f*1.1);
+  if(S.mode === 'under' && S.ratio > 2 && S.xMach < P.zoom*0.84){ octx.fillStyle = 'rgba(255,255,255,0.75)'; octx.textAlign = 'center'; octx.fillText('MACH DISK', X(S.xMach), H/2 - S.Dj*0.5*pxPer*0.42 - f*1.2); }
+  if(S.sepState !== 'none'){ octx.fillStyle = 'rgba(255,140,110,0.9)'; octx.textAlign = 'left'; octx.fillText(S.sep ? 'FLOW SEPARATES INSIDE THE NOZZLE' : 'AT THE EDGE OF SEPARATION', X(-0.9), H/2 - 0.5*pxPer - f*1.6); }
+
+  if(now - hudAt > 150){
+    hudAt = now;
+    const e = ENGINES[P.engine];
+    hud.tl.textContent = (P.custom ? 'YOUR ENGINE' : e.name) + ' · ' + S.pr.name.toUpperCase() + '\n' + P.alt.toFixed(1) + ' KM · OUTSIDE ' + (S.pa >= 1000 ? fmt(S.pa/1000, 1) + ' KPA' : fmt(S.pa, S.pa < 1 ? 3 : 1) + ' PA');
+    hud.tr.textContent = (S.sep ? 'SEPARATED FLOW' : S.sepState === 'near' ? 'OVER-EXPANDED · EDGE OF SEPARATION' : S.mode === 'ideal' ? 'IDEALLY EXPANDED' : S.mode === 'under' ? 'UNDER-EXPANDED' : 'OVER-EXPANDED') + '\nEXIT ÷ OUTSIDE ' + (S.ratio < 100 ? fmt(S.ratio, 2) : MUSEUM.sci(S.ratio, 1));
+    if(S.mode + S.sepState !== lastMode){ lastMode = S.mode + S.sepState; showLabel(); }
+  }
+  if(now - roAt > 250){
+    roAt = now;
+    R.pa.set(S.pa >= 1000 ? fmt(S.pa/1000, 2) + ' kPa' : fmt(S.pa, S.pa < 1 ? 4 : 1) + ' Pa', 'US Standard Atmosphere 1976');
+    R.pe.set(fmt(S.pe1d/1000, 2) + ' kPa', 'one-dimensional average; chamber ' + fmt(P.pc/1e6, 1) + ' MPa');
+    R.ratio.set(S.ratio < 100 ? fmt(S.ratio, 2) : MUSEUM.sci(S.ratio, 1), S.sepState === 'sep' ? 'separates (Schmucker limit ' + fmt(S.schm, 2) + '); jet leaves the wall at ' + fmt(S.epsEff, 1) + ' : 1' : S.sepState === 'near' ? 'just below Schmucker\'s ' + fmt(S.schm, 2) + ': at the edge' : S.mode === 'ideal' ? 'matched to the air' : S.mode === 'under' ? 'under-expanded' : 'over-expanded');
+    R.me.set(fmt(S.Me1d, 2), S.sep ? 'jet leaves the wall at Mach ' + fmt(S.Me, 2) : 'from the area ratio ' + fmt(P.eps, P.eps < 30 ? 1 : 0) + ' : 1');
+    R.mj.set(S.Mj >= 14 ? '> 14' : fmt(S.Mj, 2), 'jet ' + (S.Dj > 40 ? '> 40' : fmt(S.Dj, 2)) + ' × exit diameter once matched');
+    R.angle.set((S.theta >= 0 ? '+' : '−') + fmt(Math.abs(S.theta)*180/Math.PI, 1) + '°', S.theta >= 0 ? 'outward, Prandtl–Meyer expansion' : 'inward, oblique shock at the lip');
+    R.cell.set(S.L > 400 ? 'off the scale' : fmt(S.L, 2) + ' D', S.L > 400 ? '' : '≈ ' + fmt(S.L*P.De, 1) + ' m, 1.22·Dj·√(Mj² − 1)');
+    R.mach.set(S.mode === 'under' && S.ratio > 2 ? fmt(S.xMach, 1) + ' D' : '–', S.mode === 'under' && S.ratio > 2 ? '0.67·D*·√(pc/pa), ≈ ' + fmt(S.xMach*P.De, 1) + ' m' : 'forms in strongly under-expanded jets');
+    R.isp.set(fmt(S.isp, 0) + ' s', (S.sep ? 'nozzle cut at the separation point; ' : 'ideal, no losses; ') + 'vacuum ' + fmt(cF(P.eps, S.g, P.pc, 0).cf*S.cs/9.80665, 0) + ' s');
+    R.cf.set(fmt(S.cf, 3), 'thrust ÷ (chamber pressure × throat area)');
+    const dh = designAlt(); R.design.set(dh > 0 ? fmt(dh, 1) + ' km' : 'below sea level', 'where exit pressure = outside pressure');
+    R.gas.set('γ ' + fmt(S.g, 2) + ' · c* ' + fmt(S.cs, 0) + ' m/s', S.pr.name + ', ' + fmt(S.pr.Tc, 0) + ' K, ' + fmt(S.pr.Mw, 1) + ' g/mol (typical)');
+    updateSound(S);
+  }
+  if(plotDirty || now - plotAt > (P.climb ? 120 : 600)){ plotAt = now; plotDirty = false; drawPlots(S); }
+}
+applyEngine('rs25');
+MUSEUM.install('inst', stage, () => { document.getElementById('label').classList.add('on'); P.alt = 0; P.climb = true; climbBtn.setAttribute('aria-pressed', 'true'); }, s => {
+  if(!P.climb && P.alt >= 100){ const ks = Object.keys(ENGINES), k = ks[(ks.indexOf(P.engine) + 1) % ks.length]; applyEngine(k); P.alt = 0; P.climb = true; climbBtn.setAttribute('aria-pressed', 'true'); }
+});
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{solve, applyEngine, pAir, cF, designAlt}});
+window.addEventListener('resize', () => { plotDirty = true; });
+})();
+</script>
+</body>
+</html>

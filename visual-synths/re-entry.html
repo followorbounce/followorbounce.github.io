@@ -1,0 +1,856 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Re-entry — Video Synths</title>
+<meta name="description" content="A capsule's heat shield in the plasma it makes, driven by a real entry simulation: speed, altitude and deceleration integrated step by step, stagnation heating from Sutton–Graves, the shield's glow from its radiative-equilibrium temperature, the shock wave from Billig's correlation. Apollo 11, Stardust, Apollo 7. WebGL 2 study with sound.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/re-entry">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Re-entry — Video Synths">
+<meta property="og:description" content="A capsule's heat shield in the plasma it makes, driven by a real entry simulation: speed, altitude and deceleration integrated step by step, stagnation heating from Sutton–Graves, the shield's glow from its radiative-equilibrium temperature, the shock wave from Billig's correlation. Apollo 11, Stardust, Apollo 7. WebGL 2 study with sound.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/re-entry">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+/* museum panels for the aerospace pieces: readouts, plots, wall label, installation mode */
+:root{--accent:#B5452A; --data:#2F5AA1;}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#E07A5F; --data:#8FB0E8; } }
+:root[data-theme="dark"]{ --accent:#E07A5F; --data:#8FB0E8; }
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong); margin-top:18px;}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:10px 12px 11px; min-width:0;}
+.readouts .k{font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-family:var(--font-display); font-weight:700; font-size:1.18rem; line-height:1.25; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--ink); overflow-wrap:anywhere;}
+.readouts .s{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+.src-tag{font-size:8.5px; letter-spacing:.1em; padding:0 4px; border:1px solid currentColor; border-radius:2px; line-height:1.5; white-space:nowrap;}
+.src-tag.data{color:var(--data);} .src-tag.model{color:var(--accent);} .src-tag.drawn{color:var(--ink-faint);}
+.plots{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin-top:16px;}
+.plot{border:1px solid var(--line-strong); background:var(--paper-raised); min-width:0;}
+.plot .cap{display:flex; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); padding:8px 10px 0;}
+.plot canvas{display:block; width:100%; height:190px; touch-action:pan-y;}
+.plot .note{font-size:10.5px; color:var(--ink-faint); padding:0 10px 8px;}
+.stage .wall-label{position:absolute; left:14px; bottom:14px; max-width:min(440px, calc(100% - 28px)); background:rgba(0,0,0,.78); color:#ECEAE4; border-left:2px solid #fff; padding:11px 14px 12px; font-family:var(--font-display); font-weight:500; font-size:12.5px; line-height:1.55; display:none; z-index:3;}
+.stage .wall-label.on{display:block;}
+.stage .wall-label b{display:block; font-family:var(--font-mono); font-weight:500; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage canvas.overlay{pointer-events:none;}
+.stage.installing, .stage.installing canvas{cursor:none;}
+.stage.installing .wall-label{font-size:clamp(13px,1.2vw,19px); max-width:min(640px, 46%);}
+.stage.installing .hud{font-size:clamp(10px,0.9vw,15px);}
+.sources{font-size:12px;}
+.sources li{margin-bottom:6px;}
+.sources a{overflow-wrap:anywhere;}
+.guide-link{display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; text-decoration:none; color:var(--ink);}
+.guide-link:hover{border-color:var(--ink);}
+@media (max-width:640px){ .stage .wall-label{font-size:11.5px; left:10px; bottom:10px; padding:8px 10px;} .readouts .v{font-size:1.02rem;} }
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from re-entry.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Aerospace piece 04 · Long cycles</div>
+    <h1>Re-entry</h1>
+    <p>A capsule meets the top of the atmosphere at eleven or twelve kilometres a second. It cannot slow down by itself, so it lets the air do it: a shock wave stands just in front of the blunt heat shield, the air behind it becomes plasma, and most of the energy goes into that air instead of the capsule. What reaches the shield still makes it glow. Here the flight is computed second by second from the entry speed and angle, and the light on the stage follows the computed heating.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage">
+    <canvas id="gl" aria-label="A capsule seen from the side, flying to the left inside a glowing shock layer, with a wake of sparks streaming behind it."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="wall-label" id="label"><b id="labelHead"></b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <span class="lab">Flight</span>
+      <div class="seg" id="preset">
+        <button data-v="a11">Apollo 11</button>
+        <button data-v="sd">Stardust</button>
+        <button data-v="a7">Apollo 7, from orbit</button>
+      </div>
+      <label for="ve">Entry speed <output for="ve"></output></label>
+      <input id="ve" type="range" min="6" max="16" step="0.01">
+      <label for="ga">Entry angle <output for="ga"></output></label>
+      <input id="ga" type="range" min="1" max="20" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="beta">Ballistic coefficient <output for="beta"></output></label>
+      <input id="beta" type="range" min="1" max="3" step="0.01">
+      <label for="rn">Nose radius <output for="rn"></output></label>
+      <input id="rn" type="range" min="-1" max="1" step="0.01">
+      <label for="ld">Lift ÷ drag <output for="ld"></output></label>
+      <input id="ld" type="range" min="0" max="0.5" step="0.01">
+    </div>
+    <div class="ctl">
+      <label for="tsc">Time runs <output for="tsc"></output></label>
+      <input id="tsc" type="range" min="0" max="2" step="0.01">
+      <label for="scrub">Moment of the flight <output for="scrub"></output></label>
+      <input id="scrub" type="range" min="0" max="1" step="0.001">
+      <div class="row"><button class="btn" id="pause">Pause</button><button class="btn" id="peak">Go to peak heating</button></div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Room</span>
+      <div class="row">
+        <button class="btn" id="snd">Sound</button>
+        <button class="btn" id="lab">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Changing a slider makes it your own entry and recomputes the whole flight. Lift is steered to stop the capsule climbing back out; set lift ÷ drag to 0 for a purely ballistic fall. Sound starts only when you press Sound.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span>Altitude against speed</span><span>the whole flight</span></div><canvas id="plotA"></canvas><div class="note">Read it from right to left: the capsule enters fast and high and slows as it sinks. Colour: heating along the way.</div></div>
+    <div class="plot"><div class="cap"><span>Heating and deceleration</span><span>against time</span></div><canvas id="plotB"></canvas><div class="note">Solid: stagnation heat flux. Dashed: deceleration in g. Heating peaks first, at higher speed; deceleration peaks a little later and lower.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>The flight.</strong> The capsule is a point mass over a round, non-rotating Earth. From the entry interface at 122 km, the page integrates speed, flight-path angle and altitude with fourth-order Runge–Kutta steps of a tenth of a second: drag <code>ρv²/(2β)</code> per unit mass, where β = m/(C<sub>D</sub>A) is the ballistic coefficient, lift as a fraction of drag, and gravity falling off with height. Lift points up while the capsule descends and is rolled towards down as its path flattens and starts to climb, which stops it from skipping back out: a crude stand-in for Apollo's guidance, which steered the lift by rolling the capsule. Air density comes from the US Standard Atmosphere 1976 up to 86 km and its tabulated values above (5.6 × 10⁻⁷ kg/m³ at 100 km, 2.2 × 10⁻⁸ at 120 km). The flight ends at 15 km, roughly where parachutes take over, or when the capsule skips back out.</p>
+  <p><strong>Heating.</strong> The heat flux at the nose is Sutton and Graves' stagnation-point formula <code>q = k·√(ρ/r<sub>n</sub>)·v³</code> with k = 1.7415 × 10⁻⁴ for air, as in the guide. It is convective heating only: above about 10 km/s the hot gas also radiates onto the shield, which this does not include. The guide's check: Apollo 11's measured peak was 3.2 MW/m² with 301 MJ/m² absorbed over the entry.</p>
+  <p><strong>Glow.</strong> If the surface had to get rid of all the incoming heat by radiating it, its temperature would be <code>T = (q/εσ)<sup>1/4</sup></code> with emissivity ε = 0.85. The shield's colour on the stage is the colour of a black body at that temperature, computed from Planck's law and the CIE 1931 colour-matching functions and converted to screen colour. A real ablator runs cooler than this, because the charring and vaporising material carries heat away; that is why it works.</p>
+  <p><strong>The shock.</strong> The bow shock's distance in front of the nose and its curved shape come from Billig's correlations for blunt bodies: standoff <code>Δ/R = 0.143·e<sup>3.24/M²</sup></code>, a hyperbola whose far branches approach the Mach angle. In reality the hot, dissociated air behind the shock is denser than an ideal gas would be and the shock sits closer, so this is an upper estimate. The plasma's light and the wake of sparks are drawn, scaled by the computed heating; they are not a spectrum.</p>
+  <h3>Lineage</h3>
+  <p>A study in long cycles and slow light: one object, one event lasting minutes, a colour that rises to white and falls back to red. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The lift steering is a simple rule, not Apollo's guidance; the real Apollo 11 entry peaked at 6.6 g on a trajectory shaped to reach a chosen landing point. Held fully up all the way, Apollo 11's lift would have carried it back out of the atmosphere.</li>
+    <li>The computed heat flux for Apollo 11 is about half the measured 3.2 MW/m²: at 11 km/s the glowing shock layer also radiates onto the shield (not included), and Apollo flew tilted, so the hottest point sat closer to the shield's edge, where the local curvature is tighter.</li>
+    <li>Stardust's 8.2° entry angle is an illustrative assumption, as in the guide. Masses and drag coefficients behind the ballistic coefficients are approximate public values (Apollo about 350 kg/m², Stardust about 60 kg/m²). Shapes: Apollo's shield is a spherical cap of 4.69 m radius on a 3.9 m body; Stardust's is a 60° cone with a 0.22 m nose on a 0.81 m body.</li>
+    <li>No radiative heating, no ablation, no Earth rotation; the wall temperature ignores the heat stored in the shield.</li>
+    <li>The glow changes smoothly; nothing flashes. Reduced motion slows the flight.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>K. Sutton, R. A. Graves (1971), "A general stagnation-point convective heating equation for arbitrary gas mixtures", NASA TR R-376.</li>
+    <li>F. S. Billig (1967), "Shock-wave shapes around spherical- and cylindrical-nosed bodies", Journal of Spacecraft and Rockets 4(6).</li>
+    <li>H. J. Allen, A. J. Eggers (1958), NACA Report 1381.</li>
+    <li>U.S. Standard Atmosphere, 1976. CIE 1931 colour-matching functions, analytic fit by C. Wyman, P.-P. Sloan, P. Shirley (2013).</li>
+    <li>Entry speeds and angles of Apollo 7 and Apollo 11, and Apollo 11's measured heating, as cited in the guide; Stardust 12.9 km/s (NASA).</li>
+  </ul>
+  <a class="guide-link" href="/aerospace/entry-heat-shields">Read the guide: ENTRY — Heat Shields →</a>
+</section>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR')};
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This piece needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* ---------------- atmosphere: US Standard Atmosphere 1976 ---------------- */
+const ATM_H = [0, 11000, 20000, 32000, 47000, 51000, 71000, 84852], ATM_L = [-0.0065, 0, 0.001, 0.0028, 0, -0.0028, -0.002], GMR = 0.034163195;
+const ATM_T = [288.15], ATM_P = [101325];
+for(let i = 1; i < ATM_H.length; i++){ const L = ATM_L[i - 1], dh = ATM_H[i] - ATM_H[i - 1]; ATM_T[i] = ATM_T[i - 1] + L*dh; ATM_P[i] = L === 0 ? ATM_P[i - 1]*Math.exp(-GMR*dh/ATM_T[i - 1]) : ATM_P[i - 1]*Math.pow(ATM_T[i - 1]/ATM_T[i], GMR/L); }
+const HI = [[86000, 6.958e-6, 186.9], [100000, 5.604e-7, 195.1], [120000, 2.222e-8, 360.0], [150000, 2.076e-9, 634.4]];   // US76 tabulated density and temperature above 86 km
+function air(h){
+  if(h >= 86000){
+    let i = 0; while(i < HI.length - 2 && h >= HI[i + 1][0]) i++;
+    const a = HI[i], b = HI[i + 1], u = (h - a[0])/(b[0] - a[0]);
+    return {rho: a[1]*Math.pow(b[1]/a[1], u), T: a[2] + (b[2] - a[2])*u};
+  }
+  const H = 6356766*h/(6356766 + h);
+  let i = 0; while(i < 6 && H >= ATM_H[i + 1]) i++;
+  const L = ATM_L[i], T = ATM_T[i] + L*(H - ATM_H[i]);
+  const p = L === 0 ? ATM_P[i]*Math.exp(-GMR*(H - ATM_H[i])/ATM_T[i]) : ATM_P[i]*Math.pow(ATM_T[i]/T, GMR/L);
+  return {rho: p*0.0289644/(8.3144598*T), T};
+}
+
+/* ---------------- entry simulation ---------------- */
+const MU = 3.986004418e14, RE = 6371000, G0 = 9.80665, KSG = 1.7415e-4, SIGMA = 5.670374e-8, EMIS = 0.85;
+function simulate(c){
+  const out = [], dt = 0.1;
+  let v = c.ve*1000, g = -c.gam*Math.PI/180, h = 122000, t = 0, Q = 0;
+  const f = (v, g, h) => {
+    const a = air(h), r = RE + h, gr = MU/(r*r), D = a.rho*v*v/(2*c.beta);
+    const steer = c.steer ? Math.max(-1, Math.min(1, -(g + 0.002)/0.006)) : 1;   // lift up while descending, rolled down as the path turns upward
+    const L = c.ld*D*steer;
+    return [-D - gr*Math.sin(g), (L - (gr - v*v/r)*Math.cos(g))/v, v*Math.sin(g)];
+  };
+  let skipped = false, peakQ = 0, peakA = 0, iQ = 0, iA = 0;
+  for(let k = 0; k < 40000; k++){
+    const a = air(h), q = KSG*Math.sqrt(a.rho/c.rn)*v*v*v, dec = a.rho*v*v/(2*c.beta)*Math.sqrt(1 + c.ld*c.ld);
+    const Tw = Math.pow(q/(EMIS*SIGMA), 0.25), mach = v/Math.sqrt(1.4*287.05*a.T);
+    out.push({t, v, g, h, q, Q, dec, Tw, mach, rho:a.rho});
+    if(q > peakQ){ peakQ = q; iQ = out.length - 1; }
+    if(dec > peakA){ peakA = dec; iA = out.length - 1; }
+    if(h < 15000 || v < 300) break;
+    if(h > 125000 && g > 0){ skipped = true; break; }
+    const k1 = f(v, g, h), k2 = f(v + k1[0]*dt/2, g + k1[1]*dt/2, h + k1[2]*dt/2), k3 = f(v + k2[0]*dt/2, g + k2[1]*dt/2, h + k2[2]*dt/2), k4 = f(v + k3[0]*dt, g + k3[1]*dt, h + k3[2]*dt);
+    v += dt/6*(k1[0] + 2*k2[0] + 2*k3[0] + k4[0]); g += dt/6*(k1[1] + 2*k2[1] + 2*k3[1] + k4[1]); h += dt/6*(k1[2] + 2*k2[2] + 2*k3[2] + k4[2]);
+    Q += q*dt; t += dt;
+  }
+  return {pts:out, skipped, peakQ, peakA, iQ, iA, Q};
+}
+/* Allen–Eggers (the guide's closed form, ballistic, exponential air): peak deceleration */
+function allenEggersPeak(ve, gamDeg){ return ve*1000*ve*1000*Math.sin(gamDeg*Math.PI/180)/(2*Math.E*7200); }
+
+/* ---------------- blackbody colour: Planck x CIE 1931 (Wyman et al. 2013 fit) -> linear sRGB ---------------- */
+function g3(x, a, m, s1, s2){ const t = (x - m)/(x < m ? s1 : s2); return a*Math.exp(-0.5*t*t); }
+function cie(l){ return [g3(l, 1.056, 599.8, 37.9, 31.0) + g3(l, 0.362, 442.0, 16.0, 26.7) + g3(l, -0.065, 501.1, 20.4, 26.2),
+  g3(l, 0.821, 568.8, 46.9, 40.5) + g3(l, 0.286, 530.9, 16.3, 31.1), g3(l, 1.217, 437.0, 11.8, 36.0) + g3(l, 0.681, 459.0, 26.0, 13.8)]; }
+function blackbody(T){
+  let X = 0, Y = 0, Z = 0;
+  for(let l = 380; l <= 780; l += 5){ const lm = l*1e-9, B = 1/(Math.pow(lm, 5)*(Math.exp(1.4387769e-2/(lm*T)) - 1)), c = cie(l); X += B*c[0]; Y += B*c[1]; Z += B*c[2]; }
+  const r = 3.2406*X - 1.5372*Y - 0.4986*Z, gg = -0.9689*X + 1.8758*Y + 0.0415*Z, b = 0.0557*X - 0.2040*Y + 1.0570*Z;
+  const m = Math.max(r, gg, b);
+  return {rgb:[Math.max(0, r/m), Math.max(0, gg/m), Math.max(0, b/m)], Y};
+}
+const BB = []; for(let T = 500; T <= 4000; T += 50) BB.push(blackbody(T));
+const Y3000 = blackbody(3000).Y;
+function bbAt(T){ const i = Math.max(0, Math.min(BB.length - 1.001, (T - 500)/50)), j = Math.floor(i), u = i - j; const a = BB[j], b = BB[j + 1]; return {rgb:a.rgb.map((v, k) => v*(1 - u) + b.rgb[k]*u), Y:a.Y*(1 - u) + b.Y*u}; }
+
+/* ---------------- presets ---------------- */
+const PRESETS = {
+  a11:{name:'Apollo 11', ve:11.03, gam:6.48, beta:350, rn:4.69, ld:0.3, shape:'apollo', rb:1.955, note:'24 July 1969, Pacific Ocean'},
+  sd:{name:'Stardust', ve:12.9, gam:8.2, beta:60, rn:0.22, ld:0, shape:'stardust', rb:0.405, note:'15 January 2006, Utah: the fastest return to Earth'},
+  a7:{name:'Apollo 7', ve:7.88, gam:2.07, beta:350, rn:4.69, ld:0.3, shape:'apollo', rb:1.955, note:'22 October 1968, from Earth orbit'}
+};
+const P = {steer:true, preset:'a11', ve:11.03, gam:6.48, logbeta:Math.log10(350), logrn:Math.log10(4.69), ld:0.3, tsc:Math.log10(20), scrub:0, paused:false, shape:'apollo', rb:1.955};
+let SIM = null, tSim = 0;
+
+/* ---------------- shader ---------------- */
+const FS = `#version 300 es
+precision highp float;
+in vec2 vUv; out vec4 o;
+float sq(float x){ return x*x; }
+uniform vec2 uRes; uniform float uT, uScale;          // px per metre
+uniform vec2 uC;                                      // capsule nose position (px)
+uniform float uRn, uRb, uCone, uLen, uFore;           // nose radius, body radius, afterbody taper, afterbody length (m), forebody cone half-angle
+uniform float uDelta, uRc, uBeta;                     // shock standoff (m), shock vertex curvature radius (m), Mach angle (rad)
+uniform vec3 uWall; uniform float uWallI, uHeat, uSheath, uWake, uPitch;
+uniform vec3 uPlasma;
+${GL.NOISE}
+float h1(vec2 p){ return fract(sin(dot(p, vec2(12.9898, 78.233)))*43758.5453); }
+// capsule in body coordinates: x along the flight direction (nose at x = 0, body extends to +x), y up.
+// Forebody: a spherical cap (uFore = 0, Apollo) or a sphere-cone of half-angle uFore (Stardust). Returns the signed distance.
+float shoulderX(){
+  if(uFore <= 0.0) return uRn - sqrt(max(uRn*uRn - uRb*uRb, 0.0));
+  float xt = uRn*(1.0 - sin(uFore)), yt = uRn*cos(uFore);
+  return xt + (uRb - yt)/tan(uFore);
+}
+float capsule(vec2 q){
+  vec2 p = vec2(q.x, abs(q.y));
+  float fore;
+  if(uFore <= 0.0) fore = length(p - vec2(uRn, 0.0)) - uRn;
+  else {
+    vec2 T = vec2(uRn*(1.0 - sin(uFore)), uRn*cos(uFore)), u = vec2(sin(uFore), cos(uFore))*vec2(1.0, 1.0);
+    vec2 dir = vec2(cos(uFore), sin(uFore)), nrm = vec2(-sin(uFore), cos(uFore));
+    fore = dot(p - T, dir) < 0.0 ? length(p - vec2(uRn, 0.0)) - uRn : dot(p - T, nrm);
+  }
+  float xs = shoulderX();
+  float yc = uRb - max(p.x - xs, 0.0)*tan(uCone);
+  float side = p.y - max(yc, 0.02*uRb);
+  float back = p.x - (xs + uLen);
+  return max(max(max(fore, side), back), -p.x);
+}
+void main(){
+  vec2 frag = gl_FragCoord.xy;
+  vec2 q = (frag - uC)/uScale;                // metres, nose at origin
+  float cs = cos(uPitch), sn = sin(uPitch);
+  q = vec2(cs*q.x + sn*q.y, -sn*q.x + cs*q.y);
+  float y = abs(q.y);
+  float d = capsule(q);
+  vec3 c = vec3(0.0);
+  // bow shock (Billig): x_s(y) = -Delta + Rc*cot^2(beta)*(sqrt(1 + y^2 tan^2(beta)/Rc^2) - 1), measured ahead of the nose
+  float tb = tan(uBeta);
+  float xs = -uDelta + uRc/(tb*tb)*(sqrt(1.0 + y*y*tb*tb/(uRc*uRc)) - 1.0);
+  float ds = (q.x - xs);
+  float px = 1.0/uScale;
+  float shock = exp(-sq(ds/(1.5*px + 0.004*uRn)))*exp(-y/(uRb*3.5));
+  // shock layer: between the shock and the body, brightest at the stagnation region
+  float layer = smoothstep(-2.0*px, 4.0*px, ds)*smoothstep(-px, 2.0*px, d)*exp(-max(q.x - shoulderX(), 0.0)/(uRb*0.3));
+  float stag = exp(-y/(uRb*0.7));
+  float turbS = 0.75 + 0.25*fbm(vec3(q*6.0/uRb, uT*1.3));
+  c += uPlasma*layer*uSheath*(0.12 + 0.88*stag)*turbS;
+  c += mix(uPlasma, vec3(1.0), 0.5)*shock*uSheath*0.6;
+  // wake: hot gas and sparks streaming behind (towards +x)
+  float behind = q.x - shoulderX();
+  if(behind > 0.0){
+    float w = uRb*(0.75 + 0.18*behind/uRb);
+    float wake = exp(-sq(y/w))*exp(-behind/(uRb*14.0));
+    float streak = fbm(vec3(q.x/uRb*0.5 - uT*5.0, q.y/uRb*4.0, uT*0.5));
+    c += mix(uPlasma, vec3(1.0, 0.5, 0.25), 0.5)*wake*sq(streak)*uWake*0.45*smoothstep(0.0, uRb*0.8, behind)*step(0.0, d);
+    vec2 gq = vec2(q.x/uRb*30.0 - uT*55.0, q.y/uRb*30.0), cell = floor(gq), fr = fract(gq) - 0.5;
+    vec2 jit = vec2(h1(cell + 7.1), h1(cell + 3.3)) - 0.5;
+    float ember = step(0.93, h1(cell))*exp(-dot(fr - jit*0.6, fr - jit*0.6)*90.0)*wake*uWake;
+    c += vec3(1.0, 0.62, 0.3)*ember*1.6;
+  }
+  // the capsule: dark body, shield glowing with its radiative-equilibrium colour
+  float inside = smoothstep(px, -px, d);
+  float onShield = smoothstep(uRb*0.012 + 2.0*px, 0.0, abs(d))*step(q.x, shoulderX() + px*2.0);
+  c = mix(c, vec3(0.012), inside);
+  c += uWall*uWallI*(onShield*1.6 + inside*exp(-q.x/(uRn*0.05 + 3.0*px))*0.8);
+  c += uWall*uWallI*exp(-max(d, 0.0)/(uRb*0.15))*0.15*step(q.x, 0.2*uRb);
+  // faint silhouette edge so the body reads when cold
+  c += vec3(0.16)*exp(-sq(d/(1.2*px)))*(1.0 - smoothstep(0.0, 0.4, uHeat));
+  c = c/(1.0 + c*0.3);
+  c = pow(max(c, 0.0), vec3(0.4545)) + (h1(frag + fract(uT)*31.0) - 0.5)*0.012;
+  o = vec4(c, 1.0);
+}`;
+let prog;
+try { prog = GL.program(gl, GLX.VS, FS); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+
+/* ---------------- readouts ---------------- */
+const R = MUSEUM.readouts('ro', [
+  ['t', 'Time since entry', 'model'], ['h', 'Altitude', 'model'], ['v', 'Speed', 'model'], ['mach', 'Mach number', 'model'],
+  ['dec', 'Deceleration', 'model'], ['q', 'Heat flux at the nose', 'model'], ['Q', 'Heat absorbed so far', 'model'], ['tw', 'Shield, radiative equilibrium', 'model'],
+  ['shock', 'Shock standoff', 'model'], ['rho', 'Air density', 'model'], ['beta', 'Ballistic coefficient', 'model'], ['check', 'Check against the guide', 'data']
+]);
+const fmt = MUSEUM.fmt;
+
+/* ---------------- controls ---------------- */
+const els = {};
+const setPreset = GL.seg('preset', P.preset, v => applyPreset(v));
+els.ve = GL.slider('ve', P, 've', v => v.toFixed(2) + ' km/s');
+els.ga = GL.slider('ga', P, 'gam', v => '−' + v.toFixed(2) + '°');
+els.beta = GL.slider('beta', P, 'logbeta', v => Math.round(Math.pow(10, v)) + ' kg/m²');
+els.rn = GL.slider('rn', P, 'logrn', v => Math.pow(10, v).toFixed(2) + ' m');
+els.ld = GL.slider('ld', P, 'ld', v => v.toFixed(2));
+GL.slider('tsc', P, 'tsc', v => '×' + Math.round(Math.pow(10, v)));
+const scrubEl = GL.slider('scrub', P, 'scrub', v => SIM ? fmt(v*SIM.pts[SIM.pts.length - 1].t, 0) + ' s' : '');
+scrubEl.addEventListener('input', () => { if(SIM) tSim = P.scrub*SIM.pts[SIM.pts.length - 1].t; });
+let rT = 0;
+Object.values(els).forEach(el => el.addEventListener('input', () => { P.preset = 'custom'; setPreset(''); clearTimeout(rT); rT = setTimeout(() => { run(false); showLabel(); }, 80); }));
+function syncSliders(){
+  [['ve', 've', v => v.toFixed(2) + ' km/s'], ['ga', 'gam', v => '−' + v.toFixed(2) + '°'], ['beta', 'logbeta', v => Math.round(Math.pow(10, v)) + ' kg/m²'], ['rn', 'logrn', v => Math.pow(10, v).toFixed(2) + ' m'], ['ld', 'ld', v => v.toFixed(2)]]
+    .forEach(a => { els[a[0]].value = P[a[1]]; document.querySelector('output[for="' + a[0] + '"]').textContent = a[2](P[a[1]]); });
+}
+function applyPreset(k){
+  const p = PRESETS[k]; if(!p) return;
+  Object.assign(P, {preset:k, ve:p.ve, gam:p.gam, logbeta:Math.log10(p.beta), logrn:Math.log10(p.rn), ld:p.ld, shape:p.shape, rb:p.rb});
+  setPreset(k); syncSliders(); run(true); showLabel();
+}
+const pauseBtn = document.getElementById('pause');
+pauseBtn.addEventListener('click', () => { P.paused = !P.paused; pauseBtn.setAttribute('aria-pressed', String(P.paused)); pauseBtn.textContent = P.paused ? 'Play' : 'Pause'; });
+document.getElementById('peak').addEventListener('click', () => { if(SIM) tSim = SIM.pts[SIM.iQ].t; });
+GL.fullscreen('fs', stage);
+MUSEUM.label('lab', 'label', false);
+function showLabel(){
+  const p = PRESETS[P.preset];
+  document.getElementById('labelHead').textContent = p ? p.name + ' · ' + p.note : 'Your entry';
+  document.getElementById('labelText').textContent = !SIM ? '' : SIM.skipped ? 'Too shallow, with too much lift: the capsule dips into the air and skips back out to space.'
+    : 'Peak heating ' + fmt(SIM.peakQ/1e4, 0) + ' W/cm² at ' + fmt(SIM.pts[SIM.iQ].h/1000, 0) + ' km, where the shield would reach ' + fmt(SIM.pts[SIM.iQ].Tw, 0) + ' K if it only radiated. Peak deceleration ' + fmt(SIM.peakA/G0, 1) + ' g.';
+}
+function run(reset){
+  const c = {ve:P.ve, gam:P.gam, beta:Math.pow(10, P.logbeta), rn:Math.pow(10, P.logrn), ld:P.ld, steer:P.steer};
+  SIM = simulate(c);
+  if(reset || tSim > SIM.pts[SIM.pts.length - 1].t) tSim = 0;
+  if(P.preset === 'custom'){ P.rb = Math.min(Math.pow(10, P.logrn)*0.95, P.rb || 1.955); }
+  plotDirty = true;
+}
+function at(t){
+  const pts = SIM.pts, i = Math.min(pts.length - 2, Math.max(0, Math.floor(t/0.1))), u = Math.min(1, Math.max(0, (t - pts[i].t)/0.1)), a = pts[i], b = pts[i + 1] || a;
+  const o = {}; for(const k in a) o[k] = a[k] + (b[k] - a[k])*u; return o;
+}
+
+/* ---------------- sound: wake roar from band-limited noise, louder and brighter with dynamic pressure ---------------- */
+let voice = null;
+const soundOn = GLX.soundButton('snd', A => {
+  const ac = A.ac, n = ac.sampleRate*2, b = ac.createBuffer(1, n, ac.sampleRate), d = b.getChannelData(0);
+  let br = 0; for(let i = 0; i < n; i++){ br = 0.985*br + 0.015*(Math.random()*2 - 1); d[i] = br*6; }
+  const src = ac.createBufferSource(); src.buffer = b; src.loop = true;
+  const lp = ac.createBiquadFilter(); lp.type = 'lowpass'; lp.Q.value = 2;
+  const g = ac.createGain(); g.gain.value = 0;
+  src.connect(lp); lp.connect(g); g.connect(A.master); src.start();
+  voice = {lp, g, ac};
+});
+function updateSound(s){
+  if(!voice || !soundOn()) return;
+  const qd = 0.5*s.rho*s.v*s.v, lvl = Math.min(1, Math.log10(1 + qd)/4.6), t = voice.ac.currentTime;
+  voice.g.gain.setTargetAtTime(0.35*lvl, t, 0.15);
+  voice.lp.frequency.setTargetAtTime(120 + 2400*Math.min(1, s.q/Math.max(SIM.peakQ, 1)), t, 0.15);
+}
+
+/* ---------------- plots ---------------- */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let plotDirty = true;
+function drawPlots(s){
+  const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), accent = MUSEUM.css('--accent', '#B5452A'), data = MUSEUM.css('--data', '#2F5AA1');
+  const pts = SIM.pts, vmax = Math.ceil(P.ve + 0.5);
+  PA.frame(0, vmax, 0, 125, {xticks:[0, 2, 4, 6, 8, 10, 12, 14, 16].filter(v => v <= vmax), yticks:[0, 25, 50, 75, 100, 125], ylab:'km', xlab:'speed, km/s'});
+  const ctx = PA.ctx;
+  for(let i = 1; i < pts.length; i += 3){ const a = pts[i - 1], b = pts[i], w = Math.min(1, b.q/SIM.peakQ); ctx.strokeStyle = w > 0.05 ? 'rgba(181,69,42,' + (0.25 + 0.75*w).toFixed(2) + ')' : faint; ctx.lineWidth = 1 + 2.5*w; ctx.beginPath(); ctx.moveTo(PA.X(a.v/1000), PA.Y(a.h/1000)); ctx.lineTo(PA.X(b.v/1000), PA.Y(b.h/1000)); ctx.stroke(); }
+  PA.dot(pts[SIM.iQ].v/1000, pts[SIM.iQ].h/1000, accent, 'peak heating'); PA.dot(s.v/1000, s.h/1000, data);
+  const tEnd = pts[pts.length - 1].t, qmax = SIM.peakQ/1e4, amax = SIM.peakA/G0;
+  const qTop = Math.max(10, Math.ceil(qmax/50)*50);
+  PB.frame(0, tEnd, 0, qTop, {xticks:[0, 60, 120, 180, 240, 300, 360, 420, 480, 540, 600].filter(v => v <= tEnd), yticks:[0, qTop/2, qTop], ylab:'W/cm²', xlab:'seconds after 122 km'});
+  PB.line(pts.filter((p, i) => i % 3 === 0).map(p => [p.t, p.q/1e4]), accent, 1.8);
+  const gTop = Math.max(2, Math.ceil(amax));
+  PB.line(pts.filter((p, i) => i % 3 === 0).map(p => [p.t, p.dec/G0/gTop*qTop]), ink, 1.3, [4, 3]);
+  PB.text(tEnd, qTop*0.92, 'g (scale ' + gTop + ' g)', faint, 'right');
+  PB.vline(s.t, data);
+}
+
+/* ---------------- frame ---------------- */
+let last = performance.now(), t = 0, hudAt = 0, roAt = 0, plotAt = 0;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, Math.max(0, raw)); last = now;
+  t += dt*(GL.reducedMotion ? 0.4 : 1);
+  if(!SIM) return;
+  const tEnd = SIM.pts[SIM.pts.length - 1].t;
+  if(!P.paused){ tSim += dt*Math.pow(10, P.tsc)*(GL.reducedMotion ? 0.4 : 1); if(tSim > tEnd + 6){ tSim = 0; } }
+  const s = at(Math.min(tSim, tEnd));
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height;
+  if(ov.width !== W || ov.height !== H){ ov.width = W; ov.height = H; }
+  const rn = Math.pow(10, P.logrn), rb = P.shape === 'stardust' ? P.rb : Math.min(P.rb, rn*0.98);
+  const scale = H*0.17/rb;                                     // body radius fills about a third of the height
+  const M = Math.max(1.2, s.mach), delta = rn*0.143*Math.exp(3.24/(M*M)), Rc = rn*1.143*Math.exp(0.54/Math.pow(M - 1, 1.2)), beta = Math.asin(1/M);
+  const heat = Math.min(1, s.q/Math.max(SIM.peakQ, 1));
+  const Tw = Math.max(500, Math.min(4000, s.Tw)), bb = bbAt(Tw);
+  const wallI = Math.min(3, bb.Y/Y3000*2.2)*(s.Tw > 650 ? 1 : 0);
+  const sheath = Math.pow(Math.min(1, s.q/3e6), 0.6)*Math.min(1, Math.max(0, (s.v - 2500)/2500));
+  const vk = s.v/1000, plasma = vk > 9 ? [0.85, 0.82, 1.0] : vk > 6 ? [1.0, 0.62, 0.55] : [1.0, 0.45, 0.25];
+  gl.useProgram(prog.p);
+  gl.uniform2f(prog.u.uRes, W, H); gl.uniform1f(prog.u.uT, t); gl.uniform1f(prog.u.uScale, scale);
+  gl.uniform2f(prog.u.uC, W*0.36, H*0.5);
+  gl.uniform1f(prog.u.uRn, rn); gl.uniform1f(prog.u.uRb, rb);
+  gl.uniform1f(prog.u.uCone, P.shape === 'stardust' ? 0.52 : 0.576); gl.uniform1f(prog.u.uLen, P.shape === 'stardust' ? rb*0.95 : rb*1.65); gl.uniform1f(prog.u.uFore, P.shape === 'stardust' ? Math.PI/3 : 0);
+  gl.uniform1f(prog.u.uDelta, delta); gl.uniform1f(prog.u.uRc, Rc); gl.uniform1f(prog.u.uBeta, beta);
+  gl.uniform3fv(prog.u.uWall, bb.rgb); gl.uniform1f(prog.u.uWallI, wallI); gl.uniform1f(prog.u.uHeat, heat);
+  gl.uniform1f(prog.u.uSheath, sheath); gl.uniform1f(prog.u.uWake, Math.pow(heat, 0.7)); gl.uniform1f(prog.u.uPitch, 0.0);
+  gl.uniform3fv(prog.u.uPlasma, plasma);
+  GLX.pass(gl, vao, prog, null, W, H, {});
+
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, W, H);
+  const dpr = W/Math.max(1, cv.getBoundingClientRect().width), f = Math.round(10*dpr);
+  octx.font = f + 'px "IBM Plex Mono", monospace'; octx.fillStyle = 'rgba(236,234,228,0.6)'; octx.textAlign = 'left';
+  const nice = [0.1, 0.2, 0.5, 1, 2, 5].find(v => v*scale > W*0.06) || 5;
+  octx.fillRect(f*1.4, H - f*2.4, nice*scale, Math.max(1, dpr)); octx.fillText(nice + ' M', f*1.4, H - f*3.0);
+  // shock standoff marker
+  const nx = W*0.36, ny = H*0.5;
+  octx.strokeStyle = 'rgba(236,234,228,0.45)'; octx.lineWidth = Math.max(1, dpr*0.8);
+  octx.beginPath(); octx.moveTo(nx - delta*scale, H - ny - f*0.2 - rb*scale*1.2); octx.lineTo(nx, H - ny - f*0.2 - rb*scale*1.2); octx.stroke();
+  octx.textAlign = 'center'; octx.fillText('SHOCK ' + (delta*100 < 100 ? fmt(delta*100, 0) + ' CM' : fmt(delta, 2) + ' M') + ' AHEAD', nx - delta*scale/2, H - ny - rb*scale*1.2 - f*1.0);
+
+  if(now - hudAt > 120){
+    hudAt = now;
+    const p = PRESETS[P.preset];
+    hud.tl.textContent = (p ? p.name : 'YOUR ENTRY').toUpperCase() + '\nT + ' + fmt(s.t, 1) + ' S · ' + fmt(s.h/1000, 1) + ' KM · ' + fmt(s.v/1000, 2) + ' KM/S';
+    hud.tr.textContent = fmt(s.q/1e4, 0) + ' W/CM² · ' + fmt(s.dec/G0, 1) + ' G\nSHIELD ' + (s.Tw > 650 ? fmt(s.Tw, 0) + ' K' : 'COOL') + (SIM.skipped ? '\nSKIPS OUT' : '');
+    P.scrub = Math.min(1, s.t/tEnd); scrubEl.value = P.scrub; document.querySelector('output[for="scrub"]').textContent = fmt(s.t, 0) + ' s';
+  }
+  if(now - roAt > 250){
+    roAt = now;
+    const pk = SIM.pts[SIM.iQ];
+    R.t.set(fmt(s.t, 1) + ' s', 'from the entry interface, 122 km');
+    R.h.set(fmt(s.h/1000, 1) + ' km', 'flight path ' + fmt(s.g*180/Math.PI, 2) + '°');
+    R.v.set(fmt(s.v/1000, 2) + ' km/s', fmt(s.v*3.6, 0) + ' km/h');
+    R.mach.set(fmt(s.mach, 1), 'speed ÷ local speed of sound');
+    R.dec.set(fmt(s.dec/G0, 2) + ' g', 'peak ' + fmt(SIM.peakA/G0, 2) + ' g at ' + fmt(SIM.pts[SIM.iA].h/1000, 0) + ' km');
+    R.q.set(fmt(s.q/1e4, 0) + ' W/cm²', 'peak ' + fmt(SIM.peakQ/1e4, 0) + ' W/cm² (' + fmt(SIM.peakQ/1e6, 2) + ' MW/m²) at ' + fmt(pk.h/1000, 0) + ' km');
+    R.Q.set(fmt(s.Q/1e4, 0) + ' J/cm²', 'whole flight ' + fmt(SIM.Q/1e6, 0) + ' MJ/m²');
+    R.tw.set(s.Tw > 650 ? fmt(s.Tw, 0) + ' K' : '< 650 K', 'peak ' + fmt(pk.Tw, 0) + ' K; colour from Planck\'s law');
+    R.shock.set(delta < 1 ? fmt(delta*100, 1) + ' cm' : fmt(delta, 2) + ' m', 'Billig, ideal gas: an upper estimate');
+    R.rho.set(MUSEUM.sci(s.rho, 2) + ' kg/m³', fmt(s.rho/1.225*100, s.rho > 0.01 ? 1 : 4) + ' % of sea level');
+    R.beta.set(fmt(Math.pow(10, P.logbeta), 0) + ' kg/m²', 'mass ÷ (drag coefficient × area); L/D ' + fmt(P.ld, 2));
+    if(P.preset === 'a11') R.check.set('3.2 MW/m² measured', 'this model: ' + fmt(SIM.peakQ/1e6, 2) + ' MW/m², ' + fmt(SIM.Q/1e6, 0) + ' MJ/m² (measured 301)');
+    else { const ae = allenEggersPeak(P.ve, P.gam)/G0; R.check.set(fmt(ae, 1) + ' g, Allen–Eggers', 'closed form for a ballistic entry; this simulation ' + fmt(SIM.peakA/G0, 1) + ' g' + (P.ld > 0 ? ' with lift' : '')); }
+    updateSound(s);
+  }
+  if(plotDirty || now - plotAt > 200){ plotAt = now; plotDirty = false; drawPlots(s); }
+}
+applyPreset('a11');
+const ORDER = ['a11', 'sd', 'a7'];
+MUSEUM.install('inst', stage, () => { document.getElementById('label').classList.add('on'); P.tsc = Math.log10(10); applyPreset('a11'); }, () => {
+  if(SIM && tSim > SIM.pts[SIM.pts.length - 1].t + 5){ applyPreset(ORDER[(ORDER.indexOf(P.preset) + 1) % ORDER.length]); }
+});
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{simulate, applyPreset, setT:v => { tSim = v; }, get:() => SIM, air, blackbody, allenEggersPeak}});
+window.addEventListener('resize', () => { plotDirty = true; });
+})();
+</script>
+</body>
+</html>

@@ -112,7 +112,7 @@ footer a:hover{color:var(--ink);}
   <div class="wrap">
     <div class="eyebrow">Instrument Family · Generative · Interactive</div>
     <h1>Video Synths</h1>
-    <p>Everything on this site that makes images live — nineteen pieces where form, colour and motion are computed every frame instead of drawn. Ten are <strong>installation studies</strong>: full-frame WebGL works built in the language of museum and festival pieces — point-cloud scans, a real photogrammetry reconstruction, displacement sheets, particle fluids, pure data, a grid of light, a flock of boids, lasers in haze, a scan that erodes, a ring of light. Nine are <strong>instruments</strong>: playable pieces, from knob-driven colour tools to feedback chains, contour fields, hidden-data strata and beams in water, most with sound.</p>
+    <p>Everything on this site that makes images live — twenty-five pieces where form, colour and motion are computed every frame instead of drawn. Ten are <strong>installation studies</strong>: full-frame WebGL works built in the language of museum and festival pieces — point-cloud scans, a real photogrammetry reconstruction, displacement sheets, particle fluids, pure data, a grid of light, a flock of boids, lasers in haze, a scan that erodes, a ring of light. Six are <strong>aerospace pieces</strong>: museum-style data sculptures built on real measurements and physics, from Voyager's light time and LIGO's first chirp to Planck's map of the oldest light. Nine are <strong>instruments</strong>: playable pieces, from knob-driven colour tools to feedback chains, contour fields, hidden-data strata and beams in water, most with sound.</p>
   </div>
 </section>
 
@@ -212,6 +212,64 @@ footer a:hover{color:var(--ink);}
 
   </div>
 
+  <h2 class="group">Aerospace pieces <span>WebGL 2 · real data and physics from the Aerospace guides</span></h2>
+  <div class="cards cards--studies">
+    <a class="card" href="/visual-synths/light-day">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/light-day.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Light-Day</h3><span class="tag">Data · Voyager</span></div>
+        <p>A radio pulse leaves Earth every hour for Voyager 1, drawn in true proportion; on 18 November 2026 it is one light-day away. Light time solved from JPL ephemerides.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/chirp">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/chirp.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Chirp</h3><span class="tag">Data · LIGO</span></div>
+        <p>Two black holes spiral in and their waves leave as tightening spiral lines. LIGO's real GW150914 recording, its numerical-relativity waveform and the sound of the chirp.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/plume">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/plume.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Plume</h3><span class="tag">Model · Rockets</span></div>
+        <p>A rocket exhaust with its shock diamonds, computed from the nozzle and the air at each altitude, from sea-level squeeze to near-vacuum fan.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/re-entry">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/re-entry.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Re-entry</h3><span class="tag">Model · Capsules</span></div>
+        <p>A capsule in the plasma it makes, from a step-by-step entry simulation: heating, the shield's blackbody glow and the bow shock. Apollo 11, Stardust, Apollo 7.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/orbit-loom">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/orbit-loom.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Orbit Loom</h3><span class="tag">Model · Satellites</span></div>
+        <p>A sun-synchronous satellite weaves its ground track one orbit at a time until the pattern repeats: Landsat 9, Sentinel-2, Terra.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+    <a class="card" href="/visual-synths/relic">
+      <div class="card-art card-art--dark"><img src="/visual-synths/thumbs/relic.jpg" alt="" width="800" height="368" loading="lazy"></div>
+      <div class="card-body">
+        <div class="card-head"><h3>Relic</h3><span class="tag">Data · Planck</span></div>
+        <p>The real Planck map of the oldest light, drawn from its HEALPix pixels. Add our motion, blur it to COBE's beam, read its statistics, hear its spectrum.</p>
+        <span class="open">Open →</span>
+      </div>
+    </a>
+
+  </div>
+
   <h2 class="group">Instruments <span>Canvas &amp; WebGL · playable, most with sound</span></h2>
   <div class="cards">
 
@@ -303,6 +361,7 @@ footer a:hover{color:var(--ink);}
   <h2>How the family fits together</h2>
   <p>Every piece is a fully self-contained single <code>.html</code> file. The five instruments share two things instead of rebuilding them: the knob/range-slider control and Palette Synth's cosine-gradient colour formula <code>a + b·cos(2π(c·t + d))</code>, both in <code>/assets/visual-synth-kit.js</code>. The installation studies don't load the kit, but reuse the same formula inside their shaders — Latent Flow colours up to a million particles with it; Point Cloud Scan uses it for depth and thermal colour.</p>
   <p>The studies work in the visual languages of scan-, data- and light-based installation art: point clouds, data landscapes, beams in haze, grids of light, feedback and flocks. They study a language; none recreates a specific work. Each study's page explains its maths, its lineage and its limits.</p>
+  <p>The aerospace pieces each belong to a field guide in the <a href="/aerospace/">Aerospace hub</a> and use its checked numbers. What is measured, what is computed and what is only drawn is labelled on every readout (DATA, MODEL, DRAWN), and each page lists its sources and limits. Their data files (JPL Horizons ephemerides, LIGO open data, the Planck SMICA map, Natural Earth coastlines) live in <code>/visual-synths/data/</code>.</p>
   <p>Retired: Audio-Reactive Diffusion (unreliable on many GPUs) now lives in the <a href="/archive.html">archive</a>.</p>
 </section>
 
