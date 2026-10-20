@@ -1,0 +1,1598 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Rind — Video Synths</title>
+<meta name="description" content="Flatten the Earth sixteen ways, move the centre anywhere, and drag the land through the stretch. Map projections on one black wall with a globe beside them: Tissot circles, area and angle heat maps, lines of no distortion, great circles and rhumb lines, carry a country to the equator. WebGL 2 instrument.">
+<link rel="canonical" href="https://followorbounce.github.io/visual-synths/rind">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Rind — Video Synths">
+<meta property="og:description" content="Flatten the Earth sixteen ways, move the centre anywhere, and drag the land through the stretch. Map projections on one black wall with a globe beside them: Tissot circles, area and angle heat maps, lines of no distortion, great circles and rhumb lines, carry a country to the equator. WebGL 2 instrument.">
+<meta property="og:url" content="https://followorbounce.github.io/visual-synths/rind">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#615F57; --ink-faint:#8A877E;
+  --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5;
+  --font-display:'Manrope', sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SFMono-Regular', monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+    --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#A6A399; --ink-faint:#86837A;
+  --line:#332F29; --line-strong:#48443A; --live:#A396DA;
+}
+*{box-sizing:border-box;}
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-mono); font-size:13.5px; line-height:1.6;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-inline:var(--edge);}
+h1,h2,h3{margin:0; font-family:var(--font-display); font-weight:800;}
+a{color:inherit;}
+code{background:var(--paper-sunken); padding:0.1em 0.4em; border-radius:2px;}
+
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-size:11px; letter-spacing:0.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-size:12px; text-decoration:none; color:var(--ink-soft);}
+header .back:hover{color:var(--ink); text-decoration:underline;}
+
+.hero{padding-block:clamp(22px,4vw,36px) 16px;}
+.hero .eyebrow{font-size:11px; letter-spacing:0.16em; text-transform:uppercase; color:var(--ink-faint); margin-bottom:10px;}
+.hero h1{font-size:clamp(1.8rem,4.6vw,2.8rem); line-height:1.02; letter-spacing:-0.01em;}
+.hero p{margin:12px 0 0; max-width:760px; font-size:14px; color:var(--ink-soft); line-height:1.7; font-family:var(--font-display); font-weight:500;}
+
+/* the stage is always a black box — it is the gallery wall, not page chrome */
+.stage{position:relative; width:100%; aspect-ratio:16/9; max-height:80vh; background:#000; border:1px solid var(--line-strong); overflow:hidden; color-scheme:dark;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block; touch-action:none; cursor:grab;}
+.stage canvas:active{cursor:grabbing;}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+.hud{position:absolute; font-family:var(--font-mono); font-size:10px; line-height:1.5; letter-spacing:0.14em; text-transform:uppercase; color:rgba(235,238,242,0.72); pointer-events:none; white-space:pre; font-variant-numeric:tabular-nums;}
+.hud.tl{top:12px; left:14px;} .hud.tr{top:12px; right:14px; text-align:right;}
+.hud.bl{bottom:12px; left:14px;} .hud.br{bottom:12px; right:14px; text-align:right;}
+.stage .err{position:absolute; inset:0; display:none; place-items:center; padding:24px; text-align:center; color:#eee; font-size:12px; background:#000;}
+.stage .err.on{display:grid;}
+.stage .drop{position:absolute; inset:0; display:none; place-items:center; color:#fff; font-size:12px; letter-spacing:.14em; text-transform:uppercase; background:rgba(0,0,0,.6); border:1px dashed rgba(255,255,255,.6);}
+.stage .drop.on{display:grid;}
+@media (max-width:640px){ .stage{aspect-ratio:4/5;} .hud{font-size:9px;} }
+
+.controls{display:grid; grid-template-columns:repeat(auto-fit,minmax(230px,1fr)); gap:16px 26px; padding-block:18px 8px;}
+.ctl{display:flex; flex-direction:column; gap:6px; min-width:0;}
+.ctl > label, .ctl > .lab{display:flex; justify-content:space-between; gap:8px; font-size:10.5px; letter-spacing:0.09em; text-transform:uppercase; color:var(--ink-soft);}
+.ctl output{color:var(--ink); font-variant-numeric:tabular-nums;}
+.ctl input[type=range]{width:100%; accent-color:var(--live); margin:0;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+.seg button, .btn{font-family:var(--font-mono); font-size:10.5px; letter-spacing:0.08em; text-transform:uppercase; padding:6px 10px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; line-height:1.1; border-radius:2px;}
+.seg button:hover, .btn:hover{border-color:var(--ink); color:var(--ink);}
+.seg button[aria-pressed="true"], .btn[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:disabled{opacity:.4; cursor:not-allowed;}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.row{display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+.hint{font-size:11px; color:var(--ink-faint); padding-bottom:6px;}
+
+section.about{padding-block:clamp(24px,4vw,40px); border-top:1px solid var(--line-strong); margin-top:22px;}
+section.about h2{font-size:1.05rem; text-transform:uppercase; margin-bottom:12px; letter-spacing:0.01em;}
+section.about h3{font-size:0.9rem; margin:22px 0 8px; text-transform:uppercase; letter-spacing:0.02em;}
+section.about p, section.about li{max-width:760px; font-size:13px; color:var(--ink-soft); line-height:1.8; font-family:var(--font-display); font-weight:500;}
+section.about p{margin:0 0 12px;}
+section.about ul{margin:0 0 12px; padding-left:20px;}
+section.about strong{color:var(--ink);}
+
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center;}
+footer span{font-size:10.5px; color:var(--ink-faint);}
+footer a{color:var(--ink-soft);}
+footer a:hover{color:var(--ink);}
+
+
+/* shared additions for the 2026-10 studies (tools/studies) */
+.wrap{padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.ctl .lab + .seg, .ctl .lab + .row{margin-bottom:6px;}
+.hud.bl.legend{display:flex; flex-direction:column; gap:2px; white-space:normal;}
+.hud .sw{display:inline-block; width:14px; height:3px; margin-right:7px; vertical-align:middle;}
+.stage canvas.drag{cursor:grab;} .stage canvas.drag:active{cursor:grabbing;} .stage canvas.cross{cursor:crosshair;}
+@media (pointer:coarse){ .seg button, .btn{min-height:44px; padding-inline:12px;} .ctl input[type=range]{min-height:44px;} .ctl select{min-height:44px;} }
+@media (max-width:640px){ .hud.tr{top:auto; bottom:12px;} .hud.br{display:none;} }
+.ctl select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:6px 8px; border-radius:2px;}
+
+/* museum panels for the aerospace pieces: readouts, plots, wall label, installation mode */
+:root{--accent:#B5452A; --data:#2F5AA1;}
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --accent:#E07A5F; --data:#8FB0E8; } }
+:root[data-theme="dark"]{ --accent:#E07A5F; --data:#8FB0E8; }
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(168px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong); margin-top:18px;}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:10px 12px 11px; min-width:0;}
+.readouts .k{font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-family:var(--font-display); font-weight:700; font-size:1.18rem; line-height:1.25; margin-top:3px; font-variant-numeric:tabular-nums; color:var(--ink); overflow-wrap:anywhere;}
+.readouts .s{font-size:10.5px; color:var(--ink-soft); margin-top:2px;}
+.src-tag{font-size:8.5px; letter-spacing:.1em; padding:0 4px; border:1px solid currentColor; border-radius:2px; line-height:1.5; white-space:nowrap;}
+.src-tag.data{color:var(--data);} .src-tag.model{color:var(--accent);} .src-tag.drawn{color:var(--ink-faint);}
+.plots{display:grid; grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr)); gap:16px; margin-top:16px;}
+.plot{border:1px solid var(--line-strong); background:var(--paper-raised); min-width:0;}
+.plot .cap{display:flex; justify-content:space-between; gap:8px; font-size:10px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-soft); padding:8px 10px 0;}
+.plot canvas{display:block; width:100%; height:190px; touch-action:pan-y;}
+.plot .note{font-size:10.5px; color:var(--ink-faint); padding:0 10px 8px;}
+.stage .wall-label{position:absolute; left:14px; bottom:14px; max-width:min(440px, calc(100% - 28px)); background:rgba(0,0,0,.78); color:#ECEAE4; border-left:2px solid #fff; padding:11px 14px 12px; font-family:var(--font-display); font-weight:500; font-size:12.5px; line-height:1.55; display:none; z-index:3;}
+.stage .wall-label.on{display:block;}
+.stage .wall-label b{display:block; font-family:var(--font-mono); font-weight:500; font-size:9.5px; letter-spacing:.16em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage canvas.overlay{pointer-events:none;}
+.stage.installing, .stage.installing canvas{cursor:none;}
+.stage.installing .wall-label{font-size:clamp(13px,1.2vw,19px); max-width:min(640px, 46%);}
+.stage.installing .hud{font-size:clamp(10px,0.9vw,15px);}
+.sources{font-size:12px;}
+.sources li{margin-bottom:6px;}
+.sources a{overflow-wrap:anywhere;}
+.guide-link{display:inline-block; margin-top:14px; font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; text-decoration:none; color:var(--ink);}
+.guide-link:hover{border-color:var(--ink);}
+@media (max-width:640px){ .stage .wall-label{font-size:11.5px; left:10px; bottom:10px; padding:8px 10px;} .readouts .v{font-size:1.02rem;} }
+
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<!-- generated by visual-synths/tools/_studies/build.py from rind.src.html — edit the source, not this file -->
+
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <a class="back" href="/visual-synths/">← Video Synths</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Video Synth · Instrument · Map projections</div>
+    <h1>Rind</h1>
+    <p>The Earth is round and paper is flat. Every map has to stretch the globe to lay it flat, and every map stretches it in a different way. Choose a <strong>projection</strong> (a rule for flattening the globe), move its centre anywhere on Earth, and drag the land through it. The colours and circles stay with the rule; the land moves through them. The globe beside the map shows where the map is true and where it is cut.</p>
+  </div>
+</section>
+
+<section class="wrap">
+  <div class="stage" id="stage" tabindex="0" aria-describedby="liveMsg">
+    <canvas id="gl" class="drag" aria-label="A world map in a chosen projection on the left and a globe on the right. Drag the map to move the land through the projection."></canvas>
+    <canvas id="ov" class="overlay" aria-hidden="true"></canvas>
+    <div class="hud tl" id="hudTL"></div>
+    <div class="hud tr" id="hudTR"></div>
+    <div class="hud bl legend" id="hudBL"></div>
+    <div class="wall-label" id="label"><b id="labelHead"></b><span id="labelText"></span></div>
+    <div class="err" id="err"></div>
+  </div>
+  <div id="liveMsg" class="sr" aria-live="polite"></div>
+
+  <div class="tour" role="group" aria-label="Guided tour">
+    <span class="lab">Tour</span>
+    <div class="seg" id="tour"></div>
+    <div class="row">
+      <button class="btn" id="prev" aria-label="Previous stop">‹ Previous</button>
+      <button class="btn" id="next" aria-label="Next stop">Next ›</button>
+      <button class="btn" id="alt" hidden></button>
+      <button class="btn" id="back" hidden>Back to this stop</button>
+    </div>
+  </div>
+
+  <div class="controls">
+    <div class="ctl">
+      <label for="proj" class="lab">Projection</label>
+      <select id="proj"></select>
+      <div class="keeps" id="keeps"></div>
+      <div id="conicCtl" hidden>
+        <label for="sp1">First standard parallel <output for="sp1"></output></label>
+        <input id="sp1" type="range" min="5" max="80" step="0.5">
+        <label for="sp2">Second standard parallel <output for="sp2"></output></label>
+        <input id="sp2" type="range" min="5" max="85" step="0.5">
+      </div>
+    </div>
+    <div class="ctl">
+      <label for="clat">Centre latitude <output for="clat"></output></label>
+      <input id="clat" type="range" min="-90" max="90" step="0.1">
+      <label for="clon">Centre longitude <output for="clon"></output></label>
+      <input id="clon" type="range" min="-180" max="180" step="0.1">
+      <label for="chead">Heading (which way is up) <output for="chead"></output></label>
+      <input id="chead" type="range" min="0" max="359" step="1">
+      <div class="seg" id="headQuick"><button data-v="0">N up</button><button data-v="90">E up</button><button data-v="180">S up</button><button data-v="270">W up</button></div>
+      <label for="city" class="lab">Centre on a city</label>
+      <select id="city"></select>
+      <div class="row"><button class="btn" id="reset">Reset to natural aspect</button></div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Grid of latitude and longitude</span>
+      <div class="seg" id="grat"><button data-v="0">Off</button><button data-v="10">10°</button><button data-v="15">15°</button><button data-v="30">30°</button></div>
+      <span class="lab">Tissot circles</span>
+      <div class="seg" id="tissot"><button data-v="0">Off</button><button data-v="15">Every 15°</button><button data-v="30">Every 30°</button></div>
+      <div class="seg" id="tissotFix"><button data-v="land">Ride with the land</button><button data-v="map">Fixed to the map</button></div>
+      <span class="lab">Heat map</span>
+      <div class="seg" id="heat"><button data-v="0">Off</button><button data-v="1">Area</button><button data-v="2">Angle</button></div>
+      <div class="seg" id="heatStyle"><button data-v="1">Bands</button><button data-v="0">Smooth</button></div>
+      <div class="row">
+        <button class="btn" id="nodist" aria-pressed="true">Lines of no distortion</button>
+        <button class="btn" id="cut" aria-pressed="true">Map edge on the globe</button>
+      </div>
+      <div class="seg" id="landStyle"><button data-v="1">Land filled</button><button data-v="0">Outline</button></div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Pointer does</span>
+      <div class="seg" id="mode"><button data-v="move">Move land</button><button data-v="measure">Measure</button><button data-v="carry">Carry a country</button></div>
+      <div class="row">
+        <button class="btn" id="rGC" aria-pressed="true">Great circle</button>
+        <button class="btn" id="rRh" aria-pressed="true">Rhumb line</button>
+        <button class="btn" id="rRu" aria-pressed="false">Ruler on the map</button>
+      </div>
+      <span class="lab">Distance rings from the centre</span>
+      <div class="seg" id="rings"><button data-v="0">Off</button><button data-v="1000">1,000 km</button><button data-v="2000">2,000 km</button><button data-v="5000">5,000 km</button></div>
+      <label for="country" class="lab">Country to carry</label>
+      <select id="country"></select>
+      <div class="row"><button class="btn" id="clear">Clear</button></div>
+    </div>
+    <div class="ctl">
+      <span class="lab">Room</span>
+      <div class="row">
+        <button class="btn" id="swap">Swap views</button>
+        <button class="btn" id="lab" aria-pressed="true">Wall label</button>
+        <button class="btn" id="inst">Installation</button>
+        <button class="btn" id="fs">Fullscreen</button>
+      </div>
+    </div>
+  </div>
+  <p class="hint">Drag the map to move the land through the projection. Drag the white ring on the globe to move the centre; drag anywhere else on the globe to look around. Shift-drag or two-finger twist turns the heading; the wheel or a pinch zooms; double-click puts the centre there. With the stage focused: arrow keys move the land, Q and E turn, [ and ] step through the tour, T G H toggle circles, grid and heat map.</p>
+
+  <div class="readouts" id="ro"></div>
+  <div class="plots">
+    <div class="plot"><div class="cap"><span>How fast it stretches</span><span>area on the map ÷ true area</span></div><canvas id="plotA"></canvas><div class="note">Moving away from the projection's centre: solid towards the map's up, dashed towards its right. Conformal maps climb fast; equal-area maps stay flat at ×1.</div></div>
+    <div class="plot"><div class="cap"><span>What it gives up</span><span>largest bent angle, degrees</span></div><canvas id="plotB"></canvas><div class="note">Same two paths. Equal-area maps pay in angles; conformal maps stay at zero.</div></div>
+  </div>
+</section>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>From globe to paper, backwards.</strong> A projection is a formula that turns latitude and longitude into x and y. The graphics card runs it backwards for every pixel: "which place on Earth lands here?" (the inverse projection), then colours that place from a map of the coastline. The coastline is stored as a distance field, so it stays sharp however far a projection stretches it.</p>
+  <p><strong>Moving the centre.</strong> Before projecting, the whole sphere is turned so that the chosen centre sits where the formula is at its best: this is called an <em>oblique aspect</em>. Turning a sphere stretches nothing, so the kind of distortion stays exactly the same; only its place on Earth moves. That is why the heat map and the lines of no distortion stay put on the screen while you drag the land through them. Dragging is a trackball: the place you grabbed stays under your finger.</p>
+  <p><strong>Measuring the stretch.</strong> At every point the page computes how the map stretches a tiny step in each direction (the local scale matrix). Its largest and smallest stretch, a and b, are the axes of Tissot's ellipse. Area changes by a × b; the largest angle bend is 2ω, where sin ω = (a − b) / (a + b). Conformal maps keep a = b (shapes kept, areas change); equal-area maps keep a × b = 1 (areas kept, shapes change). In 1827 Gauss proved no flat map can do both: a sphere's curvature cannot be flattened without stretching, the way an orange peel tears when pressed flat.</p>
+  <p><strong>Tissot circles.</strong> Each circle is the true image of a circle 6° (or 3°) across on the globe, computed from the angle between every pixel's place and the circle's centre. Small circles turn into Tissot's ellipses; large ones show the curved distortion honestly, which is why some look egg-shaped near Mercator's edge.</p>
+  <p><strong>Routes and areas.</strong> The great circle is the shortest path, drawn as the plane through the Earth's centre and both places. The rhumb line keeps one compass bearing; it is a straight line on Mercator. Lengths use a sphere of radius 6,371 km. A carried country is turned rigidly across the sphere and re-projected every frame; its area "as drawn" adds up the map's area scale over thousands of points inside it.</p>
+  <h3>Lineage</h3>
+  <p>An instrument in the language of the cartographer's drafting table and the museum globe: a fine grid, a single bright line where the paper touches the Earth, and a field of colour that shows what the flattening costs. It recreates no specific work.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The Earth is a perfect sphere here. Real mapping uses an ellipsoid, slightly flattened at the poles, which moves positions by up to about 20 km and changes the numbers slightly.</li>
+    <li>Some projections run to infinity (Mercator's poles, the far side of the stereographic and gnomonic maps). They are clipped: Mercator at 85.05°, stereographic at 160° and gnomonic at 70° from the centre; colours beyond ×8 are hatched as "off the scale".</li>
+    <li>Coastlines are Natural Earth at 1:50 million, so small islands are simplified. Carried countries use the same outlines; their computed true areas differ from published ones by a few percent.</li>
+    <li>Robinson is defined by a table of numbers; between the table's rows this page interpolates with a smooth cubic, which can differ from other software by about one part in ten thousand.</li>
+    <li>Real flight paths follow winds and air-traffic rules, so they are not exactly great circles.</li>
+    <li>The colour scales are chosen for common colour-vision differences and have Bands with isolines, so they can be read without colour; they have not yet been tested with visitors.</li>
+    <li>Nothing flashes: tour moves take 1.6 s and changes of projection fade over 0.6 s. With reduced motion nothing moves on its own.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul class="sources">
+    <li>J. P. Snyder (1987), <em>Map Projections: A Working Manual</em>, USGS Professional Paper 1395: the formulas, distortion (ch. 4) and oblique aspects (ch. 5). <a href="https://pubs.usgs.gov/pp/1395/report.pdf">pubs.usgs.gov</a></li>
+    <li>J. P. Snyder and P. M. Voxland (1989), <em>An Album of Map Projections</em>, USGS Professional Paper 1453 (Robinson's table).</li>
+    <li>B. Šavrič, T. Patterson and B. Jenny (2019), "The Equal Earth map projection", International Journal of Geographical Information Science 33(3).</li>
+    <li>N. A. Tissot (1881), <em>Mémoire sur la représentation des surfaces et les projections des cartes géographiques</em>. C. F. Gauss (1827), <em>Disquisitiones generales circa superficies curvas</em>.</li>
+    <li>Colour maps: berlin (F. Crameri, Scientific Colour Maps; Crameri, Shephard and Heron 2020, Nature Communications 11) and inferno (S. van der Walt and N. Smith, matplotlib).</li>
+    <li>Natural Earth land and countries at 1:50m (public domain), via world-atlas TopoJSON. Published areas: Greenland 2,166,086 km² (CIA World Factbook), Africa about 30.37 million km².</li>
+  </ul>
+</section>
+
+<style>
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+.tour{display:flex; flex-direction:column; gap:6px; padding-top:16px;}
+.tour .seg button{min-width:44px;}
+.keeps{font-size:11px; color:var(--ink-soft); margin:2px 0 6px;}
+.keeps b{color:var(--ink); font-weight:600;}
+.ctl select{width:100%;}
+.stage:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.hud.bl.legend .bar{display:block; width:170px; height:7px; margin:3px 0 2px;}
+.hud.bl.legend .ticks{display:flex; justify-content:space-between; width:170px; font-size:9px; letter-spacing:.04em;}
+@media (max-width:640px){ .hud.bl.legend{display:none;} #stage .wall-label{bottom:calc(44% + 8px); max-width:calc(100% - 20px);} }
+</style>
+
+
+<footer>
+  <div class="wrap">
+    <span>KNOWLEDGE NETWORK — followorbounce.github.io — <a href="/">Index</a> · <a href="/visual-synths/">Video Synths</a></span>
+  </div>
+</footer>
+
+<script>
+/* ---- tiny WebGL2 kit (inlined per page; see visual-synths/ for the family) ---- */
+const GL = {
+  shader(gl, type, src){
+    const s = gl.createShader(type); gl.shaderSource(s, src); gl.compileShader(s);
+    if(!gl.getShaderParameter(s, gl.COMPILE_STATUS)) throw new Error(gl.getShaderInfoLog(s) + '\n' + src.split('\n').map((l,i)=>(i+1)+': '+l).join('\n'));
+    return s;
+  },
+  program(gl, vs, fs, feedback){
+    const p = gl.createProgram();
+    gl.attachShader(p, GL.shader(gl, gl.VERTEX_SHADER, vs));
+    gl.attachShader(p, GL.shader(gl, gl.FRAGMENT_SHADER, fs));
+    if(feedback) gl.transformFeedbackVaryings(p, feedback, gl.INTERLEAVED_ATTRIBS);
+    gl.linkProgram(p);
+    if(!gl.getProgramParameter(p, gl.LINK_STATUS)) throw new Error(gl.getProgramInfoLog(p));
+    const u = {}, n = gl.getProgramParameter(p, gl.ACTIVE_UNIFORMS);
+    for(let i = 0; i < n; i++){ const a = gl.getActiveUniform(p, i); u[a.name.replace('[0]','')] = gl.getUniformLocation(p, a.name); }
+    return {p, u};
+  },
+  persp(fovy, aspect, near, far){
+    const t = 1/Math.tan(fovy/2);
+    return new Float32Array([t/aspect,0,0,0, 0,t,0,0, 0,0,(far+near)/(near-far),-1, 0,0,2*far*near/(near-far),0]);
+  },
+  lookAt(e, c){
+    let zx=e[0]-c[0], zy=e[1]-c[1], zz=e[2]-c[2], l=Math.hypot(zx,zy,zz); zx/=l; zy/=l; zz/=l;
+    let xx=zz, xz=-zx; l=Math.hypot(xx,xz)||1; xx/=l; xz/=l;
+    const yx=zy*xz, yy=zz*xx-zx*xz, yz=-zy*xx;
+    return new Float32Array([xx,yx,zx,0, 0,yy,zy,0, xz,yz,zz,0,
+      -(xx*e[0]+xz*e[2]), -(yx*e[0]+yy*e[1]+yz*e[2]), -(zx*e[0]+zy*e[1]+zz*e[2]), 1]);
+  },
+  mul(a, b){
+    const o = new Float32Array(16);
+    for(let c=0;c<4;c++) for(let r=0;r<4;r++){ let s=0; for(let k=0;k<4;k++) s += a[k*4+r]*b[c*4+k]; o[c*4+r]=s; }
+    return o;
+  },
+  /* orbit camera: drag = orbit, wheel / pinch = zoom; state.touched marks the last interaction */
+  orbit(el, st){
+    const pts = new Map();
+    const pinch = () => { const v=[...pts.values()]; return Math.hypot(v[0][0]-v[1][0], v[0][1]-v[1][1]); };
+    el.addEventListener('pointerdown', e => { try { el.setPointerCapture(e.pointerId); } catch(_){} pts.set(e.pointerId,[e.clientX,e.clientY]); st.touched=performance.now(); });
+    el.addEventListener('pointermove', e => {
+      if(!pts.has(e.pointerId)) return;
+      const p = pts.get(e.pointerId);
+      if(pts.size === 1){
+        st.yaw -= (e.clientX-p[0])*0.006;
+        st.pitch = Math.max(-1.45, Math.min(1.45, st.pitch + (e.clientY-p[1])*0.005));
+        p[0]=e.clientX; p[1]=e.clientY;
+      } else if(pts.size === 2){
+        const d0 = pinch(); p[0]=e.clientX; p[1]=e.clientY; const d1 = pinch();
+        if(d0 > 0 && d1 > 0) st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*d0/d1));
+      }
+      st.touched = performance.now();
+    });
+    const up = e => pts.delete(e.pointerId);
+    el.addEventListener('pointerup', up); el.addEventListener('pointercancel', up);
+    el.addEventListener('wheel', e => { e.preventDefault(); st.dist = Math.max(st.minDist, Math.min(st.maxDist, st.dist*Math.exp(e.deltaY*0.0012))); st.touched=performance.now(); }, {passive:false});
+  },
+  eye(st){ const cp=Math.cos(st.pitch); return [st.dist*cp*Math.sin(st.yaw), st.dist*Math.sin(st.pitch), st.dist*cp*Math.cos(st.yaw)]; },
+  /* resize the drawing buffer to the element's CSS size (capped DPR); returns true when it changed */
+  fit(cv, maxDpr){
+    const r = cv.getBoundingClientRect(), d = Math.min(window.devicePixelRatio||1, maxDpr||2);
+    const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+    if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; return true; }
+    return false;
+  },
+  /* bind a <input type=range> to an object key with a live <output> */
+  slider(id, obj, key, fmt){
+    const el = document.getElementById(id), out = document.querySelector('output[for="'+id+'"]');
+    const show = () => { if(out) out.textContent = fmt ? fmt(obj[key]) : obj[key]; };
+    el.value = obj[key]; show();
+    el.addEventListener('input', () => { obj[key] = parseFloat(el.value); show(); });
+    return el;
+  },
+  /* segmented button group: data-v on each button */
+  seg(id, initial, onPick){
+    const box = document.getElementById(id);
+    const set = v => { box.querySelectorAll('button').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.v === String(v)))); };
+    box.addEventListener('click', e => { const b = e.target.closest('button'); if(!b) return; set(b.dataset.v); onPick(b.dataset.v); });
+    set(initial);
+    return set;
+  },
+  fullscreen(btnId, stage){
+    const b = document.getElementById(btnId);
+    if(!stage.requestFullscreen){ b.hidden = true; return; }
+    b.addEventListener('click', () => document.fullscreenElement ? document.exitFullscreen() : stage.requestFullscreen());
+  },
+  reducedMotion: window.matchMedia('(prefers-reduced-motion: reduce)').matches,
+  /* only animate while the stage is on screen and the tab is visible */
+  visibleLoop(stage, frame){
+    let on = true, raf = 0;
+    const tick = t => { raf = requestAnimationFrame(tick); frame(t); };
+    new IntersectionObserver(es => { on = es[0].isIntersecting; if(on && !raf && !document.hidden) raf = requestAnimationFrame(tick); else if(!on){ cancelAnimationFrame(raf); raf = 0; } }).observe(stage);
+    document.addEventListener('visibilitychange', () => { if(document.hidden){ cancelAnimationFrame(raf); raf=0; } else if(on && !raf) raf = requestAnimationFrame(tick); });
+    raf = requestAnimationFrame(tick);
+  },
+  /* shared GLSL: value noise + Palette Synth's cosine gradient */
+  NOISE: `
+float hash13(vec3 p){ p = fract(p*0.1031); p += dot(p, p.zyx+31.32); return fract((p.x+p.y)*p.z); }
+float vnoise(vec3 x){
+  vec3 i = floor(x), f = fract(x); f = f*f*(3.0-2.0*f);
+  return mix(mix(mix(hash13(i), hash13(i+vec3(1,0,0)), f.x), mix(hash13(i+vec3(0,1,0)), hash13(i+vec3(1,1,0)), f.x), f.y),
+             mix(mix(hash13(i+vec3(0,0,1)), hash13(i+vec3(1,0,1)), f.x), mix(hash13(i+vec3(0,1,1)), hash13(i+vec3(1,1,1)), f.x), f.y), f.z);
+}
+vec3 vnoise3(vec3 p){ return vec3(vnoise(p), vnoise(p+vec3(31.4,7.1,2.9)), vnoise(p+vec3(-5.3,19.7,11.1)))*2.0-1.0; }
+float fbm(vec3 p){ float s=0.0, a=0.5; for(int i=0;i<5;i++){ s += a*vnoise(p); p = p*2.03+vec3(1.7,9.2,3.1); a *= 0.5; } return s; }
+vec3 cosPal(float t, vec3 a, vec3 b, vec3 c, vec3 d){ return a + b*cos(6.2831853*(c*t+d)); }
+`
+};
+/* ---- kit extras for the 2026-10 studies: render targets, passes, opt-in sound ---- */
+const GLX = {
+  /* full-screen triangle VAO, attribute 0 */
+  quad(gl){
+    const vao = gl.createVertexArray(), b = gl.createBuffer();
+    gl.bindVertexArray(vao); gl.bindBuffer(gl.ARRAY_BUFFER, b);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1, 3,-1, -1,3]), gl.STATIC_DRAW);
+    gl.enableVertexAttribArray(0); gl.vertexAttribPointer(0, 2, gl.FLOAT, false, 0, 0);
+    gl.bindVertexArray(null);
+    return vao;
+  },
+  VS: `#version 300 es
+layout(location=0) in vec2 aPos; out vec2 vUv;
+void main(){ vUv = aPos*0.5 + 0.5; gl_Position = vec4(aPos, 0.0, 1.0); }`,
+  /* a colour target; half-float when the device can render to it, else 8-bit */
+  target(gl, w, h, opts){
+    opts = opts || {};
+    const hf = !opts.byte && (GLX._hf === undefined ? (GLX._hf = !!gl.getExtension('EXT_color_buffer_float')) : GLX._hf);
+    const tex = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, tex);
+    if(hf) gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA16F, w, h, 0, gl.RGBA, gl.HALF_FLOAT, null);
+    else gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+    const f = opts.nearest ? gl.NEAREST : gl.LINEAR, wrap = opts.repeat ? gl.REPEAT : gl.CLAMP_TO_EDGE;
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, f); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, f);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, wrap); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, wrap);
+    const fb = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, fb); gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, tex, 0);
+    gl.clearColor(0, 0, 0, 1); gl.clear(gl.COLOR_BUFFER_BIT);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+    return {tex, fb, w, h, free(){ gl.deleteTexture(tex); gl.deleteFramebuffer(fb); }};
+  },
+  /* two targets that swap: read .a, write .b, then swap() */
+  pingpong(gl, w, h, opts){
+    const pp = {a:GLX.target(gl, w, h, opts), b:GLX.target(gl, w, h, opts), w, h};
+    pp.swap = () => { const t = pp.a; pp.a = pp.b; pp.b = t; };
+    pp.free = () => { pp.a.free(); pp.b.free(); };
+    return pp;
+  },
+  /* draw a full-screen pass into target (or the screen when null); tex = {unit: texture} */
+  pass(gl, vao, prog, target, w, h, tex){
+    gl.bindFramebuffer(gl.FRAMEBUFFER, target ? target.fb : null);
+    gl.viewport(0, 0, w, h);
+    gl.useProgram(prog.p);
+    let unit = 0;
+    for(const name in (tex || {})){ gl.activeTexture(gl.TEXTURE0 + unit); gl.bindTexture(gl.TEXTURE_2D, tex[name]); gl.uniform1i(prog.u[name], unit); unit++; }
+    gl.bindVertexArray(vao); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  },
+  /* opt-in sound: created on the first click that asks for it; master -> limiter -> out */
+  audio(){
+    if(GLX._ac) return GLX._ac;
+    const AC = window.AudioContext || window.webkitAudioContext; if(!AC) return null;
+    const ac = new AC(), lim = ac.createDynamicsCompressor(), master = ac.createGain();
+    lim.threshold.value = -6; lim.knee.value = 4; lim.ratio.value = 20; lim.attack.value = 0.003; lim.release.value = 0.2;
+    master.gain.value = 0.0; master.connect(lim); lim.connect(ac.destination);
+    master.gain.setTargetAtTime(0.8, ac.currentTime, 0.2);
+    // iOS: a silent buffer started inside the tap unlocks output
+    const s = ac.createBufferSource(); s.buffer = ac.createBuffer(1, 1, 22050); s.connect(ac.destination); s.start(0);
+    if(ac.state === 'suspended') ac.resume();
+    GLX._ac = {ac, master};
+    return GLX._ac;
+  },
+  /* a toggle button for sound: onStart(audio) builds the voices once, then the button mutes/unmutes */
+  soundButton(id, onStart){
+    const b = document.getElementById(id); let on = false, built = false;
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      const A = GLX.audio(); if(!A){ b.textContent = 'No sound'; b.disabled = true; return; }
+      if(!built){ onStart(A); built = true; }
+      on = !on; b.setAttribute('aria-pressed', String(on));
+      if(A.ac.state === 'suspended') A.ac.resume();
+      A.master.gain.setTargetAtTime(on ? 0.8 : 0.0, A.ac.currentTime, 0.08);
+    });
+    return () => on;
+  },
+  /* flashing guard: brightness may jump at most 3 times a second (WCAG 2.3.1) */
+  flashGuard(){ let last = -1; return now => { if(now - last >= 334){ last = now; return true; } return false; }; }
+};
+
+/* ---- museum helpers for the aerospace pieces ---- */
+const MUSEUM = {
+  css(name, fb){ const v = getComputedStyle(document.documentElement).getPropertyValue(name).trim(); return v || fb; },
+  /* a small 2D plot: frame(x0,x1,y0,y1,{xlab,ylab,xticks,yticks,logy}) then line/marker calls in data units */
+  plot(cv){
+    const ctx = cv.getContext('2d'), P = {cv, ctx, pad:{l:46, r:12, t:10, b:26}};
+    P.frame = (x0, x1, y0, y1, o) => {
+      o = o || {};
+      const d = Math.min(window.devicePixelRatio || 1, 2), r = cv.getBoundingClientRect();
+      const w = Math.max(1, Math.round(r.width*d)), h = Math.max(1, Math.round(r.height*d));
+      if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; }
+      ctx.setTransform(d, 0, 0, d, 0, 0); P.W = r.width; P.H = r.height;
+      Object.assign(P, {x0, x1, y0, y1, logy:!!o.logy});
+      const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), line = MUSEUM.css('--line', '#DAD8D0');
+      ctx.clearRect(0, 0, P.W, P.H);
+      ctx.font = '10px "IBM Plex Mono", monospace'; ctx.lineWidth = 1;
+      (o.yticks || []).forEach(v => { const y = P.Y(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(P.pad.l, y); ctx.lineTo(P.W - P.pad.r, y); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'right'; ctx.fillText(o.yfmt ? o.yfmt(v) : v, P.pad.l - 5, y + 3); });
+      (o.xticks || []).forEach(v => { const x = P.X(v); ctx.strokeStyle = line; ctx.beginPath(); ctx.moveTo(x, P.pad.t); ctx.lineTo(x, P.H - P.pad.b); ctx.stroke(); ctx.fillStyle = faint; ctx.textAlign = 'center'; ctx.fillText(o.xfmt ? o.xfmt(v) : v, x, P.H - P.pad.b + 13); });
+      ctx.strokeStyle = ink; ctx.beginPath(); ctx.moveTo(P.pad.l, P.pad.t); ctx.lineTo(P.pad.l, P.H - P.pad.b); ctx.lineTo(P.W - P.pad.r, P.H - P.pad.b); ctx.stroke();
+      ctx.fillStyle = faint; ctx.textAlign = 'right'; if(o.xlab) ctx.fillText(o.xlab, P.W - P.pad.r, P.H - 2);
+      ctx.textAlign = 'left'; if(o.ylab) ctx.fillText(o.ylab, P.pad.l + 4, P.pad.t + 9);
+      return P;
+    };
+    P.X = x => P.pad.l + (x - P.x0)/(P.x1 - P.x0)*(P.W - P.pad.l - P.pad.r);
+    P.Y = y => { const f = P.logy ? (Math.log10(Math.max(y, 1e-30)) - Math.log10(P.y0))/(Math.log10(P.y1) - Math.log10(P.y0)) : (y - P.y0)/(P.y1 - P.y0); return P.H - P.pad.b - f*(P.H - P.pad.t - P.pad.b); };
+    P.line = (pts, col, w, dash) => {
+      ctx.save(); ctx.beginPath(); ctx.rect(P.pad.l, P.pad.t - 2, P.W - P.pad.l - P.pad.r + 2, P.H - P.pad.t - P.pad.b + 4); ctx.clip();
+      ctx.strokeStyle = col; ctx.lineWidth = w || 1.5; ctx.setLineDash(dash || []); ctx.beginPath();
+      let pen = false; for(const p of pts){ if(!isFinite(p[1])){ pen = false; continue; } const x = P.X(p[0]), y = P.Y(p[1]); if(pen) ctx.lineTo(x, y); else { ctx.moveTo(x, y); pen = true; } }
+      ctx.stroke(); ctx.restore();
+    };
+    P.vline = (x, col, label) => { const X = P.X(x); if(X < P.pad.l - 1 || X > P.W - P.pad.r + 1) return; ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(X, P.pad.t); ctx.lineTo(X, P.H - P.pad.b); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -4 : 4), P.pad.t + 20); } };
+    P.hline = (y, col, label) => { const Y = P.Y(y); ctx.strokeStyle = col; ctx.lineWidth = 1; ctx.setLineDash([3, 3]); ctx.beginPath(); ctx.moveTo(P.pad.l, Y); ctx.lineTo(P.W - P.pad.r, Y); ctx.stroke(); ctx.setLineDash([]); if(label){ ctx.fillStyle = col; ctx.textAlign = 'right'; ctx.fillText(label, P.W - P.pad.r - 2, Y - 4); } };
+    P.dot = (x, y, col, label) => { const X = P.X(x), Y = P.Y(y); ctx.fillStyle = col; ctx.beginPath(); ctx.arc(X, Y, 3.5, 0, 6.2832); ctx.fill(); if(label){ ctx.textAlign = X > P.W*0.7 ? 'right' : 'left'; ctx.fillText(label, X + (X > P.W*0.7 ? -7 : 7), Y - 6); } };
+    P.text = (x, y, s, col, align) => { ctx.fillStyle = col; ctx.textAlign = align || 'left'; ctx.fillText(s, P.X(x), P.Y(y)); };
+    return P;
+  },
+  /* readout cells: rows = [[id, label, tag]] -> {id: {v, s}} handles; tag is 'data' | 'model' | 'drawn' */
+  readouts(boxId, rows){
+    const box = document.getElementById(boxId), out = {};
+    const TAG = {data:'DATA', model:'MODEL', drawn:'DRAWN'};
+    box.innerHTML = rows.map(r => `<div><div class="k"><span>${r[1]}</span>${r[2] ? `<span class="src-tag ${r[2]}" title="${r[2] === 'data' ? 'Measured or published values' : r[2] === 'model' ? 'Computed from a physical model' : 'Drawn for the eye, not computed'}">${TAG[r[2]]}</span>` : ''}</div><div class="v" id="ro-${r[0]}">–</div><div class="s" id="ros-${r[0]}"></div></div>`).join('');
+    rows.forEach(r => { const v = document.getElementById('ro-' + r[0]), s = document.getElementById('ros-' + r[0]); out[r[0]] = {set(a, b){ if(v.textContent !== a) v.textContent = a; const bb = b || ''; if(s.textContent !== bb) s.textContent = bb; }}; });
+    return out;
+  },
+  /* wall label toggle */
+  label(btnId, cardId, on){
+    const b = document.getElementById(btnId), c = document.getElementById(cardId);
+    const set = v => { c.classList.toggle('on', v); b.setAttribute('aria-pressed', String(v)); };
+    b.addEventListener('click', () => set(!c.classList.contains('on'))); set(!!on);
+    return set;
+  },
+  /* installation mode: full screen, hidden cursor, wall label on, onTick(seconds) every second while running */
+  install(btnId, stage, onStart, onTick, onStop){
+    const b = document.getElementById(btnId); let timer = 0, t0 = 0, on = false;
+    const stop = () => { if(!on) return; on = false; clearInterval(timer); stage.classList.remove('installing'); b.setAttribute('aria-pressed', 'false'); if(onStop) onStop(); };
+    b.setAttribute('aria-pressed', 'false');
+    b.addEventListener('click', () => {
+      if(on){ stop(); if(document.fullscreenElement) document.exitFullscreen(); return; }
+      on = true; t0 = performance.now(); stage.classList.add('installing'); b.setAttribute('aria-pressed', 'true');
+      if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+      if(onStart) onStart();
+      timer = setInterval(() => onTick && onTick((performance.now() - t0)/1000), 1000);
+    });
+    document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement) stop(); });
+    return () => on;
+  },
+  fmt(x, d){ return Number(x).toLocaleString('en-GB', {minimumFractionDigits:d, maximumFractionDigits:d}); },
+  /* scientific notation with superscript exponent: 1.3 × 10⁻⁶ */
+  sci(x, d){ if(!isFinite(x) || x === 0) return String(x); const e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e), SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹'}; return m.toFixed(d === undefined ? 1 : d) + ' × 10' + String(e).split('').map(c => SUP[c]).join(''); }
+};
+
+</script>
+<script>
+(function(){
+'use strict';
+const stage = document.getElementById('stage'), cv = document.getElementById('gl'), ov = document.getElementById('ov'), errBox = document.getElementById('err');
+const octx = ov.getContext('2d');
+const hud = {tl:document.getElementById('hudTL'), tr:document.getElementById('hudTR'), bl:document.getElementById('hudBL')};
+hud.tl.style.whiteSpace = 'pre'; hud.tr.style.whiteSpace = 'pre';
+const gl = cv.getContext('webgl2', {antialias:false, alpha:false, powerPreference:'high-performance'});
+function fail(msg){ errBox.textContent = msg; errBox.classList.add('on'); }
+if(!gl){ fail('This instrument needs WebGL 2, which this browser or device does not provide.'); return; }
+
+/* =====================================================================
+   Vector and rotation helpers (row-major 3x3, q = M p)
+   ===================================================================== */
+const PI = Math.PI, D2R = PI/180, R2D = 180/PI, R_KM = 6371.0;
+const sph = (phi, lam) => [Math.cos(phi)*Math.cos(lam), Math.cos(phi)*Math.sin(lam), Math.sin(phi)];
+const geo = v => { const r = Math.hypot(v[0], v[1]); return [Math.atan2(v[2], r), r < 1e-15 ? 0 : Math.atan2(v[1], v[0])]; };
+const dot = (a, b) => a[0]*b[0] + a[1]*b[1] + a[2]*b[2];
+const cross = (a, b) => [a[1]*b[2] - a[2]*b[1], a[2]*b[0] - a[0]*b[2], a[0]*b[1] - a[1]*b[0]];
+const norm = a => { const l = Math.hypot(a[0], a[1], a[2]) || 1; return [a[0]/l, a[1]/l, a[2]/l]; };
+const ang = (a, b) => Math.atan2(Math.hypot(...cross(a, b)), dot(a, b));
+const mv = (M, v) => [M[0]*v[0] + M[1]*v[1] + M[2]*v[2], M[3]*v[0] + M[4]*v[1] + M[5]*v[2], M[6]*v[0] + M[7]*v[1] + M[8]*v[2]];
+const mtv = (M, v) => [M[0]*v[0] + M[3]*v[1] + M[6]*v[2], M[1]*v[0] + M[4]*v[1] + M[7]*v[2], M[2]*v[0] + M[5]*v[1] + M[8]*v[2]];
+function mm(A, B){ const C = new Array(9); for(let i = 0; i < 3; i++) for(let j = 0; j < 3; j++) C[i*3 + j] = A[i*3]*B[j] + A[i*3 + 1]*B[3 + j] + A[i*3 + 2]*B[6 + j]; return C; }
+const Rx = a => [1, 0, 0, 0, Math.cos(a), -Math.sin(a), 0, Math.sin(a), Math.cos(a)];
+const Ry = a => [Math.cos(a), 0, Math.sin(a), 0, 1, 0, -Math.sin(a), 0, Math.cos(a)];
+const Rz = a => [Math.cos(a), -Math.sin(a), 0, Math.sin(a), Math.cos(a), 0, 0, 0, 1];
+function rotAxis(k, t){ k = norm(k); const c = Math.cos(t), s = Math.sin(t), v = 1 - c, [x, y, z] = k;
+  return [c + x*x*v, x*y*v - z*s, x*z*v + y*s, y*x*v + z*s, c + y*y*v, y*z*v - x*s, z*x*v - y*s, z*y*v + x*s, c + z*z*v]; }
+function rotAtoB(a, b){                     // spec 6.1: shortest rotation taking a to b
+  const v = cross(a, b), c = dot(a, b);
+  if(c < -0.9999){ const ax = Math.abs(a[0]) < 0.9 ? norm(cross(a, [1, 0, 0])) : norm(cross(a, [0, 1, 0])); return rotAxis(ax, PI); }
+  const K = [0, -v[2], v[1], v[2], 0, -v[0], -v[1], v[0], 0], K2 = mm(K, K), f = 1/(1 + c);
+  return [1 + K[0] + K2[0]*f, K[1] + K2[1]*f, K[2] + K2[2]*f, K[3] + K2[3]*f, 1 + K[4] + K2[4]*f, K[5] + K2[5]*f, K[6] + K2[6]*f, K[7] + K2[7]*f, 1 + K[8] + K2[8]*f];
+}
+function ortho(M){ let r0 = norm([M[0], M[1], M[2]]), r1 = [M[3], M[4], M[5]]; const d = dot(r0, r1); r1 = norm([r1[0] - d*r0[0], r1[1] - d*r0[1], r1[2] - d*r0[2]]); const r2 = cross(r0, r1); return [...r0, ...r1, ...r2]; }
+function buildM(lat0, lon0, head, phiRef){ return mm(mm(mm(Ry(-phiRef), Rx(head)), Ry(lat0)), Rz(-lon0)); }
+function quat(M){                          // rotation matrix -> unit quaternion (w, x, y, z)
+  const t = M[0] + M[4] + M[8]; let w, x, y, z;
+  if(t > 0){ const s = Math.sqrt(t + 1)*2; w = s/4; x = (M[7] - M[5])/s; y = (M[2] - M[6])/s; z = (M[3] - M[1])/s; }
+  else if(M[0] > M[4] && M[0] > M[8]){ const s = Math.sqrt(1 + M[0] - M[4] - M[8])*2; w = (M[7] - M[5])/s; x = s/4; y = (M[1] + M[3])/s; z = (M[2] + M[6])/s; }
+  else if(M[4] > M[8]){ const s = Math.sqrt(1 + M[4] - M[0] - M[8])*2; w = (M[2] - M[6])/s; x = (M[1] + M[3])/s; y = s/4; z = (M[5] + M[7])/s; }
+  else { const s = Math.sqrt(1 + M[8] - M[0] - M[4])*2; w = (M[3] - M[1])/s; x = (M[2] + M[6])/s; y = (M[5] + M[7])/s; z = s/4; }
+  return [w, x, y, z];
+}
+function qmat(q){ const [w, x, y, z] = q; return [1 - 2*(y*y + z*z), 2*(x*y - z*w), 2*(x*z + y*w), 2*(x*y + z*w), 1 - 2*(x*x + z*z), 2*(y*z - x*w), 2*(x*z - y*w), 2*(y*z + x*w), 1 - 2*(x*x + y*y)]; }
+function slerpM(A, B, t){
+  const a = quat(A); let b = quat(B), d = a[0]*b[0] + a[1]*b[1] + a[2]*b[2] + a[3]*b[3];
+  if(d < 0){ b = b.map(v => -v); d = -d; }
+  let r;
+  if(d > 0.9995) r = a.map((v, i) => v + (b[i] - v)*t);
+  else { const th = Math.acos(d), s = Math.sin(th); r = a.map((v, i) => (Math.sin((1 - t)*th)*v + Math.sin(t*th)*b[i])/s); }
+  const l = Math.hypot(...r); return qmat(r.map(v => v/l));
+}
+
+/* =====================================================================
+   Projection library (JS, double). Frame coordinates: q = M p.
+   Formulas and test vectors: tools/_studies/_projection-spec.md
+   ===================================================================== */
+const ROB_X = [1.0000, 0.9986, 0.9954, 0.9900, 0.9822, 0.9730, 0.9600, 0.9427, 0.9216, 0.8962, 0.8679, 0.8350, 0.7986, 0.7597, 0.7186, 0.6732, 0.6213, 0.5722, 0.5322];
+const ROB_Y = [0.0000, 0.0620, 0.1240, 0.1860, 0.2480, 0.3100, 0.3720, 0.4340, 0.4958, 0.5571, 0.6176, 0.6769, 0.7346, 0.7903, 0.8435, 0.8936, 0.9394, 0.9761, 1.0000];
+function robV(T, k, odd){ if(k < 0) return odd ? -T[1] : T[1]; if(k > 18) return 2*T[18] - T[17]; return T[k]; }
+function robC(T, u, odd){                  // Catmull-Rom value and derivative d/du at u = |phi|/5deg
+  const i = Math.min(Math.floor(u), 17), t = u - i;
+  const v0 = robV(T, i, odd), v1 = robV(T, i + 1, odd), m0 = (v1 - robV(T, i - 1, odd))/2, m1 = (robV(T, i + 2, odd) - v0)/2;
+  const t2 = t*t, t3 = t2*t;
+  return [(2*t3 - 3*t2 + 1)*v0 + (t3 - 2*t2 + t)*m0 + (-2*t3 + 3*t2)*v1 + (t3 - t2)*m1,
+          (6*t2 - 6*t)*v0 + (3*t2 - 4*t + 1)*m0 + (-6*t2 + 6*t)*v1 + (3*t2 - 2*t)*m1];
+}
+const EE = {A1:1.340264, A2:-0.081106, A3:0.000893, A4:0.003796, M:Math.sqrt(3)/2};
+const eeP = t => t*(EE.A1 + t*t*(EE.A2 + t*t*t*t*(EE.A3 + EE.A4*t*t)));
+const eeDP = t => EE.A1 + t*t*(3*EE.A2 + t*t*t*t*(7*EE.A3 + 9*EE.A4*t*t));
+function mollTheta(phi){ const sp = Math.sin(phi); if(Math.abs(sp) > 1 - 1e-15) return Math.sign(phi)*PI/2;
+  let u = Math.abs(phi) < 60*D2R ? phi : Math.sign(phi)*(PI - Math.cbrt(6*PI*(1 - Math.abs(sp))));
+  for(let k = 0; k < 8; k++){ const du = (u + Math.sin(u) - PI*sp)/(1 + Math.cos(u)); u -= du; if(Math.abs(du) < 1e-12) break; }
+  return u/2; }
+const CONIC = {p1:30*D2R, p2:60*D2R};
+function conicParams(){
+  const p1 = CONIC.p1, p2 = Math.max(CONIC.p2, CONIC.p1), ref = (p1 + p2)/2, t = f => Math.tan(PI/4 + f/2);
+  const nL = Math.abs(p2 - p1) < 1e-6 ? Math.sin(p1) : Math.log(Math.cos(p1)/Math.cos(p2))/Math.log(t(p2)/t(p1)), FL = Math.cos(p1)*Math.pow(t(p1), nL)/nL;
+  const nA = (Math.sin(p1) + Math.sin(p2))/2, CA = Math.cos(p1)*Math.cos(p1) + 2*nA*Math.sin(p1);
+  return {ref, nL, FL, r0L:FL/Math.pow(t(ref), nL), nA, CA, r0A:Math.sqrt(CA - 2*nA*Math.sin(ref))/nA, phiMinL:-60*D2R};
+}
+let CP = conicParams();
+const AZ_LIM = {9:PI - 1e-3, 10:PI - 1e-3, 11:160*D2R, 12:PI/2, 13:70*D2R};
+/* id, name, family, keeps, natural aspect, glsl id */
+const PROJS = [
+  {id:0, key:'equirect', name:'Equirectangular', fam:'Cylinders', keeps:'Nothing exactly (true distances north–south)', cls:'none', nat:[0, 0, 0]},
+  {id:1, key:'mercator', name:'Mercator', fam:'Cylinders', keeps:'Shape (conformal): every angle is true; constant bearings are straight', cls:'shape', nat:[0, 0, 0]},
+  {id:2, key:'tmerc', name:'Transverse Mercator', fam:'Cylinders', keeps:'Shape (conformal), true along its central meridian', cls:'shape', nat:[0, 0, 0]},
+  {id:3, key:'lcea', name:'Lambert cylindrical equal-area', fam:'Cylinders', keeps:'Area (equal-area)', cls:'area', nat:[0, 0, 0], phis:0},
+  {id:4, key:'gall', name:'Gall–Peters', fam:'Cylinders', keeps:'Area (equal-area), shapes true on 45° N and S', cls:'area', nat:[0, 0, 0], phis:45*D2R},
+  {id:5, key:'sinu', name:'Sinusoidal', fam:'World ovals', keeps:'Area (equal-area), true along every parallel', cls:'area', nat:[0, 0, 0]},
+  {id:6, key:'moll', name:'Mollweide', fam:'World ovals', keeps:'Area (equal-area)', cls:'area', nat:[0, 0, 0]},
+  {id:7, key:'robin', name:'Robinson', fam:'World ovals', keeps:'Nothing exactly (a compromise)', cls:'none', nat:[0, 0, 0]},
+  {id:8, key:'ee', name:'Equal Earth', fam:'World ovals', keeps:'Area (equal-area)', cls:'area', nat:[0, 0, 0]},
+  {id:9, key:'azeq', name:'Azimuthal equidistant', fam:'From one point', keeps:'Distance and direction from the centre', cls:'dist', nat:[90, 0, 0]},
+  {id:10, key:'laea', name:'Lambert azimuthal equal-area', fam:'From one point', keeps:'Area (equal-area) and direction from the centre', cls:'area', nat:[90, 0, 0]},
+  {id:11, key:'stereo', name:'Stereographic', fam:'From one point', keeps:'Shape (conformal); circles stay circles', cls:'shape', nat:[90, 0, 0]},
+  {id:12, key:'ortho', name:'Orthographic', fam:'From one point', keeps:'The view of a far-away camera (half the Earth)', cls:'none', nat:[20, 20, 0]},
+  {id:13, key:'gnomo', name:'Gnomonic', fam:'From one point', keeps:'Straight shortest routes: every great circle is a straight line', cls:'routes', nat:[90, 0, 0]},
+  {id:14, key:'lcc', name:'Lambert conformal conic', fam:'Cones', keeps:'Shape (conformal), true on two parallels', cls:'shape', nat:[45, 0, 0], conic:true},
+  {id:15, key:'albers', name:'Albers equal-area conic', fam:'Cones', keeps:'Area (equal-area), true on two parallels', cls:'area', nat:[45, 0, 0], conic:true}
+];
+const phiRefOf = pid => PROJS[pid].conic ? CP.ref : 0;
+const MERC_LIM = Math.atan(Math.sinh(PI));
+/* forward: frame unit vector q -> map [x, y], or null where the projection does not show it */
+function fwd(pid, q){
+  const [f, l] = geo(q);
+  switch(pid){
+    case 0: return [l, f];
+    case 1: return Math.abs(f) > MERC_LIM ? null : [l, Math.atanh(Math.sin(f))];
+    case 2: { const B = Math.cos(f)*Math.sin(l); if(Math.abs(B) > Math.tanh(PI)) return null; return [Math.atanh(B), Math.atan2(Math.sin(f), Math.cos(f)*Math.cos(l))]; }
+    case 3: case 4: { const cs = Math.cos(PROJS[pid].phis); return [l*cs, Math.sin(f)/cs]; }
+    case 5: return [l*Math.cos(f), f];
+    case 6: { const t = mollTheta(f); return [2*Math.SQRT2/PI*l*Math.cos(t), Math.SQRT2*Math.sin(t)]; }
+    case 7: { const u = Math.abs(f)/(5*D2R); return [0.8487*robC(ROB_X, u, false)[0]*l, 1.3523*robC(ROB_Y, u, true)[0]*Math.sign(f)]; }
+    case 8: { const t = Math.asin(EE.M*Math.sin(f)); return [2*Math.sqrt(3)*l*Math.cos(t)/(3*eeDP(t)), eeP(t)]; }
+    case 9: case 10: case 11: case 12: case 13: {
+      const c = Math.atan2(Math.hypot(q[1], q[2]), q[0]); if(c > AZ_LIM[pid]) return null;
+      const s = Math.hypot(q[1], q[2]); if(s < 1e-15) return [0, 0];
+      const rho = pid === 9 ? c : pid === 10 ? 2*Math.sin(c/2) : pid === 11 ? 2*Math.tan(c/2) : pid === 12 ? Math.sin(c) : Math.tan(c);
+      return [rho*q[1]/s, rho*q[2]/s];
+    }
+    case 14: { if(f < CP.phiMinL) return null; const rho = CP.FL/Math.pow(Math.tan(PI/4 + f/2), CP.nL), th = CP.nL*l; return [rho*Math.sin(th), CP.r0L - rho*Math.cos(th)]; }
+    case 15: { const rho = Math.sqrt(CP.CA - 2*CP.nA*Math.sin(f))/CP.nA, th = CP.nA*l; return [rho*Math.sin(th), CP.r0A - rho*Math.cos(th)]; }
+  }
+  return null;
+}
+/* inverse: map [x, y] -> frame unit vector q, or null outside the map */
+function inv(pid, x, y){
+  switch(pid){
+    case 0: return (Math.abs(x) <= PI && Math.abs(y) <= PI/2) ? sph(y, x) : null;
+    case 1: return (Math.abs(x) <= PI && Math.abs(y) <= PI) ? sph(Math.atan(Math.sinh(y)), x) : null;
+    case 2: return (Math.abs(x) <= PI && Math.abs(y) <= PI) ? sph(Math.asin(Math.max(-1, Math.min(1, Math.sin(y)/Math.cosh(x)))), Math.atan2(Math.sinh(x), Math.cos(y))) : null;
+    case 3: case 4: { const cs = Math.cos(PROJS[pid].phis); return (Math.abs(x) <= PI*cs && Math.abs(y) <= 1/cs) ? sph(Math.asin(Math.max(-1, Math.min(1, y*cs))), x/cs) : null; }
+    case 5: { if(Math.abs(y) > PI/2) return null; const l = x/Math.max(Math.cos(y), 1e-12); return Math.abs(l) <= PI ? sph(y, l) : null; }
+    case 6: { if(x*x/8 + y*y/2 > 1) return null; const st = Math.max(-1, Math.min(1, y/Math.SQRT2)), ct = Math.sqrt(Math.max(0, 1 - st*st)), th = Math.asin(st);
+      return sph(Math.asin(Math.max(-1, Math.min(1, (2*th + 2*st*ct)/PI))), Math.max(-PI, Math.min(PI, PI*x/(2*Math.SQRT2*Math.max(ct, 1e-12))))); }
+    case 7: { const Y = Math.abs(y)/1.3523; if(Y > 1) return null; let i = 0; while(i < 17 && ROB_Y[i + 1] <= Y) i++;
+      let t = (Y - ROB_Y[i])/(ROB_Y[i + 1] - ROB_Y[i]); for(let k = 0; k < 4; k++){ const r = robC(ROB_Y, i + t, true); t -= (r[0] - Y)/r[1]; }
+      const u = i + t, f = Math.sign(y)*u*5*D2R, l = x/(0.8487*robC(ROB_X, u, false)[0]); return Math.abs(l) <= PI ? sph(f, l) : null; }
+    case 8: { if(Math.abs(y) > 1.317362759) return null; let t = y; for(let k = 0; k < 6; k++) t -= (eeP(t) - y)/eeDP(t);
+      const f = Math.asin(Math.max(-1, Math.min(1, Math.sin(t)/EE.M))), l = 3*x*eeDP(t)/(2*Math.sqrt(3)*Math.cos(t)); return Math.abs(l) <= PI ? sph(f, l) : null; }
+    case 9: { const r = Math.hypot(x, y); if(r > AZ_LIM[9]) return null; const s = r < 1e-3 ? 1 - r*r/6 : Math.sin(r)/r; return norm([Math.cos(r), x*s, y*s]); }
+    case 10: { const r2 = x*x + y*y; if(r2 > 4*Math.sin(AZ_LIM[10]/2)**2) return null; const k = Math.sqrt(1 - r2/4); return norm([1 - r2/2, x*k, y*k]); }
+    case 11: { const r2 = x*x + y*y; if(Math.sqrt(r2) > 2*Math.tan(AZ_LIM[11]/2)) return null; return norm([(4 - r2)/(4 + r2), 4*x/(4 + r2), 4*y/(4 + r2)]); }
+    case 12: { const r2 = x*x + y*y; return r2 > 1 ? null : [Math.sqrt(1 - r2), x, y]; }
+    case 13: { if(Math.hypot(x, y) > Math.tan(AZ_LIM[13])) return null; return norm([1, x, y]); }
+    case 14: { const dy = CP.r0L - y, rho = Math.hypot(x, dy), th = Math.atan2(x, dy); if(Math.abs(th) > CP.nL*PI || rho < 1e-9) return null;
+      const f = 2*Math.atan(Math.pow(CP.FL/rho, 1/CP.nL)) - PI/2; return f < CP.phiMinL ? null : sph(f, th/CP.nL); }
+    case 15: { const dy = CP.r0A - y, rho = Math.hypot(x, dy), th = Math.atan2(x, dy); if(Math.abs(th) > CP.nA*PI) return null;
+      const s = (CP.CA - rho*rho*CP.nA*CP.nA)/(2*CP.nA); return Math.abs(s) > 1 ? null : sph(Math.asin(s), th/CP.nA); }
+  }
+  return null;
+}
+/* local scale matrix in the frame by central differences (double): columns = images of frame east and frame north */
+function Dfr(pid, q){
+  const [f, l] = geo(q), e = 1e-5, cf = Math.max(Math.cos(f), 1e-9);
+  const fe = (ff, ll) => fwd(pid, sph(ff, ll));
+  let a1 = fe(f, l + e), a2 = fe(f, l - e), b1 = fe(f + e, l), b2 = fe(f - e, l);
+  if(!a1 || !a2 || !b1 || !b2) return null;
+  if(pid === 2 || pid >= 9 && pid <= 13){ if(Math.abs(a1[1] - a2[1]) > 1 || Math.abs(b1[1] - b2[1]) > 1 || Math.abs(a1[0] - a2[0]) > 1) return null; }
+  return [(a1[0] - a2[0])/(2*e*cf), (b1[0] - b2[0])/(2*e), (a1[1] - a2[1])/(2*e*cf), (b1[1] - b2[1])/(2*e)];
+}
+function svd2(D){ const [p, q, r, t] = D, A = Math.hypot(p + t, q - r), B = Math.hypot(p - t, q + r); return {a:(A + B)/2, b:Math.abs(A - B)/2, s:Math.abs(p*t - q*r), w2:2*Math.asin(Math.min(1, B/Math.max(A, 1e-300)))*R2D}; }
+/* scale along geographic north and east at geographic point p (spec 5.5) */
+function hk(pid, M, p){
+  const q = mv(M, p), D = Dfr(pid, q); if(!D) return null;
+  const N = norm([-p[2]*p[0], -p[2]*p[1], 1 - p[2]*p[2]]); if(!isFinite(N[0])) return null;
+  const Nf = mv(M, N), [, l] = geo(q), eF = [-Math.sin(l), Math.cos(l), 0], nF = cross(q, eF);
+  const beta = Math.atan2(dot(Nf, eF), dot(Nf, nF));
+  const sc = al => { const x = Math.sin(al + beta), y = Math.cos(al + beta); return Math.hypot(D[0]*x + D[1]*y, D[2]*x + D[3]*y); };
+  return {h:sc(0), k:sc(PI/2), D};
+}
+
+/* =====================================================================
+   GLSL (one program per projection, compiled on first use)
+   ===================================================================== */
+const GLSL_COMMON = `#version 300 es
+precision highp float; precision highp int;
+out vec4 o;
+const float PI = 3.14159265358979, HALFPI = 1.5707963267949, SQRT2 = 1.4142135623731, D2R = 0.0174532925199433;
+uniform vec2 uRes; uniform vec4 uMapRect; uniform vec2 uMapC; uniform float uMapS; uniform vec3 uGlobe;
+uniform mat3 uM, uV, uG;
+uniform float uPhiS, uNL, uFL, uR0L, uPhiMinL, uNA, uCA, uR0A;
+uniform sampler2D uLand, uGhost, uLut;
+uniform float uGrat, uTissot, uTissotMap, uHeat, uBands, uNoDist, uCut, uLandFill, uRings, uFade, uGhostOn;
+uniform vec3 uCentre, uA, uB; uniform float uGC, uRh, uRu; uniform vec4 uRuler;
+float sq(float x){ return x*x; }
+vec3 sph(float f, float l){ float c = cos(f); return vec3(c*cos(l), c*sin(l), sin(f)); }
+vec2 geoOf(vec3 v){ float r = length(v.xy); return vec2(atan(v.z, r), r < 1e-20 ? 0.0 : atan(v.y, v.x)); }
+float angB(vec3 a, vec3 b){ return atan(length(cross(a, b)), dot(a, b)); }
+float sasin(float x){ return asin(clamp(x, -1.0, 1.0)); }
+const float RX[19] = float[19](1.0000, 0.9986, 0.9954, 0.9900, 0.9822, 0.9730, 0.9600, 0.9427, 0.9216, 0.8962, 0.8679, 0.8350, 0.7986, 0.7597, 0.7186, 0.6732, 0.6213, 0.5722, 0.5322);
+const float RY[19] = float[19](0.0000, 0.0620, 0.1240, 0.1860, 0.2480, 0.3100, 0.3720, 0.4340, 0.4958, 0.5571, 0.6176, 0.6769, 0.7346, 0.7903, 0.8435, 0.8936, 0.9394, 0.9761, 1.0000);
+float robV(int w, int k){ if(k < 0) return w == 0 ? RX[1] : -RY[1]; if(k > 18) return w == 0 ? 2.0*RX[18] - RX[17] : 2.0*RY[18] - RY[17]; return w == 0 ? RX[k] : RY[k]; }
+vec2 robC(int w, float u){
+  int i = min(int(floor(u)), 17); float t = u - float(i);
+  float v0 = robV(w, i), v1 = robV(w, i + 1), m0 = (v1 - robV(w, i - 1))*0.5, m1 = (robV(w, i + 2) - v0)*0.5, t2 = t*t, t3 = t2*t;
+  return vec2((2.0*t3 - 3.0*t2 + 1.0)*v0 + (t3 - 2.0*t2 + t)*m0 + (-2.0*t3 + 3.0*t2)*v1 + (t3 - t2)*m1,
+              (6.0*t2 - 6.0*t)*v0 + (3.0*t2 - 4.0*t + 1.0)*m0 + (-6.0*t2 + 6.0*t)*v1 + (3.0*t2 - 2.0*t)*m1);
+}
+const float A1 = 1.340264, A2 = -0.081106, A3 = 0.000893, A4 = 0.003796, EM = 0.8660254037844386;
+float eeP(float t){ float t2 = t*t; return t*(A1 + t2*(A2 + t2*t2*(A3 + A4*t2))); }
+float eeDP(float t){ float t2 = t*t; return A1 + t2*(3.0*A2 + t2*t2*(7.0*A3 + 9.0*A4*t2)); }
+float eeDDP(float t){ float t2 = t*t; return t*(6.0*A2 + t2*t2*(42.0*A3 + 72.0*A4*t2)); }
+float mollTheta(float f){
+  float sp = sin(f); if(abs(sp) > 0.9999999) return sign(f)*HALFPI;
+  float u = abs(f) < 1.0471976 ? f : sign(f)*(PI - pow(6.0*PI*(1.0 - abs(sp)), 1.0/3.0));
+  for(int k = 0; k < 4; k++) u -= (u + sin(u) - PI*sp)/max(1.0 + cos(u), 1e-6);
+  return u*0.5;
+}
+// singular values of D = [p q; r t] without cancellation (spec 5.2)
+vec2 svd(float p, float q, float r, float t){ float A = length(vec2(p + t, q - r)), B = length(vec2(p - t, q + r)); return vec2(0.5*(A + B), 0.5*abs(A - B)); }
+`;
+/* per projection: inverse (map -> frame q, with edge measure g in map units), forward domain test, singular values (a, b) */
+const GLSL_PROJ = `
+bool inv(vec2 m, out vec3 q, out float g){
+#if PROJ == 0
+  g = min(PI - abs(m.x), HALFPI - abs(m.y)); q = sph(m.y, m.x); return g >= 0.0;
+#elif PROJ == 1
+  g = min(PI - abs(m.x), PI - abs(m.y)); q = sph(atan(sinh(clamp(m.y, -PI, PI))), m.x); return g >= 0.0;
+#elif PROJ == 2
+  g = min(PI - abs(m.x), PI - abs(m.y)); q = sph(sasin(sin(m.y)/cosh(clamp(m.x, -PI, PI))), atan(sinh(m.x), cos(m.y))); return g >= 0.0;
+#elif PROJ == 3 || PROJ == 4
+  float cs = cos(uPhiS); g = min(PI*cs - abs(m.x), 1.0/cs - abs(m.y)); q = sph(sasin(m.y*cs), m.x/cs); return g >= 0.0;
+#elif PROJ == 5
+  float cy = cos(clamp(m.y, -HALFPI, HALFPI)); float l = m.x/max(cy, 1e-7);
+  g = min(HALFPI - abs(m.y), (PI - abs(l))*cy); q = sph(clamp(m.y, -HALFPI, HALFPI), clamp(l, -PI, PI)); return g >= 0.0;
+#elif PROJ == 6
+  g = 1.0 - m.x*m.x/8.0 - m.y*m.y/2.0;
+  float st = clamp(m.y/SQRT2, -1.0, 1.0), ct = sqrt(max(1.0 - st*st, 0.0)), th = asin(st);
+  q = sph(sasin((2.0*th + 2.0*st*ct)/PI), clamp(PI*m.x/(2.0*SQRT2*max(ct, 1e-7)), -PI, PI)); return g >= 0.0;
+#elif PROJ == 7
+  float Y = min(abs(m.y)/1.3523, 1.0); int i = 0;
+  for(int k = 0; k < 17; k++){ if(RY[k + 1] <= Y) i = k + 1; }
+  float t = (Y - RY[i])/(RY[i + 1] - RY[i]);
+  for(int k = 0; k < 3; k++){ vec2 r = robC(1, float(i) + t); t -= (r.x - Y)/r.y; }
+  float u = float(i) + t, X = robC(0, u).x, l = m.x/(0.8487*X);
+  g = min(1.3523 - abs(m.y), (PI - abs(l))*0.8487*X); q = sph(sign(m.y)*u*5.0*D2R, clamp(l, -PI, PI)); return g >= 0.0;
+#elif PROJ == 8
+  float y = clamp(m.y, -1.317362759, 1.317362759), t = y;
+  for(int k = 0; k < 4; k++) t -= (eeP(t) - y)/eeDP(t);
+  float dp = eeDP(t), xs = 2.0*1.7320508*cos(t)/(3.0*dp), l = m.x/max(xs, 1e-7);
+  g = min(1.317362759 - abs(m.y), (PI - abs(l))*xs); q = sph(sasin(sin(t)/EM), clamp(l, -PI, PI)); return g >= 0.0;
+#elif PROJ == 9
+  float r = length(m); g = (PI - 1e-3) - r; float s = r < 1e-3 ? 1.0 - r*r/6.0 : sin(r)/r; q = normalize(vec3(cos(r), m*s)); return g >= 0.0;
+#elif PROJ == 10
+  float r2 = dot(m, m); g = 1.9999995 - sqrt(r2); q = normalize(vec3(1.0 - r2/2.0, m*sqrt(max(1.0 - r2/4.0, 0.0)))); return g >= 0.0;
+#elif PROJ == 11
+  float r2 = dot(m, m); g = 11.343 - sqrt(r2); q = normalize(vec3(4.0 - r2, 4.0*m)); return g >= 0.0;
+#elif PROJ == 12
+  float r2 = dot(m, m); g = 1.0 - sqrt(r2); q = vec3(sqrt(max(1.0 - r2, 0.0)), m); return g >= 0.0;
+#elif PROJ == 13
+  g = 2.7474774 - length(m); q = normalize(vec3(1.0, m)); return g >= 0.0;
+#elif PROJ == 14
+  float dy = uR0L - m.y, rho = length(vec2(m.x, dy)), th = atan(m.x, dy);
+  float f = 2.0*atan(exp(log(uFL/max(rho, 1e-6))/uNL)) - HALFPI;
+  g = min(uNL*PI - abs(th), (f - uPhiMinL)); q = sph(f, th/uNL); return g >= 0.0;
+#elif PROJ == 15
+  float dy = uR0A - m.y, rho = length(vec2(m.x, dy)), th = atan(m.x, dy), s = (uCA - rho*rho*uNA*uNA)/(2.0*uNA);
+  g = min(uNA*PI - abs(th), 1.0 - abs(s)); q = sph(sasin(s), th/uNA); return g >= 0.0;
+#endif
+}
+// is frame point q shown on the map? (for dimming the globe)
+bool shown(vec3 q){
+#if PROJ == 1
+  return abs(geoOf(q).x) <= 1.4844222;
+#elif PROJ == 2
+  vec2 f = geoOf(q); return abs(cos(f.x)*sin(f.y)) <= 0.9962721;
+#elif PROJ == 11
+  return angB(q, vec3(1, 0, 0)) <= 2.7925268;
+#elif PROJ == 12
+  return q.x >= 0.0;
+#elif PROJ == 13
+  return angB(q, vec3(1, 0, 0)) <= 1.2217305;
+#elif PROJ == 14
+  return geoOf(q).x >= uPhiMinL;
+#else
+  return true;
+#endif
+}
+// largest and smallest local scale at frame point q (analytic, spec section 4)
+vec2 scaleAB(vec3 q){
+  vec2 fl = geoOf(q); float f = fl.x, l = fl.y, cf = max(cos(f), 1e-6);
+#if PROJ == 0
+  return vec2(1.0/cf, 1.0);
+#elif PROJ == 1
+  return vec2(1.0/cf);
+#elif PROJ == 2
+  float B = cos(f)*sin(l); return vec2(1.0/sqrt(max(1.0 - B*B, 1e-12)));
+#elif PROJ == 3 || PROJ == 4
+  float cs = cos(uPhiS); vec2 v = vec2(cs/cf, cf/cs); return vec2(max(v.x, v.y), min(v.x, v.y));
+#elif PROJ == 5
+  return svd(1.0, -l*sin(f), 0.0, 1.0);
+#elif PROJ == 6
+  float t = mollTheta(f), ct = max(cos(t), 1e-6), dt = PI*cf/(4.0*ct*ct);
+  return svd(2.0*SQRT2/PI*ct/cf, -2.0*SQRT2/PI*l*sin(t)*dt, 0.0, SQRT2*ct*dt);
+#elif PROJ == 7
+  float u = abs(f)/(5.0*D2R); vec2 X = robC(0, u), Y = robC(1, u); float du = 1.0/(5.0*D2R);
+  return svd(0.8487*X.x/cf, 0.8487*l*X.y*du*sign(f), 0.0, 1.3523*Y.y*du);
+#elif PROJ == 8
+  float t = asin(EM*sin(f)), dp = eeDP(t), ct = cos(t), gg = 2.0*1.7320508*ct/(3.0*dp);
+  float gp = (2.0*1.7320508/3.0)*(-sin(t)*dp - ct*eeDDP(t))/(dp*dp), dt = EM*cos(f)/ct;
+  return svd(gg/cf, l*gp*dt, 0.0, dp*dt);
+#elif PROJ >= 9 && PROJ <= 13
+  float c = atan(length(q.yz), q.x), sc = max(sin(c), 1e-6), h, k;
+#if PROJ == 9
+  h = 1.0; k = c < 1e-3 ? 1.0 + c*c/6.0 : c/sc;
+#elif PROJ == 10
+  h = cos(c*0.5); k = 1.0/max(cos(c*0.5), 1e-6);
+#elif PROJ == 11
+  h = 1.0/max(sq(cos(c*0.5)), 1e-6); k = h;
+#elif PROJ == 12
+  h = cos(c); k = 1.0;
+#else
+  h = 1.0/max(sq(cos(c)), 1e-6); k = 1.0/max(cos(c), 1e-6);
+#endif
+  return vec2(max(h, k), min(h, k));
+#elif PROJ == 14
+  float rho = uFL/exp(uNL*log(tan(0.7853982 + f*0.5))); return vec2(uNL*rho/cf);
+#elif PROJ == 15
+  float k = sqrt(max(uCA - 2.0*uNA*sin(f), 0.0))/cf; return vec2(max(k, 1.0/k), min(k, 1.0/k));
+#endif
+}
+`;
+const GLSL_MAIN = `
+vec3 lutC(float t, float row){ return texture(uLut, vec2(clamp(t, 0.0, 1.0)*0.996 + 0.002, row)).rgb; }
+float line1(float d, float w){ return 1.0 - smoothstep(0.0, w, abs(d)); }
+// land: distance-field texture (0.5 = coast), seam-safe gradients (Tarini) and clamped footprint at the poles
+vec2 landAt(vec3 p, out float coast){
+  vec2 fl = geoOf(p);
+  float u1 = fl.y/(2.0*PI) + 0.5, u2 = fract(u1 + 0.5) - 0.5;
+  vec2 g1 = vec2(dFdx(u1), dFdy(u1)), g2 = vec2(dFdx(u2), dFdy(u2));
+  float u = (length(g1) <= length(g2) + 1e-6) ? u1 : u2;
+  vec2 du = (length(g1) <= length(g2) + 1e-6) ? g1 : g2;
+  float v = 0.5 - fl.x/PI; vec2 dv = vec2(dFdx(v), dFdy(v));
+  vec2 gx = vec2(du.x, dv.x), gy = vec2(du.y, dv.y);
+  float lim = 6.0/4096.0; if(length(gx) > lim) gx *= lim/length(gx); if(length(gy) > lim) gy *= lim/length(gy);
+  float s = textureGrad(uLand, vec2(u, v), gx, gy).r;
+  float w = max(fwidth(s), 0.004);
+  coast = 1.0 - smoothstep(0.0, 1.3*w, abs(s - 0.5));
+  return vec2(smoothstep(0.5 - w, 0.5 + w, s), s);
+}
+float ghostAt(vec3 p){
+  vec3 p0 = transpose(uG)*p; vec2 fl = geoOf(p0);
+  float u1 = fl.y/(2.0*PI) + 0.5, u2 = fract(u1 + 0.5) - 0.5;
+  float u = fwidth(u1) <= fwidth(u2) + 1e-6 ? u1 : u2;
+  return textureLod(uGhost, vec2(u, 0.5 - fl.x/PI), 0.0).r;
+}
+vec3 overlays(vec3 base, vec3 p, vec3 q, bool isGlobe, float shade){
+  vec3 c = base;
+  float coast; vec2 L = landAt(p, coast);
+  vec2 fl = geoOf(p);
+  // heat map from the frame position (distortion lives in the frame)
+  if(uHeat > 0.5){
+    vec2 ab = scaleAB(q); vec3 hc; float off = 0.0;
+    if(uHeat < 1.5){
+      float Lg = log2(max(ab.x*ab.y, 1e-12)); if(abs(Lg) < 0.01) Lg = 0.0;
+      off = step(3.0, abs(Lg));
+      float t = clamp(Lg, -3.0, 3.0);
+      if(uBands > 0.5){ float cls = Lg < -2.0 ? -2.5 : Lg < -1.0 ? -1.5 : Lg < -0.1375 ? -0.6 : Lg <= 0.1375 ? 0.0 : Lg < 1.0 ? 0.6 : Lg < 2.0 ? 1.5 : Lg < 3.0 ? 2.5 : 3.0; t = cls; }
+      hc = lutC(0.5 + t/6.0, 0.25);
+      if(uBands > 0.5){ float w = min(fwidth(Lg), 0.3); hc = mix(hc, vec3(1.0), 0.35*max(line1(Lg + 1.0, 1.2*w), max(line1(Lg - 1.0, 1.2*w), line1(Lg - 2.0, 1.2*w)))); }
+    } else {
+      float w2 = 2.0*asin(clamp((ab.x - ab.y)/max(ab.x + ab.y, 1e-9), 0.0, 1.0))/D2R; if(w2 < 0.05) w2 = 0.0;
+      float t = sqrt(min(w2, 60.0)/60.0);
+      if(uBands > 0.5){ float cls = w2 < 1.0 ? 0.0 : w2 < 5.0 ? 3.0 : w2 < 10.0 ? 7.5 : w2 < 20.0 ? 15.0 : w2 < 40.0 ? 30.0 : 55.0; t = sqrt(cls/60.0); }
+      hc = lutC(t, 0.75);
+      if(uBands > 0.5){ float w = min(fwidth(w2), 4.0); hc = mix(hc, vec3(1.0), 0.35*max(line1(w2 - 5.0, 1.2*w), line1(w2 - 20.0, 1.2*w))); }
+      off = step(89.0, w2);
+    }
+    float hatch = off*step(0.5, fract((gl_FragCoord.x + gl_FragCoord.y)/6.0));
+    c = mix(c, hc*shade, 0.7); c = mix(c, vec3(0.0), 0.5*hatch);
+  }
+  // land on top: 22% grey fill and a light coastline
+  c = mix(c, vec3(0.22)*shade + c*0.25, L.x*uLandFill);
+  c = mix(c, vec3(0.86), coast*(uLandFill > 0.5 ? 0.6 : 0.85));
+  // geographic graticule
+  if(uGrat > 0.5){
+    float st = uGrat*D2R;
+    float df = fl.x - st*floor(fl.x/st + 0.5), dl = fl.y - st*floor(fl.y/st + 0.5);
+    float wf = min(fwidth(df), st*0.08), wl = min(fwidth(dl), st*0.08);
+    float polar = 1.0 - smoothstep(80.0*D2R, 88.0*D2R, abs(fl.x));
+    float gr = max(line1(df, 1.2*wf), line1(dl, 1.2*wl)*polar);
+    float eq = line1(fl.x, 1.4*min(fwidth(fl.x), 0.05));
+    c = mix(c, vec3(0.92, 0.93, 0.95), gr*0.22 + eq*0.25);
+  }
+  // Tissot circles: true images of small circles, grid riding with the land (p) or fixed to the map frame (q)
+  if(uTissot > 0.5){
+    vec3 v = uTissotMap > 0.5 ? q : p; vec2 g = geoOf(v);
+    float S = uTissot*D2R, rr = S*0.2;
+    float j = floor(g.x/S + 0.5), fj = j*S; float N = max(1.0, floor(2.0*PI/S*cos(fj) + 0.5));
+    float k = floor(g.y*N/(2.0*PI) + 0.5);
+    vec3 cc = sph(fj, 2.0*PI*k/N);
+    float d = angB(v, cc) - rr, w = max(fwidth(d), 1e-5);
+    float fill = 1.0 - smoothstep(-w, w, d);
+    c = mix(c, vec3(1.0), fill*0.13 + line1(d, 1.3*w)*0.85);
+  }
+  // distance rings from the centre
+  if(uRings > 0.5){
+    float dk = angB(p, uCentre)*6371.0, rs = uRings; float dd = dk - rs*floor(dk/rs + 0.5); float w = min(fwidth(dk), rs*0.1);
+    c = mix(c, vec3(0.6, 0.85, 1.0), line1(dd, 1.3*w)*0.75*step(rs*0.5, dk));
+  }
+  // carried country (ghost)
+  if(uGhostOn > 0.5){ float a = ghostAt(p), w = max(fwidth(a), 0.02); c = mix(c, vec3(1.0), smoothstep(0.5 - w, 0.5 + w, a)*0.25 + line1(a - 0.5, 1.3*w)*0.9); }
+  // routes: great circle (solid) and rhumb line (dashed)
+  if(uGC > 0.5){
+    vec3 n = normalize(cross(uA, uB)); float d = dot(p, n);
+    float inArc = step(0.0, dot(cross(uA, p), n))*step(0.0, dot(cross(p, uB), n))*step(0.0, dot(p, normalize(uA + uB)) + 0.2);
+    float w = max(fwidth(d), 1e-6); c = mix(c, vec3(1.0), line1(d, 1.6*w)*inArc);
+  }
+  if(uRh > 0.5){
+    vec2 a = geoOf(uA), b = geoOf(uB);
+    float ya = log(tan(0.7853982 + clamp(a.x, -1.48, 1.48)*0.5)), yb = log(tan(0.7853982 + clamp(b.x, -1.48, 1.48)*0.5)), yp = log(tan(0.7853982 + clamp(fl.x, -1.48, 1.48)*0.5));
+    float dlab = b.y - a.y; dlab -= 2.0*PI*floor(dlab/(2.0*PI) + 0.5);
+    float dlp = fl.y - a.y; dlp -= 2.0*PI*floor((dlp - 0.5*dlab)/(2.0*PI) + 0.5);
+    vec2 s = vec2(dlab, yb - ya), r = vec2(dlp, yp - ya); float t = clamp(dot(r, s)/max(dot(s, s), 1e-9), 0.0, 1.0);
+    float d = length(r - s*t), w = max(fwidth(d), 1e-6);
+    float dash = step(0.45, fract(t*length(s)*6.0));
+    c = mix(c, vec3(0.88, 0.48, 0.37), line1(d, 1.6*w)*dash);
+  }
+  // lines of no distortion: where both scales are 1 (computed, not drawn by hand)
+  if(uNoDist > 0.5){
+    vec2 ab = scaleAB(q); float g = max(abs(log2(max(ab.x, 1e-9))), abs(log2(max(ab.y, 1e-9)))), w = max(min(fwidth(g), 0.05), 1e-5);
+    c = mix(c, vec3(1.0), line1(g, 2.0*w)*0.95); c += vec3(0.25)*line1(g, 6.0*w)*0.35;
+  }
+  return c;
+}
+void main(){
+  vec2 frag = gl_FragCoord.xy;
+  vec3 c = vec3(0.0);
+  vec2 gd = frag - uGlobe.xy; float gr = length(gd)/uGlobe.z;
+  if(frag.x >= uMapRect.x && frag.x < uMapRect.x + uMapRect.z && frag.y >= uMapRect.y && frag.y < uMapRect.y + uMapRect.w){
+    vec2 m = (frag - uMapC)/uMapS;
+    vec3 q; float g; bool ok = inv(m, q, g);
+    float edge = smoothstep(0.0, max(fwidth(g), 1e-6)*1.2, g);
+    if(ok){
+      vec3 p = transpose(uM)*q;
+      vec3 base = vec3(0.035, 0.045, 0.06);
+      c = overlays(base, p, q, false, 1.0)*edge;
+    }
+  } else if(gr < 1.0){
+    vec3 s = vec3(gd/uGlobe.z, sqrt(max(1.0 - gr*gr, 0.0)));
+    vec3 p = transpose(uV)*s, q = uM*p;
+    float shade = 0.55 + 0.45*max(dot(s, normalize(vec3(-0.4, 0.5, 0.8))), 0.0);
+    vec3 base = vec3(0.035, 0.045, 0.06)*shade;
+    c = overlays(base, p, q, true, shade);
+    // parts of the Earth the map does not show are dimmed; the map's cut is dashed
+    if(!shown(q)) c *= 0.35;
+    if(uCut > 0.5){
+      float cut = 0.0;
+#if PROJ <= 8 || PROJ >= 14
+      float d = q.y, w = max(fwidth(d), 1e-5);
+      cut = line1(d, 1.6*w)*step(q.x, 0.0);
+#elif PROJ == 9 || PROJ == 10 || PROJ == 11
+      vec3 cf = vec3(1, 0, 0); float d = angB(q, -cf) - 0.03, w = max(fwidth(d), 1e-5); cut = 1.0 - smoothstep(-w, w, d);
+#else
+      float lim = ${'${LIM}'}; float d = angB(q, vec3(1, 0, 0)) - lim, w = max(fwidth(d), 1e-5); cut = line1(d, 1.6*w);
+#endif
+      float dash = step(0.5, fract(geoOf(q).x/(5.0*D2R) + geoOf(q).y/(5.0*D2R)));
+      c = mix(c, vec3(1.0), cut*0.55*(0.4 + 0.6*dash));
+    }
+    float rim = smoothstep(1.0, 1.0 - 2.0/uGlobe.z, gr);
+    c *= rim;
+  }
+  c *= uFade;
+  c = pow(max(c, 0.0), vec3(0.4545));
+  o = vec4(c, 1.0);
+}`;
+const LUTS = {berlin:'9eb0ff9cb0fe9ab0fd98affc95affb93affa91aef98eaef78caef68aaef587adf485adf382adf280acf17eacf07bacee79abed76abec74aaeb71aae96fa9e86ca9e66aa8e567a8e365a7e262a6e060a5df5da5dd5ba4db58a3d956a2d754a0d5519fd34f9ed14d9dcf4b9bcd489aca4698c84497c64395c34194c13f92be3e90bc3c8eb93b8db7398bb43889b23787af3685ad3584aa3382a83280a6327ea3317ca1307a9e2f789c2e76992d75972c73942c71922b6f8f2a6d8d296b8b29698828688627668327648126627f25607c245e7a245d78235b7522597322577121556e20546c20526a1f50681e4e651e4d631d4b611c495f1c475c1b465a1a44581a4256194153193f51183d4f173c4d173a4b16384916374715354415334214324014303e132f3c132d3a122c38122a3612293411273211263011242e11232c11212a112028101f26101d25101c23111b21111a2011191e11181c11161b111519111418111317121215121214131112141011140f10150e0e160e0d170d0b180c0a190c091a0c081b0b071c0b061d0b051e0b04200b04210b03220c02230c02240c02250c01260d01270d01280d012a0e012b0e012c0e002d0e002f0e00300f00310f00330f00340f003510003710003810003911003b11003c11013e12013f12014112014213014413014514014714014815024a15024b16024d16024f1703501803521804541905561a05571b06591c075b1d085d1e095f1f0a61200b63210c65230e68240f6a25106c27116e2813702a14732b16752d17772f1979301b7b321c7d341e803620823722843924863b26883d288a3f2a8c402c8e422e904430924632944834964a36984c399a4d3b9c4f3d9e513fa05341a25544a45746a65948a85a4aaa5c4cac5e4fae6051b06253b26455b46658b6685ab86a5cba6b5fbc6d61be6f63c07165c27368c4756ac6776cc8796fca7b71cc7d73ce7f76d08178d2837ad5857dd7877fd98982db8b84dd8d86df8f89e1918be3938ee59590e79792ea9995ec9b97ee9d9af09f9cf2a19ff4a3a1f6a5a3f9a7a6fba9a8fdababffadad', inferno:'00000401000501010601010802010a02020c02020e03021004031204031405041706041907051b08051d09061f0a07220b07240c08260d08290e092b10092d110a30120a32140b34150b37160b39180c3c190c3e1b0c411c0c431e0c451f0c48210c4a230c4c240c4f260c51280b53290b552b0b572d0b592f0a5b310a5c320a5e340a5f3609613809623909633b09643d09653e0966400a67420a68440a68450a69470b6a490b6a4a0c6b4c0c6b4d0d6c4f0d6c510e6c520e6d540f6d550f6d57106e59106e5a116e5c126e5d126e5f136e61136e62146e64156e65156e67166e69166e6a176e6c186e6d186e6f196e71196e721a6e741a6e751b6e771c6d781c6d7a1d6d7c1d6d7d1e6d7f1e6c801f6c82206c84206b85216b87216b88226a8a226a8c23698d23698f24699025689225689326679526679727669827669a28659b29649d29649f2a63a02a63a22b62a32c61a52c60a62d60a82e5fa92e5eab2f5ead305dae305cb0315bb1325ab3325ab43359b63458b73557b93556ba3655bc3754bd3853bf3952c03a51c13a50c33b4fc43c4ec63d4dc73e4cc83f4bca404acb4149cc4248ce4347cf4446d04545d24644d34743d44842d54a41d74b3fd84c3ed94d3dda4e3cdb503bdd513ade5238df5337e05536e15635e25734e35933e45a31e55c30e65d2fe75e2ee8602de9612bea632aeb6429eb6628ec6726ed6925ee6a24ef6c23ef6e21f06f20f1711ff1731df2741cf3761bf37819f47918f57b17f57d15f67e14f68013f78212f78410f8850ff8870ef8890cf98b0bf98c0af98e09fa9008fa9207fa9407fb9606fb9706fb9906fb9b06fb9d07fc9f07fca108fca309fca50afca60cfca80dfcaa0ffcac11fcae12fcb014fcb216fcb418fbb61afbb81dfbba1ffbbc21fbbe23fac026fac228fac42afac62df9c72ff9c932f9cb35f8cd37f8cf3af7d13df7d340f6d543f6d746f5d949f5db4cf4dd4ff4df53f4e156f3e35af3e55df2e661f2e865f2ea69f1ec6df1ed71f1ef75f1f179f2f27df2f482f3f586f3f68af4f88ef5f992f6fa96f8fb9af9fc9dfafda1fcffa4'};
+const progs = {};
+function prog(pid){
+  if(progs[pid]) return progs[pid];
+  const lim = pid === 13 ? '1.2217305' : '1.5707963';
+  const src = GLSL_COMMON + '#define PROJ ' + pid + '\n' + GLSL_PROJ + GLSL_MAIN.replace('${LIM}', lim);
+  progs[pid] = GL.program(gl, GLX.VS, src);
+  return progs[pid];
+}
+try { prog(1); } catch(e){ console.error(e); fail('Shader failed to compile on this device: ' + String(e.message).split('\n')[0]); return; }
+const vao = GLX.quad(gl);
+
+/* textures: land distance field, ghost mask, colour LUTs */
+function tex(w, h, fmt, data, filter, mip){
+  const t = gl.createTexture(); gl.bindTexture(gl.TEXTURE_2D, t);
+  gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+  if(data instanceof HTMLImageElement || data instanceof HTMLCanvasElement) gl.texImage2D(gl.TEXTURE_2D, 0, fmt[0], fmt[1], fmt[2], data);
+  else gl.texImage2D(gl.TEXTURE_2D, 0, fmt[0], w, h, 0, fmt[1], fmt[2], data);
+  if(mip) gl.generateMipmap(gl.TEXTURE_2D);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, mip ? gl.LINEAR_MIPMAP_LINEAR : filter);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, filter);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
+  return t;
+}
+const lutData = new Uint8Array(256*2*4);
+['berlin', 'inferno'].forEach((k, row) => { const h = LUTS[k]; for(let i = 0; i < 256; i++){ for(let c = 0; c < 3; c++) lutData[(row*256 + i)*4 + c] = parseInt(h.substr(i*6 + c*2, 2), 16); lutData[(row*256 + i)*4 + 3] = 255; } });
+const texLut = tex(256, 2, [gl.RGBA8, gl.RGBA, gl.UNSIGNED_BYTE], lutData, gl.LINEAR, false);
+gl.bindTexture(gl.TEXTURE_2D, texLut); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+let texLand = tex(1, 1, [gl.R8, gl.RED, gl.UNSIGNED_BYTE], new Uint8Array([0]), gl.LINEAR, false);
+let texGhost = tex(1, 1, [gl.R8, gl.RED, gl.UNSIGNED_BYTE], new Uint8Array([0]), gl.LINEAR, false);
+let landLow = null, countryBits = null, CW = 0, CH = 0;   // JS copies for lookups
+function loadImg(src){ return new Promise((res, rej) => { const im = new Image(); im.onload = () => res(im); im.onerror = () => rej(new Error('image ' + src)); im.src = src; }); }
+
+/* =====================================================================
+   State
+   ===================================================================== */
+const COUNTRIES = ['Greenland', 'Africa', 'Australia', 'India', 'Brazil', 'Russia', 'United Kingdom', 'Dem. Rep. Congo', 'Indonesia', 'United States', 'China'];
+const PUBLISHED = {Greenland:2.166086, Africa:30.37};       // million km², DATA
+const CITIES = [['London', 51.51, -0.13], ['New York', 40.71, -74.01], ['São Paulo', -23.55, -46.63], ['Lagos', 6.52, 3.38], ['Nairobi', -1.29, 36.82], ['Cairo', 30.04, 31.24], ['Mumbai', 19.08, 72.88], ['Beijing', 39.90, 116.40], ['Tokyo', 35.68, 139.69], ['Sydney', -33.87, 151.21], ['Reykjavík', 64.15, -21.94], ['Honolulu', 21.31, -157.86]];
+const P = {pid:1, grat:30, tissot:0, tissotMap:false, heat:0, bands:true, nodist:true, cut:true, landFill:true, mode:'move', gc:true, rh:true, ru:false, rings:0, country:'Greenland', zoom:1, swap:false, follow:true};
+let M = buildM(0, 0, 0, 0), V = null, G = [1, 0, 0, 0, 1, 0, 0, 0, 1], ghostOn = false;
+let A = null, B = null;            // measure points (geographic unit vectors)
+let stopIdx = -1, stopDirty = false, altOn = false;
+let anim = null, fade = 1;         // transitions
+let ptrPx = null, ptrGeo = null;   // pointer
+let ghostSamples = {}, ghostBaseArea = 0;
+
+/* =====================================================================
+   Layout: map and globe viewports (GL pixel coordinates, origin bottom-left)
+   ===================================================================== */
+let BBOX = null;
+function computeBBox(pid){
+  if(pid === 11) return [-4.6, 4.6, -4.6, 4.6];
+  if(pid === 13) return [-2.75, 2.75, -2.75, 2.75];
+  let x0 = 1e9, x1 = -1e9, y0 = 1e9, y1 = -1e9;
+  for(let f = -90; f <= 90; f += 1.5) for(let l = -180; l <= 180; l += 1.5){
+    const m = fwd(pid, sph(Math.max(-89.999, Math.min(89.999, f))*D2R, Math.max(-179.999, Math.min(179.999, l))*D2R)); if(!m) continue;
+    x0 = Math.min(x0, m[0]); x1 = Math.max(x1, m[0]); y0 = Math.min(y0, m[1]); y1 = Math.max(y1, m[1]);
+  }
+  return [x0, x1, y0, y1];
+}
+function layout(W, H){
+  const portrait = H > W*0.9;
+  let mapR, glo;
+  if(!portrait){ const mw = W*0.66; mapR = [0, 0, mw, H]; glo = [mw + (W - mw)/2, H/2, Math.min((W - mw)*0.45, H*0.44)]; if(P.swap){ const gw = W*0.66; mapR = [gw, 0, W - gw, H]; glo = [gw/2, H/2, Math.min(gw*0.45, H*0.46)]; } }
+  else { const mh = H*0.56; mapR = [0, H - mh, W, mh]; glo = [W/2, (H - mh)/2, Math.min(W*0.45, (H - mh)*0.45)]; if(P.swap){ const gh = H*0.56; mapR = [0, 0, W, H - gh]; glo = [W/2, H - gh/2, Math.min(W*0.45, gh*0.46)]; } }
+  const bb = BBOX, bw = bb[1] - bb[0], bh = bb[3] - bb[2], pad = 0.92;
+  const S = Math.min(mapR[2]*pad/bw, mapR[3]*pad/bh)*P.zoom;
+  const cx = mapR[0] + mapR[2]/2 - (bb[0] + bb[1])/2*S, cy = mapR[1] + mapR[3]/2 - (bb[2] + bb[3])/2*S;
+  return {mapR, glo, S, cx, cy};
+}
+let LY = null;
+
+/* =====================================================================
+   Projection switching, centre read-back, views
+   ===================================================================== */
+function centreOf(Mx, pid){ const r = phiRefOf(pid); return mtv(Mx, [Math.cos(r), 0, Math.sin(r)]); }
+function headingOf(Mx, pid){
+  const r = phiRefOf(pid), c = centreOf(Mx, pid), nf = mtv(Mx, [-Math.sin(r), 0, Math.cos(r)]);
+  const [, lam] = geo(c), E = [-Math.sin(lam), Math.cos(lam), 0], N = cross(c, E);
+  let h = Math.atan2(dot(nf, E), dot(nf, N))*R2D; if(Math.abs(c[2]) > 0.99999) h = 0; return (h + 360) % 360;
+}
+function setFromCentre(lat, lon, head){ M = buildM(lat*D2R, lon*D2R, head*D2R, phiRefOf(P.pid)); }
+function viewM(){
+  // globe camera: frame centre towards the viewer, frame north up
+  const r = phiRefOf(P.pid), f = [Math.cos(r), 0, Math.sin(r)], u = [-Math.sin(r), 0, Math.cos(r)], x = cross(u, f);
+  return mm([...x, ...u, ...f], M);
+}
+function setProj(pid, keepCentre){
+  const c = centreOf(M, P.pid), h = headingOf(M, P.pid), [cl, co] = geo(c);
+  P.pid = pid; CP = conicParams(); BBOX = computeBBox(pid);
+  if(keepCentre) setFromCentre(cl*R2D, co*R2D, h);
+  document.getElementById('proj').value = String(pid);
+  document.getElementById('conicCtl').hidden = !PROJS[pid].conic;
+  const pr = PROJS[pid]; document.getElementById('keeps').innerHTML = 'Keeps: <b>' + pr.keeps + '</b>';
+  plotDirty = true; wholeDirty = true;
+}
+
+/* =====================================================================
+   Ghost (carry a country): mask texture + sample points from the bit texture
+   ===================================================================== */
+function buildGhost(name){
+  if(!countryBits) return;
+  const b = COUNTRIES.indexOf(name), ch = b >> 3, bit = 1 << (b & 7), W = CW, H = CH;
+  const mask = new Uint8Array(W*H), pts = [];
+  for(let y = 0; y < H; y++) for(let x = 0; x < W; x++){ const v = (countryBits[(y*W + x)*4 + ch] & bit) ? 255 : 0; mask[y*W + x] = v; }
+  // sample points with area weights for the drawn-area sum
+  const step = name === 'Russia' || name === 'Africa' ? 6 : name === 'United Kingdom' ? 1 : 3;
+  let area = 0;
+  for(let y = 0; y < H; y += step){ const lat = (90 - (y + 0.5)/H*180)*D2R, cell = R_KM*R_KM*Math.cos(lat)*(PI/H*step)*(2*PI/W*step);
+    for(let x = 0; x < W; x += step){ if(mask[y*W + x]){ pts.push([sph(lat, ((x + 0.5)/W*360 - 180)*D2R), cell]); area += cell; } } }
+  gl.bindTexture(gl.TEXTURE_2D, texGhost); gl.pixelStorei(gl.UNPACK_ALIGNMENT, 1);
+  gl.texImage2D(gl.TEXTURE_2D, 0, gl.R8, W, H, 0, gl.RED, gl.UNSIGNED_BYTE, mask);
+  gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+  ghostSamples[name] = {pts, area};
+}
+function samplesOf(name){
+  if(ghostSamples[name]) return ghostSamples[name];
+  if(!countryBits) return null;
+  const b = COUNTRIES.indexOf(name), ch = b >> 3, bit = 1 << (b & 7), W = CW, H = CH, step = name === 'Africa' ? 6 : 3, pts = []; let area = 0;
+  for(let y = 0; y < H; y += step){ const lat = (90 - (y + 0.5)/H*180)*D2R, cell = R_KM*R_KM*Math.cos(lat)*(PI/H*step)*(2*PI/W*step);
+    for(let x = 0; x < W; x += step) if(countryBits[(y*W + x)*4 + ch] & bit){ pts.push([sph(lat, ((x + 0.5)/W*360 - 180)*D2R), cell]); area += cell; } }
+  return (ghostSamples[name] = {pts, area});
+}
+/* area as drawn on this map (in "km² at the map's nominal scale"), summing the area scale over the samples */
+function drawnArea(S, rot){
+  let sum = 0, n = 0;
+  for(const s of S.pts){ const p = rot ? mv(rot, s[0]) : s[0], q = mv(M, p), m = fwd(P.pid, q); if(!m) continue; const D = Dfr(P.pid, q); if(!D) continue; sum += s[1]*Math.abs(D[0]*D[3] - D[1]*D[2]); n++; }
+  return {area:sum, frac:n/Math.max(1, S.pts.length)};
+}
+
+/* =====================================================================
+   Measuring
+   ===================================================================== */
+function gcDist(a, b){ return ang(a, b)*R_KM; }
+function bearing(a, b){ const [f1, l1] = geo(a), [f2, l2] = geo(b), y = Math.sin(l2 - l1)*Math.cos(f2), x = Math.cos(f1)*Math.sin(f2) - Math.sin(f1)*Math.cos(f2)*Math.cos(l2 - l1); return (Math.atan2(y, x)*R2D + 360) % 360; }
+function rhumb(a, b){
+  const [f1, l1] = geo(a), [f2, l2] = geo(b); let dl = l2 - l1; dl -= 2*PI*Math.round(dl/(2*PI));
+  const dpsi = Math.log(Math.tan(PI/4 + f2/2)/Math.tan(PI/4 + f1/2)), df = f2 - f1, qq = Math.abs(dpsi) > 1e-12 ? df/dpsi : Math.cos(f1);
+  return {d:Math.hypot(df, qq*dl)*R_KM, brg:(Math.atan2(dl, dpsi)*R2D + 360) % 360};
+}
+function gcMaxLat(a, b){ let best = -90; for(let i = 0; i <= 200; i++){ const t = i/200, th = ang(a, b), s = Math.sin(th); const p = s < 1e-9 ? a : norm(a.map((v, k) => (Math.sin((1 - t)*th)*v + Math.sin(t*th)*b[k])/s)); best = Math.max(best, geo(p)[0]*R2D); } return best; }
+function rulerGround(a, b){
+  const ma = fwd(P.pid, mv(M, a)), mb = fwd(P.pid, mv(M, b)); if(!ma || !mb) return null;
+  let sum = 0, prev = a; for(let i = 1; i <= 400; i++){ const t = i/400, q = inv(P.pid, ma[0] + (mb[0] - ma[0])*t, ma[1] + (mb[1] - ma[1])*t); if(!q) return {off:true}; const p = mtv(M, q); sum += gcDist(prev, p); prev = p; }
+  const nominal = Math.hypot(mb[0] - ma[0], mb[1] - ma[1])*R_KM;
+  return {ground:sum, nominal, ma, mb};
+}
+
+/* =====================================================================
+   Readouts
+   ===================================================================== */
+const R = MUSEUM.readouts('ro', [
+  ['ll', 'Place under the pointer', 'model'], ['area', 'Area here', 'model'], ['ang', 'Angle error here', 'model'], ['hk', 'Stretch north–south · east–west', 'model'],
+  ['ab', 'Tissot ellipse', 'model'], ['dist', 'From the centre', 'model'], ['proj', 'Projection', 'model'], ['ctr', 'Centre', 'model'],
+  ['spread', 'Area range on land', 'model'], ['worst', 'Mean angle error, whole Earth', 'model'], ['gvsa', 'Greenland ÷ Africa, as drawn', 'model'], ['true', 'True areas', 'data'],
+  ['mgc', 'Shortest route (great circle)', 'model'], ['mrh', 'Constant bearing (rhumb line)', 'model'], ['mst', 'Ruler line on this map', 'model'], ['ghost', 'Carried country, as drawn', 'model']
+]);
+const fmt = MUSEUM.fmt;
+const latStr = (f, d) => fmt(Math.abs(f), d === undefined ? 1 : d) + '° ' + (f >= 0 ? 'N' : 'S'), lonStr = (l, d) => fmt(Math.abs(l), d === undefined ? 1 : d) + '° ' + (l >= 0 ? 'E' : 'W');
+let wholeDirty = true, wholeAt = 0;
+const FIB = []; { const n = 1500, ga = PI*(3 - Math.sqrt(5)); for(let i = 0; i < n; i++){ const z = 1 - 2*(i + 0.5)/n, r = Math.sqrt(1 - z*z); FIB.push([r*Math.cos(i*ga), r*Math.sin(i*ga), z]); } }
+function isLand(p){ if(!landLow) return false; const [f, l] = geo(p), x = Math.min(1023, Math.floor((l/(2*PI) + 0.5)*1024)), y = Math.min(511, Math.floor((0.5 - f/PI)*512)); return landLow[(y*1024 + x)*4] > 127; }
+function whole(){
+  let lo = 1e9, hi = 0, ws = 0, wn = 0;
+  for(const p of FIB){ const q = mv(M, p); if(!fwd(P.pid, q)) continue; const D = Dfr(P.pid, q); if(!D) continue; const sv = svd2(D); ws += sv.w2; wn++; if(isLand(p)){ lo = Math.min(lo, sv.s); hi = Math.max(hi, sv.s); } }
+  R.spread.set(hi > 0 ? '× ' + fmt(lo, lo < 1 ? 2 : 1) + ' to × ' + fmt(hi, hi < 10 ? 2 : 0) : '–', 'smallest and largest area scale on the land shown');
+  R.worst.set(fmt(wn ? ws/wn : 0, 1) + '°', 'averaged over ' + fmt(wn/FIB.length*100, 0) + ' % of the Earth this map shows');
+  const g = samplesOf('Greenland'), a = samplesOf('Africa');
+  if(g && a){ const dg = drawnArea(g, null), da = drawnArea(a, null); R.gvsa.set(da.area > 0 && dg.frac > 0.5 && da.frac > 0.5 ? fmt(dg.area/da.area, 2) : '–', 'true ratio ' + fmt(PUBLISHED.Greenland/PUBLISHED.Africa, 3) + ' (Africa is ' + fmt(PUBLISHED.Africa/PUBLISHED.Greenland, 1) + ' times bigger)'); }
+  R.true.set('Greenland 2.17 · Africa 30.37', 'million km², published (CIA World Factbook)');
+}
+function pointerReadouts(){
+  if(!ptrGeo){ ['ll', 'area', 'ang', 'hk', 'ab', 'dist'].forEach(k => R[k].set('–', 'point at the map or the globe')); return; }
+  const [f, l] = geo(ptrGeo), q = mv(M, ptrGeo);
+  R.ll.set(latStr(f*R2D) + ' · ' + lonStr(l*R2D), isLand(ptrGeo) ? 'land' : 'ocean');
+  const H = fwd(P.pid, q) ? hk(P.pid, M, ptrGeo) : null;
+  if(!H){ ['area', 'ang', 'hk', 'ab'].forEach(k => R[k].set('–', 'not shown on this map')); }
+  else {
+    const sv = svd2(H.D);
+    R.area.set('× ' + fmt(sv.s, sv.s < 10 ? 2 : 1), sv.s > 1.02 ? 'this spot looks ' + fmt(sv.s, 2) + ' times its true size' : sv.s < 0.98 ? 'shrunk to ' + fmt(sv.s, 2) + ' of its true size' : 'true size here');
+    R.ang.set(fmt(sv.w2, 1) + '°', sv.w2 < 0.1 ? 'shapes kept here' : 'the most any angle is bent at this spot');
+    R.hk.set('h ' + fmt(H.h, 2) + ' · k ' + fmt(H.k, 2), 'along the meridian · along the parallel');
+    R.ab.set('a ' + fmt(sv.a, 2) + ' · b ' + fmt(sv.b, 2), 'longest and shortest stretch; a = b means shape is kept');
+  }
+  R.dist.set(fmt(gcDist(ptrGeo, centreOf(M, P.pid)), 0) + ' km', 'great-circle distance from the projection centre');
+}
+function measureReadouts(){
+  if(!(A && B)){ R.mgc.set('–', P.mode === 'measure' ? 'tap two places' : 'choose Measure, then tap two places'); R.mrh.set('–', ''); R.mst.set('–', ''); return; }
+  const d = gcDist(A, B), rh = rhumb(A, B);
+  R.mgc.set(fmt(d, 0) + ' km', 'starts heading ' + fmt(bearing(A, B), 0) + '° from A; furthest north ' + latStr(gcMaxLat(A, B)));
+  R.mrh.set(fmt(rh.d, 0) + ' km', '+' + fmt((rh.d/d - 1)*100, 1) + ' % · bearing ' + fmt(rh.brg, 0) + '° all the way');
+  const ru = rulerGround(A, B);
+  if(!ru) R.mst.set('–', 'A or B is not on this map'); else if(ru.off) R.mst.set('–', 'the straight line leaves the map');
+  else R.mst.set(fmt(ru.ground, 0) + ' km on the ground', '+' + fmt((ru.ground/d - 1)*100, 1) + ' % longer than the shortest route; the scale bar would say ' + fmt(ru.nominal, 0) + ' km');
+}
+function ghostReadouts(){
+  if(!ghostOn){ R.ghost.set('–', 'choose Carry a country'); return; }
+  const S = samplesOf(P.country); if(!S) return;
+  const home = drawnArea(S, null), now = drawnArea(S, G);
+  R.ghost.set(now.frac > 0.5 ? fmt(now.area/1e6, 2) + ' million km²' : 'off the map', P.country + ': true ' + fmt(S.area/1e6, 2) + ' million km² (from its outline); at home it is drawn as ' + fmt(home.area/1e6, 2));
+}
+function headerReadouts(){
+  const c = centreOf(M, P.pid), [f, l] = geo(c), h = headingOf(M, P.pid), pr = PROJS[P.pid], nat = pr.nat;
+  const natural = Math.abs(f*R2D - nat[0]) < 0.05 && Math.abs(h) < 0.5;
+  R.proj.set(pr.name, pr.fam.toLowerCase() + ' · ' + pr.keeps.split(':')[0].toLowerCase());
+  R.ctr.set(latStr(f*R2D) + ', ' + lonStr(l*R2D) + ' · heading ' + fmt(h, 0) + '°', natural ? 'natural aspect' : 'oblique aspect: the same rule, turned');
+}
+
+/* =====================================================================
+   Controls
+   ===================================================================== */
+const projSel = document.getElementById('proj');
+{ let fam = null, og = null; PROJS.forEach(p => { if(p.fam !== fam){ fam = p.fam; og = document.createElement('optgroup'); og.label = fam; projSel.appendChild(og); } const o = document.createElement('option'); o.value = p.id; o.textContent = p.name; og.appendChild(o); }); }
+projSel.addEventListener('change', () => { switchProj(+projSel.value, true); markChanged(); });
+const citySel = document.getElementById('city');
+citySel.innerHTML = '<option value="">Choose a city…</option>' + CITIES.map((c, i) => `<option value="${i}">${c[0]}</option>`).join('');
+citySel.addEventListener('change', () => { const c = CITIES[+citySel.value]; if(!c) return; goTo(c[1], c[2], headingOf(M, P.pid)); markChanged(); });
+const countrySel = document.getElementById('country');
+countrySel.innerHTML = COUNTRIES.map(n => `<option>${n}</option>`).join('');
+countrySel.addEventListener('change', () => { P.country = countrySel.value; G = [1, 0, 0, 0, 1, 0, 0, 0, 1]; buildGhost(P.country); ghostOn = true; });
+const sl = {clat:document.getElementById('clat'), clon:document.getElementById('clon'), chead:document.getElementById('chead')};
+function syncCentreSliders(){
+  const c = centreOf(M, P.pid), [f, l] = geo(c), h = headingOf(M, P.pid);
+  if(document.activeElement !== sl.clat) sl.clat.value = f*R2D; if(document.activeElement !== sl.clon) sl.clon.value = l*R2D; if(document.activeElement !== sl.chead) sl.chead.value = Math.round(h) % 360;
+  document.querySelector('output[for="clat"]').textContent = latStr(f*R2D); document.querySelector('output[for="clon"]').textContent = lonStr(l*R2D); document.querySelector('output[for="chead"]').textContent = fmt(h, 0) + '°';
+}
+Object.values(sl).forEach(el => el.addEventListener('input', () => { setFromCentre(+sl.clat.value, +sl.clon.value, +sl.chead.value); markChanged(); wholeDirty = true; }));
+GL.seg('headQuick', '', v => { const c = centreOf(M, P.pid), [f, l] = geo(c); goTo(f*R2D, l*R2D, +v); markChanged(); });
+document.getElementById('reset').addEventListener('click', () => { const n = PROJS[P.pid].nat, c = PROJS[P.pid].conic ? [CP.ref*R2D, 0, 0] : n; P.zoom = 1; goTo(c[0], c[1], c[2]); markChanged(); });
+['sp1', 'sp2'].forEach((id, i) => { const el = document.getElementById(id), out = document.querySelector(`output[for="${id}"]`);
+  el.value = (i ? CONIC.p2 : CONIC.p1)*R2D; out.textContent = el.value + '°';
+  el.addEventListener('input', () => { let a = +document.getElementById('sp1').value, b = +document.getElementById('sp2').value; if(b < a){ b = a; document.getElementById('sp2').value = b; }
+    CONIC.p1 = a*D2R; CONIC.p2 = b*D2R; document.querySelector('output[for="sp1"]').textContent = a + '°'; document.querySelector('output[for="sp2"]').textContent = b + '°';
+    const c = centreOf(M, P.pid), h = headingOf(M, P.pid), [cl, co] = geo(c); CP = conicParams(); BBOX = computeBBox(P.pid); setFromCentre(cl*R2D, co*R2D, h); plotDirty = true; wholeDirty = true; markChanged(); }); });
+const segs = {};
+segs.grat = GL.seg('grat', String(P.grat), v => { P.grat = +v; markChanged(); });
+segs.tissot = GL.seg('tissot', String(P.tissot), v => { P.tissot = +v; markChanged(); });
+segs.tissotFix = GL.seg('tissotFix', 'land', v => { P.tissotMap = v === 'map'; markChanged(); });
+segs.heat = GL.seg('heat', String(P.heat), v => { P.heat = +v; legend(); markChanged(); });
+segs.heatStyle = GL.seg('heatStyle', '1', v => { P.bands = v === '1'; markChanged(); });
+segs.landStyle = GL.seg('landStyle', '1', v => { P.landFill = v === '1'; markChanged(); });
+segs.mode = GL.seg('mode', P.mode, v => setMode(v));
+segs.rings = GL.seg('rings', '0', v => { P.rings = +v; markChanged(); });
+function toggle(id, key){ const b = document.getElementById(id); const set = v => { P[key] = v; b.setAttribute('aria-pressed', String(v)); }; b.addEventListener('click', () => { set(!P[key]); markChanged(); }); set(P[key]); return set; }
+const tg = {nodist:toggle('nodist', 'nodist'), cut:toggle('cut', 'cut'), gc:toggle('rGC', 'gc'), rh:toggle('rRh', 'rh'), ru:toggle('rRu', 'ru')};
+document.getElementById('clear').addEventListener('click', () => { A = null; B = null; ghostOn = false; G = [1, 0, 0, 0, 1, 0, 0, 0, 1]; });
+document.getElementById('swap').addEventListener('click', () => { P.swap = !P.swap; document.getElementById('swap').setAttribute('aria-pressed', String(P.swap)); });
+GL.fullscreen('fs', stage);
+const setLabel = MUSEUM.label('lab', 'label', true);
+function setMode(v){ P.mode = v; segs.mode(v); cv.className = v === 'move' ? 'drag' : 'cross'; if(v === 'carry' && !ghostOn){ buildGhost(P.country); ghostOn = true; G = [1, 0, 0, 0, 1, 0, 0, 0, 1]; } }
+function legend(){
+  if(!P.heat){ hud.bl.innerHTML = ''; return; }
+  const row = P.heat === 1 ? 0 : 1, h = row ? LUTS.inferno : LUTS.berlin, stops = [];
+  for(let i = 0; i <= 8; i++){ const k = Math.round(i/8*255)*6; stops.push('#' + h.substr(k, 6) + ' ' + (i/8*100) + '%'); }
+  const ticks = row ? ['0°', '5°', '20°', '40°', '60°+'] : ['×⅛', '×¼', '×½', '×1', '×2', '×4', '×8'];
+  hud.bl.innerHTML = `<span>${row ? 'HOW MUCH SHAPES ARE BENT' : 'SIZE ON THE MAP ÷ TRUE SIZE'}</span><span class="bar" style="background:linear-gradient(90deg,${stops.join(',')})"></span><span class="ticks">${ticks.map(t => `<span>${t}</span>`).join('')}</span>`;
+}
+
+/* =====================================================================
+   Tour (education spec section 3)
+   ===================================================================== */
+const STOPS = [
+  {name:'The sailor\'s map', pid:1, c:[0, 0, 0], set:{tissot:15, heat:0, grat:30}, label:'This is the map most of us grew up with. It keeps every angle true, so a ship can steer by it with a ruler. The price is size: at 60° north, every circle is four times too big.'},
+  {name:'Greenland and Africa', pid:1, c:[0, 0, 0], set:{tissot:0, heat:1, grat:30, mode:'carry', country:'Greenland'}, label:'On this map Greenland looks as big as Africa. Carry it to the equator and see its true size: Africa is about fourteen times larger. The map kept the shape; it changed the size.'},
+  {name:'Same rule, turned', pid:2, c:[0, -2, 0], set:{tissot:15, heat:1, grat:30}, label:'The sailor\'s rule turned on its side. Now the true-size line runs north to south. Mapping agencies use narrow strips like this, so small areas stay accurate in both size and shape.'},
+  {name:'Distance from here', pid:9, c:[51.51, -0.13, 0], set:{tissot:0, heat:0, grat:30, rings:2000}, label:'From the centre, every distance and direction is true. Each ring is 2,000 km further away. The outer edge is one point stretched into a circle: the place on the far side of the Earth.'},
+  {name:'The shortest way', pid:13, c:[60.2, -72.7, 0], set:{tissot:0, heat:0, grat:15, mode:'measure', route:[[51.47, -0.45], [33.94, -118.41]]}, alt:{label:'Show on Mercator', pid:1, c:[0, 0, 0]}, label:'On a gnomonic map every straight line is a shortest route. London to Los Angeles is 8,761 km along it. Keeping one compass bearing the whole way takes 9,733 km. That is why long flights curve north on most maps.'},
+  {name:'Shape or size', pid:1, c:[0, 0, 0], set:{tissot:15, heat:1, grat:30}, alt:{label:'Show equal-area', pid:3, c:[0, 0, 0], set:{heat:2}}, label:'These two maps use the same cylinder. One keeps shapes and lets sizes grow. The other keeps sizes and lets shapes squash. Mathematics proves you cannot have both on a flat map.'},
+  {name:'Fair to every country', pid:8, c:[0, 0, 0], set:{tissot:15, heat:1, grat:30}, alt:{label:'Show angle error', set:{heat:2}}, label:'This world map keeps every country\'s size in proportion, so it is fair for comparing them. Shapes bend near the edges instead. It was designed in 2018 to be equal-area and still look familiar.'},
+  {name:'Over the pole', pid:11, c:[90, 0, 0], zoom:1.7, set:{tissot:15, heat:1, grat:10}, label:'Put the pole in the middle and the Arctic becomes an ocean ringed by land. This map keeps shapes, like Mercator, but from one point instead of a line. Polar scientists and weather charts use it.'},
+  {name:'Pacific in the middle', pid:8, c:[0, 180, 0], set:{tissot:0, heat:0, grat:30}, label:'Many maps in East Asia and Oceania put the Pacific in the middle. The edge of a world map is a cut through the globe. The mapmaker decides where to cut, and what to split.'},
+  {name:'South up', pid:8, c:[0, 20, 180], set:{tissot:0, heat:0, grat:30}, label:'Nothing is wrong with this map. The Earth has no top. North went up on most maps by habit and history. Turn the heading and every distance, area and angle stays exactly the same.'},
+  {name:'A map for one country', pid:15, c:[37.5, -96, 0], conic:[29.5, 45.5], zoom:2.6, set:{tissot:15, heat:2, grat:10}, alt:{label:'Show conformal conic', pid:14}, label:'A cone touches the globe along two lines. Close to them the map is nearly perfect, so a country that fits between them maps well. This is how many national maps of mid-latitude countries are made.'},
+  {name:'What the eye sees', pid:12, c:[20, 20, 0], set:{tissot:15, heat:1, grat:30}, label:'This is the Earth as a far-away camera sees it: a photograph is a projection too. It shows half the world, and shapes near the rim squash to almost nothing. Every view of a sphere chooses.'}
+];
+const tourBox = document.getElementById('tour');
+tourBox.innerHTML = STOPS.map((s, i) => `<button data-v="${i}" title="${s.name}">${i + 1}</button>`).join('');
+const setTour = GL.seg('tour', '', v => applyStop(+v));
+document.getElementById('prev').addEventListener('click', () => applyStop((Math.max(0, stopIdx) + STOPS.length - 1) % STOPS.length));
+document.getElementById('next').addEventListener('click', () => applyStop((stopIdx + 1) % STOPS.length));
+document.getElementById('back').addEventListener('click', () => applyStop(stopIdx));
+const altBtn = document.getElementById('alt');
+altBtn.addEventListener('click', () => { const s = STOPS[stopIdx]; if(!s || !s.alt) return; altOn = !altOn; altBtn.setAttribute('aria-pressed', String(altOn)); applySettings(altOn ? Object.assign({}, s, s.alt, {set:Object.assign({}, s.set, s.alt.set || {})}) : s, true); });
+function markChanged(){ if(stopIdx >= 0 && !stopDirty && !anim){ stopDirty = true; document.getElementById('back').hidden = false; } }
+function goTo(lat, lon, head, pid){
+  const from = M.slice(), fromPid = P.pid;
+  if(pid !== undefined && pid !== P.pid){
+    const dur = GL.reducedMotion ? 300 : 600;
+    anim = {kind:'fade', t0:performance.now(), dur, mid:() => { switchProj(pid, false); setFromCentre(lat, lon, head); }};
+    return;
+  }
+  const to = buildM(lat*D2R, lon*D2R, head*D2R, phiRefOf(P.pid));
+  if(GL.reducedMotion){ M = to; wholeDirty = true; return; }
+  anim = {kind:'turn', t0:performance.now(), dur:1600, from, to};
+}
+function switchProj(pid, keep){ setProj(pid, keep); }
+function applySettings(s, animate){
+  if(s.conic){ CONIC.p1 = s.conic[0]*D2R; CONIC.p2 = s.conic[1]*D2R; document.getElementById('sp1').value = s.conic[0]; document.getElementById('sp2').value = s.conic[1];
+    document.querySelector('output[for="sp1"]').textContent = s.conic[0] + '°'; document.querySelector('output[for="sp2"]').textContent = s.conic[1] + '°'; CP = conicParams(); }
+  const st = s.set || {};
+  if(st.tissot !== undefined){ P.tissot = st.tissot; segs.tissot(String(st.tissot)); }
+  if(st.heat !== undefined){ P.heat = st.heat; segs.heat(String(st.heat)); legend(); }
+  if(st.grat !== undefined){ P.grat = st.grat; segs.grat(String(st.grat)); }
+  P.rings = st.rings || 0; segs.rings(String(P.rings));
+  P.zoom = s.zoom || 1;
+  A = null; B = null; ghostOn = false; G = [1, 0, 0, 0, 1, 0, 0, 0, 1];
+  if(st.route){ A = sph(st.route[0][0]*D2R, st.route[0][1]*D2R); B = sph(st.route[1][0]*D2R, st.route[1][1]*D2R); }
+  if(st.country){ P.country = st.country; countrySel.value = st.country; buildGhost(st.country); ghostOn = true; }
+  setMode(st.mode || 'move');
+  if(st.route) setMode('measure');
+  if(s.conic && (s.pid === undefined || s.pid === P.pid)){ BBOX = computeBBox(P.pid); }
+  const pid = s.pid !== undefined ? s.pid : P.pid, c = s.c || (() => { const cc = centreOf(M, P.pid), [f, l] = geo(cc); return [f*R2D, l*R2D, headingOf(M, P.pid)]; })();
+  if(pid !== P.pid) goTo(c[0], c[1], c[2], pid);
+  else if(animate) goTo(c[0], c[1], c[2]);
+  else setFromCentre(c[0], c[1], c[2]);
+  plotDirty = true; wholeDirty = true;
+}
+function applyStop(i){
+  stopIdx = i; stopDirty = false; altOn = false; document.getElementById('back').hidden = true;
+  const s = STOPS[i]; setTour(String(i));
+  if(s.alt){ altBtn.hidden = false; altBtn.textContent = s.alt.label; altBtn.setAttribute('aria-pressed', 'false'); } else altBtn.hidden = true;
+  applySettings(s, true);
+  document.getElementById('labelHead').textContent = 'Stop ' + (i + 1) + ' of ' + STOPS.length + ' · ' + s.name;
+  document.getElementById('labelText').textContent = s.label;
+  setLabel(true);
+  document.getElementById('liveMsg').textContent = 'Stop ' + (i + 1) + ': ' + s.name + '. ' + s.label;
+}
+
+/* =====================================================================
+   Pointer: drag the land (trackball), the globe camera, the centre ring, measure, carry
+   ===================================================================== */
+function pxOf(e){ const r = cv.getBoundingClientRect(), d = cv.width/r.width; return [(e.clientX - r.left)*d, (r.bottom - e.clientY)*d]; }
+function inMap(px){ const r = LY.mapR; return px[0] >= r[0] && px[0] < r[0] + r[2] && px[1] >= r[1] && px[1] < r[1] + r[3]; }
+function inGlobe(px){ const g = LY.glo; return Math.hypot(px[0] - g[0], px[1] - g[1]) < g[2]; }
+function mapOf(px){ return [(px[0] - LY.cx)/LY.S, (px[1] - LY.cy)/LY.S]; }
+function frameAt(px){ const m = mapOf(px); return inv(P.pid, m[0], m[1]); }
+function globeView(px){ const g = LY.glo, x = (px[0] - g[0])/g[2], y = (px[1] - g[1])/g[2], r2 = x*x + y*y; return r2 >= 1 ? null : [x, y, Math.sqrt(1 - r2)]; }
+function geoAt(px){
+  if(inMap(px)){ const q = frameAt(px); return q ? mtv(M, q) : null; }
+  if(inGlobe(px)){ const s = globeView(px); return s ? mtv(V, s) : null; }
+  return null;
+}
+let drag = null, pinch = null;
+const pointers = new Map();
+cv.addEventListener('pointerdown', e => {
+  if(!LY) return;
+  try { cv.setPointerCapture(e.pointerId); } catch(err){}
+  pointers.set(e.pointerId, pxOf(e));
+  if(pointers.size === 2){ const pts = [...pointers.values()]; pinch = {d0:Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]), a0:Math.atan2(pts[1][1] - pts[0][1], pts[1][0] - pts[0][0]), z0:P.zoom, M0:M.slice()}; drag = null; return; }
+  const px = pxOf(e), p = geoAt(px);
+  if(P.mode === 'measure' && p){ if(!A || B){ A = p; B = null; } else B = p; markChanged(); return; }
+  if(P.mode === 'carry' && p && ghostOn){ drag = {kind:'ghost', p0:p, G0:G.slice()}; return; }
+  if(inMap(px)){
+    if(e.shiftKey){ drag = {kind:'head', x0:px[0], M0:M.slice()}; return; }
+    const q = frameAt(px);
+    drag = q ? {kind:'track', q0:q, M0:M.slice(), prev:q, px0:px} : {kind:'nudge', last:px};
+  } else if(inGlobe(px)){
+    const s = globeView(px), c = centreOf(M, P.pid);
+    if(s && ang(mtv(V, s), c) < 7*D2R){ drag = {kind:'centre', head:headingOf(M, P.pid)}; P.follow = false; return; }
+    drag = {kind:'cam', s0:s, V0:V.slice()}; P.follow = false;
+  }
+});
+cv.addEventListener('pointermove', e => {
+  if(!LY) return;
+  const px = pxOf(e); ptrPx = px; ptrGeo = geoAt(px);
+  if(pointers.has(e.pointerId)) pointers.set(e.pointerId, px);
+  if(pinch && pointers.size === 2){
+    const pts = [...pointers.values()], d = Math.hypot(pts[0][0] - pts[1][0], pts[0][1] - pts[1][1]), a = Math.atan2(pts[1][1] - pts[0][1], pts[1][0] - pts[0][0]);
+    P.zoom = Math.max(0.6, Math.min(8, pinch.z0*d/Math.max(pinch.d0, 1)));
+    const r = phiRefOf(P.pid); M = mm(rotAxis([Math.cos(r), 0, Math.sin(r)], a - pinch.a0), pinch.M0); markChanged(); return;
+  }
+  if(!drag) return;
+  if(drag.kind === 'track'){
+    const q1 = inMap(px) ? frameAt(px) : null;
+    let ok = !!q1;
+    if(ok){ const H = Dfr(P.pid, q1); if(H && svd2(H).b < 0.25) ok = false; if(ang(drag.prev, q1) > 0.25) ok = false; }
+    if(ok){ M = ortho(mm(rotAtoB(drag.q0, q1), drag.M0)); drag.prev = q1; drag.lastPx = px; }
+    else { drag = {kind:'nudge', last:px}; }
+  } else if(drag.kind === 'nudge'){
+    const dx = (px[0] - drag.last[0])/LY.S, dy = (px[1] - drag.last[1])/LY.S, l = Math.hypot(dx, dy); drag.last = px;
+    if(l > 0){ M = ortho(mm(rotAxis([0, -dy, dx], l), M)); }
+    const q = inMap(px) ? frameAt(px) : null; if(q){ const H = Dfr(P.pid, q); if(H && svd2(H).b >= 0.25) drag = {kind:'track', q0:q, M0:M.slice(), prev:q}; }
+  } else if(drag.kind === 'head'){
+    const r = phiRefOf(P.pid); M = mm(rotAxis([Math.cos(r), 0, Math.sin(r)], -(px[0] - drag.x0)/200), drag.M0);
+  } else if(drag.kind === 'centre'){
+    const s = globeView(px); if(s){ const p = mtv(V, s), [f, l] = geo(p); setFromCentre(f*R2D, l*R2D, drag.head); }
+  } else if(drag.kind === 'cam'){
+    const s = globeView(px); if(s && drag.s0){ V = ortho(mm(rotAtoB(drag.s0, s), drag.V0)); }
+  } else if(drag.kind === 'ghost'){
+    const p = geoAt(px); if(p) G = ortho(mm(rotAtoB(drag.p0, p), drag.G0));
+  }
+  markChanged(); wholeDirty = true;
+});
+const endDrag = e => { pointers.delete(e.pointerId); if(pointers.size < 2) pinch = null; if(drag && drag.kind === 'centre') P.follow = true; drag = null; };
+cv.addEventListener('pointerup', endDrag); cv.addEventListener('pointercancel', endDrag);
+cv.addEventListener('pointerleave', () => { if(!drag){ ptrPx = null; ptrGeo = null; } });
+cv.addEventListener('wheel', e => { e.preventDefault(); P.zoom = Math.max(0.6, Math.min(8, P.zoom*Math.exp(-e.deltaY*0.0015))); }, {passive:false});
+cv.addEventListener('dblclick', e => { const p = geoAt(pxOf(e)); if(!p) return; const [f, l] = geo(p); goTo(f*R2D, l*R2D, headingOf(M, P.pid)); P.follow = true; markChanged(); });
+stage.addEventListener('keydown', e => {
+  const k = e.key, st = (e.shiftKey ? 1 : 5)*D2R, r = phiRefOf(P.pid);
+  let used = true;
+  if(k === 'ArrowLeft') M = mm(rotAxis([0, 0, 1], -st), M); else if(k === 'ArrowRight') M = mm(rotAxis([0, 0, 1], st), M);
+  else if(k === 'ArrowUp') M = mm(rotAxis([0, 1, 0], -st), M); else if(k === 'ArrowDown') M = mm(rotAxis([0, 1, 0], st), M);
+  else if(k === 'q' || k === 'Q') M = mm(rotAxis([Math.cos(r), 0, Math.sin(r)], st), M); else if(k === 'e' || k === 'E') M = mm(rotAxis([Math.cos(r), 0, Math.sin(r)], -st), M);
+  else if(k === '+' || k === '=') P.zoom = Math.min(8, P.zoom*1.25); else if(k === '-') P.zoom = Math.max(0.6, P.zoom/1.25);
+  else if(k === '0') document.getElementById('reset').click();
+  else if(k === '[') document.getElementById('prev').click(); else if(k === ']') document.getElementById('next').click();
+  else if(k === 't' || k === 'T'){ P.tissot = P.tissot ? 0 : 15; segs.tissot(String(P.tissot)); }
+  else if(k === 'g' || k === 'G'){ P.grat = P.grat ? 0 : 30; segs.grat(String(P.grat)); }
+  else if(k === 'h' || k === 'H'){ P.heat = (P.heat + 1) % 3; segs.heat(String(P.heat)); legend(); }
+  else if(k === 'm' || k === 'M') setMode('measure'); else if(k === 'c' || k === 'C') setMode('carry'); else if(k === 'v' || k === 'V') setMode('move');
+  else if(k === 'Escape'){ A = null; B = null; }
+  else used = false;
+  if(used){ e.preventDefault(); M = ortho(M); markChanged(); wholeDirty = true;
+    if(k.startsWith('Arrow') || 'qQeE'.includes(k)){ const c = centreOf(M, P.pid), [f, l] = geo(c); document.getElementById('liveMsg').textContent = 'Centre ' + latStr(f*R2D, 0) + ', ' + lonStr(l*R2D, 0) + ', heading ' + Math.round(headingOf(M, P.pid)) + ' degrees.'; } }
+});
+
+/* =====================================================================
+   Plots: stretch along two paths away from the centre
+   ===================================================================== */
+const PA = MUSEUM.plot(document.getElementById('plotA')), PB = MUSEUM.plot(document.getElementById('plotB'));
+let plotDirty = true;
+function pathData(pid){
+  const r = phiRefOf(pid), out = {nA:[], eA:[], nB:[], eB:[]};
+  for(let d = 0; d <= 90; d += 1){
+    const qn = sph(Math.min(r + d*D2R, PI/2 - 1e-4), 0), qe = sph(r, Math.min(d*D2R, PI - 1e-3));
+    [[qn, 'n'], [qe, 'e']].forEach(([q, k]) => { if(!fwd(pid, q)) return; const D = Dfr(pid, q); if(!D) return; const s = svd2(D); out[k + 'A'].push([d, Math.max(1/16, Math.min(64, s.s))]); out[k + 'B'].push([d, Math.min(90, s.w2)]); });
+  }
+  return out;
+}
+function drawPlots(){
+  const ink = MUSEUM.css('--ink', '#171613'), faint = MUSEUM.css('--ink-faint', '#8A877E'), live = MUSEUM.css('--live', '#6B5CA5'), data = MUSEUM.css('--data', '#2F5AA1');
+  const d = pathData(P.pid), ref = pathData(1);
+  PA.frame(0, 90, 0.25, 64, {logy:true, xticks:[0, 30, 60, 90], yticks:[0.25, 1, 4, 16, 64], yfmt:v => '×' + v, xfmt:v => v + '°', xlab:'distance from the centre'});
+  PA.hline(1, faint); PA.line(ref.nA, faint, 1, [2, 3]); PA.text(62, 40, 'Mercator', faint);
+  PA.line(d.nA, live, 2); PA.line(d.eA, live, 1.5, [5, 3]);
+  PB.frame(0, 90, 0, 90, {xticks:[0, 30, 60, 90], yticks:[0, 30, 60, 90], xfmt:v => v + '°', yfmt:v => v + '°', xlab:'distance from the centre'});
+  PB.line(d.nB, live, 2); PB.line(d.eB, live, 1.5, [5, 3]);
+  if(ptrGeo){ const q = mv(M, ptrGeo), c = ang(ptrGeo, centreOf(M, P.pid))*R2D, D = fwd(P.pid, q) ? Dfr(P.pid, q) : null; if(D && c <= 90){ const s = svd2(D); PA.dot(c, Math.max(0.25, Math.min(64, s.s)), data); PB.dot(c, Math.min(90, s.w2), data); } }
+}
+
+/* =====================================================================
+   Frame
+   ===================================================================== */
+let last = performance.now(), hudAt = 0, roAt = 0, plotAt = 0, instDrift = false;
+function frame(now){
+  const raw = (now - last)/1000, dt = Math.min(0.05, Math.max(0, raw)); last = now;
+  GL.fit(cv, 1.5);
+  const W = cv.width, H = cv.height;
+  if(ov.width !== W || ov.height !== H){ ov.width = W; ov.height = H; }
+  if(!BBOX) BBOX = computeBBox(P.pid);
+  // transitions
+  fade = 1;
+  if(anim){
+    const u = Math.min(1, (now - anim.t0)/anim.dur), e = u < 0.5 ? 2*u*u : 1 - Math.pow(-2*u + 2, 2)/2;
+    if(anim.kind === 'turn'){ M = slerpM(anim.from, anim.to, e); if(u >= 1){ M = anim.to; anim = null; } wholeDirty = true; }
+    else if(anim.kind === 'fade'){ if(u >= 0.5 && anim.mid){ anim.mid(); anim.mid = null; } fade = Math.abs(1 - 2*u); if(u >= 1){ anim = null; fade = 1; } }
+  }
+  if(instDrift && !GL.reducedMotion && !anim && !drag){ M = ortho(mm(rotAxis([0, 0, 1], dt*2*D2R), M)); }
+  LY = layout(W, H);
+  if(P.follow || !V) V = viewM();
+  const pr = prog(P.pid);
+  gl.useProgram(pr.p);
+  const u = pr.u;
+  gl.uniform2f(u.uRes, W, H); gl.uniform4f(u.uMapRect, ...LY.mapR); gl.uniform2f(u.uMapC, LY.cx, LY.cy); gl.uniform1f(u.uMapS, LY.S); gl.uniform3f(u.uGlobe, ...LY.glo);
+  gl.uniformMatrix3fv(u.uM, true, new Float32Array(M)); gl.uniformMatrix3fv(u.uV, true, new Float32Array(V)); if(u.uG) gl.uniformMatrix3fv(u.uG, true, new Float32Array(G));
+  const set1 = (n, v) => { if(u[n]) gl.uniform1f(u[n], v); };
+  set1('uPhiS', PROJS[P.pid].phis || 0); set1('uNL', CP.nL); set1('uFL', CP.FL); set1('uR0L', CP.r0L); set1('uPhiMinL', CP.phiMinL); set1('uNA', CP.nA); set1('uCA', CP.CA); set1('uR0A', CP.r0A);
+  set1('uGrat', P.grat); set1('uTissot', P.tissot); set1('uTissotMap', P.tissotMap ? 1 : 0); set1('uHeat', P.heat); set1('uBands', P.bands ? 1 : 0); set1('uNoDist', P.nodist ? 1 : 0);
+  set1('uCut', P.cut ? 1 : 0); set1('uLandFill', P.landFill ? 1 : 0); set1('uRings', P.rings); set1('uFade', fade); set1('uGhostOn', ghostOn ? 1 : 0);
+  const c = centreOf(M, P.pid); if(u.uCentre) gl.uniform3fv(u.uCentre, c);
+  const okAB = A && B; if(u.uA) gl.uniform3fv(u.uA, okAB ? A : [1, 0, 0]); if(u.uB) gl.uniform3fv(u.uB, okAB ? B : [0, 1, 0]);
+  set1('uGC', okAB && P.gc ? 1 : 0); set1('uRh', okAB && P.rh ? 1 : 0);
+  gl.activeTexture(gl.TEXTURE0); gl.bindTexture(gl.TEXTURE_2D, texLand); if(u.uLand) gl.uniform1i(u.uLand, 0);
+  gl.activeTexture(gl.TEXTURE1); gl.bindTexture(gl.TEXTURE_2D, texGhost); if(u.uGhost) gl.uniform1i(u.uGhost, 1);
+  gl.activeTexture(gl.TEXTURE2); gl.bindTexture(gl.TEXTURE_2D, texLut); if(u.uLut) gl.uniform1i(u.uLut, 2);
+  gl.bindVertexArray(vao); gl.bindFramebuffer(gl.FRAMEBUFFER, null); gl.viewport(0, 0, W, H); gl.drawArrays(gl.TRIANGLES, 0, 3);
+  drawOverlay(W, H);
+  if(now - hudAt > 150){
+    hudAt = now;
+    const pr2 = PROJS[P.pid], h = headingOf(M, P.pid), [cf, cl] = geo(c);
+    hud.tl.textContent = (stopIdx >= 0 ? 'STOP ' + (stopIdx + 1) + ' OF ' + STOPS.length + ' · ' + STOPS[stopIdx].name.toUpperCase() + (stopDirty ? ' (CHANGED)' : '') + '\n' : '') + pr2.name.toUpperCase() + ' · KEEPS ' + pr2.keeps.split(/[:(,;]/)[0].trim().toUpperCase();
+    hud.tr.textContent = 'CENTRE ' + latStr(cf*R2D).toUpperCase() + ', ' + lonStr(cl*R2D).toUpperCase() + '\nHEADING ' + Math.round(h) + '°' + (P.zoom !== 1 ? ' · ZOOM ×' + fmt(P.zoom, 1) : '');
+    syncCentreSliders(); headerReadouts();
+  }
+  if(now - roAt > 120){ roAt = now; if(ptrPx) ptrGeo = geoAt(ptrPx); pointerReadouts(); measureReadouts(); }
+  if(wholeDirty && now - wholeAt > 400){ wholeAt = now; wholeDirty = false; whole(); ghostReadouts(); }
+  else if(ghostOn && drag && drag.kind === 'ghost' && now - wholeAt > 150){ wholeAt = now; ghostReadouts(); }
+  if(plotDirty || now - plotAt > 250){ plotAt = now; plotDirty = false; drawPlots(); }
+}
+/* 2D overlay: centre ring and heading tick on the globe, pointer marks, A/B labels, divider */
+function drawOverlay(W, H){
+  octx.setTransform(1, 0, 0, 1, 0, 0); octx.clearRect(0, 0, W, H);
+  const dpr = W/Math.max(1, cv.getBoundingClientRect().width), f = Math.round(10*dpr), Y = y => H - y;
+  octx.font = f + 'px "IBM Plex Mono", monospace';
+  // divider between the views
+  const r = LY.mapR; octx.fillStyle = 'rgba(255,255,255,0.18)';
+  if(r[2] < W - 1) octx.fillRect(r[0] === 0 ? r[2] : r[0], 0, Math.max(1, dpr*0.6), H); else octx.fillRect(0, Y(r[1]), W, Math.max(1, dpr*0.6));
+  const g = LY.glo, toGlobe = p => { const s = mv(V, p); return s[2] > 0 ? [g[0] + s[0]*g[2], Y(g[1] + s[1]*g[2])] : null; };
+  const toMap = p => { const m = fwd(P.pid, mv(M, p)); return m ? [LY.cx + m[0]*LY.S, Y(LY.cy + m[1]*LY.S)] : null; };
+  // centre ring + heading tick on the globe
+  const c = centreOf(M, P.pid), cg = toGlobe(c);
+  if(cg){
+    octx.strokeStyle = 'rgba(255,255,255,0.95)'; octx.lineWidth = 1.6*dpr; octx.beginPath(); octx.arc(cg[0], cg[1], 7*dpr, 0, 2*PI); octx.stroke();
+    const rr = phiRefOf(P.pid), up = mtv(M, [-Math.sin(rr), 0, Math.cos(rr)]), tip = toGlobe(norm(c.map((v, i) => v + up[i]*0.12)));
+    if(tip){ const dx = tip[0] - cg[0], dy = tip[1] - cg[1], l = Math.hypot(dx, dy) || 1; octx.beginPath(); octx.moveTo(cg[0] + dx/l*7*dpr, cg[1] + dy/l*7*dpr); octx.lineTo(cg[0] + dx/l*15*dpr, cg[1] + dy/l*15*dpr); octx.stroke(); }
+  }
+  // pointer: crosshair on the map, dot on the globe (the same place in both views)
+  if(ptrGeo){
+    const pm = toMap(ptrGeo), pg = toGlobe(ptrGeo);
+    octx.strokeStyle = 'rgba(255,255,255,0.8)'; octx.lineWidth = dpr;
+    if(pm){ octx.beginPath(); octx.moveTo(pm[0] - 8*dpr, pm[1]); octx.lineTo(pm[0] + 8*dpr, pm[1]); octx.moveTo(pm[0], pm[1] - 8*dpr); octx.lineTo(pm[0], pm[1] + 8*dpr); octx.stroke(); }
+    if(pg){ octx.fillStyle = 'rgba(255,255,255,0.9)'; octx.beginPath(); octx.arc(pg[0], pg[1], 3*dpr, 0, 2*PI); octx.fill(); }
+  }
+  // measure points
+  [[A, 'A'], [B, 'B']].forEach(([p, n]) => { if(!p) return; [toMap(p), toGlobe(p)].forEach(s => { if(!s) return; octx.fillStyle = '#fff'; octx.beginPath(); octx.arc(s[0], s[1], 3.5*dpr, 0, 2*PI); octx.fill(); octx.fillText(n, s[0] + 6*dpr, s[1] - 6*dpr); }); });
+  // ruler line on the map
+  if(A && B && P.ru){ const a = toMap(A), b = toMap(B); if(a && b){ octx.setLineDash([2*dpr, 4*dpr]); octx.strokeStyle = 'rgba(220,220,220,0.85)'; octx.lineWidth = 1.5*dpr; octx.beginPath(); octx.moveTo(a[0], a[1]); octx.lineTo(b[0], b[1]); octx.stroke(); octx.setLineDash([]); } }
+  // ghost label
+  if(ghostOn){ const S = samplesOf(P.country); if(S && S.pts.length){ let sx = 0, sy = 0, sz = 0; S.pts.forEach(s => { sx += s[0][0]; sy += s[0][1]; sz += s[0][2]; }); const cen = mv(G, norm([sx, sy, sz])), pm = toMap(cen); if(pm){ octx.fillStyle = 'rgba(255,255,255,0.9)'; octx.textAlign = 'center'; octx.fillText(P.country.toUpperCase(), pm[0], pm[1]); octx.textAlign = 'left'; } } }
+  // ring labels
+  if(P.rings){ octx.fillStyle = 'rgba(160,215,255,0.85)'; for(let k = 1; k <= 9; k++){ const d = k*P.rings; if(d > 20000) break; const [cf, cl] = geo(c), br = 135*D2R, a = d/R_KM;
+      const lat = Math.asin(Math.sin(cf)*Math.cos(a) + Math.cos(cf)*Math.sin(a)*Math.cos(br)), lon = cl + Math.atan2(Math.sin(br)*Math.sin(a)*Math.cos(cf), Math.cos(a) - Math.sin(cf)*Math.sin(lat));
+      const pm = toMap(sph(lat, lon)); if(pm) octx.fillText(fmt(d, 0) + ' km', pm[0] + 3*dpr, pm[1] - 3*dpr); } }
+}
+
+/* =====================================================================
+   Start
+   ===================================================================== */
+setProj(1, false);
+setFromCentre(0, 0, 0);
+legend();
+Promise.all([loadImg('/visual-synths/data/land-sdf-50m.png'), loadImg('/visual-synths/data/countries-id-50m.png')]).then(([land, ctry]) => {
+  texLand = tex(0, 0, [gl.R8, gl.RED, gl.UNSIGNED_BYTE], land, gl.LINEAR, true);
+  gl.bindTexture(gl.TEXTURE_2D, texLand); gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAX_LEVEL, 4);
+  const c1 = document.createElement('canvas'); c1.width = 1024; c1.height = 512; const x1 = c1.getContext('2d'); x1.drawImage(land, 0, 0, 1024, 512); landLow = x1.getImageData(0, 0, 1024, 512).data;
+  // decode at full size and take every other pixel ourselves: browser downscaling blends the bit field
+  { const FW = ctry.naturalWidth, FH = ctry.naturalHeight, c2 = document.createElement('canvas'); c2.width = FW; c2.height = FH; const x2 = c2.getContext('2d'); x2.imageSmoothingEnabled = false; x2.drawImage(ctry, 0, 0);
+    const full = x2.getImageData(0, 0, FW, FH).data; CW = FW >> 1; CH = FH >> 1; countryBits = new Uint8Array(CW*CH*4);
+    for(let y = 0; y < CH; y++) for(let x = 0; x < CW; x++){ const i = ((y*2)*FW + x*2)*4, o = (y*CW + x)*4; countryBits[o] = full[i]; countryBits[o + 1] = full[i + 1]; }
+    c2.width = c2.height = 1; }
+  wholeDirty = true;
+  if(window.__studyTest) window.__studyTest({P, frame, gl, cv, api:{geoAt, PROJS, fwd, inv, Dfr, svd2, buildM, rotAtoB, centreOf, headingOf, applyStop, setProj, setM:m => { M = m; }, getM:() => M, setFromCentre, gcDist, rhumb, rulerGround, drawnArea, samplesOf, setAB:(a, b) => { A = a; B = b; }, sph, mv, mtv, geo, setG:g => { G = g; }, setGhost:n => { P.country = n; buildGhost(n); ghostOn = true; }, prog, endAnim:() => { if(anim){ if(anim.mid) anim.mid(); if(anim.to) M = anim.to; anim = null; } }}});
+}).catch(e => { console.error(e); fail('Could not load the coastline data (' + e.message + ').'); });
+MUSEUM.install('inst', stage, () => { setLabel(true); instDrift = true; applyStop(0); }, s => { if(Math.floor(s) % 24 === 0) applyStop((stopIdx + 1) % STOPS.length); }, () => { instDrift = false; });
+applyStop(0);
+frame(performance.now());
+GL.visibleLoop(stage, frame);
+window.addEventListener('resize', () => { plotDirty = true; });
+})();
+</script>
+</body>
+</html>

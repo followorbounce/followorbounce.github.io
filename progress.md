@@ -124,6 +124,11 @@
 - Checked: headless captures of all layers, sardines and phone layout (390 px); scripted control test (23 checks: presets, sliders, species, layer rules, predator/lure on pointer, place + remove object, no boid inside an object, count up/down, pause, scatter, finite state, no GL or window errors).
 - Hub card + counts (twelve pieces, seven studies, "All 12" under the homepage canvas), own-pages entry in the hidden Video Synth category.
 
+## 2026-10-19 — Rind (map-projection instrument)
+- Owner asked for an instrument to map the flat Earth with any centre, keep the same distortion, drag the land itself, explain projections with a second globe view, and to "call the science team". Two specs first (cartographer math + education design), then the build, then an independent review.
+- 16 projections, oblique aspects, trackball drag, globe with centre ring and map cut, Tissot circles (ride with land / fixed to map), area and angle heat maps (berlin, inferno, bands), lines of no distortion, great circle / rhumb / ruler, distance rings, carry a country, readouts, two plots, 12-stop tour, keyboard, installation mode.
+- Checked: see CLAUDE.md. Not checked: real GPUs/iPhone, touch twist and pinch by hand.
+
 ## 2026-10-19 — Six aerospace pieces (Light-Day, Chirp, Plume, Re-entry, Orbit Loom, Relic)
 - Owner asked for the six aerospace plates of the Lineages proposal, scientific and at museum-interface level. Built with `tools/_studies/build.py`; hub group "Aerospace pieces" (25 pieces, homepage "All 25"); own-pages entries; each guide links back.
 - Real data: JPL Horizons barycentric state vectors (Voyager 1/2, Earth, Sun, giant planets, 1977–2036), LIGO GWOSC GW150914 H1/L1 strain + NR waveform, Planck 2015 SMICA map (Nside 512 + COBE-beam copy), Natural Earth land. Scripts and sources: `visual-synths/tools/_aero/README.md`.

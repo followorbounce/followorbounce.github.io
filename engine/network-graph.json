@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 167,
+    "pages": 168,
     "repos": 4,
-    "own": 51,
+    "own": 52,
     "aerospace": 78,
     "maya": 7,
     "machinery": 31
@@ -389,6 +389,17 @@
       "title": "Relic",
       "description": "The real Planck SMICA map of the cosmic microwave background drawn from its HEALPix pixels: add our motion's dipole, blur to COBE's beam, read the map's statistics, hear its power spectrum.",
       "url": "https://followorbounce.github.io/visual-synths/relic",
+      "tag": "Tool",
+      "interactive": true,
+      "hidden": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Video Synth",
+      "title": "Rind",
+      "description": "Map projections as an instrument: sixteen projections, re-centre any of them, drag the land through the distortion, a globe beside the map, Tissot circles, area and angle heat maps, great circles and rhumb lines, carry Greenland to the equator; a 12-stop guided tour.",
+      "url": "https://followorbounce.github.io/visual-synths/rind",
       "tag": "Tool",
       "interactive": true,
       "hidden": true

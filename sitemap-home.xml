@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://followorbounce.github.io/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://followorbounce.github.io/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://followorbounce.github.io/dictionary-of-design/</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://followorbounce.github.io/dictionary-of-inner-experience/</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://followorbounce.github.io/universal-waves</loc><lastmod>2026-10-02</lastmod></url>
@@ -18,7 +18,7 @@
   <url><loc>https://followorbounce.github.io/soundos/</loc><lastmod>2026-10-16</lastmod></url>
   <url><loc>https://followorbounce.github.io/pulse-train-stage-ii</loc><lastmod>2026-09-26</lastmod></url>
   <url><loc>https://followorbounce.github.io/pulse-train-node-database</loc><lastmod>2026-09-26</lastmod></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/</loc><lastmod>2026-10-18</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/</loc><lastmod>2026-10-19</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/point-cloud-scan</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/displacement-field</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/latent-flow</loc><lastmod>2026-10-18</lastmod></url>
@@ -29,12 +29,13 @@
   <url><loc>https://followorbounce.github.io/visual-synths/cone</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/erosion</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/ring</loc><lastmod>2026-10-18</lastmod></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/light-day</loc></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/chirp</loc></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/plume</loc></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/re-entry</loc></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/orbit-loom</loc></url>
-  <url><loc>https://followorbounce.github.io/visual-synths/relic</loc></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/light-day</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/chirp</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/plume</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/re-entry</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/orbit-loom</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/relic</loc><lastmod>2026-10-19</lastmod></url>
+  <url><loc>https://followorbounce.github.io/visual-synths/rind</loc></url>
   <url><loc>https://followorbounce.github.io/visual-synths/threshold</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/chain</loc><lastmod>2026-10-18</lastmod></url>
   <url><loc>https://followorbounce.github.io/visual-synths/sensor</loc><lastmod>2026-10-18</lastmod></url>
