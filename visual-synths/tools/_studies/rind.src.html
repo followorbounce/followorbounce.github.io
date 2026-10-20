@@ -105,10 +105,10 @@
 
 <section class="about wrap">
   <h2>How it works</h2>
-  <p><strong>From globe to paper, backwards.</strong> A projection is a formula that turns latitude and longitude into x and y. The graphics card runs it backwards for every pixel: "which place on Earth lands here?" (the inverse projection), then colours that place from a map of the coastline. The coastline is stored as a distance field, so it stays sharp however far a projection stretches it.</p>
+  <p><strong>From globe to paper, backwards.</strong> A projection is a formula that turns latitude and longitude into x and y. The graphics card runs it backwards for every pixel: "which place on Earth lands here?" (the inverse projection), then colours that place from a map of the coastline. The coastline is stored as a distance field, so its edge stays crisp even where a projection stretches it (the detail is still that of a 1:50 million map).</p>
   <p><strong>Moving the centre.</strong> Before projecting, the whole sphere is turned so that the chosen centre sits where the formula is at its best: this is called an <em>oblique aspect</em>. Turning a sphere stretches nothing, so the kind of distortion stays exactly the same; only its place on Earth moves. That is why the heat map and the lines of no distortion stay put on the screen while you drag the land through them. Dragging is a trackball: the place you grabbed stays under your finger.</p>
-  <p><strong>Measuring the stretch.</strong> At every point the page computes how the map stretches a tiny step in each direction (the local scale matrix). Its largest and smallest stretch, a and b, are the axes of Tissot's ellipse. Area changes by a × b; the largest angle bend is 2ω, where sin ω = (a − b) / (a + b). Conformal maps keep a = b (shapes kept, areas change); equal-area maps keep a × b = 1 (areas kept, shapes change). In 1827 Gauss proved no flat map can do both: a sphere's curvature cannot be flattened without stretching, the way an orange peel tears when pressed flat.</p>
-  <p><strong>Tissot circles.</strong> Each circle is the true image of a circle 6° (or 3°) across on the globe, computed from the angle between every pixel's place and the circle's centre. Small circles turn into Tissot's ellipses; large ones show the curved distortion honestly, which is why some look egg-shaped near Mercator's edge.</p>
+  <p><strong>Measuring the stretch.</strong> At every point the page computes how the map stretches a tiny step in each direction (the local scale matrix). Its largest and smallest stretch, a and b, are the axes of Tissot's ellipse. Area changes by a × b; the largest angle bend is 2ω, where sin ω = (a − b) / (a + b). Conformal maps keep a = b (shapes kept, areas change); equal-area maps keep a × b = 1 (areas kept, shapes change). It follows from Gauss's 1827 theorem that no flat map can do both: a sphere's curvature cannot be flattened without stretching, the way an orange peel tears when pressed flat.</p>
+  <p><strong>Tissot circles.</strong> Each circle is the true image of a circle of radius 6° (or 3°) on the globe, computed from the angle between every pixel's place and the circle's centre. Small circles turn into Tissot's ellipses; large ones show the curved distortion honestly, which is why some look egg-shaped near Mercator's edge.</p>
   <p><strong>Routes and areas.</strong> The great circle is the shortest path, drawn as the plane through the Earth's centre and both places. The rhumb line keeps one compass bearing; it is a straight line on Mercator. Lengths use a sphere of radius 6,371 km. A carried country is turned rigidly across the sphere and re-projected every frame; its area "as drawn" adds up the map's area scale over thousands of points inside it.</p>
   <h3>Lineage</h3>
   <p>An instrument in the language of the cartographer's drafting table and the museum globe: a fine grid, a single bright line where the paper touches the Earth, and a field of colour that shows what the flattening costs. It recreates no specific work.</p>
@@ -142,7 +142,9 @@
 .ctl select{width:100%;}
 .stage:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
 .hud.bl.legend .bar{display:block; width:170px; height:7px; margin:3px 0 2px;}
-.hud.bl.legend .ticks{display:flex; justify-content:space-between; width:170px; font-size:9px; letter-spacing:.04em;}
+.hud.bl.legend .ticks{position:relative; display:block; width:170px; height:12px; font-size:9px; letter-spacing:.02em;}
+.hud.bl.legend .ticks span{position:absolute; top:0; transform:translateX(-50%); white-space:nowrap;}
+.hud.bl.legend .ends{display:flex; justify-content:space-between; width:170px; font-size:8.5px; opacity:.75;}
 @media (max-width:640px){ .hud.bl.legend{display:none;} #stage .wall-label{bottom:calc(44% + 8px); max-width:calc(100% - 20px);} }
 </style>
 
@@ -308,7 +310,7 @@ function Dfr(pid, q){
   const fe = (ff, ll) => fwd(pid, sph(ff, ll));
   let a1 = fe(f, l + e), a2 = fe(f, l - e), b1 = fe(f + e, l), b2 = fe(f - e, l);
   if(!a1 || !a2 || !b1 || !b2) return null;
-  if(pid === 2 || pid >= 9 && pid <= 13){ if(Math.abs(a1[1] - a2[1]) > 1 || Math.abs(b1[1] - b2[1]) > 1 || Math.abs(a1[0] - a2[0]) > 1) return null; }
+  if(Math.abs(a1[0] - a2[0]) > 1 || Math.abs(a1[1] - a2[1]) > 1 || Math.abs(b1[0] - b2[0]) > 1 || Math.abs(b1[1] - b2[1]) > 1) return null;   // samples straddle a cut
   return [(a1[0] - a2[0])/(2*e*cf), (b1[0] - b2[0])/(2*e), (a1[1] - a2[1])/(2*e*cf), (b1[1] - b2[1])/(2*e)];
 }
 function svd2(D){ const [p, q, r, t] = D, A = Math.hypot(p + t, q - r), B = Math.hypot(p - t, q + r); return {a:(A + B)/2, b:Math.abs(A - B)/2, s:Math.abs(p*t - q*r), w2:2*Math.asin(Math.min(1, B/Math.max(A, 1e-300)))*R2D}; }
@@ -584,13 +586,11 @@ void main(){
     vec2 m = (frag - uMapC)/uMapS;
     vec3 q; float g; bool ok = inv(m, q, g);
     float edge = smoothstep(0.0, max(fwidth(g), 1e-6)*1.2, g);
-    if(ok){
-      vec3 p = transpose(uM)*q;
-      vec3 base = vec3(0.035, 0.045, 0.06);
-      c = overlays(base, p, q, false, 1.0)*edge;
-    }
-  } else if(gr < 1.0){
-    vec3 s = vec3(gd/uGlobe.z, sqrt(max(1.0 - gr*gr, 0.0)));
+    // overlays run for every pixel (inv returns a finite q everywhere), so their derivatives stay defined at the outline
+    vec3 p = transpose(uM)*q;
+    c = overlays(vec3(0.035, 0.045, 0.06), p, q, false, 1.0)*edge*(ok ? 1.0 : 0.0);
+  } else if(gr < 1.0 + 3.0/uGlobe.z){
+    vec3 s = normalize(vec3(gd/uGlobe.z, sqrt(max(1.0 - gr*gr, 0.0))));
     vec3 p = transpose(uV)*s, q = uM*p;
     float shade = 0.55 + 0.45*max(dot(s, normalize(vec3(-0.4, 0.5, 0.8))), 0.0);
     vec3 base = vec3(0.035, 0.045, 0.06)*shade;
@@ -599,10 +599,13 @@ void main(){
     if(!shown(q)) c *= 0.35;
     if(uCut > 0.5){
       float cut = 0.0;
-#if PROJ <= 8 || PROJ >= 14
+#if PROJ == 2
+      float d = q.z, w = max(fwidth(d), 1e-5);
+      cut = line1(d, 1.6*w)*step(q.x, 0.0);
+#elif PROJ <= 8 || PROJ >= 14
       float d = q.y, w = max(fwidth(d), 1e-5);
       cut = line1(d, 1.6*w)*step(q.x, 0.0);
-#elif PROJ == 9 || PROJ == 10 || PROJ == 11
+#elif PROJ == 9 || PROJ == 10
       vec3 cf = vec3(1, 0, 0); float d = angB(q, -cf) - 0.03, w = max(fwidth(d), 1e-5); cut = 1.0 - smoothstep(-w, w, d);
 #else
       float lim = ${'${LIM}'}; float d = angB(q, vec3(1, 0, 0)) - lim, w = max(fwidth(d), 1e-5); cut = line1(d, 1.6*w);
@@ -621,7 +624,7 @@ const LUTS = {berlin:'9eb0ff9cb0fe9ab0fd98affc95affb93affa91aef98eaef78caef68aae
 const progs = {};
 function prog(pid){
   if(progs[pid]) return progs[pid];
-  const lim = pid === 13 ? '1.2217305' : '1.5707963';
+  const lim = pid === 13 ? '1.2217305' : pid === 11 ? '2.7925268' : '1.5707963';
   const src = GLSL_COMMON + '#define PROJ ' + pid + '\n' + GLSL_PROJ + GLSL_MAIN.replace('${LIM}', lim);
   progs[pid] = GL.program(gl, GLX.VS, src);
   return progs[pid];
@@ -685,7 +688,8 @@ function layout(W, H){
   else { const mh = H*0.56; mapR = [0, H - mh, W, mh]; glo = [W/2, (H - mh)/2, Math.min(W*0.45, (H - mh)*0.45)]; if(P.swap){ const gh = H*0.56; mapR = [0, 0, W, H - gh]; glo = [W/2, H - gh/2, Math.min(W*0.45, gh*0.46)]; } }
   const bb = BBOX, bw = bb[1] - bb[0], bh = bb[3] - bb[2], pad = 0.92;
   const S = Math.min(mapR[2]*pad/bw, mapR[3]*pad/bh)*P.zoom;
-  const cx = mapR[0] + mapR[2]/2 - (bb[0] + bb[1])/2*S, cy = mapR[1] + mapR[3]/2 - (bb[2] + bb[3])/2*S;
+  // zooming in closes on the projection centre (map 0, 0) rather than the middle of the map's outline
+  const zc = Math.min(1, 1/P.zoom), cx = mapR[0] + mapR[2]/2 - (bb[0] + bb[1])/2*zc*S, cy = mapR[1] + mapR[3]/2 - (bb[2] + bb[3])/2*zc*S;
   return {mapR, glo, S, cx, cy};
 }
 let LY = null;
@@ -821,9 +825,9 @@ function ghostReadouts(){
 }
 function headerReadouts(){
   const c = centreOf(M, P.pid), [f, l] = geo(c), h = headingOf(M, P.pid), pr = PROJS[P.pid], nat = pr.nat;
-  const natural = Math.abs(f*R2D - nat[0]) < 0.05 && Math.abs(h) < 0.5;
+  const natural = Math.abs(f*R2D - (pr.conic ? CP.ref*R2D : nat[0])) < 0.05 && Math.abs(h) < 0.5;
   R.proj.set(pr.name, pr.fam.toLowerCase() + ' · ' + pr.keeps.split(':')[0].toLowerCase());
-  R.ctr.set(latStr(f*R2D) + ', ' + lonStr(l*R2D) + ' · heading ' + fmt(h, 0) + '°', natural ? 'natural aspect' : 'oblique aspect: the same rule, turned');
+  R.ctr.set(latStr(f*R2D) + ', ' + lonStr(l*R2D) + ' · heading ' + fmt(h, 0) + '°', P.pid === 12 ? 'a view from far away; every centre is equally natural' : natural ? 'natural aspect' : 'oblique aspect: the same rule, turned');
 }
 
 /* =====================================================================
@@ -872,15 +876,20 @@ function legend(){
   if(!P.heat){ hud.bl.innerHTML = ''; return; }
   const row = P.heat === 1 ? 0 : 1, h = row ? LUTS.inferno : LUTS.berlin, stops = [];
   for(let i = 0; i <= 8; i++){ const k = Math.round(i/8*255)*6; stops.push('#' + h.substr(k, 6) + ' ' + (i/8*100) + '%'); }
-  const ticks = row ? ['0°', '5°', '20°', '40°', '60°+'] : ['×⅛', '×¼', '×½', '×1', '×2', '×4', '×8'];
-  hud.bl.innerHTML = `<span>${row ? 'HOW MUCH SHAPES ARE BENT' : 'SIZE ON THE MAP ÷ TRUE SIZE'}</span><span class="bar" style="background:linear-gradient(90deg,${stops.join(',')})"></span><span class="ticks">${ticks.map(t => `<span>${t}</span>`).join('')}</span>`;
+  // tick positions follow the colour mapping: area 0.5 + log2(s)/6, angle sqrt(2ω/60°)
+  const ticks = row ? [[0, '0°'], [5, '5°'], [10, '10°'], [20, '20°'], [40, '40°'], [60, '60°+']].map(t => [Math.sqrt(t[0]/60), t[1]])
+    : [[-3, '×⅛'], [-2, '×¼'], [-1, '×½'], [0, '×1'], [1, '×2'], [2, '×4'], [3, '×8']].map(t => [0.5 + t[0]/6, t[1]]);
+  const ends = row ? ['shape kept', 'badly bent'] : ['shrunk', 'true size', 'swollen'];
+  hud.bl.innerHTML = `<span>${row ? 'HOW MUCH SHAPES ARE BENT' : 'SIZE ON THE MAP ÷ TRUE SIZE'}</span><span class="bar" style="background:linear-gradient(90deg,${stops.join(',')})"></span>`
+    + `<span class="ticks">${ticks.map(t => `<span style="left:${(t[0]*100).toFixed(1)}%">${t[1]}</span>`).join('')}</span>`
+    + `<span class="ends">${ends.map(e => `<span>${e.toUpperCase()}</span>`).join('')}</span>`;
 }
 
 /* =====================================================================
    Tour (education spec section 3)
    ===================================================================== */
 const STOPS = [
-  {name:'The sailor\'s map', pid:1, c:[0, 0, 0], set:{tissot:15, heat:0, grat:30}, label:'This is the map most of us grew up with. It keeps every angle true, so a ship can steer by it with a ruler. The price is size: at 60° north, every circle is four times too big.'},
+  {name:'The sailor\'s map', pid:1, c:[0, 0, 0], set:{tissot:15, heat:0, grat:30}, label:'This is the map most of us grew up with. It keeps every angle true, so a ship can steer by it with a ruler. The price is size: at 60° north, every circle covers four times its true area (twice as wide).'},
   {name:'Greenland and Africa', pid:1, c:[0, 0, 0], set:{tissot:0, heat:1, grat:30, mode:'carry', country:'Greenland'}, label:'On this map Greenland looks as big as Africa. Carry it to the equator and see its true size: Africa is about fourteen times larger. The map kept the shape; it changed the size.'},
   {name:'Same rule, turned', pid:2, c:[0, -2, 0], set:{tissot:15, heat:1, grat:30}, label:'The sailor\'s rule turned on its side. Now the true-size line runs north to south. Mapping agencies use narrow strips like this, so small areas stay accurate in both size and shape.'},
   {name:'Distance from here', pid:9, c:[51.51, -0.13, 0], set:{tissot:0, heat:0, grat:30, rings:2000}, label:'From the centre, every distance and direction is true. Each ring is 2,000 km further away. The outer edge is one point stretched into a circle: the place on the far side of the Earth.'},
@@ -889,8 +898,8 @@ const STOPS = [
   {name:'Fair to every country', pid:8, c:[0, 0, 0], set:{tissot:15, heat:1, grat:30}, alt:{label:'Show angle error', set:{heat:2}}, label:'This world map keeps every country\'s size in proportion, so it is fair for comparing them. Shapes bend near the edges instead. It was designed in 2018 to be equal-area and still look familiar.'},
   {name:'Over the pole', pid:11, c:[90, 0, 0], zoom:1.7, set:{tissot:15, heat:1, grat:10}, label:'Put the pole in the middle and the Arctic becomes an ocean ringed by land. This map keeps shapes, like Mercator, but from one point instead of a line. Polar scientists and weather charts use it.'},
   {name:'Pacific in the middle', pid:8, c:[0, 180, 0], set:{tissot:0, heat:0, grat:30}, label:'Many maps in East Asia and Oceania put the Pacific in the middle. The edge of a world map is a cut through the globe. The mapmaker decides where to cut, and what to split.'},
-  {name:'South up', pid:8, c:[0, 20, 180], set:{tissot:0, heat:0, grat:30}, label:'Nothing is wrong with this map. The Earth has no top. North went up on most maps by habit and history. Turn the heading and every distance, area and angle stays exactly the same.'},
-  {name:'A map for one country', pid:15, c:[37.5, -96, 0], conic:[29.5, 45.5], zoom:2.6, set:{tissot:15, heat:2, grat:10}, alt:{label:'Show conformal conic', pid:14}, label:'A cone touches the globe along two lines. Close to them the map is nearly perfect, so a country that fits between them maps well. This is how many national maps of mid-latitude countries are made.'},
+  {name:'South up', pid:8, c:[0, 20, 180], set:{tissot:0, heat:0, grat:30}, label:'Nothing is wrong with this map. The Earth has no top. North went up on most maps by habit and history. Turn the map upside down and every distance, area and angle stays exactly the same.'},
+  {name:'A map for one country', pid:15, c:[37.5, -96, 0], conic:[29.5, 45.5], zoom:2.6, set:{tissot:15, heat:2, grat:10}, alt:{label:'Show conformal conic', pid:14}, label:'A cone cuts through the globe along two lines. Close to them the map is nearly perfect, so a country that fits between them maps well. This is how many national maps of mid-latitude countries are made.'},
   {name:'What the eye sees', pid:12, c:[20, 20, 0], set:{tissot:15, heat:1, grat:30}, label:'This is the Earth as a far-away camera sees it: a photograph is a projection too. It shows half the world, and shapes near the rim squash to almost nothing. Every view of a sphere chooses.'}
 ];
 const tourBox = document.getElementById('tour');
@@ -1044,7 +1053,7 @@ function pathData(pid){
   const r = phiRefOf(pid), out = {nA:[], eA:[], nB:[], eB:[]};
   for(let d = 0; d <= 90; d += 1){
     const qn = sph(Math.min(r + d*D2R, PI/2 - 1e-4), 0), qe = sph(r, Math.min(d*D2R, PI - 1e-3));
-    [[qn, 'n'], [qe, 'e']].forEach(([q, k]) => { if(!fwd(pid, q)) return; const D = Dfr(pid, q); if(!D) return; const s = svd2(D); out[k + 'A'].push([d, Math.max(1/16, Math.min(64, s.s))]); out[k + 'B'].push([d, Math.min(90, s.w2)]); });
+    [[qn, 'n'], [qe, 'e']].forEach(([q, k]) => { if(!fwd(pid, q)) return; const D = Dfr(pid, q); if(!D) return; const s = svd2(D); out[k + 'A'].push([d, Math.max(0.25, Math.min(64, s.s))]); out[k + 'B'].push([d, Math.min(90, s.w2)]); });
   }
   return out;
 }

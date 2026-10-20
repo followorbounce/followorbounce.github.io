@@ -114,7 +114,7 @@ All stops: graticule (the grid of latitude and longitude lines) on at 30° spaci
 ### Stop 7. Fair to every country
 - **Projection:** Equal Earth. **Centre:** 0°, 0°, heading 0°.
 - **Overlays:** area heat map on (one flat colour), then the stop switches to angle heat map after 6 seconds (slow 1.2 s cross-fade); Tissot on.
-- **Globe:** camera at 20°N, 0°; no line of no distortion is lit (none exists for this map); the cut along 180° dashed.
+- **Globe:** camera at 20°N, 0°; the two points of no distortion at ±40.4° on the central meridian are lit (review 2026-10-19: Equal Earth has these, Robinson has none); the cut along 180° dashed.
 - **Notice:** area is perfect everywhere, angle error grows towards the curved edges.
 - **Wall label:** *This world map keeps every country's size in proportion, so it is fair for comparing them. Shapes bend near the edges instead. It was designed in 2018 to be equal-area and still look familiar.*
 - **Try this:** Switch to Mollweide (also equal-area) and Robinson (keeps nothing exactly). Watch the area heat map in Robinson.
