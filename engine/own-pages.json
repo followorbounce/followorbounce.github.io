@@ -13,6 +13,13 @@
       ]
     },
     {
+      "id": "science",
+      "title": "Science & Nature",
+      "pages": [
+        { "slug": "planck-to-horizon", "url": "/planck-to-horizon", "title": "Planck to Horizon — every size in nature", "description": "A continuous zoom through 62 steps of ten, from the Planck length to the observable universe, with a mass–size map of everything in between: 175 sourced objects, where sizes meet, where a human stands, and what physics rules at each scale.", "tag": "Read", "interactive": true }
+      ]
+    },
+    {
       "id": "waves",
       "title": "Waves",
       "pages": [

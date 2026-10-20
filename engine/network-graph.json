@@ -24,9 +24,9 @@
     }
   ],
   "totals": {
-    "pages": 168,
+    "pages": 169,
     "repos": 4,
-    "own": 52,
+    "own": 53,
     "aerospace": 78,
     "maya": 7,
     "machinery": 31
@@ -50,6 +50,16 @@
       "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”",
       "url": "https://followorbounce.github.io/dictionary-of-inner-experience/",
       "tag": "Hub",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Science & Nature",
+      "title": "Planck to Horizon — every size in nature",
+      "description": "A continuous zoom through 62 steps of ten, from the Planck length to the observable universe, with a mass–size map of everything in between: 175 sourced objects, where sizes meet, where a human stands, and what physics rules at each scale.",
+      "url": "https://followorbounce.github.io/planck-to-horizon",
+      "tag": "Read",
       "interactive": true
     },
     {

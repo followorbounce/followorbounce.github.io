@@ -1,0 +1,1064 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Planck to Horizon — every size in nature</title>
+<meta name="description" content="A continuous zoom through 62 steps of ten, from the Planck length to the observable universe, with a mass–size map of everything in between. 175 sourced objects, where sizes meet, where a human stands, and what physics rules at each scale.">
+<link rel="canonical" href="https://followorbounce.github.io/planck-to-horizon">
+<meta name="theme-color" content="#F4F4F1">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Planck to Horizon — every size in nature">
+<meta property="og:description" content="Zoom from the Planck length to the edge of the observable universe and see what rules at each size. The true middle of all sizes is a hair's width.">
+<meta property="og:url" content="https://followorbounce.github.io/planck-to-horizon">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{
+  --paper:#F4F4F1; --paper-raised:#FFFFFF; --paper-sunken:#E8E7E1;
+  --ink:#171613; --ink-soft:#57554D; --ink-faint:#7A776E; --line:#DAD8D0; --line-strong:#B7B4A9;
+  --live:#6B5CA5; --accent:#B5452A; --data:#2F5AA1;
+  --r0:#6E6B63; --r1:#A8487F; --r2:#1F6F9E; --r3:#00785A; --r4:#7A6F00; --r5:#9A5A00; --r6:#2F5BC2; --r7:#B23A12;
+  --font-display:'Manrope', sans-serif; --font-mono:'IBM Plex Mono', ui-monospace, monospace;
+  --edge:clamp(16px,4vw,56px); --maxw:1320px; --textw:740px;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+    --ink:#EFEDE7; --ink-soft:#ADA99F; --ink-faint:#8D8A80; --line:#332F29; --line-strong:#48443A;
+    --live:#A396DA; --accent:#E07A5F; --data:#8FB0E8;
+    --r0:#9A978E; --r1:#E58FC0; --r2:#56B4E9; --r3:#2EC4A0; --r4:#F0E442; --r5:#F0A630; --r6:#6E9BFF; --r7:#FF6A3D;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#121110; --paper-raised:#1A1917; --paper-sunken:#0C0B0A;
+  --ink:#EFEDE7; --ink-soft:#ADA99F; --ink-faint:#8D8A80; --line:#332F29; --line-strong:#48443A;
+  --live:#A396DA; --accent:#E07A5F; --data:#8FB0E8;
+  --r0:#9A978E; --r1:#E58FC0; --r2:#56B4E9; --r3:#2EC4A0; --r4:#F0E442; --r5:#F0A630; --r6:#6E9BFF; --r7:#FF6A3D;
+}
+*{box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto;} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-display); font-weight:500; font-size:16px; line-height:1.65;}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:max(var(--edge), env(safe-area-inset-left)); padding-right:max(var(--edge), env(safe-area-inset-right));}
+.text{max-width:var(--textw);}
+a{color:inherit;}
+h1,h2,h3{font-weight:800; margin:0; line-height:1.1;}
+code, .mono{font-family:var(--font-mono);}
+header{border-bottom:1px solid var(--line-strong); padding-block:13px; position:sticky; top:0; background:var(--paper); z-index:30;}
+header .wrap{display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap;}
+header .brand{font-family:var(--font-mono); font-size:11px; letter-spacing:.12em; border:1px solid var(--line-strong); padding:6px 10px; color:var(--ink-soft); text-decoration:none;}
+header .back{font-family:var(--font-mono); font-size:12px; text-decoration:none; color:var(--ink-soft);}
+.hero{padding-block:clamp(26px,5vw,48px) 18px;}
+.eyebrow, .kicker{font-family:var(--font-mono); font-size:11px; letter-spacing:.16em; text-transform:uppercase; color:var(--ink-faint);}
+.hero h1{font-size:clamp(2.2rem,6vw,4.2rem); letter-spacing:-.02em; margin-top:10px;}
+.hero p{max-width:760px; color:var(--ink-soft); font-size:1.08rem; margin:14px 0 0;}
+.strip{margin-top:18px; height:44px; position:relative;}
+.strip canvas{width:100%; height:100%; display:block;}
+
+/* the stage */
+.stagebox{margin-top:10px;}
+.stage{position:relative; width:100%; aspect-ratio:16/8; max-height:82vh; min-height:420px; background:#000; color:#ECEAE4; overflow:hidden; border:1px solid var(--line-strong); outline:none; touch-action:pan-y;}
+.stage.engaged{box-shadow:0 0 0 1px #fff inset;}
+.stage:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.stage canvas{position:absolute; inset:0; width:100%; height:100%; display:block;}
+.stage .hint{position:absolute; left:50%; top:10px; transform:translateX(-50%); font-family:var(--font-mono); font-size:10.5px; letter-spacing:.08em; color:rgba(236,234,228,.7); pointer-events:none; text-transform:uppercase; white-space:nowrap;}
+.stage .wall{position:absolute; left:14px; bottom:58px; max-width:min(380px, calc(100% - 28px)); background:rgba(0,0,0,.8); border-left:2px solid #fff; padding:10px 14px 12px; font-size:14.5px; line-height:1.5; display:none;}
+.stage .wall.on{display:block;}
+.stage .wall b{display:block; font-family:var(--font-mono); font-weight:500; font-size:10px; letter-spacing:.14em; text-transform:uppercase; color:rgba(236,234,228,.7); margin-bottom:4px;}
+.stage .card{position:absolute; left:14px; top:78px; max-width:min(360px, calc(100% - 90px)); font-size:13px; line-height:1.45; color:rgba(236,234,228,.92); background:rgba(0,0,0,.6); padding:8px 12px; border:1px solid rgba(255,255,255,.25); opacity:0; transition:opacity .6s; pointer-events:none;}
+.stage .card.on{opacity:1;}
+.stage.installing{cursor:none;}
+.stage.installing .wall{font-size:clamp(15px,1.5vw,24px); max-width:min(640px, 50%);}
+.stage:fullscreen{max-height:none; aspect-ratio:auto; border:0;}
+@media (prefers-reduced-motion: reduce){ .stage .card{transition:none;} }
+.bar{display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding-block:10px;}
+.btn, .seg button{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; padding:7px 11px; min-height:36px; border:1px solid var(--line-strong); background:transparent; color:var(--ink-soft); cursor:pointer; border-radius:2px;}
+.btn:hover, .seg button:hover{border-color:var(--ink); color:var(--ink);}
+.btn[aria-pressed="true"], .seg button[aria-pressed="true"]{background:var(--ink); color:var(--paper); border-color:var(--ink);}
+.btn:focus-visible, .seg button:focus-visible, input:focus-visible, select:focus-visible{outline:2px solid var(--live); outline-offset:2px;}
+.seg{display:flex; flex-wrap:wrap; gap:4px;}
+input[type=text], select{font-family:var(--font-mono); font-size:16px; background:var(--paper-raised); color:var(--ink); border:1px solid var(--line-strong); padding:7px 9px; border-radius:2px; max-width:100%;}
+input[type=range]{accent-color:var(--live); width:100%;}
+@media (pointer:coarse){ .btn, .seg button{min-height:44px;} }
+.search{position:relative; flex:1 1 260px; max-width:420px;}
+.search input{width:100%;}
+.search ul{position:absolute; left:0; right:0; top:100%; z-index:20; list-style:none; margin:2px 0 0; padding:0; background:var(--paper-raised); border:1px solid var(--line-strong); max-height:300px; overflow:auto;}
+.search li{padding:8px 10px; cursor:pointer; display:flex; justify-content:space-between; gap:10px; font-size:14px;}
+.search li .mono{font-size:12px; color:var(--ink-soft);}
+.search li[aria-selected="true"], .search li:hover{background:var(--paper-sunken);}
+.tourbar{display:flex; flex-wrap:wrap; gap:6px; align-items:center; padding-block:4px 10px;}
+.tourbar .t{font-family:var(--font-mono); font-size:12px; color:var(--ink-soft); flex:1 1 220px;}
+.compare{display:none; gap:8px; flex-wrap:wrap; align-items:center; padding-block:4px 10px;}
+.compare.on{display:flex;}
+.compare select{flex:1 1 200px;}
+.readouts{display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); border-top:1px solid var(--line-strong); border-left:1px solid var(--line-strong);}
+.readouts > div{border-right:1px solid var(--line-strong); border-bottom:1px solid var(--line-strong); padding:9px 12px 10px; min-width:0;}
+.readouts .k{font-family:var(--font-mono); font-size:9.5px; letter-spacing:.13em; text-transform:uppercase; color:var(--ink-faint); display:flex; justify-content:space-between; gap:6px;}
+.readouts .v{font-weight:700; font-size:1.05rem; line-height:1.3; margin-top:3px; font-variant-numeric:tabular-nums; overflow-wrap:anywhere;}
+.readouts .s{font-size:12px; color:var(--ink-soft); margin-top:2px;}
+.tag{font-family:var(--font-mono); font-size:8.5px; letter-spacing:.1em; padding:0 4px; line-height:1.6; border-radius:2px; white-space:nowrap; align-self:flex-start;}
+.tag.data{background:var(--ink); color:var(--paper);} .tag.model{border:1px solid var(--ink-soft); color:var(--ink-soft);} .tag.drawn{border:1px dashed var(--ink-faint); color:var(--ink-faint);}
+.taglegend{font-size:12px; color:var(--ink-faint); padding-block:8px;}
+.keys{font-size:13px; color:var(--ink-soft);}
+.keys summary{cursor:pointer; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase;}
+.keys dl{display:grid; grid-template-columns:auto 1fr; gap:4px 14px; margin:10px 0 0;}
+.keys dt{font-family:var(--font-mono);}
+
+/* chapters */
+.toc{padding-block:30px 10px; border-top:1px solid var(--line-strong); margin-top:28px;}
+.toc ol{columns:3 240px; padding-left:20px; margin:12px 0 0;}
+.toc li{margin-bottom:4px;}
+section.ch{padding-block:clamp(32px,6vw,64px); border-top:1px solid var(--line);}
+.ch h2{font-size:clamp(1.6rem,3.6vw,2.4rem); margin:8px 0 14px; letter-spacing:-.01em;}
+.ch p{margin:0 0 14px; color:var(--ink-soft);}
+.ch p strong, .ch dfn{color:var(--ink); font-style:normal; font-weight:700;}
+.fig{margin:18px 0 6px; border:1px solid var(--line-strong); background:var(--paper-raised); padding:12px;}
+.fig canvas{width:100%; display:block;}
+.fig .cap{font-family:var(--font-mono); font-size:11px; color:var(--ink-faint); margin-top:8px; letter-spacing:.03em;}
+.go{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; border:1px solid var(--line-strong); padding:8px 12px; background:none; color:var(--ink); cursor:pointer; min-height:36px;}
+.go:hover{border-color:var(--ink);}
+.row{display:flex; flex-wrap:wrap; gap:8px; align-items:center;}
+.note{font-size:13px; color:var(--ink-faint);}
+.big{font-weight:800; font-size:1.25rem; color:var(--ink);}
+/* the mass–size diagram */
+.mdwrap{margin-top:18px;}
+.md{position:relative; border:1px solid var(--line-strong); background:var(--paper-raised);}
+.md canvas{display:block; width:100%; aspect-ratio:16/10; touch-action:pan-y;}
+.md .tip{position:absolute; max-width:300px; background:var(--paper); border:1px solid var(--ink); padding:9px 12px; font-size:13px; line-height:1.45; pointer-events:none; display:none; z-index:2;}
+.md .tip.on{display:block;}
+.md .tip b{display:block; font-size:14px;}
+@media (max-width:640px){ .md canvas{aspect-ratio:1/1;} .md .tip{left:6px !important; right:6px; bottom:6px; top:auto !important; max-width:none;} }
+/* table */
+table.objs{width:100%; border-collapse:collapse; font-size:13px; margin-top:12px;}
+table.objs th, table.objs td{text-align:left; padding:7px 8px; border-bottom:1px solid var(--line); vertical-align:top;}
+table.objs th{font-family:var(--font-mono); font-size:10.5px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-faint); cursor:pointer; white-space:nowrap;}
+table.objs td.n{font-variant-numeric:tabular-nums; font-family:var(--font-mono); white-space:nowrap;}
+table.objs td .d{color:var(--ink-faint); font-size:12px;}
+.tablewrap{overflow-x:auto; max-height:640px; overflow-y:auto; border:1px solid var(--line);}
+.chip{display:inline-block; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.06em; padding:1px 5px; border:1px solid currentColor; border-radius:2px; white-space:nowrap;}
+section.about{padding-block:clamp(30px,5vw,56px); border-top:1px solid var(--line-strong);}
+section.about h2{font-size:1.1rem; text-transform:uppercase; letter-spacing:.02em; margin-bottom:12px;}
+section.about h3{font-size:.95rem; text-transform:uppercase; margin:24px 0 8px;}
+section.about p, section.about li{max-width:780px; font-size:14px; color:var(--ink-soft);}
+section.about li{margin-bottom:6px;}
+section.about a{overflow-wrap:anywhere;}
+footer{border-top:1px solid var(--line-strong); padding-block:22px; text-align:center; font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint);}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+@media (max-width:640px){
+  .stage{aspect-ratio:auto; height:min(78svh, 680px); min-height:480px;}
+  .stage .wall{bottom:54px; font-size:13.5px; max-width:calc(100% - 64px);}
+  .readouts{grid-template-columns:1fr 1fr;}
+}
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">FOLLOW OR BOUNCE</a>
+    <a class="back" href="/">← Index</a>
+  </div>
+</header>
+
+<main>
+<section class="hero">
+  <div class="wrap">
+    <div class="eyebrow">Science · Scale</div>
+    <h1>Planck to Horizon</h1>
+    <p>From the smallest length physics can talk about to the edge of what light has had time to show us, sizes span about 62 steps of ten. Zoom through all of them, see what rules at each size, find the true middle of everything (it is a hair's width), and see where you stand. <span class="mono" id="nObj">175</span> objects, every number sourced.</p>
+    <div class="strip"><canvas id="strip" aria-label="The full range of sizes as one strip of 62 steps of ten, with you marked."></canvas></div>
+  </div>
+</section>
+
+<section class="wrap stagebox" aria-label="The zoom">
+  <div class="stage" id="stage" tabindex="0" role="group" aria-roledescription="zoomable scale" aria-label="Zoom through every size in nature. Keys: plus and minus zoom, H returns to you, slash opens search, T starts the tour." aria-describedby="live">
+    <canvas id="cv"></canvas>
+    <div class="hint" id="hint">Click to zoom with the wheel · or use the buttons below</div>
+    <div class="card" id="card"></div>
+    <div class="wall" id="wall"><b id="wallHead"></b><span id="wallText"></span></div>
+  </div>
+  <div id="live" class="sr" aria-live="polite"></div>
+  <label class="sr" for="mmSlider">Where am I: view width, power of ten in metres</label>
+  <input id="mmSlider" class="sr" type="range" min="-35.3" max="27.4" step="0.1" aria-valuetext="">
+  <div class="bar">
+    <div class="search"><label class="sr" for="q">Jump to an object or a size</label><input id="q" type="text" placeholder="Jump to… (a name, or a size like 1 nm)" autocomplete="off" role="combobox" aria-expanded="false" aria-controls="qlist" aria-autocomplete="list"><ul id="qlist" role="listbox" hidden></ul></div>
+    <button class="btn" id="zin" aria-label="Zoom in">− smaller</button>
+    <button class="btn" id="zout" aria-label="Zoom out">bigger +</button>
+    <button class="btn" id="you">Back to you</button>
+    <button class="btn" id="cmpBtn" aria-pressed="false">Compare</button>
+    <button class="btn" id="tourBtn" aria-pressed="false">Tour</button>
+    <button class="btn" id="inst">Installation</button>
+    <button class="btn" id="fs">Fullscreen</button>
+  </div>
+  <div class="compare" id="compare">
+    <label class="sr" for="ca">First object</label><select id="ca"></select>
+    <span class="mono">vs</span>
+    <label class="sr" for="cb">Second object</label><select id="cb"></select>
+    <button class="btn" id="swapC">Swap</button>
+  </div>
+  <div class="tourbar" id="tourbar" hidden>
+    <span class="t" id="tourT"></span>
+    <button class="btn" id="tPrev">‹ Previous</button><button class="btn" id="tNext">Next ›</button><button class="btn" id="tStop">Stop tour</button>
+  </div>
+  <div class="readouts" id="ro"></div>
+  <div class="taglegend"><span class="tag data">DATA</span> measured or published values · <span class="tag model">MODEL</span> computed from physics, with assumptions · <span class="tag drawn">DRAWN</span> how the picture is made, not a measurement</div>
+  <details class="keys"><summary>Keys and gestures</summary>
+    <dl><dt>wheel</dt><dd>zoom, once you have clicked the stage (or hold Ctrl / ⌘)</dd><dt>pinch, drag</dt><dd>zoom, slide along the shelf</dd><dt>+ − ↑ ↓</dt><dd>zoom in and out</dd><dt>PgUp PgDn</dt><dd>one step of ten</dd><dt>← →</dt><dd>previous and next object by size</dd><dt>Home End</dt><dd>the Planck length, the horizon</dd><dt>H</dt><dd>back to you</dd><dt>/</dt><dd>jump to</dd><dt>C</dt><dd>compare</dd><dt>T</dt><dd>tour</dd><dt>Esc</dt><dd>close, stop</dd></dl>
+  </details>
+</section>
+
+<nav class="wrap toc" aria-label="Chapters">
+  <div class="kicker">Nine chapters</div>
+  <ol>
+    <li><a href="#c1">Sixty-two steps of ten</a></li><li><a href="#c2">Where you stand</a></li><li><a href="#c3">The sticky small world</a></li>
+    <li><a href="#c4">Inside the atom</a></li><li><a href="#c5">The edge of the knowable small</a></li><li><a href="#c6">When gravity takes over</a></li>
+    <li><a href="#c7">Mass and size: the forbidden corners</a></li><li><a href="#c8">The largest things and the horizon</a></li><li><a href="#c9">How we know</a></li>
+  </ol>
+</nav>
+
+<section class="ch" id="c1"><div class="wrap"><div class="text">
+  <div class="kicker">01 · Scale</div><h2>Sixty-two steps of ten</h2>
+  <p>From the smallest length physics can talk about to the largest thing we can see, sizes span about <strong><span id="rangeN">62</span> steps of ten</strong>. One step, an <dfn>order of magnitude</dfn>, means ten times bigger. Two steps, a hundred times. Ten steps, ten billion times. A normal ruler cannot hold this. Draw the universe across your screen and a human would be <strong>three trillion times smaller than a proton</strong> on it. So this page uses a <dfn>logarithmic scale</dfn>, a ruler where each step of ten gets the same space instead of each metre. Moving one notch always means "ten times".</p>
+  <p>One more trap: width is not the whole story. A thing ten times wider has a hundred times the area and a thousand times the volume.</p>
+  <div class="fig"><canvas id="c1cv" height="150"></canvas>
+    <div class="row" style="margin-top:8px"><div class="seg" id="c1mode"><button data-v="log" aria-pressed="true">Logarithmic ruler</button><button data-v="lin">Normal ruler</button></div></div>
+    <div class="cap" id="c1cap"></div></div>
+  <div class="fig"><div class="row"><label class="sr" for="tbA">From</label><select id="tbA"></select><span class="mono">to</span><label class="sr" for="tbB">To</label><select id="tbB"></select></div>
+    <p class="big" id="tbOut" style="margin:10px 0 0"></p><div class="cap">How many times bigger, in steps of ten, in width, area and volume.</div></div>
+</div></div></section>
+
+<section class="ch" id="c2"><div class="wrap"><div class="text">
+  <div class="kicker">02 · You</div><h2>Where you stand</h2>
+  <p>Where is the middle of all sizes? Not in metres: the universe would swallow everything. In steps of ten, the middle is the <dfn>geometric mean</dfn>: the size that is as many times bigger than the Planck length as it is smaller than the universe. Before you read on, drag the pin to where you think it is.</p>
+  <div class="fig"><canvas id="c2cv" height="120" aria-label="A ruler from the Planck length to the observable universe. Drag the pin to guess the middle."></canvas>
+    <div class="row" style="margin-top:8px"><button class="btn" id="c2reveal">Show the answer</button><button class="btn" id="c2reset">Guess again</button></div>
+    <div class="cap" id="c2cap">Drag or tap the ruler to place your guess.</div></div>
+  <p>The answer is about <strong>0.12 millimetres</strong>: a human egg cell, the one cell you can almost see, about the width of a thick hair. You stand <strong>35 steps</strong> above the smallest length and <strong>27</strong> below the largest, <strong>57 % of the way up</strong>. Big enough to build telescopes, small enough to be made of cells. Every adult population's average height, from shortest to tallest country, fits in 0.14 % of the ruler.</p>
+  <button class="go" data-go="human-egg">Show me in the zoom →</button>
+</div></div></section>
+
+<section class="ch" id="c3"><div class="wrap"><div class="text">
+  <div class="kicker">03 · Cells</div><h2>The sticky small world</h2>
+  <p>Shrink below a few millimetres and the world turns sticky. <dfn>Surface tension</dfn>, the skin-like pull of water's surface, beats gravity below the <dfn>capillary length</dfn>, <strong>2.7 mm</strong> for water, so drops stay round and insects walk on ponds. Shrink further and <dfn>viscosity</dfn>, the thickness of a fluid, takes over from inertia below about 0.3–1 mm. For a bacterium, water feels like honey: stop swimming and it stops within a fraction of an atom's width.</p>
+  <p>Then light itself gives up. A microscope cannot sharpen details finer than about half the wavelength of light, about <strong>200 nanometres</strong> (the <dfn>diffraction limit</dfn>). Viruses and molecules lie below that line. We see them with electrons and X-rays instead.</p>
+  <div class="fig"><canvas id="c3cv" height="230"></canvas><div class="cap">Reynolds number (inertia ÷ viscosity) of swimmers against their size. Below 1, there is no coasting. Representative speeds; source: the physics spec, after Purcell (1977).</div></div>
+  <div class="row"><button class="go" data-go="capillary-length">Capillary length in the zoom →</button><button class="go" data-go="ecoli">E. coli in the zoom →</button></div>
+</div></div></section>
+
+<section class="ch" id="c4"><div class="wrap"><div class="text">
+  <div class="kicker">04 · Atoms</div><h2>Inside the atom</h2>
+  <p>The picture of an atom as a little solar system is a century old, and it is wrong. Electrons do not orbit like planets. <dfn>Quantum</dfn> physics, the rulebook for very small things, says an electron has no exact path: it is a cloud of chance, thick where you are likely to find it. That cloud is the atom's size, about a tenth of a nanometre. At the centre sits the nucleus, <strong id="nucRatio">63 000</strong> times narrower, holding almost all the mass.</p>
+  <div class="fig"><canvas id="c4cv" height="260" aria-label="A hydrogen atom drawn first as the 1913 orbit picture, then as a probability cloud."></canvas>
+    <div class="row" style="margin-top:8px"><button class="btn" id="c4old" aria-pressed="false">Show the 1913 picture</button></div>
+    <div class="cap" id="c4cap">Brightness: where the electron of hydrogen's ground state is likely to be found (|ψ|², projected). The nucleus is drawn far too big; at true scale it would be a hundred thousandth of a pixel.</div></div>
+  <p>People say atoms are mostly empty. Better: they are mostly cloud. That cloud is what pushes back when you press on a table. The atom is 137 times the electron's own quantum length because the electric force is weak, and that one number, α ≈ 1/137, sets the size of everything made of atoms.</p>
+  <button class="go" data-go="bohr-radius">Show me in the zoom →</button>
+</div></div></section>
+
+<section class="ch" id="c5"><div class="wrap"><div class="text">
+  <div class="kicker">05 · The edge</div><h2>The edge of the knowable small</h2>
+  <p>Our best collider, the LHC, smashes protons hard enough to resolve details near <strong>10⁻¹⁹ m</strong>, a ten-billionth of a billionth of a metre. Below that we have no data at all. The map then runs blank for <strong>16 more steps of ten</strong>, about a quarter of the whole ruler, down to the <dfn>Planck length</dfn>, the length at which gravity and quantum physics must both matter and neither works alone.</p>
+  <div class="fig"><canvas id="c5cv" height="200"></canvas><div class="cap">How we looked, smallest first. Each bar spans the sizes a method resolves. Hatched: unexplored.</div></div>
+  <p>The Planck length is often called the pixel size of space. Nobody knows that. It is where our current ideas break, the way old maps once said "unknown lands". It is drawn on this page as a measured span, never as a dot or a grid.</p>
+  <div class="row"><button class="go" data-go="lhc-probe">The edge of the map →</button><button class="go" data-go="planck-length">The Planck length →</button></div>
+</div></div></section>
+
+<section class="ch" id="c6"><div class="wrap"><div class="text">
+  <div class="kicker">06 · Gravity</div><h2>When gravity takes over</h2>
+  <p>Gravity is by far the weakest force: between two protons, the electric push is <strong>10³⁶ times</strong> stronger. A fridge magnet lifts a paperclip against the whole Earth. But gravity never cancels, so in big things it adds up. On a mountain it sets the height limit, about 10 km on Earth (Everest is 8.8 km; on Mars, with weaker gravity, Olympus Mons reaches 22 km). On a body a few hundred kilometres across, the <dfn>potato radius</dfn>, it crushes the whole thing into a ball.</p>
+  <div class="fig"><canvas id="c6cv" height="240" aria-label="A body that relaxes from lumpy to round as its radius grows."></canvas>
+    <label for="c6r">Radius <span class="mono" id="c6rv"></span></label><input id="c6r" type="range" min="1.6" max="3.2" step="0.01" value="2.2">
+    <div class="cap" id="c6cap"></div></div>
+  <div class="row"><button class="go" data-go="proteus">Proteus and Mimas in the zoom →</button></div>
+</div></div></section>
+
+<section class="ch" id="c7"><div class="wrap">
+  <div class="text">
+  <div class="kicker">07 · Mass and size</div><h2>Mass and size: the forbidden corners</h2>
+  <p>Plot every object by mass and by size and a pattern appears. Almost everything solid lies near one line: the density of water and rock, because ordinary matter is atoms touching, and atoms are all about the same size. Two other lines fence the map. Below the first, anything would be so dense that it is a <dfn>black hole</dfn>: a place light cannot leave. Below the second, a mass is too small to be held in so small a space: quantum fuzz spreads it out (its <dfn>Compton wavelength</dfn>). These two lines lean towards each other and cross at the Planck scale. <strong>That crossing, not a pixel, is why the Planck length matters.</strong> The smallest possible black hole would be as fuzzy as it is heavy.</p>
+  </div>
+  <div class="mdwrap">
+    <div class="row"><div class="seg" id="mdShow"><button data-v="lines" aria-pressed="true">Lines</button><button data-v="dens" aria-pressed="true">Density lines</button><button data-v="labels" aria-pressed="true">Labels</button></div></div>
+    <div class="md" id="md"><canvas id="mdcv" tabindex="0" aria-label="Mass–size diagram: every object with a known mass, size against mass on log scales, with the black-hole line, the quantum line and density lines. Use arrow keys to step through points."></canvas><div class="tip" id="mdtip"></div></div>
+    <div class="note" style="margin-top:6px">Tap a point for its numbers, tap a shaded region for what it forbids. Size is the catalogue's length (radius or diameter, as stated); on this many steps of ten a factor of two is invisible.</div>
+  </div>
+</div></section>
+
+<section class="ch" id="c8"><div class="wrap"><div class="text">
+  <div class="kicker">08 · The horizon</div><h2>The largest things and the horizon</h2>
+  <p>Stars gather into galaxies. Galaxies gather into clusters, and clusters into a web of threads around huge empty voids. Zoom out past a few hundred million light-years and the web evens out: every large patch looks about the same. Then there is a limit. Light has had about 13.8 billion years to travel since the Big Bang, and space has stretched meanwhile, so the farthest light we can see comes from about <strong>46 billion light-years</strong> away. That makes a sphere about 88 billion light-years wide: the <dfn>observable universe</dfn>. It is our <dfn>horizon</dfn>, like the edge of the sea from a ship. More ocean lies beyond.</p>
+  <div class="row"><button class="go" data-go="mw-disk">Our galaxy →</button><button class="go" data-go="laniakea">The cosmic web →</button><button class="go" data-go="observable-diameter">The horizon →</button></div>
+</div></div></section>
+
+<section class="ch" id="c9"><div class="wrap"><div class="text">
+  <div class="kicker">09 · Method</div><h2>How we know</h2>
+  <p>No single tool measures everything. Rulers and tapes work from millimetres to kilometres. Microscopes go down to cells, electron microscopes to atoms, and scattering experiments, which fire particles and watch them bounce, into the nucleus. Upward, radar times echoes off planets, parallax uses the shift of nearby stars as Earth circles the Sun, and stars and exploding stars of known brightness work as distance markers. Each method hands over to the next like rungs on a ladder, and errors pile up as you climb. That is why each size on this page carries a flag: measured, derived, a range, a convention or a limit.</p>
+  <div class="fig"><canvas id="c9cv" height="280"></canvas><div class="cap" id="c9cap">Tap a rung for what it does.</div></div>
+</div></div></section>
+
+<section class="ch" id="all"><div class="wrap">
+  <div class="kicker">All objects</div><h2>Every object on this page</h2>
+  <p class="note">Sorted by size; click a heading to sort. "Go" flies the zoom there. This table is also the text version of the zoom.</p>
+  <div class="tablewrap"><table class="objs" id="objs"><thead><tr><th data-k="name">Name</th><th data-k="L">Size</th><th data-k="m">Mass</th><th data-k="c">Kind</th><th data-k="st">Status</th><th></th></tr></thead><tbody></tbody></table></div>
+</div></section>
+</main>
+
+<section class="about wrap">
+  <h2>How it works</h2>
+  <p><strong>One number for the camera.</strong> The zoom keeps the view width as a single number, its power of ten, from 10⁻³⁵·³ m to 10²⁷·⁴ m. Every object's position and size on screen are computed from it in double precision for each frame, so 62 steps of ten never run out of precision. Objects stand on a shared shelf; each one sits at a distance from the centre proportional to its own size, so the things of the current scale gather round the middle and smaller ones shrink into the centre point as you zoom out. Distances and wavelengths are not things, so they are drawn as dimension bars on a rail above the shelf.</p>
+  <p><strong>Drawing.</strong> Living and made things are simple silhouettes; planets and stars are discs; things without a sharp edge (atoms, nuclei, galaxies) are soft clouds with a dashed ring at the size the data uses; upper limits ("smaller than") are dashed outlines with arrows pointing in. Shapes and colours are drawn for the eye; only the sizes are data. Colours mark the regime, the range of sizes where one kind of physics rules; the regime is also named on the ruler, so colour is never the only cue.</p>
+  <p><strong>The numbers.</strong> 175 objects come from a catalogue written for this page, each with its source, what the number means (radius, diameter, height, wavelength) and a status: measured, derived from measured constants, theoretical, an upper or lower limit, approximate or a convention. A checking script recomputes every derived number from CODATA 2022 constants and Planck 2018 cosmology (206 checks). The range is computed from the catalogue's two ends, not typed in.</p>
+  <p><strong>The mass–size diagram.</strong> The black-hole line is the Schwarzschild radius r = 2GM/c², the quantum line the reduced Compton wavelength r = ħ/(Mc); they cross at √2 × the Planck length and the Planck mass ÷ √2. Density lines are r = (3M/4πρ)^⅓.</p>
+  <h3>Limits</h3>
+  <ul>
+    <li>The Planck length is not known to be a smallest length or a pixel of space; it is where our theories are expected to fail.</li>
+    <li>Fundamental particles have no size like a ball. Their entries are Compton wavelengths (how small a region the mass can be pinned into) or experimental upper limits, and are labelled so.</li>
+    <li>The observable universe is not the whole universe. Its size depends on the cosmological model (about 46 billion light-years in radius with Planck 2018 parameters; this page's own integral gives 46.1, the common figure is 46.5).</li>
+    <li>"The observable universe lies close to its own black-hole line" is a rewriting of the Friedmann equation, not a statement that we live inside a black hole.</li>
+    <li>About 17 typical sizes (an ant, a dust mite, a raindrop, a cosmic void) are textbook values with wide natural spread and are flagged "approximate". The potato radius, the tallest possible mountain and the nuclear-density crossing are order-of-magnitude estimates.</li>
+    <li>The drawing uses Canvas 2D; objects are simplified shapes, not images.</li>
+    <li>Nothing flashes. Regime cards fade over 0.6 s and cannot repeat within 20 s; with reduced motion, jumps are cuts and nothing drifts.</li>
+  </ul>
+  <h3>Sources</h3>
+  <ul>
+    <li>CODATA 2022 recommended values of the fundamental physical constants (Mohr et al., Rev. Mod. Phys. 97, 025002). <a href="https://physics.nist.gov/constants">physics.nist.gov/constants</a></li>
+    <li>Planck Collaboration (2020), Planck 2018 results VI: cosmological parameters. Riess et al. (2022), SH0ES H₀.</li>
+    <li>Particle Data Group, Review of Particle Physics; NASA planetary fact sheets; IAU nominal solar values.</li>
+    <li>C. Lineweaver and M. Norman (2010), "The potato radius", arXiv:1004.1091. E. M. Purcell (1977), "Life at low Reynolds number", Am. J. Phys. 45, 3. V. Weisskopf (1975), Science 187, 605.</li>
+    <li>NCD Risk Factor Collaboration (2016), eLife: a century of trends in adult human height.</li>
+    <li>Every object's own source is in the table above. The full catalogue, physics notes and checker are in the site's repository under <code>_specs/scale/</code>.</li>
+  </ul>
+</section>
+<footer>FOLLOW OR BOUNCE — followorbounce.github.io — <a href="/">Index</a></footer>
+
+<script type="application/json" id="objects">[{"id":"planck-length","n":"Planck length","L":1.616e-35,"lk":"length (unit)","m":null,"c":"quantum","k":"scale","st":"theoretical","u":"±1.1e-5 relative (from G)","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Length built from G, ħ and c; where quantum gravity is expected to matter. Not proven to be a pixel.","f":"span","imp":3,"W":1.616e-35},{"id":"planck-crossover","n":"Compton–Schwarzschild crossing (√2 Planck lengths)","L":2.286e-35,"lk":"radius","m":1.539e-08,"c":"quantum","k":"scale","st":"theoretical","u":"exact given constants","src":"derived: 2GM/c² = ħ/(Mc)","d":"Where a mass would be its own black hole and its own quantum wavelength at once.","f":"span","imp":1,"W":4.572e-35},{"id":"string-scale","n":"String length (if strings exist)","L":1e-34,"lk":"length","m":null,"c":"hypothetical","k":"scale","st":"hypothetical","u":"model-dependent; could be 1e-35 to much larger","src":"textbook value (e.g. Zwiebach, A First Course in String Theory, 2009); flagged","d":"Typical size assumed for fundamental strings in string theory. No experimental evidence exists.","f":"span","imp":2,"W":1e-34},{"id":"gut-scale","n":"Grand-unification scale (ħc / 10^16 GeV)","L":1.973e-32,"lk":"reduced wavelength","m":null,"c":"hypothetical","k":"scale","st":"hypothetical","u":"order of magnitude only","src":"textbook value (GUT scale ~1e16 GeV from running couplings; PDG GUT review); flagged","d":"Distance at which forces might merge into one, in grand unified theories. Untested.","f":"span","imp":1,"W":1.973e-32},{"id":"omg-particle","n":"De Broglie wavelength of the \"Oh-My-God\" cosmic ray (3.2e20 eV)","L":3.875e-27,"lk":"wavelength","m":null,"c":"particle","k":"wavelength","st":"derived","u":"±~30% (energy scale)","src":"Bird et al., ApJ 441, 144 (1995)","d":"Highest-energy particle ever recorded; its quantum wavelength is far below anything a collider reaches.","f":"span","imp":1,"W":3.875e-27},{"id":"lhaaso-photon","n":"Wavelength of the most energetic photon seen (1.4 PeV)","L":8.856e-22,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"±~10% (energy)","src":"Cao et al. (LHAASO), Nature 594, 33 (2021)","d":"A gamma ray from the Cygnus region; the shortest light wavelength ever detected.","f":"span","imp":1,"W":8.856e-22},{"id":"lhc-probe","n":"Distance resolved by LHC collisions (ħc / 2 TeV)","L":9.866e-20,"lk":"reduced wavelength","m":null,"c":"particle","k":"scale","st":"derived","u":"order of magnitude","src":"CERN LHC Run 3 at 13.6 TeV; parton energies ~TeV","d":"Smallest distances probed directly; set by the energy of colliding quarks and gluons.","f":"span","imp":3,"W":9.866e-20},{"id":"quark-limit","n":"Upper limit on quark size","L":4.3e-19,"lk":"radius (upper limit)","m":null,"c":"particle","k":"object","st":"upper_limit","u":"95% CL upper limit","src":"ZEUS Collaboration, Phys. Lett. B 757, 468 (2016)","d":"No quark size has been seen; if quarks have one it is smaller than this.","f":"bound","imp":1,"W":8.6e-19},{"id":"electron-limit","n":"Upper limit on electron size","L":1e-18,"lk":"radius (upper limit)","m":9.109e-31,"c":"particle","k":"object","st":"upper_limit","u":"order-of-magnitude; model-dependent (see physics.md §4)","src":"LEP e+e− contact-interaction limits, PDG review \"Searches for quark and lepton compositeness\"","d":"The electron behaves as a point: scattering shows no structure down to at least this scale.","f":"bound","imp":2,"W":2e-18},{"id":"top-compton","n":"Top quark reduced Compton wavelength","L":1.143e-18,"lk":"reduced wavelength","m":3.076e-25,"c":"particle","k":"scale","st":"derived","u":"±0.2% (mass 172.57±0.29 GeV)","src":"Particle Data Group, Review of Particle Physics (Navas et al., Phys. Rev. D 110, 030001, 2024)","d":"Heaviest known particle; its quantum wavelength is tiny because its mass is huge.","f":"span","imp":2,"W":1.143e-18},{"id":"higgs-compton","n":"Higgs boson reduced Compton wavelength","L":1.576e-18,"lk":"reduced wavelength","m":2.232e-25,"c":"particle","k":"scale","st":"derived","u":"±0.1% (mass 125.20±0.11 GeV)","src":"Particle Data Group, Review of Particle Physics (Navas et al., Phys. Rev. D 110, 030001, 2024)","d":"Quantum length of the Higgs boson, discovered at the LHC in 2012.","f":"span","imp":1,"W":1.576e-18},{"id":"z-compton","n":"Z boson reduced Compton wavelength (weak-force range)","L":2.164e-18,"lk":"reduced wavelength","m":1.626e-25,"c":"particle","k":"scale","st":"derived","u":"±0.002%","src":"Particle Data Group, Review of Particle Physics (Navas et al., Phys. Rev. D 110, 030001, 2024)","d":"Roughly how far the weak nuclear force reaches before fading away.","f":"span","imp":1,"W":2.164e-18},{"id":"w-compton","n":"W boson reduced Compton wavelength","L":2.455e-18,"lk":"reduced wavelength","m":1.433e-25,"c":"particle","k":"scale","st":"derived","u":"±0.02%","src":"Particle Data Group, Review of Particle Physics (Navas et al., Phys. Rev. D 110, 030001, 2024)","d":"Quantum length of the W boson, which carries the charge-changing weak force.","f":"span","imp":1,"W":2.455e-18},{"id":"proton-compton","n":"Proton reduced Compton wavelength","L":2.103e-16,"lk":"reduced wavelength","m":1.673e-27,"c":"particle","k":"scale","st":"derived","u":"±3e-10 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Quantum length of the proton; smaller than the proton's measured charge radius.","f":"span","imp":1,"W":2.103e-16},{"id":"proton-radius","n":"Proton charge radius","L":8.408e-16,"lk":"rms charge radius","m":1.673e-27,"c":"nuclear","k":"object","st":"measured","u":"±0.00064 fm (CODATA 2022)","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants); Pohl et al., Nature 466, 213 (2010)","d":"Measured spread of the proton's electric charge; the old \"proton radius puzzle\" settled near 0.84 fm.","f":"cloud","imp":3,"W":1.6816e-15},{"id":"pion-compton","n":"Pion reduced Compton wavelength (range of the nuclear force)","L":1.414e-15,"lk":"reduced wavelength","m":2.488e-28,"c":"nuclear","k":"scale","st":"derived","u":"±1e-6 relative","src":"Particle Data Group, Review of Particle Physics (Navas et al., Phys. Rev. D 110, 030001, 2024); Yukawa, Proc. Phys.-Math. Soc. Japan 17, 48 (1935)","d":"The strong force between protons and neutrons dies off beyond about this distance.","f":"span","imp":1,"W":1.414e-15},{"id":"helium4-radius","n":"Helium-4 nucleus (alpha particle) charge radius","L":1.678e-15,"lk":"rms charge radius","m":null,"c":"nuclear","k":"object","st":"measured","u":"±0.00083 fm","src":"Krauth et al. (CREMA), Nature 589, 527 (2021)","d":"The alpha particle: two protons and two neutrons, extremely tightly bound.","f":"cloud","imp":1,"W":3.356e-15},{"id":"muon-compton","n":"Muon reduced Compton wavelength","L":1.868e-15,"lk":"reduced wavelength","m":1.884e-28,"c":"particle","k":"scale","st":"derived","u":"±2e-8 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Quantum length of the muon, the electron's 207-times-heavier cousin.","f":"span","imp":1,"W":1.868e-15},{"id":"deuteron-radius","n":"Deuteron charge radius","L":2.128e-15,"lk":"rms charge radius","m":3.344e-27,"c":"nuclear","k":"object","st":"measured","u":"±0.00027 fm","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Heavy hydrogen's nucleus: one proton and one neutron loosely bound.","f":"cloud","imp":1,"W":4.256e-15},{"id":"carbon12-radius","n":"Carbon-12 nucleus charge radius","L":2.47e-15,"lk":"rms charge radius","m":null,"c":"nuclear","k":"object","st":"measured","u":"±0.0022 fm","src":"Angeli & Marinova, At. Data Nucl. Data Tables 99, 69 (2013)","d":"The nucleus at the heart of every carbon atom in your body.","f":"cloud","imp":1,"W":4.94e-15},{"id":"classical-electron-radius","n":"Classical electron radius","L":2.818e-15,"lk":"radius (formal)","m":9.109e-31,"c":"particle","k":"scale","st":"derived","u":"±4.7e-10 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Size an electron would need if its mass were pure electric energy. Not its real size.","f":"span","imp":1,"W":5.636e-15},{"id":"lead208-radius","n":"Lead-208 nucleus charge radius","L":5.501e-15,"lk":"rms charge radius","m":null,"c":"nuclear","k":"object","st":"measured","u":"±0.0013 fm","src":"Angeli & Marinova, At. Data Nucl. Data Tables 99, 69 (2013)","d":"The heaviest stable nucleus, with 208 nucleons.","f":"cloud","imp":1,"W":1.1002e-14},{"id":"uranium238-radius","n":"Uranium-238 nucleus charge radius","L":5.857e-15,"lk":"rms charge radius","m":null,"c":"nuclear","k":"object","st":"measured","u":"±0.0033 fm; sharp-edge radius ≈ 1.2 fm × A^(1/3) ≈ 7.4 fm","src":"Angeli & Marinova, At. Data Nucl. Data Tables 99, 69 (2013)","d":"One of the largest natural nuclei; still about 9,000 times smaller than its atom.","f":"cloud","imp":2,"W":1.1714e-14},{"id":"muonic-h-bohr","n":"Bohr radius of muonic hydrogen","L":2.847e-13,"lk":"radius","m":null,"c":"atomic","k":"scale","st":"derived","u":"±1e-8 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants) (reduced-mass scaling)","d":"Swap the electron for a muon and the atom shrinks about 186 times.","f":"span","imp":1,"W":5.694e-13},{"id":"electron-compton","n":"Electron reduced Compton wavelength","L":3.862e-13,"lk":"reduced wavelength","m":9.109e-31,"c":"particle","k":"scale","st":"derived","u":"±3.1e-10 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Below this distance, trying to pin an electron down creates new electron–positron pairs.","f":"span","imp":1,"W":3.862e-13},{"id":"gamma-1mev","n":"Gamma ray (1 MeV)","L":1.24e-12,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"exact for 1 MeV","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Light from nuclear transitions: smaller than an atom, larger than a nucleus.","f":"span","imp":1,"W":1.24e-12},{"id":"electron-compton-full","n":"Electron Compton wavelength (h / m_e c)","L":2.426e-12,"lk":"wavelength","m":9.109e-31,"c":"particle","k":"scale","st":"derived","u":"±3.1e-10 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Wavelength shift scale in Compton scattering of X-rays off electrons.","f":"span","imp":1,"W":2.426e-12},{"id":"solar-pp-neutrino","n":"Wavelength of a solar pp neutrino (0.4 MeV)","L":3.1e-12,"lk":"wavelength","m":null,"c":"particle","k":"wavelength","st":"derived","u":"energy chosen at pp endpoint 0.42 MeV","src":"Bahcall, Neutrino Astrophysics (1989); Borexino, Nature 512, 383 (2014)","d":"Neutrinos have no measured size; this is the quantum wavelength of one from the Sun.","f":"span","imp":1,"W":3.1e-12},{"id":"bohr-radius","n":"Hydrogen atom (Bohr radius)","L":5.292e-11,"lk":"radius (most probable electron distance)","m":2.232e-25,"c":"atomic","k":"object","st":"derived","u":"±1.6e-10 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"Characteristic size of the hydrogen atom; the most likely electron–proton distance in the ground state.","f":"cloud","imp":3,"W":1.0584e-10},{"id":"h2-bond","n":"Hydrogen molecule bond length","L":7.414e-11,"lk":"internuclear distance","m":null,"c":"molecular","k":"object","st":"measured","u":"±0.01 pm","src":"NIST Chemistry WebBook / Huber & Herzberg (1979)","d":"Distance between the two protons in an H₂ molecule.","f":"cloud","imp":1,"W":7.414e-11},{"id":"helium-vdw","n":"Helium atom (van der Waals radius)","L":1.4e-10,"lk":"radius","m":null,"c":"atomic","k":"object","st":"measured","u":"~±10 pm (definition-dependent)","src":"Bondi, J. Phys. Chem. 68, 441 (1964)","d":"How close two helium atoms get before they push each other apart.","f":"cloud","imp":1,"W":2.8e-10},{"id":"xray-cu","n":"X-ray (copper Kα line)","L":1.541e-10,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"measured","u":"±1e-6 relative","src":"Hölzer et al., Phys. Rev. A 56, 4554 (1997)","d":"Standard X-ray used for crystallography; atom-sized, so it can map atoms.","f":"span","imp":1,"W":1.541e-10},{"id":"cc-bond","n":"Carbon–carbon single bond (diamond)","L":1.544e-10,"lk":"internuclear distance","m":null,"c":"molecular","k":"object","st":"measured","u":"±0.01 pm","src":"textbook value (diamond C–C 154.45 pm; CRC Handbook)","d":"The bond length that holds diamond and most organic molecules together.","f":"cloud","imp":1,"W":1.544e-10},{"id":"carbon-vdw","n":"Carbon atom (van der Waals radius)","L":1.7e-10,"lk":"radius","m":null,"c":"atomic","k":"object","st":"measured","u":"~±10 pm (definition-dependent)","src":"Bondi, J. Phys. Chem. 68, 441 (1964)","d":"Effective size of a carbon atom when molecules touch.","f":"cloud","imp":1,"W":3.4e-10},{"id":"water-molecule","n":"Water molecule","L":2.8e-10,"lk":"diameter (effective)","m":2.991e-26,"c":"molecular","k":"object","st":"approximate","u":"±0.02 nm (definition-dependent; O–H bond 95.8 pm)","src":"textbook value (O–O spacing in liquid water/ice ≈ 0.28 nm); flagged","d":"A water molecule is about a quarter of a nanometre across.","f":"cloud","imp":2,"W":2.8e-10},{"id":"silicon-lattice","n":"Silicon crystal lattice constant","L":5.431e-10,"lk":"cube edge","m":null,"c":"atomic","k":"object","st":"measured","u":"±1.6e-8 relative","src":"CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants) (CODATA 2018 value 5.431020511(89)e-10 m)","d":"Edge of the repeating cube of atoms in a silicon chip crystal.","f":"cloud","imp":1,"W":5.431e-10},{"id":"c60","n":"Buckminsterfullerene C₆₀","L":7.1e-10,"lk":"diameter (nucleus to nucleus)","m":1.197e-24,"c":"molecular","k":"object","st":"measured","u":"±0.01 nm; ≈1.0 nm including electron clouds","src":"Kroto et al., Nature 318, 162 (1985); X-ray diffraction values","d":"Soccer-ball molecule of 60 carbon atoms.","f":"cloud","imp":2,"W":7.1e-10},{"id":"transistor-1nm","n":"Shortest transistor gate demonstrated","L":1e-09,"lk":"gate length","m":null,"c":"human-made","k":"object","st":"measured","u":"research device","src":"Desai et al., Science 354, 99 (2016)","d":"A working MoS₂ transistor switched by a carbon nanotube gate one nanometre wide.","f":"sil","imp":1,"W":1e-09},{"id":"dna-width","n":"DNA double helix width","L":2e-09,"lk":"diameter","m":null,"c":"molecular","k":"object","st":"measured","u":"±0.1 nm (B-form)","src":"Watson & Crick, Nature 171, 737 (1953); Franklin & Gosling (1953)","d":"Width of the twisted ladder that stores genetic information.","f":"sil","imp":2,"W":2e-09},{"id":"lipid-bilayer","n":"Cell membrane (lipid bilayer) thickness","L":5e-09,"lk":"thickness","m":null,"c":"molecular","k":"object","st":"approximate","u":"4–5 nm hydrophobic core; ~5–10 nm with proteins","src":"Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"The oily double layer wrapping every cell.","f":"cloud","imp":1,"W":5e-09},{"id":"haemoglobin","n":"Haemoglobin molecule","L":6e-09,"lk":"diameter (approx.)","m":1.071e-22,"c":"molecular","k":"object","st":"approximate","u":"~6.5 × 5.5 × 5 nm","src":"Perutz et al., Nature 185, 416 (1960); PDB structure 2HHB","d":"The oxygen-carrying protein packed into red blood cells.","f":"cloud","imp":1,"W":6e-09},{"id":"porcine-circovirus","n":"Smallest known animal virus (porcine circovirus)","L":1.7e-08,"lk":"diameter","m":null,"c":"cellular","k":"object","st":"measured","u":"±1 nm","src":"Tischer et al., Nature 295, 64 (1982); ICTV","d":"Among the smallest viruses; its genome codes for just a few proteins.","f":"sil","imp":1,"W":1.7e-08},{"id":"ribosome","n":"Bacterial ribosome (70S)","L":2.5e-08,"lk":"diameter (approx.)","m":4.151e-21,"c":"molecular","k":"object","st":"approximate","u":"20–25 nm; eukaryotic 80S ~25–30 nm","src":"Ban et al., Science 289, 905 (2000); Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"The cell's protein factory, reading RNA and building proteins.","f":"cloud","imp":2,"W":2.5e-08},{"id":"microtubule","n":"Microtubule","L":2.5e-08,"lk":"outer diameter","m":null,"c":"molecular","k":"object","st":"measured","u":"±1 nm","src":"Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"Hollow protein tube forming the cell's skeleton and tracks for molecular motors.","f":"cloud","imp":1,"W":2.5e-08},{"id":"sars-cov-2","n":"SARS-CoV-2 virus particle","L":1e-07,"lk":"diameter","m":1e-18,"c":"cellular","k":"object","st":"measured","u":"60–140 nm (mean ≈ 90–100 nm); mass ~1 fg","src":"Zhu et al., NEJM 382, 727 (2020); Ke et al., Nature 588, 498 (2020); Sender et al., PNAS 118, e2024815118 (2021)","d":"The coronavirus behind COVID-19; just below what an optical microscope can resolve.","f":"sil","imp":3,"W":1e-07},{"id":"lyman-alpha","n":"Lyman-alpha ultraviolet line of hydrogen","L":1.216e-07,"lk":"wavelength (vacuum)","m":null,"c":"wave","k":"wavelength","st":"measured","u":"±0.001 nm","src":"NIST Atomic Spectra Database","d":"Most common emission line in the universe; absorbed by our atmosphere.","f":"span","imp":1,"W":1.216e-07},{"id":"violet","n":"Violet edge of visible light","L":3.8e-07,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"convention","u":"edge varies 360–400 nm between people","src":"CIE (International Commission on Illumination)","d":"Shortest wavelength most people can see.","f":"span","imp":1,"W":3.8e-07},{"id":"pelagibacter","n":"Pelagibacter ubique (one of the smallest free-living cells)","L":5e-07,"lk":"length","m":null,"c":"cellular","k":"object","st":"measured","u":"0.37–0.89 µm long, 0.12–0.20 µm wide","src":"Rappé et al., Nature 418, 630 (2002)","d":"An ocean bacterium, probably the most abundant cell type on Earth.","f":"sil","imp":1,"W":5e-07},{"id":"sun-peak","n":"Peak wavelength of sunlight (Wien, 5772 K)","L":5.02e-07,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"per-wavelength peak; per-frequency peak is in the infrared","src":"IAU 2015 B3 (T_eff = 5772 K); Wien constant CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"The Sun shines brightest per nanometre in blue-green light.","f":"span","imp":1,"W":5.02e-07},{"id":"rydberg-100","n":"Rydberg atom with n = 100","L":5.292e-07,"lk":"radius (n² a₀)","m":null,"c":"atomic","k":"object","st":"theoretical","u":"scaling law; such atoms are made in labs","src":"Gallagher, Rydberg Atoms (Cambridge, 1994)","d":"A single atom puffed up to half a micrometre by exciting its electron enormously.","f":"cloud","imp":1,"W":1.0584e-06},{"id":"green-555","n":"Peak sensitivity of the human eye (photopic)","L":5.55e-07,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"measured","u":"±1 nm","src":"CIE 1924 photopic luminosity function","d":"Green-yellow light, which daylight-adapted eyes see best.","f":"span","imp":2,"W":5.55e-07},{"id":"mimivirus","n":"Mimivirus (giant virus)","L":7.5e-07,"lk":"diameter incl. fibres","m":null,"c":"cellular","k":"object","st":"measured","u":"capsid ~0.4 µm","src":"La Scola et al., Science 299, 2033 (2003)","d":"A virus so large it was first mistaken for a bacterium.","f":"sil","imp":1,"W":7.5e-07},{"id":"red-edge","n":"Red edge of visible light","L":7.5e-07,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"convention","u":"edge varies 700–780 nm","src":"CIE (International Commission on Illumination)","d":"Longest wavelength most people can see.","f":"span","imp":1,"W":7.5e-07},{"id":"ecoli","n":"E. coli bacterium","L":2e-06,"lk":"length","m":1e-15,"c":"cellular","k":"object","st":"measured","u":"1–3 µm long, ~0.8 µm wide; ~1 pg","src":"Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"Gut bacterium and the workhorse of molecular biology.","f":"sil","imp":3,"W":2e-06},{"id":"pm25","n":"PM2.5 particle (fine air pollution threshold)","L":2.5e-06,"lk":"diameter (aerodynamic)","m":null,"c":"human-made","k":"scale","st":"convention","u":"regulatory definition","src":"US EPA National Ambient Air Quality Standards; WHO Air Quality Guidelines (2021)","d":"Particles smaller than this reach deep into the lungs.","f":"span","imp":1,"W":2.5e-06},{"id":"clay","n":"Clay particle (upper size)","L":3.9e-06,"lk":"diameter (upper bound)","m":null,"c":"geological","k":"object","st":"convention","u":"Wentworth class boundary","src":"Wentworth, J. Geology 30, 377 (1922)","d":"Finest sediment class; smaller than a red blood cell.","f":"box","imp":1,"W":3.9e-06},{"id":"neutrino-compton","n":"Reduced Compton wavelength of a 0.05 eV neutrino","L":3.947e-06,"lk":"reduced wavelength","m":8.913e-38,"c":"particle","k":"scale","st":"theoretical","u":"mass not measured; 0.05 eV is the oscillation lower bound for the heaviest state","src":"Particle Data Group, Review of Particle Physics (Navas et al., Phys. Rev. D 110, 030001, 2024) (neutrino mixing review; √Δm²_atm ≈ 0.05 eV)","d":"If the heaviest neutrino has the minimum allowed mass, this is its quantum length.","f":"span","imp":1,"W":3.947e-06},{"id":"yeast","n":"Baker's yeast cell","L":5e-06,"lk":"diameter","m":null,"c":"cellular","k":"object","st":"measured","u":"3–6 µm","src":"Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"Single-celled fungus that raises bread and brews beer.","f":"sil","imp":1,"W":5e-06},{"id":"red-blood-cell","n":"Human red blood cell","L":7.8e-06,"lk":"diameter","m":1e-13,"c":"cellular","k":"object","st":"measured","u":"7.5–8 µm; ~2 µm thick; ~90 fL","src":"Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"Disc-shaped oxygen carrier; you have about 25 trillion of them.","f":"sil","imp":2,"W":7.8e-06},{"id":"human-ir","n":"Peak thermal emission of the human body (310 K)","L":9.348e-06,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"skin ~305–310 K","src":"Wien's law, CODATA 2022 (Mohr et al., Rev. Mod. Phys. 97, 025002, 2025; physics.nist.gov/constants)","d":"You glow brightest in infrared at about 9 µm; thermal cameras see this.","f":"span","imp":1,"W":9.348e-06},{"id":"human-hair","n":"Human hair (width)","L":7.5e-05,"lk":"diameter","m":null,"c":"organism","k":"object","st":"approximate","u":"17–180 µm across people and hair types","src":"textbook value (trichology reviews); flagged range","d":"About as thin as the smallest thing an unaided eye can see.","f":"sil","imp":3,"W":7.5e-05},{"id":"paper","n":"Sheet of office paper (thickness)","L":0.0001,"lk":"thickness","m":null,"c":"human-made","k":"object","st":"approximate","u":"0.07–0.12 mm","src":"textbook value (80 g/m² paper); flagged","d":"About the thickness of a human hair.","f":"sil","imp":1,"W":0.0001},{"id":"human-egg","n":"Human egg cell (oocyte)","L":0.00012,"lk":"diameter","m":null,"c":"cellular","k":"object","st":"measured","u":"±10 µm","src":"Milo & Phillips, Cell Biology by the Numbers (2015) / BioNumbers database","d":"The largest human cell; just visible to the naked eye.","f":"sil","imp":3,"W":0.00012},{"id":"smallest-insect","n":"Smallest known insect (Dicopomorpha echmepterygis male)","L":0.000139,"lk":"body length","m":null,"c":"organism","k":"object","st":"measured","u":"single species measurement","src":"Mockford, Proc. Entomol. Soc. Washington 99, 21 (1997)","d":"A parasitic wasp smaller than some single-celled organisms.","f":"sil","imp":1,"W":0.000139},{"id":"paramecium","n":"Paramecium","L":0.00025,"lk":"length","m":null,"c":"cellular","k":"object","st":"approximate","u":"0.18–0.3 mm","src":"textbook value (protozoology texts); flagged","d":"A single-celled swimmer covered in beating hairs called cilia.","f":"sil","imp":1,"W":0.00025},{"id":"dust-mite","n":"House dust mite","L":0.0003,"lk":"body length","m":null,"c":"organism","k":"object","st":"approximate","u":"0.25–0.4 mm","src":"textbook value (Dermatophagoides; acarology texts); flagged","d":"Microscopic relative of spiders living in beds and carpets.","f":"sil","imp":1,"W":0.0003},{"id":"tardigrade","n":"Tardigrade (water bear)","L":0.0005,"lk":"body length","m":null,"c":"organism","k":"object","st":"approximate","u":"0.1–1.2 mm","src":"textbook value; flagged","d":"Eight-legged micro-animal that can survive drying, freezing and vacuum.","f":"sil","imp":2,"W":0.0005},{"id":"sand-grain","n":"Grain of medium sand","L":0.0005,"lk":"diameter","m":1.7e-07,"c":"geological","k":"object","st":"convention","u":"sand class 0.0625–2 mm","src":"Wentworth, J. Geology 30, 377 (1922)","d":"A typical beach-sand grain.","f":"sil","imp":1,"W":0.0005},{"id":"cmb-peak-wl","n":"CMB peak wavelength (per-wavelength, Wien)","L":0.001063,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"T = 2.72548 ± 0.00057 K","src":"Fixsen, ApJ 707, 916 (2009)","d":"The Big Bang's afterglow peaks near 1 mm in wavelength.","f":"span","imp":1,"W":0.001063},{"id":"cmb-peak-freq","n":"CMB peak (per-frequency, 160 GHz) as wavelength","L":0.001871,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"same spectrum, different peak convention","src":"Fixsen, ApJ 707, 916 (2009)","d":"Plotted per frequency, the same afterglow peaks at 160 GHz, i.e. 1.9 mm.","f":"span","imp":1,"W":0.001871},{"id":"raindrop","n":"Typical raindrop","L":0.002,"lk":"diameter","m":null,"c":"geological","k":"object","st":"approximate","u":"0.5–5 mm; larger drops break up","src":"textbook value (Pruppacher & Klett, Microphysics of Clouds, 1997); flagged","d":"Raindrops above about 5 mm are torn apart by air resistance.","f":"sil","imp":3,"W":0.002},{"id":"cnb-neutrino","n":"De Broglie wavelength of a relic (cosmic background) neutrino","L":0.002348,"lk":"wavelength","m":null,"c":"particle","k":"wavelength","st":"theoretical","u":"mean momentum 3.15 kT_ν, T_ν = 1.945 K; not yet detected","src":"Standard cosmology (e.g. Weinberg, Cosmology, 2008); T_ν = (4/11)^(1/3) T_CMB","d":"Leftover Big Bang neutrinos have wavelengths of millimetres. Predicted, not yet observed.","f":"span","imp":1,"W":0.002348},{"id":"capillary-length","n":"Capillary length of water (surface tension = gravity)","L":0.002727,"lk":"length","m":null,"c":"geological","k":"scale","st":"derived","u":"at 20 °C","src":"derived from γ = 0.0728 N/m (CRC Handbook)","d":"Below this size surface tension beats gravity: drops stay round, insects walk on water.","f":"span","imp":3,"W":0.002727},{"id":"ant","n":"Ant (typical worker)","L":0.005,"lk":"body length","m":3e-06,"c":"organism","k":"object","st":"approximate","u":"1–30 mm across species; mass ~1–5 mg","src":"textbook value (Hölldobler & Wilson, The Ants, 1990); flagged","d":"A common garden ant; small enough that air feels thick and falls are harmless.","f":"sil","imp":2,"W":0.005},{"id":"paedophryne","n":"Smallest known vertebrate (Paedophryne amauensis)","L":0.0077,"lk":"body length","m":null,"c":"organism","k":"object","st":"measured","u":"mean adult 7.7 mm","src":"Rittmeyer et al., PLoS ONE 7, e29797 (2012)","d":"A frog from Papua New Guinea that fits on a fingernail.","f":"sil","imp":1,"W":0.0077},{"id":"thiomargarita","n":"Thiomargarita magnifica (largest bacterium)","L":0.01,"lk":"length","m":null,"c":"cellular","k":"object","st":"measured","u":"mean 9.7 mm, up to 2 cm","src":"Volland et al., Science 376, 1453 (2022)","d":"A single bacterial cell as long as an eyelash, found in Caribbean mangroves.","f":"sil","imp":1,"W":0.01},{"id":"honeybee","n":"Honeybee worker","L":0.012,"lk":"body length","m":0.0001,"c":"organism","k":"object","st":"approximate","u":"±2 mm; ~0.1 g","src":"textbook value; flagged","d":"Pollinator whose flight speed and wingbeat are set by its size.","f":"sil","imp":1,"W":0.012},{"id":"bee-hummingbird","n":"Bee hummingbird (smallest bird)","L":0.055,"lk":"body length","m":0.002,"c":"organism","k":"object","st":"approximate","u":"5–6 cm; ~2 g","src":"textbook value (Mellisuga helenae); flagged","d":"Cuban hummingbird barely larger than a bumblebee.","f":"sil","imp":1,"W":0.055},{"id":"mouse","n":"House mouse","L":0.08,"lk":"body length (no tail)","m":0.02,"c":"organism","k":"object","st":"approximate","u":"7–10 cm; ~20 g","src":"textbook value; flagged","d":"Small mammal; loses heat fast because its surface is large for its volume.","f":"sil","imp":2,"W":0.08},{"id":"microwave-oven","n":"Microwave oven (2.45 GHz)","L":0.1224,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"ISM band","src":"ITU Radio Regulations (ISM band 2.4–2.5 GHz)","d":"Wavelength that heats food; also Wi-Fi's band.","f":"span","imp":1,"W":0.1224},{"id":"hailstone","n":"Largest recorded hailstone (Vivian, South Dakota)","L":0.203,"lk":"diameter","m":0.879,"c":"geological","k":"object","st":"measured","u":"single event, 2010","src":"NOAA National Weather Service (2010)","d":"Ice ball 20 cm across that fell in a 2010 storm.","f":"sil","imp":1,"W":0.203},{"id":"hydrogen-21cm","n":"Hydrogen 21 cm line","L":0.2111,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"frequency known to 1e-12","src":"Hellwig et al., IEEE Trans. Instrum. Meas. 19, 200 (1970)","d":"Radio glow of cold hydrogen, used to map the Galaxy's spiral arms.","f":"span","imp":1,"W":0.2111},{"id":"shortest-human","n":"Shortest verified adult human (Chandra Bahadur Dangi)","L":0.5461,"lk":"height","m":null,"c":"organism","k":"object","st":"measured","u":"verified 2012","src":"Guinness World Records (2012)","d":"The shortest adult whose height was independently verified.","f":"sil","imp":1,"W":0.5461},{"id":"human","n":"Human (adult height)","L":1.7,"lk":"height","m":62.0,"c":"organism","k":"object","st":"measured","u":"population means 1.50–1.83 m; within a population SD ≈ 7 cm","src":"NCD-RisC, eLife 5, e13410 (2016); mass: Walpole et al., BMC Public Health 12, 439 (2012)","d":"A typical adult human; our reference point on the whole scale.","f":"sil","imp":3,"W":1.7},{"id":"tallest-human","n":"Tallest verified human (Robert Wadlow)","L":2.72,"lk":"height","m":null,"c":"organism","k":"object","st":"measured","u":"1940 measurement","src":"Guinness World Records","d":"Tallest person reliably measured; height came from a pituitary condition.","f":"sil","imp":1,"W":2.72},{"id":"fm-radio","n":"FM radio (100 MHz)","L":2.998,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"band 87.5–108 MHz","src":"ITU Radio Regulations","d":"Radio waves about as long as a car.","f":"span","imp":1,"W":2.998},{"id":"elephant","n":"African bush elephant (adult male)","L":3.2,"lk":"shoulder height","m":6000.0,"c":"organism","k":"object","st":"measured","u":"mean adult male; mass ±20%","src":"Larramendi, Acta Palaeontol. Pol. 61, 537 (2016)","d":"Largest living land animal.","f":"sil","imp":2,"W":3.2},{"id":"giraffe","n":"Giraffe","L":5.5,"lk":"height","m":1200.0,"c":"organism","k":"object","st":"approximate","u":"up to ~5.8 m","src":"textbook value; flagged","d":"Tallest living animal; needs very high blood pressure to reach its brain.","f":"sil","imp":1,"W":5.5},{"id":"trex","n":"Tyrannosaurus rex specimen \"Sue\"","L":12.3,"lk":"length","m":null,"c":"organism","k":"object","st":"measured","u":"one skeleton","src":"Field Museum of Natural History (FMNH PR 2081)","d":"One of the largest and most complete T. rex skeletons ever found.","f":"sil","imp":2,"W":12.3},{"id":"blue-whale","n":"Blue whale","L":30.0,"lk":"length","m":150000.0,"c":"organism","k":"object","st":"measured","u":"adults typically 23–27 m; max ~30 m; up to ~150 t","src":"NOAA Fisheries species profile: Blue Whale","d":"The largest animal known to have ever lived.","f":"sil","imp":2,"W":30.0},{"id":"iss","n":"International Space Station","L":109.0,"lk":"length (truss span)","m":420000.0,"c":"human-made","k":"object","st":"measured","u":"mass varies with configuration","src":"NASA, International Space Station facts and figures","d":"Largest structure humans have built in space; about the size of a football field.","f":"sil","imp":2,"W":109.0},{"id":"saturn-v","n":"Saturn V rocket","L":110.6,"lk":"height","m":2970000.0,"c":"human-made","k":"object","st":"measured","u":"fuelled mass","src":"NASA, Saturn V fact sheet (Marshall Space Flight Center)","d":"The rocket that carried astronauts to the Moon.","f":"sil","imp":1,"W":110.6},{"id":"hyperion","n":"Hyperion (tallest known tree)","L":116.0,"lk":"height","m":null,"c":"organism","k":"object","st":"measured","u":"measured 115.55 m in 2006; growing slowly","src":"Sillett et al.; Redwood National Park (NPS)","d":"A coast redwood in California, taller than a 30-storey building.","f":"sil","imp":1,"W":116.0},{"id":"great-pyramid","n":"Great Pyramid of Giza (original height)","L":146.6,"lk":"height","m":6000000000.0,"c":"human-made","k":"object","st":"measured","u":"now ~138.5 m; mass estimate ±20%","src":"textbook value (Egyptology surveys; Petrie 1883); flagged mass","d":"Tallest human-made structure for nearly four thousand years.","f":"sil","imp":2,"W":146.6},{"id":"bennu","n":"Asteroid Bennu","L":245.0,"lk":"mean radius","m":73290000000.0,"c":"planetary","k":"object","st":"measured","u":"mean diameter 490.06 ± 0.16 m","src":"Lauretta et al., Nature 568, 55 (2019)","d":"Spinning-top asteroid sampled by NASA's OSIRIS-REx.","f":"body","imp":1,"W":490.0},{"id":"am-radio","n":"AM radio (1 MHz)","L":299.8,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"band 0.53–1.7 MHz","src":"ITU Radio Regulations","d":"Radio waves as long as three football fields.","f":"span","imp":1,"W":299.8},{"id":"eiffel","n":"Eiffel Tower","L":330.0,"lk":"height (with antennas)","m":10100000.0,"c":"human-made","k":"object","st":"measured","u":"height changes with antennas","src":"Société d'Exploitation de la Tour Eiffel (toureiffel.paris)","d":"Wrought-iron tower in Paris, completed 1889.","f":"sil","imp":2,"W":330.0},{"id":"itokawa","n":"Asteroid Itokawa","L":535.0,"lk":"longest dimension","m":35100000000.0,"c":"planetary","k":"object","st":"measured","u":"535 × 294 × 209 m","src":"Fujiwara et al., Science 312, 1330 (2006)","d":"A loose rubble-pile asteroid sampled by Japan's Hayabusa.","f":"body","imp":1,"W":535.0},{"id":"burj-khalifa","n":"Burj Khalifa","L":828.0,"lk":"height","m":null,"c":"human-made","k":"object","st":"measured","u":"architectural height","src":"Council on Tall Buildings and Urban Habitat (CTBUH)","d":"Tallest building in the world, in Dubai.","f":"sil","imp":2,"W":828.0},{"id":"armillaria","n":"Largest known fungus (Armillaria ostoyae, Oregon)","L":3800.0,"lk":"extent","m":null,"c":"organism","k":"object","st":"measured","u":"covers ~9.65 km²; one genetic individual","src":"Ferguson et al., Can. J. For. Res. 33, 612 (2003)","d":"A single underground fungus spreading kilometres through a forest.","f":"box","imp":1,"W":3800.0},{"id":"ligo-arm","n":"LIGO interferometer arm","L":4000.0,"lk":"length","m":null,"c":"human-made","k":"object","st":"measured","u":"exact design","src":"LIGO Laboratory (Caltech/MIT)","d":"Each arm of the gravitational-wave detector; it senses length changes of 10^-18 m.","f":"box","imp":1,"W":4000.0},{"id":"oceanic-crust","n":"Oceanic crust thickness","L":7000.0,"lk":"thickness","m":null,"c":"geological","k":"object","st":"measured","u":"5–10 km","src":"White et al., J. Geophys. Res. 97, 19683 (1992)","d":"The thin rocky skin under the oceans.","f":"box","imp":1,"W":7000.0},{"id":"scale-height","n":"Atmospheric scale height","L":8500.0,"lk":"e-folding height","m":null,"c":"geological","k":"scale","st":"approximate","u":"7–8.5 km depending on temperature","src":"textbook value (NASA Earth Fact Sheet)","d":"Climbing this far cuts air pressure by a factor of e (about 2.7).","f":"span","imp":1,"W":8500.0},{"id":"everest","n":"Mount Everest (height above sea level)","L":8849.0,"lk":"height","m":null,"c":"geological","k":"object","st":"measured","u":"±~0.1 m","src":"Joint Nepal–China survey announcement (2020)","d":"Highest point above sea level on Earth.","f":"sil","imp":2,"W":8849.0},{"id":"mariana","n":"Challenger Deep, Mariana Trench (depth)","L":10940.0,"lk":"depth","m":null,"c":"geological","k":"object","st":"measured","u":"±6 m (other surveys up to 10,984 m)","src":"Greenaway et al., Geoscience Letters 8, 33 (2021)","d":"Deepest known point of the ocean floor.","f":"sil","imp":1,"W":10940.0},{"id":"neutron-star","n":"Neutron star PSR J0030+0451","L":12710.0,"lk":"radius","m":2.664e+30,"c":"stellar","k":"object","st":"measured","u":"+1.14/−1.19 km","src":"Riley et al., ApJL 887, L21 (2019) (NICER)","d":"A city-sized ball of neutrons heavier than the Sun.","f":"body","imp":2,"W":25420.0},{"id":"olympus-mons","n":"Olympus Mons (height above Mars datum)","L":21900.0,"lk":"height","m":null,"c":"planetary","k":"object","st":"measured","u":"±~0.2 km; ~600 km wide","src":"Plescia, J. Geophys. Res. 109, E03003 (2004) (MOLA data)","d":"Tallest volcano in the Solar System, possible because Mars' gravity is weak.","f":"sil","imp":1,"W":21900.0},{"id":"lhc","n":"Large Hadron Collider (circumference)","L":26660.0,"lk":"circumference","m":null,"c":"human-made","k":"object","st":"measured","u":"exact design","src":"CERN, LHC Design Report (2004)","d":"Ring where protons collide to probe the smallest measured distances.","f":"sil","imp":1,"W":26660.0},{"id":"continental-crust","n":"Continental crust thickness (average)","L":40000.0,"lk":"thickness","m":null,"c":"geological","k":"object","st":"measured","u":"25–70 km","src":"Christensen & Mooney, J. Geophys. Res. 100, 9761 (1995)","d":"Thicker, lighter crust under continents, deepest beneath mountain ranges.","f":"box","imp":1,"W":40000.0},{"id":"cygx1-bh","n":"Stellar black hole Cygnus X-1 (event horizon)","L":62610.0,"lk":"Schwarzschild radius","m":4.215e+31,"c":"stellar","k":"object","st":"derived","u":"mass ±2.2 Msun","src":"Miller-Jones et al., Science 371, 1046 (2021)","d":"First black hole identified; its horizon would fit inside a large city.","f":"body","imp":1,"W":125220.0},{"id":"karman","n":"Kármán line (edge of space)","L":100000.0,"lk":"altitude","m":null,"c":"planetary","k":"distance","st":"convention","u":"definition; 80 km also used","src":"Fédération Aéronautique Internationale (FAI)","d":"Conventional boundary between atmosphere and outer space.","f":"span","imp":1,"W":100000.0},{"id":"mimas","n":"Mimas (Saturn moon)","L":198200.0,"lk":"mean radius","m":3.75e+19,"c":"planetary","k":"object","st":"measured","u":"±0.4 km","src":"NASA/JPL Solar System Dynamics, planetary satellite physical parameters","d":"Smallest known body that is nearly round because of its own gravity.","f":"body","imp":3,"W":396400.0},{"id":"proteus","n":"Proteus (Neptune moon)","L":210000.0,"lk":"mean radius","m":4.4e+19,"c":"planetary","k":"object","st":"measured","u":"±7 km; irregular","src":"NASA/JPL Solar System Dynamics, planetary satellite physical parameters","d":"Larger than Mimas but still lumpy: near the \"potato radius\".","f":"body","imp":3,"W":420000.0},{"id":"vesta","n":"Asteroid Vesta","L":262700.0,"lk":"mean radius","m":2.59e+20,"c":"planetary","k":"object","st":"measured","u":"±0.1 km","src":"Russell et al., Science 336, 684 (2012)","d":"Second-largest asteroid, nearly round, with a giant impact crater.","f":"body","imp":2,"W":525400.0},{"id":"potato-radius","n":"Potato radius (where rocky bodies turn round)","L":281900.0,"lk":"radius","m":null,"c":"planetary","k":"scale","st":"approximate","u":"order-of-magnitude; ~200 km icy, ~300 km rocky","src":"Lineweaver & Norman, arXiv:1004.1091 (2010); estimate in physics.md §3c","d":"Above this size self-gravity crushes rock strength and bodies become round.","f":"span","imp":1,"W":563800.0},{"id":"iss-orbit","n":"ISS orbital altitude","L":420000.0,"lk":"altitude","m":null,"c":"human-made","k":"distance","st":"approximate","u":"varies 370–460 km","src":"NASA ISS trajectory data","d":"The space station orbits closer to Earth than London is to Paris.","f":"span","imp":1,"W":420000.0},{"id":"ceres","n":"Ceres (dwarf planet)","L":469700.0,"lk":"mean radius","m":9.38e+20,"c":"planetary","k":"object","st":"measured","u":"±0.1 km","src":"NASA Dawn mission; Park et al., Nature 537, 515 (2016)","d":"Largest body in the asteroid belt; round and possibly hiding brine.","f":"body","imp":2,"W":939400.0},{"id":"pluto","n":"Pluto","L":1188000.0,"lk":"mean radius","m":1.303e+22,"c":"planetary","k":"object","st":"measured","u":"±0.8 km","src":"Stern et al., Science 350, aad1815 (2015) (New Horizons)","d":"Dwarf planet at the inner edge of the Kuiper belt.","f":"body","imp":1,"W":2376000.0},{"id":"inner-core","n":"Earth's inner core","L":1222000.0,"lk":"radius","m":null,"c":"geological","k":"object","st":"measured","u":"±~1 km","src":"Dziewonski & Anderson, PREM, Phys. Earth Planet. Inter. 25, 297 (1981)","d":"Solid iron–nickel ball at Earth's centre, about as hot as the Sun's surface.","f":"box","imp":1,"W":2444000.0},{"id":"moon","n":"Moon","L":1737000.0,"lk":"mean radius","m":7.346e+22,"c":"planetary","k":"object","st":"measured","u":"±0.1 km","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"Earth's only natural satellite.","f":"body","imp":2,"W":3474000.0},{"id":"gw150914","n":"Gravitational wave GW150914 (~150 Hz at peak)","L":1999000.0,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"frequency sweeps 35–250 Hz","src":"Abbott et al. (LIGO/Virgo), PRL 116, 061102 (2016)","d":"Ripples in spacetime from two merging black holes, first detected in 2015.","f":"span","imp":1,"W":1999000.0},{"id":"mars","n":"Mars","L":3390000.0,"lk":"mean radius","m":6.417e+23,"c":"planetary","k":"object","st":"measured","u":"±0.2 km","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"The red planet: about half Earth's width.","f":"body","imp":1,"W":6780000.0},{"id":"outer-core","n":"Earth's core (outer core radius)","L":3480000.0,"lk":"radius","m":null,"c":"geological","k":"object","st":"measured","u":"±~2 km","src":"Dziewonski & Anderson, PREM (1981)","d":"Liquid iron layer whose flow generates Earth's magnetic field.","f":"box","imp":1,"W":6960000.0},{"id":"sirius-b","n":"Sirius B (white dwarf)","L":5634000.0,"lk":"radius","m":2.024e+30,"c":"stellar","k":"object","st":"measured","u":"±0.000046 Rsun","src":"Joyce et al., MNRAS 481, 2361 (2018)","d":"A dead star the size of Earth with the mass of the Sun.","f":"body","imp":1,"W":11268000.0},{"id":"earth","n":"Earth","L":6371000.0,"lk":"mean radius","m":5.972e+24,"c":"planetary","k":"object","st":"measured","u":"±0.01 km (equatorial 6378.137 km)","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet); WGS 84","d":"Our planet.","f":"body","imp":3,"W":12742000.0},{"id":"great-wall","n":"Great Wall of China (all branches)","L":21200000.0,"lk":"total length","m":null,"c":"human-made","k":"object","st":"measured","u":"survey total of all walls and trenches","src":"China State Administration of Cultural Heritage survey (2012)","d":"Total length of all mapped wall sections; not visible to the eye from orbit.","f":"box","imp":1,"W":21200000.0},{"id":"neptune","n":"Neptune","L":24620000.0,"lk":"mean radius","m":1.024e+26,"c":"planetary","k":"object","st":"measured","u":"±19 km","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"The outermost planet, an ice giant.","f":"body","imp":1,"W":49240000.0},{"id":"gps-orbit","n":"GPS satellite orbit radius","L":26560000.0,"lk":"orbit radius","m":null,"c":"human-made","k":"distance","st":"measured","u":"±0.1%","src":"GPS Interface Specification IS-GPS-200 (semi-major axis ~26,560 km)","d":"Satellites that tell your phone where it is circle at this distance from Earth's centre.","f":"span","imp":1,"W":53120000.0},{"id":"schumann","n":"Schumann resonance (7.83 Hz)","L":38290000.0,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"±0.5 Hz","src":"Schumann (1952); Balser & Wagner, Nature 188, 638 (1960)","d":"Lightning makes the whole Earth–ionosphere cavity ring like a bell at this wavelength.","f":"span","imp":1,"W":38290000.0},{"id":"earth-circumference","n":"Earth's equatorial circumference","L":40080000.0,"lk":"circumference","m":null,"c":"planetary","k":"object","st":"derived","u":"exact from WGS 84","src":"WGS 84 ellipsoid (NGA)","d":"Once around the equator; the metre was first defined as one ten-millionth of a quarter meridian.","f":"body","imp":1,"W":40080000.0},{"id":"geo-orbit","n":"Geostationary orbit radius","L":42160000.0,"lk":"orbit radius","m":null,"c":"human-made","k":"distance","st":"derived","u":"exact from Kepler's third law","src":"Kepler III with GM⊕ = 3.986004418e14 m³/s² (IERS Conventions 2010)","d":"Orbit where a satellite circles once per day and seems to hang still in the sky.","f":"span","imp":1,"W":84320000.0},{"id":"saturn","n":"Saturn","L":58230000.0,"lk":"mean radius","m":5.683e+26,"c":"planetary","k":"object","st":"measured","u":"±6 km","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"Ringed gas giant, less dense than water.","f":"body","imp":1,"W":116460000.0},{"id":"jupiter","n":"Jupiter","L":69910000.0,"lk":"mean radius","m":1.898e+27,"c":"planetary","k":"object","st":"measured","u":"±6 km (equatorial 71,492 km)","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"Largest planet; near the maximum radius any cold ball of matter can have.","f":"body","imp":2,"W":139820000.0},{"id":"proxima-radius","n":"Proxima Centauri (red dwarf)","L":107300000.0,"lk":"radius","m":2.428e+29,"c":"stellar","k":"object","st":"measured","u":"±0.0045 Rsun","src":"Boyajian et al., ApJ 757, 112 (2012); mass: Mann et al., ApJ 804, 64 (2015)","d":"Nearest star to the Sun; small, cool and dim.","f":"body","imp":1,"W":214600000.0},{"id":"earth-moon","n":"Earth–Moon distance","L":384400000.0,"lk":"mean distance","m":null,"c":"planetary","k":"distance","st":"measured","u":"varies 356,500–406,700 km; laser ranging to mm","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"About 30 Earth diameters; light takes 1.28 seconds.","f":"span","imp":1,"W":384400000.0},{"id":"sun","n":"Sun","L":695700000.0,"lk":"radius (nominal)","m":1.988e+30,"c":"stellar","k":"object","st":"measured","u":"nominal value; photospheric radius known to ~0.01%","src":"IAU 2015 Resolution B3 (nominal solar values)","d":"Our star: 109 Earths across.","f":"body","imp":3,"W":1391400000.0},{"id":"sgra-bh","n":"Sagittarius A* (Milky Way's central black hole, horizon)","L":12690000000.0,"lk":"Schwarzschild radius","m":8.544e+36,"c":"stellar","k":"object","st":"derived","u":"mass ±0.3%","src":"GRAVITY Collaboration, A&A 657, L12 (2022); EHT, ApJL 930, L12 (2022)","d":"The black hole at our galaxy's centre; its horizon would fit inside Mercury's orbit.","f":"body","imp":2,"W":25380000000.0},{"id":"au","n":"Astronomical unit (Earth–Sun distance)","L":149600000000.0,"lk":"mean distance (defined)","m":null,"c":"planetary","k":"distance","st":"convention","u":"exact by definition","src":"IAU 2012 Resolution B2","d":"Mean Earth–Sun distance; sunlight takes 8 minutes 19 seconds.","f":"span","imp":2,"W":149600000000.0},{"id":"betelgeuse","n":"Betelgeuse (red supergiant)","L":531500000000.0,"lk":"radius","m":3.579e+31,"c":"stellar","k":"object","st":"measured","u":"+116/−62 Rsun; mass 16.5–19 Msun","src":"Joyce et al., ApJ 902, 63 (2020)","d":"Placed at the Sun, its surface would reach past the asteroid belt.","f":"body","imp":2,"W":1063000000000.0},{"id":"vy-cma","n":"VY Canis Majoris (red hypergiant)","L":987900000000.0,"lk":"radius","m":null,"c":"stellar","k":"object","st":"measured","u":"±120 Rsun","src":"Wittkowski et al., A&A 540, L12 (2012)","d":"One of the largest known stars by radius.","f":"body","imp":1,"W":1975800000000.0},{"id":"neptune-orbit","n":"Neptune's orbit","L":4498000000000.0,"lk":"semi-major axis","m":null,"c":"planetary","k":"distance","st":"measured","u":"±0.01 AU","src":"NASA Planetary Fact Sheet (nssdc.gsfc.nasa.gov/planetary/factsheet)","d":"Edge of the planets proper.","f":"span","imp":1,"W":4498000000000.0},{"id":"kuiper-belt","n":"Outer edge of the main Kuiper belt","L":7480000000000.0,"lk":"distance","m":null,"c":"planetary","k":"distance","st":"approximate","u":"±~2 AU (\"Kuiper cliff\")","src":"Trujillo & Brown, ApJL 554, L95 (2001)","d":"Icy belt beyond Neptune; home of Pluto and Arrokoth.","f":"span","imp":1,"W":7480000000000.0},{"id":"termination-shock","n":"Solar-wind termination shock (Voyager 1)","L":14060000000000.0,"lk":"distance","m":null,"c":"planetary","k":"distance","st":"measured","u":"location moves with solar cycle","src":"Stone et al., Science 309, 2017 (2005)","d":"Where the solar wind suddenly slows from supersonic to subsonic.","f":"span","imp":1,"W":14060000000000.0},{"id":"heliopause","n":"Heliopause (Voyager 1 crossing, Aug 2012)","L":18190000000000.0,"lk":"distance","m":null,"c":"planetary","k":"distance","st":"measured","u":"one crossing point; Voyager 2 crossed at 119 AU","src":"Stone et al., Science 341, 150 (2013); Gurnett et al., Science 341, 1489 (2013)","d":"Boundary where the Sun's wind gives way to interstellar space.","f":"span","imp":2,"W":18190000000000.0},{"id":"m87-bh","n":"M87* black hole (event horizon)","L":19200000000000.0,"lk":"Schwarzschild radius","m":1.292e+40,"c":"galactic","k":"object","st":"derived","u":"mass ±0.7e9 Msun","src":"Event Horizon Telescope Collaboration, ApJL 875, L6 (2019)","d":"First black hole ever imaged; its horizon is bigger than our Solar System's planets' orbits.","f":"cloud","imp":2,"W":38400000000000.0},{"id":"voyager1","n":"Voyager 1 (1 light-day from Earth on 18 Nov 2026)","L":25900000000000.0,"lk":"distance from Earth","m":722.0,"c":"human-made","k":"distance","st":"approximate","u":"±1 AU (Earth's orbital position); heliocentric ≈172 AU; recedes 3.57 AU/yr","src":"NASA/JPL Voyager mission status (science.nasa.gov/mission/voyager); date from a JPL Horizons light-time solve","d":"Most distant human-made object; its signals take a full day to reach us.","f":"span","imp":2,"W":25900000000000.0},{"id":"oort-inner","n":"Oort cloud inner edge (inferred)","L":299200000000000.0,"lk":"distance","m":null,"c":"planetary","k":"distance","st":"inferred","u":"estimates 2,000–5,000 AU; never directly observed","src":"NASA Science, Oort Cloud overview; Oort, BAN 11, 91 (1950)","d":"Where the hypothesised shell of icy comets is thought to begin.","f":"span","imp":1,"W":299200000000000.0},{"id":"light-year","n":"Light-year","L":9461000000000000.0,"lk":"distance (defined)","m":null,"c":"stellar","k":"distance","st":"convention","u":"exact (Julian year)","src":"IAU Style Manual (1989)","d":"Distance light travels in one Julian year.","f":"span","imp":2,"W":9461000000000000.0},{"id":"pta-gw","n":"Nanohertz gravitational waves (f = 1/yr)","L":9461000000000000.0,"lk":"wavelength","m":null,"c":"wave","k":"wavelength","st":"derived","u":"background spans ~2–30 nHz","src":"NANOGrav, ApJL 951, L8 (2023)","d":"Light-year-long spacetime ripples detected by timing pulsars.","f":"span","imp":1,"W":9461000000000000.0},{"id":"oort-outer","n":"Oort cloud outer edge (inferred)","L":1.496e+16,"lk":"distance","m":null,"c":"planetary","k":"distance","st":"inferred","u":"estimates 10,000–200,000 AU; never directly observed","src":"NASA Science, Oort Cloud overview; Oort, BAN 11, 91 (1950)","d":"Outer limit of the Sun's gravitational domain; about 1.6 light-years.","f":"span","imp":1,"W":1.496e+16},{"id":"parsec","n":"Parsec","L":3.086e+16,"lk":"distance (defined)","m":null,"c":"stellar","k":"distance","st":"convention","u":"exact (648000/π AU)","src":"IAU 2015 Resolution B2","d":"Distance at which 1 AU subtends one arcsecond; 3.26 light-years.","f":"span","imp":1,"W":3.086e+16},{"id":"proxima-distance","n":"Distance to Proxima Centauri","L":4.017e+16,"lk":"distance","m":null,"c":"stellar","k":"distance","st":"measured","u":"parallax 768.0665 ± 0.0499 mas","src":"Gaia Collaboration, Gaia DR3, A&A 674, A1 (2023)","d":"Nearest star beyond the Sun: 4.25 light-years.","f":"span","imp":3,"W":4.017e+16},{"id":"mw-thin-disk","n":"Milky Way thin disc thickness (scale height)","L":9.257e+18,"lk":"scale height","m":null,"c":"galactic","k":"object","st":"measured","u":"±50 pc","src":"Bland-Hawthorn & Gerhard, ARA&A 54, 529 (2016)","d":"The Galaxy's star disc is about 100 times wider than it is thick.","f":"cloud","imp":1,"W":9.257e+18},{"id":"orion-nebula","n":"Distance to the Orion Nebula","L":1.277e+19,"lk":"distance","m":null,"c":"galactic","k":"distance","st":"measured","u":"±7 pc","src":"Menten et al., A&A 474, 515 (2007)","d":"Nearest large star-forming region, visible to the naked eye.","f":"span","imp":1,"W":1.277e+19},{"id":"galactic-centre","n":"Sun–Galactic centre distance","L":2.554e+20,"lk":"distance","m":null,"c":"galactic","k":"distance","st":"measured","u":"±0.009 kpc stat, ±0.033 sys","src":"GRAVITY Collaboration, A&A 657, L12 (2022)","d":"How far the Sun sits from the Milky Way's central black hole.","f":"span","imp":1,"W":2.554e+20},{"id":"mw-disk","n":"Milky Way stellar disc","L":9.257e+20,"lk":"diameter","m":9.942e+40,"c":"galactic","k":"object","st":"approximate","u":"edge is not sharp; estimates 25–60 kpc; stellar mass ±20%","src":"Bland-Hawthorn & Gerhard, ARA&A 54, 529 (2016)","d":"Our galaxy's disc of several hundred billion stars, roughly 100,000 light-years across.","f":"cloud","imp":3,"W":9.257e+20},{"id":"lmc","n":"Distance to the Large Magellanic Cloud","L":1.53e+21,"lk":"distance","m":null,"c":"galactic","k":"distance","st":"measured","u":"±1.1%","src":"Pietrzyński et al., Nature 567, 200 (2019)","d":"Largest satellite galaxy of the Milky Way.","f":"span","imp":1,"W":1.53e+21},{"id":"mw-halo","n":"Milky Way dark matter halo","L":8.64e+21,"lk":"virial radius","m":2.585e+42,"c":"galactic","k":"object","st":"inferred","u":"model-dependent ±~30 kpc; mass ±0.3e12","src":"Bland-Hawthorn & Gerhard, ARA&A 54, 529 (2016)","d":"Invisible dark matter extends far beyond the visible stars and dominates the mass.","f":"cloud","imp":1,"W":1.728e+22},{"id":"andromeda","n":"Distance to the Andromeda galaxy (M31)","L":2.361e+22,"lk":"distance","m":null,"c":"galactic","k":"distance","st":"measured","u":"published values 750–785 kpc","src":"McConnachie, AJ 144, 4 (2012); Riess et al., ApJ 745, 156 (2012)","d":"The most distant object easily seen with the naked eye: 2.5 million light-years.","f":"span","imp":2,"W":2.361e+22},{"id":"local-group","n":"Local Group of galaxies","L":9.257e+22,"lk":"diameter","m":null,"c":"galactic","k":"object","st":"approximate","u":"boundary definition-dependent","src":"McConnachie, AJ 144, 4 (2012)","d":"The Milky Way, Andromeda and about 100 smaller galaxies bound together.","f":"cloud","imp":2,"W":9.257e+22},{"id":"galaxy-cluster","n":"Rich galaxy cluster (e.g. Coma)","L":1.234e+23,"lk":"diameter (approx. virial)","m":null,"c":"galactic","k":"object","st":"approximate","u":"factor ~2","src":"textbook value (e.g. Kubo et al., ApJ 671, 1466 (2007) for Coma); flagged","d":"Largest gravitationally bound structures: thousands of galaxies in hot gas and dark matter.","f":"cloud","imp":1,"W":1.234e+23},{"id":"virgo","n":"Distance to the Virgo Cluster","L":5.091e+23,"lk":"distance","m":null,"c":"galactic","k":"distance","st":"measured","u":"±0.1 stat, ±1.1 sys Mpc","src":"Mei et al., ApJ 655, 144 (2007)","d":"Nearest large galaxy cluster, at the heart of our local supercluster.","f":"span","imp":1,"W":5.091e+23},{"id":"void","n":"Typical cosmic void","L":1.234e+24,"lk":"diameter","m":null,"c":"cosmological","k":"object","st":"approximate","u":"voids span ~10–100 Mpc; definition-dependent","src":"textbook value (e.g. Sutter et al., ApJ 761, 44 (2012) void catalogues); flagged","d":"Nearly empty bubbles between the filaments of the cosmic web.","f":"cloud","imp":3,"W":1.234e+24},{"id":"bootes-void","n":"Boötes Void","L":3.086e+24,"lk":"diameter","m":null,"c":"cosmological","k":"object","st":"approximate","u":"commonly quoted ~330 Mly; shape irregular","src":"Kirshner et al., ApJL 248, L57 (1981); flagged size","d":"One of the largest known voids, with only a few dozen galaxies.","f":"cloud","imp":1,"W":3.086e+24},{"id":"homogeneity","n":"Scale of cosmic homogeneity","L":3.205e+24,"lk":"length","m":null,"c":"cosmological","k":"scale","st":"measured","u":"~70 h⁻¹ Mpc; definition-dependent","src":"Scrimgeour et al., MNRAS 425, 116 (2012)","d":"Above this size the universe looks statistically the same everywhere.","f":"span","imp":1,"W":3.205e+24},{"id":"bao","n":"Baryon acoustic oscillation scale (sound horizon)","L":4.539e+24,"lk":"comoving length","m":null,"c":"cosmological","k":"scale","st":"measured","u":"±0.26 Mpc","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020)","d":"Frozen sound waves from the early universe set this preferred spacing between galaxies.","f":"span","imp":1,"W":4.539e+24},{"id":"laniakea","n":"Laniakea Supercluster","L":4.937e+24,"lk":"diameter","m":1.988e+47,"c":"cosmological","k":"object","st":"measured","u":"boundary defined by flow field; ±~20%","src":"Tully et al., Nature 513, 71 (2014)","d":"Our home supercluster: 100,000 galaxies flowing toward a common basin.","f":"cloud","imp":3,"W":4.937e+24},{"id":"sloan-wall","n":"Sloan Great Wall","L":1.296e+25,"lk":"length","m":null,"c":"cosmological","k":"object","st":"measured","u":"comoving; not gravitationally bound","src":"Gott et al., ApJ 624, 463 (2005)","d":"A vast sheet of galaxies; one of the largest structures in the cosmic web.","f":"cloud","imp":1,"W":1.296e+25},{"id":"hercules-wall","n":"Hercules–Corona Borealis Great Wall (contested)","L":9.257e+25,"lk":"length","m":null,"c":"cosmological","k":"object","st":"contested","u":"existence and size debated","src":"Horváth et al., A&A 561, L12 (2014); flagged","d":"Claimed clustering of gamma-ray bursts; may be a statistical fluke.","f":"cloud","imp":1,"W":9.257e+25},{"id":"hubble-radius","n":"Hubble radius c/H₀ (H₀ = 67.4)","L":1.373e+26,"lk":"radius","m":null,"c":"cosmological","k":"scale","st":"derived","u":"±0.7% (H₀); 7.7% smaller with SH0ES H₀","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020)","d":"Distance at which galaxies recede at light speed today. Not a physical edge.","f":"span","imp":2,"W":2.746e+26},{"id":"event-horizon","n":"Cosmic event horizon (comoving, today)","L":1.579e+26,"lk":"radius","m":null,"c":"cosmological","k":"scale","st":"derived","u":"depends on ΛCDM parameters (~±1%)","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020); computed in check.py","d":"Light emitted today beyond this distance will never reach us.","f":"span","imp":1,"W":3.158e+26},{"id":"last-scattering","n":"Distance to the CMB last-scattering surface (comoving)","L":4.279e+26,"lk":"radius","m":null,"c":"cosmological","k":"distance","st":"derived","u":"~±1%","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020); computed in check.py","d":"Where the cosmic microwave background light we see today set out, 380,000 years after the Big Bang.","f":"span","imp":1,"W":8.558e+26},{"id":"observable-radius","n":"Observable universe (particle horizon radius)","L":4.365e+26,"lk":"radius (comoving)","m":1.464e+53,"c":"cosmological","k":"object","st":"derived","u":"~±1% (ΛCDM); commonly quoted 46.5 Gly","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020); Davis & Lineweaver, PASA 21, 97 (2004)","d":"Farthest distance from which light could have reached us in 13.8 billion years. Mass is ordinary matter only.","f":"cloud","imp":1,"W":8.73e+26},{"id":"observable-diameter","n":"Observable universe (diameter)","L":8.731e+26,"lk":"diameter (comoving)","m":1.464e+53,"c":"cosmological","k":"object","st":"derived","u":"~±1%; commonly quoted 8.8e26 m","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020); Davis & Lineweaver, PASA 21, 97 (2004)","d":"The whole sphere of space we can, in principle, see. Not the whole universe.","f":"cloud","imp":3,"W":8.731e+26},{"id":"curvature-limit","n":"Lower limit on the curvature radius of space","L":2.047e+27,"lk":"curvature radius (lower limit)","m":null,"c":"hypothetical","k":"scale","st":"lower_limit","u":"from |Ω_k| ≲ 0.0045 (≈2σ); a lower limit, flagged","src":"Planck Collaboration 2018 VI, A&A 641, A6 (2020) (Ω_k = 0.0007 ± 0.0019 with BAO)","d":"If space is curved at all, it curves on scales at least this large.","f":"span","imp":1,"W":4.094e+27}]</script>
+<script>
+(function(){
+'use strict';
+/* =====================================================================
+   Data and number formatting
+   ===================================================================== */
+const OBJ = JSON.parse(document.getElementById('objects').textContent);
+OBJ.forEach(o => { o.lg = Math.log10(o.L); o.lw = Math.log10(o.W); });
+OBJ.sort((a, b) => a.lg - b.lg);
+const BY = {}; OBJ.forEach(o => BY[o.id] = o);
+const LO = BY['planck-length'].lg, HI = BY['observable-diameter'].lg, RANGE = HI - LO, MID = (LO + HI)/2;
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const SUP = {'-':'⁻','0':'⁰','1':'¹','2':'²','3':'³','4':'⁴','5':'⁵','6':'⁶','7':'⁷','8':'⁸','9':'⁹','.':'·'};
+const sup = n => String(n).split('').map(c => SUP[c] || c).join('');
+function sci(x, sig){ if(!isFinite(x) || x === 0) return String(x); sig = sig || 2; let e = Math.floor(Math.log10(Math.abs(x))), m = x/Math.pow(10, e);
+  let ms = m.toFixed(sig - 1); if(Math.abs(+ms) >= 10){ e++; ms = (m/10).toFixed(sig - 1); }
+  if(e >= -2 && e <= 3) return group(+x.toPrecision(sig));
+  return (ms === '1' || ms === '1.0' ? '' : ms + ' × ') + '10' + sup(e); }
+function group(x){ const s = String(x); if(Math.abs(x) < 1e4) return s; const [i, f] = s.split('.'); return i.replace(/\B(?=(\d{3})+(?!\d))/g, ' ') + (f ? '.' + f : ''); }
+const PREF = [[-30,'q'],[-27,'r'],[-24,'y'],[-21,'z'],[-18,'a'],[-15,'f'],[-12,'p'],[-9,'n'],[-6,'µ'],[-3,'m'],[0,''],[3,'k'],[6,'M'],[9,'G'],[12,'T'],[15,'P'],[18,'E'],[21,'Z'],[24,'Y'],[27,'R'],[30,'Q']];
+function siStr(x){ const e = Math.floor(Math.log10(x)); if(e < -30 || e > 32) return null; let best = PREF[0]; for(const p of PREF) if(p[0] <= e) best = p; const v = x/Math.pow(10, best[0]);
+  return (+v.toPrecision(2)).toString() + ' ' + best[1] + 'm'; }
+const LY = 9.4607e15;
+function lenStr(x){
+  const a = sci(x, 2) + ' m', s = siStr(x);
+  if(x >= 0.1*LY) return a + ' · ' + group(+(x/LY).toPrecision(2)) + ' light-years';
+  if(x >= 1000 && x < 1e12) return a + ' · ' + group(+(x/1000).toPrecision(2)) + ' km';
+  if(s && (x < 1 || x >= 1e3)) return a + ' · ' + s;
+  return a;
+}
+function ratioStr(r){ if(r < 1000) return (+r.toPrecision(3)) + ' times'; if(r < 1e6) return 'about ' + group(+r.toPrecision(2)) + ' times'; return sci(r, 2) + ' times (' + Math.log10(r).toFixed(1) + ' steps of ten)'; }
+
+/* =====================================================================
+   Regimes (physics spec 3d; edges are soft)
+   ===================================================================== */
+const REG = [
+  {lo:-36, hi:-19, name:'Unexplored: quantum gravity', short:'unexplored', rule:'No experiment has resolved anything here. These steps are empty on the map, not in nature.', col:'#9A978E', v:'--r0'},
+  {lo:-19, hi:-14, name:'Particles and nuclei', short:'particles', rule:'The Standard Model rules: quarks, gluons and the strong force, which only reaches about a femtometre.', col:'#E58FC0', v:'--r1'},
+  {lo:-14, hi:-8, name:'Atoms and molecules', short:'atoms', rule:'Quantum rules: electrons are clouds, energy comes in lumps, and chemistry is electromagnetism.', col:'#56B4E9', v:'--r2'},
+  {lo:-8, hi:-2.56, name:'Cells: the sticky world', short:'cells', rule:'Viscosity and surface tension rule; light blurs everything below about 200 nm.', col:'#2EC4A0', v:'--r3'},
+  {lo:-2.56, hi:5.45, name:'Human scale: gravity against strength', short:'our scale', rule:'Gravity sets which way is down and how tall things can be; materials hold their shape.', col:'#F0E442', v:'--r4'},
+  {lo:5.45, hi:13, name:'Worlds and stars', short:'worlds', rule:'Self-gravity makes bodies round, squeezes stars until they shine, and holds planets in orbit.', col:'#F0A630', v:'--r5'},
+  {lo:13, hi:24, name:'Stars to galaxies', short:'galaxies', rule:'Orbits on huge scales; galaxies spin as if most of their mass were invisible: dark matter.', col:'#6E9BFF', v:'--r6'},
+  {lo:24, hi:30, name:'The cosmos', short:'cosmos', rule:'Space itself expands; above about 300 million light-years the universe looks the same everywhere.', col:'#FF6A3D', v:'--r7'}
+];
+const regOf = lg => REG.find(r => lg >= r.lo && lg < r.hi) || REG[REG.length - 1];
+const css = (n, fb) => (getComputedStyle(document.documentElement).getPropertyValue(n).trim() || fb);
+const ink = () => css('--ink', '#171613');
+
+/* =====================================================================
+   Silhouettes: simple shapes in a unit box (x right, y up, ground at 0), height 1 unless w is given
+   ===================================================================== */
+function sil(ctx, id, x, y, w, h, col){
+  // x, y: bottom-centre on screen; w, h: screen width and height of the object's box
+  ctx.save(); ctx.translate(x, y); ctx.fillStyle = col; ctx.strokeStyle = col;
+  const E = (cx, cy, rx, ry) => { ctx.beginPath(); ctx.ellipse(cx*w, -cy*h, Math.max(0.3, rx*w), Math.max(0.3, ry*h), 0, 0, 7); ctx.fill(); };
+  const R = (x0, y0, x1, y1) => ctx.fillRect(x0*w, -y1*h, (x1 - x0)*w, (y1 - y0)*h);
+  const P = pts => { ctx.beginPath(); pts.forEach((p, i) => i ? ctx.lineTo(p[0]*w, -p[1]*h) : ctx.moveTo(p[0]*w, -p[1]*h)); ctx.closePath(); ctx.fill(); };
+  switch(id){
+    case 'human': case 'shortest-human': case 'tallest-human':
+      E(0, 0.93, 0.085, 0.065); P([[-0.16, 0.84], [0.16, 0.84], [0.2, 0.48], [0.13, 0.47], [0.11, 0.62], [0.1, 0.45], [0.12, 0], [0.03, 0], [0, 0.4], [-0.03, 0], [-0.12, 0], [-0.1, 0.45], [-0.11, 0.62], [-0.13, 0.47], [-0.2, 0.48]]); break;
+    case 'ant': case 'smallest-insect': case 'honeybee': case 'dust-mite': case 'tardigrade': {
+      E(-0.33, 0.3, 0.14, 0.22); E(0, 0.32, 0.09, 0.16); E(0.3, 0.32, 0.18, 0.25);
+      ctx.lineWidth = Math.max(0.6, h*0.05); ctx.beginPath(); for(const lx of [-0.1, 0, 0.1]){ ctx.moveTo(lx*w, -0.3*h); ctx.lineTo((lx - 0.15)*w, 0); ctx.moveTo(lx*w, -0.3*h); ctx.lineTo((lx + 0.15)*w, 0); } ctx.stroke();
+      if(id === 'honeybee'){ ctx.globalAlpha = 0.5; E(0.02, 0.62, 0.16, 0.2); ctx.globalAlpha = 1; } break; }
+    case 'blue-whale': P([[-0.5, 0.45], [-0.3, 0.75], [0.1, 0.8], [0.32, 0.6], [0.42, 0.55], [0.5, 0.9], [0.47, 0.5], [0.5, 0.15], [0.4, 0.4], [0.1, 0.2], [-0.35, 0.18]]); break;
+    case 'elephant': E(0.05, 0.62, 0.38, 0.24); E(-0.36, 0.72, 0.16, 0.16); R(-0.25, 0, -0.12, 0.5); R(0.22, 0, 0.35, 0.5); R(-0.05, 0, 0.08, 0.45); P([[-0.48, 0.7], [-0.52, 0.2], [-0.47, 0.15], [-0.42, 0.65]]); break;
+    case 'giraffe': P([[-0.1, 0.55], [0.4, 0.55], [0.45, 0.35], [-0.1, 0.35]]); P([[0.32, 0.5], [0.42, 0.55], [0.12, 0.98], [0.02, 0.95]]); E(0.06, 0.96, 0.09, 0.04); R(-0.08, 0, -0.02, 0.4); R(0.36, 0, 0.42, 0.4); break;
+    case 'mouse': E(0, 0.32, 0.32, 0.28); E(-0.35, 0.35, 0.13, 0.15); ctx.lineWidth = Math.max(0.6, h*0.04); ctx.beginPath(); ctx.moveTo(0.3*w, -0.2*h); ctx.quadraticCurveTo(0.5*w, -0.6*h, 0.5*w, -0.05*h); ctx.stroke(); break;
+    case 'trex': P([[-0.5, 0.75], [-0.3, 0.85], [-0.15, 0.7], [0.1, 0.65], [0.5, 0.45], [0.1, 0.42], [0.05, 0], [-0.03, 0], [-0.08, 0.35], [-0.2, 0.5], [-0.3, 0.62], [-0.5, 0.62]]); break;
+    case 'bee-hummingbird': E(0, 0.45, 0.32, 0.18); P([[0.28, 0.5], [0.5, 0.52], [0.28, 0.44]]); ctx.globalAlpha = 0.6; P([[-0.05, 0.55], [-0.35, 0.95], [0.1, 0.6]]); ctx.globalAlpha = 1; break;
+    case 'paedophryne': E(0, 0.3, 0.4, 0.28); break;
+    case 'eiffel': P([[-0.5, 0], [-0.18, 0.45], [-0.05, 0.93], [0, 1], [0.05, 0.93], [0.18, 0.45], [0.5, 0], [0.32, 0], [0.12, 0.25], [-0.12, 0.25], [-0.32, 0]]); break;
+    case 'great-pyramid': P([[-0.5, 0], [0, 1], [0.5, 0]]); break;
+    case 'burj-khalifa': P([[-0.5, 0], [-0.3, 0.45], [-0.12, 0.75], [0, 1], [0.12, 0.75], [0.3, 0.45], [0.5, 0]]); break;
+    case 'saturn-v': R(-0.5, 0.06, 0.5, 0.9); P([[-0.5, 0.9], [0, 1], [0.5, 0.9]]); P([[-0.5, 0.06], [-0.7, 0], [0.7, 0], [0.5, 0.06]]); break;
+    case 'iss': R(-0.5, 0.45, 0.5, 0.55); for(const px of [-0.45, -0.3, 0.3, 0.45]) R(px - 0.06, 0.05, px + 0.06, 0.95); R(-0.12, 0.35, 0.12, 0.65); break;
+    case 'everest': case 'olympus-mons': P([[-0.5, 0], [-0.1, 0.85], [0, 1], [0.12, 0.8], [0.5, 0]]); break;
+    case 'mariana': P([[-0.5, 0], [0.5, 0], [0.05, -1], [-0.05, -1]]); break;
+    case 'human-hair': R(-0.5, 0.0, 0.5, 1); break;
+    case 'red-blood-cell': E(0, 0.5, 0.5, 0.5); ctx.globalCompositeOperation = 'destination-out'; ctx.globalAlpha = 0.5; E(0, 0.5, 0.22, 0.22); ctx.globalAlpha = 1; ctx.globalCompositeOperation = 'source-over'; break;
+    case 'ecoli': case 'pelagibacter': { const r = 0.5*h; ctx.beginPath(); ctx.roundRect ? ctx.roundRect(-0.5*w, -h, w, h, r) : ctx.rect(-0.5*w, -h, w, h); ctx.fill(); break; }
+    case 'sars-cov-2': case 'mimivirus': case 'porcine-circovirus': { E(0, 0.5, 0.38, 0.38); ctx.lineWidth = Math.max(0.6, h*0.05); ctx.beginPath(); for(let k = 0; k < 14; k++){ const a = k/14*6.283; ctx.moveTo(Math.cos(a)*0.38*w, -(0.5 + Math.sin(a)*0.38)*h); ctx.lineTo(Math.cos(a)*0.5*w, -(0.5 + Math.sin(a)*0.5)*h); } ctx.stroke(); break; }
+    case 'dna-width': { ctx.lineWidth = Math.max(0.6, w*0.12); ctx.beginPath(); for(let k = 0; k <= 40; k++){ const t = k/40; ctx.lineTo(Math.sin(t*12)*0.4*w, -t*h*4 + h*1.5); } ctx.stroke(); break; }
+    case 'lhc': ctx.lineWidth = Math.max(0.8, w*0.03); ctx.beginPath(); ctx.ellipse(0, -0.5*h, 0.48*w, 0.48*h, 0, 0, 7); ctx.stroke(); break;
+    case 'hyperion': R(-0.04, 0, 0.04, 0.6); E(0, 0.75, 0.18, 0.27); break;
+    case 'paramecium': E(0, 0.5, 0.5, 0.22); break;
+    case 'paper': R(-0.5, 0, 0.5, 1); break;
+    case 'transistor-1nm': R(-0.5, 0, 0.5, 1); break;
+    default: E(0, 0.5, 0.5, 0.5);
+  }
+  ctx.restore();
+}
+/* box aspect (width/height) of each silhouette; "W" of the data is the larger dimension */
+const ASPECT = {human:0.42, 'shortest-human':0.42, 'tallest-human':0.42, ant:3, 'smallest-insect':2.4, honeybee:2.2, 'dust-mite':1.6, tardigrade:2.6, 'blue-whale':6,
+  elephant:1.3, giraffe:0.62, mouse:2.4, trex:3.2, 'bee-hummingbird':2.2, paedophryne:2, eiffel:0.41, 'great-pyramid':1.57, 'burj-khalifa':0.16, 'saturn-v':0.09, iss:1.6,
+  everest:4, 'olympus-mons':27, mariana:5, 'human-hair':1, 'red-blood-cell':1, ecoli:2.5, pelagibacter:3, 'sars-cov-2':1, mimivirus:1, 'porcine-circovirus':1, 'dna-width':1,
+  lhc:1, hyperion:0.35, paramecium:2.5, paper:1, 'transistor-1nm':1, raindrop:1, hailstone:1, 'sand-grain':1, 'human-egg':1, yeast:1, thiomargarita:1};
+/* "width" for long things, "height" for tall things: which of the box's sides the data length measures */
+function boxOf(o){
+  const a = ASPECT[o.id] || 1, lk = o.lk.toLowerCase(), byHeight = /height|tall/.test(lk) || ['eiffel', 'burj-khalifa', 'saturn-v', 'great-pyramid', 'everest', 'olympus-mons', 'hyperion', 'giraffe', 'elephant'].includes(o.id);
+  if(o.id === 'paper') return {w:o.W*12, h:o.W};
+  if(o.id === 'human-hair' || o.id === 'dna-width') return {w:o.W, h:o.W*(o.id === 'dna-width' ? 3 : 8)};
+  if(o.id === 'mariana') return {w:o.W*a, h:o.W};
+  return byHeight ? {w:o.W*a, h:o.W} : {w:o.W, h:o.W/a};
+}
+
+/* =====================================================================
+   Layout on the shelf: each decade's objects get slots; anchor x = slot · W
+   ===================================================================== */
+const SLOTS = [0.9, -0.9, 2.1, -2.1, 3.4, -3.4, 4.6, -4.6, 5.8, -5.8];
+{ const dec = {}; OBJ.filter(o => o.f !== 'span').forEach(o => { const d = Math.floor(o.lw); (dec[d] = dec[d] || []).push(o); });
+  Object.values(dec).forEach(list => { list.sort((a, b) => b.imp - a.imp || a.lw - b.lw); list.forEach((o, i) => { o.slot = o.id === 'human' ? 0 : SLOTS[i % SLOTS.length]*(1 + 0.15*Math.floor(i/SLOTS.length)); }); });
+  const rows = {}; OBJ.filter(o => o.f === 'span').forEach(o => { const d = Math.floor(o.lw*2); rows[d] = (rows[d] || 0) + 1; o.row = rows[d] - 1; o.slot = 0; });
+  BY['human'].slot = 0; }
+// small bodies that gravity has not pulled round (drawn lumpy; the amount is illustrative)
+const LUMPY = {proteus:0.2, bennu:0.12, itokawa:0.35};
+// round bodies are centred on the ground line
+const centred = o => o.f === 'body' || o.f === 'cloud' || o.f === 'bound';
+
+/* =====================================================================
+   The zoom stage (Canvas 2D)
+   ===================================================================== */
+const stage = document.getElementById('stage'), cv = document.getElementById('cv'), ctx = cv.getContext('2d');
+const S = {s:Math.log10(4.2), pan:0, sel:null, cmp:null, cmpOn:false, engaged:false, inst:false};
+const SMIN = -35.3, SMAX = 27.4;
+let W = 0, H = 0, DPR = 1;
+function fit(){ const r = cv.getBoundingClientRect(); DPR = Math.min(window.devicePixelRatio || 1, 2); const w = Math.round(r.width*DPR), h = Math.round(r.height*DPR); if(cv.width !== w || cv.height !== h){ cv.width = w; cv.height = h; } W = w; H = h; }
+const phone = () => W/DPR < 640;
+const VIEWW = () => Math.pow(10, S.s);
+function geom(){ const mm = phone() ? {x:0, y:0, w:W, h:24*DPR, vert:false} : {x:W - 30*DPR, y:16*DPR, w:16*DPR, h:H - 72*DPR, vert:true};
+  return {ground:H*(phone() ? 0.64 : 0.66), cx:(phone() ? W : W - 36*DPR)/2, mm, rulerY:H - 34*DPR, plotW:phone() ? W : W - 36*DPR}; }
+function toPx(xm){ const g = geom(); return g.cx + (xm - S.pan)/VIEWW()*g.plotW; }
+function scale(){ return geom().plotW/VIEWW(); }
+let labelsHitList = [], labelsPlaced = [], lastReg = null, cardAt = {}, hover = null;
+function drawStage(t){
+  fit(); const g = geom(), sc = scale(), vw = VIEWW(), f = Math.round(11*DPR);
+  ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = '#000'; ctx.fillRect(0, 0, W, H);
+  const reg = regOf(S.s);
+  // regime wash at the edges
+  const grd = ctx.createRadialGradient(W/2, H/2, Math.min(W, H)*0.35, W/2, H/2, Math.max(W, H)*0.75); grd.addColorStop(0, 'rgba(0,0,0,0)'); grd.addColorStop(1, hexA(reg.col, 0.09)); ctx.fillStyle = grd; ctx.fillRect(0, 0, W, H);
+  // unexplored fog
+  if(S.s < -18.5){ const a = Math.min(1, (-18.5 - S.s)/1.5)*0.18; for(let k = 0; k < 7; k++){ const ph = (reduce ? 0 : t*0.00012) + k*1.7, x = W*(0.5 + 0.38*Math.sin(ph*0.7 + k)), y = H*(0.45 + 0.25*Math.cos(ph*0.5 + k*2)); const rg = ctx.createRadialGradient(x, y, 0, x, y, W*0.35); rg.addColorStop(0, `rgba(150,148,140,${a})`); rg.addColorStop(1, 'rgba(150,148,140,0)'); ctx.fillStyle = rg; ctx.fillRect(0, 0, W, H); } }
+  // beyond the horizon: hatched "unknown"
+  const obs = BY['observable-diameter'];
+  if(obs.W*sc < W*3 && S.s > 25){
+    const r = obs.W/2*sc, cxp = toPx(obs.slot*obs.W), cyp = g.ground;
+    ctx.save(); ctx.beginPath(); ctx.rect(0, 0, W, H); ctx.arc(cxp, cyp, r, 0, 7, true); ctx.clip('evenodd');
+    ctx.strokeStyle = 'rgba(200,200,200,0.13)'; ctx.lineWidth = DPR; for(let x = -H; x < W; x += 9*DPR){ ctx.beginPath(); ctx.moveTo(x, H); ctx.lineTo(x + H, 0); ctx.stroke(); }
+    ctx.restore();
+    if(r > 20*DPR){ ctx.fillStyle = 'rgba(236,234,228,0.6)'; ctx.font = f + 'px "IBM Plex Mono", monospace'; ctx.textAlign = 'right'; ctx.fillText('BEYOND THE RING: MORE UNIVERSE, OF UNKNOWN SIZE', g.plotW - 12*DPR, (phone() ? 60 : 34)*DPR); }
+  }
+  // the ground line
+  ctx.fillStyle = 'rgba(255,255,255,0.14)'; ctx.fillRect(0, g.ground, g.plotW, Math.max(1, DPR*0.7));
+  // objects in range
+  const lab = [], glyphs = [];
+  const vis = OBJ.filter(o => o.lw > S.s - 3.3 && o.lw < S.s + 1.2);
+  const drawOne = (o, override) => {
+    const isSel = S.sel === o || (S.cmpOn && (o === S.cmp?.a || o === S.cmp?.b));
+    if(S.cmpOn && !isSel) return;
+    const px = o.W*sc, col = o.id === 'human' ? '#fff' : regOf(o.lw).col;
+    if(px < 3*DPR && !override) return;
+    const ax = override ? override.x : toPx(o.slot*o.W);
+    if(o.f === 'span'){
+      if(px > W*6) return;
+      const y = g.ground - H*0.18 - (o.row % 4)*H*0.07 - (Math.floor(o.lw) % 2)*H*0.035, x0 = ax - px/2, x1 = ax + px/2;
+      ctx.strokeStyle = hexA(col, isSel ? 1 : 0.8); ctx.lineWidth = Math.max(1, DPR*(isSel ? 1.6 : 1)); ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(x1, y); ctx.moveTo(x0, y - 5*DPR); ctx.lineTo(x0, y + 5*DPR); ctx.moveTo(x1, y - 5*DPR); ctx.lineTo(x1, y + 5*DPR); ctx.stroke();
+      lab.push({o, x:ax, y:y - 6*DPR, w:px, h:10*DPR, px}); return;
+    }
+    const fade = px > W*1.5 ? Math.max(0, 1 - (px - W*1.5)/(W*4.5)) : 1;
+    if(fade <= 0) return;
+    if(px < 12*DPR && !override){ glyphs.push({o, x:ax, col}); return; }
+    ctx.globalAlpha = fade;
+    if(o.f === 'sil'){ const b = boxOf(o), bw = b.w*sc, bh = b.h*sc; const y = o.id === 'mariana' ? g.ground : g.ground; sil(ctx, o.id, ax, y, bw, bh, hexA(col, o.id === 'human' ? 0.95 : 0.85)); lab.push({o, x:ax, y:g.ground - bh, w:bw, h:bh, px}); }
+    else if(o.f === 'body'){ const r = px/2, cy = g.ground; const rg = ctx.createRadialGradient(ax - r*0.3, cy - r*0.3, r*0.1, ax, cy, r); rg.addColorStop(0, hexA(col, 0.9)); rg.addColorStop(1, hexA(col, 0.55)); ctx.fillStyle = rg; ctx.beginPath();
+      if(LUMPY[o.id]){ const q = LUMPY[o.id]; for(let k = 0; k <= 48; k++){ const a = k/48*6.2832, b = 1 + q*(0.5*Math.sin(3*a + 0.6) + 0.3*Math.sin(5*a + 2) + 0.2*Math.sin(7*a)); k ? ctx.lineTo(ax + Math.cos(a)*r*b, cy + Math.sin(a)*r*b*0.85) : ctx.moveTo(ax + Math.cos(a)*r*b, cy + Math.sin(a)*r*b*0.85); } ctx.closePath(); } else ctx.arc(ax, cy, r, 0, 7);
+      ctx.fill(); ctx.strokeStyle = hexA(col, 1); ctx.lineWidth = Math.max(1, 1.5*DPR); ctx.stroke(); lab.push({o, x:ax, y:cy - r, w:px, h:px, px}); }
+    else if(o.f === 'cloud'){ const r = px/2, cy = g.ground; const rg = ctx.createRadialGradient(ax, cy, 0, ax, cy, r*1.25); rg.addColorStop(0, hexA(col, 0.55)); rg.addColorStop(0.6, hexA(col, 0.18)); rg.addColorStop(1, hexA(col, 0)); ctx.fillStyle = rg; ctx.beginPath(); ctx.arc(ax, cy, r*1.25, 0, 7); ctx.fill();
+      ctx.setLineDash([4*DPR, 4*DPR]); ctx.strokeStyle = hexA(col, 0.8); ctx.lineWidth = Math.max(1, DPR); ctx.beginPath(); ctx.arc(ax, cy, r, 0, 7); ctx.stroke(); ctx.setLineDash([]); lab.push({o, x:ax, y:cy - r, w:px, h:px, px}); }
+    else if(o.f === 'bound'){ const r = px/2, cy = g.ground; ctx.setLineDash([3*DPR, 3*DPR]); ctx.strokeStyle = hexA(col, 0.9); ctx.lineWidth = Math.max(1, DPR); ctx.beginPath(); ctx.arc(ax, cy, r, 0, 7); ctx.stroke(); ctx.setLineDash([]);
+      for(let k = 0; k < 3; k++){ const a = -Math.PI/2 + k*2.094, x = ax + Math.cos(a)*r, y = cy + Math.sin(a)*r, ix = -Math.cos(a), iy = -Math.sin(a), l = Math.min(r*0.35, 12*DPR); ctx.beginPath(); ctx.moveTo(x, y); ctx.lineTo(x + ix*l, y + iy*l); ctx.stroke(); }
+      lab.push({o, x:ax, y:cy - r, w:px, h:px, px}); }
+    else { const s2 = px; ctx.strokeStyle = hexA(col, 0.9); ctx.lineWidth = Math.max(1, DPR); ctx.strokeRect(ax - s2/2, g.ground - s2, s2, s2); lab.push({o, x:ax, y:g.ground - s2, w:s2, h:s2, px}); }
+    if(isSel){ ctx.strokeStyle = '#fff'; ctx.lineWidth = DPR; ctx.setLineDash([2*DPR, 3*DPR]); const L = lab[lab.length - 1]; ctx.strokeRect(L.x - L.w/2 - 4*DPR, L.y - 4*DPR, L.w + 8*DPR, L.h + 8*DPR); ctx.setLineDash([]); }
+    ctx.globalAlpha = 1;
+  };
+  if(S.cmpOn && S.cmp){ drawCompare(g, sc, drawOne, lab); }
+  else vis.forEach(o => drawOne(o));
+  // glyphs: dot + tick, merged when close
+  glyphs.sort((a, b) => a.x - b.x);
+  const merged = []; glyphs.forEach(gl => { const m = merged[merged.length - 1]; if(m && gl.x - m.x < 10*DPR){ m.n++; } else merged.push({x:gl.x, n:1, col:gl.col, o:gl.o}); });
+  merged.forEach(m => { ctx.fillStyle = m.col; ctx.beginPath(); ctx.arc(m.x, g.ground, 1.6*DPR, 0, 7); ctx.fill(); ctx.fillRect(m.x - 0.5*DPR, g.ground - 9*DPR, DPR, 6*DPR); if(m.n > 1){ ctx.font = Math.round(9*DPR) + 'px "IBM Plex Mono", monospace'; ctx.textAlign = 'center'; ctx.fillStyle = 'rgba(236,234,228,0.6)'; ctx.fillText('+' + (m.n - 1), m.x, g.ground + 14*DPR); } });
+  placeLabels(lab, g);
+  drawRuler(g); drawScaleBar(g); drawMinimap(g);
+  // threshold cards
+  if(lastReg && reg !== lastReg){ const key = lastReg.short + '>' + reg.short, now = performance.now(); if(!cardAt[key] || now - cardAt[key] > 20000){ cardAt[key] = now; showCard((reg.lo > lastReg.lo ? 'Entering ' : 'Entering ') + reg.name.toLowerCase() + '. ' + reg.rule); } }
+  lastReg = reg;
+}
+function hexA(hex, a){ if(hex.length === 4) hex = '#' + hex[1] + hex[1] + hex[2] + hex[2] + hex[3] + hex[3]; const n = parseInt(hex.slice(1), 16); return `rgba(${n >> 16 & 255},${n >> 8 & 255},${n & 255},${a})`; }
+function placeLabels(lab, g){
+  labelsHitList = lab;
+  const max = phone() ? 5 : 9, f = Math.round(13*DPR), fs = Math.round(11*DPR), placed = [];
+  lab.forEach(L => { L.pri = (L.o.imp === 3 ? 3 : L.o.imp === 2 ? 2 : 1) + (L.px > W*0.1 && L.px < W*0.6 ? 2 : 0) + (S.sel === L.o || hover === L.o ? 10 : 0) + (L.o.id === 'human' ? 4 : 0); });
+  lab.sort((a, b) => b.pri - a.pri);
+  ctx.textAlign = 'left'; ctx.textBaseline = 'alphabetic';
+  for(const L of lab){
+    if(placed.length >= max) break;
+    ctx.font = '600 ' + f + 'px Manrope, sans-serif'; const t1 = L.o.n.length > 40 ? L.o.n.slice(0, 38) + '…' : L.o.n, w1 = ctx.measureText(t1).width;
+    ctx.font = fs + 'px "IBM Plex Mono", monospace'; const t2 = (L.o.st === 'upper_limit' ? 'smaller than ' : L.o.st === 'approximate' ? 'about ' : '') + sci(L.o.L, 2) + ' m' + (/radius/i.test(L.o.lk) ? ' radius' : ''), w2 = ctx.measureText(t2).width;
+    const bw = Math.max(w1, w2) + 6*DPR, bh = f + fs + 6*DPR;
+    const cands = [[L.x - bw/2, L.y - bh - 6*DPR], [L.x + L.w/2 + 8*DPR, L.y], [L.x - L.w/2 - bw - 8*DPR, L.y], [L.x - bw/2, g.ground + 18*DPR]];
+    let ok = null;
+    for(const c of cands){ const r = {x:c[0], y:c[1], w:bw, h:bh}; if(r.x < 4 || r.x + r.w > g.plotW - 4 || r.y < 30*DPR || r.y + r.h > g.rulerY - 6*DPR) continue; if(placed.some(p => !(r.x + r.w + 6*DPR < p.x || p.x + p.w + 6*DPR < r.x || r.y + r.h + 6*DPR < p.y || p.y + p.h + 6*DPR < r.y))) continue; ok = r; break; }
+    if(!ok) continue;
+    placed.push(ok);
+    ctx.fillStyle = 'rgba(0,0,0,0.55)'; ctx.fillRect(ok.x - 3*DPR, ok.y - 2*DPR, ok.w, ok.h);
+    ctx.fillStyle = L.o.id === 'human' ? '#fff' : 'rgba(236,234,228,0.95)'; ctx.font = '600 ' + f + 'px Manrope, sans-serif'; ctx.fillText(t1, ok.x, ok.y + f*0.9);
+    ctx.fillStyle = 'rgba(236,234,228,0.65)'; ctx.font = fs + 'px "IBM Plex Mono", monospace'; ctx.fillText(t2, ok.x, ok.y + f + fs);
+  }
+  labelsPlaced = placed;
+}
+function drawRuler(g){
+  const y = g.rulerY, f = Math.round(10*DPR), vw = VIEWW(), sc = scale();
+  // regime band
+  const reg = regOf(S.s); ctx.fillStyle = hexA(reg.col, 0.22); ctx.fillRect(0, y + 14*DPR, g.plotW, 20*DPR);
+  if(reg.short === 'unexplored'){ ctx.strokeStyle = hexA(reg.col, 0.5); ctx.lineWidth = DPR; for(let x = 0; x < g.plotW; x += 7*DPR){ ctx.beginPath(); ctx.moveTo(x, y + 34*DPR); ctx.lineTo(x + 20*DPR, y + 14*DPR); ctx.stroke(); } }
+  ctx.font = f + 'px "IBM Plex Mono", monospace'; ctx.fillStyle = 'rgba(236,234,228,0.85)'; ctx.textAlign = 'left'; ctx.fillText(reg.name.toUpperCase(), 10*DPR, y + 28*DPR);
+  // ticks: a ruler from the screen centre outwards, at 1, 2, 5 × 10^n
+  const e = Math.floor(S.s - 1);
+  ctx.strokeStyle = 'rgba(236,234,228,0.5)'; ctx.fillStyle = 'rgba(236,234,228,0.75)'; ctx.textAlign = 'center'; ctx.lineWidth = DPR;
+  const x0 = g.cx - g.plotW*0.45;
+  ctx.beginPath(); ctx.moveTo(x0, y); ctx.lineTo(g.cx + g.plotW*0.45, y); ctx.stroke();
+  for(const m of [1, 2, 5, 10, 20, 50]){ const d = m*Math.pow(10, e), px = d*sc; if(px > g.plotW*0.9) break; ctx.beginPath(); ctx.moveTo(x0 + px, y - (m === 1 || m === 10 ? 7 : 4)*DPR); ctx.lineTo(x0 + px, y); ctx.stroke(); if(m === 1 || m === 10 || px > 60*DPR) ctx.fillText(rulerLabel(d), x0 + px, y - 10*DPR); }
+  ctx.beginPath(); ctx.moveTo(x0, y - 7*DPR); ctx.lineTo(x0, y); ctx.stroke(); ctx.fillText('0', x0, y - 10*DPR);
+}
+function rulerLabel(d){ const s = siStr(d); return s && Math.abs(Math.log10(d)) < 31 ? s : sci(d, 1) + ' m'; }
+function drawScaleBar(g){
+  const vw = VIEWW(), target = vw/5, e = Math.floor(Math.log10(target)), base = Math.pow(10, e), m = target/base >= 5 ? 5 : target/base >= 2 ? 2 : 1, d = m*base, px = d*scale();
+  const x = 14*DPR, y = (phone() ? 40 : 18)*DPR, f = Math.round(10*DPR);
+  ctx.fillStyle = 'rgba(236,234,228,0.85)'; ctx.fillRect(x, y + 14*DPR, px, Math.max(1, DPR)); ctx.fillRect(x, y + 10*DPR, DPR, 9*DPR); ctx.fillRect(x + px, y + 10*DPR, DPR, 9*DPR);
+  ctx.font = f + 'px "IBM Plex Mono", monospace'; ctx.textAlign = 'left';
+  ctx.fillText(lenStr(d).toUpperCase(), x, y + 6*DPR);
+  const yr = Math.log10(1.7) - S.s;
+  ctx.fillStyle = 'rgba(236,234,228,0.6)';
+  ctx.fillText(Math.abs(yr) < 0.7 ? 'YOU ARE IN VIEW' : yr > 0 ? 'YOU ARE ' + (yr < 3 ? group(Math.round(Math.pow(10, yr))) : '10' + sup(Math.round(yr))) + ' TIMES WIDER THAN THIS VIEW' : 'THIS VIEW IS ' + (-yr < 3 ? group(Math.round(Math.pow(10, -yr))) : '10' + sup(Math.round(-yr))) + ' PEOPLE WIDE', x, y + 32*DPR);
+}
+function mmPos(lg, mm){ const u = (lg - SMIN)/(SMAX - SMIN); return mm.vert ? mm.y + mm.h*(1 - u) : mm.x + mm.w*u; }
+function drawMinimap(g){
+  const mm = g.mm;
+  REG.forEach(r => { const a = mmPos(Math.max(SMIN, r.lo), mm), b = mmPos(Math.min(SMAX, r.hi), mm); ctx.fillStyle = hexA(r.col, r.short === 'unexplored' ? 0.35 : 0.6);
+    if(mm.vert) ctx.fillRect(mm.x, b, mm.w, a - b); else ctx.fillRect(a, mm.y, b - a, mm.h); });
+  const w0 = mmPos(S.s - 1, mm), w1 = mmPos(S.s + 0.3, mm);
+  ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.5*DPR; if(mm.vert) ctx.strokeRect(mm.x - 3*DPR, w1, mm.w + 6*DPR, w0 - w1); else ctx.strokeRect(w0, mm.y + 1, w1 - w0, mm.h - 2);
+  const mk = (lg, col, len) => { const p = mmPos(lg, mm); ctx.fillStyle = col; if(mm.vert) ctx.fillRect(mm.x - len*DPR, p, mm.w + 2*len*DPR, 1.5*DPR); else ctx.fillRect(p, mm.y, 1.5*DPR, mm.h); };
+  mk(MID, 'rgba(255,255,255,0.7)', 2);
+  TOUR.forEach(st => mk(st.s, 'rgba(255,255,255,0.35)', 0));
+  // the human chevron
+  const hp = mmPos(Math.log10(1.7), mm); ctx.fillStyle = '#fff'; ctx.beginPath();
+  if(mm.vert){ ctx.moveTo(mm.x - 9*DPR, hp - 5*DPR); ctx.lineTo(mm.x - 2*DPR, hp); ctx.lineTo(mm.x - 9*DPR, hp + 5*DPR); } else { ctx.moveTo(hp - 5*DPR, mm.y + mm.h + 8*DPR); ctx.lineTo(hp, mm.y + mm.h + 1*DPR); ctx.lineTo(hp + 5*DPR, mm.y + mm.h + 8*DPR); }
+  ctx.fill();
+}
+function drawCompare(g, sc, drawOne, lab){
+  const a = S.cmp.a, b = S.cmp.b, big = a.W >= b.W ? a : b, small = big === a ? b : a;
+  const bx = g.cx - g.plotW*0.12, sx = bx + Math.max(big.W*sc*0.5, 20*DPR) + Math.max(small.W*sc*0.6, 30*DPR);
+  drawOne(big, {x:bx});
+  if(small.W*sc >= 3*DPR) drawOne(small, {x:sx});
+  else {   // magnifier: the small one drawn 10^n larger in a circle, with its true-size dot
+    const n = Math.ceil(Math.log10(40*DPR/(small.W*sc))), mag = Math.pow(10, n), r = 46*DPR, mx = sx + r + 20*DPR, my = g.ground - r - 30*DPR;
+    ctx.fillStyle = '#fff'; ctx.beginPath(); ctx.arc(sx, g.ground, 1.5*DPR, 0, 7); ctx.fill();
+    ctx.strokeStyle = 'rgba(255,255,255,0.7)'; ctx.lineWidth = DPR; ctx.beginPath(); ctx.arc(mx, my, r, 0, 7); ctx.stroke(); ctx.beginPath(); ctx.moveTo(sx, g.ground); ctx.lineTo(mx - r*0.7, my + r*0.7); ctx.stroke();
+    ctx.save(); ctx.beginPath(); ctx.arc(mx, my, r - 1, 0, 7); ctx.clip();
+    const keep = S.s; S.s -= n; const sc2 = scale(); S.s = keep;
+    const fake = Object.assign({}, small); const gg = Object.assign({}, g, {ground:my + r*0.6});
+    const px = small.W*sc2, col = regOf(small.lw).col;
+    if(small.f === 'sil'){ const bb = boxOf(small); sil(ctx, small.id, mx, my + r*0.6, bb.w*sc2, bb.h*sc2, hexA(col, 0.9)); }
+    else { ctx.fillStyle = hexA(col, 0.6); ctx.beginPath(); ctx.arc(mx, my + r*0.6 - (centred(small) ? 0 : px/2), px/2, 0, 7); ctx.fill(); }
+    ctx.restore();
+    ctx.fillStyle = 'rgba(236,234,228,0.8)'; ctx.font = Math.round(10*DPR) + 'px "IBM Plex Mono", monospace'; ctx.textAlign = 'center'; ctx.fillText('SHOWN 10' + sup(n) + '× LARGER', mx, my + r + 14*DPR);
+  }
+}
+let cardT = 0;
+function showCard(text){ const c = document.getElementById('card'); c.textContent = text; c.classList.add('on'); clearTimeout(cardT); cardT = setTimeout(() => c.classList.remove('on'), 4000); }
+
+/* =====================================================================
+   Motion: flights, inertia, input
+   ===================================================================== */
+let flight = null, vel = 0, moved = true, liveT = 0;
+function clampS(){ S.s = Math.max(SMIN, Math.min(SMAX, S.s)); }
+function flyTo(s1, pan1, then){
+  const s0 = S.s, f0 = S.pan/VIEWW(), f1 = pan1/Math.pow(10, s1);
+  if(reduce){ S.s = s1; S.pan = pan1; moved = true; if(then) then(); return; }
+  const dur = Math.max(0.6, Math.abs(s1 - s0)/3*1.5)*1000;
+  flight = {t0:performance.now(), dur, s0, s1, f0, f1, then};
+}
+// the view width that shows the object whole: wide enough for its width, and for its height above the ground line
+function fitW(o, extra){ fit(); const g = geom(), b = o.f === 'sil' ? boxOf(o) : {w:o.W, h:o.W}, up = centred(o) ? b.h/2 : b.h;
+  return Math.max(b.w*(extra || 2.6), up*g.plotW/(0.5*H || 1)); }
+function flyToObj(o, extra){ flyTo(Math.log10(fitW(o, extra)), o.f === 'span' ? 0 : o.slot*o.W, null); S.sel = o; updateRO(); }
+function zoomAt(ds, pxScreen){
+  const g = geom(), xm = S.pan + (pxScreen - g.cx)/scale(); S.s = S.s + ds; clampS(); S.pan = xm - (pxScreen - g.cx)/scale(); moved = true;
+}
+stage.addEventListener('click', () => { if(!S.engaged){ S.engaged = true; stage.classList.add('engaged'); document.getElementById('hint').textContent = 'Wheel zooms · click outside to scroll the page'; } });
+document.addEventListener('pointerdown', e => { if(!stage.contains(e.target) && S.engaged){ S.engaged = false; stage.classList.remove('engaged'); document.getElementById('hint').textContent = 'Click to zoom with the wheel · or use the buttons below'; } });
+stage.addEventListener('wheel', e => {
+  const full = document.fullscreenElement === stage || S.inst;
+  if(!(S.engaged || e.ctrlKey || e.metaKey || full)) return;
+  e.preventDefault(); flight = null; stopTourAuto();
+  const r = cv.getBoundingClientRect(), d = e.deltaMode === 1 ? e.deltaY*33 : e.deltaY;
+  zoomAt(Math.abs(d) >= 50 ? Math.sign(d)*0.25*Math.min(4, Math.abs(d)/100) : d*0.0025, (e.clientX - r.left)*DPR);
+}, {passive:false});
+const ptrs = new Map(); let pinch0 = null, dragX = null, mmDrag = false;
+stage.addEventListener('pointerdown', e => {
+  const r = cv.getBoundingClientRect(), px = [(e.clientX - r.left)*DPR, (e.clientY - r.top)*DPR], g = geom();
+  ptrs.set(e.pointerId, px); flight = null; stopTourAuto();
+  const mm = g.mm, inMM = mm.vert ? (px[0] > mm.x - 14*DPR && px[1] > mm.y && px[1] < mm.y + mm.h) : (px[1] < mm.h + 10*DPR);
+  if(inMM){ mmDrag = true; mmSet(px, mm); return; }
+  if(ptrs.size === 2){ const [a, b] = [...ptrs.values()]; pinch0 = {d:Math.hypot(a[0] - b[0], a[1] - b[1]), s:S.s, x:(a[0] + b[0])/2}; dragX = null; return; }
+  if(e.pointerType === 'mouse' || S.engaged) { dragX = px[0]; try { stage.setPointerCapture(e.pointerId); } catch(err){} }
+  const hit = hitTest(px); if(hit){ S.sel = hit; updateRO(); if(S.cmpOn) pickCompare(hit); }
+});
+stage.addEventListener('pointermove', e => {
+  const r = cv.getBoundingClientRect(), px = [(e.clientX - r.left)*DPR, (e.clientY - r.top)*DPR];
+  if(ptrs.has(e.pointerId)) ptrs.set(e.pointerId, px);
+  if(mmDrag){ mmSet(px, geom().mm); return; }
+  if(pinch0 && ptrs.size === 2){ const [a, b] = [...ptrs.values()], d = Math.hypot(a[0] - b[0], a[1] - b[1]); const ds = pinch0.s - Math.log10(d/pinch0.d) - S.s; zoomAt(ds, pinch0.x); return; }
+  if(dragX !== null){ S.pan -= (px[0] - dragX)/scale(); dragX = px[0]; moved = true; return; }
+  const h = hitTest(px); if(h !== hover){ hover = h; moved = true; }
+});
+const up = e => { ptrs.delete(e.pointerId); if(ptrs.size < 2) pinch0 = null; dragX = null; mmDrag = false; };
+stage.addEventListener('pointerup', up); stage.addEventListener('pointercancel', up);
+function mmSet(px, mm){ const u = mm.vert ? 1 - (px[1] - mm.y)/mm.h : (px[0] - mm.x)/mm.w; S.s = SMIN + Math.max(0, Math.min(1, u))*(SMAX - SMIN); S.pan = 0; moved = true; }
+function hitTest(px){ for(const L of labelsHit()){ if(px[0] >= L.x - L.w/2 - 4*DPR && px[0] <= L.x + L.w/2 + 4*DPR && px[1] >= L.y - 4*DPR && px[1] <= L.y + L.h + 4*DPR) return L.o; } return null; }
+let lastLab = [];
+function labelsHit(){ return lastLab; }
+stage.addEventListener('keydown', e => {
+  const k = e.key; let used = true;
+  switch(k){
+    case '+': case '=': case 'ArrowUp': zoomAt(-0.1, geom().cx); break;
+    case '-': case 'ArrowDown': zoomAt(0.1, geom().cx); break;
+    case 'PageDown': flyTo(S.s - 1, S.pan); break;
+    case 'PageUp': flyTo(S.s + 1, S.pan); break;
+    case 'Home': flyToObj(BY['planck-length'], 3); break;
+    case 'End': flyToObj(BY['observable-diameter'], 1.4); break;
+    case 'h': case 'H': flyToObj(BY['human']); break;
+    case 'ArrowLeft': case 'ArrowRight': { const list = OBJ.filter(o => o.f !== 'span'); let i = S.sel ? list.indexOf(S.sel) : list.findIndex(o => o.lw > S.s - 0.5); i = Math.max(0, Math.min(list.length - 1, i + (k === 'ArrowLeft' ? -1 : 1))); flyToObj(list[i]); break; }
+    case '/': document.getElementById('q').focus(); break;
+    case 'c': case 'C': document.getElementById('cmpBtn').click(); break;
+    case 't': case 'T': document.getElementById('tourBtn').click(); break;
+    case 'Escape': S.sel = null; stopTour(); break;
+    default: used = false;
+  }
+  if(used){ e.preventDefault(); clampS(); moved = true; }
+});
+document.getElementById('zin').addEventListener('click', () => flyTo(Math.max(SMIN, S.s - 1), S.pan));
+document.getElementById('zout').addEventListener('click', () => flyTo(Math.min(SMAX, S.s + 1), S.pan));
+document.getElementById('you').addEventListener('click', () => flyToObj(BY['human']));
+document.getElementById('fs').addEventListener('click', () => { if(document.fullscreenElement) document.exitFullscreen(); else if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {}); });
+const mmSlider = document.getElementById('mmSlider');
+mmSlider.addEventListener('input', () => { S.s = +mmSlider.value; S.pan = 0; moved = true; });
+
+/* =====================================================================
+   Search
+   ===================================================================== */
+const q = document.getElementById('q'), ql = document.getElementById('qlist'); let qi = -1, qres = [];
+const UNITS = {qm:-30, rm:-27, ym:-24, zm:-21, am:-18, fm:-15, pm:-12, nm:-9, 'µm':-6, um:-6, mm:-3, cm:-2, m:0, km:3, au:Math.log10(1.496e11), ly:Math.log10(LY), pc:Math.log10(3.0857e16), kpc:Math.log10(3.0857e19), mpc:Math.log10(3.0857e22), gpc:Math.log10(3.0857e25)};
+function parseSize(t){ t = t.trim().toLowerCase().replace(',', '.'); let m = t.match(/^([0-9.]+(?:e[-+]?\d+)?)\s*([a-zµ]+)?$/); if(!m) return null; const v = parseFloat(m[1]); if(!(v > 0)) return null; const u = m[2] || 'm'; if(!(u in UNITS)) return null; return Math.log10(v) + UNITS[u]; }
+function runSearch(){
+  const t = q.value.trim(); qres = []; qi = -1;
+  if(!t){ ql.hidden = true; q.setAttribute('aria-expanded', 'false'); return; }
+  const lg = parseSize(t);
+  if(lg !== null){ qres.push({size:lg}); OBJ.slice().sort((a, b) => Math.abs(a.lw - lg) - Math.abs(b.lw - lg)).slice(0, 3).forEach(o => qres.push({o})); }
+  else { const tl = t.toLowerCase(); OBJ.forEach(o => { const hay = (o.n + ' ' + o.id + ' ' + o.c + ' ' + o.d).toLowerCase(); const i = o.n.toLowerCase().indexOf(tl); if(i >= 0 || hay.includes(tl)) qres.push({o, score:(i === 0 ? 0 : i > 0 ? 1 : 2) - o.imp*0.1}); }); qres.sort((a, b) => a.score - b.score); qres = qres.slice(0, 8); }
+  ql.innerHTML = qres.map((r, i) => r.size !== undefined ? `<li role="option" id="qo${i}">Fly to a view ${lenStr(Math.pow(10, r.size))} wide</li>` : `<li role="option" id="qo${i}"><span>${esc(r.o.n)}</span><span class="mono">${sci(r.o.L)} m</span></li>`).join('') || '<li>No match</li>';
+  ql.hidden = false; q.setAttribute('aria-expanded', 'true');
+  [...ql.children].forEach((li, i) => li.addEventListener('mousedown', ev => { ev.preventDefault(); choose(i); }));
+}
+function choose(i){ const r = qres[i < 0 ? 0 : i]; if(!r) return; if(r.size !== undefined) flyTo(r.size, 0); else flyToObj(r.o); ql.hidden = true; q.blur(); stage.focus({preventScroll:true}); stage.scrollIntoView({block:'center', behavior:reduce ? 'auto' : 'smooth'}); }
+q.addEventListener('input', runSearch);
+q.addEventListener('keydown', e => { if(e.key === 'ArrowDown' || e.key === 'ArrowUp'){ e.preventDefault(); qi = Math.max(0, Math.min(qres.length - 1, qi + (e.key === 'ArrowDown' ? 1 : -1))); [...ql.children].forEach((li, i) => li.setAttribute('aria-selected', String(i === qi))); q.setAttribute('aria-activedescendant', 'qo' + qi); }
+  else if(e.key === 'Enter'){ e.preventDefault(); choose(qi); } else if(e.key === 'Escape'){ ql.hidden = true; } });
+q.addEventListener('blur', () => setTimeout(() => { ql.hidden = true; }, 150));
+const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;', '<':'&lt;', '>':'&gt;', '"':'&quot;'}[c]));
+
+/* =====================================================================
+   Compare
+   ===================================================================== */
+const ca = document.getElementById('ca'), cb = document.getElementById('cb');
+const opts = OBJ.filter(o => o.f !== 'span').map(o => `<option value="${o.id}">${esc(o.n)}</option>`).join('');
+ca.innerHTML = opts; cb.innerHTML = opts; ca.value = 'earth'; cb.value = 'sun';
+let guessed = false;
+function setCompare(){ S.cmp = {a:BY[ca.value], b:BY[cb.value]}; const big = S.cmp.a.W >= S.cmp.b.W ? S.cmp.a : S.cmp.b; flyTo(Math.log10(big.W*3.2), 0); updateRO(); }
+function pickCompare(o){ if(cb.value === o.id || ca.value === o.id) return; ca.value = cb.value; cb.value = o.id; setCompare(); }
+[ca, cb].forEach(el => el.addEventListener('change', setCompare));
+document.getElementById('swapC').addEventListener('click', () => { const t = ca.value; ca.value = cb.value; cb.value = t; setCompare(); });
+document.getElementById('cmpBtn').addEventListener('click', function(){ S.cmpOn = !S.cmpOn; this.setAttribute('aria-pressed', String(S.cmpOn)); document.getElementById('compare').classList.toggle('on', S.cmpOn); if(S.cmpOn) setCompare(); else { S.cmp = null; updateRO(); } moved = true; });
+const ANALOG = [['grain of sand', 5e-4], ['peppercorn', 4e-3], ['pea', 8e-3], ['marble', 1.6e-2], ['coin', 2.4e-2], ['golf ball', 4.3e-2], ['tennis ball', 6.7e-2], ['orange', 8e-2], ['football', 0.22], ['beach ball', 0.6], ['person', 1.7], ['car', 4.5], ['bus', 12], ['house', 15], ['football pitch', 105], ['skyscraper', 400], ['town', 5e3], ['city', 4e4]];
+function analogy(r){ let best = null; for(const a of ANALOG) for(const b of ANALOG){ if(b[1] >= a[1]) continue; const e = Math.abs(Math.log10(a[1]/b[1]) - Math.log10(r)); if(!best || e < best.e) best = {e, a, b}; } return best && best.e < 0.25 ? `If the bigger were a ${best.a[0]}, the smaller would be a ${best.b[0]}.` : ''; }
+
+/* =====================================================================
+   Tour (design spec 4.9)
+   ===================================================================== */
+const TOUR = [
+  {name:'You', id:'human', w:4, text:'This is you, about 1.7 metres tall. Every size on this page is measured against you. Zoom in and you pass 35 steps of ten before our theories run out. Zoom out and you pass 27 before light runs out.'},
+  {name:'Where water becomes a skin', id:'capillary-length', w:0.02, text:'Below about 3 millimetres, surface tension beats gravity. Drops stay round, insects walk on water, and a spilled ant floats. The same water, a different rule: size alone changed which force wins.'},
+  {name:'The middle of everything', id:'human-egg', w:1e-3, text:'This is the middle of the known range: about a tenth of a millimetre, a hair\'s width, a human egg cell. You are not in the middle. You sit well above it, closer to the stars.'},
+  {name:'Too small for light', id:'ecoli', w:3e-6, text:'Light blurs anything smaller than about 200 nanometres. A bacterium is still visible; most viruses are not. To see further we use electrons, X-rays and particle beams instead of light.'},
+  {name:'An atom is a cloud', id:'bohr-radius', w:3e-10, text:'An atom is not a tiny solar system. The electron is a cloud of chance, densest near the centre. The nucleus is about 60 000 times narrower than the atom, yet holds almost all its mass.'},
+  {name:'Inside the nucleus', id:'proton-radius', w:3e-15, text:'A proton is about a femtometre across: a millionth of a billionth of a metre. It is made of quarks held by the strong force, the strongest pull in nature, which only reaches this far.'},
+  {name:'The edge of the map', id:'lhc-probe', w:1e-18, text:'This is roughly the finest detail any experiment has resolved. Below here, nothing has been measured. The next 16 steps of ten are blank on our map. Blank does not mean empty.'},
+  {name:'The Planck length', id:'planck-length', w:1e-34, text:'Here gravity and quantum physics both matter, and neither theory works alone. The Planck length is not a known pixel of space. It marks where our understanding stops, not where nature does.'},
+  {name:'Gravity makes it round', id:'proteus', pair:'mimas', w:1.6e6, text:'Above a few hundred kilometres, a body\'s own gravity crushes it into a ball. Proteus, 420 km across, stays lumpy; Mimas, 396 km across but icier and softer, is round. Mountains cannot grow forever for the same reason.'},
+  {name:'One hundred and nine Earths', id:'sun', w:3e9, text:'The Sun is 109 times wider than Earth. That sounds modest, but volume grows as the cube: about 1.3 million Earths would fit inside. Width hides how big things really are.'},
+  {name:'The nearest star', id:'proxima-distance', w:1e17, text:'The nearest star beyond the Sun is 4.2 light-years away, 40 trillion kilometres. Light from it is over four years old. At these sizes, distance is also time.'},
+  {name:'Our galaxy', id:'mw-disk', w:3e21, text:'The Milky Way is about 100 000 light-years across and holds a few hundred billion stars. Its stars move as if far more mass were present than we can see. We call the missing part dark matter.'},
+  {name:'The cosmic web', id:'laniakea', w:1e25, text:'Galaxies gather into threads and walls around vast empty voids. Zoom out far enough, a few hundred million light-years, and the web evens out: every large region looks much like any other.'},
+  {name:'The horizon', id:'observable-diameter', w:2e27, text:'This ring is not the edge of the universe. It is the edge of what light has had time to show us. Beyond it there is almost certainly more universe, of unknown size.'}
+];
+TOUR.forEach(t => t.s = Math.log10(t.w));
+let tourI = -1, tourAuto = false, tourTimer = 0;
+function goStop(i){
+  tourI = (i + TOUR.length) % TOUR.length; const st = TOUR[tourI], o = BY[st.id];
+  S.cmpOn = false; document.getElementById('cmpBtn').setAttribute('aria-pressed', 'false'); document.getElementById('compare').classList.remove('on');
+  const pan = st.pair ? (o.slot*o.W + BY[st.pair].slot*BY[st.pair].W)/2 : o && o.f !== 'span' ? o.slot*o.W : 0;
+  flyTo(Math.max(st.s, o && o.f !== 'span' && !st.pair ? Math.log10(fitW(o)) : st.s), pan); S.sel = o || null; updateRO();
+  if(st.id === 'sun'){ ca.value = 'earth'; cb.value = 'sun'; }
+  document.getElementById('wallHead').textContent = 'Tour ' + (tourI + 1) + ' / ' + TOUR.length + ' · ' + st.name;
+  document.getElementById('wallText').textContent = st.text; document.getElementById('wall').classList.add('on');
+  document.getElementById('tourbar').hidden = false; document.getElementById('tourT').textContent = 'Tour ' + (tourI + 1) + ' / ' + TOUR.length + ' · ' + st.name;
+  document.getElementById('tourBtn').setAttribute('aria-pressed', 'true');
+  document.getElementById('live').textContent = st.name + '. ' + st.text;
+  clearTimeout(tourTimer); if(tourAuto) tourTimer = setTimeout(() => goStop(tourI + 1), 18000);
+}
+function stopTour(){ tourI = -1; tourAuto = false; clearTimeout(tourTimer); document.getElementById('wall').classList.remove('on'); document.getElementById('tourbar').hidden = true; document.getElementById('tourBtn').setAttribute('aria-pressed', 'false'); }
+function stopTourAuto(){ if(tourAuto && !S.inst){ tourAuto = false; clearTimeout(tourTimer); } }
+document.getElementById('tourBtn').addEventListener('click', () => tourI >= 0 ? stopTour() : goStop(0));
+document.getElementById('tPrev').addEventListener('click', () => goStop(tourI - 1));
+document.getElementById('tNext').addEventListener('click', () => goStop(tourI + 1));
+document.getElementById('tStop').addEventListener('click', stopTour);
+document.getElementById('inst').addEventListener('click', () => {
+  S.inst = true; stage.classList.add('installing'); tourAuto = true; goStop(0);
+  if(stage.requestFullscreen) stage.requestFullscreen().catch(() => {});
+});
+document.addEventListener('fullscreenchange', () => { if(!document.fullscreenElement && S.inst){ S.inst = false; stage.classList.remove('installing'); stopTour(); } });
+
+/* =====================================================================
+   Readouts
+   ===================================================================== */
+const RO = [['view', 'View width', 'drawn'], ['step', 'Position on the ruler', 'drawn'], ['reg', 'What rules here', 'model'], ['sel', 'Selected', 'data'], ['selm', 'Its mass', 'data'], ['rs', 'Squeezed into a black hole', 'model'], ['cw', 'Its quantum length', 'model'], ['cmp', 'Compare', 'data'], ['cmpv', 'Area · volume', 'model']];
+document.getElementById('ro').innerHTML = RO.map(r => `<div id="r-${r[0]}"><div class="k"><span>${r[1]}</span><span class="tag ${r[2]}">${r[2].toUpperCase()}</span></div><div class="v">–</div><div class="s"></div></div>`).join('');
+const setR = (k, v, s) => { const el = document.getElementById('r-' + k); el.querySelector('.v').textContent = v; el.querySelector('.s').textContent = s || ''; };
+const G = 6.6743e-11, C = 299792458, HBAR = 1.054571817e-34;
+function updateRO(){
+  const o = S.sel;
+  if(o){ setR('sel', o.n, lenStr(o.L) + (o.lk ? ' · ' + o.lk : '') + ' · ' + o.st.replace('_', ' ') + (o.u ? ' · ' + o.u : ''));
+    setR('selm', o.m ? sci(o.m, 3) + ' kg' : '–', o.m ? (o.L > 0 ? 'mean density ' + sci(o.m/(4/3*Math.PI*Math.pow(o.W/2, 3)), 2) + ' kg/m³ (as a ball)' : '') : 'no mass listed');
+    if(o.m && o.k !== 'distance'){ const rs = 2*G*o.m/(C*C), cw = HBAR/(o.m*C); setR('rs', lenStr(rs), 'Schwarzschild radius 2GM/c²; ' + (rs > o.L ? 'larger than the object: it is a black hole or bigger than one' : 'it would have to shrink ' + ratioStr(o.L/rs).replace(' times', '-fold'))); setR('cw', lenStr(cw), 'reduced Compton wavelength ħ/Mc; ' + (cw > o.L*0.5 ? 'this is its size: it is a quantum object' : ratioStr(o.L/cw) + ' smaller than it is')); }
+    else { setR('rs', '–', ''); setR('cw', '–', ''); } }
+  else ['sel', 'selm', 'rs', 'cw'].forEach(k => setR(k, '–', 'tap or choose an object'));
+  if(S.cmpOn && S.cmp){ const a = S.cmp.a, b = S.cmp.b, big = a.W >= b.W ? a : b, sm = big === a ? b : a, r = big.W/sm.W;
+    setR('cmp', ratioStr(r) + ' wider', sm.n + ' → ' + big.n + ': ' + (r < 1e4 ? group(+r.toPrecision(3)) + ' ' + sm.n.split(' (')[0] + 's across one ' + big.n.split(' (')[0] : '') + ' ' + analogy(r));
+    setR('cmpv', 'area ' + sci(r*r, 3) + ' · volume ' + sci(r*r*r, 3), 'assumes similar shapes' + (big.f === 'body' && sm.f === 'body' ? '; packed as spheres about ' + sci(0.64*r*r*r, 2) + ' would fit, the rest is gaps' : '') + (a.m && b.m ? '; mass ratio ' + sci(Math.max(a.m, b.m)/Math.min(a.m, b.m), 2) : '')); }
+  else { setR('cmp', '–', 'press Compare to put two things side by side'); setR('cmpv', '–', ''); }
+}
+function updateView(){
+  const vw = VIEWW(), reg = regOf(S.s);
+  setR('view', lenStr(vw), 'the stage is this wide');
+  const step = S.s - LO;
+  setR('step', 'step ' + step.toFixed(1) + ' of ' + RANGE.toFixed(1), (S.s < LO ? 'below the Planck length' : S.s > HI ? 'beyond the observable universe' : Math.round((step/RANGE)*100) + ' % of the way up from the Planck length'));
+  setR('reg', reg.name, reg.rule);
+  mmSlider.value = S.s.toFixed(1); mmSlider.setAttribute('aria-valuetext', '10 to the ' + Math.round(S.s) + ' metres, ' + reg.short);
+}
+
+/* =====================================================================
+   Frame loop (only while visible)
+   ===================================================================== */
+let visible = true, raf = 0;
+function tick(t){
+  raf = requestAnimationFrame(tick);
+  if(!visible) return;
+  if(flight){ const u = Math.min(1, (t - flight.t0)/flight.dur), e = u < 0.5 ? 2*u*u : 1 - Math.pow(-2*u + 2, 2)/2;
+    S.s = flight.s0 + (flight.s1 - flight.s0)*e; S.pan = (flight.f0 + (flight.f1 - flight.f0)*e)*VIEWW(); moved = true; if(u >= 1){ const th = flight.then; flight = null; if(th) th(); } }
+  if(moved || S.s < -18.5 || t - lastDraw > 500){ drawStage(t); lastLab = labelsFromLast(); lastDraw = t; if(moved){ updateView(); clearTimeout(liveT); liveT = setTimeout(announce, 700); } moved = false; }
+}
+let lastDraw = 0;
+function labelsFromLast(){ return labelsHitList; }
+function announce(){ const reg = regOf(S.s), inView = labelsHitList.slice(0, 4).map(l => l.o.n).join(', '); document.getElementById('live').textContent = 'View ' + lenStr(VIEWW()).split(' · ')[0] + ' wide, ' + reg.short + '. ' + (inView ? 'In view: ' + inView + '.' : ''); }
+new IntersectionObserver(es => { visible = es[0].isIntersecting; }).observe(stage);
+window.addEventListener('resize', () => { moved = true; drawAllFigs(); });
+
+/* =====================================================================
+   Hero strip and chapter figures (2D canvas, theme-aware)
+   ===================================================================== */
+function fit2(c){ const r = c.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2), h = c.height && c.dataset.h ? +c.dataset.h : (c.getAttribute('height') || 150); if(!c.dataset.h) c.dataset.h = h; c.style.height = c.dataset.h + 'px'; c.width = Math.round(r.width*d); c.height = Math.round(c.dataset.h*d); const x = c.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0); return {x, w:r.width, h:+c.dataset.h}; }
+function regBar(x, x0, x1, y, h, lo, hi){ REG.forEach(r => { const a = x0 + (Math.max(lo, r.lo) - lo)/(hi - lo)*(x1 - x0), b = x0 + (Math.min(hi, r.hi) - lo)/(hi - lo)*(x1 - x0); if(b <= a) return; x.fillStyle = css(r.v, r.col); x.globalAlpha = r.short === 'unexplored' ? 0.35 : 0.75; x.fillRect(a, y, b - a, h); }); x.globalAlpha = 1; }
+function drawStrip(){
+  const c = document.getElementById('strip'), F = fit2(c), x = F.x, w = F.w, h = F.h, X = lg => 4 + (lg - LO)/RANGE*(w - 8);
+  x.clearRect(0, 0, w, h); regBar(x, 4, w - 4, 8, 12, LO, HI);
+  x.fillStyle = ink(); x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'center';
+  const hp = X(Math.log10(1.7)); x.beginPath(); x.moveTo(hp - 5, 2); x.lineTo(hp + 5, 2); x.lineTo(hp, 8); x.fill(); x.fillText('YOU', hp, 34);
+  x.fillStyle = css('--ink-faint', '#777'); x.textAlign = 'left'; x.fillText('PLANCK 10⁻³⁵ m', 4, 34); x.textAlign = 'right'; x.fillText('HORIZON 10²⁷ m', w - 4, 34);
+  x.fillStyle = ink(); x.fillRect(X(MID) - 0.5, 4, 1, 20); x.textAlign = 'center'; if(Math.abs(X(MID) - hp) > 40) x.fillText('MIDDLE', X(MID), 34);
+}
+// chapter 1: log vs linear ruler
+let c1mode = 'log';
+function drawC1(){
+  const c = document.getElementById('c1cv'), F = fit2(c), x = F.x, w = F.w, h = F.h, list = ['proton-radius', 'bohr-radius', 'ecoli', 'human', 'earth', 'sun', 'mw-disk', 'observable-diameter'].map(i => BY[i]);
+  x.clearRect(0, 0, w, h); x.strokeStyle = ink(); x.fillStyle = ink(); x.font = '11px "IBM Plex Mono", monospace'; x.lineWidth = 1;
+  x.beginPath(); x.moveTo(10, h - 40); x.lineTo(w - 10, h - 40); x.stroke();
+  list.forEach((o, i) => {
+    const px = c1mode === 'log' ? 10 + (o.lw - LO)/RANGE*(w - 20) : 10 + o.W/BY['observable-diameter'].W*(w - 20);
+    x.fillStyle = css(regOf(o.lw).v, '#333'); x.beginPath(); x.arc(px, h - 40, 4, 0, 7); x.fill();
+    x.fillStyle = ink(); x.save(); x.translate(px, h - 50); x.rotate(-0.6); x.textAlign = 'left'; x.fillText(o.n.split(' (')[0], 0, 0); x.restore();
+  });
+  const figM = w*0.0002646, youM = 1.7/BY['observable-diameter'].W*figM, prot = 2*BY['proton-radius'].L;
+  document.getElementById('c1cap').textContent = c1mode === 'log' ? 'On the logarithmic ruler every step of ten gets the same space, so a proton, you and the universe all fit.' : 'On a normal ruler as wide as this figure (about ' + Math.round(figM*100) + ' cm), everything except the universe sits in the first fraction of a pixel. You would be drawn ' + sci(youM, 1) + ' m tall: ' + sci(prot/youM, 1) + ' times smaller than a proton.';
+}
+document.querySelectorAll('#c1mode button').forEach(b => b.addEventListener('click', () => { c1mode = b.dataset.v; document.querySelectorAll('#c1mode button').forEach(bb => bb.setAttribute('aria-pressed', String(bb === b))); drawC1(); }));
+const tbA = document.getElementById('tbA'), tbB = document.getElementById('tbB');
+tbA.innerHTML = opts; tbB.innerHTML = opts; tbA.value = 'ecoli'; tbB.value = 'human-hair';
+function tb(){ const a = BY[tbA.value], b = BY[tbB.value], r = Math.max(a.W, b.W)/Math.min(a.W, b.W), steps = Math.log10(r);
+  document.getElementById('tbOut').textContent = steps.toFixed(1) + ' steps of ten: ' + ratioStr(r).replace(/ \(.*\)/, '') + ' wider, ' + sci(r*r, 2) + ' times the area, ' + sci(r*r*r, 2) + ' times the volume.'; }
+[tbA, tbB].forEach(el => el.addEventListener('change', tb));
+// chapter 2: predict the middle
+let c2guess = null, c2shown = false;
+function drawC2(){
+  const c = document.getElementById('c2cv'), F = fit2(c), x = F.x, w = F.w, h = F.h, X = lg => 14 + (lg - LO)/RANGE*(w - 28);
+  x.clearRect(0, 0, w, h); regBar(x, 14, w - 14, 50, 14, LO, HI);
+  x.fillStyle = css('--ink-faint', '#777'); x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'center';
+  for(let e = -35; e <= 25; e += 5){ const px = X(e); x.fillRect(px, 64, 1, 5); x.fillText('10' + sup(e), px, 82); }
+  if(c2guess !== null){ const px = X(c2guess); x.fillStyle = css('--live', '#6B5CA5'); x.beginPath(); x.moveTo(px, 48); x.lineTo(px - 7, 34); x.lineTo(px + 7, 34); x.fill(); x.fillText('YOUR GUESS', px, 28); }
+  if(c2shown){ const px = X(MID), hp = X(Math.log10(1.7)); x.fillStyle = ink(); x.fillRect(px - 1, 40, 2, 34); x.fillText('MIDDLE: 0.12 mm', px, 100); x.fillStyle = css('--accent', '#B5452A'); x.fillRect(hp - 1, 40, 2, 34); x.fillText('YOU', hp, 114); }
+}
+{ const c = document.getElementById('c2cv'); const set = e => { const r = c.getBoundingClientRect(); c2guess = LO + Math.max(0, Math.min(1, (e.clientX - r.left - 14)/(r.width - 28)))*RANGE; drawC2(); document.getElementById('c2cap').textContent = 'Your guess: ' + lenStr(Math.pow(10, c2guess)) + '.' + (c2shown ? ' You were ' + Math.abs(c2guess - MID).toFixed(1) + ' steps of ten away.' : ''); };
+  let down = false; c.addEventListener('pointerdown', e => { down = true; set(e); }); c.addEventListener('pointermove', e => { if(down) set(e); }); window.addEventListener('pointerup', () => down = false); }
+document.getElementById('c2reveal').addEventListener('click', () => { c2shown = true; drawC2(); document.getElementById('c2cap').textContent = 'The middle is ' + lenStr(Math.pow(10, MID)) + ' (geometric mean of the Planck length and the observable universe). ' + (c2guess !== null ? 'Your guess was ' + Math.abs(c2guess - MID).toFixed(1) + ' steps of ten away.' : ''); });
+document.getElementById('c2reset').addEventListener('click', () => { c2guess = null; c2shown = false; drawC2(); document.getElementById('c2cap').textContent = 'Drag or tap the ruler to place your guess.'; });
+// chapter 3: Reynolds number against size
+function drawC3(){
+  const c = document.getElementById('c3cv'), F = fit2(c), x = F.x, w = F.w, h = F.h;
+  const D = [['E. coli', 2e-6, 6e-5], ['Human sperm', 5e-5, 2.5e-3], ['Copepod', 1e-3, 10], ['Human swimmer', 2, 4e6], ['Blue whale', 25, 1.25e8]];
+  const l = 50, r = w - 14, t = 12, b = h - 34, X = v => l + (Math.log10(v) + 7)/9*(r - l), Y = v => b - (Math.log10(v) + 6)/15*(b - t);
+  x.clearRect(0, 0, w, h); x.strokeStyle = css('--line', '#ccc'); x.fillStyle = css('--ink-faint', '#777'); x.font = '10px "IBM Plex Mono", monospace'; x.lineWidth = 1;
+  for(let e = -6; e <= 9; e += 3){ x.beginPath(); x.moveTo(l, Y(Math.pow(10, e))); x.lineTo(r, Y(Math.pow(10, e))); x.stroke(); x.textAlign = 'right'; x.fillText('10' + sup(e), l - 4, Y(Math.pow(10, e)) + 3); }
+  for(let e = -6; e <= 2; e += 2){ x.textAlign = 'center'; x.fillText(siStr(Math.pow(10, e)), X(Math.pow(10, e)), b + 16); }
+  x.strokeStyle = css('--accent', '#B5452A'); x.setLineDash([5, 4]); x.beginPath(); x.moveTo(l, Y(1)); x.lineTo(r, Y(1)); x.stroke(); x.setLineDash([]); x.fillStyle = css('--accent', '#B5452A'); x.textAlign = 'left'; x.fillText('Re = 1: below, no coasting', l + 6, Y(1) - 6);
+  x.fillStyle = css('--r3', '#00785A'); x.globalAlpha = 0.15; x.fillRect(X(3e-4), t, X(1e-3) - X(3e-4), b - t); x.globalAlpha = 1;
+  D.forEach(d => { x.fillStyle = ink(); x.beginPath(); x.arc(X(d[1]), Y(d[2]), 4, 0, 7); x.fill(); x.textAlign = d[1] > 1 ? 'right' : 'left'; x.fillText(d[0], X(d[1]) + (d[1] > 1 ? -8 : 8), Y(d[2]) + 4); });
+  x.fillStyle = css('--ink-faint', '#777'); x.textAlign = 'right'; x.fillText('size of the swimmer', r, h - 4);
+}
+// chapter 4: 1913 picture vs cloud
+let c4old = false, c4mix = 1, c4anim = 0;
+function drawC4(){
+  const c = document.getElementById('c4cv'), F = fit2(c), x = F.x, w = F.w, h = F.h, cx = w/2, cy = h/2, R = Math.min(w, h)*0.42;
+  x.fillStyle = '#000'; x.fillRect(0, 0, w, h);
+  const cloud = c4mix, dp = c.width/w, img = x.createImageData(c.width, c.height);
+  // hydrogen 1s, projected onto the screen: column density of exp(-2r/a0) is ∝ exp(-2ρ/a0)·(1 + 2ρ/a0)
+  if(cloud > 0.01){ const a0 = R/3.2*dp, d = img.data, W2 = img.width;
+    for(let j = 0; j < img.height; j++) for(let i = 0; i < W2; i++){ const r = Math.hypot(i - cx*dp, j - cy*dp)/a0, v = Math.exp(-2*r)*(1 + 2*r); const n = 255*Math.min(1, v*1.05)*cloud, k = (j*W2 + i)*4; d[k] = n*0.55; d[k + 1] = n*0.8; d[k + 2] = n; d[k + 3] = 255; }
+    x.putImageData(img, 0, 0); }
+  if(cloud < 0.99){ x.globalAlpha = 1 - cloud; x.strokeStyle = '#fff'; x.lineWidth = 1.2; [0.35, 0.65].forEach((rr, k) => { x.beginPath(); x.ellipse(cx, cy, R*rr*1.2, R*rr*0.55, k*0.9, 0, 7); x.stroke(); }); x.fillStyle = '#fff'; x.beginPath(); x.arc(cx + R*0.42, cy - R*0.06, 4, 0, 7); x.fill(); x.font = '11px "IBM Plex Mono", monospace'; x.fillText('OLD MODEL, WRONG', 12, 20); x.globalAlpha = 1; }
+  x.fillStyle = '#ff8a6a'; x.beginPath(); x.arc(cx, cy, 2.2, 0, 7); x.fill();
+  x.fillStyle = 'rgba(236,234,228,0.75)'; x.font = '10px "IBM Plex Mono", monospace'; x.textAlign = 'right'; x.fillText('NUCLEUS (NOT TO SCALE)', w - 10, h - 10); x.textAlign = 'left';
+}
+document.getElementById('c4old').addEventListener('click', function(){
+  c4old = !c4old; this.setAttribute('aria-pressed', String(c4old));
+  const target = c4old ? 0 : 1; if(reduce){ c4mix = target; drawC4(); return; }
+  const t0 = performance.now(), from = c4mix; cancelAnimationFrame(c4anim);
+  const step = t => { const u = Math.min(1, (t - t0)/1200); c4mix = from + (target - from)*u; drawC4(); if(u < 1) c4anim = requestAnimationFrame(step); else if(c4old){ setTimeout(() => { if(c4old){ this.click(); } }, 3000); } };
+  c4anim = requestAnimationFrame(step);
+});
+document.getElementById('nucRatio').textContent = group(Math.round(BY['bohr-radius'].L/BY['proton-radius'].L/10)*10);
+// chapter 5: the ladder of the small
+function drawC5(){
+  const c = document.getElementById('c5cv'), F = fit2(c), x = F.x, w = F.w, h = F.h, lo = -36, hi = -2, l = 10, r = w - 10, X = v => l + (v - lo)/(hi - lo)*(r - l);
+  x.clearRect(0, 0, w, h); x.font = '10px "IBM Plex Mono", monospace';
+  const rows = [['Eye', -4.1, -2], ['Light microscope', -6.7, -3], ['Electron microscope', -10.4, -6], ['X-ray crystallography', -10.3, -7], ['Electron scattering', -15.5, -12], ['LHC collisions', -19, -15], ['Unexplored', -34.8, -19]];
+  rows.forEach((rw, i) => { const y = 10 + i*24; if(rw[0] === 'Unexplored'){ x.strokeStyle = css('--ink-faint', '#888'); for(let xx = X(rw[1]); xx < X(rw[2]); xx += 6){ x.beginPath(); x.moveTo(xx, y + 16); x.lineTo(xx + 10, y); x.stroke(); } } else { x.fillStyle = css(regOf((rw[1] + rw[2])/2).v, '#555'); x.globalAlpha = 0.75; x.fillRect(X(rw[1]), y, X(rw[2]) - X(rw[1]), 16); x.globalAlpha = 1; } x.fillStyle = ink(); x.textAlign = X(rw[1]) > w*0.5 ? 'right' : 'left'; x.fillText(rw[0], X(rw[1]) > w*0.5 ? X(rw[1]) - 6 : X(rw[2]) + 6, y + 12); });
+  x.fillStyle = css('--ink-faint', '#777'); x.textAlign = 'center'; for(let e = -35; e <= -5; e += 5) x.fillText('10' + sup(e) + ' m', X(e), h - 6);
+}
+// chapter 6: lumpy to round
+function drawC6(){
+  const el = document.getElementById('c6r'), lr = +el.value, R = Math.pow(10, lr), c = document.getElementById('c6cv'), F = fit2(c), x = F.x, w = F.w, h = F.h;
+  x.clearRect(0, 0, w, h);
+  const round = Math.max(0, Math.min(1, (lr - Math.log10(150))/(Math.log10(350) - Math.log10(150)))), cx = w*0.32, cy = h/2, rr = Math.min(h*0.38, w*0.25);
+  x.fillStyle = css('--r5', '#9A5A00'); x.globalAlpha = 0.85; x.beginPath();
+  for(let k = 0; k <= 64; k++){ const a = k/64*6.2832, bump = 1 + (1 - round)*(0.22*Math.sin(3*a + 0.6) + 0.13*Math.sin(5*a + 2) + 0.08*Math.sin(7*a)); const xx = cx + Math.cos(a)*rr*bump, yy = cy + Math.sin(a)*rr*bump*(1 - (1 - round)*0.25); k ? x.lineTo(xx, yy) : x.moveTo(xx, yy); }
+  x.fill(); x.globalAlpha = 1;
+  const l = w*0.6, r = w - 16, X = v => l + (v - 1.6)/(3.2 - 1.6)*(r - l), y0 = h*0.55;
+  x.fillStyle = css('--r5', '#9A5A00'); x.globalAlpha = 0.18; x.fillRect(X(Math.log10(200)), 20, X(Math.log10(300)) - X(Math.log10(200)), h - 50); x.globalAlpha = 1;
+  x.strokeStyle = ink(); x.beginPath(); x.moveTo(l, y0); x.lineTo(r, y0); x.stroke();
+  x.font = '10px "IBM Plex Mono", monospace'; x.fillStyle = ink(); x.textAlign = 'center';
+  [['Proteus', 210, 'lumpy'], ['Mimas', 198, 'round'], ['Vesta', 263, 'nearly round'], ['Ceres', 470, 'round']].forEach((m, i) => { const px = X(Math.log10(m[1])); x.fillRect(px - 0.5, y0 - 6, 1, 12); x.fillText(m[0], px, y0 + (i % 2 ? 22 : -12)); });
+  x.fillStyle = css('--accent', '#B5452A'); x.beginPath(); x.moveTo(X(lr), y0 + 4); x.lineTo(X(lr) - 6, y0 + 14); x.lineTo(X(lr) + 6, y0 + 14); x.fill();
+  x.fillStyle = css('--ink-faint', '#777'); x.fillText('potato radius 200–300 km', (X(Math.log10(200)) + X(Math.log10(300)))/2, 16);
+  document.getElementById('c6rv').textContent = Math.round(R) + ' km';
+  document.getElementById('c6cap').textContent = R < 200 ? 'Too small: rock and ice are strong enough to hold any shape against this little gravity.' : R < 300 ? 'The crossover: the pressure at the centre, (2π/3)Gρ²R², reaches the strength of rock or ice. Whether it is round depends on what it is made of: icy Mimas (198 km) is round, Proteus (210 km) is not.' : 'Gravity wins: the centre is crushed, and the body relaxes into a ball. Shape drawn for illustration (MODEL); the band is the published estimate.';
+}
+document.getElementById('c6r').addEventListener('input', drawC6);
+// chapter 9: measurement ladder
+const LADDER = [['Particle scattering, colliders', -19, -13, 'Fire particles at a target and measure how they bounce; the faster the probe, the finer the detail.'], ['Electron microscopes, X-rays', -11, -6, 'Wavelengths far shorter than light resolve single atoms.'], ['Light microscopes', -6.7, -3, 'Light resolves down to about 200 nm, half its wavelength.'], ['Rulers, tapes, lasers', -4, 4, 'Direct comparison with a standard length, now defined by the speed of light.'], ['Surveying, GPS, radar', 2, 13, 'Timing radio echoes and signals from satellites and planets.'], ['Parallax', 15, 20, 'The shift of a nearby star as Earth circles the Sun; Gaia measures it to millionths of a degree.'], ['Standard candles', 19, 25.5, 'Pulsating stars and exploding white dwarfs of known brightness: dimmer means farther.'], ['Cosmic background, redshift', 24, 27, 'The expansion of space stretches light; the cosmic background is the farthest light there is.']];
+let c9sel = -1, c9rects = [];
+function drawC9(){
+  const c = document.getElementById('c9cv'), F = fit2(c), x = F.x, w = F.w, h = F.h, lo = -20, hi = 28, l = 10, r = w - 10, X = v => l + (v - lo)/(hi - lo)*(r - l);
+  x.clearRect(0, 0, w, h); x.font = '11px "IBM Plex Mono", monospace'; c9rects = [];
+  LADDER.forEach((s, i) => { const y = 8 + i*30, a = X(s[1]), b = X(s[2]); x.fillStyle = css(regOf((s[1] + s[2])/2).v, '#555'); x.globalAlpha = i === c9sel ? 1 : 0.7; x.fillRect(a, y, b - a, 20); x.globalAlpha = 1; c9rects.push([a, y, b - a, 20]);
+    x.fillStyle = ink(); x.textAlign = b > w*0.7 ? 'right' : 'left'; x.fillText(s[0], b > w*0.7 ? a - 6 : b + 6, y + 14); });
+  x.fillStyle = css('--ink-faint', '#777'); x.textAlign = 'center'; for(let e = -20; e <= 25; e += 5) x.fillText('10' + sup(e), X(e), h - 6);
+}
+document.getElementById('c9cv').addEventListener('click', e => { const r = e.target.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top; c9rects.forEach((q, i) => { if(px >= q[0] - 4 && px <= q[0] + q[2] + 4 && py >= q[1] - 4 && py <= q[1] + q[3] + 4){ c9sel = i; document.getElementById('c9cap').textContent = LADDER[i][0] + ': ' + LADDER[i][3]; } }); drawC9(); });
+
+/* =====================================================================
+   The mass–size diagram (physics spec 3b): x = log M (kg), y = log r (m)
+   ===================================================================== */
+const md = document.getElementById('mdcv'), tip = document.getElementById('mdtip');
+const MDX = [-32, 54], MDY = [-36, 28], BHK = -26.8282, CWK = -42.4537;
+const DENS = [['nuclear', -5.994], ['water', -1.207], ['air (1.2 kg/m³)', -(1/3)*Math.log10(4*Math.PI*1.2/3)], ['cosmic average', -(1/3)*Math.log10(4*Math.PI*8.5e-27/3)]];
+let mdShow = {lines:true, dens:true, labels:true}, mdPts = [], mdSel = -1, mdGeo = null;
+document.querySelectorAll('#mdShow button').forEach(b => b.addEventListener('click', () => { mdShow[b.dataset.v] = !mdShow[b.dataset.v]; b.setAttribute('aria-pressed', String(mdShow[b.dataset.v])); drawMD(); }));
+const MDLABEL = new Set(['human', 'earth', 'sun', 'moon', 'jupiter', 'proton-radius', 'bohr-radius', 'sars-cov-2', 'ecoli', 'blue-whale', 'neutron-star', 'sirius-b', 'sgra-bh', 'm87-bh', 'mw-disk', 'observable-radius', 'electron-compton', 'top-compton', 'betelgeuse', 'laniakea', 'planck-crossover', 'water-molecule', 'ant']);
+function drawMD(){
+  const r = md.getBoundingClientRect(), d = Math.min(window.devicePixelRatio || 1, 2); md.width = Math.round(r.width*d); md.height = Math.round(r.height*d);
+  const x = md.getContext('2d'); x.setTransform(d, 0, 0, d, 0, 0); const w = r.width, h = r.height, l = 46, rr = w - 12, t = 12, b = h - 30;
+  const X = v => l + (v - MDX[0])/(MDX[1] - MDX[0])*(rr - l), Y = v => b - (v - MDY[0])/(MDY[1] - MDY[0])*(b - t);
+  mdGeo = {X, Y, l, rr, t, b, w, h};
+  x.clearRect(0, 0, w, h);
+  const ink2 = ink(), faint = css('--ink-faint', '#777'), line = css('--line', '#ddd');
+  x.font = '10px "IBM Plex Mono", monospace'; x.lineWidth = 1;
+  const step = w < 500 ? 10 : 6;
+  for(let v = -30; v <= 54; v += step){ x.strokeStyle = line; x.beginPath(); x.moveTo(X(v), t); x.lineTo(X(v), b); x.stroke(); x.fillStyle = faint; x.textAlign = 'center'; x.fillText('10' + sup(v), X(v), b + 14); }
+  for(let v = -36; v <= 28; v += step){ x.strokeStyle = line; x.beginPath(); x.moveTo(l, Y(v)); x.lineTo(rr, Y(v)); x.stroke(); x.fillStyle = faint; x.textAlign = 'right'; x.fillText('10' + sup(v), l - 4, Y(v) + 3); }
+  x.fillStyle = faint; x.textAlign = 'right'; x.fillText('mass, kg', rr, h - 2); x.textAlign = 'left'; x.fillText('size, m', l + 4, t + 10);
+  // forbidden regions, hatched: below the black-hole line and below the quantum line
+  x.save(); x.beginPath(); x.rect(l, t, rr - l, b - t); x.clip();
+  const hatch = (poly) => { x.save(); x.beginPath(); poly.forEach((p, i) => i ? x.lineTo(X(p[0]), Y(p[1])) : x.moveTo(X(p[0]), Y(p[1]))); x.closePath(); x.clip(); x.strokeStyle = ink2; x.globalAlpha = 0.12; for(let s = -h; s < w + h; s += 7){ x.beginPath(); x.moveTo(s, b); x.lineTo(s + h, t - h + b); x.stroke(); } x.restore(); };
+  const xc = (CWK - BHK)/2, yc = xc + BHK;
+  hatch([[xc, yc], [MDX[1], MDX[1] + BHK], [MDX[1], MDY[0]], [xc, MDY[0]]]);
+  hatch([[MDX[0], -MDX[0] + CWK], [xc, yc], [xc, MDY[0]], [MDX[0], MDY[0]]]);
+  if(mdShow.lines){
+    x.strokeStyle = ink2; x.lineWidth = 1.6; x.beginPath(); x.moveTo(X(MDX[0]), Y(MDX[0] + BHK)); x.lineTo(X(MDX[1]), Y(MDX[1] + BHK)); x.stroke();
+    x.beginPath(); x.moveTo(X(MDX[0]), Y(-MDX[0] + CWK)); x.lineTo(X(MDX[1]), Y(-MDX[1] + CWK)); x.stroke();
+    x.fillStyle = ink2; x.font = '600 11px Manrope, sans-serif';
+    const lbl = (vx, vy, ang, s) => { x.save(); x.translate(X(vx), Y(vy)); x.rotate(ang); x.fillText(s, 0, -5); x.restore(); };
+    const sl = Math.atan2(Y(1) - Y(0), X(1) - X(0));
+    lbl(30, 30 + BHK, sl, 'black holes: r = 2GM/c²'); lbl(-25, 25 + CWK, -sl, 'quantum limit: r = ħ/Mc');
+    x.strokeStyle = css('--accent', '#B5452A'); x.lineWidth = 2; x.beginPath(); x.arc(X(xc), Y(yc), 7, 0, 7); x.stroke(); x.fillStyle = css('--accent', '#B5452A'); x.font = '600 11px Manrope, sans-serif'; x.textAlign = 'left'; x.fillText('Planck scale', X(xc) + 10, Y(yc) - 6);
+  }
+  if(mdShow.dens){ x.setLineDash([2, 4]); x.strokeStyle = faint; x.lineWidth = 1; x.font = '10px "IBM Plex Mono", monospace'; x.fillStyle = faint; x.textAlign = 'right';
+    DENS.forEach(dn => { const y0 = MDX[0]/3 + dn[1], y1 = MDX[1]/3 + dn[1]; x.beginPath(); x.moveTo(X(MDX[0]), Y(y0)); x.lineTo(X(MDX[1]), Y(y1)); x.stroke(); const xv = Math.min(MDX[1] - 1, 3*(MDY[1] - 1 - dn[1])); x.fillText(dn[0], X(xv) - 2, Y(xv/3 + dn[1]) - 4); }); x.setLineDash([]); }
+  x.restore();
+  // points
+  mdPts = [];
+  OBJ.forEach(o => { if(!o.m || o.k === 'distance') return; const px = X(Math.log10(o.m)), py = Y(o.lg); if(px < l || px > rr || py < t || py > b) return; mdPts.push({o, px, py}); });
+  mdPts.forEach((p, i) => { const o = p.o, col = css(regOf(o.lw).v, '#333'); x.fillStyle = col; x.strokeStyle = col; x.lineWidth = 1.4;
+    if(o.st === 'upper_limit'){ x.beginPath(); x.moveTo(p.px, p.py); x.lineTo(p.px, p.py + 10); x.stroke(); x.beginPath(); x.moveTo(p.px - 3, p.py + 6); x.lineTo(p.px, p.py + 10); x.lineTo(p.px + 3, p.py + 6); x.stroke(); }
+    if(o.c === 'organism' || o.c === 'cellular'){ x.beginPath(); x.moveTo(p.px, p.py - 4); x.lineTo(p.px + 4, p.py + 3); x.lineTo(p.px - 4, p.py + 3); x.closePath(); x.fill(); }
+    else if(o.c === 'human-made'){ x.fillRect(p.px - 3, p.py - 3, 6, 6); }
+    else if(o.f === 'cloud' || o.c === 'galactic' || o.c === 'cosmological'){ x.beginPath(); x.arc(p.px, p.py, 3.5, 0, 7); x.stroke(); }
+    else { x.beginPath(); x.arc(p.px, p.py, 3.2, 0, 7); x.fill(); }
+    if(i === mdSel){ x.strokeStyle = ink(); x.lineWidth = 1.5; x.beginPath(); x.arc(p.px, p.py, 8, 0, 7); x.stroke(); }
+  });
+  if(mdShow.labels){ x.font = '11px Manrope, sans-serif'; x.fillStyle = ink2; x.textAlign = 'left'; const taken = [];
+    mdPts.forEach(p => { if(!MDLABEL.has(p.o.id)) return; const s = p.o.n.split(' (')[0], tw = x.measureText(s).width, rect = [p.px + 6, p.py - 12, tw, 13]; if(taken.some(q => !(rect[0] > q[0] + q[2] + 4 || q[0] > rect[0] + rect[2] + 4 || rect[1] > q[1] + q[3] || q[1] > rect[1] + rect[3]))) return; if(rect[0] + tw > rr) return; taken.push(rect); x.fillText(s, rect[0], p.py - 2); }); }
+}
+const REGION = {bh:'Too dense. Anything here would already be inside its own event horizon: it would be a black hole, and black holes sit on the line, not below it.', q:'Too light for its size. Quantum fuzz will not let so little mass be held in so small a space; squeeze harder and new particles appear.', planck:'No theory we have works here: the region beyond the Planck scale.'};
+function mdTip(html, px, py){ tip.innerHTML = html; tip.classList.add('on'); const w = mdGeo.w; tip.style.left = Math.min(px + 12, w - 310) + 'px'; tip.style.top = Math.max(4, py - 20) + 'px'; }
+function mdAt(e){
+  const r = md.getBoundingClientRect(), px = e.clientX - r.left, py = e.clientY - r.top; let best = -1, bd = 14;
+  mdPts.forEach((p, i) => { const dd = Math.hypot(p.px - px, p.py - py); if(dd < bd){ bd = dd; best = i; } });
+  return {best, px, py};
+}
+function showPoint(i, px, py){
+  mdSel = i; drawMD(); const o = mdPts[i].o, rs = 2*G*o.m/(C*C), cw = HBAR/(o.m*C), dens = o.m/(4/3*Math.PI*Math.pow(o.W/2, 3));
+  const uni = o.id.startsWith('observable') ? '<br><em>Lies close to its own black-hole line. That is the Friedmann equation rewritten: a black hole is a lump in an outside space, while the universe is evenly filled, expanding and has no outside.</em>' : '';
+  mdTip(`<b>${esc(o.n)}</b>${lenStr(o.L)} · ${sci(o.m, 3)} kg<br>mean density ${sci(dens, 2)} kg/m³<br>black hole if squeezed to ${lenStr(rs).split(' · ')[0]}<br>quantum length ${lenStr(cw).split(' · ')[0]}${uni}<br><span class="mono">click or tap again: show it in the zoom</span>`, px ?? mdPts[i].px, py ?? mdPts[i].py);
+}
+md.addEventListener('pointermove', e => { if(e.pointerType !== 'mouse') return; const h = mdAt(e); if(h.best >= 0) showPoint(h.best, h.px, h.py); else { tip.classList.remove('on'); } });
+md.addEventListener('click', e => {
+  const h = mdAt(e);
+  if(h.best >= 0){ if(mdSel === h.best && tip.classList.contains('on')){ flyToObj(mdPts[h.best].o); stage.scrollIntoView({block:'center', behavior:reduce ? 'auto' : 'smooth'}); return; } showPoint(h.best, h.px, h.py); return; }
+  // regions: invert pixel to (log M, log r)
+  const g = mdGeo, lm = MDX[0] + (h.px - g.l)/(g.rr - g.l)*(MDX[1] - MDX[0]), lr = MDY[0] + (g.b - h.py)/(g.b - g.t)*(MDY[1] - MDY[0]);
+  const xc = (CWK - BHK)/2;
+  if(lr < lm + BHK && lm > xc) mdTip('<b>Forbidden: black holes</b>' + REGION.bh, h.px, h.py);
+  else if(lr < -lm + CWK && lm < xc) mdTip('<b>Forbidden: quantum fuzz</b>' + REGION.q, h.px, h.py);
+  else if(lr < (CWK + BHK)/2 + 0.5) mdTip('<b>Below the Planck scale</b>' + REGION.planck, h.px, h.py);
+  else tip.classList.remove('on');
+});
+md.addEventListener('keydown', e => { if(!mdPts.length) return; if(e.key === 'ArrowRight' || e.key === 'ArrowLeft'){ e.preventDefault(); const order = mdPts.map((p, i) => i).sort((a, b) => mdPts[a].o.lg - mdPts[b].o.lg); let k = order.indexOf(mdSel); k = Math.max(0, Math.min(order.length - 1, k + (e.key === 'ArrowRight' ? 1 : -1))); showPoint(order[k]); } else if(e.key === 'Enter' && mdSel >= 0){ flyToObj(mdPts[mdSel].o); } else if(e.key === 'Escape'){ tip.classList.remove('on'); } });
+
+/* =====================================================================
+   All objects table
+   ===================================================================== */
+const STATUS = {measured:'measured', derived:'derived', upper_limit:'upper limit', lower_limit:'lower limit', theoretical:'theoretical', hypothetical:'hypothetical', inferred:'inferred', approximate:'approximate', convention:'convention', contested:'contested'};
+let sortK = 'L', sortDir = 1;
+function drawTable(){
+  const rows = OBJ.slice().sort((a, b) => { const va = sortK === 'name' ? a.n : sortK === 'm' ? (a.m || -1) : sortK === 'c' ? a.c : sortK === 'st' ? a.st : a.L, vb = sortK === 'name' ? b.n : sortK === 'm' ? (b.m || -1) : sortK === 'c' ? b.c : sortK === 'st' ? b.st : b.L; return (va > vb ? 1 : va < vb ? -1 : 0)*sortDir; });
+  document.querySelector('#objs tbody').innerHTML = rows.map(o => `<tr><td><b>${esc(o.n)}</b><div class="d">${esc(o.d)}</div><div class="d">Source: ${esc(o.src)}</div></td><td class="n">${esc(sci(o.L, 3))} m<div class="d">${esc(o.lk)}</div></td><td class="n">${o.m ? esc(sci(o.m, 3)) + ' kg' : '–'}</td><td><span class="chip" style="color:var(${regOf(o.lw).v})">${esc(o.c)}</span></td><td>${esc(STATUS[o.st] || o.st)}${o.u ? '<div class="d">' + esc(o.u) + '</div>' : ''}</td><td><button class="go" data-go="${o.id}">Go</button></td></tr>`).join('');
+}
+document.querySelectorAll('#objs th[data-k]').forEach(th => th.addEventListener('click', () => { const k = th.dataset.k; sortDir = sortK === k ? -sortDir : 1; sortK = k; drawTable(); }));
+document.addEventListener('click', e => { const b = e.target.closest('[data-go]'); if(!b) return; const o = BY[b.dataset.go]; if(!o) return; stopTour(); flyToObj(o); stage.scrollIntoView({block:'center', behavior:reduce ? 'auto' : 'smooth'}); });
+
+/* =====================================================================
+   Start
+   ===================================================================== */
+document.getElementById('rangeN').textContent = RANGE.toFixed(1); document.getElementById('nObj').textContent = OBJ.length;
+function drawAllFigs(){ drawStrip(); drawC1(); tb(); drawC2(); drawC3(); drawC4(); drawC5(); drawC6(); drawC9(); drawMD(); }
+try { const v = JSON.parse(localStorage.getItem('fb-scale-view') || 'null'); if(v && isFinite(v.s)){ S.s = Math.max(SMIN, Math.min(SMAX, v.s)); S.pan = v.pan || 0; } } catch(e){}
+S.sel = BY['human'];
+setInterval(() => { try { localStorage.setItem('fb-scale-view', JSON.stringify({s:S.s, pan:S.pan})); } catch(e){} }, 3000);
+new MutationObserver(drawAllFigs).observe(document.documentElement, {attributes:true, attributeFilter:['data-theme']});
+drawAllFigs(); drawTable(); updateRO(); updateView();
+if(/[?&]install=1/.test(location.search)) document.getElementById('inst').click();
+raf = requestAnimationFrame(tick);
+window.__scaleTest = {S, OBJ, BY, drawStage, flyToObj, goStop, setCompare, drawMD, mdPts:() => mdPts, LO, HI, RANGE, MID, TOUR, updateRO, endFlight:() => { if(flight){ S.s = flight.s1; S.pan = flight.f1*Math.pow(10, flight.s1); flight = null; moved = true; } }};
+})();
+</script>
+</body>
+</html>

@@ -124,6 +124,11 @@
 - Checked: headless captures of all layers, sardines and phone layout (390 px); scripted control test (23 checks: presets, sliders, species, layer rules, predator/lure on pointer, place + remove object, no boid inside an object, count up/down, pause, scatter, finite state, no GL or window errors).
 - Hub card + counts (twelve pieces, seven studies, "All 12" under the homepage canvas), own-pages entry in the hidden Video Synth category.
 
+## 2026-10-19 — Planck to Horizon (scale of everything) and knot-of-the-day height fix
+- Knot of the day: all steps stacked in one grid cell, so the card height no longer changes while the steps play (pushed).
+- Planck to Horizon: science team wrote physics.md + objects.json + check.py (206 checks) and design.md; page built from them: continuous zoom over 61.7 steps of ten with regimes, fog below the LHC limit, hatched "unknown" beyond the horizon, tour (14 stops), compare (width/area/volume + analogy), jump-to search with typed sizes, mini-map, live region; nine chapters with mini-interactives (log vs linear ruler, predict-the-middle, Reynolds plot, 1913 atom vs cloud, ladder of the small, potato radius, measurement ladder); mass–size diagram (black-hole and Compton lines crossing at the Planck scale, density lines, forbidden regions); sortable table of all objects.
+- Checked: node --check, headless renders of tour stops, compare, chapters, dark mode, phone 390 px; no script errors. Not checked: real phones, touch pinch by hand.
+
 ## 2026-10-19 — Rind (map-projection instrument)
 - Owner asked for an instrument to map the flat Earth with any centre, keep the same distortion, drag the land itself, explain projections with a second globe view, and to "call the science team". Two specs first (cartographer math + education design), then the build, then an independent review.
 - 16 projections, oblique aspects, trackball drag, globe with centre ring and map cut, Tissot circles (ride with land / fixed to map), area and angle heat maps (berlin, inferno, bands), lines of no distortion, great circle / rhumb / ruler, distance rings, carry a country, readouts, two plots, 12-stop tour, keyboard, installation mode.
