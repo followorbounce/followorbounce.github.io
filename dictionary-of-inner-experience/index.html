@@ -131,6 +131,35 @@ footer a{color:var(--int);}
   .bm-body{width:100%; max-width:260px; margin:0 auto; position:static;}
   .bm-list{max-height:300px;}
 }
+
+/* Body map in the hero: the first thing a visitor can touch */
+.hero-grid{display:grid; grid-template-columns:minmax(0,1fr); gap:28px; align-items:start;}
+@media(min-width:900px){ .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,1.05fr); gap:40px;} }
+.hero-map{background:var(--paper-raised); border:1px solid var(--ink); border-radius:12px; padding:18px; display:flex; flex-direction:column; gap:12px;}
+.hm-top{display:flex; align-items:center; gap:10px; flex-wrap:wrap;}
+.hm-top .eyebrow{margin:0; flex:1;}
+.hm-btn{font-family:var(--font-mono); font-size:11.5px; min-height:40px; padding:0 12px; border:1px solid var(--line-strong); border-radius:12px; background:var(--paper); color:var(--ink); cursor:pointer;}
+.hm-btn:hover{border-color:var(--int); color:var(--int);}
+.hm-btn.primary{border-color:var(--int); background:var(--int-soft); color:var(--int);}
+.hm-main{display:grid; grid-template-columns:minmax(150px,1fr) minmax(0,1.1fr); gap:20px; align-items:start;}
+.hm-body svg{width:100%; height:auto; max-height:min(470px,58vh);}
+.hm-body .bm-region{fill:transparent; stroke:var(--line-strong); stroke-width:0.6; cursor:pointer; transition:fill 0.25s, fill-opacity 0.25s;}
+.hm-body .bm-region:hover{stroke:var(--int);}
+.hm-body .bm-region.lit{stroke:var(--int); stroke-width:1;}
+.hm-info{display:flex; flex-direction:column; gap:10px; min-width:0;}
+.hm-info select{font-family:var(--font-mono); font-size:16px; min-height:44px; padding:0 10px; border:1px solid var(--ink); border-radius:8px; background:var(--paper); color:var(--ink); width:100%;}
+.hm-name{font-size:clamp(1.5rem,3vw,2.1rem); line-height:1.05; color:var(--int);}
+.hero .hm-def{margin:0; max-width:none; font-size:0.95rem; color:var(--ink-muted); line-height:1.55;}
+.hm-where{list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:6px;}
+.hm-where li{font-family:var(--font-mono); font-size:12px; display:grid; grid-template-columns:84px 1fr; align-items:center; gap:8px; color:var(--ink-muted);}
+.hm-where .bar{height:6px; border-radius:3px; background:var(--line);}
+.hm-where .bar span{display:block; height:100%; border-radius:3px; background:var(--int);}
+.hero .hm-region-note{font-family:var(--font-mono); font-size:11.5px; color:var(--ink-muted); min-height:1.4em; margin:0; max-width:none; line-height:1.5;}
+.hm-region-note a{color:var(--int);}
+.hero .hm-note{font-family:var(--font-mono); font-size:10.5px; color:var(--ink-faint); margin:0; max-width:none; line-height:1.5;}
+@media(max-width:480px){ .hm-main{grid-template-columns:minmax(0,0.75fr) minmax(0,1fr); gap:12px;} .hm-where li{grid-template-columns:70px 1fr;} }
+.sr-only{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap;}
+@media(prefers-reduced-motion:reduce){ .hm-body .bm-region{transition:none;} }
 </style>
 <script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
 </head>
@@ -145,11 +174,32 @@ footer a{color:var(--int);}
 </header>
 
 <section class="hero">
-  <div class="wrap">
+  <div class="wrap hero-grid">
+   <div class="hero-text">
     <div class="eyebrow">Dictionary · Emotional Cartography · 77 Terms</div>
     <h1>Dictionary of Inner Experience</h1>
     <p>Not every word for a feeling names the same kind of thing. This dictionary distinguishes emotions from moods, self-conscious states from existential ones, and a felt experience from a regulation strategy applied to it — and gives each entry a visual built from the same small set of abstract forms, so what changes between two related feelings is genuinely visible, not just described. Rewritten and substantially expanded from an earlier 28-term version at Design Divine Future.</p>
     <p class="note">This is an educational vocabulary, not medical or psychological advice, and it can't diagnose anything. If you are struggling, please talk to someone — <a href="#crisis">crisis resources are below</a>.</p>
+   </div>
+   <aside class="hero-map" id="hero-map" aria-label="Body map: where feelings are felt">
+    <div class="hm-top">
+      <div class="eyebrow">Body map · where it is felt</div>
+      <button type="button" class="hm-btn" id="hm-random">Another feeling</button>
+    </div>
+    <div class="hm-main">
+      <div class="hm-body" id="hm-body"></div>
+      <div class="hm-info">
+        <label class="sr-only" for="hm-select">Choose a feeling</label>
+        <select id="hm-select"></select>
+        <h2 class="hm-name" id="hm-name"></h2>
+        <p class="hm-def" id="hm-def"></p>
+        <ul class="hm-where" id="hm-where" aria-label="Where it is felt, strongest first"></ul>
+        <p class="hm-region-note" id="hm-region" aria-live="polite">Tap a part of the body to see which feelings live there.</p>
+        <div><button type="button" class="hm-btn primary" id="hm-open">Open the full body map</button></div>
+      </div>
+    </div>
+    <p class="hm-note">Typical patterns, not a diagnosis. Based on Nummenmaa et al. (2014), bodily maps of emotions, and related research.</p>
+   </aside>
   </div>
 </section>
 
@@ -1050,6 +1100,77 @@ svgRegions.forEach(function(el){
     }
   });
 });
+
+// ---- hero body map: same data and silhouette as the full map, open on the feeling of the day
+(function(){
+  var heroBody = document.getElementById('hm-body');
+  if(!heroBody) return;
+  var svg = bmSection.querySelector('svg.body-silhouette').cloneNode(true);
+  svg.setAttribute('role', 'img');
+  svg.setAttribute('viewBox', '44 -6 112 326');   // crop to the figure so it fills the panel
+  heroBody.appendChild(svg);
+  var hRegions = {};
+  Array.prototype.forEach.call(svg.querySelectorAll('.bm-region'), function(el){ hRegions[el.getAttribute('data-region')] = el; });
+  var sel = document.getElementById('hm-select'), nameEl = document.getElementById('hm-name'), defEl = document.getElementById('hm-def');
+  var whereEl = document.getElementById('hm-where'), regionEl = document.getElementById('hm-region');
+  var LABEL = { head:'head', face:'face', throat:'throat', shoulders:'shoulders', chest:'chest', stomach:'stomach', arms:'arms', hands:'hands', back:'back', legs:'legs', feet:'feet', 'whole-body':'whole body' };
+  var terms = cards.filter(function(c){ return (BODY_MAP[c.id] || []).length; }).map(function(c){
+    return { id:c.id, name:c.querySelector('h3').textContent, def:(c.querySelector('.def') || {}).textContent || '' };
+  });
+  terms.forEach(function(t){ var o = document.createElement('option'); o.value = t.id; o.textContent = t.name; sel.appendChild(o); });
+  var current = null;
+  function show(id){
+    var t = terms.filter(function(x){ return x.id === id; })[0];
+    if(!t) return;
+    current = id; sel.value = id;
+    nameEl.textContent = t.name; defEl.textContent = t.def;
+    var map = (BODY_MAP[id] || []).slice().sort(function(a,b){ return b.i - a.i; });
+    var color = getComputedStyle(document.documentElement).getPropertyValue('--int').trim();
+    for(var k in hRegions){ hRegions[k].style.fill = 'transparent'; hRegions[k].classList.remove('lit'); }
+    map.forEach(function(m){ var el = hRegions[m.r]; if(el){ el.style.fill = color; el.style.fillOpacity = m.i; el.classList.add('lit'); } });
+    svg.setAttribute('aria-label', t.name + ' is felt most in the ' + map.slice(0,3).map(function(m){ return LABEL[m.r] || m.r; }).join(', '));
+    whereEl.innerHTML = '';
+    map.forEach(function(m){
+      var li = document.createElement('li');
+      var lab = document.createElement('span'); lab.textContent = LABEL[m.r] || m.r;
+      var bar = document.createElement('span'); bar.className = 'bar';
+      var fill = document.createElement('span'); fill.style.width = Math.round(m.i * 100) + '%'; bar.appendChild(fill);
+      li.appendChild(lab); li.appendChild(bar); whereEl.appendChild(li);
+    });
+    regionEl.textContent = 'Tap a part of the body to see which feelings live there.';
+  }
+  // the feeling of the day: same date gives the same pick for everyone
+  var d = new Date(), seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
+  var vivid = terms.filter(function(t){ return BODY_MAP[t.id].length >= 3; });   // open on one that reads clearly on the body
+  show((vivid.length ? vivid : terms)[seed % (vivid.length || terms.length)].id);
+  sel.addEventListener('change', function(){ show(sel.value); });
+  document.getElementById('hm-random').addEventListener('click', function(){
+    var next; do { next = terms[Math.floor(Math.random() * terms.length)].id; } while(next === current && terms.length > 1);
+    show(next);
+  });
+  Object.keys(hRegions).forEach(function(r){
+    hRegions[r].addEventListener('click', function(){
+      var hits = terms.map(function(t){ var m = (BODY_MAP[t.id] || []).filter(function(x){ return x.r === r; })[0]; return m && m.i >= 0.5 ? { t:t, i:m.i } : null; })
+        .filter(Boolean).sort(function(a,b){ return b.i - a.i; }).slice(0, 6);
+      regionEl.textContent = '';
+      if(!hits.length){ regionEl.textContent = 'Few feelings center on the ' + (LABEL[r] || r) + '.'; return; }
+      regionEl.appendChild(document.createTextNode('Felt in the ' + (LABEL[r] || r) + ': '));
+      hits.forEach(function(h, i){
+        var a = document.createElement('a'); a.href = '#' + h.t.id; a.textContent = h.t.name;
+        a.addEventListener('click', function(ev){ ev.preventDefault(); show(h.t.id); });
+        regionEl.appendChild(a);
+        if(i < hits.length - 1) regionEl.appendChild(document.createTextNode(', '));
+      });
+    });
+  });
+  document.getElementById('hm-open').addEventListener('click', function(){
+    var tab = vtabs.filter(function(t){ return t.getAttribute('data-view') === 'bodymap'; })[0];
+    if(tab) tab.click();
+    var name = (terms.filter(function(x){ return x.id === current; })[0] || {}).name;
+    if(current && activeBmItem !== current) selectTerm(current, name);
+    bmSection.scrollIntoView({ behavior: matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
+  });
+})();
 
 var posterBtn = document.getElementById('poster-btn');
 posterBtn.addEventListener('click', function(){
