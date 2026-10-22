@@ -193,6 +193,11 @@ header .brand{
 .tod-body path,.tod-body ellipse{fill:transparent; stroke:var(--line,#ccc); stroke-width:1.2;}
 .tod-body .lit{stroke:var(--int);}
 .tod-body:hover path{stroke-width:1.6;}
+/* Design term of the day: the term's own illustration, large, beside the definition */
+#tod-dd-art{display:none;}
+.tod-vis{flex:0 0 156px; height:120px; margin:12px 18px 0 0; display:flex; align-items:center; justify-content:center; border:1px solid var(--line,#ddd); background:var(--fig-bg,#f7f7f3); --int:#d4714e; --ext:#6b8cce; --ink-faint:#9a9892;}
+.tod-vis svg{width:90%; height:90%;}
+.tod-vis:hover{border-color:var(--ink);}
 .tod-felt{margin:0; padding:0 18px 14px; font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--mid);}
 .tod-felt b{color:var(--ink); font-weight:500;}
 @media (max-width:860px){
@@ -877,7 +882,10 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
             <div class="tod-name" id="tod-dd-name"></div>
           </div>
         </div>
-        <p class="tod-def" id="tod-dd-def"></p>
+        <div class="tod-mid">
+          <p class="tod-def" id="tod-dd-def"></p>
+          <a class="tod-vis" id="tod-dd-vis" href="/dictionary-of-design/" title="Open in the Dictionary of Design"></a>
+        </div>
         <div class="tod-foot">
           <a class="tod-link" id="tod-dd-link" href="/dictionary-of-design/">Open &rarr;</a>
           <button class="tod-refresh" data-target="dd" title="New random term">&#x21bb;</button>
@@ -1640,6 +1648,8 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     if(def) def.textContent = term[2];
     if(link) link.href = base + '#' + term[0];
     if(prefix === 'tod-ie') body(term);
+    var vis = document.getElementById(prefix + '-vis');
+    if(vis){ vis.innerHTML = term[3]; vis.href = base + '#' + term[0]; vis.setAttribute('aria-label', term[1] + ': open in the dictionary'); }
   }
   var ieSeed = 0, ddSeed = 7;
   show('tod-ie', pick(IE, ieSeed), '/dictionary-of-inner-experience/');

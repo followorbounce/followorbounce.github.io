@@ -23,6 +23,11 @@
 .tod-body path,.tod-body ellipse{fill:transparent; stroke:var(--line,#ccc); stroke-width:1.2;}
 .tod-body .lit{stroke:var(--int);}
 .tod-body:hover path{stroke-width:1.6;}
+/* Design term of the day: the term's own illustration, large, beside the definition */
+#tod-dd-art{display:none;}
+.tod-vis{flex:0 0 156px; height:120px; margin:12px 18px 0 0; display:flex; align-items:center; justify-content:center; border:1px solid var(--line,#ddd); background:var(--fig-bg,#f7f7f3); --int:#d4714e; --ext:#6b8cce; --ink-faint:#9a9892;}
+.tod-vis svg{width:90%; height:90%;}
+.tod-vis:hover{border-color:var(--ink);}
 .tod-felt{margin:0; padding:0 18px 14px; font-family:var(--font-mono); font-size:11px; letter-spacing:.04em; color:var(--mid);}
 .tod-felt b{color:var(--ink); font-weight:500;}
 @media (max-width:860px){

@@ -39,6 +39,8 @@
     if(def) def.textContent = term[2];
     if(link) link.href = base + '#' + term[0];
     if(prefix === 'tod-ie') body(term);
+    var vis = document.getElementById(prefix + '-vis');
+    if(vis){ vis.innerHTML = term[3]; vis.href = base + '#' + term[0]; vis.setAttribute('aria-label', term[1] + ': open in the dictionary'); }
   }
   var ieSeed = 0, ddSeed = 7;
   show('tod-ie', pick(IE, ieSeed), '/dictionary-of-inner-experience/');
