@@ -1139,10 +1139,19 @@ svgRegions.forEach(function(el){
     });
     regionEl.textContent = 'Tap a part of the body to see which feelings live there.';
   }
-  // the feeling of the day: same date gives the same pick for everyone
-  var d = new Date(), seed = d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate();
-  var vivid = terms.filter(function(t){ return BODY_MAP[t.id].length >= 3; });   // open on one that reads clearly on the body
-  show((vivid.length ? vivid : terms)[seed % (vivid.length || terms.length)].id);
+  // open on ?feel=<id> (links from the homepage card), else the homepage's Emotion of the day
+  // (same date hash over the same 77 terms, see engine/term-of-day.js)
+  function dayHash(seed){
+    var d = new Date(), key = d.getFullYear()*10000 + (d.getMonth()+1)*100 + d.getDate() + seed;
+    key = ((key >>> 16) ^ key) * 0x45d9f3b; key = ((key >>> 16) ^ key) * 0x45d9f3b; key = (key >>> 16) ^ key;
+    return key;
+  }
+  var asked = new URLSearchParams(location.search).get('feel');
+  var today = cards[Math.abs(dayHash(0)) % cards.length].id;
+  var vivid = terms.filter(function(t){ return BODY_MAP[t.id].length >= 3; });
+  var first = [asked, today].filter(function(id){ return id && (BODY_MAP[id] || []).length; })[0] || vivid[0].id;
+  show(first);
+  if(asked && first === asked) document.getElementById('hero-map').scrollIntoView({ block: 'center' });
   sel.addEventListener('change', function(){ show(sel.value); });
   document.getElementById('hm-random').addEventListener('click', function(){
     var next; do { next = terms[Math.floor(Math.random() * terms.length)].id; } while(next === current && terms.length > 1);

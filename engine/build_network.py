@@ -629,6 +629,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 
 :focus-visible{{outline:2px solid var(--ink); outline-offset:2px;}}
 </style>
+<link rel="alternate" type="application/rss+xml" title="followorbounce · daily notes" href="https://herald-console.followorbounce.workers.dev/feed.xml">
 </head>
 
 <body>
@@ -735,7 +736,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <footer>
   <div class="wrap">
     <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
-    <span>{totals['pages']} PAGES &middot; 4 REPOS &middot; <a href="/archive" style="color:var(--mid);border-bottom:1px solid var(--line)">Archive</a></span>
+    <span>{totals['pages']} PAGES &middot; 4 REPOS &middot; <a href="/archive" style="color:var(--mid);border-bottom:1px solid var(--line)">Archive</a> &middot; <a href="https://herald-console.followorbounce.workers.dev/feed.xml" style="color:var(--mid);border-bottom:1px solid var(--line)">RSS</a></span>
   </div>
 </footer>
 
