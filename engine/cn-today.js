@@ -2,7 +2,7 @@
 (function(){
   /* Live from the creative network's public endpoint (CORS-open to this origin only). It answers as a
      signed-out viewer: today's task + the newest public, unhidden works. Nothing is inserted as HTML. */
-  var APP = 'https://creative-network.pages.dev';
+  var APP = 'https://creative-network-app.followorbounce.com';
   var API = window.__cnApi || (APP + '/api/public/today');
   var card = document.getElementById('cn-card'), wrap = document.getElementById('cn-works'), grid = document.getElementById('cn-grid');
   function el(tag, cls, text){ var e = document.createElement(tag); if(cls) e.className = cls; if(text != null) e.textContent = text; return e; }
