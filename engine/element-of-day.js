@@ -9,7 +9,16 @@
   if (!root) return;
   var URL = window.__elUrl || '/assets/prompt-elements.json';
   var el = function (id) { return document.getElementById(id); };
-  var data = null, cur = -1;
+  var data = null, cur = -1, today = 0, rt = 0;
+  /* Lay the card out once with every element, keep the tallest body height, then show element i: the card
+     never changes size between elements, so the buttons pinned to its bottom stay under the pointer. */
+  function settle(i) {
+    var body = root.querySelector('.bf-body'); body.style.minHeight = '';
+    var max = 0;
+    for (var k = 0; k < data.parts.length; k++) { show(k); max = Math.max(max, body.getBoundingClientRect().height); }
+    body.style.minHeight = Math.ceil(max) + 'px';
+    show(i);
+  }
   var DOMAINS = ['frame', 'premises', 'bounds', 'goal', 'evidence', 'testing', 'dialogue'];
   function fail() {
     root.classList.remove('bf-skel');
@@ -27,7 +36,8 @@
     root.classList.remove('bf-skel');
     root.setAttribute('data-d', p.domain);
     el('el-fig').setAttribute('data-d', p.domain);
-    el('el-cat').textContent = p.family + ' · ' + p.familyLogic;
+    var cat = el('el-cat'); cat.textContent = p.family + ' · ' + p.familyLogic;
+    if (p.maxim) { var mx = document.createElement('span'); mx.className = 'el-maxim'; mx.textContent = ' · Grice: ' + p.maxim; cat.appendChild(mx); }
     el('el-title').textContent = p.name;
     el('el-sum').textContent = p.line;
     function labelled(id, label, text) { var n = el(id); n.textContent = ''; if (!text) { n.hidden = true; return; } var b = document.createElement('b'); b.textContent = label; n.appendChild(b); n.appendChild(document.createTextNode(text)); n.hidden = false; }
@@ -43,7 +53,6 @@
     el('el-flip').hidden = false;
     var g = el('el-guess'); g.textContent = ''; var b = document.createElement('b'); b.textContent = 'Leave it out:';
     g.appendChild(b); g.appendChild(document.createTextNode('the model guesses ' + p.guess.charAt(0).toLowerCase() + p.guess.slice(1))); g.hidden = false;
-    var chip = el('el-chip'); chip.hidden = !p.maxim; chip.textContent = p.maxim ? 'Grice: ' + p.maxim : '';
     el('el-open').href = data.page + '#' + p.id;
     el('el-n').textContent = String(p.n);
     el('el-sym').textContent = p.sym;
@@ -58,8 +67,12 @@
       });
       if (!parts.length || typeof j.page !== 'string' || j.page.charAt(0) !== '/') return fail();
       data = { page: j.page, parts: parts };
-      show(dayIndex(parts.length));
+      today = dayIndex(parts.length);
+      settle(today);
+      if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { settle(cur); });
+      window.addEventListener('resize', function () { clearTimeout(rt); rt = setTimeout(function () { settle(cur); }, 150); });
     }).catch(function () { if (!done) { done = true; clearTimeout(t); fail(); } });
+  window.__elShow = function (i) { if (data) show(i); return data ? data.parts.length : 0; };   /* test hook: show element i */
   el('el-shuffle').addEventListener('click', function () {
     if (!data || data.parts.length < 2) return;
     var i; do { i = Math.floor(Math.random() * data.parts.length); } while (i === cur);

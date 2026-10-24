@@ -3,6 +3,11 @@
    Dialogue in the page's own ink (validated all-pairs for colour-blind separation on the page). */
 .elday{padding-block:28px; border-bottom:1px solid var(--ink);}
 .el-card .bf-sum{-webkit-line-clamp:3;}
+/* buttons pinned to the bottom of a card sized for the longest element (element-of-day.js), so "Another element" stays put */
+.el-card .bf-body{display:flex; flex-direction:column;}
+.el-card .bf-meta{margin-top:auto;}
+.el-card .bf-read{margin-left:auto;}
+.el-maxim{color:var(--mid);}
 .el-flip{border:1px dashed var(--line); padding:10px 12px; margin:0 0 12px; display:grid; gap:6px; max-width:72ch;}
 .el-flip p{margin:0; display:grid; grid-template-columns:4.5em minmax(0,1fr); gap:10px; align-items:baseline; font-family:var(--font-mono); font-size:13px; line-height:1.5;}
 .el-tag{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}
