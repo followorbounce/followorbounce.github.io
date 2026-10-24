@@ -48,6 +48,6 @@
     var io = new IntersectionObserver(function(es){
       es.forEach(function(e){ if(e.isIntersecting) for(var i = 0; i < links.length; i++) links[i].classList.toggle('on', links[i].getAttribute('href') === '#' + e.target.id); });
     }, {rootMargin:'-40% 0px -55% 0px'});
-    ['today','generative','instruments','live','index'].forEach(function(id){ var el = document.getElementById(id); if(el) io.observe(el); });
+    ['today','generative','instruments','live','index','more'].forEach(function(id){ var el = document.getElementById(id); if(el) io.observe(el); });
   }
 })();

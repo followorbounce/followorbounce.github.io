@@ -21,6 +21,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-bento{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:stretch;}
 .ed-wide{grid-column:span 2;}
 .ed-full{grid-column:1 / -1;}
+.ed-pair{grid-template-columns:repeat(2,minmax(0,1fr));}
 .ed-cell > section{padding:0; border:0; height:100%;}
 .ed-cell > section > .wrap{padding:0; max-width:none; height:100%; display:flex; flex-direction:column;}
 .ed-cell .bf-card{flex:1;}
@@ -59,13 +60,14 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-index .cats{padding-block:8px 0;}
 @media (max-width:980px){
   .ed-bento{grid-template-columns:repeat(2,minmax(0,1fr));}
-  .ed-wide{grid-column:1 / -1;}
+  .ed-wide,.ed-cn{grid-column:1 / -1;}
   .ed-terms{grid-column:1 / -1;} .ed-terms .tod-row{grid-template-columns:1fr 1fr; grid-auto-rows:auto;}
 }
 @media (max-width:640px){
   .ed-intro-row{grid-template-columns:minmax(0,1fr);} .ed-lede{justify-self:start;}
   .ed-bento{grid-template-columns:minmax(0,1fr);}
-  .ed-wide,.ed-terms,.ed-full{grid-column:auto;}
+  .ed-wide,.ed-terms,.ed-full,.ed-cn{grid-column:auto;}
+  .ed-pair{grid-template-columns:minmax(0,1fr);}
   .ed-terms .tod-row{grid-template-columns:minmax(0,1fr);}
   .ed-tabs{grid-template-columns:1fr 1fr;}
   .ed-tabs button:nth-child(3){border-left:0;}

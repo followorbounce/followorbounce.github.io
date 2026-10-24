@@ -155,3 +155,4 @@
 - Index regenerated: also picks up 5 aerospace Wave 7 guides that the homepage index had not listed yet.
 - Renamed "The Logic of a Prompt & Life"; calmer hero motion; Play again fixed; now in es-419, ru, zh-Hans, ja (translated with AI, each independently reviewed; a native-speaker check is still open).
 - Listed under Design & Experience; homepage Today gets an "Element of the day" card (engine/element-of-day.*, data from assets/prompt-elements.json).
+- 2026-10-24: Signal of the day + Knot of the day moved from Today to a new "06 More of the day" section under the Index (owner request); Today = art task + Creative network / terms + element of the day.

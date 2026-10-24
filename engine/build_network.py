@@ -410,7 +410,7 @@ def render_index(graph):
     kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
     kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
     kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
-    # The Logic of a Prompt & Life: element of the day (2026-10-24), full row under the Today cards; reads
+    # The Logic of a Prompt & Life: element of the day (2026-10-24), two columns wide beside the terms of the day; reads
     # /assets/prompt-elements.json, written by _specs/prompt-logic/build.py (see engine/element-of-day.*).
     el_css = open(os.path.join(HERE, "element-of-day.css"), encoding="utf-8").read()
     el_html = open(os.path.join(HERE, "element-of-day.html"), encoding="utf-8").read()
@@ -663,7 +663,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <nav class="ed-nav" aria-label="Sections">
   <div class="wrap ed-nav-row">
     <span class="ed-date" id="ed-date">Today</span>
-    <a href="#today">Today</a><a href="#generative">Generative</a><a href="#instruments">Instruments</a><a href="#live">Live data</a><a href="#index">Index</a>
+    <a href="#today">Today</a><a href="#generative">Generative</a><a href="#instruments">Instruments</a><a href="#live">Live data</a><a href="#index">Index</a><a href="#more">More</a>
   </div>
 </nav>
 <div class="ed-intro" data-hide-when-search>
@@ -677,11 +677,9 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
   <div class="wrap"><div class="ed-h"><span class="ed-n">01</span><h2>Today</h2><span class="ed-sub">Changes every day</span></div></div>
   <div class="wrap ed-bento">
     <div class="ed-cell ed-wide">{blog_html}</div>
-    <div class="ed-cell ed-stack">{cn_html}</div>
-    <div class="ed-cell ed-stack">{sd_html}</div>
-    <div class="ed-cell ed-stack">{kd_html}</div>
+    <div class="ed-cell ed-stack ed-cn">{cn_html}</div>
     <div class="ed-cell ed-terms">{tod_html}</div>
-    <div class="ed-cell ed-full">{el_html}</div>
+    <div class="ed-cell ed-wide">{el_html}</div>
   </div>
 </div>
 <div class="ed-block" id="generative" data-hide-when-search>
@@ -737,6 +735,13 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 
   </div>
 </section>
+</div>
+<div class="ed-block" id="more" data-hide-when-search>
+  <div class="wrap"><div class="ed-h"><span class="ed-n">06</span><h2>More of the day</h2><span class="ed-sub">A code flag and a knot</span></div></div>
+  <div class="wrap ed-bento ed-pair">
+    <div class="ed-cell ed-stack">{sd_html}</div>
+    <div class="ed-cell ed-stack">{kd_html}</div>
+  </div>
 </div>
 
 </main>
