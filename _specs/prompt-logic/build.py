@@ -85,7 +85,7 @@ def write_widget_data(C):
     for p in sorted(C['parts'], key=lambda p: p['n']):
         d = D[p['domain']]
         parts.append({'id': p['id'], 'n': p['n'], 'sym': SYMBOLS[p['id']], 'name': p['name'], 'domain': p['domain'],
-                      'family': d['name'], 'familyLogic': d['logic'], 'line': p['line'], 'weak': p['weak'],
+                      'family': d['name'], 'familyLogic': d['logic'], 'line': p['line'], 'logic': p['logic'], 'pitfall': p['pitfall'], 'weak': p['weak'],
                       'strong': strong_segments(p['weak'], p['strong']), 'guess': p['guess'], 'maxim': p.get('maxim')})
     out = os.path.join(ROOT, 'assets', 'prompt-elements.json')
     json.dump({'page': '/logic-of-a-prompt', 'title': C['ui']['doc_title'].split(' — ')[0], 'parts': parts},

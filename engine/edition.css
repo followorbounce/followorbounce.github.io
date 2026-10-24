@@ -22,6 +22,8 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-wide{grid-column:span 2;}
 .ed-full{grid-column:1 / -1;}
 .ed-pair{grid-template-columns:repeat(2,minmax(0,1fr));}
+.ed-bento.ed-pair .bf-card{grid-template-rows:280px 1fr;}   /* same picture height in both cards, so their dividers line up */
+.ed-bento.ed-pair .bf-fig,.ed-bento.ed-pair .sd-fig,.ed-bento.ed-pair .kd-fig{min-height:0; height:auto;}
 .ed-cell > section{padding:0; border:0; height:100%;}
 .ed-cell > section > .wrap{padding:0; max-width:none; height:100%; display:flex; flex-direction:column;}
 .ed-cell .bf-card{flex:1;}
@@ -68,6 +70,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
   .ed-bento{grid-template-columns:minmax(0,1fr);}
   .ed-wide,.ed-terms,.ed-full,.ed-cn{grid-column:auto;}
   .ed-pair{grid-template-columns:minmax(0,1fr);}
+  .ed-bento.ed-pair .bf-card{grid-template-rows:230px auto;}
   .ed-terms .tod-row{grid-template-columns:minmax(0,1fr);}
   .ed-tabs{grid-template-columns:1fr 1fr;}
   .ed-tabs button:nth-child(3){border-left:0;}

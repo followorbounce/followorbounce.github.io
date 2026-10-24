@@ -8,6 +8,9 @@
 .el-tag{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}
 .el-weak{color:var(--mid); text-decoration:line-through; text-decoration-color:var(--accent);}
 .el-strong mark{background:color-mix(in srgb, var(--el-c, #FFD23F) 40%, transparent); color:inherit; padding:0 2px;}
+.el-logic,.el-pit{margin:0 0 12px; font-size:14px; line-height:1.5; color:var(--ink-body,#28282a); max-width:72ch;}
+.el-logic b,.el-pit b{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); margin-right:6px;}
+.el-pit{border-top:1px solid var(--line); padding-top:10px;}
 .el-guess{margin:0 0 12px; font-size:14px; color:var(--ink-body,#28282a); max-width:72ch;}
 .el-guess b{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-right:6px;}
 .el-fig{width:300px; min-height:260px; display:flex; align-items:center; justify-content:center; padding:20px;}

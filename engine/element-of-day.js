@@ -30,6 +30,9 @@
     el('el-cat').textContent = p.family + ' · ' + p.familyLogic;
     el('el-title').textContent = p.name;
     el('el-sum').textContent = p.line;
+    function labelled(id, label, text) { var n = el(id); n.textContent = ''; if (!text) { n.hidden = true; return; } var b = document.createElement('b'); b.textContent = label; n.appendChild(b); n.appendChild(document.createTextNode(text)); n.hidden = false; }
+    labelled('el-logic', 'The logic', p.logic);
+    labelled('el-pit', 'Watch out', p.pitfall);
     el('el-weak').textContent = p.weak;
     var st = el('el-strong'); st.textContent = '';
     p.strong.forEach(function (seg, k) {

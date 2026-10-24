@@ -410,7 +410,7 @@ def render_index(graph):
     kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
     kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
     kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
-    # The Logic of a Prompt & Life: element of the day (2026-10-24), two columns wide beside the terms of the day; reads
+    # The Logic of a Prompt & Life: element of the day (2026-10-24), two columns wide under the art task, beside the terms of the day; reads
     # /assets/prompt-elements.json, written by _specs/prompt-logic/build.py (see engine/element-of-day.*).
     el_css = open(os.path.join(HERE, "element-of-day.css"), encoding="utf-8").read()
     el_html = open(os.path.join(HERE, "element-of-day.html"), encoding="utf-8").read()
@@ -678,8 +678,8 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
   <div class="wrap ed-bento">
     <div class="ed-cell ed-wide">{blog_html}</div>
     <div class="ed-cell ed-stack ed-cn">{cn_html}</div>
-    <div class="ed-cell ed-terms">{tod_html}</div>
     <div class="ed-cell ed-wide">{el_html}</div>
+    <div class="ed-cell ed-terms">{tod_html}</div>
   </div>
 </div>
 <div class="ed-block" id="generative" data-hide-when-search>

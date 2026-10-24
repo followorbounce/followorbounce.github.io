@@ -548,6 +548,9 @@ header .brand{
 .el-tag{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}
 .el-weak{color:var(--mid); text-decoration:line-through; text-decoration-color:var(--accent);}
 .el-strong mark{background:color-mix(in srgb, var(--el-c, #FFD23F) 40%, transparent); color:inherit; padding:0 2px;}
+.el-logic,.el-pit{margin:0 0 12px; font-size:14px; line-height:1.5; color:var(--ink-body,#28282a); max-width:72ch;}
+.el-logic b,.el-pit b{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); margin-right:6px;}
+.el-pit{border-top:1px solid var(--line); padding-top:10px;}
 .el-guess{margin:0 0 12px; font-size:14px; color:var(--ink-body,#28282a); max-width:72ch;}
 .el-guess b{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-right:6px;}
 .el-fig{width:300px; min-height:260px; display:flex; align-items:center; justify-content:center; padding:20px;}
@@ -620,6 +623,8 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-wide{grid-column:span 2;}
 .ed-full{grid-column:1 / -1;}
 .ed-pair{grid-template-columns:repeat(2,minmax(0,1fr));}
+.ed-bento.ed-pair .bf-card{grid-template-rows:280px 1fr;}   /* same picture height in both cards, so their dividers line up */
+.ed-bento.ed-pair .bf-fig,.ed-bento.ed-pair .sd-fig,.ed-bento.ed-pair .kd-fig{min-height:0; height:auto;}
 .ed-cell > section{padding:0; border:0; height:100%;}
 .ed-cell > section > .wrap{padding:0; max-width:none; height:100%; display:flex; flex-direction:column;}
 .ed-cell .bf-card{flex:1;}
@@ -666,6 +671,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
   .ed-bento{grid-template-columns:minmax(0,1fr);}
   .ed-wide,.ed-terms,.ed-full,.ed-cn{grid-column:auto;}
   .ed-pair{grid-template-columns:minmax(0,1fr);}
+  .ed-bento.ed-pair .bf-card{grid-template-rows:230px auto;}
   .ed-terms .tod-row{grid-template-columns:minmax(0,1fr);}
   .ed-tabs{grid-template-columns:1fr 1fr;}
   .ed-tabs button:nth-child(3){border-left:0;}
@@ -814,6 +820,38 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
   </div>
 </section>
 </div>
+    <div class="ed-cell ed-wide"><section class="elday" data-hide-when-search aria-labelledby="el-h">
+  <div class="wrap">
+    <div class="bf-head">
+      <span class="bf-eyebrow" id="el-h">The Logic of a Prompt &amp; Life &middot; <b>element of the day</b> &middot; 21 parts of a clear request</span>
+      <a class="bf-all" href="/logic-of-a-prompt#table">All 21 &rarr;</a>
+    </div>
+    <article class="bf-card el-card bf-skel" id="el-card">
+      <div class="bf-body">
+        <div class="bf-cat" id="el-cat">Element of the day</div>
+        <h2 class="bf-title" id="el-title">Picking today&rsquo;s element</h2>
+        <p class="bf-sum" id="el-sum">One moment &mdash; loading the periodic table of a prompt.</p>
+        <p class="el-logic" id="el-logic" hidden></p>
+        <div class="el-flip" id="el-flip" hidden>
+          <p><span class="el-tag">Weak</span><span class="el-weak" id="el-weak"></span></p>
+          <p><span class="el-tag">Strong</span><span class="el-strong" id="el-strong"></span></p>
+        </div>
+        <p class="el-guess" id="el-guess" hidden></p>
+        <p class="el-pit" id="el-pit" hidden></p>
+        <div class="bf-meta">
+          <span class="bf-chip" id="el-chip" hidden></span>
+          <button type="button" class="sd-shuffle" id="el-shuffle">Another element</button>
+          <a class="bf-read" id="el-open" href="/logic-of-a-prompt">Read the element &rarr;</a>
+        </div>
+      </div>
+      <figure class="bf-fig el-fig" id="el-fig" aria-hidden="true">
+        <div class="el-tile" id="el-tile"><span class="el-n" id="el-n"></span><span class="el-sym" id="el-sym"></span><span class="el-nm" id="el-nm"></span></div>
+      </figure>
+    </article>
+    <noscript><p><a href="/logic-of-a-prompt">Open The Logic of a Prompt &amp; Life &rarr;</a></p></noscript>
+  </div>
+</section>
+</div>
     <div class="ed-cell ed-terms"><section class="todwin" data-hide-when-search aria-labelledby="tod-h">
   <div class="wrap">
     <div class="bf-head">
@@ -856,36 +894,6 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
         </div>
       </article>
     </div>
-  </div>
-</section>
-</div>
-    <div class="ed-cell ed-wide"><section class="elday" data-hide-when-search aria-labelledby="el-h">
-  <div class="wrap">
-    <div class="bf-head">
-      <span class="bf-eyebrow" id="el-h">The Logic of a Prompt &amp; Life &middot; <b>element of the day</b> &middot; 21 parts of a clear request</span>
-      <a class="bf-all" href="/logic-of-a-prompt#table">All 21 &rarr;</a>
-    </div>
-    <article class="bf-card el-card bf-skel" id="el-card">
-      <div class="bf-body">
-        <div class="bf-cat" id="el-cat">Element of the day</div>
-        <h2 class="bf-title" id="el-title">Picking today&rsquo;s element</h2>
-        <p class="bf-sum" id="el-sum">One moment &mdash; loading the periodic table of a prompt.</p>
-        <div class="el-flip" id="el-flip" hidden>
-          <p><span class="el-tag">Weak</span><span class="el-weak" id="el-weak"></span></p>
-          <p><span class="el-tag">Strong</span><span class="el-strong" id="el-strong"></span></p>
-        </div>
-        <p class="el-guess" id="el-guess" hidden></p>
-        <div class="bf-meta">
-          <span class="bf-chip" id="el-chip" hidden></span>
-          <button type="button" class="sd-shuffle" id="el-shuffle">Another element</button>
-          <a class="bf-read" id="el-open" href="/logic-of-a-prompt">Read the element &rarr;</a>
-        </div>
-      </div>
-      <figure class="bf-fig el-fig" id="el-fig" aria-hidden="true">
-        <div class="el-tile" id="el-tile"><span class="el-n" id="el-n"></span><span class="el-sym" id="el-sym"></span><span class="el-nm" id="el-nm"></span></div>
-      </figure>
-    </article>
-    <noscript><p><a href="/logic-of-a-prompt">Open The Logic of a Prompt &amp; Life &rarr;</a></p></noscript>
   </div>
 </section>
 </div>
@@ -2880,6 +2888,9 @@ setInterval(function(){if(dob)render();},6e5);
     el('el-cat').textContent = p.family + ' · ' + p.familyLogic;
     el('el-title').textContent = p.name;
     el('el-sum').textContent = p.line;
+    function labelled(id, label, text) { var n = el(id); n.textContent = ''; if (!text) { n.hidden = true; return; } var b = document.createElement('b'); b.textContent = label; n.appendChild(b); n.appendChild(document.createTextNode(text)); n.hidden = false; }
+    labelled('el-logic', 'The logic', p.logic);
+    labelled('el-pit', 'Watch out', p.pitfall);
     el('el-weak').textContent = p.weak;
     var st = el('el-strong'); st.textContent = '';
     p.strong.forEach(function (seg, k) {
