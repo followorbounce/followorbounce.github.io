@@ -1,0 +1,692 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>プロンプトの論理と人生 — 21の要素、7種類の推論</title>
+<meta name="description" content="よいプロンプトを書くときに使うのは、日々の生活ではっきり考えるときと同じ論理です。前提、範囲、定義、制約、ゴール、根拠、検証。プロンプトの21の要素を誰にでもわかるように説明し、その場で試せるプロンプト作成ツールとゲームも用意しました。">
+<link rel="canonical" href="https://followorbounce.github.io/logic-of-a-prompt-ja">
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/logic-of-a-prompt">
+<link rel="alternate" hreflang="es-419" href="https://followorbounce.github.io/logic-of-a-prompt-es">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/logic-of-a-prompt-ru">
+<link rel="alternate" hreflang="zh-Hans" href="https://followorbounce.github.io/logic-of-a-prompt-zh">
+<link rel="alternate" hreflang="ja" href="https://followorbounce.github.io/logic-of-a-prompt-ja">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/logic-of-a-prompt">
+<meta name="theme-color" content="#F3F1EA">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="ja_JP">
+<meta property="og:title" content="プロンプトの論理と人生 — 21の要素、7種類の推論">
+<meta property="og:description" content="よいプロンプトを書くときに使うのは、日々の生活ではっきり考えるときと同じ論理です。前提、範囲、定義、制約、ゴール、根拠、検証。プロンプトの21の要素を誰にでもわかるように説明し、その場で試せるプロンプト作成ツールとゲームも用意しました。">
+<meta property="og:url" content="https://followorbounce.github.io/logic-of-a-prompt-ja">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<style>
+/* Layout: a type specimen of reasoning. Huge variable-width display lines, a periodic table of the 21 parts,
+   then one chapter per logical domain; the interactive pieces (builder, game) sit between them like lab benches.
+   Domain colours: three light tiles with dark text, three deep tiles with white text, Dialogue inverted —
+   lightness is a second channel, so domains stay apart for colour-blind readers (validated all-pairs). */
+:root{
+  --paper:#F3F1EA; --paper-2:#FFFFFF; --paper-3:#E6E3D8;
+  --ink:#121212; --ink-2:#4A4740; --ink-3:#66625A; --line:#D6D2C6; --line-2:#B9B4A6;
+  --hot:#E2381B; --hot-text:#C22E12; --ok:#14532D;
+  --d-frame:#FFD23F; --d-premises:#8FE0F5; --d-bounds:#FF9E7A; --d-goal:#B0216B; --d-evidence:#14532D; --d-testing:#2B45D8; --d-dialogue:#121212;
+  --t-frame:#121212; --t-premises:#121212; --t-bounds:#121212; --t-goal:#FFFFFF; --t-evidence:#FFFFFF; --t-testing:#FFFFFF; --t-dialogue:#F3F1EA;
+  --font-display:'Archivo', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --font-body:'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --edge:max(16px, env(safe-area-inset-left, 0px)); --edge-r:max(16px, env(safe-area-inset-right, 0px));
+  --maxw:1240px; --textw:68ch;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F0F0E; --paper-2:#181816; --paper-3:#22211E;
+    --ink:#F1EEE6; --ink-2:#B9B4A8; --ink-3:#959185; --line:#2E2C27; --line-2:#46433B;
+    --hot:#FF6A4D; --hot-text:#FF6A4D; --ok:#5FD69A;
+    --d-dialogue:#F1EEE6; --t-dialogue:#0F0F0E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F0F0E; --paper-2:#181816; --paper-3:#22211E;
+  --ink:#F1EEE6; --ink-2:#B9B4A8; --ink-3:#959185; --line:#2E2C27; --line-2:#46433B;
+  --hot:#FF6A4D; --hot-text:#FF6A4D; --ok:#5FD69A;
+  --d-dialogue:#F1EEE6; --t-dialogue:#0F0F0E;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:18px; line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+a{color:inherit; text-decoration-thickness:1.5px; text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--hot); outline-offset:3px}
+button{font:inherit; color:inherit}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge-r)}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* header (theme-toggle.js injects its button into header .wrap) */
+header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:var(--paper)}
+header.site .wrap{display:flex; align-items:center; gap:14px; min-height:52px}
+header.site .back{font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; padding:12px 0}
+header.site .brand{font-family:var(--font-display); font-weight:800; font-stretch:115%; font-size:15px; letter-spacing:.02em; text-transform:uppercase}
+header.site nav{display:flex; gap:4px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
+header.site nav a{font-family:var(--font-mono); font-size:12px; text-decoration:none; padding:10px 8px; border-radius:6px; white-space:nowrap; color:var(--ink-2)}
+header.site nav a:hover{color:var(--ink); background:var(--paper-3)}
+.langs{display:flex; gap:2px; flex:none}
+.langs a{font-family:var(--font-mono); font-size:12px; text-decoration:none; padding:12px 6px; color:var(--ink-2); border-radius:6px}
+.langs a[aria-current="true"]{color:var(--ink); font-weight:600; text-decoration:underline; text-underline-offset:4px}
+.langs a:hover{background:var(--paper-3)}
+.tnote{font-size:13px; color:var(--ink-3); margin-top:14px; max-width:60ch}
+@media (max-width:820px){ header.site nav{display:none} }
+@media (max-width:420px){ header.site .brand{display:none} }
+@media (pointer:coarse){ #btn-theme{min-height:44px; min-width:52px} }
+
+/* type */
+.display{font-family:var(--font-display); font-weight:900; line-height:.86; letter-spacing:-.02em; text-transform:uppercase; margin:0; text-wrap:balance}
+.kicker{font-family:var(--font-mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2)}
+.lede{font-size:clamp(19px, 2.2vw, 24px); line-height:1.45; max-width:40ch; color:var(--ink)}
+h2.section{font-family:var(--font-display); font-weight:900; font-size:clamp(44px, 9vw, 128px); line-height:.86; letter-spacing:-.025em; text-transform:uppercase; margin:0; text-wrap:balance}
+h3{font-family:var(--font-display); font-weight:800; font-size:clamp(24px, 3vw, 34px); line-height:1.02; margin:0; text-wrap:balance}
+p{margin:0; max-width:var(--textw)}
+section.band{padding-block:clamp(72px, 11vw, 150px)}
+section.band + section.band{border-top:1px solid var(--line)}
+.stack{display:grid; gap:20px}
+
+/* hero */
+.hero{padding-block:clamp(40px, 8vw, 110px) clamp(56px, 8vw, 110px); overflow:hidden}
+.hero .display{font-size:clamp(58px, 15.2vw, 232px)}
+.hero .display .w{display:inline-block; font-variation-settings:"wdth" var(--wd, 100)}
+.hero .display .w.hot{color:var(--hot)}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:end; margin-top:clamp(28px,4vw,56px)}
+@media (max-width:860px){ .hero-grid{grid-template-columns:1fr} }
+.prompt-strip{font-family:var(--font-mono); font-size:15px; line-height:1.7; background:var(--paper-2); border:1.5px solid var(--ink); border-radius:14px; padding:18px 20px; box-shadow:8px 8px 0 var(--ink)}
+.prompt-strip .tok{display:inline; padding:2px 6px; border-radius:6px; margin-right:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone}
+.prompt-strip .cap{display:block; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px}
+.scrollcue{margin-top:28px; display:flex; gap:10px; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 20px; border-radius:999px; border:1.5px solid var(--ink); background:var(--paper-2); font-weight:700; text-decoration:none; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s}
+.btn:hover{transform:translate(-2px,-2px); box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:none; box-shadow:none}
+.btn.solid{background:var(--ink); color:var(--paper)}
+.btn.small{min-height:44px; padding:0 14px; font-size:15px}
+@media (prefers-reduced-motion: reduce){ .btn:hover{transform:none} }
+
+/* domain colour helpers */
+[data-d="frame"]{--dc:var(--d-frame); --dt:var(--t-frame)}
+[data-d="premises"]{--dc:var(--d-premises); --dt:var(--t-premises)}
+[data-d="bounds"]{--dc:var(--d-bounds); --dt:var(--t-bounds)}
+[data-d="goal"]{--dc:var(--d-goal); --dt:var(--t-goal)}
+[data-d="evidence"]{--dc:var(--d-evidence); --dt:var(--t-evidence)}
+[data-d="testing"]{--dc:var(--d-testing); --dt:var(--t-testing)}
+[data-d="dialogue"]{--dc:var(--d-dialogue); --dt:var(--t-dialogue)}
+.dchip{display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; background:var(--dc); color:var(--dt); padding:4px 9px; border-radius:999px; border:1.5px solid var(--ink)}
+
+/* basics */
+.basics{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap:14px; margin-top:40px}
+.basic{background:var(--paper-2); border:1.5px solid var(--line-2); border-radius:16px; padding:20px; display:grid; gap:10px; align-content:start}
+.basic .term{font-family:var(--font-display); font-weight:900; font-stretch:88%; font-size:clamp(21px, 2.1vw, 26px); line-height:1; text-transform:uppercase; overflow-wrap:anywhere; hyphens:auto}
+.basic .ex{font-size:15px; color:var(--ink-2); border-left:3px solid var(--line-2); padding-left:12px}
+.basic .inp{font-family:var(--font-mono); font-size:13px; line-height:1.5; color:var(--ink)}
+.basic .inp b{color:var(--hot-text)}
+
+/* syllogism */
+.syl{margin-top:56px; display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:28px; align-items:start}
+@media (max-width:900px){ .syl{grid-template-columns:1fr} }
+.syl-board{background:var(--paper-2); border:1.5px solid var(--ink); border-radius:18px; padding:clamp(18px,3vw,30px); display:grid; gap:12px}
+.syl-line{display:grid; grid-template-columns:64px minmax(0,1fr); gap:12px; align-items:baseline; font-size:clamp(18px,2.1vw,23px); line-height:1.35}
+.syl-line .lab{font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; color:var(--ink-3); text-transform:uppercase}
+.syl-line.concl{border-top:2px solid var(--ink); padding-top:12px; font-weight:700}
+.syl-line .txt{transition:background .4s}
+.syl-line .txt.flash{background:color-mix(in srgb, var(--hot) 22%, transparent)}
+.stamps{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px}
+.stamp{font-family:var(--font-display); font-weight:900; font-stretch:120%; font-size:22px; text-transform:uppercase; letter-spacing:.04em; padding:6px 14px; border:3px solid currentColor; border-radius:8px; transform:rotate(-3deg); transition:transform .35s cubic-bezier(.3,1.6,.5,1), color .3s, opacity .3s}
+.stamp.yes{color:var(--ok)}
+.stamp.no{color:var(--hot); transform:rotate(3deg)}
+.stamp.pop{transform:rotate(-3deg) scale(1.12)}
+.syl > *{min-width:0}
+.syl-side{display:grid; gap:16px}
+.syl-side .big{font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4vw,48px); line-height:.95; text-transform:uppercase}
+
+/* periodic table */
+.ptable{margin-top:44px; display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:10px}
+.pcol{display:grid; gap:10px; align-content:start}
+.pcol .phead{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-2); min-height:32px; display:flex; align-items:end; padding-bottom:4px; border-bottom:2px solid var(--ink)}
+.tile{position:relative; aspect-ratio:1/1; background:var(--dc); color:var(--dt); border:1.5px solid var(--ink); border-radius:12px; padding:9px 10px; display:grid; grid-template-rows:auto 1fr auto; text-decoration:none; cursor:pointer; transition:transform .2s cubic-bezier(.2,.9,.3,1.3), box-shadow .2s; text-align:left; min-width:0}
+.tile:hover, .tile:focus-visible{transform:translate(-3px,-3px) rotate(-1.5deg); box-shadow:4px 4px 0 var(--ink)}
+.tile .n{font-family:var(--font-mono); font-size:12px; opacity:.85}
+.tile .sym{font-family:var(--font-display); font-weight:900; font-size:clamp(26px, 4vw, 50px); line-height:.9; align-self:center; letter-spacing:-.02em}
+.tile .nm{font-size:clamp(11px, 1.15vw, 14px); line-height:1.1; font-weight:700; overflow-wrap:anywhere}
+.tile .dl{position:absolute; top:8px; right:9px; font-family:var(--font-mono); font-size:10px; opacity:.8}
+@media (max-width:860px){
+  .ptable{grid-template-columns:repeat(4, minmax(0,1fr))}
+  .pcol{display:contents}
+  .pcol .phead{display:none}
+}
+@media (max-width:460px){ .ptable{grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px} .tile{border-radius:10px; padding:7px 8px} }
+@media (prefers-reduced-motion: reduce){ .tile:hover, .tile:focus-visible{transform:none} }
+@media (max-width:480px){ .domain .dhead{grid-template-columns:1fr; gap:4px} .domain .dname{font-size:clamp(40px, 12vw, 64px)} }
+html:not(.js) .bench, html:not(.js) .game, html:not(.js) #syl-swap{display:none}
+.nojs{border:1.5px dashed var(--line-2); border-radius:14px; padding:14px 16px; margin-top:24px}
+.note{font-size:15px; color:var(--ink-2); margin-top:18px; max-width:72ch}
+@media print{ header.site, .scrollcue, #builder, #game, .prompt-strip{display:none} body{background:#fff; color:#000} .part, .basic, .limit, .check{break-inside:avoid} section.band, .domain{padding-block:24px} }
+.legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+
+/* domain chapters */
+.domain{padding-block:clamp(64px, 9vw, 120px); border-top:1px solid var(--line)}
+.dhead{display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(16px,3vw,40px); align-items:end}
+.dnum{font-family:var(--font-display); font-weight:900; font-size:clamp(90px, 18vw, 240px); line-height:.75; color:var(--dc); -webkit-text-stroke:2px var(--ink); paint-order:stroke fill; letter-spacing:-.04em}
+.dname{font-family:var(--font-display); font-weight:900; font-size:clamp(48px, 10vw, 150px); line-height:.82; text-transform:uppercase; letter-spacing:-.03em; margin:0}
+.dmeta{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-top:16px}
+.dmeta .q{font-size:clamp(19px,2.2vw,24px); font-style:italic}
+.parts{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap:18px; margin-top:40px}
+.part{background:var(--paper-2); border:1.5px solid var(--ink); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; scroll-margin-top:84px}
+.part:target{box-shadow:0 0 0 4px var(--hot)}
+.part .top{background:var(--dc); color:var(--dt); padding:16px 18px; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:14px; align-items:center; border-bottom:1.5px solid var(--ink)}
+.part .top .sym{font-family:var(--font-display); font-weight:900; font-size:44px; line-height:.85}
+.part .top h3{font-size:clamp(24px,2.6vw,30px)}
+.part .top .n{font-family:var(--font-mono); font-size:13px}
+.part .body{padding:18px; display:grid; gap:14px; flex:1}
+.part .line{font-size:20px; line-height:1.35; font-weight:700}
+.part .logic{font-size:16px; color:var(--ink-2)}
+.part .logic b{font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); display:block; margin-bottom:2px}
+.flip{border:1.5px dashed var(--line-2); border-radius:12px; padding:12px 14px; display:grid; gap:8px}
+.flip .row{display:grid; grid-template-columns:72px minmax(0,1fr); gap:10px; align-items:baseline}
+.flip .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.flip .weak .say{font-family:var(--font-mono); font-size:15px; color:var(--ink-2); text-decoration:line-through; text-decoration-color:var(--hot); text-decoration-thickness:2px}
+.flip .strong .say{font-family:var(--font-mono); font-size:15px; color:var(--ink)}
+.flip .strong mark{background:color-mix(in srgb, var(--dc) var(--mix, 45%), transparent); color:inherit; border-radius:4px; padding:0 2px; -webkit-box-decoration-break:clone; box-decoration-break:clone}
+.part .guess{font-size:15px; display:flex; gap:10px; align-items:baseline}
+.part .guess .ico{font-family:var(--font-display); font-weight:900; font-size:22px; color:var(--hot); line-height:1}
+.part .pit{font-size:15px; color:var(--ink-2); border-top:1px solid var(--line); padding-top:12px}
+.part .pit b{color:var(--ink)}
+@media (max-width:420px){ .part .top{grid-template-columns:auto minmax(0,1fr)} .part .top .maxim{grid-column:2; justify-self:start} .part .top h3{font-size:23px; overflow-wrap:anywhere} }
+.maxim{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; border:1.5px solid var(--dt); padding:3px 7px; border-radius:6px; white-space:nowrap}
+
+/* builder */
+.bench{background:var(--ink); color:var(--paper); border-radius:28px; padding:clamp(22px,4vw,48px); margin-top:40px}
+.bench .kicker{color:color-mix(in srgb, var(--paper) 70%, transparent)}
+.bench h3{color:var(--paper)}
+.tasks{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+.tasks button{min-height:48px; padding:0 18px; border-radius:999px; border:1.5px solid var(--paper); background:transparent; color:var(--paper); cursor:pointer; font-weight:700}
+.tasks button[aria-pressed="true"]{background:var(--paper); color:var(--ink)}
+.bgrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:clamp(18px,3vw,36px); margin-top:26px}
+@media (max-width:920px){ .bgrid{grid-template-columns:1fr} }
+.toggles{display:grid; gap:12px; align-content:start}
+.tgroup{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.tgroup .gl{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; width:100%; color:color-mix(in srgb, var(--paper) 65%, transparent)}
+.tog{min-height:44px; padding:0 14px; border-radius:10px; border:1.5px solid color-mix(in srgb, var(--paper) 45%, transparent); background:transparent; color:var(--paper); cursor:pointer; font-size:15px; font-weight:700; display:inline-flex; align-items:center; gap:8px; transition:background .18s, color .18s, transform .18s}
+.tog .box{width:14px; height:14px; border-radius:4px; border:1.5px solid currentColor; display:inline-block; flex:none}
+.tog[aria-pressed="true"]{background:var(--dc); color:var(--dt); border-color:var(--dc)}
+.tog[aria-pressed="true"] .box{background:currentColor}
+.bench .tog[data-d="dialogue"][aria-pressed="true"]{background:var(--paper); color:var(--ink); border-color:var(--paper)}
+.tog:active{transform:scale(.96)}
+.presets{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px}
+.presets button{min-height:44px; padding:0 14px; border-radius:999px; border:1.5px dashed color-mix(in srgb, var(--paper) 60%, transparent); background:transparent; color:var(--paper); cursor:pointer; font-size:14px}
+.out{background:var(--paper); color:var(--ink); border-radius:18px; padding:clamp(16px,2.5vw,26px); display:grid; gap:16px; align-content:start}
+.out .ptext{font-family:var(--font-mono); font-size:15.5px; line-height:1.7; min-height:6em}
+.out .ptext span{border-radius:5px; padding:1px 3px; -webkit-box-decoration-break:clone; box-decoration-break:clone; background:color-mix(in srgb, var(--dc) var(--mix, 38%), transparent); transition:background 1.2s}
+[data-d="goal"], [data-d="evidence"], [data-d="testing"]{--mix:24%}
+[data-d="dialogue"]{--mix:0%}
+.part[data-d="dialogue"] .flip .strong mark, .out .ptext span[data-d="dialogue"]{outline:1.5px dashed var(--ink); outline-offset:-1px}
+.out .ptext span.base{background:none; font-weight:600}
+.out .ptext span.new{background:var(--dc); color:var(--dt)}
+.meter{display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 16px; align-items:center}
+.meter .num{font-family:var(--font-display); font-weight:900; font-size:clamp(56px,8vw,96px); line-height:.8; font-variant-numeric:tabular-nums; min-width:1.4ch; color:var(--hot); transition:color .3s}
+.meter .num.zero{color:var(--ok)}
+.meter .cap{font-weight:700; font-size:18px; line-height:1.25}
+.meter .bar{grid-column:1/-1; height:10px; border-radius:99px; background:var(--paper-3); overflow:hidden}
+.meter .bar i{display:block; height:100%; background:var(--hot); border-radius:99px; transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.guesses{display:grid; gap:6px; font-size:14.5px; color:var(--ink-2); max-height:220px; overflow:auto; padding-right:6px}
+.guesses li{list-style:none; display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px}
+.guesses ul{margin:0; padding:0; display:grid; gap:6px}
+.guesses .q{color:var(--hot-text); font-weight:700}
+.outacts{display:flex; gap:10px; flex-wrap:wrap}
+
+/* game */
+.game{margin-top:40px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,36px); align-items:start}
+@media (max-width:900px){ .game{grid-template-columns:1fr} }
+.chat{display:grid; gap:12px}
+.bubble{border:1.5px solid var(--ink); border-radius:18px; padding:16px 18px; font-size:18px; line-height:1.45; max-width:92%}
+.bubble.you{background:var(--paper-2); justify-self:end; border-bottom-right-radius:4px}
+.bubble.ai{background:var(--paper-3); border-bottom-left-radius:4px}
+.bubble .who{display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px}
+.opts{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
+.opt{min-height:64px; border-radius:14px; border:1.5px solid var(--ink); background:var(--paper-2); cursor:pointer; display:grid; grid-template-columns:auto minmax(0,1fr); gap:10px; align-items:center; padding:10px 14px; text-align:left; font-weight:700; font-size:17px; transition:transform .15s, background .2s}
+.opt .sym{font-family:var(--font-display); font-weight:900; font-size:24px; width:44px; height:44px; display:grid; place-items:center; border-radius:10px; background:var(--dc); color:var(--dt); border:1.5px solid var(--ink)}
+.opt:hover:not(:disabled){transform:translate(-2px,-2px)}
+.opt.right{background:color-mix(in srgb, var(--ok) 18%, var(--paper-2)); outline:3px solid var(--ok)}
+.opt.wrong{opacity:.55; text-decoration:line-through; text-decoration-color:var(--hot)}
+.opt:disabled{cursor:default}
+.verdict{border-radius:16px; padding:16px 18px; font-size:17px; background:var(--paper-2); border:1.5px solid var(--line-2); min-height:96px}
+.verdict b{font-family:var(--font-display); font-weight:900; font-size:22px; text-transform:uppercase; display:block; margin-bottom:4px}
+.score{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+.score i{width:14px; height:14px; border-radius:50%; border:1.5px solid var(--ink); display:inline-block}
+.score i.ok{background:var(--ok); border-color:var(--ok)}
+.score i.no{background:var(--hot); border-color:var(--hot)}
+.score i.cur{box-shadow:0 0 0 3px color-mix(in srgb, var(--hot) 35%, transparent)}
+.game-side{display:grid; gap:14px}
+@media (max-width:460px){ .opts{grid-template-columns:1fr} }
+
+/* limits */
+.limits{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap:14px; margin-top:40px}
+.limit{border:1.5px solid var(--ink); border-radius:16px; padding:20px; display:grid; gap:8px; align-content:start; background:var(--paper-2)}
+.limit h3{font-size:24px}
+.limit p{font-size:16.5px; color:var(--ink-2)}
+.truth{font-family:var(--font-display); font-weight:900; text-transform:uppercase; font-size:clamp(40px, 8vw, 110px); line-height:.86; letter-spacing:-.025em; margin-top:8px}
+
+/* cheat sheet */
+.cheat{margin-top:40px; display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:12px}
+.check{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; align-items:start; padding:14px 16px; border-radius:14px; border:1.5px solid var(--line-2); background:var(--paper-2); cursor:pointer; min-height:56px}
+.check input{appearance:none; -webkit-appearance:none; width:26px; height:26px; border-radius:7px; border:2px solid var(--ink); margin:0; display:grid; place-items:center; background:var(--paper); cursor:pointer}
+.check input:checked{background:var(--dc); border-color:var(--ink)}
+.check input:checked::after{content:"✓"; font-weight:900; color:var(--dt); font-size:16px; line-height:1}
+.check span{font-size:17px; line-height:1.35}
+.check small{display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin-top:4px}
+.progress{font-family:var(--font-mono); font-size:13px; color:var(--ink-2); margin-top:14px}
+
+/* sources + footer */
+.sources{margin-top:28px; display:grid; gap:10px; padding:0; list-style:none; max-width:90ch}
+.sources li{font-size:15.5px; color:var(--ink-2)}
+.sources li b{color:var(--ink)}
+footer.site{border-top:1px solid var(--line); padding-block:36px 48px; font-size:14px; color:var(--ink-3)}
+footer.site .wrap{display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between}
+
+/* motion: things are visible at rest; .rise only adds a small slide when JS marks them as they enter */
+.rise{transition:transform .7s cubic-bezier(.2,.8,.2,1), opacity .7s}
+.js .rise.pre{transform:translateY(26px); opacity:.001}
+@media (prefers-reduced-motion: reduce){ .js .rise.pre{transform:none; opacity:1} .rise{transition:none} }
+.display, h2.section, .dname, .truth, .syl-side .big{overflow-wrap:anywhere; hyphens:auto}
+.toast{position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:12px 18px; border-radius:999px; font-weight:700; z-index:40; font-size:15px}
+:root{--font-display:'Noto Sans JP',sans-serif; --font-body:'Noto Sans JP',system-ui,sans-serif; --font-mono:'IBM Plex Mono','Noto Sans JP',monospace}
+.display, h2.section, .dname, .truth, .syl-side .big, .basic .term, .stamp, .tile .sym, .part .top .sym, .dnum{letter-spacing:0}
+.hero .display{font-size:clamp(44px, 9vw, 140px); line-height:1.12} h2.section{font-size:clamp(34px, 6vw, 88px); line-height:1.15}
+.dname{font-size:clamp(40px, 7.5vw, 112px); line-height:1.1} .truth{font-size:clamp(34px, 6.4vw, 92px); line-height:1.12}
+.syl-side .big{line-height:1.2} .basic .term{line-height:1.2} .dmeta .q{font-style:normal}
+body{line-height:1.7} .lede{line-height:1.6} h1, h2, h3, p{word-break:auto-phrase; line-break:strict}
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="back" href="/">← Follow or Bounce</a>
+    <span class="brand" aria-hidden="true">プロンプトの論理</span>
+    <nav aria-label="セクション">
+      <a href="#basics">基本</a><a href="#table">21の要素</a><a href="#builder">作成ツール</a><a href="#game">ゲーム</a><a href="#limits">限界</a><a href="#cheat">チェックリスト</a>
+    </nav>
+    <nav class="langs" aria-label="言語"><a href="/logic-of-a-prompt" hreflang="en" lang="en">EN</a><a href="/logic-of-a-prompt-es" hreflang="es-419" lang="es-419">ES</a><a href="/logic-of-a-prompt-ru" hreflang="ru" lang="ru">RU</a><a href="/logic-of-a-prompt-zh" hreflang="zh-Hans" lang="zh-Hans">中文</a><a href="/logic-of-a-prompt-ja" hreflang="ja" lang="ja" aria-current="true">日本語</a></nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="kicker">AIと話すための、毎日の論理学</div>
+      <h1 class="display" id="hero-title"><span class="w">プロンプトの論理と</span><span class="w hot">人生</span></h1>
+      <div class="hero-grid">
+        <div class="stack">
+          <p class="lede">よいプロンプトは、小さな論証にお願いを添えたものです。人生でのわかりやすい頼みごとも同じです。前提、言葉の意味、制約、目的を伝えれば、相手が推測する部分は減ります。それでも答えは間違うことがあるので、確かめましょう。</p><p class="tnote">このページは英語からAIの助けを借りて翻訳したもので、まだ日本語ネイティブによる確認は受けていません。</p>
+          <div class="scrollcue">
+            <a class="btn solid" href="#builder">プロンプトを作る</a>
+            <a class="btn" href="#game">遊ぶ：足りないピースを探せ</a>
+          </div>
+        </div>
+        <div class="prompt-strip" role="note" aria-label="論理のファミリーごとに色分けしたプロンプトの例">
+          <span class="cap">ひとつの依頼、7種類の論理</span>
+          <span id="hero-prompt"><span class="tok" style="font-weight:600">月の形が変わって見えるのはなぜか、説明してください。</span><span class="tok" data-d="frame" style="background:var(--dc);color:var(--dt)" title="役割">あなたは辛抱強い小学校の理科の先生です。</span><span class="tok" data-d="premises" style="background:var(--dc);color:var(--dt)" title="背景">娘の部屋の窓から細い三日月を見たあと、寝る前に娘からこの質問をされました。</span><span class="tok" data-d="bounds" style="background:var(--dc);color:var(--dt)" title="範囲">形が変わる理由だけを扱い、月食や潮の満ち引きには触れないでください。</span><span class="tok" data-d="goal" style="background:var(--dc);color:var(--dt)" title="目的">目標は、娘が自分の言葉で私に説明し返せるようになることです。</span><span class="tok" data-d="evidence" style="background:var(--dc);color:var(--dt)" title="出典">確かめたくなりそうな事実を使うときは、大人がどんな種類の情報源で確認できるかを教えてください。</span><span class="tok" data-d="testing" style="background:var(--dc);color:var(--dt)" title="複数の視点">宇宙のずっと遠くから地球と月を見下ろした見方も、短く入れてください。そこから見ると、月はいつも太陽の光で半分照らされているとわかります。</span><span class="tok" data-d="dialogue" style="background:var(--dc);color:var(--dt)" title="質問">答える前に、娘について何かわかりにくいことがあれば、1つか2つ質問してください。</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="basics">
+    <div class="wrap">
+      <div class="kicker">第1部 · 5分でわかる論理学</div>
+      <h2 class="section">論理は、読み手がついてくる道</h2>
+      <p class="lede" style="margin-top:24px;max-width:56ch">チャットボットは、あなたに会ったことがありません。あなたの依頼について知っているのは、あなたが書いたことだけです。ここでは、考えの筋道をたどりやすくするために論理学者が使う考え方を紹介します。どれも、プロンプトの中で役目を持っています。</p>
+      <div class="basics"><article class="basic rise"><div class="term">前提</div><p>正しいものとして受け入れ、そこから考えを進める文のことです。前提が間違っていれば、その上に組み立てたものも間違っているかもしれません。</p><p class="ex">「その美術館は月曜休館だ」は前提です。月曜日の予定は、ここから考え始めます。</p><p class="inp"><b>プロンプトでは：</b> あなたが書く背景、例、定義が前提になります。モデルは、あなたが与えたもの、あるいは自分で推測したものから推論します。</p></article><article class="basic rise"><div class="term">推論と結論</div><p>推論とは、前提から新しい主張へ進む一歩のことです。結論は、その一歩がたどり着く先。示したいことや、決めたいことです。</p><p class="ex">その美術館は月曜休館だ。今日は月曜日だ。だから、今日は美術館が閉まっている。</p><p class="inp"><b>プロンプトでは：</b> 目的は、あなたが求める結論を示します。答えは、あなたの前提からその目的へ向かうモデルの一歩です。</p></article><article class="basic rise"><div class="term">論議領域（談話領域）</div><p>ある文が話題にしているものの範囲のことです。「すべて」や「みんな」という言葉は、範囲を決めて初めて意味を持ちます。</p><p class="ex">「みんなテストに合格した」は、ひとつのクラスの話です。地球上の全員の話ではありません。</p><p class="inp"><b>プロンプトでは：</b> 範囲を決めることが、論議領域を決めることです。決めないと、モデルが勝手に選びます。たいてい、あなたの意図より広すぎるか狭すぎます。</p></article><article class="basic rise"><div class="term">定義と曖昧さ</div><p>定義は、言葉の意味を固定します。ひとつの言葉が複数の意味にとれるとき、その言葉は曖昧（多義的）です。論証の途中で意味をすり替えてしまう誤りを、曖昧語法の誤謬といいます。</p><p class="ex">「軽い食事」は、カロリーが低いという意味にも、量が少ないという意味にもとれます。どちらか言えば、迷いは消えます。</p><p class="inp"><b>プロンプトでは：</b> 用語の項目で大事な言葉を定義すれば、「安い」「短い」「簡単」があなたの意味で伝わります。</p></article><article class="basic rise"><div class="term">必要条件と十分条件</div><p>必要条件は、満たさなければならないけれど、それだけでは足りないかもしれない条件です。十分条件は、それだけで足りる条件です。</p><p class="ex">電車に乗るには切符が必要です。でも切符だけでは十分ではありません。電車が動いていることも必要です。</p><p class="inp"><b>プロンプトでは：</b> 制約、形式、期限は必要条件です。全部満たしても、よい答えになるとは限りません。</p></article><article class="basic rise"><div class="term">証拠と帰納</div><p>証拠とは、主張を支えるものです。帰納とは、いくつかの個別の例から一般的なパターンを導くことです。強い推論にはなりえますが、確実にはなりません。</p><p class="ex">これまで見た白鳥はどれも白かったので、次の白鳥も白いだろうと思います。ところがオーストラリアに行くと、黒い白鳥に出会います。</p><p class="inp"><b>プロンプトでは：</b> 例は帰納によって教えます。出典、統計、引用は証拠です。ただし、本物であるときだけ証拠になります。</p></article><article class="basic rise"><div class="term">反例</div><p>一般的な主張が間違っていることを示す、ひとつの例のことです。反例を探すことで、考えをただ信じるのではなく、試すことができます。</p><p class="ex">「鳥はみんな空を飛べる」。ペンギンが反例です。ひとつあれば十分です。</p><p class="inp"><b>プロンプトでは：</b> 反論や複数の視点を求めると、モデルはあなたの考えがうまくいかない場合を探してくれます。</p></article><article class="basic rise"><div class="term">グライスの会話の格率</div><p>哲学者H・P・グライスは、協力しあう会話が何を前提にしているかを説明しました。多すぎず少なすぎず必要なだけ言う。本当のことを言う。関係のあることを言う。わかりやすく言う。この4つの格率です。</p><p class="ex">「ガソリンが切れそうなんだ」「角を曲がったところにガソリンスタンドがあるよ」。あなたは、その店が開いていて、ガソリンを売っていると受け取ります。これが協調的な会話の働きです。</p><p class="inp"><b>プロンプトでは：</b> よいプロンプトは、あなたの目的に合わせて、モデルが十分な情報を、正しく、関係のある形で、わかりやすく答えるのに必要なものを渡します。</p></article></div>
+      <p class="note">グライスが説明したのは人と人の会話です。彼の格率をチャットボットに当てはめるのは便利なものの見方であって、モデルが協力的な人間だという主張ではありません。</p>
+
+      <div class="syl" id="valid">
+        <div class="syl-board rise">
+          <div class="kicker">試してみよう · 妥当と正しいは別もの</div>
+          <div class="syl-line"><span class="lab" aria-label="前提1">P1</span><span class="txt" id="syl-p1">すべての哺乳類は空気を吸って呼吸する。</span></div>
+          <div class="syl-line"><span class="lab" aria-label="前提2">P2</span><span class="txt" id="syl-p2">クジラは哺乳類である。</span></div>
+          <div class="syl-line concl"><span class="lab" aria-label="したがって" style="font-size:20px;color:var(--ink)">∴</span><span class="txt" id="syl-c">だから、クジラは空気を吸って呼吸する。</span></div>
+          <div class="stamps" aria-live="polite">
+            <span class="stamp yes" id="st-valid">妥当</span>
+            <span class="stamp yes" id="st-sound">健全</span>
+          </div>
+          <div><button type="button" class="btn small" id="syl-swap" aria-pressed="false">間違った前提に入れ替える</button></div>
+        </div>
+        <div class="syl-side">
+          <div class="big">形はよし、事実はだめ、自信満々のでたらめ。</div>
+          <p id="syl-note">どちらの論証も同じ妥当な形をしています。前提が正しければ、結論も必ず正しくなる形です。でも健全なのは最初の論証だけです。前提が本当に正しいからです。</p>
+          <p>プロンプトも同じです。きちんと整った依頼でも、間違った前提の上に立っていることがあります。そして答えは、その前提に忠実に従います。</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="table">
+    <div class="wrap">
+      <div class="kicker">第2部 · 要素</div>
+      <h2 class="section">プロンプトの周期表</h2>
+      <p class="lede" style="margin-top:24px;max-width:58ch">21の要素が、7つの論理のファミリーに分かれています。全部を一度に使う必要はありません。抜けた要素はどれも、モデルが推測しなければならないことです。要素をタップすると説明が読めます。</p>
+      <div class="ptable"><div class="pcol" role="list" aria-label="設定"><div class="phead" aria-hidden="true">設定</div><a class="tile" role="listitem" href="#act-as" data-d="frame" aria-label="役割、設定、要素1"><span class="n">1</span><span class="sym">Ac</span><span class="nm">役割</span></a><a class="tile" role="listitem" href="#audience" data-d="frame" aria-label="読み手、設定、要素2"><span class="n">2</span><span class="sym">Au</span><span class="nm">読み手</span></a><a class="tile" role="listitem" href="#tone" data-d="frame" aria-label="トーン、設定、要素3"><span class="n">3</span><span class="sym">To</span><span class="nm">トーン</span></a><a class="tile" role="listitem" href="#language" data-d="frame" aria-label="言語、設定、要素4"><span class="n">4</span><span class="sym">La</span><span class="nm">言語</span></a></div><div class="pcol" role="list" aria-label="前提"><div class="phead" aria-hidden="true">前提</div><a class="tile" role="listitem" href="#context" data-d="premises" aria-label="背景、前提、要素5"><span class="n">5</span><span class="sym">Cx</span><span class="nm">背景</span></a><a class="tile" role="listitem" href="#examples" data-d="premises" aria-label="例、前提、要素6"><span class="n">6</span><span class="sym">Ex</span><span class="nm">例</span></a><a class="tile" role="listitem" href="#keywords" data-d="premises" aria-label="キーワード、前提、要素7"><span class="n">7</span><span class="sym">Kw</span><span class="nm">キーワード</span></a><a class="tile" role="listitem" href="#terminology" data-d="premises" aria-label="用語、前提、要素8"><span class="n">8</span><span class="sym">Tm</span><span class="nm">用語</span></a></div><div class="pcol" role="list" aria-label="境界"><div class="phead" aria-hidden="true">境界</div><a class="tile" role="listitem" href="#scope" data-d="bounds" aria-label="範囲、境界、要素9"><span class="n">9</span><span class="sym">Sc</span><span class="nm">範囲</span></a><a class="tile" role="listitem" href="#limitations" data-d="bounds" aria-label="制約、境界、要素10"><span class="n">10</span><span class="sym">Li</span><span class="nm">制約</span></a><a class="tile" role="listitem" href="#deadline" data-d="bounds" aria-label="期限、境界、要素11"><span class="n">11</span><span class="sym">Dl</span><span class="nm">期限</span></a><a class="tile" role="listitem" href="#format" data-d="bounds" aria-label="形式、境界、要素12"><span class="n">12</span><span class="sym">Fm</span><span class="nm">形式</span></a></div><div class="pcol" role="list" aria-label="ゴール"><div class="phead" aria-hidden="true">ゴール</div><a class="tile" role="listitem" href="#objective" data-d="goal" aria-label="目的、ゴール、要素13"><span class="n">13</span><span class="sym">Ob</span><span class="nm">目的</span></a><a class="tile" role="listitem" href="#call-to-action" data-d="goal" aria-label="次の行動、ゴール、要素14"><span class="n">14</span><span class="sym">Ca</span><span class="nm">次の行動</span></a></div><div class="pcol" role="list" aria-label="根拠"><div class="phead" aria-hidden="true">根拠</div><a class="tile" role="listitem" href="#citations" data-d="evidence" aria-label="出典、根拠、要素15"><span class="n">15</span><span class="sym">Ci</span><span class="nm">出典</span></a><a class="tile" role="listitem" href="#statistics" data-d="evidence" aria-label="統計、根拠、要素16"><span class="n">16</span><span class="sym">St</span><span class="nm">統計</span></a><a class="tile" role="listitem" href="#quotes" data-d="evidence" aria-label="引用、根拠、要素17"><span class="n">17</span><span class="sym">Qu</span><span class="nm">引用</span></a></div><div class="pcol" role="list" aria-label="検証"><div class="phead" aria-hidden="true">検証</div><a class="tile" role="listitem" href="#points-of-view" data-d="testing" aria-label="複数の視点、検証、要素18"><span class="n">18</span><span class="sym">Pv</span><span class="nm">複数の視点</span></a><a class="tile" role="listitem" href="#counterarguments" data-d="testing" aria-label="反論、検証、要素19"><span class="n">19</span><span class="sym">Co</span><span class="nm">反論</span></a><a class="tile" role="listitem" href="#analogies" data-d="testing" aria-label="たとえ、検証、要素20"><span class="n">20</span><span class="sym">An</span><span class="nm">たとえ</span></a></div><div class="pcol" role="list" aria-label="対話"><div class="phead" aria-hidden="true">対話</div><a class="tile" role="listitem" href="#questions" data-d="dialogue" aria-label="質問、対話、要素21"><span class="n">21</span><span class="sym">Qs</span><span class="nm">質問</span></a></div></div>
+      <div class="legend"><a class="dchip" data-d="frame" href="#d-frame" style="text-decoration:none">設定 · 話し手、聞き手、語り口</a><a class="dchip" data-d="premises" href="#d-premises" style="text-decoration:none">前提 · 与えられていること、定義されていること</a><a class="dchip" data-d="bounds" href="#d-bounds" style="text-decoration:none">境界 · 論議領域と制約</a><a class="dchip" data-d="goal" href="#d-goal" style="text-decoration:none">ゴール · 求める結論</a><a class="dchip" data-d="evidence" href="#d-evidence" style="text-decoration:none">根拠 · 主張を支えるもの</a><a class="dchip" data-d="testing" href="#d-testing" style="text-decoration:none">検証 · 反例と、ほかの立場</a><a class="dchip" data-d="dialogue" href="#d-dialogue" style="text-decoration:none">対話 · すき間を埋める協力</a></div>
+    </div>
+  </section>
+
+  <section class="domain" id="d-frame" data-d="frame"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">1</div><div><div class="kicker">第1族（全7族）</div><h2 class="dname">設定</h2></div></div><div class="dmeta"><span class="dchip">話し手、聞き手、語り口</span><span class="q">誰が、誰に、どう話す？</span></div><div class="parts"><article class="part rise" id="act-as" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">Ac</span><div><h3>役割</h3><span class="n">01 / 21</span></div><span></span></div><div class="body"><p class="line">モデルに演じてもらう役柄です。使う言葉、説明の深さ、ものの見方が決まります。</p><p class="logic"><b>論理</b>話し手の立場を固定します。議論で視点を選ぶのと同じで、どの前提が関係ありそうに見えるか、どんな言葉を使うかが変わります。知識や資格が増えるわけではありません。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">家庭菜園のコツを教えてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>あなたは市民農園で長年野菜を育ててきたベテランです。</mark>家庭菜園のコツを教えてください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> どんな専門家の口調で、どのくらい詳しく、どの角度から答えてほしいか。</span></p><p class="pit"><b>注意：</b> 役割は衣装であって、資格ではありません。医者を演じるモデルは医者ではありません。健康、法律、お金のアドバイスは、本物の専門家に確かめてください。</p></div></article><article class="part rise" id="audience" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">Au</span><div><h3>読み手</h3><span class="n">02 / 21</span></div><span class="maxim" title="グライスの量の格率">量</span></div><div class="body"><p class="line">答えを読む人、使う人は誰か。その人がすでに何を知っているか。</p><p class="logic"><b>論理</b>答えが前提にできる共通の知識を決めます。どれだけの情報があれば十分かは聞き手しだいなので、読み手を決めると、どこまで説明するかが決まります。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">住宅ローンの仕組みを説明してください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>初めて家を買う、ローンを一度も組んだことのない人に向けて、</mark>住宅ローンの仕組みを説明してください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 基本から説明するか省くか、読み手がどの言葉を知っているか。</span></p><p class="pit"><b>注意：</b> 「初心者向け」のようなぼんやりした読み手より、その人がすでに知っていることと、答えを使って何をしたいかを伝えるほうが役立ちます。</p></div></article><article class="part rise" id="tone" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">To</span><div><h3>トーン</h3><span class="n">03 / 21</span></div><span></span></div><div class="body"><p class="line">返事の感情の色合いです。親しみやすい、改まった、きっぱりした、楽しげ、落ち着いた、など。</p><p class="logic"><b>論理</b>トーンは言い方を変えますが、主張の中身は変えません。論理学は内容と表現を分けて考えます。トーンは表現についての注文です。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">チームのお花見が中止になったことを伝えるメッセージを書いてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">チームのお花見が中止になったことを伝える<mark>温かく明るい</mark>メッセージを書いてください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 温かく話すか、中立か、改まった調子か、率直か。</span></p><p class="pit"><b>注意：</b> トーンは内容をぼかすことがあります。「安心させるように」と頼んだら、はっきり知りたかった事実が和らげられていないか確かめましょう。</p></div></article><article class="part rise" id="language" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">La</span><div><h3>言語</h3><span class="n">04 / 21</span></div><span class="maxim" title="グライスの様態の格率">様態</span></div><div class="body"><p class="line">何語で答えるか、言葉づかいをどれくらいやさしく、または専門的にするか。</p><p class="logic"><b>論理</b>文は、双方が同じように読めてこそ働きます。言語と読みやすさのレベルを選べば、わかりにくさを避けられます。わかりにくさは、グライスの様態の格率が戒めているものです。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">お隣さんに渡す、植木の水やりのしかたのメモを作ってください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">お隣さんに渡す、植木の水やりのしかたのメモを<mark>やさしい英語で</mark>作ってください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> どの言語、どの表記、どのくらいの読みやすさにするか。</span></p><p class="pit"><b>注意：</b> 翻訳は、なめらかに読めても間違っていることがあります。薬の説明や契約書など大事なものは、その言語を使いこなせる人に確認してもらいましょう。</p></div></article></div></div></section><section class="domain" id="d-premises" data-d="premises"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">2</div><div><div class="kicker">第2族（全7族）</div><h2 class="dname">前提</h2></div></div><div class="dmeta"><span class="dchip">与えられていること、定義されていること</span><span class="q">答えは何を前提にしてよい？</span></div><div class="parts"><article class="part rise" id="context" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Cx</span><div><h3>背景</h3><span class="n">05 / 21</span></div><span class="maxim" title="グライスの関係の格率">関係</span></div><div class="body"><p class="line">答えの土台にしてほしい、あなたの状況についての事実です。</p><p class="logic"><b>論理</b>背景は前提を与えます。つまり、正しいものとして受け入れる文です。結論の質は、出発点の前提の質を超えません。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">今夜作れる晩ごはんを提案してください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>家にあるのはご飯と卵とほうれん草で、使える時間は20分です。パートナーはベジタリアンです。</mark>今夜作れる晩ごはんを提案してください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> あなたの状況。わからないので、あなたには当てはまらないかもしれない典型的な例で埋めます。</span></p><p class="pit"><b>注意：</b> 間違った前提からは、自信満々のでたらめが出てきます。背景の事実が間違っていたり古かったりすれば、筋の通った答えでもたぶん間違っています。</p></div></article><article class="part rise" id="examples" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Ex</span><div><h3>例</h3><span class="n">06 / 21</span></div><span></span></div><div class="body"><p class="line">よい答えがどんなものかを示す、ひとつ以上の見本です。</p><p class="logic"><b>論理</b>例は帰納によって働きます。いくつかの例から、モデルは一般的なパターンを推測します。帰納である以上、モデルが選んだパターンがあなたの意図したものとは限りません。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">うちに来たグレーの子猫の名前を考えてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">うちに来たグレーの子猫の名前を考えてください。<mark>好きな名前の例は「こいし」「すす」「おもち」です。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> あなたの頭の中にある、文体、長さ、パターン。</span></p><p class="pit"><b>注意：</b> モデルは例をそっくりまねることがあります。偶然の特徴まで。例が全部食べ物の名前なら、食べ物の名前ばかり出てくると思ってください。わざとばらつかせましょう。</p></div></article><article class="part rise" id="keywords" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Kw</span><div><h3>キーワード</h3><span class="n">07 / 21</span></div><span class="maxim" title="グライスの関係の格率">関係</span></div><div class="body"><p class="line">必ず入れてほしい言葉や名前、話題をはっきりさせる言葉です。</p><p class="logic"><b>論理</b>キーワードは、答えが扱うべき主題を示します。関連性のテストとして働きます。一度も触れない答えは、質問からそれています。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">うちのパン屋のウェブサイトに載せる、短い紹介文を書いてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">うちのパン屋のウェブサイトに載せる、短い紹介文を書いてください。<mark>天然酵母のパン、家族に伝わるレシピ、土曜日のマルシェのことに触れてください。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> あなたが気にかけている、具体的な名前、もの、考え。</span></p><p class="pit"><b>注意：</b> キーワードを並べすぎると、言葉の寄せ集めになります。本当に大事な言葉をいくつか選び、ただ入っているだけでなく、正しく使われているか確かめましょう。</p></div></article><article class="part rise" id="terminology" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Tm</span><div><h3>用語</h3><span class="n">08 / 21</span></div><span class="maxim" title="グライスの様態の格率">様態</span></div><div class="body"><p class="line">依頼の中で、複数の意味にとれる言葉の定義です。</p><p class="logic"><b>論理</b>言葉を定義すると、曖昧語法の誤謬を防げます。途中でひとつの言葉の意味がずれてしまう誤りです。定義は、大事な言葉が何を指すかを最初から最後まで固定します。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">長距離レースに向けた練習計画を立ててください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">長距離レースに向けた練習計画を立ててください。<mark>ここで言う長距離は、フルマラソンではなく10kmのレースのことです。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 曖昧な言葉を、あなたがどの意味で使っているか。</span></p><p class="pit"><b>注意：</b> 自分の言葉は、自分には当たり前に思えます。「安い」「すぐ」「健康的」「短い」のような言葉に、誤解は隠れています。数字で固定しましょう。</p></div></article></div></div></section><section class="domain" id="d-bounds" data-d="bounds"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">3</div><div><div class="kicker">第3族（全7族）</div><h2 class="dname">境界</h2></div></div><div class="dmeta"><span class="dchip">論議領域と制約</span><span class="q">何を含め、何を外し、どんな形にする？</span></div><div class="parts"><article class="part rise" id="scope" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Sc</span><div><h3>範囲</h3><span class="n">09 / 21</span></div><span class="maxim" title="グライスの関係の格率">関係</span></div><div class="body"><p class="line">答えが何を扱い、何を扱わないか。</p><p class="logic"><b>論理</b>範囲は論議領域を決めます。会話が話題にしているものの集まりです。主張はその領域の中で判断されるので、領域がぼやけていると答えもぼやけます。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">自転車の歴史について教えてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>1860年から1900年までの</mark>自転車の歴史について、<mark>レースの話は除いて、設計の変化だけに絞って</mark>教えてください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> どのくらい広く、または狭くするか、何を話題外とみなすか。</span></p><p class="pit"><b>注意：</b> 範囲を狭くしすぎると、大事なことが見えなくなることがあります。範囲のすぐ外に重要なことがあれば教えてほしい、と添えておきましょう。</p></div></article><article class="part rise" id="limitations" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Li</span><div><h3>制約</h3><span class="n">10 / 21</span></div><span></span></div><div class="body"><p class="line">答えが守るべきルールです。長さ、費用、避けてほしいこと、など。</p><p class="logic"><b>論理</b>制約は必要条件です。ひとつでも破れば、ほかがどんなによくても失格です。でも、すべての制約を守っても、それだけで十分によい答えになるわけではありません。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">10歳の子どもの誕生日パーティー向けの遊びを提案してください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">10歳の子どもの誕生日パーティー向けの遊びを、<mark>屋内でできて、画面を使わず、たいていの家にある物だけで済むものに限って</mark>提案してください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> あなたの譲れない条件。わからないので、使えないものを提案するかもしれません。</span></p><p class="pit"><b>注意：</b> 答えがそれぞれの制約を守っているか、自分で確かめましょう。モデルは、守ったような顔をして、字数などのルールをこっそり破ることがあります。</p></div></article><article class="part rise" id="deadline" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Dl</span><div><h3>期限</h3><span class="n">11 / 21</span></div><span></span></div><div class="body"><p class="line">あなたのタスク、または必要な情報が属する時間の枠です。</p><p class="logic"><b>論理</b>これは論理というより、ほとんど実用の話です。チャットモデルは、予定に合わせてではなく、聞かれたときに答えます。論理に関わるのは時点の指定です。多くの主張は、ある日付の時点でだけ正しいのです。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">運転免許の試験に向けた勉強計画を立ててください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>今日から3週間後にある</mark>運転免許の試験に向けた勉強計画を立ててください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> どの日付が大事か、事実がどれだけ新しくなければならないか。</span></p><p class="pit"><b>注意：</b> モデルには知識のカットオフ（学習データの期限）があり、今日の日付を知らないこともあります。時間が関わることは、日付を自分で伝え、最近の事実はほかで確かめましょう。</p></div></article><article class="part rise" id="format" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Fm</span><div><h3>形式</h3><span class="n">12 / 21</span></div><span class="maxim" title="グライスの様態の格率">様態</span></div><div class="body"><p class="line">答えの形です。箇条書き、表、手順、メール、短い段落など。</p><p class="logic"><b>論理</b>形式は、内容ではなく形についての制約です。順序立てて話せというグライスの助言に応えるものです。同じ情報でも、ざっと目を通せる形なら確かめやすくなります。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">通勤手段として、徒歩、自転車、バスを比べてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">通勤手段として、徒歩、自転車、バスを<mark>、1つの手段につき1行の表にして</mark>比べてください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 箇条書きがいいか、表か、文章か、手順か。</span></p><p class="pit"><b>注意：</b> きれいな表は、推測を事実のように見せることがあります。形式は答えを読みやすくしますが、信頼できるものにはしません。</p></div></article></div></div></section><section class="domain" id="d-goal" data-d="goal"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">4</div><div><div class="kicker">第4族（全7族）</div><h2 class="dname">ゴール</h2></div></div><div class="dmeta"><span class="dchip">求める結論</span><span class="q">答えで何を実現したい？</span></div><div class="parts"><article class="part rise" id="objective" data-d="goal"><div class="top"><span class="sym" aria-hidden="true">Ob</span><div><h3>目的</h3><span class="n">13 / 21</span></div><span class="maxim" title="グライスの関係の格率">関係</span></div><div class="body"><p class="line">答えで実現したいこと。依頼全体のねらいです。</p><p class="logic"><b>論理</b>目的は、あなたが推論で目指す結論です。グライスは関連性を会話の目的に結びつけました。目的がなければ、何が関係あるのかを決める手がかりがありません。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">電気自動車について教えてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>次の車を電気自動車にするかどうか決めたいので、</mark>電気自動車について教えてください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> なぜ聞いているのか。わからないので、何が役立つのか判断できません。</span></p><p class="pit"><b>注意：</b> 目的を伝えると、答えがそちらに傾くことがあります。本当に片側だけ聞きたいのでなければ、「説得して」ではなく「決めるのを手伝って」と頼みましょう。</p></div></article><article class="part rise" id="call-to-action" data-d="goal"><div class="top"><span class="sym" aria-hidden="true">Ca</span><div><h3>次の行動</h3><span class="n">14 / 21</span></div><span></span></div><div class="body"><p class="line">答えの最後に示してほしい、あなたや読む人がとる次の一歩です。</p><p class="logic"><b>論理</b>論証は、実践的な結論で終わることがあります。何をするかという決定です。次の行動を示すと、推論がひとつのはっきりした一歩になります。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">町内の清掃活動のチラシを作ってください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">町内の清掃活動のチラシを、<mark>最後に公民館の受付で参加を申し込むよう呼びかける形で</mark>作ってください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 最後に次の一歩を示すかどうか、それは何か。</span></p><p class="pit"><b>注意：</b> 押しつけがましい呼びかけは逆効果です。プレッシャーや「残りわずか2名」のような作られた緊急性ではなく、はっきりした正直な一歩をひとつだけ求めましょう。</p></div></article></div></div></section><section class="domain" id="d-evidence" data-d="evidence"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">5</div><div><div class="kicker">第5族（全7族）</div><h2 class="dname">根拠</h2></div></div><div class="dmeta"><span class="dchip">主張を支えるもの</span><span class="q">それぞれの主張を何が支えている？</span></div><div class="parts"><article class="part rise" id="citations" data-d="evidence"><div class="top"><span class="sym" aria-hidden="true">Ci</span><div><h3>出典</h3><span class="n">15 / 21</span></div><span class="maxim" title="グライスの質の格率">質</span></div><div class="body"><p class="line">答えが示すべき情報源です。それぞれの主張がどこから来たのか確かめられます。</p><p class="logic"><b>論理</b>出典は、主張とその証拠を結びつけます。グライスの質の格率に応えるものです。十分な証拠のないことは言うな、という格率です。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">暗いところで本を読むと目が悪くなるのか、説明してください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say"><mark>下に貼り付けた健康記事だけを使って、</mark>暗いところで本を読むと目が悪くなるのか、説明してください。<mark>それぞれの点が記事のどの段落に基づいているかも示してください。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 情報源が必要かどうか、どんな種類の情報源を信頼するか。</span></p><p class="pit"><b>注意：</b> モデルは、本物らしく見える出典をでっち上げることがあります。ありそうな題名、著者、リンクなのに、実在しないのです。できるだけ自分で情報源を渡し、どの出典も開いて確かめてから信じましょう。</p></div></article><article class="part rise" id="statistics" data-d="evidence"><div class="top"><span class="sym" aria-hidden="true">St</span><div><h3>統計</h3><span class="n">16 / 21</span></div><span class="maxim" title="グライスの質の格率">質</span></div><div class="body"><p class="line">主張を支える数字です。件数、平均、割合など。</p><p class="logic"><b>論理</b>数字を使って一般的な主張を支えるのは、帰納の一種です。数字が主張を支えるのは、それが本物で、新しく、正しい集団についてのものであるときだけです。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">私たちの町に新しい横断歩道が必要な理由を、1段落で書いてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">私たちの町に新しい横断歩道が必要な理由を、<mark>下に貼り付けた交通量調査の数字を使って、</mark>1段落で書いてください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 数字がほしいかどうか、どれくらい正確でなければならないか。</span></p><p class="pit"><b>注意：</b> モデルは、本当の出どころのない、正確そうな数字を作り出すことがあります。できるだけ自分のデータを渡し、数字をくり返す前に、ひとつひとつ出どころまでたどりましょう。</p></div></article><article class="part rise" id="quotes" data-d="evidence"><div class="top"><span class="sym" aria-hidden="true">Qu</span><div><h3>引用</h3><span class="n">17 / 21</span></div><span class="maxim" title="グライスの質の格率">質</span></div><div class="body"><p class="line">実在の人や文章の言葉を、一字一句そのまま使うことです。</p><p class="logic"><b>論理</b>引用は証言です。誰かがそう言ったという証拠です。正確で、文脈に合っているときだけ証拠になります。間違った引用は、間違った前提です。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">祖母の卒寿（90歳）のお祝いで話す、短いスピーチを書いてください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">祖母の卒寿（90歳）のお祝いで話す、短いスピーチを書いてください。<mark>祖母の口ぐせを引用したいので、下に一字一句そのまま書いておきます。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 引用がほしいかどうか、誰の言葉か、どれくらい正確に。</span></p><p class="pit"><b>注意：</b> モデルは引用をでっち上げたり、本物の言葉を別の人のものにしたりすることがあります。正確な言葉を自分で貼り付けるか、信頼できる原典で確かめましょう。</p></div></article></div></div></section><section class="domain" id="d-testing" data-d="testing"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">6</div><div><div class="kicker">第6族（全7族）</div><h2 class="dname">検証</h2></div></div><div class="dmeta"><span class="dchip">反例と、ほかの立場</span><span class="q">この推論はどこで崩れうる？</span></div><div class="parts"><article class="part rise" id="points-of-view" data-d="testing"><div class="top"><span class="sym" aria-hidden="true">Pv</span><div><h3>複数の視点</h3><span class="n">18 / 21</span></div><span></span></div><div class="body"><p class="line">あなただけでなく、ほかの人の立場からも考えてもらうことです。</p><p class="logic"><b>論理</b>いくつもの立場から見ると、結論が関係者全員にとって成り立つかを試せます。ある側から見て当たり前の前提が、別の側から見ると間違っていたり、関係なかったりします。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">うちの家族は犬を飼うべきでしょうか？</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">うちの家族は犬を飼うべきでしょうか？<mark>子どもたち、散歩を担当する親、そして高齢のお隣さん、それぞれの立場から考えてください。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 誰の利益と意見を考えに入れるか。わからないので、片側だけの答えになるかもしれません。</span></p><p class="pit"><b>注意：</b> 意見を並べることと、比べて重みをつけることは違います。両論を対等に見せると、片方のほうがずっと証拠が強いことが隠れてしまいます。</p></div></article><article class="part rise" id="counterarguments" data-d="testing"><div class="top"><span class="sym" aria-hidden="true">Co</span><div><h3>反論</h3><span class="n">19 / 21</span></div><span></span></div><div class="body"><p class="line">ある考えに対する最も強い反対意見です。頼りにする前に試すことができます。</p><p class="logic"><b>論理</b>ポパーの反証の考え方です。考えを確かめるだけでなく、否定しようとしてみる。反例がひとつあれば一般的な主張は崩れます。反論は弱点を探します。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">手作りキャンドルをネットで売り始める計画を書きました。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">手作りキャンドルをネットで売り始める計画を書きました。<mark>失敗しうる理由のうち、最も有力なものを3つ挙げてください。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> 正直な反対意見がほしいのか、ただ賛成してほしいのか。</span></p><p class="pit"><b>注意：</b> モデルは、聞いている人に同意しがちです。反対意見を一度も求めていないなら、反対意見が出てこなくても、あなたの考えがよいという証拠にはなりません。</p></div></article><article class="part rise" id="analogies" data-d="testing"><div class="top"><span class="sym" aria-hidden="true">An</span><div><h3>たとえ</h3><span class="n">20 / 21</span></div><span class="maxim" title="グライスの様態の格率">様態</span></div><div class="body"><p class="line">なじみのあるものと比べて、新しいことを説明する手助けにすることです。</p><p class="logic"><b>論理</b>たとえは、よく知っている例の構造を新しい例に重ねます。説明したりヒントを与えたりはできますが、証明にはなりません。どこで崩れるかを探して試しましょう。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">コンピューターのメモリの仕組みを説明してください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">コンピューターのメモリの仕組みを、<mark>台所での料理にたとえて</mark>説明してください。</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> あなたがよく知っていて、比べる相手にできるものは何か。</span></p><p class="pit"><b>注意：</b> どんなたとえも、どこかで崩れます。たとえが当てはまらなくなるのはどこかも、モデルに言ってもらいましょう。当てはまらない部分まで持ち込まずに済みます。</p></div></article></div></div></section><section class="domain" id="d-dialogue" data-d="dialogue"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">7</div><div><div class="kicker">第7族（全7族）</div><h2 class="dname">対話</h2></div></div><div class="dmeta"><span class="dchip">すき間を埋める協力</span><span class="q">まだ何が足りない？誰が補う？</span></div><div class="parts"><article class="part rise" id="questions" data-d="dialogue"><div class="top"><span class="sym" aria-hidden="true">Qs</span><div><h3>質問</h3><span class="n">21 / 21</span></div><span class="maxim" title="グライスの量の格率">量</span></div><div class="body"><p class="line">答える前に、必要なことをあなたに質問するよう、モデルに促すことです。</p><p class="logic"><b>論理</b>質問は、一発勝負の推測を対話に変えます。足りない前提が推測されるのではなく補われるので、答えはあなたに必要なだけの情報を持てます。</p><div class="flip"><div class="row weak"><span class="tag">弱い例</span><span class="say">転職先に出す志望動機の文章を書くのを手伝ってください。</span></div><div class="row strong"><span class="tag">強い例</span><span class="say">転職先に出す志望動機の文章を書くのを手伝ってください。<mark>書き始める前に、その仕事と私の経験について、5つまで質問してください。</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>抜けると、モデルが推測すること</b> あなたが言い忘れたことすべて。黙って、ありがちな既定値で埋めます。</span></p><p class="pit"><b>注意：</b> モデルの質問は、あなたの答え以上には役立ちません。正直に、具体的に答えましょう。あなたが推測で答えれば、モデルはその推測の上に組み立てます。</p></div></article></div></div></section>
+
+  <section class="band" id="builder">
+    <div class="wrap">
+      <div class="kicker">第3部 · 実験室</div>
+      <h2 class="section">組み立てて、推測を減らそう</h2>
+      <noscript><p class="nojs">作成ツールにはJavaScriptが必要です。使われている要素はすべて、上の章で説明しています。</p></noscript>
+      <div class="bench">
+        <div class="kicker">1 · タスクを選ぶ</div>
+        <div class="tasks" id="tasks" role="group" aria-label="タスク"></div>
+        <div class="bgrid">
+          <div class="toggles">
+            <div class="kicker">2 · 要素をオン・オフする</div>
+            <div id="toggles"></div>
+            <div class="presets">
+              <button type="button" data-preset="none">依頼だけ</button>
+              <button type="button" data-preset="core">基本の5つ</button>
+              <button type="button" data-preset="all">全部</button>
+            </div>
+          </div>
+          <div class="out">
+            <div class="kicker" style="color:var(--ink-2)">3 · あなたのプロンプト</div>
+            <div class="ptext" id="ptext"></div>
+            <div class="meter">
+              <div class="num" id="gnum">21</div>
+              <div class="cap" id="gcap">個の要素が未記入<br><span style="font-weight:400;font-size:15px;color:var(--ink-2)">どれも、モデルが自分で埋めることになります</span></div>
+              <span class="sr" id="glive" aria-live="polite"></span>
+              <div class="bar" aria-hidden="true"><i id="gbar" style="width:100%"></i></div>
+            </div>
+            <div class="guesses" id="guesses"></div>
+            <div class="outacts"><button type="button" class="btn small solid" id="copy">プロンプトをコピー</button></div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:22px;color:var(--ink-2)">要素は多ければいいわけではありません。「全部」にすると長いプロンプトになります。大事なのは、このタスクでどの推測が問題になるかに気づき、そこを埋めることです。</p>
+    </div>
+  </section>
+
+  <section class="band" id="game">
+    <div class="wrap">
+      <div class="kicker">第4部 · ゲーム</div>
+      <h2 class="section">足りないピースを探せ</h2>
+      <p class="lede" style="margin-top:24px;max-width:56ch">下の依頼は、どれも残念な答えが返ってきました。プロンプトにどの要素をひとつ足せば、いちばん役に立ったでしょう？</p>
+      <noscript><p class="nojs">ゲームにはJavaScriptが必要です。</p></noscript>
+      <div class="game">
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="game-side">
+          <div class="score" id="score"></div>
+          <div class="opts" id="opts"></div>
+          <div class="verdict" id="verdict" aria-live="polite"><span style="color:var(--ink-3)">答えを選んでください。</span></div>
+          <div><button type="button" class="btn small solid" id="next" hidden>次へ</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="limits">
+    <div class="wrap">
+      <div class="kicker">第5部 · 正直な限界</div>
+      <h2 class="truth">構造は真実<span style="color:var(--hot)">ではない</span>。</h2>
+      <div class="limits"><article class="limit rise"><h3>構造は真実ではない</h3><p>よく組み立てたプロンプトは、役立つ答えが返ってくる可能性を高めます。でも、答えを正しくするわけではありません。間違った前提から出発した妥当な論証は、間違った結論にたどり着くことがあり、しかも形の上にはそれを知らせるものが何もありません。モデルも、間違った推測からなめらかに推論してしまうことがあります。</p></article><article class="limit rise"><h3>出典は作られうる</h3><p>出典、引用、統計を求められると、モデルは本物らしく見えて実在しないものを出すことがあります。できるだけ自分の情報源やデータを渡し、頼ったり人に伝えたりする前に、すべての参考文献、引用、数字を確かめましょう。</p></article><article class="limit rise"><h3>知識には期限がある</h3><p>モデルは、ある日付までの文章から学んでいます。それ以降に起きたことや、今日の日付さえ知らないかもしれません。時期が大事なときは「何年何月時点で」と伝え、最近の事実は最新の情報源で確かめましょう。</p></article><article class="limit rise"><h3>役割は資格ではない</h3><p>医師、弁護士、会計士として振る舞うようモデルに頼むと、使う言葉と視点が変わります。でも、訓練も、免許も、責任も、あなたの状況すべてについての知識も与えるわけではありません。</p></article><article class="limit rise"><h3>責任はあなたに残る</h3><p>答えは、あなたが判断するための下書きです。あなたの代わりに決めてくれたものではありません。健康、法律、お金、安全に関わることは、行動する前に資格のある専門家に確かめましょう。</p></article></div>
+    </div>
+  </section>
+
+  <section class="band" id="cheat">
+    <div class="wrap">
+      <div class="kicker">第6部 · 手もとに置こう</div>
+      <h2 class="section">チェックリスト</h2>
+      <p class="lede" style="margin-top:24px">送信ボタンを押す前に、ファミリーを順にチェックしましょう。チェックは、このブラウザの中にだけ保存されます。</p>
+      <div class="cheat" id="cheatlist"><label class="check" data-d="frame"><input type="checkbox" id="c-0"><span>誰が答え、誰が読むのかを伝えた？<small>設定</small></span></label><label class="check" data-d="frame"><input type="checkbox" id="c-1"><span>ほしいトーンと言語を伝えた？<small>設定</small></span></label><label class="check" data-d="premises"><input type="checkbox" id="c-2"><span>自分の状況についての事実を伝えた？<small>前提</small></span></label><label class="check" data-d="premises"><input type="checkbox" id="c-3"><span>2通りにとれる言葉を定義した？<small>前提</small></span></label><label class="check" data-d="bounds"><input type="checkbox" id="c-4"><span>何が範囲内で、何が範囲外かを伝えた？<small>境界</small></span></label><label class="check" data-d="bounds"><input type="checkbox" id="c-5"><span>譲れない制約、期限、形式を伝えた？<small>境界</small></span></label><label class="check" data-d="goal"><input type="checkbox" id="c-6"><span>答えを何に使うのかを伝えた？<small>ゴール</small></span></label><label class="check" data-d="evidence"><input type="checkbox" id="c-7"><span>できるだけ自分の情報源やデータを渡した？<small>根拠</small></span></label><label class="check" data-d="evidence"><input type="checkbox" id="c-8"><span>出典、引用、数字をすべて確かめるつもり？<small>根拠</small></span></label><label class="check" data-d="testing"><input type="checkbox" id="c-9"><span>どこが間違っているかもしれないかを聞いた？<small>検証</small></span></label><label class="check" data-d="dialogue"><input type="checkbox" id="c-10"><span>まず質問するようモデルに促した？<small>対話</small></span></label></div>
+      <div class="progress" id="cheatprog"></div>
+    </div>
+  </section>
+
+  <section class="band" id="sources">
+    <div class="wrap">
+      <div class="kicker">これらの考え方の出どころ</div>
+      <h2 class="section" style="font-size:clamp(36px,6vw,72px)">出典</h2>
+      <ul class="sources"><li><a href="https://www.fecundity.com/logic/" rel="noopener"><b>forall x: An Introduction to Formal Logic</b></a> · P. D. Magnus. 無料で公開されている教科書（英語）。論証、前提と結論、妥当性と健全性の違い、量化子と論議領域。</li><li><a href="https://forallx.openlogicproject.org/" rel="noopener"><b>forall x: Calgary. A Free and Open Introduction to Formal Logic</b></a> · Aaron Thomas-Bolduc and Richard Zach, building on Tim Button and P. D. Magnus. Open Logic Projectによる forall x の改訂版（英語）。扱う内容は同じで、定期的に更新されています。</li><li><b>Logic and Conversation</b> · H. P. Grice, 1975. P. Cole、J. L. Morgan編『Syntax and Semantics, Vol. 3: Speech Acts』Academic Press、41〜58ページ所収。協調の原理と、量・質・関係・様態の格率、そしてガソリンとガソリンスタンドの例の出典です。</li><li><a href="https://plato.stanford.edu/entries/grice/" rel="noopener"><b>Paul Grice</b></a> · Richard E. Grandy and Richard Warner. スタンフォード哲学百科事典（英語）。会話の含意を含む、グライスの仕事の概観。</li><li><a href="https://plato.stanford.edu/entries/implicature/" rel="noopener"><b>Implicature</b></a> · Wayne Davis. スタンフォード哲学百科事典（英語）。協調の原理、格率、そして聞き手が言われていないすき間をどう埋めるか。</li><li><a href="https://plato.stanford.edu/entries/logical-consequence/" rel="noopener"><b>Logical Consequence</b></a> · J. C. Beall, Greg Restall and Gil Sagi. スタンフォード哲学百科事典（英語）。結論が前提から導かれるとはどういうことか。妥当性の背景知識。</li><li><a href="https://plato.stanford.edu/entries/definitions/" rel="noopener"><b>Definitions</b></a> · Anil Gupta and Stephen Mackereth. スタンフォード哲学百科事典（英語）。定義の種類と目的。</li><li><a href="https://plato.stanford.edu/entries/ambiguity/" rel="noopener"><b>Ambiguity</b></a> · Adam Sennet. スタンフォード哲学百科事典（英語）。語彙的な曖昧さと構造的な曖昧さ、そしてそれがコミュニケーションにとってなぜ大事か。</li><li><a href="https://plato.stanford.edu/entries/fallacies/" rel="noopener"><b>Fallacies</b></a> · Hans Hansen. スタンフォード哲学百科事典（英語）。古典的な曖昧さの誤謬のひとつとして、曖昧語法の誤謬を扱っています。</li><li><a href="https://plato.stanford.edu/entries/necessary-sufficient/" rel="noopener"><b>Necessary and Sufficient Conditions</b></a> · Andrew Brennan. スタンフォード哲学百科事典（英語）。「制約」の項目で使っている区別。</li><li><a href="https://plato.stanford.edu/entries/induction-problem/" rel="noopener"><b>The Problem of Induction</b></a> · Leah Henderson. スタンフォード哲学百科事典（英語）。例から一般化することが決して確実でない理由。「例」と「統計」の項目の土台です。</li><li><a href="https://plato.stanford.edu/entries/popper/" rel="noopener"><b>Karl Popper</b></a> · Stephen Thornton. スタンフォード哲学百科事典（英語）。反証：ひとつの反例で一般的な主張を否定できる。「反論」の項目の土台です。</li><li><b>The Logic of Scientific Discovery</b> · Karl Popper, 1959. 英語版はHutchinson刊。ドイツ語の原著は『Logik der Forschung』（1934年）。邦訳は『科学的発見の論理』。反証と白鳥の例の一次資料です。</li><li><a href="https://plato.stanford.edu/entries/reasoning-analogy/" rel="noopener"><b>Analogy and Analogical Reasoning</b></a> · Paul Bartha. スタンフォード哲学百科事典（英語）。たとえはヒントや説明にはなっても証明にはならないこと、どこで崩れるかの見きわめ方。</li><li><a href="https://plato.stanford.edu/entries/testimony-episprob/" rel="noopener"><b>Epistemological Problems of Testimony</b></a> · Nick Leonard. スタンフォード哲学百科事典（英語）。証拠の源としての証言。引用を証言として扱う土台です。</li><li><a href="https://www.nature.com/articles/s41598-023-41032-5" rel="noopener"><b>Fabrication and errors in the bibliographic citations generated by ChatGPT</b></a> · William H. Walters and Esther Isabelle Wilder, 2023. Scientific Reports 第13巻。チャットボットが架空の参考文献を作ることを記録した論文。モデルが出典をでっち上げうる、という一般的な主張を裏づけます。</li><li><a href="https://arxiv.org/abs/2310.13548" rel="noopener"><b>Towards Understanding Sycophancy in Language Models</b></a> · Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud and others, 2023. モデルが利用者に同意しがちであることについての研究論文。「反論」の項目の注意点を裏づけます。</li><li><a href="https://arxiv.org/abs/2202.03629" rel="noopener"><b>Survey of Hallucination in Natural Language Generation</b></a> · Ziwei Ji, Nayeon Lee, Rita Frieske and others, 2023. ACM Computing Surveys 55(12)。言語モデルが、なめらかだが裏づけのない内容を作り出す仕組みのレビュー。引用や数字のでっち上げ、指示を守らないことについての一般的な主張を裏づけます。</li><li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" rel="noopener"><b>Prompting best practices</b></a> · Anthropic. AI研究所が公開しているプロンプトの書き方ガイド（英語）。明確な指示、役割、そして意図しないパターンを拾わせないよう変化をつけた例。「例」の項目の注意点を裏づけます。</li><li><a href="https://developers.openai.com/api/docs/guides/prompt-engineering" rel="noopener"><b>Prompt engineering</b></a> · OpenAI. AI研究所が公開しているプロンプトの書き方ガイド（英語）。背景を知るための参考資料です。</li></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Follow or Bounce · <a href="/">索引</a></span>
+    <span>21の要素は実用的なチェックリストで、標準規格ではありません。その背後にある論理は古く、チャットボットは新しいのです。</span>
+  </div>
+</footer>
+
+<script id="content" type="application/json">{"parts":[{"id":"act-as","n":1,"name":"役割","domain":"frame","guess":"どんな専門家の口調で、どのくらい詳しく、どの角度から答えてほしいか。"},{"id":"audience","n":2,"name":"読み手","domain":"frame","guess":"基本から説明するか省くか、読み手がどの言葉を知っているか。"},{"id":"tone","n":3,"name":"トーン","domain":"frame","guess":"温かく話すか、中立か、改まった調子か、率直か。"},{"id":"language","n":4,"name":"言語","domain":"frame","guess":"どの言語、どの表記、どのくらいの読みやすさにするか。"},{"id":"context","n":5,"name":"背景","domain":"premises","guess":"あなたの状況。わからないので、あなたには当てはまらないかもしれない典型的な例で埋めます。"},{"id":"examples","n":6,"name":"例","domain":"premises","guess":"あなたの頭の中にある、文体、長さ、パターン。"},{"id":"keywords","n":7,"name":"キーワード","domain":"premises","guess":"あなたが気にかけている、具体的な名前、もの、考え。"},{"id":"terminology","n":8,"name":"用語","domain":"premises","guess":"曖昧な言葉を、あなたがどの意味で使っているか。"},{"id":"scope","n":9,"name":"範囲","domain":"bounds","guess":"どのくらい広く、または狭くするか、何を話題外とみなすか。"},{"id":"limitations","n":10,"name":"制約","domain":"bounds","guess":"あなたの譲れない条件。わからないので、使えないものを提案するかもしれません。"},{"id":"deadline","n":11,"name":"期限","domain":"bounds","guess":"どの日付が大事か、事実がどれだけ新しくなければならないか。"},{"id":"format","n":12,"name":"形式","domain":"bounds","guess":"箇条書きがいいか、表か、文章か、手順か。"},{"id":"objective","n":13,"name":"目的","domain":"goal","guess":"なぜ聞いているのか。わからないので、何が役立つのか判断できません。"},{"id":"call-to-action","n":14,"name":"次の行動","domain":"goal","guess":"最後に次の一歩を示すかどうか、それは何か。"},{"id":"citations","n":15,"name":"出典","domain":"evidence","guess":"情報源が必要かどうか、どんな種類の情報源を信頼するか。"},{"id":"statistics","n":16,"name":"統計","domain":"evidence","guess":"数字がほしいかどうか、どれくらい正確でなければならないか。"},{"id":"quotes","n":17,"name":"引用","domain":"evidence","guess":"引用がほしいかどうか、誰の言葉か、どれくらい正確に。"},{"id":"points-of-view","n":18,"name":"複数の視点","domain":"testing","guess":"誰の利益と意見を考えに入れるか。わからないので、片側だけの答えになるかもしれません。"},{"id":"counterarguments","n":19,"name":"反論","domain":"testing","guess":"正直な反対意見がほしいのか、ただ賛成してほしいのか。"},{"id":"analogies","n":20,"name":"たとえ","domain":"testing","guess":"あなたがよく知っていて、比べる相手にできるものは何か。"},{"id":"questions","n":21,"name":"質問","domain":"dialogue","guess":"あなたが言い忘れたことすべて。黙って、ありがちな既定値で埋めます。"}],"domains":[{"id":"frame","name":"設定","logic":"話し手、聞き手、語り口","question":"誰が、誰に、どう話す？","parts":["act-as","audience","tone","language"]},{"id":"premises","name":"前提","logic":"与えられていること、定義されていること","question":"答えは何を前提にしてよい？","parts":["context","examples","keywords","terminology"]},{"id":"bounds","name":"境界","logic":"論議領域と制約","question":"何を含め、何を外し、どんな形にする？","parts":["scope","limitations","deadline","format"]},{"id":"goal","name":"ゴール","logic":"求める結論","question":"答えで何を実現したい？","parts":["objective","call-to-action"]},{"id":"evidence","name":"根拠","logic":"主張を支えるもの","question":"それぞれの主張を何が支えている？","parts":["citations","statistics","quotes"]},{"id":"testing","name":"検証","logic":"反例と、ほかの立場","question":"この推論はどこで崩れうる？","parts":["points-of-view","counterarguments","analogies"]},{"id":"dialogue","name":"対話","logic":"すき間を埋める協力","question":"まだ何が足りない？誰が補う？","parts":["questions"]}],"builder":{"tasks":[{"id":"explain-child","label":"子どもに説明する","base":"月の形が変わって見えるのはなぜか、説明してください。","fragments":{"act-as":"あなたは辛抱強い小学校の理科の先生です。","audience":"説明を聞くのは7歳の娘で、月が地球のまわりを回っていることは知っていますが、それ以上はあまり知りません。","tone":"温かく、好奇心をくすぐる、少し楽しい調子にしてください。","language":"やさしい日本語で、短い文にして、7歳の子が知らない理科の言葉は使わないでください。","context":"娘の部屋の窓から細い三日月を見たあと、寝る前に娘からこの質問をされました。","examples":"よい説明は、影についてのこんな説明のような感じです。「かげは、きみの体がお日さまの光をさえぎったところだよ。」","keywords":"お日さまの光、月の光っている半分、そして「満ち欠け」という言葉を必ず入れてください。","terminology":"「満ち欠け」と言うときは、月の光っている半分のうち、地球からどれだけ見えるかのことだと説明してください。","scope":"形が変わる理由だけを扱い、月食や潮の満ち引きには触れないでください。","limitations":"300字以内にして、宇宙についての怖い話は入れないでください。","deadline":"今週は毎晩、娘と月を見るので、これから7日間で月がどう変わるかも教えてください。","format":"子どもが思い浮かべられる、3つの場面に分けた短いお話にしてください。","objective":"目標は、娘が自分の言葉で私に説明し返せるようになることです。","call-to-action":"最後に、毎晩月の絵を描くなど、娘と一緒にできることをひとつ提案してください。","citations":"確かめたくなりそうな事実を使うときは、大人がどんな種類の情報源で確認できるかを教えてください。","statistics":"満ち欠けがひと回りする日数など、数字を使うなら、ひとつだけにして、きりのいい数にしてください。","quotes":"娘の質問「どうして今日のお月さま、欠けちゃってるの？」を、そのまま娘に投げ返してもかまいません。","points-of-view":"宇宙のずっと遠くから地球と月を見下ろした見方も、短く入れてください。そこから見ると、月はいつも太陽の光で半分照らされているとわかります。","counterarguments":"月の満ち欠けは地球の影のせいだ、というよくある思い違いを、やさしく正してください。","analogies":"暗い部屋でボールと電気スタンドを使うなど、子どもが家で試せるたとえを使ってください。","questions":"答える前に、娘について何かわかりにくいことがあれば、1つか2つ質問してください。"}},{"id":"weekend-trip","label":"安い週末旅行を計画する","base":"友だちと私の2人で行く、安い週末旅行を計画してください。","fragments":{"act-as":"あなたは、旅を味気なくせずにお金を節約するのが得意な、倹約上手の旅行プランナーです。","audience":"このプランは、たくさん歩くのは平気だけれど早起きは大の苦手な、20代の2人向けです。","tone":"押し売りっぽくならず、実用的で親しみやすい調子にしてください。","language":"わかりやすい日本語で書き、値段はすべて数字で示してください。","context":"私たちは東京に住んでいて、車はなく、金曜日の仕事のあとに出発できます。","examples":"去年とても楽しかった旅は、海沿いの長い散歩道と、安くておいしい食べ歩きと、小さな美術館がひとつある海辺の町でした。","keywords":"電車での移動、無料で楽しめること、ゲストハウスか安い宿を入れてください。","terminology":"ここで言う「安い」とは、交通費、食費、宿代を全部含めて1人3万円までという意味です。","scope":"東京から電車で3時間以内に行ける場所だけを提案してください。","limitations":"車が必要なものは避け、友だちはお酒を飲まないので、居酒屋やバーは入れないでください。","deadline":"旅行は3週間後なので、料金や営業時間など、日が近づいてから確かめるべきことは指摘してください。","format":"1日ごとのプランにして、項目ごとにおおよその費用を書いてください。","objective":"ねらいは、安く抑えながらも、ちゃんと息抜きになるのんびりした週末にすることです。","call-to-action":"最後に、先に予約すべきものを短いリストにしてください。","citations":"電車の時刻や運賃は、記憶で正確な数字を出すのではなく、どの公式サイトで確かめればいいかを教えてください。","statistics":"費用の見積もりは幅をもたせて示し、おおよその数字だとはっきり書いてください。","quotes":"私が見られない口コミは引用せず、口コミでよく言われていることを、あなた自身の言葉で説明してください。","points-of-view":"友だちの立場からも考えてください。友だちはベジタリアンで、観光地より食べ物を大事にします。","counterarguments":"電車の運休など、このプランの一番のリスクを指摘し、代わりの案も出してください。","analogies":"わかりやすければ、「熱海を小さく静かにした感じ」のように、有名な場所と比べてそれぞれの町を説明してください。","questions":"計画を立てる前に、夜に何をするのが好きかなど、必要なことがあれば質問してください。"}},{"id":"complaint","label":"丁寧な苦情を書く","base":"壊れた洗濯機についての苦情の文面を書いてください。","fragments":{"act-as":"あなたは、お客様窓口あてに、わかりやすく効果的な文書を書き慣れている人です。","audience":"読むのは、私が洗濯機を買った店のお客様窓口の担当者です。","tone":"丁寧で落ち着いていながら、毅然とした調子にしてください。","language":"わかりやすく、改まった敬語で書いてください。","context":"洗濯機は7週間前に買い、先週から脱水ができなくなり、予約した修理の訪問も来ませんでした。","examples":"好みの文体は、たとえば「今後の対応について、メールにてご連絡いただけますと幸いです。」のような文です。","keywords":"注文番号48213と、「修理の訪問がなかった」という言葉を入れてください。","terminology":"「返金」と書くときは、店のポイントや商品券ではなく、代金の全額を返してもらうことを意味するようにしてください。","scope":"洗濯機のことだけに絞り、以前の配送についての苦情には触れないでください。","limitations":"400字以内にして、法的手段をちらつかせるようなことは書かないでください。","deadline":"今日から10営業日以内に返事をもらえるよう求めてください。","format":"わかりやすい件名をつけたメールの形にしてください。","objective":"目的は、ちゃんと動く洗濯機か全額返金のどちらか、早いほうを得ることです。","call-to-action":"最後に、2つのうちどちらの対応をしてもらえるか、メールで知らせてほしいと頼んでください。","citations":"消費者としての権利に触れるなら、自分で調べられるよう法律の名前を挙げ、自信がないときはそう書いてください。","statistics":"修理にかかる一般的な日数など、私が伝えていない数字は加えないでください。","quotes":"店のウェブサイトにある「すべての家電製品に1年間の保証が付いています。」という一文を引用してください。","points-of-view":"読む担当者は問題を起こした本人ではなく、おそらく1日にたくさんの苦情に対応していることを頭に置いてください。","counterarguments":"私の使い方が悪かったのでは、という返事が来そうなので、それに一文で答えておいてください。","analogies":"合うようなら、来ない宅配便を一日中家で待つことのように、修理の訪問がなかったことの重さが伝わる短いたとえをひとつ入れてください。","questions":"書く前に、レシートがまだあるかどうかなど、知っておく必要があることを質問してください。"}}]},"quiz":[{"id":"q-inflation","prompt":"インフレとは何か説明してください。","reply":"中央銀行や物価指数についての、ぎっしり詰まった長い文章。12歳の甥にはついていけない言葉だらけでした。","answer":"audience","options":["citations","audience","deadline","keywords"],"why":"モデルには、誰に向けた説明なのかわからなかったので、大人の読み手を想定しました。読み手を伝えれば、どこまで説明し、どんな言葉を使うかが決まります。"},{"id":"q-garden","prompt":"今月、庭に何を植えたらいいですか？","reply":"春の花の楽しげなリスト。でもあなたの住む地域はいま秋で、あなたの庭は日当たりの悪いベランダです。","answer":"context","options":["tone","analogies","context","quotes"],"why":"住んでいる場所、季節、広さがわからないので、モデルはよくある庭を想定しました。それらの事実があなたの前提です。抜けていると、モデルは推測から推論します。"},{"id":"q-workout","prompt":"家でできる短いトレーニングを教えてください。","reply":"6セットの45分メニュー。あなたにとって「短い」は、出勤前の10分のことでした。","answer":"terminology","options":["act-as","statistics","points-of-view","terminology"],"why":"「短い」は曖昧です。あなたには10分、ほかの人には45分。言葉を定義すれば、できれば数字で定義すれば、推測は消えます。"},{"id":"q-airport","prompt":"空港までの電車、バス、タクシーを比べてください。","reply":"長い段落が4つ。あなたは料金と所要時間をひと目で並べて見たかったのです。","answer":"format","options":["format","language","keywords","call-to-action"],"why":"内容は問題なく、形が合っていませんでした。1つの手段につき1行の表を頼めば、比較はひと目で見られて、確かめやすくなります。"},{"id":"q-dogs","prompt":"犬について教えてください。","reply":"犬種の歴史についての一般的な説明。あなたが本当に知りたかったのは、狭いマンション暮らしで仕事の時間も長い自分に、犬が合うかどうかでした。","answer":"objective","options":["tone","examples","objective","deadline"],"why":"ゴールがなければ、犬についてのどの事実も同じくらい関係があります。何を決めたいのかを言えば、答えは目指す結論を持てます。"},{"id":"q-bike-lane","prompt":"新しい自転車レーンのおかげで通りが安全になったことを示す文章を1段落で書いてください。","reply":"正確な事故件数が入った、説得力のある段落。でもあなたは数字を何も渡していなくて、その数字は作り話だとわかりました。","answer":"statistics","options":["audience","scope","analogies","statistics"],"why":"モデルは数字が必要で、ありそうな数字を作り出しました。公式の事故統計など自分のデータを渡し、使う前にすべての数字を確かめましょう。結論を「示して」と頼むこと自体も、片寄った証拠を招きます。"},{"id":"q-credit-card","prompt":"クレジットカードの残高を、金利の低いおまとめローンに借り換えて返す計画を立てました。どう思いますか？","reply":"あなたの計画を温かくほめる返事。数か月後、聞いたこともなかった手数料に出くわしました。","answer":"counterarguments","options":["counterarguments","format","language","keywords"],"why":"モデルは、聞いている人に同意しがちです。隠れた手数料など、最も強い反対意見を求めれば、モデルは計画が失敗しうる点を探します。契約の条件も自分で確かめましょう。"},{"id":"q-wedding","prompt":"姉の結婚式のスピーチを書いてください。","reply":"ありきたりなスピーチ。しかも、実際にはなかったキャンプ旅行の作り話入りでした。","answer":"questions","options":["tone","questions","format","deadline"],"why":"モデルはお姉さんのことを何も知らなかったので、細かい話をでっち上げました。先に質問するよう促せば、本当のエピソードを伝えられます。"}],"syllogism":{"premises":["すべての哺乳類は空気を吸って呼吸する。","クジラは哺乳類である。"],"conclusion":"だから、クジラは空気を吸って呼吸する。","brokenPremise":"すべての哺乳類は陸で暮らす。","brokenConclusion":"だから、クジラは陸で暮らす。","note":"どちらの論証も同じ妥当な形をしています。前提が正しければ、結論も必ず正しくなる形です。でも健全なのは最初の論証だけです。前提が本当に正しいからです。"},"symbols":{"act-as":"Ac","audience":"Au","tone":"To","language":"La","context":"Cx","examples":"Ex","keywords":"Kw","terminology":"Tm","scope":"Sc","limitations":"Li","deadline":"Dl","format":"Fm","objective":"Ob","call-to-action":"Ca","citations":"Ci","statistics":"St","quotes":"Qu","points-of-view":"Pv","counterarguments":"Co","analogies":"An","questions":"Qs"},"core":["objective","context","audience","format","scope"],"ui":{"translation_note":"このページは英語からAIの助けを借りて翻訳したもので、まだ日本語ネイティブによる確認は受けていません。","joiner":"","back":"← Follow or Bounce","brand":"プロンプトの論理","nav_aria":"セクション","lang_aria":"言語","nav_basics":"基本","nav_parts":"21の要素","nav_builder":"作成ツール","nav_game":"ゲーム","nav_limits":"限界","nav_cheat":"チェックリスト","cta_build":"プロンプトを作る","cta_game":"遊ぶ：足りないピースを探せ","strip_aria":"論理のファミリーごとに色分けしたプロンプトの例","strip_cap":"ひとつの依頼、7種類の論理","p1_kicker":"第1部 · 5分でわかる論理学","p1_title":"論理は、読み手がついてくる道","p1_lede":"チャットボットは、あなたに会ったことがありません。あなたの依頼について知っているのは、あなたが書いたことだけです。ここでは、考えの筋道をたどりやすくするために論理学者が使う考え方を紹介します。どれも、プロンプトの中で役目を持っています。","in_prompt":"プロンプトでは：","grice_note":"グライスが説明したのは人と人の会話です。彼の格率をチャットボットに当てはめるのは便利なものの見方であって、モデルが協力的な人間だという主張ではありません。","syl_kicker":"試してみよう · 妥当と正しいは別もの","prem1_aria":"前提1","prem2_aria":"前提2","therefore_aria":"したがって","valid":"妥当","sound":"健全","not_sound":"健全ではない","swap":"間違った前提に入れ替える","swap_back":"正しい前提に戻す","syl_big":"形はよし、事実はだめ、自信満々のでたらめ。","syl_after":"プロンプトも同じです。きちんと整った依頼でも、間違った前提の上に立っていることがあります。そして答えは、その前提に忠実に従います。","p2_kicker":"第2部 · 要素","p2_title":"プロンプトの周期表","p2_lede":"21の要素が、7つの論理のファミリーに分かれています。全部を一度に使う必要はありません。抜けた要素はどれも、モデルが推測しなければならないことです。要素をタップすると説明が読めます。","tile_aria":"{name}、{family}、要素{n}","family":"第{i}族（全{n}族）","of21":"{n} / 21","the_logic":"論理","weak":"弱い例","strong":"強い例","leave_out":"抜けると、モデルが推測すること","watch_out":"注意：","maxim_title":"グライスの{m}の格率","maxims":{"Quantity":"量","Quality":"質","Relation":"関係","Manner":"様態"},"p3_kicker":"第3部 · 実験室","p3_title":"組み立てて、推測を減らそう","nojs_builder":"作成ツールにはJavaScriptが必要です。使われている要素はすべて、上の章で説明しています。","step1":"1 · タスクを選ぶ","task_aria":"タスク","step2":"2 · 要素をオン・オフする","preset_none":"依頼だけ","preset_core":"基本の5つ","preset_all":"全部","step3":"3 · あなたのプロンプト","unsaid_one":"個の要素が未記入","unsaid_many":"個の要素が未記入","unsaid_sub":"どれも、モデルが自分で埋めることになります","live_one":"未記入の要素は{n}個","live_many":"未記入の要素は{n}個","all_said":"21の要素を全部書きました。長いプロンプトです。実際には、このタスクに必要な要素だけ残しましょう。","copy":"プロンプトをコピー","copied":"コピーしました","selected":"選択しました。コピーしてください","p3_after":"要素は多ければいいわけではありません。「全部」にすると長いプロンプトになります。大事なのは、このタスクでどの推測が問題になるかに気づき、そこを埋めることです。","p4_kicker":"第4部 · ゲーム","p4_title":"足りないピースを探せ","p4_lede":"下の依頼は、どれも残念な答えが返ってきました。プロンプトにどの要素をひとつ足せば、いちばん役に立ったでしょう？","nojs_game":"ゲームにはJavaScriptが必要です。","pick":"答えを選んでください。","you":"あなた","got":"返ってきた答え","yes":"正解：{name}","it_was":"正解は「{name}」でした","next":"次へ","see_score":"結果を見る","play_again":"もう一度遊ぶ","result":"結果","res_line":"{n}問中{r}問正解。","res_all":"論理学者のようにプロンプトを読めていますね。","res_half":"いい目をしています。間違えた問題は、上の周期表で見直す価値があります。","res_low":"間違えた問題は、上の周期表で調べてみましょう。もう一度どうぞ。","p5_kicker":"第5部 · 正直な限界","truth_a":"構造は真実","truth_hot":"ではない","truth_b":"。","p6_kicker":"第6部 · 手もとに置こう","p6_title":"チェックリスト","p6_lede":"送信ボタンを押す前に、ファミリーを順にチェックしましょう。チェックは、このブラウザの中にだけ保存されます。","checked":"{t}個中{n}個チェック済み","ready":" · 送信の準備ができました","src_kicker":"これらの考え方の出どころ","src_title":"出典","foot_home":"Follow or Bounce","foot_index":"索引","foot_note":"21の要素は実用的なチェックリストで、標準規格ではありません。その背後にある論理は古く、チャットボットは新しいのです。"},"motion":false}</script>
+<script>
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+  var C = JSON.parse(document.getElementById('content').textContent);
+  var PART = {}; C.parts.forEach(function (p) { PART[p.id] = p; });
+  var SYM = C.symbols, U = C.ui;
+  function f(s, o) { return s.replace(/\{(\w+)\}/g, function (m, k) { return o[k] != null ? o[k] : m; }); }
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function toast(msg) { var t = el('div', 'toast', msg); t.setAttribute('role', 'status'); document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2600); }
+  function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
+
+  /* ---------- hero: a slow, small breath in letter width for a few seconds, then rest; the word nearest the
+     pointer widens a little. Widths ease toward their target, so nothing jumps. Only where the display face has a
+     width axis (C.motion); otherwise, and under reduced motion, the title stays still. ---------- */
+  var words = Array.prototype.slice.call(document.querySelectorAll('#hero-title .w'));
+  if (words.length && !reduce && C.motion) {
+    var t0 = performance.now(), px = -1, py = -1, raf = 0, visible = true, cur = words.map(function () { return 100; });
+    var hero = document.querySelector('.hero');
+    var wake = function () { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(tick); };
+    hero.addEventListener('pointermove', function (e) { px = e.clientX; py = e.clientY; wake(); });
+    hero.addEventListener('pointerleave', function () { px = py = -1; wake(); });
+    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; wake(); }).observe(hero);
+    document.addEventListener('visibilitychange', wake);
+    function tick(now) {
+      raf = 0; if (!visible || document.hidden) return;
+      var t = (now - t0) / 1000, breath = t < 6 ? Math.sin(Math.PI * t / 6) : 0, settled = true;   /* one gentle swell over 6 s */
+      words.forEach(function (w, i) {
+        var target = 100 + 3 * breath * Math.sin(t * 0.9 + i * 0.8);
+        if (px >= 0) {
+          var r = w.getBoundingClientRect(), dx = (r.left + r.width / 2) - px, dy = (r.top + r.height / 2) - py;
+          target += 10 * Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 360);
+        }
+        cur[i] += (target - cur[i]) * 0.06;
+        if (Math.abs(target - cur[i]) > 0.05 || target !== 100) settled = false;
+        w.style.setProperty('--wd', cur[i].toFixed(2));
+      });
+      if (settled && t > 6 && px < 0) return;   /* WCAG 2.2.2: nothing moves on its own after the first seconds */
+      raf = requestAnimationFrame(tick);
+    }
+    wake();
+  }
+
+  /* ---------- elements rise as they come into view (visible at rest; only marked once JS runs) ---------- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    var risers = Array.prototype.slice.call(document.querySelectorAll('.rise'));
+    var vh = window.innerHeight;
+    risers.forEach(function (r) { if (r.getBoundingClientRect().top > vh) r.classList.add('pre'); });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    risers.forEach(function (r) { io.observe(r); });
+  }
+
+  /* ---------- valid vs sound ---------- */
+  var swapped = false, sb = $('syl-swap');
+  sb.addEventListener('click', function () {
+    swapped = !swapped;
+    sb.setAttribute('aria-pressed', String(swapped));
+    sb.textContent = swapped ? U.swap_back : U.swap;
+    $('syl-p1').textContent = swapped ? C.syllogism.brokenPremise : C.syllogism.premises[0];
+    $('syl-c').textContent = swapped ? C.syllogism.brokenConclusion : C.syllogism.conclusion;
+    ['syl-p1', 'syl-c'].forEach(function (id) { var x = $(id); x.classList.remove('flash'); void x.offsetWidth; x.classList.add('flash'); setTimeout(function () { x.classList.remove('flash'); }, 700); });
+    var s = $('st-sound');
+    s.className = 'stamp ' + (swapped ? 'no' : 'yes');
+    s.textContent = swapped ? U.not_sound : U.sound;
+    var v = $('st-valid'); v.classList.add('pop'); setTimeout(function () { v.classList.remove('pop'); }, 350);
+  });
+
+  /* ---------- builder ---------- */
+  var ORDER = C.parts.slice().sort(function (a, b) { return a.n - b.n; }).map(function (p) { return p.id; });
+  var CORE = C.core;
+  var task = C.builder.tasks[0], on = {}, lastAdded = null;
+  var saved = store('pl-builder');
+  if (saved && saved.task) task = C.builder.tasks.filter(function (t) { return t.id === saved.task; })[0] || task;
+  if (saved && saved.on) saved.on.forEach(function (id) { if (PART[id]) on[id] = true; });
+  else CORE.forEach(function (id) { on[id] = true; });   /* first visit opens on the essential five, so the lab shows what it does */
+  var tasks = $('tasks');
+  C.builder.tasks.forEach(function (t) {
+    var b = el('button', null, t.label); b.type = 'button'; b.dataset.task = t.id;
+    b.addEventListener('click', function () { task = t; lastAdded = null; renderBuilder(); });
+    tasks.appendChild(b);
+  });
+  var togs = $('toggles');
+  C.domains.forEach(function (d) {
+    var g = el('div', 'tgroup'); g.setAttribute('role', 'group'); g.setAttribute('aria-label', d.name);
+    g.appendChild(el('span', 'gl', d.name + ' · ' + d.logic));
+    d.parts.forEach(function (id) {
+      var b = el('button', 'tog'); b.type = 'button'; b.dataset.d = d.id; b.dataset.part = id;
+      b.appendChild(el('span', 'box')); b.appendChild(document.createTextNode(PART[id].name));
+      b.addEventListener('click', function () { on[id] = !on[id]; lastAdded = on[id] ? id : null; renderBuilder(); });
+      g.appendChild(b);
+    });
+    togs.appendChild(g);
+  });
+  document.querySelectorAll('[data-preset]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      on = {}; lastAdded = null;
+      if (b.dataset.preset === 'all') ORDER.forEach(function (id) { on[id] = true; });
+      if (b.dataset.preset === 'core') CORE.forEach(function (id) { on[id] = true; });
+      renderBuilder();
+    });
+  });
+  function promptText() {
+    return [task.base].concat(ORDER.filter(function (id) { return on[id]; }).map(function (id) { return task.fragments[id]; })).join(U.joiner);
+  }
+  function renderBuilder() {
+    tasks.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.task === task.id)); });
+    togs.querySelectorAll('.tog').forEach(function (b) { b.setAttribute('aria-pressed', String(!!on[b.dataset.part])); });
+    var pt = $('ptext'); pt.textContent = '';
+    var base = el('span', 'base', task.base); pt.appendChild(base);
+    ORDER.forEach(function (id) {
+      if (!on[id]) return;
+      if (U.joiner) pt.appendChild(document.createTextNode(U.joiner));
+      var s = el('span', id === lastAdded ? 'new' : '', task.fragments[id]); s.dataset.d = PART[id].domain; s.title = PART[id].name;
+      pt.appendChild(s);
+      if (id === lastAdded) setTimeout(function () { s.classList.remove('new'); }, 900);
+    });
+    var missing = ORDER.filter(function (id) { return !on[id]; });
+    var n = missing.length;
+    $('gnum').textContent = n; $('gnum').classList.toggle('zero', n === 0);
+    $('gcap').firstChild.textContent = n === 1 ? U.unsaid_one : U.unsaid_many;
+    $('glive').textContent = f(n === 1 ? U.live_one : U.live_many, { n: n });
+    $('gbar').style.width = (n / ORDER.length * 100) + '%';
+    var gs = $('guesses'); gs.textContent = '';
+    if (n) {
+      var ul = el('ul');
+      missing.forEach(function (id) { var li = el('li'); li.appendChild(el('span', 'q', '?')); li.appendChild(el('span', null, PART[id].name + ': ' + PART[id].guess)); ul.appendChild(li); });
+      gs.appendChild(ul);
+    } else gs.appendChild(el('p', null, U.all_said));
+    store('pl-builder', { task: task.id, on: Object.keys(on).filter(function (k) { return on[k]; }) });
+  }
+  $('copy').addEventListener('click', function () {
+    var txt = promptText();
+    var ok = function () { toast(U.copied); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fallback); else fallback();
+    function fallback() { var r = document.createRange(); r.selectNodeContents($('ptext')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); toast(U.selected); }
+  });
+  renderBuilder();
+
+  /* ---------- game ---------- */
+  var round = 0, results = [], answered = false, finished = false, done = false;
+  function shuffle(a, seed) { a = a.slice(); var s = seed + 1; for (var i = a.length - 1; i > 0; i--) { s = (s * 9301 + 49297) % 233280; var j = Math.floor(s / 233280 * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function renderScore() {
+    var sc = $('score'); sc.textContent = '';
+    C.quiz.forEach(function (q, i) { var d = el('i', results[i] === true ? 'ok' : results[i] === false ? 'no' : i === round ? 'cur' : ''); sc.appendChild(d); });
+    var right = results.filter(function (r) { return r; }).length;
+    sc.appendChild(el('span', null, ' ' + right + ' / ' + C.quiz.length));
+  }
+  function renderRound() {
+    answered = false;
+    var q = C.quiz[round];
+    var chat = $('chat'); chat.textContent = '';
+    var you = el('div', 'bubble you'); you.appendChild(el('span', 'who', U.you)); you.appendChild(document.createTextNode(q.prompt));
+    var ai = el('div', 'bubble ai'); ai.appendChild(el('span', 'who', U.got)); ai.appendChild(document.createTextNode(q.reply));
+    chat.appendChild(you); chat.appendChild(ai);
+    var opts = $('opts'); opts.textContent = '';
+    shuffle(q.options, round).forEach(function (id) {
+      var p = PART[id], b = el('button', 'opt'); b.type = 'button'; b.dataset.d = p.domain; b.dataset.part = id;
+      b.appendChild(el('span', 'sym', SYM[id])); b.appendChild(el('span', null, p.name));
+      b.addEventListener('click', function () { answer(q, id); });
+      opts.appendChild(b);
+    });
+    var pk = $('verdict'); pk.textContent = ''; var pks = el('span', null, U.pick); pks.style.color = 'var(--ink-3)'; pk.appendChild(pks);
+    $('next').hidden = true;
+    renderScore();
+    if (round || finished) $('opts').querySelector('.opt').focus({ preventScroll: true });
+    finished = false;
+  }
+  function answer(q, id) {
+    if (answered) return; answered = true;
+    var ok = id === q.answer; results[round] = ok;
+    $('opts').querySelectorAll('.opt').forEach(function (b) {
+      b.disabled = true;
+      if (b.dataset.part === q.answer) b.classList.add('right'); else if (b.dataset.part === id) b.classList.add('wrong');
+    });
+    var v = $('verdict'); v.textContent = '';
+    v.appendChild(el('b', null, f(ok ? U.yes : U.it_was, { name: PART[q.answer].name })));
+    v.appendChild(document.createTextNode(q.why));
+    var nx = $('next'); nx.hidden = false; nx.textContent = round < C.quiz.length - 1 ? U.next : U.see_score;
+    renderScore(); nx.focus({ preventScroll: true });
+  }
+  $('next').addEventListener('click', function () {
+    if (done) { done = false; finished = true; round = 0; results = []; renderRound(); return; }
+    if (round < C.quiz.length - 1) { round++; renderRound(); return; }
+    var right = results.filter(function (r) { return r; }).length;
+    $('chat').textContent = '';
+    var res = el('div', 'bubble ai'); res.appendChild(el('span', 'who', U.result));   /* not named done: that is the replay flag */
+    res.appendChild(document.createTextNode(f(U.res_line, { r: right, n: C.quiz.length }) + U.joiner + (right === C.quiz.length ? U.res_all : right >= C.quiz.length / 2 ? U.res_half : U.res_low)));
+    $('chat').appendChild(res);
+    $('opts').textContent = ''; $('verdict').textContent = '';
+    done = true; $('next').textContent = U.play_again;
+  });
+  renderRound();
+
+  /* ---------- checklist (ticks stay in this browser) ---------- */
+  var ticks = store('pl-cheat') || {};
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#cheatlist input'));
+  function prog() { var n = boxes.filter(function (b) { return b.checked; }).length; $('cheatprog').textContent = f(U.checked, { n: n, t: boxes.length }) + (n === boxes.length ? U.ready : ''); }
+  boxes.forEach(function (b) {
+    b.checked = !!ticks[b.id];
+    b.addEventListener('change', function () { ticks[b.id] = b.checked; store('pl-cheat', ticks); prog(); });
+  });
+  prog();
+
+})();
+</script>
+</body>
+</html>

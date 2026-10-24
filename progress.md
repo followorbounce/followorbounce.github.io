@@ -149,3 +149,9 @@
 - Checked: `node --check` on every inline script; headless renders of every piece (several states each); a scripted control pass on every page (all buttons, every slider at min/max/mid, pointer drag, Chain's pass buttons and the 8-pass cap): no GL errors, no script errors. Fixed on the way: Cone grain applied before gamma; Threshold bands now constant pixel width; Chain stale pass-button clicks guarded, Crystal and Echo presets retuned; Erosion pool hole and camera distance; Ring glow doubling; Upside Down ripple sheen.
 - Not checked: real GPUs, iPhone, sound by ear (all sound paths start only on a click and run through a limiter).
 
+
+## 2026-10-24 — The Logic of a Prompt
+- New page `/logic-of-a-prompt` (Research & Method), built from a content spec (content team) and an independent review; sources verified live.
+- Index regenerated: also picks up 5 aerospace Wave 7 guides that the homepage index had not listed yet.
+- Renamed "The Logic of a Prompt & Life"; calmer hero motion; Play again fixed; now in es-419, ru, zh-Hans, ja (translated with AI, each independently reviewed; a native-speaker check is still open).
+- Listed under Design & Experience; homepage Today gets an "Element of the day" card (engine/element-of-day.*, data from assets/prompt-elements.json).

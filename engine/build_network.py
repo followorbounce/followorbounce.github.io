@@ -168,6 +168,7 @@ PROJECT_SITEMAPS = ["aerospace", "knots", "machinery", "Maya-Calendar", "reckoni
 EXTRA_URLS = [
     "/tarot/", "/tarot/deck", "/us-states-atlas/government", "/world-calendar-explorer/timezones",
     "/BayCurrentDiving/", "/archive",
+    "/logic-of-a-prompt-es", "/logic-of-a-prompt-ru", "/logic-of-a-prompt-zh", "/logic-of-a-prompt-ja",   # translations of /logic-of-a-prompt
 ]
 
 
@@ -409,6 +410,11 @@ def render_index(graph):
     kd_css = open(os.path.join(HERE, "knot-of-day.css"), encoding="utf-8").read()
     kd_html = open(os.path.join(HERE, "knot-of-day.html"), encoding="utf-8").read()
     kd_js = open(os.path.join(HERE, "knot-of-day.js"), encoding="utf-8").read()
+    # The Logic of a Prompt & Life: element of the day (2026-10-24), full row under the Today cards; reads
+    # /assets/prompt-elements.json, written by _specs/prompt-logic/build.py (see engine/element-of-day.*).
+    el_css = open(os.path.join(HERE, "element-of-day.css"), encoding="utf-8").read()
+    el_html = open(os.path.join(HERE, "element-of-day.html"), encoding="utf-8").read()
+    el_js = open(os.path.join(HERE, "element-of-day.js"), encoding="utf-8").read()
     # Edition layout (2026-10-14): sticky section bar, intro, the "of the day" widgets in a Today bento, the
     # Generative canvas on its own (2026-10-16), the other four instruments behind tabs, then Live data and the Index. Widgets keep their own markup; edition.css only
     # re-frames them (see engine/edition.*).
@@ -587,6 +593,7 @@ header .brand{{
 {cn_css}
 {sd_css}
 {kd_css}
+{el_css}
 {cubes_css}
 {ed_css}
 
@@ -674,6 +681,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
     <div class="ed-cell ed-stack">{sd_html}</div>
     <div class="ed-cell ed-stack">{kd_html}</div>
     <div class="ed-cell ed-terms">{tod_html}</div>
+    <div class="ed-cell ed-full">{el_html}</div>
   </div>
 </div>
 <div class="ed-block" id="generative" data-hide-when-search>
@@ -801,6 +809,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {cn_js}
 {sd_js}
 {kd_js}
+{el_js}
 <script>
 {ed_js}
 </script>

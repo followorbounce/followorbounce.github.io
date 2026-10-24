@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="es-419">
+<head>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-CE86H6X7Z7"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-CE86H6X7Z7');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>La lógica de un prompt y de la vida — 21 partes, 7 tipos de razonamiento</title>
+<meta name="description" content="Escribir un buen prompt usa la misma lógica que pensar con claridad en la vida diaria: premisas, alcance, definiciones, restricciones, una meta, evidencia y pruebas. Veintiuna partes de un prompt, explicadas para todo el mundo, con un constructor de prompts en vivo y un juego.">
+<link rel="canonical" href="https://followorbounce.github.io/logic-of-a-prompt-es">
+<link rel="alternate" hreflang="en" href="https://followorbounce.github.io/logic-of-a-prompt">
+<link rel="alternate" hreflang="es-419" href="https://followorbounce.github.io/logic-of-a-prompt-es">
+<link rel="alternate" hreflang="ru" href="https://followorbounce.github.io/logic-of-a-prompt-ru">
+<link rel="alternate" hreflang="zh-Hans" href="https://followorbounce.github.io/logic-of-a-prompt-zh">
+<link rel="alternate" hreflang="ja" href="https://followorbounce.github.io/logic-of-a-prompt-ja">
+<link rel="alternate" hreflang="x-default" href="https://followorbounce.github.io/logic-of-a-prompt">
+<meta name="theme-color" content="#F3F1EA">
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<meta property="og:type" content="article">
+<meta property="og:locale" content="es_LA">
+<meta property="og:title" content="La lógica de un prompt y de la vida — 21 partes, 7 tipos de razonamiento">
+<meta property="og:description" content="Escribir un buen prompt usa la misma lógica que pensar con claridad en la vida diaria: premisas, alcance, definiciones, restricciones, una meta, evidencia y pruebas. Veintiuna partes de un prompt, explicadas para todo el mundo, con un constructor de prompts en vivo y un juego.">
+<meta property="og:url" content="https://followorbounce.github.io/logic-of-a-prompt-es">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&amp;family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&amp;family=IBM+Plex+Mono:wght@400;500;600&amp;display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+<style>
+/* Layout: a type specimen of reasoning. Huge variable-width display lines, a periodic table of the 21 parts,
+   then one chapter per logical domain; the interactive pieces (builder, game) sit between them like lab benches.
+   Domain colours: three light tiles with dark text, three deep tiles with white text, Dialogue inverted —
+   lightness is a second channel, so domains stay apart for colour-blind readers (validated all-pairs). */
+:root{
+  --paper:#F3F1EA; --paper-2:#FFFFFF; --paper-3:#E6E3D8;
+  --ink:#121212; --ink-2:#4A4740; --ink-3:#66625A; --line:#D6D2C6; --line-2:#B9B4A6;
+  --hot:#E2381B; --hot-text:#C22E12; --ok:#14532D;
+  --d-frame:#FFD23F; --d-premises:#8FE0F5; --d-bounds:#FF9E7A; --d-goal:#B0216B; --d-evidence:#14532D; --d-testing:#2B45D8; --d-dialogue:#121212;
+  --t-frame:#121212; --t-premises:#121212; --t-bounds:#121212; --t-goal:#FFFFFF; --t-evidence:#FFFFFF; --t-testing:#FFFFFF; --t-dialogue:#F3F1EA;
+  --font-display:'Archivo', 'Arial Narrow', 'Helvetica Neue', sans-serif;
+  --font-body:'Atkinson Hyperlegible', 'Segoe UI', system-ui, sans-serif;
+  --font-mono:'IBM Plex Mono', ui-monospace, 'SF Mono', Menlo, monospace;
+  --edge:max(16px, env(safe-area-inset-left, 0px)); --edge-r:max(16px, env(safe-area-inset-right, 0px));
+  --maxw:1240px; --textw:68ch;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#0F0F0E; --paper-2:#181816; --paper-3:#22211E;
+    --ink:#F1EEE6; --ink-2:#B9B4A8; --ink-3:#959185; --line:#2E2C27; --line-2:#46433B;
+    --hot:#FF6A4D; --hot-text:#FF6A4D; --ok:#5FD69A;
+    --d-dialogue:#F1EEE6; --t-dialogue:#0F0F0E;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#0F0F0E; --paper-2:#181816; --paper-3:#22211E;
+  --ink:#F1EEE6; --ink-2:#B9B4A8; --ink-3:#959185; --line:#2E2C27; --line-2:#46433B;
+  --hot:#FF6A4D; --hot-text:#FF6A4D; --ok:#5FD69A;
+  --d-dialogue:#F1EEE6; --t-dialogue:#0F0F0E;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+@media (prefers-reduced-motion: reduce){ html{scroll-behavior:auto} }
+body{margin:0; background:var(--paper); color:var(--ink); font-family:var(--font-body); font-size:18px; line-height:1.55;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px)}
+[hidden]{display:none!important}
+a{color:inherit; text-decoration-thickness:1.5px; text-underline-offset:3px}
+:focus-visible{outline:3px solid var(--hot); outline-offset:3px}
+button{font:inherit; color:inherit}
+.wrap{max-width:var(--maxw); margin:0 auto; padding-left:var(--edge); padding-right:var(--edge-r)}
+.sr{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap}
+
+/* header (theme-toggle.js injects its button into header .wrap) */
+header.site{position:sticky; top:env(safe-area-inset-top,0px); z-index:20; background:color-mix(in srgb, var(--paper) 88%, transparent); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px); border-bottom:1px solid var(--line)}
+body::before{content:""; position:fixed; inset:0 0 auto; height:env(safe-area-inset-top,0px); z-index:30; background:var(--paper)}
+header.site .wrap{display:flex; align-items:center; gap:14px; min-height:52px}
+header.site .back{font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; text-decoration:none; padding:12px 0}
+header.site .brand{font-family:var(--font-display); font-weight:800; font-stretch:115%; font-size:15px; letter-spacing:.02em; text-transform:uppercase}
+header.site nav{display:flex; gap:4px; margin-left:auto; overflow-x:auto; scrollbar-width:none}
+header.site nav a{font-family:var(--font-mono); font-size:12px; text-decoration:none; padding:10px 8px; border-radius:6px; white-space:nowrap; color:var(--ink-2)}
+header.site nav a:hover{color:var(--ink); background:var(--paper-3)}
+.langs{display:flex; gap:2px; flex:none}
+.langs a{font-family:var(--font-mono); font-size:12px; text-decoration:none; padding:12px 6px; color:var(--ink-2); border-radius:6px}
+.langs a[aria-current="true"]{color:var(--ink); font-weight:600; text-decoration:underline; text-underline-offset:4px}
+.langs a:hover{background:var(--paper-3)}
+.tnote{font-size:13px; color:var(--ink-3); margin-top:14px; max-width:60ch}
+@media (max-width:820px){ header.site nav{display:none} }
+@media (max-width:420px){ header.site .brand{display:none} }
+@media (pointer:coarse){ #btn-theme{min-height:44px; min-width:52px} }
+
+/* type */
+.display{font-family:var(--font-display); font-weight:900; line-height:.86; letter-spacing:-.02em; text-transform:uppercase; margin:0; text-wrap:balance}
+.kicker{font-family:var(--font-mono); font-size:13px; letter-spacing:.14em; text-transform:uppercase; color:var(--ink-2)}
+.lede{font-size:clamp(19px, 2.2vw, 24px); line-height:1.45; max-width:40ch; color:var(--ink)}
+h2.section{font-family:var(--font-display); font-weight:900; font-size:clamp(44px, 9vw, 128px); line-height:.86; letter-spacing:-.025em; text-transform:uppercase; margin:0; text-wrap:balance}
+h3{font-family:var(--font-display); font-weight:800; font-size:clamp(24px, 3vw, 34px); line-height:1.02; margin:0; text-wrap:balance}
+p{margin:0; max-width:var(--textw)}
+section.band{padding-block:clamp(72px, 11vw, 150px)}
+section.band + section.band{border-top:1px solid var(--line)}
+.stack{display:grid; gap:20px}
+
+/* hero */
+.hero{padding-block:clamp(40px, 8vw, 110px) clamp(56px, 8vw, 110px); overflow:hidden}
+.hero .display{font-size:clamp(58px, 15.2vw, 232px)}
+.hero .display .w{display:inline-block; font-variation-settings:"wdth" var(--wd, 100)}
+.hero .display .w.hot{color:var(--hot)}
+.hero-grid{display:grid; grid-template-columns:minmax(0,1.1fr) minmax(0,1fr); gap:clamp(24px,5vw,72px); align-items:end; margin-top:clamp(28px,4vw,56px)}
+@media (max-width:860px){ .hero-grid{grid-template-columns:1fr} }
+.prompt-strip{font-family:var(--font-mono); font-size:15px; line-height:1.7; background:var(--paper-2); border:1.5px solid var(--ink); border-radius:14px; padding:18px 20px; box-shadow:8px 8px 0 var(--ink)}
+.prompt-strip .tok{display:inline; padding:2px 6px; border-radius:6px; margin-right:2px; -webkit-box-decoration-break:clone; box-decoration-break:clone}
+.prompt-strip .cap{display:block; font-size:11px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink-3); margin-bottom:8px}
+.scrollcue{margin-top:28px; display:flex; gap:10px; flex-wrap:wrap}
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:8px; min-height:48px; padding:0 20px; border-radius:999px; border:1.5px solid var(--ink); background:var(--paper-2); font-weight:700; text-decoration:none; cursor:pointer; transition:transform .15s, box-shadow .15s, background .15s}
+.btn:hover{transform:translate(-2px,-2px); box-shadow:3px 3px 0 var(--ink)}
+.btn:active{transform:none; box-shadow:none}
+.btn.solid{background:var(--ink); color:var(--paper)}
+.btn.small{min-height:44px; padding:0 14px; font-size:15px}
+@media (prefers-reduced-motion: reduce){ .btn:hover{transform:none} }
+
+/* domain colour helpers */
+[data-d="frame"]{--dc:var(--d-frame); --dt:var(--t-frame)}
+[data-d="premises"]{--dc:var(--d-premises); --dt:var(--t-premises)}
+[data-d="bounds"]{--dc:var(--d-bounds); --dt:var(--t-bounds)}
+[data-d="goal"]{--dc:var(--d-goal); --dt:var(--t-goal)}
+[data-d="evidence"]{--dc:var(--d-evidence); --dt:var(--t-evidence)}
+[data-d="testing"]{--dc:var(--d-testing); --dt:var(--t-testing)}
+[data-d="dialogue"]{--dc:var(--d-dialogue); --dt:var(--t-dialogue)}
+.dchip{display:inline-flex; align-items:center; gap:6px; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; background:var(--dc); color:var(--dt); padding:4px 9px; border-radius:999px; border:1.5px solid var(--ink)}
+
+/* basics */
+.basics{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 270px), 1fr)); gap:14px; margin-top:40px}
+.basic{background:var(--paper-2); border:1.5px solid var(--line-2); border-radius:16px; padding:20px; display:grid; gap:10px; align-content:start}
+.basic .term{font-family:var(--font-display); font-weight:900; font-stretch:88%; font-size:clamp(21px, 2.1vw, 26px); line-height:1; text-transform:uppercase; overflow-wrap:anywhere; hyphens:auto}
+.basic .ex{font-size:15px; color:var(--ink-2); border-left:3px solid var(--line-2); padding-left:12px}
+.basic .inp{font-family:var(--font-mono); font-size:13px; line-height:1.5; color:var(--ink)}
+.basic .inp b{color:var(--hot-text)}
+
+/* syllogism */
+.syl{margin-top:56px; display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:28px; align-items:start}
+@media (max-width:900px){ .syl{grid-template-columns:1fr} }
+.syl-board{background:var(--paper-2); border:1.5px solid var(--ink); border-radius:18px; padding:clamp(18px,3vw,30px); display:grid; gap:12px}
+.syl-line{display:grid; grid-template-columns:64px minmax(0,1fr); gap:12px; align-items:baseline; font-size:clamp(18px,2.1vw,23px); line-height:1.35}
+.syl-line .lab{font-family:var(--font-mono); font-size:12px; letter-spacing:.1em; color:var(--ink-3); text-transform:uppercase}
+.syl-line.concl{border-top:2px solid var(--ink); padding-top:12px; font-weight:700}
+.syl-line .txt{transition:background .4s}
+.syl-line .txt.flash{background:color-mix(in srgb, var(--hot) 22%, transparent)}
+.stamps{display:flex; gap:12px; flex-wrap:wrap; margin-top:6px}
+.stamp{font-family:var(--font-display); font-weight:900; font-stretch:120%; font-size:22px; text-transform:uppercase; letter-spacing:.04em; padding:6px 14px; border:3px solid currentColor; border-radius:8px; transform:rotate(-3deg); transition:transform .35s cubic-bezier(.3,1.6,.5,1), color .3s, opacity .3s}
+.stamp.yes{color:var(--ok)}
+.stamp.no{color:var(--hot); transform:rotate(3deg)}
+.stamp.pop{transform:rotate(-3deg) scale(1.12)}
+.syl > *{min-width:0}
+.syl-side{display:grid; gap:16px}
+.syl-side .big{font-family:var(--font-display); font-weight:900; font-size:clamp(30px,4vw,48px); line-height:.95; text-transform:uppercase}
+
+/* periodic table */
+.ptable{margin-top:44px; display:grid; grid-template-columns:repeat(7, minmax(0,1fr)); gap:10px}
+.pcol{display:grid; gap:10px; align-content:start}
+.pcol .phead{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-2); min-height:32px; display:flex; align-items:end; padding-bottom:4px; border-bottom:2px solid var(--ink)}
+.tile{position:relative; aspect-ratio:1/1; background:var(--dc); color:var(--dt); border:1.5px solid var(--ink); border-radius:12px; padding:9px 10px; display:grid; grid-template-rows:auto 1fr auto; text-decoration:none; cursor:pointer; transition:transform .2s cubic-bezier(.2,.9,.3,1.3), box-shadow .2s; text-align:left; min-width:0}
+.tile:hover, .tile:focus-visible{transform:translate(-3px,-3px) rotate(-1.5deg); box-shadow:4px 4px 0 var(--ink)}
+.tile .n{font-family:var(--font-mono); font-size:12px; opacity:.85}
+.tile .sym{font-family:var(--font-display); font-weight:900; font-size:clamp(26px, 4vw, 50px); line-height:.9; align-self:center; letter-spacing:-.02em}
+.tile .nm{font-size:clamp(11px, 1.15vw, 14px); line-height:1.1; font-weight:700; overflow-wrap:anywhere}
+.tile .dl{position:absolute; top:8px; right:9px; font-family:var(--font-mono); font-size:10px; opacity:.8}
+@media (max-width:860px){
+  .ptable{grid-template-columns:repeat(4, minmax(0,1fr))}
+  .pcol{display:contents}
+  .pcol .phead{display:none}
+}
+@media (max-width:460px){ .ptable{grid-template-columns:repeat(3, minmax(0,1fr)); gap:8px} .tile{border-radius:10px; padding:7px 8px} }
+@media (prefers-reduced-motion: reduce){ .tile:hover, .tile:focus-visible{transform:none} }
+@media (max-width:480px){ .domain .dhead{grid-template-columns:1fr; gap:4px} .domain .dname{font-size:clamp(40px, 12vw, 64px)} }
+html:not(.js) .bench, html:not(.js) .game, html:not(.js) #syl-swap{display:none}
+.nojs{border:1.5px dashed var(--line-2); border-radius:14px; padding:14px 16px; margin-top:24px}
+.note{font-size:15px; color:var(--ink-2); margin-top:18px; max-width:72ch}
+@media print{ header.site, .scrollcue, #builder, #game, .prompt-strip{display:none} body{background:#fff; color:#000} .part, .basic, .limit, .check{break-inside:avoid} section.band, .domain{padding-block:24px} }
+.legend{display:flex; flex-wrap:wrap; gap:8px; margin-top:18px}
+
+/* domain chapters */
+.domain{padding-block:clamp(64px, 9vw, 120px); border-top:1px solid var(--line)}
+.dhead{display:grid; grid-template-columns:auto minmax(0,1fr); gap:clamp(16px,3vw,40px); align-items:end}
+.dnum{font-family:var(--font-display); font-weight:900; font-size:clamp(90px, 18vw, 240px); line-height:.75; color:var(--dc); -webkit-text-stroke:2px var(--ink); paint-order:stroke fill; letter-spacing:-.04em}
+.dname{font-family:var(--font-display); font-weight:900; font-size:clamp(48px, 10vw, 150px); line-height:.82; text-transform:uppercase; letter-spacing:-.03em; margin:0}
+.dmeta{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:center; margin-top:16px}
+.dmeta .q{font-size:clamp(19px,2.2vw,24px); font-style:italic}
+.parts{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 360px), 1fr)); gap:18px; margin-top:40px}
+.part{background:var(--paper-2); border:1.5px solid var(--ink); border-radius:18px; overflow:hidden; display:flex; flex-direction:column; scroll-margin-top:84px}
+.part:target{box-shadow:0 0 0 4px var(--hot)}
+.part .top{background:var(--dc); color:var(--dt); padding:16px 18px; display:grid; grid-template-columns:auto minmax(0,1fr) auto; gap:14px; align-items:center; border-bottom:1.5px solid var(--ink)}
+.part .top .sym{font-family:var(--font-display); font-weight:900; font-size:44px; line-height:.85}
+.part .top h3{font-size:clamp(24px,2.6vw,30px)}
+.part .top .n{font-family:var(--font-mono); font-size:13px}
+.part .body{padding:18px; display:grid; gap:14px; flex:1}
+.part .line{font-size:20px; line-height:1.35; font-weight:700}
+.part .logic{font-size:16px; color:var(--ink-2)}
+.part .logic b{font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink); display:block; margin-bottom:2px}
+.flip{border:1.5px dashed var(--line-2); border-radius:12px; padding:12px 14px; display:grid; gap:8px}
+.flip .row{display:grid; grid-template-columns:72px minmax(0,1fr); gap:10px; align-items:baseline}
+.flip .tag{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3)}
+.flip .weak .say{font-family:var(--font-mono); font-size:15px; color:var(--ink-2); text-decoration:line-through; text-decoration-color:var(--hot); text-decoration-thickness:2px}
+.flip .strong .say{font-family:var(--font-mono); font-size:15px; color:var(--ink)}
+.flip .strong mark{background:color-mix(in srgb, var(--dc) var(--mix, 45%), transparent); color:inherit; border-radius:4px; padding:0 2px; -webkit-box-decoration-break:clone; box-decoration-break:clone}
+.part .guess{font-size:15px; display:flex; gap:10px; align-items:baseline}
+.part .guess .ico{font-family:var(--font-display); font-weight:900; font-size:22px; color:var(--hot); line-height:1}
+.part .pit{font-size:15px; color:var(--ink-2); border-top:1px solid var(--line); padding-top:12px}
+.part .pit b{color:var(--ink)}
+@media (max-width:420px){ .part .top{grid-template-columns:auto minmax(0,1fr)} .part .top .maxim{grid-column:2; justify-self:start} .part .top h3{font-size:23px; overflow-wrap:anywhere} }
+.maxim{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; border:1.5px solid var(--dt); padding:3px 7px; border-radius:6px; white-space:nowrap}
+
+/* builder */
+.bench{background:var(--ink); color:var(--paper); border-radius:28px; padding:clamp(22px,4vw,48px); margin-top:40px}
+.bench .kicker{color:color-mix(in srgb, var(--paper) 70%, transparent)}
+.bench h3{color:var(--paper)}
+.tasks{display:flex; gap:10px; flex-wrap:wrap; margin-top:18px}
+.tasks button{min-height:48px; padding:0 18px; border-radius:999px; border:1.5px solid var(--paper); background:transparent; color:var(--paper); cursor:pointer; font-weight:700}
+.tasks button[aria-pressed="true"]{background:var(--paper); color:var(--ink)}
+.bgrid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.15fr); gap:clamp(18px,3vw,36px); margin-top:26px}
+@media (max-width:920px){ .bgrid{grid-template-columns:1fr} }
+.toggles{display:grid; gap:12px; align-content:start}
+.tgroup{display:flex; flex-wrap:wrap; gap:8px; align-items:center}
+.tgroup .gl{font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; width:100%; color:color-mix(in srgb, var(--paper) 65%, transparent)}
+.tog{min-height:44px; padding:0 14px; border-radius:10px; border:1.5px solid color-mix(in srgb, var(--paper) 45%, transparent); background:transparent; color:var(--paper); cursor:pointer; font-size:15px; font-weight:700; display:inline-flex; align-items:center; gap:8px; transition:background .18s, color .18s, transform .18s}
+.tog .box{width:14px; height:14px; border-radius:4px; border:1.5px solid currentColor; display:inline-block; flex:none}
+.tog[aria-pressed="true"]{background:var(--dc); color:var(--dt); border-color:var(--dc)}
+.tog[aria-pressed="true"] .box{background:currentColor}
+.bench .tog[data-d="dialogue"][aria-pressed="true"]{background:var(--paper); color:var(--ink); border-color:var(--paper)}
+.tog:active{transform:scale(.96)}
+.presets{display:flex; flex-wrap:wrap; gap:8px; margin-top:4px}
+.presets button{min-height:44px; padding:0 14px; border-radius:999px; border:1.5px dashed color-mix(in srgb, var(--paper) 60%, transparent); background:transparent; color:var(--paper); cursor:pointer; font-size:14px}
+.out{background:var(--paper); color:var(--ink); border-radius:18px; padding:clamp(16px,2.5vw,26px); display:grid; gap:16px; align-content:start}
+.out .ptext{font-family:var(--font-mono); font-size:15.5px; line-height:1.7; min-height:6em}
+.out .ptext span{border-radius:5px; padding:1px 3px; -webkit-box-decoration-break:clone; box-decoration-break:clone; background:color-mix(in srgb, var(--dc) var(--mix, 38%), transparent); transition:background 1.2s}
+[data-d="goal"], [data-d="evidence"], [data-d="testing"]{--mix:24%}
+[data-d="dialogue"]{--mix:0%}
+.part[data-d="dialogue"] .flip .strong mark, .out .ptext span[data-d="dialogue"]{outline:1.5px dashed var(--ink); outline-offset:-1px}
+.out .ptext span.base{background:none; font-weight:600}
+.out .ptext span.new{background:var(--dc); color:var(--dt)}
+.meter{display:grid; grid-template-columns:auto minmax(0,1fr); gap:6px 16px; align-items:center}
+.meter .num{font-family:var(--font-display); font-weight:900; font-size:clamp(56px,8vw,96px); line-height:.8; font-variant-numeric:tabular-nums; min-width:1.4ch; color:var(--hot); transition:color .3s}
+.meter .num.zero{color:var(--ok)}
+.meter .cap{font-weight:700; font-size:18px; line-height:1.25}
+.meter .bar{grid-column:1/-1; height:10px; border-radius:99px; background:var(--paper-3); overflow:hidden}
+.meter .bar i{display:block; height:100%; background:var(--hot); border-radius:99px; transition:width .45s cubic-bezier(.2,.8,.2,1)}
+.guesses{display:grid; gap:6px; font-size:14.5px; color:var(--ink-2); max-height:220px; overflow:auto; padding-right:6px}
+.guesses li{list-style:none; display:grid; grid-template-columns:auto minmax(0,1fr); gap:8px}
+.guesses ul{margin:0; padding:0; display:grid; gap:6px}
+.guesses .q{color:var(--hot-text); font-weight:700}
+.outacts{display:flex; gap:10px; flex-wrap:wrap}
+
+/* game */
+.game{margin-top:40px; display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1fr); gap:clamp(18px,3vw,36px); align-items:start}
+@media (max-width:900px){ .game{grid-template-columns:1fr} }
+.chat{display:grid; gap:12px}
+.bubble{border:1.5px solid var(--ink); border-radius:18px; padding:16px 18px; font-size:18px; line-height:1.45; max-width:92%}
+.bubble.you{background:var(--paper-2); justify-self:end; border-bottom-right-radius:4px}
+.bubble.ai{background:var(--paper-3); border-bottom-left-radius:4px}
+.bubble .who{display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.1em; text-transform:uppercase; color:var(--ink-3); margin-bottom:4px}
+.opts{display:grid; grid-template-columns:repeat(2, minmax(0,1fr)); gap:10px}
+.opt{min-height:64px; border-radius:14px; border:1.5px solid var(--ink); background:var(--paper-2); cursor:pointer; display:grid; grid-template-columns:auto minmax(0,1fr); gap:10px; align-items:center; padding:10px 14px; text-align:left; font-weight:700; font-size:17px; transition:transform .15s, background .2s}
+.opt .sym{font-family:var(--font-display); font-weight:900; font-size:24px; width:44px; height:44px; display:grid; place-items:center; border-radius:10px; background:var(--dc); color:var(--dt); border:1.5px solid var(--ink)}
+.opt:hover:not(:disabled){transform:translate(-2px,-2px)}
+.opt.right{background:color-mix(in srgb, var(--ok) 18%, var(--paper-2)); outline:3px solid var(--ok)}
+.opt.wrong{opacity:.55; text-decoration:line-through; text-decoration-color:var(--hot)}
+.opt:disabled{cursor:default}
+.verdict{border-radius:16px; padding:16px 18px; font-size:17px; background:var(--paper-2); border:1.5px solid var(--line-2); min-height:96px}
+.verdict b{font-family:var(--font-display); font-weight:900; font-size:22px; text-transform:uppercase; display:block; margin-bottom:4px}
+.score{display:flex; gap:6px; align-items:center; flex-wrap:wrap}
+.score i{width:14px; height:14px; border-radius:50%; border:1.5px solid var(--ink); display:inline-block}
+.score i.ok{background:var(--ok); border-color:var(--ok)}
+.score i.no{background:var(--hot); border-color:var(--hot)}
+.score i.cur{box-shadow:0 0 0 3px color-mix(in srgb, var(--hot) 35%, transparent)}
+.game-side{display:grid; gap:14px}
+@media (max-width:460px){ .opts{grid-template-columns:1fr} }
+
+/* limits */
+.limits{display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 280px), 1fr)); gap:14px; margin-top:40px}
+.limit{border:1.5px solid var(--ink); border-radius:16px; padding:20px; display:grid; gap:8px; align-content:start; background:var(--paper-2)}
+.limit h3{font-size:24px}
+.limit p{font-size:16.5px; color:var(--ink-2)}
+.truth{font-family:var(--font-display); font-weight:900; text-transform:uppercase; font-size:clamp(40px, 8vw, 110px); line-height:.86; letter-spacing:-.025em; margin-top:8px}
+
+/* cheat sheet */
+.cheat{margin-top:40px; display:grid; grid-template-columns:repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap:12px}
+.check{display:grid; grid-template-columns:auto minmax(0,1fr); gap:12px; align-items:start; padding:14px 16px; border-radius:14px; border:1.5px solid var(--line-2); background:var(--paper-2); cursor:pointer; min-height:56px}
+.check input{appearance:none; -webkit-appearance:none; width:26px; height:26px; border-radius:7px; border:2px solid var(--ink); margin:0; display:grid; place-items:center; background:var(--paper); cursor:pointer}
+.check input:checked{background:var(--dc); border-color:var(--ink)}
+.check input:checked::after{content:"✓"; font-weight:900; color:var(--dt); font-size:16px; line-height:1}
+.check span{font-size:17px; line-height:1.35}
+.check small{display:block; font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--ink-3); margin-top:4px}
+.progress{font-family:var(--font-mono); font-size:13px; color:var(--ink-2); margin-top:14px}
+
+/* sources + footer */
+.sources{margin-top:28px; display:grid; gap:10px; padding:0; list-style:none; max-width:90ch}
+.sources li{font-size:15.5px; color:var(--ink-2)}
+.sources li b{color:var(--ink)}
+footer.site{border-top:1px solid var(--line); padding-block:36px 48px; font-size:14px; color:var(--ink-3)}
+footer.site .wrap{display:flex; flex-wrap:wrap; gap:10px 24px; justify-content:space-between}
+
+/* motion: things are visible at rest; .rise only adds a small slide when JS marks them as they enter */
+.rise{transition:transform .7s cubic-bezier(.2,.8,.2,1), opacity .7s}
+.js .rise.pre{transform:translateY(26px); opacity:.001}
+@media (prefers-reduced-motion: reduce){ .js .rise.pre{transform:none; opacity:1} .rise{transition:none} }
+.display, h2.section, .dname, .truth, .syl-side .big{overflow-wrap:anywhere; hyphens:auto}
+.toast{position:fixed; left:50%; bottom:calc(20px + env(safe-area-inset-bottom,0px)); transform:translateX(-50%); background:var(--ink); color:var(--paper); padding:12px 18px; border-radius:999px; font-weight:700; z-index:40; font-size:15px}
+
+</style>
+</head>
+<body>
+<header class="site">
+  <div class="wrap">
+    <a class="back" href="/">← Follow or Bounce</a>
+    <span class="brand" aria-hidden="true">Lógica del prompt</span>
+    <nav aria-label="Secciones">
+      <a href="#basics">Bases</a><a href="#table">Las 21 partes</a><a href="#builder">Constructor</a><a href="#game">Juego</a><a href="#limits">Límites</a><a href="#cheat">Lista</a>
+    </nav>
+    <nav class="langs" aria-label="Idioma"><a href="/logic-of-a-prompt" hreflang="en" lang="en">EN</a><a href="/logic-of-a-prompt-es" hreflang="es-419" lang="es-419" aria-current="true">ES</a><a href="/logic-of-a-prompt-ru" hreflang="ru" lang="ru">RU</a><a href="/logic-of-a-prompt-zh" hreflang="zh-Hans" lang="zh-Hans">中文</a><a href="/logic-of-a-prompt-ja" hreflang="ja" lang="ja">日本語</a></nav>
+  </div>
+</header>
+
+<main>
+  <section class="hero">
+    <div class="wrap">
+      <div class="kicker">Lógica cotidiana para hablar con la IA</div>
+      <h1 class="display" id="hero-title"><span class="w">La</span> <span class="w">lógica</span> <span class="w">de</span> <span class="w">un</span> <span class="w">prompt</span> <span class="w">y</span> <span class="w">de</span> <span class="w">la</span> <span class="w hot">vida</span></h1>
+      <div class="hero-grid">
+        <div class="stack">
+          <p class="lede">Un buen prompt es un pequeño argumento más una petición, igual que cualquier pedido claro en la vida. Da tus premisas, tus términos, tus límites y tu meta, y quedará menos por adivinar. Aun así puede estar mal, así que revisa.</p><p class="tnote">Esta página se tradujo del inglés con ayuda de IA y todavía no la ha revisado un hablante nativo.</p>
+          <div class="scrollcue">
+            <a class="btn solid" href="#builder">Arma un prompt</a>
+            <a class="btn" href="#game">Juega: encuentra la pieza que falta</a>
+          </div>
+        </div>
+        <div class="prompt-strip" role="note" aria-label="Un prompt de ejemplo, coloreado por familia lógica">
+          <span class="cap">Una petición, siete tipos de lógica</span>
+          <span id="hero-prompt"><span class="tok" style="font-weight:600">Explica por qué parece que la Luna cambia de forma.</span> <span class="tok" data-d="frame" style="background:var(--dc);color:var(--dt)" title="Actúa como">Actúa como un maestro de ciencias de primaria con mucha paciencia.</span> <span class="tok" data-d="premises" style="background:var(--dc);color:var(--dt)" title="Contexto">Mi hija me lo preguntó a la hora de dormir, después de ver una Luna creciente muy delgadita desde su ventana.</span> <span class="tok" data-d="bounds" style="background:var(--dc);color:var(--dt)" title="Alcance">Habla solo de por qué cambia la forma, no de eclipses ni de mareas.</span> <span class="tok" data-d="goal" style="background:var(--dc);color:var(--dt)" title="Objetivo">La meta es que mi hija me lo pueda volver a explicar con sus propias palabras.</span> <span class="tok" data-d="evidence" style="background:var(--dc);color:var(--dt)" title="Referencias">Si usas un dato que quizá quiera comprobar, dime en qué tipo de fuente podría revisarlo una persona adulta.</span> <span class="tok" data-d="testing" style="background:var(--dc);color:var(--dt)" title="Puntos de vista">Muéstralo brevemente desde muy lejos en el espacio, mirando la Tierra y la Luna desde arriba, donde se ve que la Luna siempre tiene una mitad iluminada por el Sol.</span> <span class="tok" data-d="dialogue" style="background:var(--dc);color:var(--dt)" title="Preguntas">Antes de responder, hazme una o dos preguntas si algo sobre mi hija no está claro.</span></span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="basics">
+    <div class="wrap">
+      <div class="kicker">Primera parte · lógica en cinco minutos</div>
+      <h2 class="section">La lógica es cómo te sigue quien lee</h2>
+      <p class="lede" style="margin-top:24px;max-width:56ch">Un chatbot nunca te ha visto. Todo lo que sabe de tu petición es lo que escribiste. Estas son las ideas que usan los lógicos para que un razonamiento sea fácil de seguir, y cada una cumple una función en un prompt.</p>
+      <div class="basics"><article class="basic rise"><div class="term">Premisa</div><p>Una afirmación que das por cierta y de la que partes para razonar. Si una premisa es falsa, todo lo que construyas sobre ella también puede ser falso.</p><p class="ex">“El museo cierra los lunes” es una premisa. Tu plan para el lunes parte de ella.</p><p class="inp"><b>En un prompt:</b> Tu contexto, tus ejemplos y tus definiciones son las premisas. El modelo razona a partir de lo que le das, o de lo que adivina.</p></article><article class="basic rise"><div class="term">Inferencia y conclusión</div><p>Una inferencia es el paso que va de las premisas a una afirmación nueva. La conclusión es adonde llega ese paso: lo que querías demostrar o decidir.</p><p class="ex">El museo cierra los lunes. Hoy es lunes. Entonces, el museo hoy está cerrado.</p><p class="inp"><b>En un prompt:</b> Tu objetivo nombra la conclusión que buscas. La respuesta es el paso que da el modelo desde tus premisas hacia esa meta.</p></article><article class="basic rise"><div class="term">Dominio del discurso</div><p>El conjunto de cosas de las que habla una afirmación. Palabras como “todos” o “cada uno” solo tienen sentido dentro de un dominio elegido.</p><p class="ex">“Todos aprobaron el examen” habla de un grupo de clase, no de todas las personas del planeta.</p><p class="inp"><b>En un prompt:</b> El alcance fija el dominio. Sin él, el modelo elige uno por ti, muchas veces más amplio o más estrecho de lo que querías.</p></article><article class="basic rise"><div class="term">Definición y ambigüedad</div><p>Una definición fija lo que significa una palabra. Una palabra es ambigua cuando puede significar más de una cosa. Cambiar de significado a mitad de un argumento se llama equívoco.</p><p class="ex">“Una comida ligera” puede ser baja en calorías o simplemente pequeña. Decir cuál de las dos quita la duda.</p><p class="inp"><b>En un prompt:</b> La terminología define tus palabras clave, para que “barato”, “corto” o “sencillo” signifiquen lo que tú quieres decir.</p></article><article class="basic rise"><div class="term">Condiciones necesarias y suficientes</div><p>Una condición necesaria tiene que cumplirse, pero puede no bastar. Una condición suficiente basta por sí sola.</p><p class="ex">Un boleto es necesario para subir al tren, pero no es suficiente: además, el tren tiene que estar funcionando.</p><p class="inp"><b>En un prompt:</b> Las restricciones, el formato y el plazo son condiciones necesarias. Cumplirlos todos sigue sin garantizar una buena respuesta.</p></article><article class="basic rise"><div class="term">Evidencia e inducción</div><p>La evidencia es lo que respalda una afirmación. La inducción saca un patrón general a partir de casos particulares. Puede ser fuerte, pero nunca es segura.</p><p class="ex">Todos los cisnes que has visto son blancos, así que esperas que el próximo también lo sea. Luego visitas Australia y te encuentras con un cisne negro.</p><p class="inp"><b>En un prompt:</b> Los ejemplos enseñan por inducción. Las referencias, las estadísticas y las citas textuales son evidencia, y solo cuentan si son reales.</p></article><article class="basic rise"><div class="term">Contraejemplo</div><p>Un solo caso que demuestra que una afirmación general es falsa. Buscar uno es la forma de poner a prueba una idea en lugar de solo creerla.</p><p class="ex">“Todas las aves pueden volar.” Los pingüinos son un contraejemplo, y con uno basta.</p><p class="inp"><b>En un prompt:</b> Los contraargumentos y otros puntos de vista le piden al modelo que busque el caso en el que tu idea falla.</p></article><article class="basic rise"><div class="term">Las máximas de Grice</div><p>El filósofo H. P. Grice describió lo que da por sentado una conversación cooperativa: di lo suficiente pero no de más, di lo que es verdad, no te salgas del tema y sé claro.</p><p class="ex">“Me quedé sin gasolina.” “Hay una gasolinera a la vuelta de la esquina.” Das por hecho que está abierta y que vende combustible. Eso es la conversación cooperativa en acción.</p><p class="inp"><b>En un prompt:</b> Un buen prompt le da al modelo lo que necesita para ser informativo, veraz, pertinente y claro según tu propósito.</p></article></div>
+      <p class="note">Grice describió la conversación entre personas. Aplicar sus máximas a un chatbot es un lente útil, no una afirmación de que el modelo sea una persona que coopera.</p>
+
+      <div class="syl" id="valid">
+        <div class="syl-board rise">
+          <div class="kicker">Pruébalo · válido no es lo mismo que verdadero</div>
+          <div class="syl-line"><span class="lab" aria-label="Premisa 1">P1</span><span class="txt" id="syl-p1">Todos los mamíferos respiran aire.</span></div>
+          <div class="syl-line"><span class="lab" aria-label="Premisa 2">P2</span><span class="txt" id="syl-p2">Las ballenas son mamíferos.</span></div>
+          <div class="syl-line concl"><span class="lab" aria-label="Por lo tanto" style="font-size:20px;color:var(--ink)">∴</span><span class="txt" id="syl-c">Entonces, las ballenas respiran aire.</span></div>
+          <div class="stamps" aria-live="polite">
+            <span class="stamp yes" id="st-valid">Válido</span>
+            <span class="stamp yes" id="st-sound">Sólido</span>
+          </div>
+          <div><button type="button" class="btn small" id="syl-swap" aria-pressed="false">Cambia por una premisa falsa</button></div>
+        </div>
+        <div class="syl-side">
+          <div class="big">Buena forma, malos datos, disparates dichos con seguridad.</div>
+          <p id="syl-note">Los dos argumentos tienen la misma forma válida: si las premisas fueran verdaderas, la conclusión tendría que serlo. Solo el primero es sólido, porque sus premisas sí son verdaderas.</p>
+          <p>Con los prompts pasa lo mismo. Una petición ordenada y bien estructurada puede apoyarse en una premisa equivocada, y la respuesta la seguirá al pie de la letra.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="table">
+    <div class="wrap">
+      <div class="kicker">Segunda parte · los elementos</div>
+      <h2 class="section">La tabla periódica de un prompt</h2>
+      <p class="lede" style="margin-top:24px;max-width:58ch">Veintiuna partes, en siete familias lógicas. Nunca necesitas todas a la vez. Cada una que dejas fuera es algo que el modelo tiene que adivinar. Toca cualquier elemento para leerlo.</p>
+      <div class="ptable"><div class="pcol" role="list" aria-label="Marco"><div class="phead" aria-hidden="true">Marco</div><a class="tile" role="listitem" href="#act-as" data-d="frame" aria-label="Actúa como, Marco, parte 1"><span class="n">1</span><span class="sym">Ac</span><span class="nm">Actúa como</span></a><a class="tile" role="listitem" href="#audience" data-d="frame" aria-label="Audiencia, Marco, parte 2"><span class="n">2</span><span class="sym">Au</span><span class="nm">Audiencia</span></a><a class="tile" role="listitem" href="#tone" data-d="frame" aria-label="Tono, Marco, parte 3"><span class="n">3</span><span class="sym">To</span><span class="nm">Tono</span></a><a class="tile" role="listitem" href="#language" data-d="frame" aria-label="Idioma, Marco, parte 4"><span class="n">4</span><span class="sym">La</span><span class="nm">Idioma</span></a></div><div class="pcol" role="list" aria-label="Premisas"><div class="phead" aria-hidden="true">Premisas</div><a class="tile" role="listitem" href="#context" data-d="premises" aria-label="Contexto, Premisas, parte 5"><span class="n">5</span><span class="sym">Cx</span><span class="nm">Contexto</span></a><a class="tile" role="listitem" href="#examples" data-d="premises" aria-label="Ejemplos, Premisas, parte 6"><span class="n">6</span><span class="sym">Ex</span><span class="nm">Ejemplos</span></a><a class="tile" role="listitem" href="#keywords" data-d="premises" aria-label="Palabras clave, Premisas, parte 7"><span class="n">7</span><span class="sym">Kw</span><span class="nm">Palabras clave</span></a><a class="tile" role="listitem" href="#terminology" data-d="premises" aria-label="Terminología, Premisas, parte 8"><span class="n">8</span><span class="sym">Tm</span><span class="nm">Terminología</span></a></div><div class="pcol" role="list" aria-label="Fronteras"><div class="phead" aria-hidden="true">Fronteras</div><a class="tile" role="listitem" href="#scope" data-d="bounds" aria-label="Alcance, Fronteras, parte 9"><span class="n">9</span><span class="sym">Sc</span><span class="nm">Alcance</span></a><a class="tile" role="listitem" href="#limitations" data-d="bounds" aria-label="Restricciones, Fronteras, parte 10"><span class="n">10</span><span class="sym">Li</span><span class="nm">Restricciones</span></a><a class="tile" role="listitem" href="#deadline" data-d="bounds" aria-label="Plazo, Fronteras, parte 11"><span class="n">11</span><span class="sym">Dl</span><span class="nm">Plazo</span></a><a class="tile" role="listitem" href="#format" data-d="bounds" aria-label="Formato, Fronteras, parte 12"><span class="n">12</span><span class="sym">Fm</span><span class="nm">Formato</span></a></div><div class="pcol" role="list" aria-label="Meta"><div class="phead" aria-hidden="true">Meta</div><a class="tile" role="listitem" href="#objective" data-d="goal" aria-label="Objetivo, Meta, parte 13"><span class="n">13</span><span class="sym">Ob</span><span class="nm">Objetivo</span></a><a class="tile" role="listitem" href="#call-to-action" data-d="goal" aria-label="Llamado a la acción, Meta, parte 14"><span class="n">14</span><span class="sym">Ca</span><span class="nm">Llamado a la acción</span></a></div><div class="pcol" role="list" aria-label="Evidencia"><div class="phead" aria-hidden="true">Evidencia</div><a class="tile" role="listitem" href="#citations" data-d="evidence" aria-label="Referencias, Evidencia, parte 15"><span class="n">15</span><span class="sym">Ci</span><span class="nm">Referencias</span></a><a class="tile" role="listitem" href="#statistics" data-d="evidence" aria-label="Estadísticas, Evidencia, parte 16"><span class="n">16</span><span class="sym">St</span><span class="nm">Estadísticas</span></a><a class="tile" role="listitem" href="#quotes" data-d="evidence" aria-label="Citas textuales, Evidencia, parte 17"><span class="n">17</span><span class="sym">Qu</span><span class="nm">Citas textuales</span></a></div><div class="pcol" role="list" aria-label="Puesta a prueba"><div class="phead" aria-hidden="true">Puesta a prueba</div><a class="tile" role="listitem" href="#points-of-view" data-d="testing" aria-label="Puntos de vista, Puesta a prueba, parte 18"><span class="n">18</span><span class="sym">Pv</span><span class="nm">Puntos de vista</span></a><a class="tile" role="listitem" href="#counterarguments" data-d="testing" aria-label="Contraargumentos, Puesta a prueba, parte 19"><span class="n">19</span><span class="sym">Co</span><span class="nm">Contraargumentos</span></a><a class="tile" role="listitem" href="#analogies" data-d="testing" aria-label="Analogías, Puesta a prueba, parte 20"><span class="n">20</span><span class="sym">An</span><span class="nm">Analogías</span></a></div><div class="pcol" role="list" aria-label="Diálogo"><div class="phead" aria-hidden="true">Diálogo</div><a class="tile" role="listitem" href="#questions" data-d="dialogue" aria-label="Preguntas, Diálogo, parte 21"><span class="n">21</span><span class="sym">Qs</span><span class="nm">Preguntas</span></a></div></div>
+      <div class="legend"><a class="dchip" data-d="frame" href="#d-frame" style="text-decoration:none">Marco · Quién habla, quién escucha y con qué voz</a><a class="dchip" data-d="premises" href="#d-premises" style="text-decoration:none">Premisas · Lo que se da por hecho, y lo que se define</a><a class="dchip" data-d="bounds" href="#d-bounds" style="text-decoration:none">Fronteras · Dominio del discurso y restricciones</a><a class="dchip" data-d="goal" href="#d-goal" style="text-decoration:none">Meta · La conclusión que buscas</a><a class="dchip" data-d="evidence" href="#d-evidence" style="text-decoration:none">Evidencia · Respaldo para las afirmaciones</a><a class="dchip" data-d="testing" href="#d-testing" style="text-decoration:none">Puesta a prueba · Contraejemplos y otros puntos de vista</a><a class="dchip" data-d="dialogue" href="#d-dialogue" style="text-decoration:none">Diálogo · Cooperación que llena los huecos</a></div>
+    </div>
+  </section>
+
+  <section class="domain" id="d-frame" data-d="frame"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">1</div><div><div class="kicker">Familia 1 de 7</div><h2 class="dname">Marco</h2></div></div><div class="dmeta"><span class="dchip">Quién habla, quién escucha y con qué voz</span><span class="q">¿Quién habla, a quién y cómo?</span></div><div class="parts"><article class="part rise" id="act-as" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">Ac</span><div><h3>Actúa como</h3><span class="n">01 de 21</span></div><span></span></div><div class="body"><p class="line">Un papel que asume el modelo y que define su vocabulario, su profundidad y su punto de vista.</p><p class="logic"><b>La lógica</b>Fija el punto de vista de quien habla. Como elegir una perspectiva en un argumento, cambia qué premisas parecen pertinentes y qué palabras se usan. No agrega conocimientos ni credenciales.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Dame consejos para mi huerto.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say"><mark>Actúa como un jardinero comunitario con experiencia.</mark> Dame consejos para mi huerto.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué voz experta, qué nivel de detalle y qué enfoque quieres.</span></p><p class="pit"><b>Ojo:</b> Un papel es un disfraz, no un título. Un modelo que hace de médico no es médico, así que consulta los temas de salud, legales o de dinero con un profesional de verdad.</p></div></article><article class="part rise" id="audience" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">Au</span><div><h3>Audiencia</h3><span class="n">02 de 21</span></div><span class="maxim" title="Máxima de Grice: Cantidad">Cantidad</span></div><div class="body"><p class="line">Quién va a leer o usar la respuesta, y qué sabe ya.</p><p class="logic"><b>La lógica</b>Fija el conocimiento compartido que la respuesta puede dar por hecho. Qué tan informativa debe ser depende de quien escucha, así que la audiencia define cuánto explicar.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Explica cómo funciona un crédito hipotecario.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Explica cómo funciona un crédito hipotecario <mark>a alguien que va a comprar su primera casa y nunca ha pedido un préstamo</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si debe explicar lo básico o saltárselo, y qué palabras conoce quien lee.</span></p><p class="pit"><b>Ojo:</b> Una audiencia vaga como “principiantes” ayuda menos que decir qué saben ya y qué necesitan hacer con la respuesta.</p></div></article><article class="part rise" id="tone" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">To</span><div><h3>Tono</h3><span class="n">03 de 21</span></div><span></span></div><div class="body"><p class="line">El color emocional de la respuesta: amable, formal, firme, juguetón o sereno.</p><p class="logic"><b>La lógica</b>El tono cambia cómo se dice algo, no lo que se afirma. La lógica separa el contenido de la expresión, y el tono es una petición sobre la expresión.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Escribe un mensaje para avisarle a mi equipo que se canceló el pícnic.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Escribe un mensaje <mark>cálido y alegre</mark> para avisarle a mi equipo que se canceló el pícnic.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si debe sonar cálido, neutral, formal o directo.</span></p><p class="pit"><b>Ojo:</b> El tono puede desdibujar el contenido. Si pides algo “tranquilizador”, revisa que la respuesta no haya suavizado un dato que necesitabas oír con claridad.</p></div></article><article class="part rise" id="language" data-d="frame"><div class="top"><span class="sym" aria-hidden="true">La</span><div><h3>Idioma</h3><span class="n">04 de 21</span></div><span class="maxim" title="Máxima de Grice: Modo">Modo</span></div><div class="body"><p class="line">En qué idioma responder, y qué tan sencillo o técnico debe ser el lenguaje.</p><p class="logic"><b>La lógica</b>Una afirmación solo funciona si las dos partes la entienden igual. Elegir el idioma y el nivel de lectura evita la oscuridad, contra la que advierte la máxima de Modo de Grice.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Escribe instrucciones para mi vecina sobre cómo regar mis plantas.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Escribe instrucciones <mark>en portugués sencillo</mark> para mi vecina sobre cómo regar mis plantas.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué idioma, qué variante y qué nivel de lectura usar.</span></p><p class="pit"><b>Ojo:</b> Una traducción puede sonar fluida y aun así estar mal. Para algo importante, como la etiqueta de un medicamento o un contrato, pide a alguien que hable bien el idioma que la revise.</p></div></article></div></div></section><section class="domain" id="d-premises" data-d="premises"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">2</div><div><div class="kicker">Familia 2 de 7</div><h2 class="dname">Premisas</h2></div></div><div class="dmeta"><span class="dchip">Lo que se da por hecho, y lo que se define</span><span class="q">¿Qué puede dar por hecho la respuesta?</span></div><div class="parts"><article class="part rise" id="context" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Cx</span><div><h3>Contexto</h3><span class="n">05 de 21</span></div><span class="maxim" title="Máxima de Grice: Relación">Relación</span></div><div class="body"><p class="line">Los datos de tu situación sobre los que debe construir la respuesta.</p><p class="logic"><b>La lógica</b>El contexto aporta las premisas: las afirmaciones que se dan por ciertas. Una conclusión vale lo que valen las premisas de las que parte.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Sugiéreme una cena que pueda cocinar hoy.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say"><mark>Tengo arroz, huevos, espinacas y veinte minutos, y mi pareja es vegetariana.</mark> Sugiéreme una cena que pueda cocinar hoy.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Tu situación, así que llena el hueco con un caso típico que quizá no sea el tuyo.</span></p><p class="pit"><b>Ojo:</b> Las premisas falsas producen disparates dichos con seguridad. Si los datos de tu situación están mal o desactualizados, es probable que una respuesta bien razonada también esté mal.</p></div></article><article class="part rise" id="examples" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Ex</span><div><h3>Ejemplos</h3><span class="n">06 de 21</span></div><span></span></div><div class="body"><p class="line">Una o más muestras de cómo se ve una buena respuesta.</p><p class="logic"><b>La lógica</b>Los ejemplos funcionan por inducción: a partir de unos pocos casos, el modelo infiere un patrón general. Como en toda inducción, el patrón que elija puede no ser el que tú querías.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Sugiéreme nombres para mi gatita gris.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Sugiéreme nombres para mi gatita gris. <mark>Nombres que me gustan: Piedrita, Manchita, Galleta.</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> El estilo, la extensión y el patrón que tienes en la cabeza.</span></p><p class="pit"><b>Ojo:</b> Los modelos pueden copiar los ejemplos muy de cerca, incluso sus casualidades. Si todos tus ejemplos son nombres de comida, espera más nombres de comida. Varíalos a propósito.</p></div></article><article class="part rise" id="keywords" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Kw</span><div><h3>Palabras clave</h3><span class="n">07 de 21</span></div><span class="maxim" title="Máxima de Grice: Relación">Relación</span></div><div class="body"><p class="line">Palabras o nombres que deben aparecer, o que precisan el tema.</p><p class="logic"><b>La lógica</b>Las palabras clave marcan los términos de los que debe tratar la respuesta. Sirven como prueba de pertinencia: una respuesta que nunca los toca se desvió de la pregunta.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Escribe una breve presentación para la página web de mi panadería.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Escribe una breve presentación para la página web de mi panadería. <mark>Menciona el pan de masa madre, nuestras recetas familiares y el mercado de los sábados.</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué nombres, cosas o ideas concretas te importan.</span></p><p class="pit"><b>Ojo:</b> Una lista larga de palabras clave se vuelve una ensalada de palabras. Elige los pocos términos que de verdad importan y revisa que se usen bien, no que solo aparezcan.</p></div></article><article class="part rise" id="terminology" data-d="premises"><div class="top"><span class="sym" aria-hidden="true">Tm</span><div><h3>Terminología</h3><span class="n">08 de 21</span></div><span class="maxim" title="Máxima de Grice: Modo">Modo</span></div><div class="body"><p class="line">Definiciones para las palabras de tu petición que podrían significar más de una cosa.</p><p class="logic"><b>La lógica</b>Definir los términos bloquea el equívoco, el error de dejar que una palabra cambie de significado a mitad del camino. Una definición fija a qué se refiere una palabra clave de principio a fin.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Dame un plan de entrenamiento para una carrera de larga distancia.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Dame un plan de entrenamiento para una carrera de larga distancia. <mark>Por larga distancia me refiero a una carrera de 10 km, no a un maratón.</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué significado de una palabra ambigua tienes en mente.</span></p><p class="pit"><b>Ojo:</b> Tus propias palabras te parecen obvias. Palabras como “barato”, “pronto”, “sano” y “corto” son donde se esconden los malentendidos. Precísalas con números.</p></div></article></div></div></section><section class="domain" id="d-bounds" data-d="bounds"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">3</div><div><div class="kicker">Familia 3 de 7</div><h2 class="dname">Fronteras</h2></div></div><div class="dmeta"><span class="dchip">Dominio del discurso y restricciones</span><span class="q">¿Qué entra, qué queda fuera y con qué forma?</span></div><div class="parts"><article class="part rise" id="scope" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Sc</span><div><h3>Alcance</h3><span class="n">09 de 21</span></div><span class="maxim" title="Máxima de Grice: Relación">Relación</span></div><div class="body"><p class="line">Lo que debe cubrir la respuesta, y lo que debe dejar fuera.</p><p class="logic"><b>La lógica</b>El alcance fija el dominio del discurso: el conjunto de cosas de las que trata la conversación. Las afirmaciones se juzgan dentro de ese dominio, así que un dominio borroso da respuestas borrosas.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Cuéntame la historia de la bicicleta.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Cuéntame la historia de la bicicleta <mark>de 1860 a 1900, solo los cambios de diseño, no las carreras</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué tan amplio o estrecho ir, y qué cuenta como fuera de tema.</span></p><p class="pit"><b>Ojo:</b> Un alcance demasiado estrecho puede esconder lo que importa. Invita al modelo a señalar cualquier cosa importante que quede justo fuera de tu límite.</p></div></article><article class="part rise" id="limitations" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Li</span><div><h3>Restricciones</h3><span class="n">10 de 21</span></div><span></span></div><div class="body"><p class="line">Reglas que debe cumplir la respuesta, como extensión, costo o cosas que evitar.</p><p class="logic"><b>La lógica</b>Las restricciones son condiciones necesarias: una respuesta que rompe una falla, por buena que sea en lo demás. Cumplir todas las restricciones sigue sin hacer que una respuesta sea lo bastante buena.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Sugiéreme una actividad para una fiesta de cumpleaños de niños de diez años.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Sugiéreme una actividad para una fiesta de cumpleaños de niños de diez años <mark>que se pueda hacer bajo techo, sin pantallas y solo con cosas que hay en casi cualquier casa</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Tus límites firmes, así que puede sugerirte cosas que no puedes usar.</span></p><p class="pit"><b>Ojo:</b> Revisa por tu cuenta la respuesta contra cada restricción. A veces los modelos rompen una regla sin avisar, como un número de palabras, mientras suenan como si la hubieran cumplido.</p></div></article><article class="part rise" id="deadline" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Dl</span><div><h3>Plazo</h3><span class="n">11 de 21</span></div><span></span></div><div class="body"><p class="line">El periodo de tiempo al que pertenece tu tarea, o la información que necesitas.</p><p class="logic"><b>La lógica</b>Es más práctico que lógico. Un chatbot responde cuando le preguntas, no según un calendario. Lo lógico es el índice de tiempo: muchas afirmaciones solo son verdaderas en una fecha dada.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Hazme un plan de estudio para mi examen de manejo.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Hazme un plan de estudio para mi examen de manejo<mark>, que es dentro de tres semanas</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué fechas importan, y qué tan actuales deben ser los datos.</span></p><p class="pit"><b>Ojo:</b> Los modelos tienen una fecha de corte de conocimiento y puede que no sepan qué día es hoy. Para todo lo que dependa del tiempo, dale tú la fecha y revisa los datos recientes en otra parte.</p></div></article><article class="part rise" id="format" data-d="bounds"><div class="top"><span class="sym" aria-hidden="true">Fm</span><div><h3>Formato</h3><span class="n">12 de 21</span></div><span class="maxim" title="Máxima de Grice: Modo">Modo</span></div><div class="body"><p class="line">La forma de la respuesta: una lista, una tabla, pasos, un correo o un párrafo corto.</p><p class="logic"><b>La lógica</b>El formato es una restricción sobre la forma, no sobre el contenido. Responde al consejo de Grice de ser ordenado: la misma información es más fácil de revisar en una forma que puedes recorrer con la vista.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Compara ir al trabajo caminando, en bicicleta y en autobús.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Compara ir al trabajo caminando, en bicicleta y en autobús <mark>en una tabla con una fila por opción</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si quieres una lista, una tabla, un párrafo o pasos.</span></p><p class="pit"><b>Ojo:</b> Una tabla bonita puede hacer que las suposiciones parezcan hechos. El formato hace que una respuesta sea más fácil de leer, no más confiable.</p></div></article></div></div></section><section class="domain" id="d-goal" data-d="goal"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">4</div><div><div class="kicker">Familia 4 de 7</div><h2 class="dname">Meta</h2></div></div><div class="dmeta"><span class="dchip">La conclusión que buscas</span><span class="q">¿Qué debe lograr la respuesta?</span></div><div class="parts"><article class="part rise" id="objective" data-d="goal"><div class="top"><span class="sym" aria-hidden="true">Ob</span><div><h3>Objetivo</h3><span class="n">13 de 21</span></div><span class="maxim" title="Máxima de Grice: Relación">Relación</span></div><div class="body"><p class="line">Lo que quieres que logre la respuesta: el sentido de toda la petición.</p><p class="logic"><b>La lógica</b>El objetivo es la conclusión hacia la que razonas. Sin él, la pertinencia no tiene ancla, porque Grice ligó la pertinencia al propósito de la conversación.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Háblame de los autos eléctricos.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Háblame de los autos eléctricos <mark>para que pueda decidir si mi próximo auto debería ser uno</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Por qué preguntas, así que no puede saber qué es útil.</span></p><p class="pit"><b>Ojo:</b> Decir tu meta puede inclinar la respuesta hacia ella. Pide “ayúdame a decidir” en lugar de “convénceme”, a menos que de verdad quieras solo un lado.</p></div></article><article class="part rise" id="call-to-action" data-d="goal"><div class="top"><span class="sym" aria-hidden="true">Ca</span><div><h3>Llamado a la acción</h3><span class="n">14 de 21</span></div><span></span></div><div class="body"><p class="line">El siguiente paso con el que debe cerrar la respuesta, para ti o para quienes la lean.</p><p class="logic"><b>La lógica</b>Un argumento puede terminar en una conclusión práctica: una decisión sobre qué hacer. Un llamado a la acción convierte el razonamiento en un siguiente paso claro.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Escribe un volante sobre la jornada de limpieza de nuestra calle.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Escribe un volante sobre la jornada de limpieza de nuestra calle <mark>que termine invitando a la gente a inscribirse en el mostrador de la biblioteca</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si debe cerrar con un siguiente paso, y cuál es.</span></p><p class="pit"><b>Ojo:</b> Los llamados a la acción insistentes salen al revés. Pide un siguiente paso claro y honesto, no presión ni urgencias inventadas como “solo quedan dos lugares”.</p></div></article></div></div></section><section class="domain" id="d-evidence" data-d="evidence"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">5</div><div><div class="kicker">Familia 5 de 7</div><h2 class="dname">Evidencia</h2></div></div><div class="dmeta"><span class="dchip">Respaldo para las afirmaciones</span><span class="q">¿Qué respalda cada afirmación?</span></div><div class="parts"><article class="part rise" id="citations" data-d="evidence"><div class="top"><span class="sym" aria-hidden="true">Ci</span><div><h3>Referencias</h3><span class="n">15 de 21</span></div><span class="maxim" title="Máxima de Grice: Cualidad">Cualidad</span></div><div class="body"><p class="line">Fuentes a las que debe remitir la respuesta, para que puedas revisar de dónde sale cada afirmación.</p><p class="logic"><b>La lógica</b>Una referencia une una afirmación con su evidencia. Sirve a la máxima de Cualidad de Grice: no digas cosas para las que no tienes evidencia suficiente.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Explica si leer con poca luz daña la vista.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say"><mark>Usando solo el artículo de salud que pego abajo,</mark> explica si leer con poca luz daña la vista<mark>, y di qué párrafo respalda cada punto</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si necesitas fuentes, y en qué tipo de fuentes confías.</span></p><p class="pit"><b>Ojo:</b> Los modelos pueden inventar referencias que parecen reales: títulos, autores y enlaces creíbles que no existen. Da tus propias fuentes cuando puedas, y abre cada referencia antes de confiar en ella.</p></div></article><article class="part rise" id="statistics" data-d="evidence"><div class="top"><span class="sym" aria-hidden="true">St</span><div><h3>Estadísticas</h3><span class="n">16 de 21</span></div><span class="maxim" title="Máxima de Grice: Cualidad">Cualidad</span></div><div class="body"><p class="line">Números que respaldan una afirmación, como conteos, promedios o tasas.</p><p class="logic"><b>La lógica</b>Usar un número para respaldar una afirmación general es una forma de inducción. Un número solo respalda una afirmación si es real, reciente y sobre el grupo correcto.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Escribe un párrafo sobre por qué nuestro barrio necesita un nuevo cruce peatonal.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Escribe un párrafo sobre por qué nuestro barrio necesita un nuevo cruce peatonal<mark>, usando las cifras del estudio de tránsito que pego abajo</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si quieres números, y qué tan precisos deben ser.</span></p><p class="pit"><b>Ojo:</b> Los modelos pueden producir números que parecen precisos sin ninguna fuente real. Da tus propios datos cuando puedas, y rastrea cada número hasta su origen antes de repetirlo.</p></div></article><article class="part rise" id="quotes" data-d="evidence"><div class="top"><span class="sym" aria-hidden="true">Qu</span><div><h3>Citas textuales</h3><span class="n">17 de 21</span></div><span class="maxim" title="Máxima de Grice: Cualidad">Cualidad</span></div><div class="body"><p class="line">Palabras exactas de una persona o un texto real, repetidas al pie de la letra.</p><p class="logic"><b>La lógica</b>Una cita textual es un testimonio: evidencia de que alguien dijo algo. Solo cuenta si es exacta y está en su contexto. Una cita mal hecha es una premisa falsa.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Escribe un discurso corto para el cumpleaños 90 de mi abuela.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Escribe un discurso corto para el cumpleaños 90 de mi abuela<mark>, citando su dicho favorito, que escribo abajo tal cual</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si quieres citas textuales, de quién y qué tan exactas.</span></p><p class="pit"><b>Ojo:</b> Los modelos pueden inventar citas o atribuir frases reales a la persona equivocada. Pega tú las palabras exactas, o compara cualquier cita con un original confiable.</p></div></article></div></div></section><section class="domain" id="d-testing" data-d="testing"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">6</div><div><div class="kicker">Familia 6 de 7</div><h2 class="dname">Puesta a prueba</h2></div></div><div class="dmeta"><span class="dchip">Contraejemplos y otros puntos de vista</span><span class="q">¿Dónde podría fallar este razonamiento?</span></div><div class="parts"><article class="part rise" id="points-of-view" data-d="testing"><div class="top"><span class="sym" aria-hidden="true">Pv</span><div><h3>Puntos de vista</h3><span class="n">18 de 21</span></div><span></span></div><div class="body"><p class="line">Las perspectivas de otras personas que debe considerar la respuesta, no solo la tuya.</p><p class="logic"><b>La lógica</b>Mirar desde varios puntos de vista pone a prueba si una conclusión se sostiene para todos los afectados. Una premisa que parece obvia desde un lado puede ser falsa o irrelevante desde otro.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">¿Debería nuestra familia tener un perro?</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">¿Debería nuestra familia tener un perro? <mark>Piénsalo desde el punto de vista de los niños, de los papás que lo van a pasear y de nuestra vecina de la tercera edad.</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué intereses y opiniones cuentan, así que puede darte solo un lado.</span></p><p class="pit"><b>Ojo:</b> Enumerar opiniones no es lo mismo que sopesarlas. Mostrar dos lados como iguales puede esconder que uno tiene mucha mejor evidencia.</p></div></article><article class="part rise" id="counterarguments" data-d="testing"><div class="top"><span class="sym" aria-hidden="true">Co</span><div><h3>Contraargumentos</h3><span class="n">19 de 21</span></div><span></span></div><div class="body"><p class="line">Las objeciones más fuertes a una idea, para ponerla a prueba antes de confiar en ella.</p><p class="logic"><b>La lógica</b>La falsación de Popper: intenta refutar una idea, no solo confirmarla. Un solo contraejemplo puede hundir una afirmación general, y las objeciones buscan los puntos débiles.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Este es mi plan para empezar a vender velas artesanales en línea.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Este es mi plan para empezar a vender velas artesanales en línea. <mark>Dame las tres razones más fuertes por las que podría fracasar.</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Si quieres que te contradiga con honestidad o que simplemente te dé la razón.</span></p><p class="pit"><b>Ojo:</b> Los modelos tienden a darle la razón a quien pregunta. Si nunca pides objeciones, que no aparezca ninguna no es evidencia de que tu idea sea buena.</p></div></article><article class="part rise" id="analogies" data-d="testing"><div class="top"><span class="sym" aria-hidden="true">An</span><div><h3>Analogías</h3><span class="n">20 de 21</span></div><span class="maxim" title="Máxima de Grice: Modo">Modo</span></div><div class="body"><p class="line">Una comparación con algo conocido que ayuda a explicar algo nuevo.</p><p class="logic"><b>La lógica</b>Una analogía traslada la estructura de un caso conocido a uno nuevo. Explica y puede sugerir, pero nunca demuestra; ponla a prueba buscando dónde se rompe.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Explica cómo funciona la memoria de una computadora.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Explica cómo funciona la memoria de una computadora <mark>usando como analogía el trabajo en una cocina</mark>.</span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Qué cosas conocidas manejas lo bastante bien como para compararlas.</span></p><p class="pit"><b>Ojo:</b> Toda analogía se rompe en algún punto. Pide al modelo que diga dónde deja de funcionar su comparación, para que no te lleves la parte equivocada.</p></div></article></div></div></section><section class="domain" id="d-dialogue" data-d="dialogue"><div class="wrap"><div class="dhead"><div class="dnum" aria-hidden="true">7</div><div><div class="kicker">Familia 7 de 7</div><h2 class="dname">Diálogo</h2></div></div><div class="dmeta"><span class="dchip">Cooperación que llena los huecos</span><span class="q">¿Qué falta todavía, y quién lo aporta?</span></div><div class="parts"><article class="part rise" id="questions" data-d="dialogue"><div class="top"><span class="sym" aria-hidden="true">Qs</span><div><h3>Preguntas</h3><span class="n">21 de 21</span></div><span class="maxim" title="Máxima de Grice: Cantidad">Cantidad</span></div><div class="body"><p class="line">Una invitación para que el modelo te pregunte lo que necesita antes de responder.</p><p class="logic"><b>La lógica</b>Las preguntas convierten una adivinanza de un solo intento en un diálogo. Las premisas que faltan se aportan en lugar de suponerse, así la respuesta puede ser tan informativa como necesitas.</p><div class="flip"><div class="row weak"><span class="tag">Débil</span><span class="say">Ayúdame a escribir una carta de presentación para un empleo.</span></div><div class="row strong"><span class="tag">Fuerte</span><span class="say">Ayúdame a escribir una carta de presentación para un empleo. <mark>Antes de empezar, hazme hasta cinco preguntas sobre el puesto y mi experiencia.</mark></span></div></div><p class="guess"><span class="ico" aria-hidden="true">?</span><span><b>Si la dejas fuera, el modelo adivina</b> Todo lo que olvidaste decir, rellenado en silencio con valores típicos.</span></p><p class="pit"><b>Ojo:</b> Las preguntas del modelo valen lo que valen tus respuestas. Contesta con honestidad y en concreto; si adivinas, construirá sobre tu suposición.</p></div></article></div></div></section>
+
+  <section class="band" id="builder">
+    <div class="wrap">
+      <div class="kicker">Tercera parte · el laboratorio</div>
+      <h2 class="section">Arma un prompt y mira cómo se reducen las adivinanzas</h2>
+      <noscript><p class="nojs">El constructor necesita JavaScript. Todas las partes que usa se explican en las secciones de arriba.</p></noscript>
+      <div class="bench">
+        <div class="kicker">1 · Elige una tarea</div>
+        <div class="tasks" id="tasks" role="group" aria-label="Tarea"></div>
+        <div class="bgrid">
+          <div class="toggles">
+            <div class="kicker">2 · Activa y desactiva partes</div>
+            <div id="toggles"></div>
+            <div class="presets">
+              <button type="button" data-preset="none">Petición sola</button>
+              <button type="button" data-preset="core">Las cinco esenciales</button>
+              <button type="button" data-preset="all">Todo</button>
+            </div>
+          </div>
+          <div class="out">
+            <div class="kicker" style="color:var(--ink-2)">3 · Tu prompt</div>
+            <div class="ptext" id="ptext"></div>
+            <div class="meter">
+              <div class="num" id="gnum">21</div>
+              <div class="cap" id="gcap">partes sin decir<br><span style="font-weight:400;font-size:15px;color:var(--ink-2)">cada una es algo que el modelo rellena por su cuenta</span></div>
+              <span class="sr" id="glive" aria-live="polite"></span>
+              <div class="bar" aria-hidden="true"><i id="gbar" style="width:100%"></i></div>
+            </div>
+            <div class="guesses" id="guesses"></div>
+            <div class="outacts"><button type="button" class="btn small solid" id="copy">Copiar prompt</button></div>
+          </div>
+        </div>
+      </div>
+      <p style="margin-top:22px;color:var(--ink-2)">Más partes no siempre es mejor: “todo” da un prompt largo. El arte está en notar qué adivinanzas importan para esta tarea y cerrar esas.</p>
+    </div>
+  </section>
+
+  <section class="band" id="game">
+    <div class="wrap">
+      <div class="kicker">Cuarta parte · el juego</div>
+      <h2 class="section">Encuentra la pieza que falta</h2>
+      <p class="lede" style="margin-top:24px;max-width:56ch">Cada petición de abajo recibió una respuesta decepcionante. ¿Qué parte, agregada al prompt, habría ayudado más?</p>
+      <noscript><p class="nojs">El juego necesita JavaScript.</p></noscript>
+      <div class="game">
+        <div class="chat" id="chat" aria-live="polite"></div>
+        <div class="game-side">
+          <div class="score" id="score"></div>
+          <div class="opts" id="opts"></div>
+          <div class="verdict" id="verdict" aria-live="polite"><span style="color:var(--ink-3)">Elige una respuesta.</span></div>
+          <div><button type="button" class="btn small solid" id="next" hidden>Siguiente</button></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" id="limits">
+    <div class="wrap">
+      <div class="kicker">Quinta parte · límites honestos</div>
+      <h2 class="truth">La estructura <span style="color:var(--hot)">no</span> es verdad</h2>
+      <div class="limits"><article class="limit rise"><h3>Estructura no es verdad</h3><p>Un prompt bien armado hace más probable una respuesta útil. No hace que la respuesta sea verdadera. Un argumento válido con premisas falsas puede llegar a una conclusión falsa sin que nada en su forma te avise, y un modelo puede razonar con fluidez a partir de una suposición equivocada.</p></article><article class="limit rise"><h3>Las fuentes se pueden inventar</h3><p>Cuando les pides referencias, citas textuales o estadísticas, a veces los modelos producen unas que parecen reales pero no existen. Da tus propias fuentes y datos cuando puedas, y revisa cada referencia, cita y número antes de confiar en ellos o compartirlos.</p></article><article class="limit rise"><h3>El conocimiento tiene fecha de corte</h3><p>Un modelo aprendió de textos hasta cierta fecha. Puede no saber lo que pasó después, ni siquiera qué día es hoy. Di “a la fecha de…” cuando el tiempo importe, y revisa los datos recientes en una fuente actual.</p></article><article class="limit rise"><h3>Un papel no es un título</h3><p>Pedirle a un modelo que actúe como médico, abogado o contador cambia su vocabulario y su enfoque. No le da formación, ni licencia para ejercer, ni responsabilidad, ni conocimiento de toda tu situación.</p></article><article class="limit rise"><h3>Tú sigues siendo responsable</h3><p>La respuesta es un borrador para que tú lo juzgues, no una decisión tomada por ti. Para temas de salud, legales, de dinero o de seguridad, consulta con una persona calificada antes de actuar.</p></article></div>
+    </div>
+  </section>
+
+  <section class="band" id="cheat">
+    <div class="wrap">
+      <div class="kicker">Sexta parte · guárdala</div>
+      <h2 class="section">La lista de verificación</h2>
+      <p class="lede" style="margin-top:24px">Antes de enviar, repasa las familias. Las marcas se guardan solo en este navegador.</p>
+      <div class="cheat" id="cheatlist"><label class="check" data-d="frame"><input type="checkbox" id="c-0"><span>¿Dije quién debe responder y quién lo va a leer?<small>Marco</small></span></label><label class="check" data-d="frame"><input type="checkbox" id="c-1"><span>¿Nombré el tono y el idioma que quiero?<small>Marco</small></span></label><label class="check" data-d="premises"><input type="checkbox" id="c-2"><span>¿Di los datos de mi situación?<small>Premisas</small></span></label><label class="check" data-d="premises"><input type="checkbox" id="c-3"><span>¿Definí cualquier palabra que pueda significar dos cosas?<small>Premisas</small></span></label><label class="check" data-d="bounds"><input type="checkbox" id="c-4"><span>¿Dije qué entra en el alcance y qué queda fuera?<small>Fronteras</small></span></label><label class="check" data-d="bounds"><input type="checkbox" id="c-5"><span>¿Dije mis límites firmes, el plazo y el formato?<small>Fronteras</small></span></label><label class="check" data-d="goal"><input type="checkbox" id="c-6"><span>¿Dije para qué es la respuesta?<small>Meta</small></span></label><label class="check" data-d="evidence"><input type="checkbox" id="c-7"><span>¿Di mis propias fuentes o datos cuando fue posible?<small>Evidencia</small></span></label><label class="check" data-d="evidence"><input type="checkbox" id="c-8"><span>¿Voy a revisar cada referencia, cita y número?<small>Evidencia</small></span></label><label class="check" data-d="testing"><input type="checkbox" id="c-9"><span>¿Pregunté dónde podría estar mal esto?<small>Puesta a prueba</small></span></label><label class="check" data-d="dialogue"><input type="checkbox" id="c-10"><span>¿Invité al modelo a hacerme preguntas primero?<small>Diálogo</small></span></label></div>
+      <div class="progress" id="cheatprog"></div>
+    </div>
+  </section>
+
+  <section class="band" id="sources">
+    <div class="wrap">
+      <div class="kicker">De dónde vienen estas ideas</div>
+      <h2 class="section" style="font-size:clamp(36px,6vw,72px)">Fuentes</h2>
+      <ul class="sources"><li><a href="https://www.fecundity.com/logic/" rel="noopener"><b>forall x: An Introduction to Formal Logic</b></a> · P. D. Magnus. Libro de texto abierto y gratuito (en inglés). Argumentos, premisas y conclusiones, validez frente a solidez, cuantificadores y dominio del discurso.</li><li><a href="https://forallx.openlogicproject.org/" rel="noopener"><b>forall x: Calgary. A Free and Open Introduction to Formal Logic</b></a> · Aaron Thomas-Bolduc and Richard Zach, building on Tim Button and P. D. Magnus. Edición abierta y revisada de forall x, del Open Logic Project. Los mismos temas, actualizados con regularidad.</li><li><b>Logic and Conversation</b> · H. P. Grice, 1975. En P. Cole y J. L. Morgan (eds.), Syntax and Semantics, Vol. 3: Speech Acts, Academic Press, pp. 41-58. Origen del principio de cooperación, de las máximas de Cantidad, Cualidad, Relación y Modo, y del ejemplo de la gasolina y la gasolinera (en el original, petrol y garage).</li><li><a href="https://plato.stanford.edu/entries/grice/" rel="noopener"><b>Paul Grice</b></a> · Richard E. Grandy and Richard Warner. Stanford Encyclopedia of Philosophy (en inglés). Panorama de la obra de Grice, incluida la implicatura conversacional.</li><li><a href="https://plato.stanford.edu/entries/implicature/" rel="noopener"><b>Implicature</b></a> · Wayne Davis. Stanford Encyclopedia of Philosophy (en inglés). El principio de cooperación, las máximas y cómo quien escucha llena los huecos de lo que se dice.</li><li><a href="https://plato.stanford.edu/entries/logical-consequence/" rel="noopener"><b>Logical Consequence</b></a> · J. C. Beall, Greg Restall and Gil Sagi. Stanford Encyclopedia of Philosophy (en inglés). Qué significa que una conclusión se siga de unas premisas; trasfondo de la validez.</li><li><a href="https://plato.stanford.edu/entries/definitions/" rel="noopener"><b>Definitions</b></a> · Anil Gupta and Stephen Mackereth. Stanford Encyclopedia of Philosophy (en inglés). Tipos y propósitos de las definiciones.</li><li><a href="https://plato.stanford.edu/entries/ambiguity/" rel="noopener"><b>Ambiguity</b></a> · Adam Sennet. Stanford Encyclopedia of Philosophy (en inglés). Ambigüedad léxica y estructural, y por qué importa para la comunicación.</li><li><a href="https://plato.stanford.edu/entries/fallacies/" rel="noopener"><b>Fallacies</b></a> · Hans Hansen. Stanford Encyclopedia of Philosophy (en inglés). Incluye el equívoco entre las falacias clásicas de ambigüedad.</li><li><a href="https://plato.stanford.edu/entries/necessary-sufficient/" rel="noopener"><b>Necessary and Sufficient Conditions</b></a> · Andrew Brennan. Stanford Encyclopedia of Philosophy (en inglés). La distinción que se usa en la parte de Restricciones.</li><li><a href="https://plato.stanford.edu/entries/induction-problem/" rel="noopener"><b>The Problem of Induction</b></a> · Leah Henderson. Stanford Encyclopedia of Philosophy (en inglés). Por qué generalizar a partir de ejemplos nunca es seguro; base de las partes de Ejemplos y Estadísticas.</li><li><a href="https://plato.stanford.edu/entries/popper/" rel="noopener"><b>Karl Popper</b></a> · Stephen Thornton. Stanford Encyclopedia of Philosophy (en inglés). Falsación: un solo contraejemplo puede refutar una afirmación general. Base de Contraargumentos.</li><li><b>The Logic of Scientific Discovery</b> · Karl Popper, 1959. Edición en inglés, Hutchinson; original alemán Logik der Forschung, 1934 (en español, La lógica de la investigación científica). Fuente principal de la falsación y del ejemplo del cisne blanco.</li><li><a href="https://plato.stanford.edu/entries/reasoning-analogy/" rel="noopener"><b>Analogy and Analogical Reasoning</b></a> · Paul Bartha. Stanford Encyclopedia of Philosophy (en inglés). Las analogías sugieren y explican, pero no demuestran; cómo evaluar dónde se rompen.</li><li><a href="https://plato.stanford.edu/entries/testimony-episprob/" rel="noopener"><b>Epistemological Problems of Testimony</b></a> · Nick Leonard. Stanford Encyclopedia of Philosophy (en inglés). El testimonio como fuente de evidencia; base para tratar las citas textuales como testimonio.</li><li><a href="https://www.nature.com/articles/s41598-023-41032-5" rel="noopener"><b>Fabrication and errors in the bibliographic citations generated by ChatGPT</b></a> · William H. Walters and Esther Isabelle Wilder, 2023. Scientific Reports, vol. 13. Documenta referencias inventadas por un chatbot. Respalda la afirmación general de que los modelos pueden fabricar referencias.</li><li><a href="https://arxiv.org/abs/2310.13548" rel="noopener"><b>Towards Understanding Sycophancy in Language Models</b></a> · Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud and others, 2023. Artículo de investigación sobre la tendencia de los modelos a darle la razón al usuario. Respalda la advertencia de Contraargumentos.</li><li><a href="https://arxiv.org/abs/2202.03629" rel="noopener"><b>Survey of Hallucination in Natural Language Generation</b></a> · Ziwei Ji, Nayeon Lee, Rita Frieske and others, 2023. ACM Computing Surveys 55(12). Revisión de cómo los modelos de lenguaje producen contenido fluido pero sin respaldo. Respalda las afirmaciones generales sobre citas y números inventados e instrucciones incumplidas.</li><li><a href="https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices" rel="noopener"><b>Prompting best practices</b></a> · Anthropic. Guía pública para escribir prompts de un laboratorio de IA: instrucciones claras, papeles y ejemplos variados para que el modelo no copie patrones no deseados. Respalda la advertencia de Ejemplos.</li><li><a href="https://developers.openai.com/api/docs/guides/prompt-engineering" rel="noopener"><b>Prompt engineering</b></a> · OpenAI. Guía pública para escribir prompts de un laboratorio de IA. Solo como lectura de contexto.</li></ul>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <span>Follow or Bounce · <a href="/">Índice</a></span>
+    <span>Las 21 partes son una lista práctica, no un estándar. La lógica detrás de ellas es antigua; los chatbots son nuevos.</span>
+  </div>
+</footer>
+
+<script id="content" type="application/json">{"parts":[{"id":"act-as","n":1,"name":"Actúa como","domain":"frame","guess":"Qué voz experta, qué nivel de detalle y qué enfoque quieres."},{"id":"audience","n":2,"name":"Audiencia","domain":"frame","guess":"Si debe explicar lo básico o saltárselo, y qué palabras conoce quien lee."},{"id":"tone","n":3,"name":"Tono","domain":"frame","guess":"Si debe sonar cálido, neutral, formal o directo."},{"id":"language","n":4,"name":"Idioma","domain":"frame","guess":"Qué idioma, qué variante y qué nivel de lectura usar."},{"id":"context","n":5,"name":"Contexto","domain":"premises","guess":"Tu situación, así que llena el hueco con un caso típico que quizá no sea el tuyo."},{"id":"examples","n":6,"name":"Ejemplos","domain":"premises","guess":"El estilo, la extensión y el patrón que tienes en la cabeza."},{"id":"keywords","n":7,"name":"Palabras clave","domain":"premises","guess":"Qué nombres, cosas o ideas concretas te importan."},{"id":"terminology","n":8,"name":"Terminología","domain":"premises","guess":"Qué significado de una palabra ambigua tienes en mente."},{"id":"scope","n":9,"name":"Alcance","domain":"bounds","guess":"Qué tan amplio o estrecho ir, y qué cuenta como fuera de tema."},{"id":"limitations","n":10,"name":"Restricciones","domain":"bounds","guess":"Tus límites firmes, así que puede sugerirte cosas que no puedes usar."},{"id":"deadline","n":11,"name":"Plazo","domain":"bounds","guess":"Qué fechas importan, y qué tan actuales deben ser los datos."},{"id":"format","n":12,"name":"Formato","domain":"bounds","guess":"Si quieres una lista, una tabla, un párrafo o pasos."},{"id":"objective","n":13,"name":"Objetivo","domain":"goal","guess":"Por qué preguntas, así que no puede saber qué es útil."},{"id":"call-to-action","n":14,"name":"Llamado a la acción","domain":"goal","guess":"Si debe cerrar con un siguiente paso, y cuál es."},{"id":"citations","n":15,"name":"Referencias","domain":"evidence","guess":"Si necesitas fuentes, y en qué tipo de fuentes confías."},{"id":"statistics","n":16,"name":"Estadísticas","domain":"evidence","guess":"Si quieres números, y qué tan precisos deben ser."},{"id":"quotes","n":17,"name":"Citas textuales","domain":"evidence","guess":"Si quieres citas textuales, de quién y qué tan exactas."},{"id":"points-of-view","n":18,"name":"Puntos de vista","domain":"testing","guess":"Qué intereses y opiniones cuentan, así que puede darte solo un lado."},{"id":"counterarguments","n":19,"name":"Contraargumentos","domain":"testing","guess":"Si quieres que te contradiga con honestidad o que simplemente te dé la razón."},{"id":"analogies","n":20,"name":"Analogías","domain":"testing","guess":"Qué cosas conocidas manejas lo bastante bien como para compararlas."},{"id":"questions","n":21,"name":"Preguntas","domain":"dialogue","guess":"Todo lo que olvidaste decir, rellenado en silencio con valores típicos."}],"domains":[{"id":"frame","name":"Marco","logic":"Quién habla, quién escucha y con qué voz","question":"¿Quién habla, a quién y cómo?","parts":["act-as","audience","tone","language"]},{"id":"premises","name":"Premisas","logic":"Lo que se da por hecho, y lo que se define","question":"¿Qué puede dar por hecho la respuesta?","parts":["context","examples","keywords","terminology"]},{"id":"bounds","name":"Fronteras","logic":"Dominio del discurso y restricciones","question":"¿Qué entra, qué queda fuera y con qué forma?","parts":["scope","limitations","deadline","format"]},{"id":"goal","name":"Meta","logic":"La conclusión que buscas","question":"¿Qué debe lograr la respuesta?","parts":["objective","call-to-action"]},{"id":"evidence","name":"Evidencia","logic":"Respaldo para las afirmaciones","question":"¿Qué respalda cada afirmación?","parts":["citations","statistics","quotes"]},{"id":"testing","name":"Puesta a prueba","logic":"Contraejemplos y otros puntos de vista","question":"¿Dónde podría fallar este razonamiento?","parts":["points-of-view","counterarguments","analogies"]},{"id":"dialogue","name":"Diálogo","logic":"Cooperación que llena los huecos","question":"¿Qué falta todavía, y quién lo aporta?","parts":["questions"]}],"builder":{"tasks":[{"id":"explain-child","label":"Explicarle algo a una niña","base":"Explica por qué parece que la Luna cambia de forma.","fragments":{"act-as":"Actúa como un maestro de ciencias de primaria con mucha paciencia.","audience":"La explicación es para mi hija de siete años, que sabe que la Luna gira alrededor de la Tierra, pero poco más.","tone":"Usa un tono cálido, curioso y un poco juguetón.","language":"Usa un español sencillo, con frases cortas y sin palabras científicas que una niña de siete años no conozca.","context":"Mi hija me lo preguntó a la hora de dormir, después de ver una Luna creciente muy delgadita desde su ventana.","examples":"Una buena explicación suena como esta sobre las sombras: “Tu sombra es el lugar donde tu cuerpo tapa la luz del Sol.”","keywords":"Asegúrate de mencionar la luz del Sol, la mitad iluminada de la Luna y la palabra fase.","terminology":"Cuando digas fase, explica que significa cuánto de la mitad iluminada de la Luna podemos ver desde la Tierra.","scope":"Habla solo de por qué cambia la forma, no de eclipses ni de mareas.","limitations":"Usa menos de 150 palabras y deja fuera cualquier cosa del espacio que dé miedo.","deadline":"Esta semana vamos a mirar la Luna todas las noches, así que di cómo va a cambiar en los próximos siete días.","format":"Escríbelo como un cuento corto en tres pasos que una niña pueda imaginar.","objective":"La meta es que mi hija me lo pueda volver a explicar con sus propias palabras.","call-to-action":"Termina sugiriendo algo que mi hija y yo podamos hacer, como dibujar la Luna cada noche.","citations":"Si usas un dato que quizá quiera comprobar, dime en qué tipo de fuente podría revisarlo una persona adulta.","statistics":"Si usas un número, como cuánto dura el ciclo, redondéalo y usa solo uno.","quotes":"Puedes citarle a mi hija su propia pregunta: “¿Por qué hoy la Luna está rota?”","points-of-view":"Muéstralo brevemente desde muy lejos en el espacio, mirando la Tierra y la Luna desde arriba, donde se ve que la Luna siempre tiene una mitad iluminada por el Sol.","counterarguments":"Corrige con cariño la idea equivocada, muy común, de que las fases de la Luna las causa la sombra de la Tierra.","analogies":"Usa una analogía que una niña pueda probar en casa, como una pelota y una lámpara en un cuarto oscuro.","questions":"Antes de responder, hazme una o dos preguntas si algo sobre mi hija no está claro."}},{"id":"weekend-trip","label":"Planear un fin de semana barato","base":"Planea un fin de semana barato fuera de la ciudad para mí y un amigo.","fragments":{"act-as":"Actúa como un planificador de viajes ahorrativo que sabe gastar poco sin arruinar el viaje.","audience":"El plan es para dos personas de veintitantos años a las que no les molesta caminar mucho, pero odian madrugar.","tone":"Usa un tono práctico y amigable, no de vendedor.","language":"Escribe en un español sencillo y da cada precio en pesos mexicanos, con números.","context":"Vivimos en la Ciudad de México, no tenemos auto y podemos salir el viernes después del trabajo.","examples":"Un viaje que nos encantó el año pasado fue a un pueblo con una caminata larga por el cerro, tacos baratos y un museo pequeño.","keywords":"Incluye viaje en autobús, actividades gratuitas y un hostal o un cuarto económico.","terminology":"Por barato me refiero a 3000 pesos por persona en total, incluyendo transporte, comida y dónde dormir.","scope":"Sugiere solo lugares a los que se pueda llegar en autobús desde la Ciudad de México en menos de tres horas.","limitations":"Evita cualquier cosa que requiera auto, y deja fuera los bares porque mi amigo no toma alcohol.","deadline":"El viaje es dentro de tres semanas, así que señala todo lo que deba revisar más cerca de la fecha, como precios u horarios.","format":"Organízalo como un plan día por día, con un costo aproximado junto a cada cosa.","objective":"La idea es un fin de semana tranquilo que se sienta como un descanso de verdad sin dejar de ser barato.","call-to-action":"Termina con una lista corta de lo que hay que reservar primero.","citations":"Para horarios y precios de autobús, dime qué sitio web oficial debo revisar en lugar de darme cifras exactas de memoria.","statistics":"Da cualquier estimación de costos como un rango y di claramente que es aproximada.","quotes":"No cites reseñas que yo no pueda ver; mejor describe con tus propias palabras lo que suelen decir los visitantes.","points-of-view":"Piénsalo también desde el lado de mi amigo: es vegetariano y le importa más la comida que los lugares turísticos.","counterarguments":"Señala el mayor riesgo de tu plan, como un autobús cancelado, y sugiere un plan B.","analogies":"Si ayuda, describe cada pueblo comparándolo con un lugar muy conocido, como un San Miguel de Allende más pequeño y tranquilo.","questions":"Hazme las preguntas que necesites antes de planear, por ejemplo qué nos gusta hacer en las noches."}},{"id":"complaint","label":"Escribir un reclamo amable","base":"Escribe un reclamo por mi lavadora descompuesta.","fragments":{"act-as":"Actúa como alguien con experiencia en escribir cartas claras y eficaces a equipos de atención al cliente.","audience":"Lo va a leer el equipo de atención al cliente de la tienda donde compré la lavadora.","tone":"Usa un tono amable y sereno, pero firme.","language":"Escribe en un español formal y claro.","context":"La compré hace siete semanas, la semana pasada dejó de centrifugar y la visita de reparación que agendé nunca se hizo.","examples":"Esta es una frase con el estilo que me gusta: “Les agradecería que me confirmaran por correo los siguientes pasos.”","keywords":"Incluye mi número de pedido, 48213, y las palabras cita de reparación incumplida.","terminology":"Cuando escribas reembolso, debe significar que me devuelvan todo mi dinero, no un saldo a favor en la tienda.","scope":"Habla solo de la lavadora y deja fuera mi queja anterior sobre la entrega.","limitations":"Usa menos de 200 palabras y no amenaces con acciones legales.","deadline":"Pide una respuesta en un plazo de diez días hábiles a partir de hoy.","format":"Dale formato de correo electrónico con un asunto claro.","objective":"Mi meta es tener una lavadora que funcione o un reembolso completo, lo que sea más rápido.","call-to-action":"Termina pidiéndoles que confirmen por correo cuál de las dos opciones me van a ofrecer.","citations":"Si mencionas mis derechos como consumidor, nombra la ley para que yo la pueda buscar, y di si no estás seguro.","statistics":"No agregues ningún número que yo no te haya dado, como tiempos típicos de reparación.","quotes":"Cita esta frase de su sitio web: “Todos los electrodomésticos tienen un año de garantía.”","points-of-view":"Ten en cuenta que la persona que lo lea no causó el problema y probablemente atiende muchos reclamos al día.","counterarguments":"Adelántate a la respuesta probable de que usé mal la lavadora, y contéstala en una sola frase.","analogies":"Si queda bien, agrega una comparación corta que muestre por qué importa una visita de reparación que no llegó, como esperar todo el día una entrega que nunca llega.","questions":"Antes de escribir, pregúntame lo que necesites saber, por ejemplo si todavía tengo el comprobante de compra."}}]},"quiz":[{"id":"q-inflation","prompt":"Explica qué es la inflación.","reply":"Una página densa sobre bancos centrales e índices de precios, llena de términos que tu sobrino de doce años no podría seguir.","answer":"audience","options":["citations","audience","deadline","keywords"],"why":"El modelo no podía saber para quién era la explicación, así que supuso que era para un adulto. Nombrar la audiencia define cuánto explicar y qué palabras usar."},{"id":"q-garden","prompt":"¿Qué debería sembrar en mi jardín este mes?","reply":"Una lista alegre de flores de primavera. Donde vives es otoño, y tu jardín es un balcón con mucha sombra.","answer":"context","options":["tone","analogies","context","quotes"],"why":"Sin tu ubicación, la estación y tu espacio, el modelo imaginó un jardín típico. Esos datos son tus premisas; si los dejas fuera, razona a partir de una suposición."},{"id":"q-workout","prompt":"Dame una rutina de ejercicio corta para hacer en casa.","reply":"Una rutina de 45 minutos con seis circuitos. Para ti, corta significaba diez minutos antes del trabajo.","answer":"terminology","options":["act-as","statistics","points-of-view","terminology"],"why":"La palabra “corta” es ambigua: diez minutos para ti, cuarenta y cinco para otra persona. Definir la palabra, idealmente con un número, elimina la adivinanza."},{"id":"q-airport","prompt":"Compara el tren, el autobús y un taxi para ir al aeropuerto.","reply":"Cuatro párrafos largos. Tú querías ver el costo y el tiempo de viaje uno junto al otro, de un vistazo.","answer":"format","options":["format","language","keywords","call-to-action"],"why":"El contenido estaba bien; la forma no. Pedir una tabla con una fila por opción hace que la comparación sea fácil de recorrer y de revisar."},{"id":"q-dogs","prompt":"Háblame de los perros.","reply":"Una historia general de las razas de perros. En realidad estabas decidiendo si un perro va bien con tu departamento pequeño y tus jornadas largas de trabajo.","answer":"objective","options":["tone","examples","objective","deadline"],"why":"Sin una meta, cualquier dato sobre perros es igual de pertinente. Decir qué quieres decidir le da a la respuesta una conclusión hacia la cual apuntar."},{"id":"q-bike-lane","prompt":"Escribe un párrafo que demuestre que nuestra nueva ciclovía hizo la calle más segura.","reply":"Un párrafo convincente con cifras exactas de accidentes. Nunca le diste cifras, y resultaron ser inventadas.","answer":"statistics","options":["audience","scope","analogies","statistics"],"why":"El modelo necesitaba números e inventó unos creíbles. Da tus propios datos, como los reportes oficiales de accidentes, y revisa cada cifra antes de usarla. Pedirle que “demuestre” una conclusión también invita a una evidencia de un solo lado."},{"id":"q-credit-card","prompt":"Este es mi plan para liquidar mi tarjeta de crédito pasando el saldo a una tarjeta nueva. ¿Qué opinas?","reply":"Elogios entusiastas para tu plan. Meses después te topas con una comisión por transferencia de saldo de la que nunca habías oído hablar.","answer":"counterarguments","options":["counterarguments","format","language","keywords"],"why":"Los modelos tienden a darle la razón a quien pregunta. Pedir las objeciones más fuertes, como comisiones ocultas, hace que el modelo busque dónde podría fallar tu plan. Y revisa por tu cuenta las condiciones de la tarjeta."},{"id":"q-wedding","prompt":"Escribe un discurso para la boda de mi hermana.","reply":"Un discurso genérico con una historia inventada sobre un campamento que nunca pasó.","answer":"questions","options":["tone","questions","format","deadline"],"why":"El modelo no sabía nada de tu hermana, así que inventó detalles. Invitarlo a hacerte preguntas primero te permite darle historias reales."}],"syllogism":{"premises":["Todos los mamíferos respiran aire.","Las ballenas son mamíferos."],"conclusion":"Entonces, las ballenas respiran aire.","brokenPremise":"Todos los mamíferos viven en tierra firme.","brokenConclusion":"Entonces, las ballenas viven en tierra firme.","note":"Los dos argumentos tienen la misma forma válida: si las premisas fueran verdaderas, la conclusión tendría que serlo. Solo el primero es sólido, porque sus premisas sí son verdaderas."},"symbols":{"act-as":"Ac","audience":"Au","tone":"To","language":"La","context":"Cx","examples":"Ex","keywords":"Kw","terminology":"Tm","scope":"Sc","limitations":"Li","deadline":"Dl","format":"Fm","objective":"Ob","call-to-action":"Ca","citations":"Ci","statistics":"St","quotes":"Qu","points-of-view":"Pv","counterarguments":"Co","analogies":"An","questions":"Qs"},"core":["objective","context","audience","format","scope"],"ui":{"translation_note":"Esta página se tradujo del inglés con ayuda de IA y todavía no la ha revisado un hablante nativo.","joiner":" ","back":"← Follow or Bounce","brand":"Lógica del prompt","nav_aria":"Secciones","lang_aria":"Idioma","nav_basics":"Bases","nav_parts":"Las 21 partes","nav_builder":"Constructor","nav_game":"Juego","nav_limits":"Límites","nav_cheat":"Lista","cta_build":"Arma un prompt","cta_game":"Juega: encuentra la pieza que falta","strip_aria":"Un prompt de ejemplo, coloreado por familia lógica","strip_cap":"Una petición, siete tipos de lógica","p1_kicker":"Primera parte · lógica en cinco minutos","p1_title":"La lógica es cómo te sigue quien lee","p1_lede":"Un chatbot nunca te ha visto. Todo lo que sabe de tu petición es lo que escribiste. Estas son las ideas que usan los lógicos para que un razonamiento sea fácil de seguir, y cada una cumple una función en un prompt.","in_prompt":"En un prompt:","grice_note":"Grice describió la conversación entre personas. Aplicar sus máximas a un chatbot es un lente útil, no una afirmación de que el modelo sea una persona que coopera.","syl_kicker":"Pruébalo · válido no es lo mismo que verdadero","prem1_aria":"Premisa 1","prem2_aria":"Premisa 2","therefore_aria":"Por lo tanto","valid":"Válido","sound":"Sólido","not_sound":"No sólido","swap":"Cambia por una premisa falsa","swap_back":"Vuelve a poner la premisa verdadera","syl_big":"Buena forma, malos datos, disparates dichos con seguridad.","syl_after":"Con los prompts pasa lo mismo. Una petición ordenada y bien estructurada puede apoyarse en una premisa equivocada, y la respuesta la seguirá al pie de la letra.","p2_kicker":"Segunda parte · los elementos","p2_title":"La tabla periódica de un prompt","p2_lede":"Veintiuna partes, en siete familias lógicas. Nunca necesitas todas a la vez. Cada una que dejas fuera es algo que el modelo tiene que adivinar. Toca cualquier elemento para leerlo.","tile_aria":"{name}, {family}, parte {n}","family":"Familia {i} de {n}","of21":"{n} de 21","the_logic":"La lógica","weak":"Débil","strong":"Fuerte","leave_out":"Si la dejas fuera, el modelo adivina","watch_out":"Ojo:","maxim_title":"Máxima de Grice: {m}","maxims":{"Quantity":"Cantidad","Quality":"Cualidad","Relation":"Relación","Manner":"Modo"},"p3_kicker":"Tercera parte · el laboratorio","p3_title":"Arma un prompt y mira cómo se reducen las adivinanzas","nojs_builder":"El constructor necesita JavaScript. Todas las partes que usa se explican en las secciones de arriba.","step1":"1 · Elige una tarea","task_aria":"Tarea","step2":"2 · Activa y desactiva partes","preset_none":"Petición sola","preset_core":"Las cinco esenciales","preset_all":"Todo","step3":"3 · Tu prompt","unsaid_one":"parte sin decir","unsaid_many":"partes sin decir","unsaid_sub":"cada una es algo que el modelo rellena por su cuenta","live_one":"{n} parte sin decir","live_many":"{n} partes sin decir","all_said":"Dijiste las 21 partes, y quedó un prompt largo. En la práctica, quédate con las que esta tarea necesita.","copy":"Copiar prompt","copied":"Prompt copiado","selected":"Seleccionado: presiona copiar","p3_after":"Más partes no siempre es mejor: “todo” da un prompt largo. El arte está en notar qué adivinanzas importan para esta tarea y cerrar esas.","p4_kicker":"Cuarta parte · el juego","p4_title":"Encuentra la pieza que falta","p4_lede":"Cada petición de abajo recibió una respuesta decepcionante. ¿Qué parte, agregada al prompt, habría ayudado más?","nojs_game":"El juego necesita JavaScript.","pick":"Elige una respuesta.","you":"Tú","got":"La respuesta que recibiste","yes":"Sí: {name}","it_was":"Era {name}","next":"Siguiente","see_score":"Ver tu puntaje","play_again":"Jugar otra vez","result":"Resultado","res_line":"{r} de {n}.","res_all":"Lees prompts como alguien que sabe de lógica.","res_half":"Buen ojo. Vale la pena repasar en la tabla de arriba las que fallaste.","res_low":"Cada fallo es una parte para buscar en la tabla de arriba. Inténtalo de nuevo.","p5_kicker":"Quinta parte · límites honestos","truth_a":"La estructura ","truth_hot":"no","truth_b":" es verdad","p6_kicker":"Sexta parte · guárdala","p6_title":"La lista de verificación","p6_lede":"Antes de enviar, repasa las familias. Las marcas se guardan solo en este navegador.","checked":"{n} de {t} marcadas","ready":" · listo para enviar","src_kicker":"De dónde vienen estas ideas","src_title":"Fuentes","foot_home":"Follow or Bounce","foot_index":"Índice","foot_note":"Las 21 partes son una lista práctica, no un estándar. La lógica detrás de ellas es antigua; los chatbots son nuevos."},"motion":true}</script>
+<script>
+(function () {
+  'use strict';
+  document.documentElement.classList.add('js');
+  var C = JSON.parse(document.getElementById('content').textContent);
+  var PART = {}; C.parts.forEach(function (p) { PART[p.id] = p; });
+  var SYM = C.symbols, U = C.ui;
+  function f(s, o) { return s.replace(/\{(\w+)\}/g, function (m, k) { return o[k] != null ? o[k] : m; }); }
+  var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function $(id) { return document.getElementById(id); }
+  function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
+  function toast(msg) { var t = el('div', 'toast', msg); t.setAttribute('role', 'status'); document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2600); }
+  function store(k, v) { try { if (v === undefined) return JSON.parse(localStorage.getItem(k) || 'null'); localStorage.setItem(k, JSON.stringify(v)); } catch (e) { return null; } }
+
+  /* ---------- hero: a slow, small breath in letter width for a few seconds, then rest; the word nearest the
+     pointer widens a little. Widths ease toward their target, so nothing jumps. Only where the display face has a
+     width axis (C.motion); otherwise, and under reduced motion, the title stays still. ---------- */
+  var words = Array.prototype.slice.call(document.querySelectorAll('#hero-title .w'));
+  if (words.length && !reduce && C.motion) {
+    var t0 = performance.now(), px = -1, py = -1, raf = 0, visible = true, cur = words.map(function () { return 100; });
+    var hero = document.querySelector('.hero');
+    var wake = function () { if (!raf && visible && !document.hidden) raf = requestAnimationFrame(tick); };
+    hero.addEventListener('pointermove', function (e) { px = e.clientX; py = e.clientY; wake(); });
+    hero.addEventListener('pointerleave', function () { px = py = -1; wake(); });
+    new IntersectionObserver(function (es) { visible = es[0].isIntersecting; wake(); }).observe(hero);
+    document.addEventListener('visibilitychange', wake);
+    function tick(now) {
+      raf = 0; if (!visible || document.hidden) return;
+      var t = (now - t0) / 1000, breath = t < 6 ? Math.sin(Math.PI * t / 6) : 0, settled = true;   /* one gentle swell over 6 s */
+      words.forEach(function (w, i) {
+        var target = 100 + 3 * breath * Math.sin(t * 0.9 + i * 0.8);
+        if (px >= 0) {
+          var r = w.getBoundingClientRect(), dx = (r.left + r.width / 2) - px, dy = (r.top + r.height / 2) - py;
+          target += 10 * Math.max(0, 1 - Math.sqrt(dx * dx + dy * dy) / 360);
+        }
+        cur[i] += (target - cur[i]) * 0.06;
+        if (Math.abs(target - cur[i]) > 0.05 || target !== 100) settled = false;
+        w.style.setProperty('--wd', cur[i].toFixed(2));
+      });
+      if (settled && t > 6 && px < 0) return;   /* WCAG 2.2.2: nothing moves on its own after the first seconds */
+      raf = requestAnimationFrame(tick);
+    }
+    wake();
+  }
+
+  /* ---------- elements rise as they come into view (visible at rest; only marked once JS runs) ---------- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    var risers = Array.prototype.slice.call(document.querySelectorAll('.rise'));
+    var vh = window.innerHeight;
+    risers.forEach(function (r) { if (r.getBoundingClientRect().top > vh) r.classList.add('pre'); });
+    var io = new IntersectionObserver(function (es) { es.forEach(function (e) { if (e.isIntersecting) { e.target.classList.remove('pre'); io.unobserve(e.target); } }); }, { rootMargin: '0px 0px -8% 0px' });
+    risers.forEach(function (r) { io.observe(r); });
+  }
+
+  /* ---------- valid vs sound ---------- */
+  var swapped = false, sb = $('syl-swap');
+  sb.addEventListener('click', function () {
+    swapped = !swapped;
+    sb.setAttribute('aria-pressed', String(swapped));
+    sb.textContent = swapped ? U.swap_back : U.swap;
+    $('syl-p1').textContent = swapped ? C.syllogism.brokenPremise : C.syllogism.premises[0];
+    $('syl-c').textContent = swapped ? C.syllogism.brokenConclusion : C.syllogism.conclusion;
+    ['syl-p1', 'syl-c'].forEach(function (id) { var x = $(id); x.classList.remove('flash'); void x.offsetWidth; x.classList.add('flash'); setTimeout(function () { x.classList.remove('flash'); }, 700); });
+    var s = $('st-sound');
+    s.className = 'stamp ' + (swapped ? 'no' : 'yes');
+    s.textContent = swapped ? U.not_sound : U.sound;
+    var v = $('st-valid'); v.classList.add('pop'); setTimeout(function () { v.classList.remove('pop'); }, 350);
+  });
+
+  /* ---------- builder ---------- */
+  var ORDER = C.parts.slice().sort(function (a, b) { return a.n - b.n; }).map(function (p) { return p.id; });
+  var CORE = C.core;
+  var task = C.builder.tasks[0], on = {}, lastAdded = null;
+  var saved = store('pl-builder');
+  if (saved && saved.task) task = C.builder.tasks.filter(function (t) { return t.id === saved.task; })[0] || task;
+  if (saved && saved.on) saved.on.forEach(function (id) { if (PART[id]) on[id] = true; });
+  else CORE.forEach(function (id) { on[id] = true; });   /* first visit opens on the essential five, so the lab shows what it does */
+  var tasks = $('tasks');
+  C.builder.tasks.forEach(function (t) {
+    var b = el('button', null, t.label); b.type = 'button'; b.dataset.task = t.id;
+    b.addEventListener('click', function () { task = t; lastAdded = null; renderBuilder(); });
+    tasks.appendChild(b);
+  });
+  var togs = $('toggles');
+  C.domains.forEach(function (d) {
+    var g = el('div', 'tgroup'); g.setAttribute('role', 'group'); g.setAttribute('aria-label', d.name);
+    g.appendChild(el('span', 'gl', d.name + ' · ' + d.logic));
+    d.parts.forEach(function (id) {
+      var b = el('button', 'tog'); b.type = 'button'; b.dataset.d = d.id; b.dataset.part = id;
+      b.appendChild(el('span', 'box')); b.appendChild(document.createTextNode(PART[id].name));
+      b.addEventListener('click', function () { on[id] = !on[id]; lastAdded = on[id] ? id : null; renderBuilder(); });
+      g.appendChild(b);
+    });
+    togs.appendChild(g);
+  });
+  document.querySelectorAll('[data-preset]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      on = {}; lastAdded = null;
+      if (b.dataset.preset === 'all') ORDER.forEach(function (id) { on[id] = true; });
+      if (b.dataset.preset === 'core') CORE.forEach(function (id) { on[id] = true; });
+      renderBuilder();
+    });
+  });
+  function promptText() {
+    return [task.base].concat(ORDER.filter(function (id) { return on[id]; }).map(function (id) { return task.fragments[id]; })).join(U.joiner);
+  }
+  function renderBuilder() {
+    tasks.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.task === task.id)); });
+    togs.querySelectorAll('.tog').forEach(function (b) { b.setAttribute('aria-pressed', String(!!on[b.dataset.part])); });
+    var pt = $('ptext'); pt.textContent = '';
+    var base = el('span', 'base', task.base); pt.appendChild(base);
+    ORDER.forEach(function (id) {
+      if (!on[id]) return;
+      if (U.joiner) pt.appendChild(document.createTextNode(U.joiner));
+      var s = el('span', id === lastAdded ? 'new' : '', task.fragments[id]); s.dataset.d = PART[id].domain; s.title = PART[id].name;
+      pt.appendChild(s);
+      if (id === lastAdded) setTimeout(function () { s.classList.remove('new'); }, 900);
+    });
+    var missing = ORDER.filter(function (id) { return !on[id]; });
+    var n = missing.length;
+    $('gnum').textContent = n; $('gnum').classList.toggle('zero', n === 0);
+    $('gcap').firstChild.textContent = n === 1 ? U.unsaid_one : U.unsaid_many;
+    $('glive').textContent = f(n === 1 ? U.live_one : U.live_many, { n: n });
+    $('gbar').style.width = (n / ORDER.length * 100) + '%';
+    var gs = $('guesses'); gs.textContent = '';
+    if (n) {
+      var ul = el('ul');
+      missing.forEach(function (id) { var li = el('li'); li.appendChild(el('span', 'q', '?')); li.appendChild(el('span', null, PART[id].name + ': ' + PART[id].guess)); ul.appendChild(li); });
+      gs.appendChild(ul);
+    } else gs.appendChild(el('p', null, U.all_said));
+    store('pl-builder', { task: task.id, on: Object.keys(on).filter(function (k) { return on[k]; }) });
+  }
+  $('copy').addEventListener('click', function () {
+    var txt = promptText();
+    var ok = function () { toast(U.copied); };
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(ok, fallback); else fallback();
+    function fallback() { var r = document.createRange(); r.selectNodeContents($('ptext')); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); toast(U.selected); }
+  });
+  renderBuilder();
+
+  /* ---------- game ---------- */
+  var round = 0, results = [], answered = false, finished = false, done = false;
+  function shuffle(a, seed) { a = a.slice(); var s = seed + 1; for (var i = a.length - 1; i > 0; i--) { s = (s * 9301 + 49297) % 233280; var j = Math.floor(s / 233280 * (i + 1)); var t = a[i]; a[i] = a[j]; a[j] = t; } return a; }
+  function renderScore() {
+    var sc = $('score'); sc.textContent = '';
+    C.quiz.forEach(function (q, i) { var d = el('i', results[i] === true ? 'ok' : results[i] === false ? 'no' : i === round ? 'cur' : ''); sc.appendChild(d); });
+    var right = results.filter(function (r) { return r; }).length;
+    sc.appendChild(el('span', null, ' ' + right + ' / ' + C.quiz.length));
+  }
+  function renderRound() {
+    answered = false;
+    var q = C.quiz[round];
+    var chat = $('chat'); chat.textContent = '';
+    var you = el('div', 'bubble you'); you.appendChild(el('span', 'who', U.you)); you.appendChild(document.createTextNode(q.prompt));
+    var ai = el('div', 'bubble ai'); ai.appendChild(el('span', 'who', U.got)); ai.appendChild(document.createTextNode(q.reply));
+    chat.appendChild(you); chat.appendChild(ai);
+    var opts = $('opts'); opts.textContent = '';
+    shuffle(q.options, round).forEach(function (id) {
+      var p = PART[id], b = el('button', 'opt'); b.type = 'button'; b.dataset.d = p.domain; b.dataset.part = id;
+      b.appendChild(el('span', 'sym', SYM[id])); b.appendChild(el('span', null, p.name));
+      b.addEventListener('click', function () { answer(q, id); });
+      opts.appendChild(b);
+    });
+    var pk = $('verdict'); pk.textContent = ''; var pks = el('span', null, U.pick); pks.style.color = 'var(--ink-3)'; pk.appendChild(pks);
+    $('next').hidden = true;
+    renderScore();
+    if (round || finished) $('opts').querySelector('.opt').focus({ preventScroll: true });
+    finished = false;
+  }
+  function answer(q, id) {
+    if (answered) return; answered = true;
+    var ok = id === q.answer; results[round] = ok;
+    $('opts').querySelectorAll('.opt').forEach(function (b) {
+      b.disabled = true;
+      if (b.dataset.part === q.answer) b.classList.add('right'); else if (b.dataset.part === id) b.classList.add('wrong');
+    });
+    var v = $('verdict'); v.textContent = '';
+    v.appendChild(el('b', null, f(ok ? U.yes : U.it_was, { name: PART[q.answer].name })));
+    v.appendChild(document.createTextNode(q.why));
+    var nx = $('next'); nx.hidden = false; nx.textContent = round < C.quiz.length - 1 ? U.next : U.see_score;
+    renderScore(); nx.focus({ preventScroll: true });
+  }
+  $('next').addEventListener('click', function () {
+    if (done) { done = false; finished = true; round = 0; results = []; renderRound(); return; }
+    if (round < C.quiz.length - 1) { round++; renderRound(); return; }
+    var right = results.filter(function (r) { return r; }).length;
+    $('chat').textContent = '';
+    var res = el('div', 'bubble ai'); res.appendChild(el('span', 'who', U.result));   /* not named done: that is the replay flag */
+    res.appendChild(document.createTextNode(f(U.res_line, { r: right, n: C.quiz.length }) + U.joiner + (right === C.quiz.length ? U.res_all : right >= C.quiz.length / 2 ? U.res_half : U.res_low)));
+    $('chat').appendChild(res);
+    $('opts').textContent = ''; $('verdict').textContent = '';
+    done = true; $('next').textContent = U.play_again;
+  });
+  renderRound();
+
+  /* ---------- checklist (ticks stay in this browser) ---------- */
+  var ticks = store('pl-cheat') || {};
+  var boxes = Array.prototype.slice.call(document.querySelectorAll('#cheatlist input'));
+  function prog() { var n = boxes.filter(function (b) { return b.checked; }).length; $('cheatprog').textContent = f(U.checked, { n: n, t: boxes.length }) + (n === boxes.length ? U.ready : ''); }
+  boxes.forEach(function (b) {
+    b.checked = !!ticks[b.id];
+    b.addEventListener('change', function () { ticks[b.id] = b.checked; store('pl-cheat', ticks); prog(); });
+  });
+  prog();
+
+})();
+</script>
+</body>
+</html>

@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 78
+      "count": 83
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 169,
+    "pages": 175,
     "repos": 4,
-    "own": 53,
-    "aerospace": 78,
+    "own": 54,
+    "aerospace": 83,
     "maya": 7,
     "machinery": 31
   },
@@ -50,6 +50,16 @@
       "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”",
       "url": "https://followorbounce.github.io/dictionary-of-inner-experience/",
       "tag": "Hub",
+      "interactive": true
+    },
+    {
+      "repo": "home",
+      "repo_label": "Knowledge Network",
+      "category": "Design & Experience",
+      "title": "The Logic of a Prompt & Life",
+      "description": "Writing a good prompt uses the same logic as clear thinking in everyday life: premises, scope, definitions, constraints, a goal, evidence and tests. Twenty-one parts of a prompt in seven logical families, with a live prompt builder and a spot-the-missing-piece game. Also in Spanish, Russian, Chinese and Japanese.",
+      "url": "https://followorbounce.github.io/logic-of-a-prompt",
+      "tag": "Read",
       "interactive": true
     },
     {
@@ -620,6 +630,16 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Dawn of the Space Age",
+      "title": "Animals in Space: Laika, Belka & Strelka, Ham",
+      "description": "Dawn of the Space Age — PASSENGER",
+      "url": "https://followorbounce.github.io/aerospace/passenger-animals-in-space.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Earth Orbit & Applications",
       "title": "GPS & Satellite Navigation",
       "description": "Earth Orbit & Applications — NAVIGATOR",
@@ -644,6 +664,46 @@
       "title": "Space Debris & the Kessler Syndrome",
       "description": "Earth Orbit & Applications — DEBRIS",
       "url": "https://followorbounce.github.io/aerospace/debris-space-junk.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "Telstar, Syncom & the Geostationary Orbit",
+      "description": "Earth Orbit & Applications — RELAY",
+      "url": "https://followorbounce.github.io/aerospace/relay-telstar-syncom.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "Megaconstellations: Starlink, OneWeb & Amazon Leo",
+      "description": "Earth Orbit & Applications — SWARM",
+      "url": "https://followorbounce.github.io/aerospace/swarm-megaconstellations.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "Weather Satellites: TIROS, GOES & Meteosat",
+      "description": "Earth Orbit & Applications — FORECAST",
+      "url": "https://followorbounce.github.io/aerospace/forecast-weather-satellites.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Earth Orbit & Applications",
+      "title": "CORONA, Zenit & the First Spy Satellites",
+      "description": "Earth Orbit & Applications — BUCKET",
+      "url": "https://followorbounce.github.io/aerospace/bucket-corona-spy-satellites.html",
       "tag": "Read",
       "interactive": true
     },

@@ -9,7 +9,8 @@
       "title": "Design & Experience",
       "pages": [
         { "slug": "dictionary-of-design", "url": "/dictionary-of-design/", "title": "Dictionary of Design", "description": "113 art/design terms, illustrated with a small reusable abstract-vector visual grammar — “design of the external world.”", "tag": "Hub", "interactive": true },
-        { "slug": "dictionary-of-inner-experience", "url": "/dictionary-of-inner-experience/", "title": "Dictionary of Inner Experience", "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”", "tag": "Hub", "interactive": true }
+        { "slug": "dictionary-of-inner-experience", "url": "/dictionary-of-inner-experience/", "title": "Dictionary of Inner Experience", "description": "77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”", "tag": "Hub", "interactive": true },
+        { "slug": "logic-of-a-prompt", "url": "/logic-of-a-prompt", "title": "The Logic of a Prompt & Life", "description": "Writing a good prompt uses the same logic as clear thinking in everyday life: premises, scope, definitions, constraints, a goal, evidence and tests. Twenty-one parts of a prompt in seven logical families, with a live prompt builder and a spot-the-missing-piece game. Also in Spanish, Russian, Chinese and Japanese.", "tag": "Read", "interactive": true }
       ]
     },
     {

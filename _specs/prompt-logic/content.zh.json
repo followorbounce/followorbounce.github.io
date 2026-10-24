@@ -1,0 +1,958 @@
+{
+ "hero": {
+  "kicker": "和AI对话用得上的日常逻辑",
+  "title": "提示词的逻辑|与生活",
+  "lede": "好的提示词，就是一个小小的论证，再加一个请求。生活里任何清楚的请求也是这样。把前提、用词、限制和目标说清楚，对方要猜的就少了。但答案仍可能出错，所以要核实。"
+ },
+ "basics": [
+  {
+   "id": "premise",
+   "term": "前提",
+   "plain": "你当作已知、并从它出发去推理的一句话。前提如果是假的，建立在它上面的一切也可能是假的。",
+   "example": "“博物馆周一闭馆”就是一个前提。你周一的安排要从它开始。",
+   "inPrompts": "你给的背景、示例和定义，就是前提。模型要么从你给的内容出发推理，要么从它自己猜的内容出发。"
+  },
+  {
+   "id": "inference",
+   "term": "推理与结论",
+   "plain": "推理，是从前提走向一个新说法的那一步。结论，是这一步落脚的地方：你想证明或决定的那件事。",
+   "example": "博物馆周一闭馆。今天是周一。所以博物馆今天闭馆。",
+   "inPrompts": "你的目标说出了你想要的结论。模型的回答，就是它从你的前提朝这个目标迈出的那一步。"
+  },
+  {
+   "id": "domain",
+   "term": "论域",
+   "plain": "一句话所谈论的那一组对象。“所有”“每个人”这样的词，只有在选定的论域里才有意义。",
+   "example": "“每个人都通过了考试”说的是某一个班，不是地球上所有人。",
+   "inPrompts": "范围设定了论域。不说清楚，模型就会替你选一个，往往比你想的更宽或更窄。"
+  },
+  {
+   "id": "definition",
+   "term": "定义与歧义",
+   "plain": "定义把一个词的意思固定下来。一个词能有不止一种意思，就是有歧义。论证进行到一半，悄悄换了词的意思，叫作偷换概念（也叫含混）。",
+   "example": "“清淡一点的饭”可能指热量低，也可能只是量少。说明是哪一种，疑问就消失了。",
+   "inPrompts": "术语这一项用来定义你的关键词，让“便宜”“短”“简单”表达的正是你的意思。"
+  },
+  {
+   "id": "condition",
+   "term": "必要条件与充分条件",
+   "plain": "必要条件是必须满足的，但满足了也未必够。充分条件是只要满足它就够了。",
+   "example": "坐火车必须有票，但光有票还不够：火车还得正常开行。",
+   "inPrompts": "限制、格式和时限都是必要条件。全部满足，也不能保证得到好答案。"
+  },
+  {
+   "id": "evidence",
+   "term": "证据与归纳",
+   "plain": "证据是支持一个说法的东西。归纳是从具体的例子里总结出一般规律。归纳可以很有力，但永远不是确定无疑的。",
+   "example": "你见过的天鹅都是白的，所以你以为下一只也是白的。后来你去了澳大利亚，看到了一只黑天鹅。",
+   "inPrompts": "示例靠归纳来教模型。引用来源、统计数据和引语都是证据，而且只有真实存在才算数。"
+  },
+  {
+   "id": "counterexample",
+   "term": "反例",
+   "plain": "一个就能说明某个一般说法是错的例子。主动去找反例，就是在检验一个想法，而不是只管相信它。",
+   "example": "“所有的鸟都会飞。”企鹅就是反例，而且一个就够了。",
+   "inPrompts": "反方论点和多方视角，就是请模型去找你的想法在哪种情况下站不住。"
+  },
+  {
+   "id": "grice",
+   "term": "格赖斯会话准则",
+   "plain": "哲学家格赖斯（H. P. Grice）总结了合作式对话默认的规矩，也就是几条准则：说得够用但别太多（量），说真话（质），说相关的（关系），说清楚（方式）。",
+   "example": "“我的车没油了。”“拐角那儿有个加油站。”你会默认那个加油站开着门、也卖汽油。这就是合作式对话在起作用。",
+   "inPrompts": "好的提示词，会给模型足够的信息，让它的回答对你的目的来说信息充分、真实、相关、清楚。"
+  }
+ ],
+ "syllogism": {
+  "premises": [
+   "所有哺乳动物都呼吸空气。",
+   "鲸是哺乳动物。"
+  ],
+  "conclusion": "所以，鲸呼吸空气。",
+  "brokenPremise": "所有哺乳动物都生活在陆地上。",
+  "brokenConclusion": "所以，鲸生活在陆地上。",
+  "note": "两个论证的形式完全一样，都是有效的：只要前提为真，结论就必然为真。但只有第一个是可靠的，因为它的前提确实为真。（逻辑学里，“可靠”指形式有效、前提也都为真。）"
+ },
+ "domains": [
+  {
+   "id": "frame",
+   "name": "框架",
+   "logic": "谁在说、说给谁、用什么口吻",
+   "question": "谁在说话，对谁说，怎么说？",
+   "parts": [
+    "act-as",
+    "audience",
+    "tone",
+    "language"
+   ]
+  },
+  {
+   "id": "premises",
+   "name": "前提",
+   "logic": "已知什么，怎么定义",
+   "question": "回答可以把什么当作已知？",
+   "parts": [
+    "context",
+    "examples",
+    "keywords",
+    "terminology"
+   ]
+  },
+  {
+   "id": "bounds",
+   "name": "边界",
+   "logic": "论域与约束",
+   "question": "什么在内，什么在外，长什么样？",
+   "parts": [
+    "scope",
+    "limitations",
+    "deadline",
+    "format"
+   ]
+  },
+  {
+   "id": "goal",
+   "name": "目的",
+   "logic": "你想要的结论",
+   "question": "回答应该达成什么？",
+   "parts": [
+    "objective",
+    "call-to-action"
+   ]
+  },
+  {
+   "id": "evidence",
+   "name": "证据",
+   "logic": "支持说法的依据",
+   "question": "每个说法靠什么撑腰？",
+   "parts": [
+    "citations",
+    "statistics",
+    "quotes"
+   ]
+  },
+  {
+   "id": "testing",
+   "name": "检验",
+   "logic": "反例与其他立场",
+   "question": "这番推理可能在哪里出错？",
+   "parts": [
+    "points-of-view",
+    "counterarguments",
+    "analogies"
+   ]
+  },
+  {
+   "id": "dialogue",
+   "name": "对话",
+   "logic": "用合作补上缺口",
+   "question": "还缺什么，由谁来补？",
+   "parts": [
+    "questions"
+   ]
+  }
+ ],
+ "parts": [
+  {
+   "id": "act-as",
+   "n": 1,
+   "name": "扮演角色",
+   "domain": "frame",
+   "line": "让模型扮演一个角色，从而决定它的用词、深度和视角。",
+   "logic": "它固定了说话人的立场。就像在论证中选定一个视角，它会影响哪些前提显得相关、用哪些词。但它不会带来任何知识或资质。",
+   "guess": "你想要哪种专家的口吻、多详细、从什么角度说。",
+   "weak": "给我一些种菜的建议。",
+   "strong": "⟦请以一位有经验的社区菜园园丁的身份，⟧给我一些种菜的建议。",
+   "pitfall": "角色是一身戏服，不是一纸资格证。扮演医生的模型并不是医生，所以健康、法律或钱的建议，要找真正的专业人士核实。",
+   "maxim": null
+  },
+  {
+   "id": "audience",
+   "n": 2,
+   "name": "受众",
+   "domain": "frame",
+   "line": "谁会读或用这个回答，他们已经知道些什么。",
+   "logic": "它设定了回答可以默认的共同背景。什么算信息充分，取决于听的人是谁，所以受众决定了要解释多少。",
+   "guess": "要不要讲基础知识，读者认识哪些词。",
+   "weak": "解释一下房贷是怎么回事。",
+   "strong": "⟦向一位第一次买房、从没贷过款的人⟧解释一下房贷是怎么回事。",
+   "pitfall": "“新手”这种模糊的受众帮助不大。不如说清楚他们已经知道什么，拿到回答后要做什么。",
+   "maxim": "Quantity"
+  },
+  {
+   "id": "tone",
+   "n": 3,
+   "name": "语气",
+   "domain": "frame",
+   "line": "回复的情绪色彩：友好、正式、坚定、俏皮或平和。",
+   "logic": "语气改变的是怎么说，而不是说了什么。逻辑把内容和表达分开，语气就是对表达的要求。",
+   "guess": "听起来该温暖、中性、正式还是直接。",
+   "weak": "写一条消息，告诉团队野餐取消了。",
+   "strong": "写一条⟦温暖、轻快的⟧消息，告诉团队野餐取消了。",
+   "pitfall": "语气可能把内容弄模糊。如果你要求“让人安心”，要检查回复有没有把你本该听清楚的事实说软了。",
+   "maxim": null
+  },
+  {
+   "id": "language",
+   "n": 4,
+   "name": "语言",
+   "domain": "frame",
+   "line": "用哪种语言回答，用词要多通俗或多专业。",
+   "logic": "一句话只有双方理解一致才管用。选好语言和阅读难度，可以避免晦涩，这正是格赖斯的方式准则提醒的。",
+   "guess": "用哪种语言、简体还是繁体、多深的难度。",
+   "weak": "给我的邻居写一份浇花说明。",
+   "strong": "⟦用简单的英语⟧给我的⟦外国⟧邻居写一份浇花说明。",
+   "pitfall": "翻译可能读起来很流畅，却仍然是错的。重要的东西，比如药品说明或合同，请找精通这门语言的人检查。",
+   "maxim": "Manner"
+  },
+  {
+   "id": "context",
+   "n": 5,
+   "name": "背景",
+   "domain": "premises",
+   "line": "你所处情况的基本事实，回答应该以此为基础。",
+   "logic": "背景提供前提，也就是被当作已知的说法。结论的好坏，取决于它出发时的前提。",
+   "guess": "你的处境。于是它会用一个典型情况来填空，而那未必是你的情况。",
+   "weak": "推荐一道我今晚能做的晚饭。",
+   "strong": "⟦我有米饭、鸡蛋、菠菜，只有二十分钟，而且我爱人吃素。⟧推荐一道我今晚能做的晚饭。",
+   "pitfall": "错误的前提会换来自信满满的胡说。如果你给的背景事实错了或过时了，推理再漂亮的回答也很可能是错的。",
+   "maxim": "Relation"
+  },
+  {
+   "id": "examples",
+   "n": 6,
+   "name": "示例",
+   "domain": "premises",
+   "line": "一个或几个样本，展示好答案长什么样。",
+   "logic": "示例靠归纳起作用：模型从几个例子里推出一个一般规律。和所有归纳一样，它选中的规律未必是你想的那个。",
+   "guess": "你脑子里想的风格、长度和规律。",
+   "weak": "给我新养的灰色小猫起几个名字。",
+   "strong": "给我新养的灰色小猫起几个名字。⟦我喜欢的名字有：小石头、芝麻、布丁。⟧",
+   "pitfall": "模型可能照着示例学得很像，连其中的巧合也照搬。如果你的示例全是吃的，就等着收到更多跟吃有关的名字吧。请有意让示例多样一些。",
+   "maxim": null
+  },
+  {
+   "id": "keywords",
+   "n": 7,
+   "name": "关键词",
+   "domain": "premises",
+   "line": "必须出现的词或名字，或者用来锁定话题的词。",
+   "logic": "关键词标出了回答必须围绕的主题词。它们像一道相关性测试：一个回答如果完全没碰到它们，就是跑题了。",
+   "guess": "你在意的具体名字、事物或想法是哪些。",
+   "weak": "为我的面包店网站写一段简短的介绍。",
+   "strong": "为我的面包店网站写一段简短的介绍。⟦要提到天然酵母面包、我们家的祖传配方和周六集市。⟧",
+   "pitfall": "关键词列得太长，就成了词语大杂烩。挑几个真正重要的词，并检查它们用得对，而不是硬塞进去。",
+   "maxim": "Relation"
+  },
+  {
+   "id": "terminology",
+   "n": 8,
+   "name": "术语",
+   "domain": "premises",
+   "line": "为请求中可能有多种意思的词下定义。",
+   "logic": "给词下定义，可以防止偷换概念，也就是一个词在中途悄悄换了意思。定义让关键词从头到尾指的都是同一样东西。",
+   "guess": "一个有歧义的词，你心里指的是哪种意思。",
+   "weak": "给我一份长跑比赛的训练计划。",
+   "strong": "给我一份长跑比赛的训练计划。⟦我说的长跑是指10公里比赛，不是马拉松。⟧",
+   "pitfall": "自己的话，自己总觉得一看就懂。“便宜”“尽快”“健康”“短”这些词，正是误解藏身的地方。用数字把它们钉住。",
+   "maxim": "Manner"
+  },
+  {
+   "id": "scope",
+   "n": 9,
+   "name": "范围",
+   "domain": "bounds",
+   "line": "回答应该涵盖什么，又该略去什么。",
+   "logic": "范围设定了论域：这场对话谈论的那一组对象。说法要在这个论域里评判，论域模糊，答案也会模糊。",
+   "guess": "该讲多宽或多窄，什么算跑题。",
+   "weak": "给我讲讲自行车的历史。",
+   "strong": "给我讲讲⟦1860年到1900年间⟧自行车的历史⟦，只讲设计上的变化，不讲比赛⟧。",
+   "pitfall": "范围太窄，可能把重要的东西挡在外面。可以请模型提醒你边界外不远处有什么要紧的事。",
+   "maxim": "Relation"
+  },
+  {
+   "id": "limitations",
+   "n": 10,
+   "name": "限制",
+   "domain": "bounds",
+   "line": "回答必须遵守的规则，比如长度、花费或要避开的东西。",
+   "logic": "限制是必要条件：违反任何一条，回答就不合格，别的方面再好也没用。但满足所有限制，也不等于回答就够好。",
+   "guess": "你的硬性限制。于是它可能推荐你根本用不上的东西。",
+   "weak": "推荐一个适合十岁孩子生日聚会的活动。",
+   "strong": "推荐一个适合十岁孩子生日聚会的活动⟦，要能在室内玩、不用屏幕，而且只用大多数家里都有的东西⟧。",
+   "pitfall": "请自己逐条对照检查。模型有时会悄悄违反某条规则，比如字数，却说得好像遵守了一样。",
+   "maxim": null
+  },
+  {
+   "id": "deadline",
+   "n": 11,
+   "name": "时限",
+   "domain": "bounds",
+   "line": "你的任务，或你需要的信息，属于哪个时间段。",
+   "logic": "这一项主要是实际需要，不太关乎逻辑。聊天模型是你问它才答，不按日程工作。逻辑上的部分是时间标记：很多说法只是截至某个日期才成立。",
+   "guess": "哪些日期要紧，事实要多新。",
+   "weak": "帮我做一份驾照考试的复习计划。",
+   "strong": "帮我做一份驾照考试的复习计划⟦，考试就在三周后⟧。",
+   "pitfall": "模型有知识截止日期，也可能不知道今天是几号。凡是跟时间有关的，请自己告诉它日期，最新的事实要另找来源核实。",
+   "maxim": null
+  },
+  {
+   "id": "format",
+   "n": 12,
+   "name": "格式",
+   "domain": "bounds",
+   "line": "回答的形状：清单、表格、步骤、邮件或一小段话。",
+   "logic": "格式约束的是形式，不是内容。它回应了格赖斯“要有条理”的建议：同样的信息，换成一眼能扫完的形状，就更容易核对。",
+   "guess": "你要清单、表格、段落还是步骤。",
+   "weak": "比较一下步行、骑车和坐公交上班。",
+   "strong": "⟦用表格⟧比较一下步行、骑车和坐公交上班⟦，每种方式占一行⟧。",
+   "pitfall": "整齐的表格能让猜测看起来像事实。格式让回答更好读，并不让它更可靠。",
+   "maxim": "Manner"
+  },
+  {
+   "id": "objective",
+   "n": 13,
+   "name": "目标",
+   "domain": "goal",
+   "line": "你希望回答达成什么：整个请求的意义所在。",
+   "logic": "目标就是你推理要走向的结论。没有它，相关性就没有锚点，因为格赖斯把相关性和对话的目的联系在一起。",
+   "guess": "你为什么问。于是它分不清什么才有用。",
+   "weak": "给我讲讲电动汽车。",
+   "strong": "给我讲讲电动汽车⟦，好让我决定下一辆车要不要买电动的⟧。",
+   "pitfall": "说出目标可能让回答偏向它。请说“帮我做决定”，而不是“说服我”，除非你真的只想听一面之词。",
+   "maxim": "Relation"
+  },
+  {
+   "id": "call-to-action",
+   "n": 14,
+   "name": "行动号召",
+   "domain": "goal",
+   "line": "回答结尾要落到的下一步，给你自己，或给读到它的人。",
+   "logic": "论证可以以一个实践性的结论收尾：决定该做什么。行动号召把推理变成一个清楚的下一步。",
+   "guess": "要不要以下一步收尾，下一步是什么。",
+   "weak": "写一张关于我们街道大扫除的传单。",
+   "strong": "写一张关于我们街道大扫除的传单⟦，结尾请大家到社区服务中心前台报名⟧。",
+   "pitfall": "太强硬的行动号召会适得其反。只要一个清楚、诚实的下一步，不要施压，也不要编造“仅剩两个名额”这类紧迫感。",
+   "maxim": null
+  },
+  {
+   "id": "citations",
+   "n": 15,
+   "name": "引用来源",
+   "domain": "evidence",
+   "line": "回答应该指明的出处，方便你核对每个说法从哪里来。",
+   "logic": "引用来源把一个说法和它的证据连起来。它服务于格赖斯的质的准则：缺乏充分证据的话不要说。",
+   "guess": "你需不需要来源，信任哪类来源。",
+   "weak": "解释一下在昏暗的光线下看书会不会伤眼睛。",
+   "strong": "⟦只根据下面贴出的这篇健康文章，⟧解释一下在昏暗的光线下看书会不会伤眼睛⟦，并说明每个观点出自哪一段⟧。",
+   "pitfall": "模型可能编造看起来很真的引用：像模像样的标题、作者和链接，其实根本不存在。能给自己的来源就自己给，每条引用都要亲自打开看过再相信。",
+   "maxim": "Quality"
+  },
+  {
+   "id": "statistics",
+   "n": 16,
+   "name": "统计数据",
+   "domain": "evidence",
+   "line": "支持说法的数字，比如数量、平均值或比率。",
+   "logic": "用数字支持一个一般性说法，是归纳的一种。数字只有真实、够新、而且针对的是对的人群，才能支持说法。",
+   "guess": "你要不要数字，要多精确。",
+   "weak": "写一段话，说明我们镇为什么需要一条新的人行横道。",
+   "strong": "⟦用下面贴出的交通调查数据，⟧写一段话，说明我们镇为什么需要一条新的人行横道。",
+   "pitfall": "模型可能给出看似精确、却没有真实来源的数字。尽量提供你自己的数据，每个数字在转述之前都要追到源头。",
+   "maxim": "Quality"
+  },
+  {
+   "id": "quotes",
+   "n": 17,
+   "name": "引语",
+   "domain": "evidence",
+   "line": "真实的人或文本的原话，一字不差地复述。",
+   "logic": "引语是一种证言：证明某人说过某话的证据。只有准确、不脱离语境才算数。错误的引语就是一个假前提。",
+   "guess": "你要不要引语，引谁的，要多准确。",
+   "weak": "为奶奶的九十大寿写一篇简短的致辞。",
+   "strong": "为奶奶的九十大寿写一篇简短的致辞⟦，引用她最爱说的一句话，原话我一字不差地写在下面了⟧。",
+   "pitfall": "模型可能编造引语，或者把真实的话安到错的人头上。请自己贴上原话，或者对照可靠的原文核实每一句引语。",
+   "maxim": "Quality"
+  },
+  {
+   "id": "points-of-view",
+   "n": 18,
+   "name": "多方视角",
+   "domain": "testing",
+   "line": "回答应该考虑的其他人的看法，而不只是你自己的。",
+   "logic": "从几个立场去看，可以检验一个结论是否对所有相关的人都成立。从一边看显而易见的前提，从另一边看可能是错的，或者根本不相干。",
+   "guess": "谁的利益和看法算数。于是它可能只讲一面。",
+   "weak": "我们家该养狗吗？",
+   "strong": "我们家该养狗吗？⟦请分别从孩子、负责遛狗的爸妈和隔壁上了年纪的邻居的角度想一想。⟧",
+   "pitfall": "列出各方观点，不等于掂量了它们。把两方摆得一样重，可能掩盖了其中一方证据强得多。",
+   "maxim": null
+  },
+  {
+   "id": "counterarguments",
+   "n": 19,
+   "name": "反方论点",
+   "domain": "testing",
+   "line": "对一个想法最有力的反对意见，让你在依赖它之前先检验它。",
+   "logic": "这是波普尔的证伪思想：要设法驳倒一个想法，而不只是证实它。一个反例就能推翻一个一般性说法，反对意见就是去找薄弱之处。",
+   "guess": "你想要诚实的反驳，还是简单的附和。",
+   "weak": "这是我在网上卖手工蜡烛的创业计划。",
+   "strong": "这是我在网上卖手工蜡烛的创业计划。⟦请告诉我它可能失败的三个最有力的理由。⟧",
+   "pitfall": "模型往往会附和提问的人。如果你从不要求反对意见，没听到反对就不能证明你的想法好。",
+   "maxim": null
+  },
+  {
+   "id": "analogies",
+   "n": 20,
+   "name": "类比",
+   "domain": "testing",
+   "line": "拿熟悉的东西作比较，帮助解释新的东西。",
+   "logic": "类比把已知情况的结构映射到新情况上。它能解释，也能启发，但永远证明不了什么。检验它的办法，是找出它在哪里不成立。",
+   "guess": "你对哪些熟悉的东西足够了解，可以拿来比较。",
+   "weak": "解释一下电脑的内存是怎么工作的。",
+   "strong": "⟦用在厨房做饭来打比方，⟧解释一下电脑的内存是怎么工作的。",
+   "pitfall": "每个类比都会在某处失灵。请模型说明它的比较在哪里不再适用，免得你把不对的那部分也搬了过去。",
+   "maxim": "Manner"
+  },
+  {
+   "id": "questions",
+   "n": 21,
+   "name": "提问",
+   "domain": "dialogue",
+   "line": "邀请模型在回答前先问你它需要知道的事。",
+   "logic": "提问把一次性的猜测变成对话。缺失的前提由你补上，而不是被假设出来，这样回答就能达到你需要的信息量。",
+   "guess": "你忘了说的一切，它都会悄悄用常见的默认值填上。",
+   "weak": "帮我写一封求职信。",
+   "strong": "帮我写一封求职信。⟦开始之前，先问我最多五个关于这个职位和我经历的问题。⟧",
+   "pitfall": "模型的问题有多有用，取决于你的回答。请诚实、具体地回答；如果你随口一猜，它就会在你的猜测上继续搭建。",
+   "maxim": "Quantity"
+  }
+ ],
+ "builder": {
+  "tasks": [
+   {
+    "id": "explain-child",
+    "label": "给孩子讲明白一件事",
+    "base": "解释一下为什么月亮看起来会变形状。",
+    "fragments": {
+     "act-as": "请扮演一位耐心的小学科学老师。",
+     "audience": "这个解释是讲给我七岁的女儿听的，她知道月亮绕着地球转，别的就不太懂了。",
+     "tone": "语气要温暖、充满好奇，带一点俏皮。",
+     "language": "请用简单的中文，句子要短，不要用七岁孩子听不懂的科学词。",
+     "context": "我女儿睡前从窗户看到一弯细细的月牙，就问了我这个问题。",
+     "examples": "好的解释听起来像这句讲影子的话：“影子就是你的身体挡住阳光的地方。”",
+     "keywords": "一定要提到阳光、月亮被照亮的那一半，还有“月相”这个词。",
+     "terminology": "说到“月相”时，请解释它的意思是：从地球上能看到月亮亮着的那一半有多少。",
+     "scope": "只讲月亮的形状为什么会变，不讲月食，也不讲潮汐。",
+     "limitations": "请控制在300字以内，不要讲任何关于太空的吓人内容。",
+     "deadline": "这周我们每天晚上都会看月亮，所以请说说接下来七天月亮会怎么变。",
+     "format": "请写成一个分三步的小故事，让孩子能在脑子里想象出来。",
+     "objective": "目标是让我女儿能用自己的话把道理讲回给我听。",
+     "call-to-action": "结尾请建议一件我和女儿可以一起做的事，比如每天晚上画一画月亮。",
+     "citations": "如果用到我可能想核实的事实，请告诉我大人可以去哪类资料里查。",
+     "statistics": "如果用到数字，比如月相变化一轮要多久，请取个大概的整数，而且只用一个数字。",
+     "quotes": "可以把我女儿自己的问题念回给她听：“今晚的月亮怎么破了一块？”",
+     "points-of-view": "请简单地换个角度，从遥远的太空俯瞰地球和月亮：从那里能看到，月亮总有一半被太阳照亮。",
+     "counterarguments": "请温和地纠正一个常见的误解，就是以为月相是地球的影子造成的。",
+     "analogies": "请用一个孩子在家就能试的类比，比如在黑屋子里用一个球和一盏台灯。",
+     "questions": "回答之前，如果关于我女儿有什么不清楚的，请先问我一两个问题。"
+    }
+   },
+   {
+    "id": "weekend-trip",
+    "label": "规划一次省钱的周末出游",
+    "base": "帮我和一个朋友规划一次省钱的周末出游。",
+    "fragments": {
+     "act-as": "请扮演一位精打细算的旅行规划师，懂得怎么省钱又不让旅行变得受罪。",
+     "audience": "这份计划是给两个二十多岁的年轻人的，我们很乐意多走路，但很讨厌早起。",
+     "tone": "语气要实用、友好，不要像在推销。",
+     "language": "请用平实的中文写，每个价格都写成具体数字。",
+     "context": "我们住在上海，没有车，周五下班后可以出发。",
+     "examples": "去年我们很喜欢的一次旅行，是去一个海边小城，有一条很长的海边步道、便宜的小吃和一座小小的博物馆。",
+     "keywords": "请包括坐高铁、免费的活动，以及青旅或便宜的房间。",
+     "terminology": "我说的省钱，是指每人总共800元以内，包括交通、吃饭和住宿。",
+     "scope": "只推荐从上海坐高铁三小时以内能到的地方，比如附近的水乡古镇。",
+     "limitations": "请避开所有需要开车的安排，也不要安排去酒吧，因为我朋友不喝酒。",
+     "deadline": "这次出游在三周后，所以请标出价格、开放时间这类我应该临近出发再确认的内容。",
+     "format": "请按天排成行程，每一项旁边写上大概的花费。",
+     "objective": "目的是度过一个轻松的周末，既像真正休息了一次，又不花太多钱。",
+     "call-to-action": "最后请列一个简短的清单，写明哪些要先订。",
+     "citations": "关于高铁时刻和票价，请告诉我该去哪个官方渠道查，比如12306，而不要凭记忆给出准确数字。",
+     "statistics": "所有费用估计请给出一个范围，并直接说明这只是粗略估算。",
+     "quotes": "请不要引用我看不到的点评，改用你自己的话概括评价里常说些什么。",
+     "points-of-view": "也请站在我朋友的角度想想：我朋友吃素，比起看景点，更在乎吃的。",
+     "counterarguments": "请指出这个计划最大的风险，比如高铁停运，并给出备用方案。",
+     "analogies": "如果有帮助，可以拿有名的地方来比喻每个小镇，比如“一个更小、更安静的苏州”。",
+     "questions": "开始规划之前，请先问我你需要知道的问题，比如我们晚上喜欢做什么。"
+    }
+   },
+   {
+    "id": "complaint",
+    "label": "写一封有礼貌的投诉信",
+    "base": "帮我写一封投诉信，说我的洗衣机坏了。",
+    "fragments": {
+     "act-as": "请扮演一位擅长给客服写清楚、有效的投诉信的人。",
+     "audience": "读这封信的是我买洗衣机那家店的客服团队。",
+     "tone": "语气要礼貌、冷静，但态度坚定。",
+     "language": "请用平实、正式的书面中文写。",
+     "context": "我七周前买的这台洗衣机，上周它不脱水了，而我预约的上门维修也一直没人来。",
+     "examples": "这是我喜欢的风格的一句话：“如能通过邮件告知后续处理安排，我将不胜感激。”",
+     "keywords": "请写上我的订单号48213，还有“上门维修爽约”这几个字。",
+     "terminology": "信里写“退款”时，必须是指全额退还现金，而不是店铺积分或购物卡。",
+     "scope": "只谈洗衣机的问题，不要提我之前投诉过的送货问题。",
+     "limitations": "请控制在400字以内，也不要用法律手段相威胁。",
+     "deadline": "请要求对方在今天起十个工作日内答复。",
+     "format": "请写成一封邮件，带一个清楚的主题行。",
+     "objective": "我的目标是拿到一台能用的洗衣机，或者全额退款，哪个快就选哪个。",
+     "call-to-action": "结尾请要求对方通过邮件确认，会提供这两种方案中的哪一种。",
+     "citations": "如果提到我的消费者权益，请写出具体的法律名称，方便我自己去查，不确定的话也请直说。",
+     "statistics": "请不要加入任何我没给过的数字，比如一般的维修时长。",
+     "quotes": "请引用他们网站上的这句话：“所有家电均享受一年质保。”",
+     "points-of-view": "请记住，读信的人并不是造成问题的人，而且他一天可能要处理很多投诉。",
+     "counterarguments": "请预先想到对方可能会说是我使用不当，并用一句话回应。",
+     "analogies": "如果合适，可以加一个简短的比喻，说明维修爽约为什么让人困扰，比如在家等了一整天快递，结果快递根本没来。",
+     "questions": "动笔之前，请先问我你需要知道的事，比如我还有没有保留购物小票。"
+    }
+   }
+  ]
+ },
+ "quiz": [
+  {
+   "id": "q-inflation",
+   "prompt": "解释一下什么是通货膨胀。",
+   "reply": "满满一页讲央行和物价指数的内容，全是你十二岁的外甥看不懂的术语。",
+   "answer": "audience",
+   "options": [
+    "citations",
+    "audience",
+    "deadline",
+    "keywords"
+   ],
+   "why": "模型不知道这个解释是给谁的，于是猜成了成年读者。说清楚受众，就决定了要解释多少、用哪些词。"
+  },
+  {
+   "id": "q-garden",
+   "prompt": "这个月我的花园里该种点什么？",
+   "reply": "一份欢快的春季花卉清单。可你那里正是秋天，你的“花园”还是个背阴的阳台。",
+   "answer": "context",
+   "options": [
+    "tone",
+    "analogies",
+    "context",
+    "quotes"
+   ],
+   "why": "没有你的地点、季节和空间，模型就按一个典型花园来填空。这些事实就是你的前提；不说出来，它就只能从猜测出发去推理。"
+  },
+  {
+   "id": "q-workout",
+   "prompt": "给我一套在家就能做的简短锻炼。",
+   "reply": "一套45分钟、六组循环的训练。可你说的“简短”，是上班前的十分钟。",
+   "answer": "terminology",
+   "options": [
+    "act-as",
+    "statistics",
+    "points-of-view",
+    "terminology"
+   ],
+   "why": "“简短”有歧义：对你是十分钟，对别人可能是四十五分钟。给这个词下个定义，最好带上数字，就不用猜了。"
+  },
+  {
+   "id": "q-airport",
+   "prompt": "比较一下坐地铁、坐机场大巴和打车去机场。",
+   "reply": "四大段文字。可你想要的是把费用和路上时间并排放着，一眼看清。",
+   "answer": "format",
+   "options": [
+    "format",
+    "language",
+    "keywords",
+    "call-to-action"
+   ],
+   "why": "内容没问题，形状不对。要求做成表格、每种方式占一行，比较起来就容易扫读，也容易核对。"
+  },
+  {
+   "id": "q-dogs",
+   "prompt": "给我讲讲狗。",
+   "reply": "一篇笼统的狗品种发展史。可你其实是在考虑：你那间小公寓、加上每天长时间上班，适不适合养狗。",
+   "answer": "objective",
+   "options": [
+    "tone",
+    "examples",
+    "objective",
+    "deadline"
+   ],
+   "why": "没有目标，关于狗的每条事实都一样相关。说出你想决定什么，回答才有了要瞄准的结论。"
+  },
+  {
+   "id": "q-bike-lane",
+   "prompt": "写一段话，证明我们新修的自行车道让这条街更安全了。",
+   "reply": "一段很有说服力的话，配着精确的事故数字。可你从没给过它任何数字，结果那些数字都是编的。",
+   "answer": "statistics",
+   "options": [
+    "audience",
+    "scope",
+    "analogies",
+    "statistics"
+   ],
+   "why": "模型需要数字，就编了一些看起来合理的。请提供你自己的数据，比如官方的事故报告，用之前把每个数字都核实一遍。另外，要求它“证明”一个结论，也容易招来片面的证据。"
+  },
+  {
+   "id": "q-credit-card",
+   "prompt": "这是我的计划：把信用卡欠款办成分期，慢慢还清。你觉得怎么样？",
+   "reply": "对你的计划一通热情夸奖。几个月后，你才撞上一笔从没听说过的手续费。",
+   "answer": "counterarguments",
+   "options": [
+    "counterarguments",
+    "format",
+    "language",
+    "keywords"
+   ],
+   "why": "模型往往会附和提问的人。要求它给出最有力的反对意见，比如隐藏的手续费，它就会去找你的计划可能在哪里出问题。信用卡的条款也要自己去看清楚。"
+  },
+  {
+   "id": "q-wedding",
+   "prompt": "为我姐姐的婚礼写一篇致辞。",
+   "reply": "一篇千篇一律的致辞，还编了一段根本没发生过的露营故事。",
+   "answer": "questions",
+   "options": [
+    "tone",
+    "questions",
+    "format",
+    "deadline"
+   ],
+   "why": "模型对你姐姐一无所知，只好编造细节。请它先向你提问，你就能提供真实的故事。"
+  }
+ ],
+ "limits": [
+  {
+   "title": "结构不等于真相",
+   "text": "精心搭建的提示词，能让有用的回答更有可能出现，但不能让回答变成真的。一个从假前提出发的有效论证，可以得出假的结论，而它的形式不会给你任何警告。模型也能从一个错误的猜测出发，推理得顺顺当当。"
+  },
+  {
+   "title": "来源可能是编的",
+   "text": "当你要引用来源、引语或统计数据时，模型有时会给出看起来很真、其实并不存在的东西。能用自己的来源和数据就用自己的，每条参考文献、每句引语、每个数字，在依赖或转发之前都要核实。"
+  },
+  {
+   "title": "知识有截止日期",
+   "text": "模型学习的文本只到某个日期为止。之后发生的事它可能不知道，甚至不知道今天是几号。时间重要时，请写明“截至某日”，最新的事实请用当前的来源核实。"
+  },
+  {
+   "title": "角色不是资质",
+   "text": "让模型扮演医生、律师或会计师，改变的是它的用词和角度。它不会因此获得专业训练、执照、责任，也不会了解你的全部情况。"
+  },
+  {
+   "title": "责任仍在你",
+   "text": "回答是一份草稿，由你来判断，而不是替你做的决定。涉及健康、法律、钱或安全的问题，行动之前请先咨询有资质的专业人士。"
+  }
+ ],
+ "cheatsheet": [
+  {
+   "domain": "frame",
+   "check": "我说了该由谁来回答、谁会读吗？"
+  },
+  {
+   "domain": "frame",
+   "check": "我说明了想要的语气和语言吗？"
+  },
+  {
+   "domain": "premises",
+   "check": "我给出自己情况的事实了吗？"
+  },
+  {
+   "domain": "premises",
+   "check": "可能有两种意思的词，我都定义了吗？"
+  },
+  {
+   "domain": "bounds",
+   "check": "我说清什么在范围内、什么在范围外了吗？"
+  },
+  {
+   "domain": "bounds",
+   "check": "我写明硬性限制、时限和格式了吗？"
+  },
+  {
+   "domain": "goal",
+   "check": "我说了这个回答是拿来做什么的吗？"
+  },
+  {
+   "domain": "evidence",
+   "check": "我尽量提供了自己的来源或数据吗？"
+  },
+  {
+   "domain": "evidence",
+   "check": "每条引用来源、每句引语、每个数字，我都会核实吗？"
+  },
+  {
+   "domain": "testing",
+   "check": "我问过这可能错在哪里吗？"
+  },
+  {
+   "domain": "dialogue",
+   "check": "我请模型先向我提问了吗？"
+  }
+ ],
+ "sources": [
+  {
+   "title": "forall x: An Introduction to Formal Logic",
+   "author": "P. D. Magnus",
+   "year": null,
+   "url": "https://www.fecundity.com/logic/",
+   "note": "免费开放教材（英文）。讲论证、前提与结论、有效与可靠的区别、量词和论域。",
+   "verify": false
+  },
+  {
+   "title": "forall x: Calgary. A Free and Open Introduction to Formal Logic",
+   "author": "Aaron Thomas-Bolduc and Richard Zach, building on Tim Button and P. D. Magnus",
+   "year": null,
+   "url": "https://forallx.openlogicproject.org/",
+   "note": "开放逻辑项目（Open Logic Project）修订的 forall x 开放版本（英文）。主题相同，定期更新。",
+   "verify": false
+  },
+  {
+   "title": "Logic and Conversation",
+   "author": "H. P. Grice",
+   "year": "1975",
+   "url": null,
+   "note": "收录于 P. Cole 与 J. L. Morgan 编，Syntax and Semantics, Vol. 3: Speech Acts，Academic Press，第41至58页。合作原则以及量的准则、质的准则、关系准则、方式准则的出处，也是汽油与加油站例子的来源。",
+   "verify": false
+  },
+  {
+   "title": "Paul Grice",
+   "author": "Richard E. Grandy and Richard Warner",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/grice/",
+   "note": "斯坦福哲学百科（英文）。概述格赖斯的工作，包括会话含义。",
+   "verify": false
+  },
+  {
+   "title": "Implicature",
+   "author": "Wayne Davis",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/implicature/",
+   "note": "斯坦福哲学百科（英文）。合作原则、各条准则，以及听话人如何补上话里没说的部分。",
+   "verify": false
+  },
+  {
+   "title": "Logical Consequence",
+   "author": "J. C. Beall, Greg Restall and Gil Sagi",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/logical-consequence/",
+   "note": "斯坦福哲学百科（英文）。结论从前提推出意味着什么；有效性的背景知识。",
+   "verify": false
+  },
+  {
+   "title": "Definitions",
+   "author": "Anil Gupta and Stephen Mackereth",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/definitions/",
+   "note": "斯坦福哲学百科（英文）。定义的种类和用途。",
+   "verify": false
+  },
+  {
+   "title": "Ambiguity",
+   "author": "Adam Sennet",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/ambiguity/",
+   "note": "斯坦福哲学百科（英文）。词汇歧义和结构歧义，以及它们为什么影响沟通。",
+   "verify": false
+  },
+  {
+   "title": "Fallacies",
+   "author": "Hans Hansen",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/fallacies/",
+   "note": "斯坦福哲学百科（英文）。把偷换概念列为经典的歧义类谬误之一。",
+   "verify": false
+  },
+  {
+   "title": "Necessary and Sufficient Conditions",
+   "author": "Andrew Brennan",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/necessary-sufficient/",
+   "note": "斯坦福哲学百科（英文）。“限制”一项所用的区分。",
+   "verify": false
+  },
+  {
+   "title": "The Problem of Induction",
+   "author": "Leah Henderson",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/induction-problem/",
+   "note": "斯坦福哲学百科（英文）。为什么从例子归纳出的结论永远不确定；“示例”和“统计数据”两项的依据。",
+   "verify": false
+  },
+  {
+   "title": "Karl Popper",
+   "author": "Stephen Thornton",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/popper/",
+   "note": "斯坦福哲学百科（英文）。证伪：一个反例就能驳倒一个一般性说法。“反方论点”一项的依据。",
+   "verify": false
+  },
+  {
+   "title": "The Logic of Scientific Discovery",
+   "author": "Karl Popper",
+   "year": "1959",
+   "url": null,
+   "note": "英文版由 Hutchinson 出版；德文原版 Logik der Forschung，1934年。中文通译《科学发现的逻辑》。证伪思想和白天鹅例子的原始出处。",
+   "verify": false
+  },
+  {
+   "title": "Analogy and Analogical Reasoning",
+   "author": "Paul Bartha",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/reasoning-analogy/",
+   "note": "斯坦福哲学百科（英文）。类比能启发、能解释，但不能证明；怎样判断类比在哪里失效。",
+   "verify": false
+  },
+  {
+   "title": "Epistemological Problems of Testimony",
+   "author": "Nick Leonard",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/testimony-episprob/",
+   "note": "斯坦福哲学百科（英文）。证言作为证据的来源；把引语看作证言的依据。",
+   "verify": false
+  },
+  {
+   "title": "Fabrication and errors in the bibliographic citations generated by ChatGPT",
+   "author": "William H. Walters and Esther Isabelle Wilder",
+   "year": "2023",
+   "url": "https://www.nature.com/articles/s41598-023-41032-5",
+   "note": "Scientific Reports 第13卷。记录了一个聊天机器人编造参考文献的情况，支持“模型会编造引用来源”这一一般性说法。",
+   "verify": false
+  },
+  {
+   "title": "Towards Understanding Sycophancy in Language Models",
+   "author": "Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud and others",
+   "year": "2023",
+   "url": "https://arxiv.org/abs/2310.13548",
+   "note": "关于模型倾向于附和用户的研究论文。支持“反方论点”一项的提醒。",
+   "verify": false
+  },
+  {
+   "title": "Survey of Hallucination in Natural Language Generation",
+   "author": "Ziwei Ji, Nayeon Lee, Rita Frieske and others",
+   "year": "2023",
+   "url": "https://arxiv.org/abs/2202.03629",
+   "note": "ACM Computing Surveys 第55卷第12期。综述语言模型如何生成流畅却缺乏依据的内容，支持关于编造引语、编造数字和不遵守指令的一般性说法。",
+   "verify": false
+  },
+  {
+   "title": "Prompting best practices",
+   "author": "Anthropic",
+   "year": null,
+   "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+   "note": "一家AI实验室公开的提示词写作指南（英文）：清楚的指令、角色，以及多样化的示例，以免模型学到意料之外的规律。支持“示例”一项的提醒。",
+   "verify": false
+  },
+  {
+   "title": "Prompt engineering",
+   "author": "OpenAI",
+   "year": null,
+   "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+   "note": "一家AI实验室公开的提示词写作指南（英文）。仅作背景阅读。",
+   "verify": false
+  }
+ ],
+ "ui": {
+  "doc_title": "提示词的逻辑与生活：21个要素，7类推理",
+  "description": "写好提示词，用的就是日常生活中清晰思考的那套逻辑：前提、范围、定义、约束、目标、证据和检验。本页面向所有人讲解提示词的21个要素，还有一个实时提示词构建器和一个小游戏。",
+  "translation_note": "本页由英文在AI协助下翻译而成，尚未经中文母语者审校。",
+  "joiner": "",
+  "back": "← Follow or Bounce",
+  "brand": "提示词逻辑",
+  "nav_aria": "章节",
+  "lang_aria": "语言",
+  "nav_basics": "基础",
+  "nav_parts": "21个要素",
+  "nav_builder": "构建器",
+  "nav_game": "游戏",
+  "nav_limits": "局限",
+  "nav_cheat": "清单",
+  "cta_build": "动手写提示词",
+  "cta_game": "玩一玩：找出缺的那块",
+  "strip_aria": "一条示例提示词，按逻辑类别着色",
+  "strip_cap": "一个请求，七类逻辑",
+  "p1_kicker": "第一部分 · 五分钟学逻辑",
+  "p1_title": "逻辑让人跟得上你",
+  "p1_lede": "聊天机器人从没见过你。它对你的请求所知道的一切，就是你写下的字。下面这些是逻辑学家用来让思路清楚好懂的概念，每一个在提示词里都有用处。",
+  "in_prompt": "在提示词里：",
+  "grice_note": "格赖斯描述的是人与人之间的对话。把他的准则用在聊天机器人身上，是一个有用的视角，并不是说模型是一个会合作的人。",
+  "syl_kicker": "试一试 · 有效不等于真",
+  "prem1_aria": "前提一",
+  "prem2_aria": "前提二",
+  "therefore_aria": "所以",
+  "valid": "有效",
+  "sound": "可靠",
+  "not_sound": "不可靠",
+  "swap": "换成一个假前提",
+  "swap_back": "换回真前提",
+  "syl_big": "形式漂亮，事实错误，胡说得理直气壮。",
+  "syl_after": "提示词也是一样。一个整齐、结构清楚的请求，仍然可能建立在错误的前提上，而回答会老老实实地跟着它走。",
+  "p2_kicker": "第二部分 · 元素",
+  "p2_title": "提示词元素周期表",
+  "p2_lede": "二十一个要素，分成七个逻辑类别。你从来不需要一次全用上。每少一个，模型就得多猜一样。点任意一个元素看详情。",
+  "tile_aria": "{name}，{family}，第{n}个要素",
+  "family": "第{i}类，共{n}类",
+  "of21": "第{n}个，共21个",
+  "the_logic": "背后的逻辑",
+  "weak": "弱",
+  "strong": "强",
+  "leave_out": "不写这一项，模型就得猜",
+  "watch_out": "注意：",
+  "maxim_title": "格赖斯的{m}准则",
+  "maxims": {
+   "Quantity": "量",
+   "Quality": "质",
+   "Relation": "关系",
+   "Manner": "方式"
+  },
+  "p3_kicker": "第三部分 · 实验室",
+  "p3_title": "写一条提示词，看猜测变少",
+  "nojs_builder": "构建器需要JavaScript。它用到的每个要素，上面各章都讲过了。",
+  "step1": "1 · 选一个任务",
+  "task_aria": "任务",
+  "step2": "2 · 打开或关闭要素",
+  "preset_none": "光秃秃的请求",
+  "preset_core": "最关键的五项",
+  "preset_all": "全部",
+  "step3": "3 · 你的提示词",
+  "unsaid_one": "个要素没说",
+  "unsaid_many": "个要素没说",
+  "unsaid_sub": "每一个都要模型自己去填",
+  "live_one": "还有{n}个要素没说",
+  "live_many": "还有{n}个要素没说",
+  "all_said": "21个要素全说了，提示词也很长了。实际使用时，留下这个任务需要的那几项就好。",
+  "copy": "复制提示词",
+  "copied": "已复制提示词",
+  "selected": "已选中：请按复制",
+  "p3_after": "要素不是越多越好：“全部”会让提示词很长。真正的本事，是看出这个任务里哪些猜测要紧，把它们补上。",
+  "p4_kicker": "第四部分 · 游戏",
+  "p4_title": "找出缺的那块",
+  "p4_lede": "下面每个请求都得到了一个让人失望的回答。在提示词里加上哪一个要素，帮助最大？",
+  "nojs_game": "这个游戏需要JavaScript。",
+  "pick": "选一个答案。",
+  "you": "你",
+  "got": "你得到的回答",
+  "yes": "答对了：{name}",
+  "it_was": "正确答案是：{name}",
+  "next": "下一题",
+  "see_score": "看看得分",
+  "play_again": "再玩一次",
+  "result": "结果",
+  "res_line": "{n}题答对{r}题。",
+  "res_all": "你读提示词的眼光像个逻辑学家。",
+  "res_half": "眼力不错。答错的那几题，值得回上面的表里看看。",
+  "res_low": "每答错一题，就是一个可以回上面表里查的要素。再试一次吧。",
+  "p5_kicker": "第五部分 · 诚实的局限",
+  "truth_a": "结构",
+  "truth_hot": "不等于",
+  "truth_b": "真相",
+  "p6_kicker": "第六部分 · 留着备用",
+  "p6_title": "检查清单",
+  "p6_lede": "按发送之前，把各个类别过一遍。勾选只保存在这个浏览器里。",
+  "checked": "已勾选{n}项，共{t}项",
+  "ready": " · 可以发送了",
+  "src_kicker": "这些想法从哪里来",
+  "src_title": "参考来源",
+  "foot_home": "Follow or Bounce",
+  "foot_index": "索引",
+  "foot_note": "这21个要素是一份实用清单，不是标准。它们背后的逻辑很古老，聊天机器人才是新的。"
+ }
+}

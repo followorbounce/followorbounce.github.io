@@ -1,0 +1,29 @@
+/* ---- The Logic of a Prompt & Life: element of the day (reuses the .bf-* card from blog-feed.css) ----
+   Tile colours are the page's family colours: three light tiles with dark text, three deep with white text,
+   Dialogue in the page's own ink (validated all-pairs for colour-blind separation on the page). */
+.elday{padding-block:28px; border-bottom:1px solid var(--ink);}
+.el-card .bf-sum{-webkit-line-clamp:3;}
+.el-flip{border:1px dashed var(--line); padding:10px 12px; margin:0 0 12px; display:grid; gap:6px; max-width:72ch;}
+.el-flip p{margin:0; display:grid; grid-template-columns:4.5em minmax(0,1fr); gap:10px; align-items:baseline; font-family:var(--font-mono); font-size:13px; line-height:1.5;}
+.el-tag{font-size:10px; letter-spacing:.12em; text-transform:uppercase; color:var(--mid);}
+.el-weak{color:var(--mid); text-decoration:line-through; text-decoration-color:var(--accent);}
+.el-strong mark{background:color-mix(in srgb, var(--el-c, #FFD23F) 40%, transparent); color:inherit; padding:0 2px;}
+.el-guess{margin:0 0 12px; font-size:14px; color:var(--ink-body,#28282a); max-width:72ch;}
+.el-guess b{font-family:var(--font-mono); font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--accent); margin-right:6px;}
+.el-fig{width:300px; min-height:260px; display:flex; align-items:center; justify-content:center; padding:20px;}
+.el-tile{width:min(190px, 100%); aspect-ratio:1/1; border:1.5px solid var(--ink); border-radius:14px; background:var(--el-c, #FFD23F); color:var(--el-t, #121212);
+  display:grid; grid-template-rows:auto 1fr auto; padding:12px 14px; box-shadow:6px 6px 0 var(--ink);}
+.el-n{font-family:var(--font-mono); font-size:13px;}
+.el-sym{font-family:var(--font-display); font-weight:700; font-size:76px; line-height:.9; align-self:center; letter-spacing:-.02em;}
+.el-nm{font-weight:700; font-size:15px; line-height:1.15;}
+.elday [data-d="frame"]{--el-c:#FFD23F; --el-t:#121212}
+.elday [data-d="premises"]{--el-c:#8FE0F5; --el-t:#121212}
+.elday [data-d="bounds"]{--el-c:#FF9E7A; --el-t:#121212}
+.elday [data-d="goal"]{--el-c:#B0216B; --el-t:#FFFFFF}
+.elday [data-d="evidence"]{--el-c:#14532D; --el-t:#FFFFFF}
+.elday [data-d="testing"]{--el-c:#2B45D8; --el-t:#FFFFFF}
+.elday [data-d="dialogue"]{--el-c:var(--ink); --el-t:var(--paper)}
+.elday .el-card[data-d="goal"] .el-strong mark,.elday .el-card[data-d="evidence"] .el-strong mark,.elday .el-card[data-d="testing"] .el-strong mark{background:color-mix(in srgb, var(--el-c) 22%, transparent);}
+.elday .el-card[data-d="dialogue"] .el-strong mark{background:transparent; outline:1px dashed var(--ink);}
+@media (max-width:860px){.el-fig{width:auto; min-height:0; height:240px;}}
+@media (prefers-reduced-motion: no-preference){ .el-tile{transition:transform .25s ease} .el-card:hover .el-tile{transform:rotate(-2deg)} }

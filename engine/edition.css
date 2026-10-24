@@ -20,6 +20,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 /* Today: a bento of the daily cards. Each widget keeps its own markup; its outer padding/rules are removed in a cell. */
 .ed-bento{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:20px; align-items:stretch;}
 .ed-wide{grid-column:span 2;}
+.ed-full{grid-column:1 / -1;}
 .ed-cell > section{padding:0; border:0; height:100%;}
 .ed-cell > section > .wrap{padding:0; max-width:none; height:100%; display:flex; flex-direction:column;}
 .ed-cell .bf-card{flex:1;}
@@ -64,7 +65,7 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 @media (max-width:640px){
   .ed-intro-row{grid-template-columns:minmax(0,1fr);} .ed-lede{justify-self:start;}
   .ed-bento{grid-template-columns:minmax(0,1fr);}
-  .ed-wide,.ed-terms{grid-column:auto;}
+  .ed-wide,.ed-terms,.ed-full{grid-column:auto;}
   .ed-terms .tod-row{grid-template-columns:minmax(0,1fr);}
   .ed-tabs{grid-template-columns:1fr 1fr;}
   .ed-tabs button:nth-child(3){border-left:0;}

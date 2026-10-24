@@ -1,0 +1,958 @@
+{
+  "hero": {
+    "kicker": "Lógica cotidiana para hablar con la IA",
+    "title": "La lógica de un prompt y de la vida",
+    "lede": "Un buen prompt es un pequeño argumento más una petición, igual que cualquier pedido claro en la vida. Da tus premisas, tus términos, tus límites y tu meta, y quedará menos por adivinar. Aun así puede estar mal, así que revisa."
+  },
+  "basics": [
+    {
+      "id": "premise",
+      "term": "Premisa",
+      "plain": "Una afirmación que das por cierta y de la que partes para razonar. Si una premisa es falsa, todo lo que construyas sobre ella también puede ser falso.",
+      "example": "“El museo cierra los lunes” es una premisa. Tu plan para el lunes parte de ella.",
+      "inPrompts": "Tu contexto, tus ejemplos y tus definiciones son las premisas. El modelo razona a partir de lo que le das, o de lo que adivina."
+    },
+    {
+      "id": "inference",
+      "term": "Inferencia y conclusión",
+      "plain": "Una inferencia es el paso que va de las premisas a una afirmación nueva. La conclusión es adonde llega ese paso: lo que querías demostrar o decidir.",
+      "example": "El museo cierra los lunes. Hoy es lunes. Entonces, el museo hoy está cerrado.",
+      "inPrompts": "Tu objetivo nombra la conclusión que buscas. La respuesta es el paso que da el modelo desde tus premisas hacia esa meta."
+    },
+    {
+      "id": "domain",
+      "term": "Dominio del discurso",
+      "plain": "El conjunto de cosas de las que habla una afirmación. Palabras como “todos” o “cada uno” solo tienen sentido dentro de un dominio elegido.",
+      "example": "“Todos aprobaron el examen” habla de un grupo de clase, no de todas las personas del planeta.",
+      "inPrompts": "El alcance fija el dominio. Sin él, el modelo elige uno por ti, muchas veces más amplio o más estrecho de lo que querías."
+    },
+    {
+      "id": "definition",
+      "term": "Definición y ambigüedad",
+      "plain": "Una definición fija lo que significa una palabra. Una palabra es ambigua cuando puede significar más de una cosa. Cambiar de significado a mitad de un argumento se llama equívoco.",
+      "example": "“Una comida ligera” puede ser baja en calorías o simplemente pequeña. Decir cuál de las dos quita la duda.",
+      "inPrompts": "La terminología define tus palabras clave, para que “barato”, “corto” o “sencillo” signifiquen lo que tú quieres decir."
+    },
+    {
+      "id": "condition",
+      "term": "Condiciones necesarias y suficientes",
+      "plain": "Una condición necesaria tiene que cumplirse, pero puede no bastar. Una condición suficiente basta por sí sola.",
+      "example": "Un boleto es necesario para subir al tren, pero no es suficiente: además, el tren tiene que estar funcionando.",
+      "inPrompts": "Las restricciones, el formato y el plazo son condiciones necesarias. Cumplirlos todos sigue sin garantizar una buena respuesta."
+    },
+    {
+      "id": "evidence",
+      "term": "Evidencia e inducción",
+      "plain": "La evidencia es lo que respalda una afirmación. La inducción saca un patrón general a partir de casos particulares. Puede ser fuerte, pero nunca es segura.",
+      "example": "Todos los cisnes que has visto son blancos, así que esperas que el próximo también lo sea. Luego visitas Australia y te encuentras con un cisne negro.",
+      "inPrompts": "Los ejemplos enseñan por inducción. Las referencias, las estadísticas y las citas textuales son evidencia, y solo cuentan si son reales."
+    },
+    {
+      "id": "counterexample",
+      "term": "Contraejemplo",
+      "plain": "Un solo caso que demuestra que una afirmación general es falsa. Buscar uno es la forma de poner a prueba una idea en lugar de solo creerla.",
+      "example": "“Todas las aves pueden volar.” Los pingüinos son un contraejemplo, y con uno basta.",
+      "inPrompts": "Los contraargumentos y otros puntos de vista le piden al modelo que busque el caso en el que tu idea falla."
+    },
+    {
+      "id": "grice",
+      "term": "Las máximas de Grice",
+      "plain": "El filósofo H. P. Grice describió lo que da por sentado una conversación cooperativa: di lo suficiente pero no de más, di lo que es verdad, no te salgas del tema y sé claro.",
+      "example": "“Me quedé sin gasolina.” “Hay una gasolinera a la vuelta de la esquina.” Das por hecho que está abierta y que vende combustible. Eso es la conversación cooperativa en acción.",
+      "inPrompts": "Un buen prompt le da al modelo lo que necesita para ser informativo, veraz, pertinente y claro según tu propósito."
+    }
+  ],
+  "syllogism": {
+    "premises": [
+      "Todos los mamíferos respiran aire.",
+      "Las ballenas son mamíferos."
+    ],
+    "conclusion": "Entonces, las ballenas respiran aire.",
+    "brokenPremise": "Todos los mamíferos viven en tierra firme.",
+    "brokenConclusion": "Entonces, las ballenas viven en tierra firme.",
+    "note": "Los dos argumentos tienen la misma forma válida: si las premisas fueran verdaderas, la conclusión tendría que serlo. Solo el primero es sólido, porque sus premisas sí son verdaderas."
+  },
+  "domains": [
+    {
+      "id": "frame",
+      "name": "Marco",
+      "logic": "Quién habla, quién escucha y con qué voz",
+      "question": "¿Quién habla, a quién y cómo?",
+      "parts": [
+        "act-as",
+        "audience",
+        "tone",
+        "language"
+      ]
+    },
+    {
+      "id": "premises",
+      "name": "Premisas",
+      "logic": "Lo que se da por hecho, y lo que se define",
+      "question": "¿Qué puede dar por hecho la respuesta?",
+      "parts": [
+        "context",
+        "examples",
+        "keywords",
+        "terminology"
+      ]
+    },
+    {
+      "id": "bounds",
+      "name": "Fronteras",
+      "logic": "Dominio del discurso y restricciones",
+      "question": "¿Qué entra, qué queda fuera y con qué forma?",
+      "parts": [
+        "scope",
+        "limitations",
+        "deadline",
+        "format"
+      ]
+    },
+    {
+      "id": "goal",
+      "name": "Meta",
+      "logic": "La conclusión que buscas",
+      "question": "¿Qué debe lograr la respuesta?",
+      "parts": [
+        "objective",
+        "call-to-action"
+      ]
+    },
+    {
+      "id": "evidence",
+      "name": "Evidencia",
+      "logic": "Respaldo para las afirmaciones",
+      "question": "¿Qué respalda cada afirmación?",
+      "parts": [
+        "citations",
+        "statistics",
+        "quotes"
+      ]
+    },
+    {
+      "id": "testing",
+      "name": "Puesta a prueba",
+      "logic": "Contraejemplos y otros puntos de vista",
+      "question": "¿Dónde podría fallar este razonamiento?",
+      "parts": [
+        "points-of-view",
+        "counterarguments",
+        "analogies"
+      ]
+    },
+    {
+      "id": "dialogue",
+      "name": "Diálogo",
+      "logic": "Cooperación que llena los huecos",
+      "question": "¿Qué falta todavía, y quién lo aporta?",
+      "parts": [
+        "questions"
+      ]
+    }
+  ],
+  "parts": [
+    {
+      "id": "act-as",
+      "n": 1,
+      "name": "Actúa como",
+      "domain": "frame",
+      "line": "Un papel que asume el modelo y que define su vocabulario, su profundidad y su punto de vista.",
+      "logic": "Fija el punto de vista de quien habla. Como elegir una perspectiva en un argumento, cambia qué premisas parecen pertinentes y qué palabras se usan. No agrega conocimientos ni credenciales.",
+      "guess": "Qué voz experta, qué nivel de detalle y qué enfoque quieres.",
+      "weak": "Dame consejos para mi huerto.",
+      "strong": "⟦Actúa como un jardinero comunitario con experiencia.⟧ Dame consejos para mi huerto.",
+      "pitfall": "Un papel es un disfraz, no un título. Un modelo que hace de médico no es médico, así que consulta los temas de salud, legales o de dinero con un profesional de verdad.",
+      "maxim": null
+    },
+    {
+      "id": "audience",
+      "n": 2,
+      "name": "Audiencia",
+      "domain": "frame",
+      "line": "Quién va a leer o usar la respuesta, y qué sabe ya.",
+      "logic": "Fija el conocimiento compartido que la respuesta puede dar por hecho. Qué tan informativa debe ser depende de quien escucha, así que la audiencia define cuánto explicar.",
+      "guess": "Si debe explicar lo básico o saltárselo, y qué palabras conoce quien lee.",
+      "weak": "Explica cómo funciona un crédito hipotecario.",
+      "strong": "Explica cómo funciona un crédito hipotecario ⟦a alguien que va a comprar su primera casa y nunca ha pedido un préstamo⟧.",
+      "pitfall": "Una audiencia vaga como “principiantes” ayuda menos que decir qué saben ya y qué necesitan hacer con la respuesta.",
+      "maxim": "Quantity"
+    },
+    {
+      "id": "tone",
+      "n": 3,
+      "name": "Tono",
+      "domain": "frame",
+      "line": "El color emocional de la respuesta: amable, formal, firme, juguetón o sereno.",
+      "logic": "El tono cambia cómo se dice algo, no lo que se afirma. La lógica separa el contenido de la expresión, y el tono es una petición sobre la expresión.",
+      "guess": "Si debe sonar cálido, neutral, formal o directo.",
+      "weak": "Escribe un mensaje para avisarle a mi equipo que se canceló el pícnic.",
+      "strong": "Escribe un mensaje ⟦cálido y alegre⟧ para avisarle a mi equipo que se canceló el pícnic.",
+      "pitfall": "El tono puede desdibujar el contenido. Si pides algo “tranquilizador”, revisa que la respuesta no haya suavizado un dato que necesitabas oír con claridad.",
+      "maxim": null
+    },
+    {
+      "id": "language",
+      "n": 4,
+      "name": "Idioma",
+      "domain": "frame",
+      "line": "En qué idioma responder, y qué tan sencillo o técnico debe ser el lenguaje.",
+      "logic": "Una afirmación solo funciona si las dos partes la entienden igual. Elegir el idioma y el nivel de lectura evita la oscuridad, contra la que advierte la máxima de Modo de Grice.",
+      "guess": "Qué idioma, qué variante y qué nivel de lectura usar.",
+      "weak": "Escribe instrucciones para mi vecina sobre cómo regar mis plantas.",
+      "strong": "Escribe instrucciones ⟦en portugués sencillo⟧ para mi vecina sobre cómo regar mis plantas.",
+      "pitfall": "Una traducción puede sonar fluida y aun así estar mal. Para algo importante, como la etiqueta de un medicamento o un contrato, pide a alguien que hable bien el idioma que la revise.",
+      "maxim": "Manner"
+    },
+    {
+      "id": "context",
+      "n": 5,
+      "name": "Contexto",
+      "domain": "premises",
+      "line": "Los datos de tu situación sobre los que debe construir la respuesta.",
+      "logic": "El contexto aporta las premisas: las afirmaciones que se dan por ciertas. Una conclusión vale lo que valen las premisas de las que parte.",
+      "guess": "Tu situación, así que llena el hueco con un caso típico que quizá no sea el tuyo.",
+      "weak": "Sugiéreme una cena que pueda cocinar hoy.",
+      "strong": "⟦Tengo arroz, huevos, espinacas y veinte minutos, y mi pareja es vegetariana.⟧ Sugiéreme una cena que pueda cocinar hoy.",
+      "pitfall": "Las premisas falsas producen disparates dichos con seguridad. Si los datos de tu situación están mal o desactualizados, es probable que una respuesta bien razonada también esté mal.",
+      "maxim": "Relation"
+    },
+    {
+      "id": "examples",
+      "n": 6,
+      "name": "Ejemplos",
+      "domain": "premises",
+      "line": "Una o más muestras de cómo se ve una buena respuesta.",
+      "logic": "Los ejemplos funcionan por inducción: a partir de unos pocos casos, el modelo infiere un patrón general. Como en toda inducción, el patrón que elija puede no ser el que tú querías.",
+      "guess": "El estilo, la extensión y el patrón que tienes en la cabeza.",
+      "weak": "Sugiéreme nombres para mi gatita gris.",
+      "strong": "Sugiéreme nombres para mi gatita gris. ⟦Nombres que me gustan: Piedrita, Manchita, Galleta.⟧",
+      "pitfall": "Los modelos pueden copiar los ejemplos muy de cerca, incluso sus casualidades. Si todos tus ejemplos son nombres de comida, espera más nombres de comida. Varíalos a propósito.",
+      "maxim": null
+    },
+    {
+      "id": "keywords",
+      "n": 7,
+      "name": "Palabras clave",
+      "domain": "premises",
+      "line": "Palabras o nombres que deben aparecer, o que precisan el tema.",
+      "logic": "Las palabras clave marcan los términos de los que debe tratar la respuesta. Sirven como prueba de pertinencia: una respuesta que nunca los toca se desvió de la pregunta.",
+      "guess": "Qué nombres, cosas o ideas concretas te importan.",
+      "weak": "Escribe una breve presentación para la página web de mi panadería.",
+      "strong": "Escribe una breve presentación para la página web de mi panadería. ⟦Menciona el pan de masa madre, nuestras recetas familiares y el mercado de los sábados.⟧",
+      "pitfall": "Una lista larga de palabras clave se vuelve una ensalada de palabras. Elige los pocos términos que de verdad importan y revisa que se usen bien, no que solo aparezcan.",
+      "maxim": "Relation"
+    },
+    {
+      "id": "terminology",
+      "n": 8,
+      "name": "Terminología",
+      "domain": "premises",
+      "line": "Definiciones para las palabras de tu petición que podrían significar más de una cosa.",
+      "logic": "Definir los términos bloquea el equívoco, el error de dejar que una palabra cambie de significado a mitad del camino. Una definición fija a qué se refiere una palabra clave de principio a fin.",
+      "guess": "Qué significado de una palabra ambigua tienes en mente.",
+      "weak": "Dame un plan de entrenamiento para una carrera de larga distancia.",
+      "strong": "Dame un plan de entrenamiento para una carrera de larga distancia. ⟦Por larga distancia me refiero a una carrera de 10 km, no a un maratón.⟧",
+      "pitfall": "Tus propias palabras te parecen obvias. Palabras como “barato”, “pronto”, “sano” y “corto” son donde se esconden los malentendidos. Precísalas con números.",
+      "maxim": "Manner"
+    },
+    {
+      "id": "scope",
+      "n": 9,
+      "name": "Alcance",
+      "domain": "bounds",
+      "line": "Lo que debe cubrir la respuesta, y lo que debe dejar fuera.",
+      "logic": "El alcance fija el dominio del discurso: el conjunto de cosas de las que trata la conversación. Las afirmaciones se juzgan dentro de ese dominio, así que un dominio borroso da respuestas borrosas.",
+      "guess": "Qué tan amplio o estrecho ir, y qué cuenta como fuera de tema.",
+      "weak": "Cuéntame la historia de la bicicleta.",
+      "strong": "Cuéntame la historia de la bicicleta ⟦de 1860 a 1900, solo los cambios de diseño, no las carreras⟧.",
+      "pitfall": "Un alcance demasiado estrecho puede esconder lo que importa. Invita al modelo a señalar cualquier cosa importante que quede justo fuera de tu límite.",
+      "maxim": "Relation"
+    },
+    {
+      "id": "limitations",
+      "n": 10,
+      "name": "Restricciones",
+      "domain": "bounds",
+      "line": "Reglas que debe cumplir la respuesta, como extensión, costo o cosas que evitar.",
+      "logic": "Las restricciones son condiciones necesarias: una respuesta que rompe una falla, por buena que sea en lo demás. Cumplir todas las restricciones sigue sin hacer que una respuesta sea lo bastante buena.",
+      "guess": "Tus límites firmes, así que puede sugerirte cosas que no puedes usar.",
+      "weak": "Sugiéreme una actividad para una fiesta de cumpleaños de niños de diez años.",
+      "strong": "Sugiéreme una actividad para una fiesta de cumpleaños de niños de diez años ⟦que se pueda hacer bajo techo, sin pantallas y solo con cosas que hay en casi cualquier casa⟧.",
+      "pitfall": "Revisa por tu cuenta la respuesta contra cada restricción. A veces los modelos rompen una regla sin avisar, como un número de palabras, mientras suenan como si la hubieran cumplido.",
+      "maxim": null
+    },
+    {
+      "id": "deadline",
+      "n": 11,
+      "name": "Plazo",
+      "domain": "bounds",
+      "line": "El periodo de tiempo al que pertenece tu tarea, o la información que necesitas.",
+      "logic": "Es más práctico que lógico. Un chatbot responde cuando le preguntas, no según un calendario. Lo lógico es el índice de tiempo: muchas afirmaciones solo son verdaderas en una fecha dada.",
+      "guess": "Qué fechas importan, y qué tan actuales deben ser los datos.",
+      "weak": "Hazme un plan de estudio para mi examen de manejo.",
+      "strong": "Hazme un plan de estudio para mi examen de manejo⟦, que es dentro de tres semanas⟧.",
+      "pitfall": "Los modelos tienen una fecha de corte de conocimiento y puede que no sepan qué día es hoy. Para todo lo que dependa del tiempo, dale tú la fecha y revisa los datos recientes en otra parte.",
+      "maxim": null
+    },
+    {
+      "id": "format",
+      "n": 12,
+      "name": "Formato",
+      "domain": "bounds",
+      "line": "La forma de la respuesta: una lista, una tabla, pasos, un correo o un párrafo corto.",
+      "logic": "El formato es una restricción sobre la forma, no sobre el contenido. Responde al consejo de Grice de ser ordenado: la misma información es más fácil de revisar en una forma que puedes recorrer con la vista.",
+      "guess": "Si quieres una lista, una tabla, un párrafo o pasos.",
+      "weak": "Compara ir al trabajo caminando, en bicicleta y en autobús.",
+      "strong": "Compara ir al trabajo caminando, en bicicleta y en autobús ⟦en una tabla con una fila por opción⟧.",
+      "pitfall": "Una tabla bonita puede hacer que las suposiciones parezcan hechos. El formato hace que una respuesta sea más fácil de leer, no más confiable.",
+      "maxim": "Manner"
+    },
+    {
+      "id": "objective",
+      "n": 13,
+      "name": "Objetivo",
+      "domain": "goal",
+      "line": "Lo que quieres que logre la respuesta: el sentido de toda la petición.",
+      "logic": "El objetivo es la conclusión hacia la que razonas. Sin él, la pertinencia no tiene ancla, porque Grice ligó la pertinencia al propósito de la conversación.",
+      "guess": "Por qué preguntas, así que no puede saber qué es útil.",
+      "weak": "Háblame de los autos eléctricos.",
+      "strong": "Háblame de los autos eléctricos ⟦para que pueda decidir si mi próximo auto debería ser uno⟧.",
+      "pitfall": "Decir tu meta puede inclinar la respuesta hacia ella. Pide “ayúdame a decidir” en lugar de “convénceme”, a menos que de verdad quieras solo un lado.",
+      "maxim": "Relation"
+    },
+    {
+      "id": "call-to-action",
+      "n": 14,
+      "name": "Llamado a la acción",
+      "domain": "goal",
+      "line": "El siguiente paso con el que debe cerrar la respuesta, para ti o para quienes la lean.",
+      "logic": "Un argumento puede terminar en una conclusión práctica: una decisión sobre qué hacer. Un llamado a la acción convierte el razonamiento en un siguiente paso claro.",
+      "guess": "Si debe cerrar con un siguiente paso, y cuál es.",
+      "weak": "Escribe un volante sobre la jornada de limpieza de nuestra calle.",
+      "strong": "Escribe un volante sobre la jornada de limpieza de nuestra calle ⟦que termine invitando a la gente a inscribirse en el mostrador de la biblioteca⟧.",
+      "pitfall": "Los llamados a la acción insistentes salen al revés. Pide un siguiente paso claro y honesto, no presión ni urgencias inventadas como “solo quedan dos lugares”.",
+      "maxim": null
+    },
+    {
+      "id": "citations",
+      "n": 15,
+      "name": "Referencias",
+      "domain": "evidence",
+      "line": "Fuentes a las que debe remitir la respuesta, para que puedas revisar de dónde sale cada afirmación.",
+      "logic": "Una referencia une una afirmación con su evidencia. Sirve a la máxima de Cualidad de Grice: no digas cosas para las que no tienes evidencia suficiente.",
+      "guess": "Si necesitas fuentes, y en qué tipo de fuentes confías.",
+      "weak": "Explica si leer con poca luz daña la vista.",
+      "strong": "⟦Usando solo el artículo de salud que pego abajo,⟧ explica si leer con poca luz daña la vista⟦, y di qué párrafo respalda cada punto⟧.",
+      "pitfall": "Los modelos pueden inventar referencias que parecen reales: títulos, autores y enlaces creíbles que no existen. Da tus propias fuentes cuando puedas, y abre cada referencia antes de confiar en ella.",
+      "maxim": "Quality"
+    },
+    {
+      "id": "statistics",
+      "n": 16,
+      "name": "Estadísticas",
+      "domain": "evidence",
+      "line": "Números que respaldan una afirmación, como conteos, promedios o tasas.",
+      "logic": "Usar un número para respaldar una afirmación general es una forma de inducción. Un número solo respalda una afirmación si es real, reciente y sobre el grupo correcto.",
+      "guess": "Si quieres números, y qué tan precisos deben ser.",
+      "weak": "Escribe un párrafo sobre por qué nuestro barrio necesita un nuevo cruce peatonal.",
+      "strong": "Escribe un párrafo sobre por qué nuestro barrio necesita un nuevo cruce peatonal⟦, usando las cifras del estudio de tránsito que pego abajo⟧.",
+      "pitfall": "Los modelos pueden producir números que parecen precisos sin ninguna fuente real. Da tus propios datos cuando puedas, y rastrea cada número hasta su origen antes de repetirlo.",
+      "maxim": "Quality"
+    },
+    {
+      "id": "quotes",
+      "n": 17,
+      "name": "Citas textuales",
+      "domain": "evidence",
+      "line": "Palabras exactas de una persona o un texto real, repetidas al pie de la letra.",
+      "logic": "Una cita textual es un testimonio: evidencia de que alguien dijo algo. Solo cuenta si es exacta y está en su contexto. Una cita mal hecha es una premisa falsa.",
+      "guess": "Si quieres citas textuales, de quién y qué tan exactas.",
+      "weak": "Escribe un discurso corto para el cumpleaños 90 de mi abuela.",
+      "strong": "Escribe un discurso corto para el cumpleaños 90 de mi abuela⟦, citando su dicho favorito, que escribo abajo tal cual⟧.",
+      "pitfall": "Los modelos pueden inventar citas o atribuir frases reales a la persona equivocada. Pega tú las palabras exactas, o compara cualquier cita con un original confiable.",
+      "maxim": "Quality"
+    },
+    {
+      "id": "points-of-view",
+      "n": 18,
+      "name": "Puntos de vista",
+      "domain": "testing",
+      "line": "Las perspectivas de otras personas que debe considerar la respuesta, no solo la tuya.",
+      "logic": "Mirar desde varios puntos de vista pone a prueba si una conclusión se sostiene para todos los afectados. Una premisa que parece obvia desde un lado puede ser falsa o irrelevante desde otro.",
+      "guess": "Qué intereses y opiniones cuentan, así que puede darte solo un lado.",
+      "weak": "¿Debería nuestra familia tener un perro?",
+      "strong": "¿Debería nuestra familia tener un perro? ⟦Piénsalo desde el punto de vista de los niños, de los papás que lo van a pasear y de nuestra vecina de la tercera edad.⟧",
+      "pitfall": "Enumerar opiniones no es lo mismo que sopesarlas. Mostrar dos lados como iguales puede esconder que uno tiene mucha mejor evidencia.",
+      "maxim": null
+    },
+    {
+      "id": "counterarguments",
+      "n": 19,
+      "name": "Contraargumentos",
+      "domain": "testing",
+      "line": "Las objeciones más fuertes a una idea, para ponerla a prueba antes de confiar en ella.",
+      "logic": "La falsación de Popper: intenta refutar una idea, no solo confirmarla. Un solo contraejemplo puede hundir una afirmación general, y las objeciones buscan los puntos débiles.",
+      "guess": "Si quieres que te contradiga con honestidad o que simplemente te dé la razón.",
+      "weak": "Este es mi plan para empezar a vender velas artesanales en línea.",
+      "strong": "Este es mi plan para empezar a vender velas artesanales en línea. ⟦Dame las tres razones más fuertes por las que podría fracasar.⟧",
+      "pitfall": "Los modelos tienden a darle la razón a quien pregunta. Si nunca pides objeciones, que no aparezca ninguna no es evidencia de que tu idea sea buena.",
+      "maxim": null
+    },
+    {
+      "id": "analogies",
+      "n": 20,
+      "name": "Analogías",
+      "domain": "testing",
+      "line": "Una comparación con algo conocido que ayuda a explicar algo nuevo.",
+      "logic": "Una analogía traslada la estructura de un caso conocido a uno nuevo. Explica y puede sugerir, pero nunca demuestra; ponla a prueba buscando dónde se rompe.",
+      "guess": "Qué cosas conocidas manejas lo bastante bien como para compararlas.",
+      "weak": "Explica cómo funciona la memoria de una computadora.",
+      "strong": "Explica cómo funciona la memoria de una computadora ⟦usando como analogía el trabajo en una cocina⟧.",
+      "pitfall": "Toda analogía se rompe en algún punto. Pide al modelo que diga dónde deja de funcionar su comparación, para que no te lleves la parte equivocada.",
+      "maxim": "Manner"
+    },
+    {
+      "id": "questions",
+      "n": 21,
+      "name": "Preguntas",
+      "domain": "dialogue",
+      "line": "Una invitación para que el modelo te pregunte lo que necesita antes de responder.",
+      "logic": "Las preguntas convierten una adivinanza de un solo intento en un diálogo. Las premisas que faltan se aportan en lugar de suponerse, así la respuesta puede ser tan informativa como necesitas.",
+      "guess": "Todo lo que olvidaste decir, rellenado en silencio con valores típicos.",
+      "weak": "Ayúdame a escribir una carta de presentación para un empleo.",
+      "strong": "Ayúdame a escribir una carta de presentación para un empleo. ⟦Antes de empezar, hazme hasta cinco preguntas sobre el puesto y mi experiencia.⟧",
+      "pitfall": "Las preguntas del modelo valen lo que valen tus respuestas. Contesta con honestidad y en concreto; si adivinas, construirá sobre tu suposición.",
+      "maxim": "Quantity"
+    }
+  ],
+  "builder": {
+    "tasks": [
+      {
+        "id": "explain-child",
+        "label": "Explicarle algo a una niña",
+        "base": "Explica por qué parece que la Luna cambia de forma.",
+        "fragments": {
+          "act-as": "Actúa como un maestro de ciencias de primaria con mucha paciencia.",
+          "audience": "La explicación es para mi hija de siete años, que sabe que la Luna gira alrededor de la Tierra, pero poco más.",
+          "tone": "Usa un tono cálido, curioso y un poco juguetón.",
+          "language": "Usa un español sencillo, con frases cortas y sin palabras científicas que una niña de siete años no conozca.",
+          "context": "Mi hija me lo preguntó a la hora de dormir, después de ver una Luna creciente muy delgadita desde su ventana.",
+          "examples": "Una buena explicación suena como esta sobre las sombras: “Tu sombra es el lugar donde tu cuerpo tapa la luz del Sol.”",
+          "keywords": "Asegúrate de mencionar la luz del Sol, la mitad iluminada de la Luna y la palabra fase.",
+          "terminology": "Cuando digas fase, explica que significa cuánto de la mitad iluminada de la Luna podemos ver desde la Tierra.",
+          "scope": "Habla solo de por qué cambia la forma, no de eclipses ni de mareas.",
+          "limitations": "Usa menos de 150 palabras y deja fuera cualquier cosa del espacio que dé miedo.",
+          "deadline": "Esta semana vamos a mirar la Luna todas las noches, así que di cómo va a cambiar en los próximos siete días.",
+          "format": "Escríbelo como un cuento corto en tres pasos que una niña pueda imaginar.",
+          "objective": "La meta es que mi hija me lo pueda volver a explicar con sus propias palabras.",
+          "call-to-action": "Termina sugiriendo algo que mi hija y yo podamos hacer, como dibujar la Luna cada noche.",
+          "citations": "Si usas un dato que quizá quiera comprobar, dime en qué tipo de fuente podría revisarlo una persona adulta.",
+          "statistics": "Si usas un número, como cuánto dura el ciclo, redondéalo y usa solo uno.",
+          "quotes": "Puedes citarle a mi hija su propia pregunta: “¿Por qué hoy la Luna está rota?”",
+          "points-of-view": "Muéstralo brevemente desde muy lejos en el espacio, mirando la Tierra y la Luna desde arriba, donde se ve que la Luna siempre tiene una mitad iluminada por el Sol.",
+          "counterarguments": "Corrige con cariño la idea equivocada, muy común, de que las fases de la Luna las causa la sombra de la Tierra.",
+          "analogies": "Usa una analogía que una niña pueda probar en casa, como una pelota y una lámpara en un cuarto oscuro.",
+          "questions": "Antes de responder, hazme una o dos preguntas si algo sobre mi hija no está claro."
+        }
+      },
+      {
+        "id": "weekend-trip",
+        "label": "Planear un fin de semana barato",
+        "base": "Planea un fin de semana barato fuera de la ciudad para mí y un amigo.",
+        "fragments": {
+          "act-as": "Actúa como un planificador de viajes ahorrativo que sabe gastar poco sin arruinar el viaje.",
+          "audience": "El plan es para dos personas de veintitantos años a las que no les molesta caminar mucho, pero odian madrugar.",
+          "tone": "Usa un tono práctico y amigable, no de vendedor.",
+          "language": "Escribe en un español sencillo y da cada precio en pesos mexicanos, con números.",
+          "context": "Vivimos en la Ciudad de México, no tenemos auto y podemos salir el viernes después del trabajo.",
+          "examples": "Un viaje que nos encantó el año pasado fue a un pueblo con una caminata larga por el cerro, tacos baratos y un museo pequeño.",
+          "keywords": "Incluye viaje en autobús, actividades gratuitas y un hostal o un cuarto económico.",
+          "terminology": "Por barato me refiero a 3000 pesos por persona en total, incluyendo transporte, comida y dónde dormir.",
+          "scope": "Sugiere solo lugares a los que se pueda llegar en autobús desde la Ciudad de México en menos de tres horas.",
+          "limitations": "Evita cualquier cosa que requiera auto, y deja fuera los bares porque mi amigo no toma alcohol.",
+          "deadline": "El viaje es dentro de tres semanas, así que señala todo lo que deba revisar más cerca de la fecha, como precios u horarios.",
+          "format": "Organízalo como un plan día por día, con un costo aproximado junto a cada cosa.",
+          "objective": "La idea es un fin de semana tranquilo que se sienta como un descanso de verdad sin dejar de ser barato.",
+          "call-to-action": "Termina con una lista corta de lo que hay que reservar primero.",
+          "citations": "Para horarios y precios de autobús, dime qué sitio web oficial debo revisar en lugar de darme cifras exactas de memoria.",
+          "statistics": "Da cualquier estimación de costos como un rango y di claramente que es aproximada.",
+          "quotes": "No cites reseñas que yo no pueda ver; mejor describe con tus propias palabras lo que suelen decir los visitantes.",
+          "points-of-view": "Piénsalo también desde el lado de mi amigo: es vegetariano y le importa más la comida que los lugares turísticos.",
+          "counterarguments": "Señala el mayor riesgo de tu plan, como un autobús cancelado, y sugiere un plan B.",
+          "analogies": "Si ayuda, describe cada pueblo comparándolo con un lugar muy conocido, como un San Miguel de Allende más pequeño y tranquilo.",
+          "questions": "Hazme las preguntas que necesites antes de planear, por ejemplo qué nos gusta hacer en las noches."
+        }
+      },
+      {
+        "id": "complaint",
+        "label": "Escribir un reclamo amable",
+        "base": "Escribe un reclamo por mi lavadora descompuesta.",
+        "fragments": {
+          "act-as": "Actúa como alguien con experiencia en escribir cartas claras y eficaces a equipos de atención al cliente.",
+          "audience": "Lo va a leer el equipo de atención al cliente de la tienda donde compré la lavadora.",
+          "tone": "Usa un tono amable y sereno, pero firme.",
+          "language": "Escribe en un español formal y claro.",
+          "context": "La compré hace siete semanas, la semana pasada dejó de centrifugar y la visita de reparación que agendé nunca se hizo.",
+          "examples": "Esta es una frase con el estilo que me gusta: “Les agradecería que me confirmaran por correo los siguientes pasos.”",
+          "keywords": "Incluye mi número de pedido, 48213, y las palabras cita de reparación incumplida.",
+          "terminology": "Cuando escribas reembolso, debe significar que me devuelvan todo mi dinero, no un saldo a favor en la tienda.",
+          "scope": "Habla solo de la lavadora y deja fuera mi queja anterior sobre la entrega.",
+          "limitations": "Usa menos de 200 palabras y no amenaces con acciones legales.",
+          "deadline": "Pide una respuesta en un plazo de diez días hábiles a partir de hoy.",
+          "format": "Dale formato de correo electrónico con un asunto claro.",
+          "objective": "Mi meta es tener una lavadora que funcione o un reembolso completo, lo que sea más rápido.",
+          "call-to-action": "Termina pidiéndoles que confirmen por correo cuál de las dos opciones me van a ofrecer.",
+          "citations": "Si mencionas mis derechos como consumidor, nombra la ley para que yo la pueda buscar, y di si no estás seguro.",
+          "statistics": "No agregues ningún número que yo no te haya dado, como tiempos típicos de reparación.",
+          "quotes": "Cita esta frase de su sitio web: “Todos los electrodomésticos tienen un año de garantía.”",
+          "points-of-view": "Ten en cuenta que la persona que lo lea no causó el problema y probablemente atiende muchos reclamos al día.",
+          "counterarguments": "Adelántate a la respuesta probable de que usé mal la lavadora, y contéstala en una sola frase.",
+          "analogies": "Si queda bien, agrega una comparación corta que muestre por qué importa una visita de reparación que no llegó, como esperar todo el día una entrega que nunca llega.",
+          "questions": "Antes de escribir, pregúntame lo que necesites saber, por ejemplo si todavía tengo el comprobante de compra."
+        }
+      }
+    ]
+  },
+  "quiz": [
+    {
+      "id": "q-inflation",
+      "prompt": "Explica qué es la inflación.",
+      "reply": "Una página densa sobre bancos centrales e índices de precios, llena de términos que tu sobrino de doce años no podría seguir.",
+      "answer": "audience",
+      "options": [
+        "citations",
+        "audience",
+        "deadline",
+        "keywords"
+      ],
+      "why": "El modelo no podía saber para quién era la explicación, así que supuso que era para un adulto. Nombrar la audiencia define cuánto explicar y qué palabras usar."
+    },
+    {
+      "id": "q-garden",
+      "prompt": "¿Qué debería sembrar en mi jardín este mes?",
+      "reply": "Una lista alegre de flores de primavera. Donde vives es otoño, y tu jardín es un balcón con mucha sombra.",
+      "answer": "context",
+      "options": [
+        "tone",
+        "analogies",
+        "context",
+        "quotes"
+      ],
+      "why": "Sin tu ubicación, la estación y tu espacio, el modelo imaginó un jardín típico. Esos datos son tus premisas; si los dejas fuera, razona a partir de una suposición."
+    },
+    {
+      "id": "q-workout",
+      "prompt": "Dame una rutina de ejercicio corta para hacer en casa.",
+      "reply": "Una rutina de 45 minutos con seis circuitos. Para ti, corta significaba diez minutos antes del trabajo.",
+      "answer": "terminology",
+      "options": [
+        "act-as",
+        "statistics",
+        "points-of-view",
+        "terminology"
+      ],
+      "why": "La palabra “corta” es ambigua: diez minutos para ti, cuarenta y cinco para otra persona. Definir la palabra, idealmente con un número, elimina la adivinanza."
+    },
+    {
+      "id": "q-airport",
+      "prompt": "Compara el tren, el autobús y un taxi para ir al aeropuerto.",
+      "reply": "Cuatro párrafos largos. Tú querías ver el costo y el tiempo de viaje uno junto al otro, de un vistazo.",
+      "answer": "format",
+      "options": [
+        "format",
+        "language",
+        "keywords",
+        "call-to-action"
+      ],
+      "why": "El contenido estaba bien; la forma no. Pedir una tabla con una fila por opción hace que la comparación sea fácil de recorrer y de revisar."
+    },
+    {
+      "id": "q-dogs",
+      "prompt": "Háblame de los perros.",
+      "reply": "Una historia general de las razas de perros. En realidad estabas decidiendo si un perro va bien con tu departamento pequeño y tus jornadas largas de trabajo.",
+      "answer": "objective",
+      "options": [
+        "tone",
+        "examples",
+        "objective",
+        "deadline"
+      ],
+      "why": "Sin una meta, cualquier dato sobre perros es igual de pertinente. Decir qué quieres decidir le da a la respuesta una conclusión hacia la cual apuntar."
+    },
+    {
+      "id": "q-bike-lane",
+      "prompt": "Escribe un párrafo que demuestre que nuestra nueva ciclovía hizo la calle más segura.",
+      "reply": "Un párrafo convincente con cifras exactas de accidentes. Nunca le diste cifras, y resultaron ser inventadas.",
+      "answer": "statistics",
+      "options": [
+        "audience",
+        "scope",
+        "analogies",
+        "statistics"
+      ],
+      "why": "El modelo necesitaba números e inventó unos creíbles. Da tus propios datos, como los reportes oficiales de accidentes, y revisa cada cifra antes de usarla. Pedirle que “demuestre” una conclusión también invita a una evidencia de un solo lado."
+    },
+    {
+      "id": "q-credit-card",
+      "prompt": "Este es mi plan para liquidar mi tarjeta de crédito pasando el saldo a una tarjeta nueva. ¿Qué opinas?",
+      "reply": "Elogios entusiastas para tu plan. Meses después te topas con una comisión por transferencia de saldo de la que nunca habías oído hablar.",
+      "answer": "counterarguments",
+      "options": [
+        "counterarguments",
+        "format",
+        "language",
+        "keywords"
+      ],
+      "why": "Los modelos tienden a darle la razón a quien pregunta. Pedir las objeciones más fuertes, como comisiones ocultas, hace que el modelo busque dónde podría fallar tu plan. Y revisa por tu cuenta las condiciones de la tarjeta."
+    },
+    {
+      "id": "q-wedding",
+      "prompt": "Escribe un discurso para la boda de mi hermana.",
+      "reply": "Un discurso genérico con una historia inventada sobre un campamento que nunca pasó.",
+      "answer": "questions",
+      "options": [
+        "tone",
+        "questions",
+        "format",
+        "deadline"
+      ],
+      "why": "El modelo no sabía nada de tu hermana, así que inventó detalles. Invitarlo a hacerte preguntas primero te permite darle historias reales."
+    }
+  ],
+  "limits": [
+    {
+      "title": "Estructura no es verdad",
+      "text": "Un prompt bien armado hace más probable una respuesta útil. No hace que la respuesta sea verdadera. Un argumento válido con premisas falsas puede llegar a una conclusión falsa sin que nada en su forma te avise, y un modelo puede razonar con fluidez a partir de una suposición equivocada."
+    },
+    {
+      "title": "Las fuentes se pueden inventar",
+      "text": "Cuando les pides referencias, citas textuales o estadísticas, a veces los modelos producen unas que parecen reales pero no existen. Da tus propias fuentes y datos cuando puedas, y revisa cada referencia, cita y número antes de confiar en ellos o compartirlos."
+    },
+    {
+      "title": "El conocimiento tiene fecha de corte",
+      "text": "Un modelo aprendió de textos hasta cierta fecha. Puede no saber lo que pasó después, ni siquiera qué día es hoy. Di “a la fecha de…” cuando el tiempo importe, y revisa los datos recientes en una fuente actual."
+    },
+    {
+      "title": "Un papel no es un título",
+      "text": "Pedirle a un modelo que actúe como médico, abogado o contador cambia su vocabulario y su enfoque. No le da formación, ni licencia para ejercer, ni responsabilidad, ni conocimiento de toda tu situación."
+    },
+    {
+      "title": "Tú sigues siendo responsable",
+      "text": "La respuesta es un borrador para que tú lo juzgues, no una decisión tomada por ti. Para temas de salud, legales, de dinero o de seguridad, consulta con una persona calificada antes de actuar."
+    }
+  ],
+  "cheatsheet": [
+    {
+      "domain": "frame",
+      "check": "¿Dije quién debe responder y quién lo va a leer?"
+    },
+    {
+      "domain": "frame",
+      "check": "¿Nombré el tono y el idioma que quiero?"
+    },
+    {
+      "domain": "premises",
+      "check": "¿Di los datos de mi situación?"
+    },
+    {
+      "domain": "premises",
+      "check": "¿Definí cualquier palabra que pueda significar dos cosas?"
+    },
+    {
+      "domain": "bounds",
+      "check": "¿Dije qué entra en el alcance y qué queda fuera?"
+    },
+    {
+      "domain": "bounds",
+      "check": "¿Dije mis límites firmes, el plazo y el formato?"
+    },
+    {
+      "domain": "goal",
+      "check": "¿Dije para qué es la respuesta?"
+    },
+    {
+      "domain": "evidence",
+      "check": "¿Di mis propias fuentes o datos cuando fue posible?"
+    },
+    {
+      "domain": "evidence",
+      "check": "¿Voy a revisar cada referencia, cita y número?"
+    },
+    {
+      "domain": "testing",
+      "check": "¿Pregunté dónde podría estar mal esto?"
+    },
+    {
+      "domain": "dialogue",
+      "check": "¿Invité al modelo a hacerme preguntas primero?"
+    }
+  ],
+  "sources": [
+    {
+      "title": "forall x: An Introduction to Formal Logic",
+      "author": "P. D. Magnus",
+      "year": null,
+      "url": "https://www.fecundity.com/logic/",
+      "note": "Libro de texto abierto y gratuito (en inglés). Argumentos, premisas y conclusiones, validez frente a solidez, cuantificadores y dominio del discurso.",
+      "verify": false
+    },
+    {
+      "title": "forall x: Calgary. A Free and Open Introduction to Formal Logic",
+      "author": "Aaron Thomas-Bolduc and Richard Zach, building on Tim Button and P. D. Magnus",
+      "year": null,
+      "url": "https://forallx.openlogicproject.org/",
+      "note": "Edición abierta y revisada de forall x, del Open Logic Project. Los mismos temas, actualizados con regularidad.",
+      "verify": false
+    },
+    {
+      "title": "Logic and Conversation",
+      "author": "H. P. Grice",
+      "year": "1975",
+      "url": null,
+      "note": "En P. Cole y J. L. Morgan (eds.), Syntax and Semantics, Vol. 3: Speech Acts, Academic Press, pp. 41-58. Origen del principio de cooperación, de las máximas de Cantidad, Cualidad, Relación y Modo, y del ejemplo de la gasolina y la gasolinera (en el original, petrol y garage).",
+      "verify": false
+    },
+    {
+      "title": "Paul Grice",
+      "author": "Richard E. Grandy and Richard Warner",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/grice/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Panorama de la obra de Grice, incluida la implicatura conversacional.",
+      "verify": false
+    },
+    {
+      "title": "Implicature",
+      "author": "Wayne Davis",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/implicature/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). El principio de cooperación, las máximas y cómo quien escucha llena los huecos de lo que se dice.",
+      "verify": false
+    },
+    {
+      "title": "Logical Consequence",
+      "author": "J. C. Beall, Greg Restall and Gil Sagi",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/logical-consequence/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Qué significa que una conclusión se siga de unas premisas; trasfondo de la validez.",
+      "verify": false
+    },
+    {
+      "title": "Definitions",
+      "author": "Anil Gupta and Stephen Mackereth",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/definitions/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Tipos y propósitos de las definiciones.",
+      "verify": false
+    },
+    {
+      "title": "Ambiguity",
+      "author": "Adam Sennet",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/ambiguity/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Ambigüedad léxica y estructural, y por qué importa para la comunicación.",
+      "verify": false
+    },
+    {
+      "title": "Fallacies",
+      "author": "Hans Hansen",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/fallacies/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Incluye el equívoco entre las falacias clásicas de ambigüedad.",
+      "verify": false
+    },
+    {
+      "title": "Necessary and Sufficient Conditions",
+      "author": "Andrew Brennan",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/necessary-sufficient/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). La distinción que se usa en la parte de Restricciones.",
+      "verify": false
+    },
+    {
+      "title": "The Problem of Induction",
+      "author": "Leah Henderson",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/induction-problem/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Por qué generalizar a partir de ejemplos nunca es seguro; base de las partes de Ejemplos y Estadísticas.",
+      "verify": false
+    },
+    {
+      "title": "Karl Popper",
+      "author": "Stephen Thornton",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/popper/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Falsación: un solo contraejemplo puede refutar una afirmación general. Base de Contraargumentos.",
+      "verify": false
+    },
+    {
+      "title": "The Logic of Scientific Discovery",
+      "author": "Karl Popper",
+      "year": "1959",
+      "url": null,
+      "note": "Edición en inglés, Hutchinson; original alemán Logik der Forschung, 1934 (en español, La lógica de la investigación científica). Fuente principal de la falsación y del ejemplo del cisne blanco.",
+      "verify": false
+    },
+    {
+      "title": "Analogy and Analogical Reasoning",
+      "author": "Paul Bartha",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/reasoning-analogy/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). Las analogías sugieren y explican, pero no demuestran; cómo evaluar dónde se rompen.",
+      "verify": false
+    },
+    {
+      "title": "Epistemological Problems of Testimony",
+      "author": "Nick Leonard",
+      "year": null,
+      "url": "https://plato.stanford.edu/entries/testimony-episprob/",
+      "note": "Stanford Encyclopedia of Philosophy (en inglés). El testimonio como fuente de evidencia; base para tratar las citas textuales como testimonio.",
+      "verify": false
+    },
+    {
+      "title": "Fabrication and errors in the bibliographic citations generated by ChatGPT",
+      "author": "William H. Walters and Esther Isabelle Wilder",
+      "year": "2023",
+      "url": "https://www.nature.com/articles/s41598-023-41032-5",
+      "note": "Scientific Reports, vol. 13. Documenta referencias inventadas por un chatbot. Respalda la afirmación general de que los modelos pueden fabricar referencias.",
+      "verify": false
+    },
+    {
+      "title": "Towards Understanding Sycophancy in Language Models",
+      "author": "Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud and others",
+      "year": "2023",
+      "url": "https://arxiv.org/abs/2310.13548",
+      "note": "Artículo de investigación sobre la tendencia de los modelos a darle la razón al usuario. Respalda la advertencia de Contraargumentos.",
+      "verify": false
+    },
+    {
+      "title": "Survey of Hallucination in Natural Language Generation",
+      "author": "Ziwei Ji, Nayeon Lee, Rita Frieske and others",
+      "year": "2023",
+      "url": "https://arxiv.org/abs/2202.03629",
+      "note": "ACM Computing Surveys 55(12). Revisión de cómo los modelos de lenguaje producen contenido fluido pero sin respaldo. Respalda las afirmaciones generales sobre citas y números inventados e instrucciones incumplidas.",
+      "verify": false
+    },
+    {
+      "title": "Prompting best practices",
+      "author": "Anthropic",
+      "year": null,
+      "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+      "note": "Guía pública para escribir prompts de un laboratorio de IA: instrucciones claras, papeles y ejemplos variados para que el modelo no copie patrones no deseados. Respalda la advertencia de Ejemplos.",
+      "verify": false
+    },
+    {
+      "title": "Prompt engineering",
+      "author": "OpenAI",
+      "year": null,
+      "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+      "note": "Guía pública para escribir prompts de un laboratorio de IA. Solo como lectura de contexto.",
+      "verify": false
+    }
+  ],
+  "ui": {
+    "doc_title": "La lógica de un prompt y de la vida — 21 partes, 7 tipos de razonamiento",
+    "description": "Escribir un buen prompt usa la misma lógica que pensar con claridad en la vida diaria: premisas, alcance, definiciones, restricciones, una meta, evidencia y pruebas. Veintiuna partes de un prompt, explicadas para todo el mundo, con un constructor de prompts en vivo y un juego.",
+    "translation_note": "Esta página se tradujo del inglés con ayuda de IA y todavía no la ha revisado un hablante nativo.",
+    "joiner": " ",
+    "back": "← Follow or Bounce",
+    "brand": "Lógica del prompt",
+    "nav_aria": "Secciones",
+    "lang_aria": "Idioma",
+    "nav_basics": "Bases",
+    "nav_parts": "Las 21 partes",
+    "nav_builder": "Constructor",
+    "nav_game": "Juego",
+    "nav_limits": "Límites",
+    "nav_cheat": "Lista",
+    "cta_build": "Arma un prompt",
+    "cta_game": "Juega: encuentra la pieza que falta",
+    "strip_aria": "Un prompt de ejemplo, coloreado por familia lógica",
+    "strip_cap": "Una petición, siete tipos de lógica",
+    "p1_kicker": "Primera parte · lógica en cinco minutos",
+    "p1_title": "La lógica es cómo te sigue quien lee",
+    "p1_lede": "Un chatbot nunca te ha visto. Todo lo que sabe de tu petición es lo que escribiste. Estas son las ideas que usan los lógicos para que un razonamiento sea fácil de seguir, y cada una cumple una función en un prompt.",
+    "in_prompt": "En un prompt:",
+    "grice_note": "Grice describió la conversación entre personas. Aplicar sus máximas a un chatbot es un lente útil, no una afirmación de que el modelo sea una persona que coopera.",
+    "syl_kicker": "Pruébalo · válido no es lo mismo que verdadero",
+    "prem1_aria": "Premisa 1",
+    "prem2_aria": "Premisa 2",
+    "therefore_aria": "Por lo tanto",
+    "valid": "Válido",
+    "sound": "Sólido",
+    "not_sound": "No sólido",
+    "swap": "Cambia por una premisa falsa",
+    "swap_back": "Vuelve a poner la premisa verdadera",
+    "syl_big": "Buena forma, malos datos, disparates dichos con seguridad.",
+    "syl_after": "Con los prompts pasa lo mismo. Una petición ordenada y bien estructurada puede apoyarse en una premisa equivocada, y la respuesta la seguirá al pie de la letra.",
+    "p2_kicker": "Segunda parte · los elementos",
+    "p2_title": "La tabla periódica de un prompt",
+    "p2_lede": "Veintiuna partes, en siete familias lógicas. Nunca necesitas todas a la vez. Cada una que dejas fuera es algo que el modelo tiene que adivinar. Toca cualquier elemento para leerlo.",
+    "tile_aria": "{name}, {family}, parte {n}",
+    "family": "Familia {i} de {n}",
+    "of21": "{n} de 21",
+    "the_logic": "La lógica",
+    "weak": "Débil",
+    "strong": "Fuerte",
+    "leave_out": "Si la dejas fuera, el modelo adivina",
+    "watch_out": "Ojo:",
+    "maxim_title": "Máxima de Grice: {m}",
+    "maxims": {
+      "Quantity": "Cantidad",
+      "Quality": "Cualidad",
+      "Relation": "Relación",
+      "Manner": "Modo"
+    },
+    "p3_kicker": "Tercera parte · el laboratorio",
+    "p3_title": "Arma un prompt y mira cómo se reducen las adivinanzas",
+    "nojs_builder": "El constructor necesita JavaScript. Todas las partes que usa se explican en las secciones de arriba.",
+    "step1": "1 · Elige una tarea",
+    "task_aria": "Tarea",
+    "step2": "2 · Activa y desactiva partes",
+    "preset_none": "Petición sola",
+    "preset_core": "Las cinco esenciales",
+    "preset_all": "Todo",
+    "step3": "3 · Tu prompt",
+    "unsaid_one": "parte sin decir",
+    "unsaid_many": "partes sin decir",
+    "unsaid_sub": "cada una es algo que el modelo rellena por su cuenta",
+    "live_one": "{n} parte sin decir",
+    "live_many": "{n} partes sin decir",
+    "all_said": "Dijiste las 21 partes, y quedó un prompt largo. En la práctica, quédate con las que esta tarea necesita.",
+    "copy": "Copiar prompt",
+    "copied": "Prompt copiado",
+    "selected": "Seleccionado: presiona copiar",
+    "p3_after": "Más partes no siempre es mejor: “todo” da un prompt largo. El arte está en notar qué adivinanzas importan para esta tarea y cerrar esas.",
+    "p4_kicker": "Cuarta parte · el juego",
+    "p4_title": "Encuentra la pieza que falta",
+    "p4_lede": "Cada petición de abajo recibió una respuesta decepcionante. ¿Qué parte, agregada al prompt, habría ayudado más?",
+    "nojs_game": "El juego necesita JavaScript.",
+    "pick": "Elige una respuesta.",
+    "you": "Tú",
+    "got": "La respuesta que recibiste",
+    "yes": "Sí: {name}",
+    "it_was": "Era {name}",
+    "next": "Siguiente",
+    "see_score": "Ver tu puntaje",
+    "play_again": "Jugar otra vez",
+    "result": "Resultado",
+    "res_line": "{r} de {n}.",
+    "res_all": "Lees prompts como alguien que sabe de lógica.",
+    "res_half": "Buen ojo. Vale la pena repasar en la tabla de arriba las que fallaste.",
+    "res_low": "Cada fallo es una parte para buscar en la tabla de arriba. Inténtalo de nuevo.",
+    "p5_kicker": "Quinta parte · límites honestos",
+    "truth_a": "La estructura ",
+    "truth_hot": "no",
+    "truth_b": " es verdad",
+    "p6_kicker": "Sexta parte · guárdala",
+    "p6_title": "La lista de verificación",
+    "p6_lede": "Antes de enviar, repasa las familias. Las marcas se guardan solo en este navegador.",
+    "checked": "{n} de {t} marcadas",
+    "ready": " · listo para enviar",
+    "src_kicker": "De dónde vienen estas ideas",
+    "src_title": "Fuentes",
+    "foot_home": "Follow or Bounce",
+    "foot_index": "Índice",
+    "foot_note": "Las 21 partes son una lista práctica, no un estándar. La lógica detrás de ellas es antigua; los chatbots son nuevos."
+  }
+}

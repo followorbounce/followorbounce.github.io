@@ -1,0 +1,958 @@
+{
+ "hero": {
+  "kicker": "Everyday logic for talking to AI",
+  "title": "The Logic of a Prompt & Life",
+  "lede": "A good prompt is a small argument plus a request, and so is any clear ask in life. Give your premises, terms, limits and goal, and there is less to guess. It can still be wrong, so check."
+ },
+ "basics": [
+  {
+   "id": "premise",
+   "term": "Premise",
+   "plain": "A statement you take as given and reason from. If a premise is false, anything built on it can be false too.",
+   "example": "'The museum is closed on Mondays' is a premise. Your plan for Monday starts from it.",
+   "inPrompts": "Your context, examples and definitions are the premises. The model reasons from what you give it, or from what it guesses."
+  },
+  {
+   "id": "inference",
+   "term": "Inference and conclusion",
+   "plain": "An inference is the step from premises to a new claim. The conclusion is where that step lands: the thing you wanted to show or decide.",
+   "example": "The museum is closed on Mondays. Today is Monday. So the museum is closed today.",
+   "inPrompts": "Your objective names the conclusion you want. The answer is the model's step from your premises toward that goal."
+  },
+  {
+   "id": "domain",
+   "term": "Domain of discourse",
+   "plain": "The set of things a statement is talking about. Words like 'all' and 'everyone' only make sense inside a chosen domain.",
+   "example": "'Everyone passed the test' is about one class, not everyone on Earth.",
+   "inPrompts": "Scope sets the domain. Without it, the model picks one for you, often wider or narrower than you meant."
+  },
+  {
+   "id": "definition",
+   "term": "Definition and ambiguity",
+   "plain": "A definition fixes what a word means. A word is ambiguous when it could mean more than one thing. Sliding between meanings mid-argument is called equivocation.",
+   "example": "'A light meal' could mean low in calories or just small. Saying which one removes the doubt.",
+   "inPrompts": "Terminology defines your key words, so 'cheap', 'short' or 'simple' mean what you mean."
+  },
+  {
+   "id": "condition",
+   "term": "Necessary and sufficient conditions",
+   "plain": "A necessary condition must be met, but may not be enough. A sufficient condition is enough on its own.",
+   "example": "A ticket is necessary to ride the train, but not sufficient: the train also has to be running.",
+   "inPrompts": "Limits, format and time frame are necessary conditions. Meeting them all still does not guarantee a good answer."
+  },
+  {
+   "id": "evidence",
+   "term": "Evidence and induction",
+   "plain": "Evidence is what supports a claim. Induction draws a general pattern from particular cases. It can be strong, but it is never certain.",
+   "example": "Every swan you have seen is white, so you expect the next one to be. Then you visit Australia and meet a black swan.",
+   "inPrompts": "Examples teach by induction. Citations, statistics and quotes are evidence, and they only count if they are real."
+  },
+  {
+   "id": "counterexample",
+   "term": "Counterexample",
+   "plain": "A single case that shows a general claim is false. Hunting for one is how you test an idea instead of just believing it.",
+   "example": "'All birds can fly.' Penguins are a counterexample, and one is enough.",
+   "inPrompts": "Counterarguments and other points of view ask the model to look for the case where your idea fails."
+  },
+  {
+   "id": "grice",
+   "term": "Grice's maxims",
+   "plain": "Philosopher H. P. Grice described what cooperative talk assumes: say enough but not too much, say what is true, stay relevant, and be clear.",
+   "example": "'I'm out of petrol (gas).' 'There's a garage (a gas station) round the corner.' You assume it is open and sells fuel. That is cooperative talk at work.",
+   "inPrompts": "A good prompt gives the model what it needs to be informative, truthful, relevant and clear for your purpose."
+  }
+ ],
+ "syllogism": {
+  "premises": [
+   "All mammals breathe air.",
+   "Whales are mammals."
+  ],
+  "conclusion": "So whales breathe air.",
+  "brokenPremise": "All mammals live on land.",
+  "brokenConclusion": "So whales live on land.",
+  "note": "Both arguments have the same valid form: if the premises were true, the conclusion would have to be. Only the first is sound, because its premises really are true."
+ },
+ "domains": [
+  {
+   "id": "frame",
+   "name": "Frame",
+   "logic": "Speaker, listener and voice",
+   "question": "Who is speaking, to whom, and how?",
+   "parts": [
+    "act-as",
+    "audience",
+    "tone",
+    "language"
+   ]
+  },
+  {
+   "id": "premises",
+   "name": "Premises",
+   "logic": "What is given, and defined",
+   "question": "What can the answer take as given?",
+   "parts": [
+    "context",
+    "examples",
+    "keywords",
+    "terminology"
+   ]
+  },
+  {
+   "id": "bounds",
+   "name": "Bounds",
+   "logic": "Domain of discourse and constraints",
+   "question": "What is in, what is out, what shape?",
+   "parts": [
+    "scope",
+    "limitations",
+    "deadline",
+    "format"
+   ]
+  },
+  {
+   "id": "goal",
+   "name": "Goal",
+   "logic": "The conclusion you want",
+   "question": "What should the answer achieve?",
+   "parts": [
+    "objective",
+    "call-to-action"
+   ]
+  },
+  {
+   "id": "evidence",
+   "name": "Evidence",
+   "logic": "Support for claims",
+   "question": "What backs up each claim?",
+   "parts": [
+    "citations",
+    "statistics",
+    "quotes"
+   ]
+  },
+  {
+   "id": "testing",
+   "name": "Testing",
+   "logic": "Counterexamples and other standpoints",
+   "question": "Where could this reasoning fail?",
+   "parts": [
+    "points-of-view",
+    "counterarguments",
+    "analogies"
+   ]
+  },
+  {
+   "id": "dialogue",
+   "name": "Dialogue",
+   "logic": "Cooperation that closes the gaps",
+   "question": "What is still missing, and who supplies it?",
+   "parts": [
+    "questions"
+   ]
+  }
+ ],
+ "parts": [
+  {
+   "id": "act-as",
+   "n": 1,
+   "name": "Act as",
+   "domain": "frame",
+   "line": "A role for the model to take on, which sets its vocabulary, depth and point of view.",
+   "logic": "Fixes the speaker's standpoint. Like choosing a perspective in an argument, it shapes which premises seem relevant and which words get used. It adds no knowledge or credentials.",
+   "guess": "Which expert voice, level of detail and angle you want.",
+   "weak": "Give me tips for my vegetable garden.",
+   "strong": "Act as an experienced community gardener. Give me tips for my vegetable garden.",
+   "pitfall": "A role is a costume, not a qualification. A model playing a doctor is not a doctor, so check health, legal or money advice with a real one.",
+   "maxim": null
+  },
+  {
+   "id": "audience",
+   "n": 2,
+   "name": "Audience",
+   "domain": "frame",
+   "line": "Who will read or use the answer, and what they already know.",
+   "logic": "Sets the shared background the answer can assume. What counts as informative enough depends on the listener, so the audience fixes how much to explain.",
+   "guess": "Whether to explain the basics or skip them, and which words the reader knows.",
+   "weak": "Explain how a mortgage works.",
+   "strong": "Explain how a mortgage works to someone buying their first home who has never taken out a loan.",
+   "pitfall": "A vague audience like 'beginners' helps less than saying what they already know and what they need to do with the answer.",
+   "maxim": "Quantity"
+  },
+  {
+   "id": "tone",
+   "n": 3,
+   "name": "Tone",
+   "domain": "frame",
+   "line": "The emotional colour of the reply: friendly, formal, firm, playful or calm.",
+   "logic": "Tone changes how something is said, not what is claimed. Logic separates content from expression, and tone is a request about expression.",
+   "guess": "Whether to sound warm, neutral, formal or blunt.",
+   "weak": "Write a message telling my team the picnic is cancelled.",
+   "strong": "Write a warm, upbeat message telling my team the picnic is cancelled.",
+   "pitfall": "Tone can blur content. If you ask for 'reassuring', check the reply has not softened a fact you needed to hear plainly.",
+   "maxim": null
+  },
+  {
+   "id": "language",
+   "n": 4,
+   "name": "Language",
+   "domain": "frame",
+   "line": "Which language to answer in, and how plain or technical the wording should be.",
+   "logic": "A statement only works if both sides read it the same way. Choosing the language and reading level avoids obscurity, which Grice's maxim of Manner warns against.",
+   "guess": "Which language, spelling and reading level to use.",
+   "weak": "Write instructions for my neighbour on watering my plants.",
+   "strong": "Write instructions in simple Spanish for my neighbour on watering my plants.",
+   "pitfall": "A translation can sound fluent and still be wrong. For anything important, like medicine labels or contracts, ask a fluent speaker to check it.",
+   "maxim": "Manner"
+  },
+  {
+   "id": "context",
+   "n": 5,
+   "name": "Context",
+   "domain": "premises",
+   "line": "The background facts of your situation that the answer should build on.",
+   "logic": "Context supplies the premises: the statements taken as given. A conclusion is only as good as the premises it starts from.",
+   "guess": "Your situation, so it fills the gap with a typical case that may not be yours.",
+   "weak": "Suggest a dinner I can cook tonight.",
+   "strong": "I have rice, eggs, spinach and twenty minutes, and my partner is vegetarian. Suggest a dinner I can cook tonight.",
+   "pitfall": "False premises give confident nonsense. If your background facts are wrong or out of date, a well-reasoned answer is likely to be wrong too.",
+   "maxim": "Relation"
+  },
+  {
+   "id": "examples",
+   "n": 6,
+   "name": "Examples",
+   "domain": "premises",
+   "line": "One or more samples of what a good answer looks like.",
+   "logic": "Examples work by induction: from a few cases the model infers a general pattern. Like any induction, the pattern it picks may not be the one you meant.",
+   "guess": "The style, length and pattern you have in your head.",
+   "weak": "Suggest names for my new grey kitten.",
+   "strong": "Suggest names for my new grey kitten. Names I like: Pebble, Smudge, Biscuit.",
+   "pitfall": "Models can copy examples closely, including their accidents. If all your examples are food words, expect more food words. Vary them on purpose.",
+   "maxim": null
+  },
+  {
+   "id": "keywords",
+   "n": 7,
+   "name": "Keywords",
+   "domain": "premises",
+   "line": "Words or names that must appear, or that pin down the topic.",
+   "logic": "Keywords mark the subject terms the answer must be about. They work as a relevance test: an answer that never touches them has drifted off the question.",
+   "guess": "Which specific names, things or ideas you care about.",
+   "weak": "Write a short bio for my bakery's website.",
+   "strong": "Write a short bio for my bakery's website. Mention sourdough, our family recipes and the Saturday market.",
+   "pitfall": "A long keyword list turns into word salad. Pick the few terms that truly matter, and check they are used correctly, not just dropped in.",
+   "maxim": "Relation"
+  },
+  {
+   "id": "terminology",
+   "n": 8,
+   "name": "Terminology",
+   "domain": "premises",
+   "line": "Definitions for the words in your request that could mean more than one thing.",
+   "logic": "Defining terms blocks equivocation, the error of letting one word shift meaning partway through. A definition fixes what a key word refers to from start to finish.",
+   "guess": "Which meaning of an ambiguous word you have in mind.",
+   "weak": "Give me a training plan for a long-distance race.",
+   "strong": "Give me a training plan for a long-distance race. By long-distance I mean a 10 km race, not a marathon.",
+   "pitfall": "Your own words feel obvious to you. Words like 'cheap', 'soon', 'healthy' and 'short' are where misunderstandings hide. Pin them down with numbers.",
+   "maxim": "Manner"
+  },
+  {
+   "id": "scope",
+   "n": 9,
+   "name": "Scope",
+   "domain": "bounds",
+   "line": "What the answer should cover, and what it should leave out.",
+   "logic": "Scope sets the domain of discourse: the set of things the conversation is about. Claims are judged inside that domain, so a fuzzy domain gives fuzzy answers.",
+   "guess": "How wide or narrow to go, and what counts as off topic.",
+   "weak": "Tell me about the history of bicycles.",
+   "strong": "Tell me about the history of bicycles from 1860 to 1900, covering design changes only, not racing.",
+   "pitfall": "A scope that is too narrow can hide what matters. Invite the model to flag anything important just outside your boundary.",
+   "maxim": "Relation"
+  },
+  {
+   "id": "limitations",
+   "n": 10,
+   "name": "Limitations",
+   "domain": "bounds",
+   "line": "Rules the answer must obey, such as length, cost or things to avoid.",
+   "logic": "Limitations are necessary conditions: an answer that breaks one fails, however good it is otherwise. Meeting every limitation still does not make an answer good enough.",
+   "guess": "Your hard limits, so it may suggest things you cannot use.",
+   "weak": "Suggest a birthday party activity for ten-year-olds.",
+   "strong": "Suggest a birthday party activity for ten-year-olds that works indoors, needs no screens and uses only things most homes already have.",
+   "pitfall": "Check the answer against each limit yourself. Models sometimes quietly break a rule, such as a word count, while sounding as if they kept it.",
+   "maxim": null
+  },
+  {
+   "id": "deadline",
+   "n": 11,
+   "name": "Deadline",
+   "domain": "bounds",
+   "line": "The time frame your task, or the information you need, belongs to.",
+   "logic": "Mostly practical, not logical. A chat model answers when asked, not on a schedule. The logical part is a time index: many claims are true only as of a date.",
+   "guess": "Which dates matter, and how current the facts must be.",
+   "weak": "Make a study plan for my driving test.",
+   "strong": "Make a study plan for my driving test, which is three weeks from today.",
+   "pitfall": "Models have a knowledge cutoff and may not know today's date. For anything time-sensitive, give the date yourself and check recent facts elsewhere.",
+   "maxim": null
+  },
+  {
+   "id": "format",
+   "n": 12,
+   "name": "Format",
+   "domain": "bounds",
+   "line": "The shape of the answer: a list, a table, steps, an email or a short paragraph.",
+   "logic": "Format is a constraint on form, not content. It answers Grice's advice to be orderly: the same information is easier to check in a shape you can scan.",
+   "guess": "Whether you want a list, a table, a paragraph or steps.",
+   "weak": "Compare walking, cycling and taking the bus to work.",
+   "strong": "Compare walking, cycling and taking the bus to work in a table with one row per option.",
+   "pitfall": "A neat table can make guesses look like facts. Format makes an answer easier to read, not more reliable.",
+   "maxim": "Manner"
+  },
+  {
+   "id": "objective",
+   "n": 13,
+   "name": "Objective",
+   "domain": "goal",
+   "line": "What you want the answer to achieve: the point of the whole request.",
+   "logic": "The objective is the conclusion you are reasoning toward. Without it, relevance has no anchor, since Grice tied relevance to the purpose of the conversation.",
+   "guess": "Why you are asking, so it cannot tell what is useful.",
+   "weak": "Tell me about electric cars.",
+   "strong": "Tell me about electric cars so I can decide whether my next car should be one.",
+   "pitfall": "Stating a goal can tilt the answer toward it. Ask 'help me decide' rather than 'convince me', unless you really want only one side.",
+   "maxim": "Relation"
+  },
+  {
+   "id": "call-to-action",
+   "n": 14,
+   "name": "Call to action",
+   "domain": "goal",
+   "line": "The next step the answer should end on, for you or for the people who read it.",
+   "logic": "An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.",
+   "guess": "Whether to end with a next step, and what that step is.",
+   "weak": "Write a flyer about our street clean-up.",
+   "strong": "Write a flyer about our street clean-up that ends by asking readers to sign up at the library desk.",
+   "pitfall": "Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like 'only two places left'.",
+   "maxim": null
+  },
+  {
+   "id": "citations",
+   "n": 15,
+   "name": "Citations",
+   "domain": "evidence",
+   "line": "Sources the answer should point to, so you can check where each claim comes from.",
+   "logic": "A citation links a claim to its evidence. It serves Grice's maxim of Quality: do not say things you lack adequate evidence for.",
+   "guess": "Whether you need sources, and which kinds you trust.",
+   "weak": "Explain whether reading in dim light harms your eyes.",
+   "strong": "Using only the health article pasted below, explain whether reading in dim light harms your eyes, and say which paragraph supports each point.",
+   "pitfall": "Models can invent citations that look real: plausible titles, authors and links that do not exist. Give your own sources when you can, and open every citation before trusting it.",
+   "maxim": "Quality"
+  },
+  {
+   "id": "statistics",
+   "n": 16,
+   "name": "Statistics",
+   "domain": "evidence",
+   "line": "Numbers that support a claim, such as counts, averages or rates.",
+   "logic": "Using a number to support a general claim is a form of induction. A number supports a claim only if it is real, recent and about the right group.",
+   "guess": "Whether you want numbers, and how precise they must be.",
+   "weak": "Write a paragraph on why our town needs a new crossing.",
+   "strong": "Write a paragraph on why our town needs a new crossing, using the traffic survey figures pasted below.",
+   "pitfall": "Models can produce precise-looking numbers with no real source. Supply your own data where possible, and trace every number to its origin before you repeat it.",
+   "maxim": "Quality"
+  },
+  {
+   "id": "quotes",
+   "n": 17,
+   "name": "Quotes",
+   "domain": "evidence",
+   "line": "Exact words from a real person or text, repeated word for word.",
+   "logic": "A quotation is testimony: evidence that someone said something. It counts only if it is accurate and in context. A misquote is a false premise.",
+   "guess": "Whether you want quotes, from whom, and how exact.",
+   "weak": "Write a short speech for my grandmother's 90th birthday.",
+   "strong": "Write a short speech for my grandmother's 90th birthday, quoting her favourite saying, which I have written out exactly below.",
+   "pitfall": "Models can invent quotations or pin real ones on the wrong person. Paste the exact words yourself, or check any quote against a reliable original.",
+   "maxim": "Quality"
+  },
+  {
+   "id": "points-of-view",
+   "n": 18,
+   "name": "Points of view",
+   "domain": "testing",
+   "line": "Other people's perspectives the answer should consider, not only yours.",
+   "logic": "Looking from several standpoints tests whether a conclusion holds for everyone affected. A premise that seems obvious from one side may be false or irrelevant from another.",
+   "guess": "Whose interests and views count, so it may give only one side.",
+   "weak": "Should our family get a dog?",
+   "strong": "Should our family get a dog? Consider it from the view of the kids, the parents who will walk it, and our elderly neighbour.",
+   "pitfall": "Listing views is not the same as weighing them. Two sides shown as equal can hide that one has much better evidence.",
+   "maxim": null
+  },
+  {
+   "id": "counterarguments",
+   "n": 19,
+   "name": "Counterarguments",
+   "domain": "testing",
+   "line": "The strongest objections to an idea, so you can test it before relying on it.",
+   "logic": "Popper's idea of falsification: try to refute an idea, not only confirm it. One counterexample can sink a general claim, and objections look for the weak spots.",
+   "guess": "Whether you want honest pushback or simple agreement.",
+   "weak": "Here is my plan to start selling handmade candles online.",
+   "strong": "Here is my plan to start selling handmade candles online. Give me the three strongest reasons it could fail.",
+   "pitfall": "Models tend to agree with the person asking. If you never ask for objections, the lack of any is not evidence your idea is good.",
+   "maxim": null
+  },
+  {
+   "id": "analogies",
+   "n": 20,
+   "name": "Analogies",
+   "domain": "testing",
+   "line": "A comparison with something familiar that helps explain something new.",
+   "logic": "An analogy maps the structure of a known case onto a new one. It explains and can suggest, but it never proves; test it by finding where it breaks.",
+   "guess": "Which familiar things you know well enough to compare against.",
+   "weak": "Explain how a computer's memory works.",
+   "strong": "Explain how a computer's memory works using an analogy from cooking in a kitchen.",
+   "pitfall": "Every analogy breaks somewhere. Ask the model to say where its comparison stops working, so you do not carry the wrong part over.",
+   "maxim": "Manner"
+  },
+  {
+   "id": "questions",
+   "n": 21,
+   "name": "Questions",
+   "domain": "dialogue",
+   "line": "An invitation for the model to ask you what it needs before it answers.",
+   "logic": "Questions turn a one-shot guess into a dialogue. Missing premises get supplied instead of assumed, so the answer can be as informative as you need.",
+   "guess": "Everything you forgot to say, silently filled in with typical defaults.",
+   "weak": "Help me write a cover letter for a job.",
+   "strong": "Help me write a cover letter for a job. Before you start, ask me up to five questions about the role and my experience.",
+   "pitfall": "The model's questions are only as useful as your answers. Answer honestly and specifically; if you guess, it will build on your guess.",
+   "maxim": "Quantity"
+  }
+ ],
+ "builder": {
+  "tasks": [
+   {
+    "id": "explain-child",
+    "label": "Explain something to a child",
+    "base": "Explain why the Moon seems to change shape.",
+    "fragments": {
+     "act-as": "Act as a patient elementary-school science teacher.",
+     "audience": "The explanation is for my seven-year-old daughter, who knows the Moon goes around the Earth but not much more.",
+     "tone": "Keep the tone warm, curious and a little playful.",
+     "language": "Use simple English with short sentences and no science words a seven-year-old would not know.",
+     "context": "My daughter asked me at bedtime after we saw a thin crescent Moon from her window.",
+     "examples": "A good explanation sounds like this one about shadows: 'Your shadow is the place where your body blocks the sunlight.'",
+     "keywords": "Make sure you mention sunlight, the lit half of the Moon, and the word phase.",
+     "terminology": "When you say phase, explain that it means how much of the Moon's lit half we can see from Earth.",
+     "scope": "Cover only why the shape changes, not eclipses or tides.",
+     "limitations": "Keep it under 150 words and leave out anything scary about space.",
+     "deadline": "We will look at the Moon every night this week, so say how it will change over the next seven days.",
+     "format": "Write it as a short story in three steps a child can picture.",
+     "objective": "The goal is that my daughter can explain it back to me in her own words.",
+     "call-to-action": "End by suggesting one thing we can do together, like drawing the Moon each night.",
+     "citations": "If you use a fact I might want to check, tell me what kind of source an adult could check it in.",
+     "statistics": "If you use a number, like how long the cycle takes, round it and use only one.",
+     "quotes": "You can quote my daughter's own question back to her: 'Why is the Moon broken tonight?'",
+     "points-of-view": "Briefly show it from far out in space, looking down on the Earth and Moon, where you can see the Moon is always half lit by the Sun.",
+     "counterarguments": "Gently correct the common mistaken idea that the Earth's shadow causes the Moon's phases.",
+     "analogies": "Use an analogy a child can try at home, like a ball and a lamp in a dark room.",
+     "questions": "Before you answer, ask me one or two questions if anything about my daughter is unclear."
+    }
+   },
+   {
+    "id": "weekend-trip",
+    "label": "Plan a cheap weekend away",
+    "base": "Plan a cheap weekend away for me and a friend.",
+    "fragments": {
+     "act-as": "Act as a thrifty travel planner who knows how to save money without making the trip miserable.",
+     "audience": "The plan is for two people in their twenties who are happy to walk a lot but hate early mornings.",
+     "tone": "Keep the tone practical and friendly, not salesy.",
+     "language": "Write in plain English and give every price as a number.",
+     "context": "We live in Manchester, have no car, and can leave after work on Friday.",
+     "examples": "A trip we loved last year was a seaside town with a long coastal walk, cheap chips and one small museum.",
+     "keywords": "Include train travel, free activities and a hostel or low-cost room.",
+     "terminology": "By cheap I mean 200 pounds each in total, including travel, food and somewhere to sleep.",
+     "scope": "Only suggest places we can reach by train in under three hours.",
+     "limitations": "Avoid anything that needs a car, and leave out bars because my friend does not drink.",
+     "deadline": "The trip is three weeks from now, so flag anything, like prices or opening times, that I should check closer to the date.",
+     "format": "Lay it out as a day-by-day plan with a rough cost next to each item.",
+     "objective": "The aim is a relaxed weekend that feels like a real break while staying cheap.",
+     "call-to-action": "Finish with a short list of what to book first.",
+     "citations": "For train times and fares, tell me which official website to check rather than giving exact figures from memory.",
+     "statistics": "Give any cost estimates as ranges and say plainly that they are rough.",
+     "quotes": "Do not quote reviews I cannot see; describe what reviewers tend to say in your own words instead.",
+     "points-of-view": "Think about it from my friend's side too: they are vegetarian and care more about food than sights.",
+     "counterarguments": "Point out the biggest risk in your plan, such as a cancelled train, and suggest a backup.",
+     "analogies": "If it helps, describe each town by comparing it to somewhere well known, like a smaller, quieter Brighton.",
+     "questions": "Ask me any questions you need before you plan, such as what we like doing in the evenings."
+    }
+   },
+   {
+    "id": "complaint",
+    "label": "Write a polite complaint",
+    "base": "Write a complaint about my broken washing machine.",
+    "fragments": {
+     "act-as": "Act as someone experienced in writing clear, effective letters to customer service teams.",
+     "audience": "It will be read by the customer service team at the shop where I bought the machine.",
+     "tone": "Keep it polite and calm but firm.",
+     "language": "Write in plain, formal British English.",
+     "context": "I bought it seven weeks ago, it stopped spinning last week, and the repair visit I booked never happened.",
+     "examples": "Here is a sentence in the style I like: 'I would be grateful if you could confirm the next steps by email.'",
+     "keywords": "Include my order number, 48213, and the words missed repair appointment.",
+     "terminology": "When you write refund, it must mean my full money back, not store credit.",
+     "scope": "Stick to the washing machine and leave out my earlier complaint about delivery.",
+     "limitations": "Keep it under 200 words and do not threaten legal action.",
+     "deadline": "Ask for a reply within ten working days of today.",
+     "format": "Format it as an email with a clear subject line.",
+     "objective": "My goal is a working machine or a full refund, whichever is quicker.",
+     "call-to-action": "End by asking them to confirm by email which of the two options they will offer.",
+     "citations": "If you mention my consumer rights, name the law so I can look it up myself, and say if you are unsure.",
+     "statistics": "Do not add any numbers I have not given you, such as typical repair times.",
+     "quotes": "Quote this line from their website: 'All appliances come with a one-year guarantee.'",
+     "points-of-view": "Bear in mind the person reading it did not cause the problem and probably handles many complaints a day.",
+     "counterarguments": "Anticipate the likely reply that I misused the machine, and answer it in one sentence.",
+     "analogies": "If it fits, add one short comparison showing why a missed repair visit matters, like waiting in all day for a delivery that never comes.",
+     "questions": "Before writing, ask me anything you need to know, such as whether I still have the receipt."
+    }
+   }
+  ]
+ },
+ "quiz": [
+  {
+   "id": "q-inflation",
+   "prompt": "Explain what inflation is.",
+   "reply": "A dense page about central banks and price indices, full of terms your twelve-year-old nephew could not follow.",
+   "answer": "audience",
+   "options": [
+    "citations",
+    "audience",
+    "deadline",
+    "keywords"
+   ],
+   "why": "The model could not know who the explanation was for, so it guessed an adult reader. Naming the audience sets how much to explain and which words to use."
+  },
+  {
+   "id": "q-garden",
+   "prompt": "What should I plant in my garden this month?",
+   "reply": "A cheerful list of spring flowers. It is autumn where you live, and your garden is a shady balcony.",
+   "answer": "context",
+   "options": [
+    "tone",
+    "analogies",
+    "context",
+    "quotes"
+   ],
+   "why": "Without your location, season and space, the model filled in a typical garden. Those facts are your premises; leave them out and it reasons from a guess."
+  },
+  {
+   "id": "q-workout",
+   "prompt": "Give me a short workout I can do at home.",
+   "reply": "A 45-minute routine with six circuits. To you, short meant ten minutes before work.",
+   "answer": "terminology",
+   "options": [
+    "act-as",
+    "statistics",
+    "points-of-view",
+    "terminology"
+   ],
+   "why": "'Short' is ambiguous: ten minutes to you, forty-five to someone else. Defining the word, ideally with a number, removes the guess."
+  },
+  {
+   "id": "q-airport",
+   "prompt": "Compare the train, the bus and a taxi to the airport.",
+   "reply": "Four long paragraphs. You wanted to see cost and travel time side by side at a glance.",
+   "answer": "format",
+   "options": [
+    "format",
+    "language",
+    "keywords",
+    "call-to-action"
+   ],
+   "why": "The content was fine; the shape was wrong. Asking for a table with one row per option makes the comparison easy to scan and to check."
+  },
+  {
+   "id": "q-dogs",
+   "prompt": "Tell me about dogs.",
+   "reply": "A general history of dog breeds. You were really deciding whether a dog suits your small apartment and long working days.",
+   "answer": "objective",
+   "options": [
+    "tone",
+    "examples",
+    "objective",
+    "deadline"
+   ],
+   "why": "With no goal, every fact about dogs is equally relevant. Saying what you want to decide gives the answer a conclusion to aim at."
+  },
+  {
+   "id": "q-bike-lane",
+   "prompt": "Write a paragraph showing our new bike lane made the street safer.",
+   "reply": "A convincing paragraph with exact accident figures. You never gave it any figures, and they turned out to be made up.",
+   "answer": "statistics",
+   "options": [
+    "audience",
+    "scope",
+    "analogies",
+    "statistics"
+   ],
+   "why": "The model needed numbers and invented plausible ones. Supply your own data, such as official accident reports, and check every figure before you use it. Asking it to 'show' a conclusion also invites one-sided evidence."
+  },
+  {
+   "id": "q-credit-card",
+   "prompt": "Here is my plan to clear my credit card by moving the balance to a new card. Thoughts?",
+   "reply": "Warm praise for your plan. Months later you hit a transfer fee you had never heard of.",
+   "answer": "counterarguments",
+   "options": [
+    "counterarguments",
+    "format",
+    "language",
+    "keywords"
+   ],
+   "why": "Models tend to agree with the person asking. Asking for the strongest objections, such as hidden fees, makes the model look for where your plan could fail, and check the card's terms yourself."
+  },
+  {
+   "id": "q-wedding",
+   "prompt": "Write a speech for my sister's wedding.",
+   "reply": "A generic speech with a made-up story about a camping trip that never happened.",
+   "answer": "questions",
+   "options": [
+    "tone",
+    "questions",
+    "format",
+    "deadline"
+   ],
+   "why": "The model knew nothing about your sister, so it invented details. Inviting it to ask you questions first lets you supply real stories instead."
+  }
+ ],
+ "limits": [
+  {
+   "title": "Structure is not truth",
+   "text": "A well-built prompt makes a useful answer more likely. It does not make the answer true. A valid argument from false premises can reach a false conclusion with nothing in its form to warn you, and a model can reason smoothly from a wrong guess."
+  },
+  {
+   "title": "Sources can be invented",
+   "text": "When asked for citations, quotes or statistics, models sometimes produce ones that look real but do not exist. Give your own sources and data where you can, and check every reference, quote and number before you rely on it or share it."
+  },
+  {
+   "title": "Knowledge has a cutoff",
+   "text": "A model learned from text up to a certain date. It may not know what happened since, or even what today's date is. Say 'as of' when time matters, and check recent facts with a current source."
+  },
+  {
+   "title": "A role is not a credential",
+   "text": "Telling a model to act as a doctor, lawyer or accountant changes its vocabulary and angle. It does not give it training, a licence, accountability, or knowledge of your full situation."
+  },
+  {
+   "title": "You stay responsible",
+   "text": "The answer is a draft for you to judge, not a decision made for you. For health, legal, money or safety questions, check with a qualified person before you act."
+  }
+ ],
+ "cheatsheet": [
+  {
+   "domain": "frame",
+   "check": "Did I say who should answer and who will read it?"
+  },
+  {
+   "domain": "frame",
+   "check": "Did I name the tone and language I want?"
+  },
+  {
+   "domain": "premises",
+   "check": "Did I give the facts of my situation?"
+  },
+  {
+   "domain": "premises",
+   "check": "Did I define any word that could mean two things?"
+  },
+  {
+   "domain": "bounds",
+   "check": "Did I say what is in scope and what is out?"
+  },
+  {
+   "domain": "bounds",
+   "check": "Did I state my hard limits, time frame and format?"
+  },
+  {
+   "domain": "goal",
+   "check": "Did I say what the answer is for?"
+  },
+  {
+   "domain": "evidence",
+   "check": "Did I supply my own sources or data where possible?"
+  },
+  {
+   "domain": "evidence",
+   "check": "Will I check every citation, quote and number?"
+  },
+  {
+   "domain": "testing",
+   "check": "Did I ask where this could be wrong?"
+  },
+  {
+   "domain": "dialogue",
+   "check": "Did I invite the model to ask me questions first?"
+  }
+ ],
+ "sources": [
+  {
+   "title": "forall x: An Introduction to Formal Logic",
+   "author": "P. D. Magnus",
+   "year": null,
+   "url": "https://www.fecundity.com/logic/",
+   "note": "Free open textbook. Arguments, premises and conclusions, validity versus soundness, quantifiers and the domain of discourse.",
+   "verify": false
+  },
+  {
+   "title": "forall x: Calgary. A Free and Open Introduction to Formal Logic",
+   "author": "Aaron Thomas-Bolduc and Richard Zach, building on Tim Button and P. D. Magnus",
+   "year": null,
+   "url": "https://forallx.openlogicproject.org/",
+   "note": "Revised open edition of forall x from the Open Logic Project. Same topics, regularly updated.",
+   "verify": false
+  },
+  {
+   "title": "Logic and Conversation",
+   "author": "H. P. Grice",
+   "year": "1975",
+   "url": null,
+   "note": "In P. Cole and J. L. Morgan (eds.), Syntax and Semantics, Vol. 3: Speech Acts, Academic Press, pp. 41-58. Source of the cooperative principle and the maxims of Quantity, Quality, Relation and Manner, and the petrol and garage example.",
+   "verify": false
+  },
+  {
+   "title": "Paul Grice",
+   "author": "Richard E. Grandy and Richard Warner",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/grice/",
+   "note": "Stanford Encyclopedia of Philosophy. Overview of Grice's work, including conversational implicature.",
+   "verify": false
+  },
+  {
+   "title": "Implicature",
+   "author": "Wayne Davis",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/implicature/",
+   "note": "Stanford Encyclopedia of Philosophy. The cooperative principle, the maxims and how listeners fill gaps in what is said.",
+   "verify": false
+  },
+  {
+   "title": "Logical Consequence",
+   "author": "J. C. Beall, Greg Restall and Gil Sagi",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/logical-consequence/",
+   "note": "Stanford Encyclopedia of Philosophy. What it means for a conclusion to follow from premises; background for validity.",
+   "verify": false
+  },
+  {
+   "title": "Definitions",
+   "author": "Anil Gupta and Stephen Mackereth",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/definitions/",
+   "note": "Stanford Encyclopedia of Philosophy. Kinds and purposes of definitions.",
+   "verify": false
+  },
+  {
+   "title": "Ambiguity",
+   "author": "Adam Sennet",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/ambiguity/",
+   "note": "Stanford Encyclopedia of Philosophy. Lexical and structural ambiguity, and why it matters for communication.",
+   "verify": false
+  },
+  {
+   "title": "Fallacies",
+   "author": "Hans Hansen",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/fallacies/",
+   "note": "Stanford Encyclopedia of Philosophy. Includes equivocation among the classic fallacies of ambiguity.",
+   "verify": false
+  },
+  {
+   "title": "Necessary and Sufficient Conditions",
+   "author": "Andrew Brennan",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/necessary-sufficient/",
+   "note": "Stanford Encyclopedia of Philosophy. The distinction used for the Limitations part.",
+   "verify": false
+  },
+  {
+   "title": "The Problem of Induction",
+   "author": "Leah Henderson",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/induction-problem/",
+   "note": "Stanford Encyclopedia of Philosophy. Why generalising from examples is never certain; basis for the Examples and Statistics parts.",
+   "verify": false
+  },
+  {
+   "title": "Karl Popper",
+   "author": "Stephen Thornton",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/popper/",
+   "note": "Stanford Encyclopedia of Philosophy. Falsification: a single counterexample can refute a general claim. Basis for Counterarguments.",
+   "verify": false
+  },
+  {
+   "title": "The Logic of Scientific Discovery",
+   "author": "Karl Popper",
+   "year": "1959",
+   "url": null,
+   "note": "English edition, Hutchinson; German original Logik der Forschung, 1934. Primary source for falsification and the white swan example.",
+   "verify": false
+  },
+  {
+   "title": "Analogy and Analogical Reasoning",
+   "author": "Paul Bartha",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/reasoning-analogy/",
+   "note": "Stanford Encyclopedia of Philosophy. Analogies suggest and explain but do not prove; how to evaluate where they break.",
+   "verify": false
+  },
+  {
+   "title": "Epistemological Problems of Testimony",
+   "author": "Nick Leonard",
+   "year": null,
+   "url": "https://plato.stanford.edu/entries/testimony-episprob/",
+   "note": "Stanford Encyclopedia of Philosophy. Testimony as a source of evidence; basis for treating quotes as testimony.",
+   "verify": false
+  },
+  {
+   "title": "Fabrication and errors in the bibliographic citations generated by ChatGPT",
+   "author": "William H. Walters and Esther Isabelle Wilder",
+   "year": "2023",
+   "url": "https://www.nature.com/articles/s41598-023-41032-5",
+   "note": "Scientific Reports, vol. 13. Documents invented references from a chatbot. Supports the general claim that models can fabricate citations.",
+   "verify": false
+  },
+  {
+   "title": "Towards Understanding Sycophancy in Language Models",
+   "author": "Mrinank Sharma, Meg Tong, Tomasz Korbak, David Duvenaud and others",
+   "year": "2023",
+   "url": "https://arxiv.org/abs/2310.13548",
+   "note": "Research paper on models tending to agree with the user. Supports the Counterarguments pitfall.",
+   "verify": false
+  },
+  {
+   "title": "Survey of Hallucination in Natural Language Generation",
+   "author": "Ziwei Ji, Nayeon Lee, Rita Frieske and others",
+   "year": "2023",
+   "url": "https://arxiv.org/abs/2202.03629",
+   "note": "ACM Computing Surveys 55(12). Review of how language models produce fluent but unsupported content. Supports the general claims about invented quotes, numbers and broken instructions.",
+   "verify": false
+  },
+  {
+   "title": "Prompting best practices",
+   "author": "Anthropic",
+   "year": null,
+   "url": "https://platform.claude.com/docs/en/build-with-claude/prompt-engineering/claude-prompting-best-practices",
+   "note": "Public prompt-writing guide from an AI lab: clear instructions, roles, and examples that are varied so the model does not pick up unintended patterns. Supports the Examples pitfall.",
+   "verify": false
+  },
+  {
+   "title": "Prompt engineering",
+   "author": "OpenAI",
+   "year": null,
+   "url": "https://developers.openai.com/api/docs/guides/prompt-engineering",
+   "note": "Public prompt-writing guide from an AI lab. Background reading only.",
+   "verify": false
+  }
+ ],
+ "ui": {
+  "doc_title": "The Logic of a Prompt & Life — 21 parts, 7 kinds of reasoning",
+  "description": "Writing a good prompt uses the same logic as clear thinking in everyday life: premises, scope, definitions, constraints, a goal, evidence and tests. Twenty-one parts of a prompt, explained for everyone, with a live prompt builder and a game.",
+  "translation_note": "",
+  "joiner": " ",
+  "back": "← Follow or Bounce",
+  "brand": "Prompt Logic",
+  "nav_aria": "Sections",
+  "lang_aria": "Language",
+  "nav_basics": "Basics",
+  "nav_parts": "The 21 parts",
+  "nav_builder": "Builder",
+  "nav_game": "Game",
+  "nav_limits": "Limits",
+  "nav_cheat": "Checklist",
+  "cta_build": "Build a prompt",
+  "cta_game": "Play: spot the missing piece",
+  "strip_aria": "An example prompt, coloured by logical family",
+  "strip_cap": "One request, seven kinds of logic",
+  "p1_kicker": "Part one · logic in five minutes",
+  "p1_title": "Logic is how a reader follows you",
+  "p1_lede": "A chatbot has never met you. Everything it knows about your request is what you wrote. These are the ideas logicians use to make a line of thought easy to follow, and each one has a job in a prompt.",
+  "in_prompt": "In a prompt:",
+  "grice_note": "Grice described talk between people. Using his maxims on a chatbot is a useful lens, not a claim that the model is a cooperative person.",
+  "syl_kicker": "Try it · valid is not the same as true",
+  "prem1_aria": "Premise 1",
+  "prem2_aria": "Premise 2",
+  "therefore_aria": "Therefore",
+  "valid": "Valid",
+  "sound": "Sound",
+  "not_sound": "Not sound",
+  "swap": "Swap in a false premise",
+  "swap_back": "Put the true premise back",
+  "syl_big": "Good form, bad facts, confident nonsense.",
+  "syl_after": "The same goes for prompts. A tidy, well-structured request can still be built on a wrong premise, and the answer will follow it faithfully.",
+  "p2_kicker": "Part two · the elements",
+  "p2_title": "The periodic table of a prompt",
+  "p2_lede": "Twenty-one parts, in seven logical families. You never need all of them at once. Each one you leave out is something the model has to guess. Tap any element to read it.",
+  "tile_aria": "{name}, {family}, part {n}",
+  "family": "Family {i} of {n}",
+  "of21": "{n} of 21",
+  "the_logic": "The logic",
+  "weak": "Weak",
+  "strong": "Strong",
+  "leave_out": "Leave it out and the model guesses",
+  "watch_out": "Watch out:",
+  "maxim_title": "Grice's maxim of {m}",
+  "maxims": {
+   "Quantity": "Quantity",
+   "Quality": "Quality",
+   "Relation": "Relation",
+   "Manner": "Manner"
+  },
+  "p3_kicker": "Part three · the lab",
+  "p3_title": "Build a prompt, watch the guessing shrink",
+  "nojs_builder": "The builder needs JavaScript. Every part it uses is explained in the chapters above.",
+  "step1": "1 · Pick a task",
+  "task_aria": "Task",
+  "step2": "2 · Switch parts on and off",
+  "preset_none": "Bare request",
+  "preset_core": "The essential five",
+  "preset_all": "Everything",
+  "step3": "3 · Your prompt",
+  "unsaid_one": "part left unsaid",
+  "unsaid_many": "parts left unsaid",
+  "unsaid_sub": "each one is something the model fills in for itself",
+  "live_one": "{n} part left unsaid",
+  "live_many": "{n} parts left unsaid",
+  "all_said": "All 21 parts said, and a long prompt. In practice, keep the parts this task needs.",
+  "copy": "Copy prompt",
+  "copied": "Prompt copied",
+  "selected": "Selected: press copy",
+  "p3_after": "More parts is not always better: “everything” makes a long prompt. The skill is noticing which guesses matter for this task and closing those.",
+  "p4_kicker": "Part four · the game",
+  "p4_title": "Spot the missing piece",
+  "p4_lede": "Each request below got a disappointing answer. Which single part, added to the prompt, would have helped most?",
+  "nojs_game": "The game needs JavaScript.",
+  "pick": "Pick an answer.",
+  "you": "You",
+  "got": "The answer you got",
+  "yes": "Yes: {name}",
+  "it_was": "It was {name}",
+  "next": "Next",
+  "see_score": "See your score",
+  "play_again": "Play again",
+  "result": "Result",
+  "res_line": "{r} of {n}.",
+  "res_all": "You read prompts like a logician.",
+  "res_half": "Good eye. The ones you missed are worth a look in the table above.",
+  "res_low": "Each miss is a part to look up in the table above. Try again.",
+  "p5_kicker": "Part five · honest limits",
+  "truth_a": "Structure is ",
+  "truth_hot": "not",
+  "truth_b": " truth",
+  "p6_kicker": "Part six · keep this",
+  "p6_title": "The checklist",
+  "p6_lede": "Before you press send, run down the families. Ticks stay in this browser only.",
+  "checked": "{n} of {t} checked",
+  "ready": " · ready to send",
+  "src_kicker": "Where these ideas come from",
+  "src_title": "Sources",
+  "foot_home": "Follow or Bounce",
+  "foot_index": "Index",
+  "foot_note": "The 21 parts are a practical checklist, not a standard. The logic behind them is old; the chatbots are new."
+ }
+}

@@ -9,6 +9,7 @@ Sitemap: https://followorbounce.github.io/sitemap.xml
 
 - [Dictionary of Design](https://followorbounce.github.io/dictionary-of-design/): 113 art/design terms, illustrated with a small reusable abstract-vector visual grammar — “design of the external world.”
 - [Dictionary of Inner Experience](https://followorbounce.github.io/dictionary-of-inner-experience/): 77 emotion/mood/existential terms, its own reusable visual grammar — “design of inner experience.”
+- [The Logic of a Prompt & Life](https://followorbounce.github.io/logic-of-a-prompt): Writing a good prompt uses the same logic as clear thinking in everyday life: premises, scope, definitions, constraints, a goal, evidence and tests. Twenty-one parts of a prompt in seven logical families, with a live prompt builder and a spot-the-missing-piece game. Also in Spanish, Russian, Chinese and Japanese.
 
 ## Science & Nature
 
@@ -98,7 +99,7 @@ Sitemap: https://followorbounce.github.io/sitemap.xml
 
 Separate repositories served under the same host; several publish their own llms.txt.
 
-- [Aerospace Knowledge Hub](https://followorbounce.github.io/aerospace/): 78 pages
+- [Aerospace Knowledge Hub](https://followorbounce.github.io/aerospace/): 83 pages
 - [Ju'un K'in](https://followorbounce.github.io/Maya-Calendar/): 7 pages
 - [Heavy Machinery Encyclopedia](https://followorbounce.github.io/machinery/): 31 pages
 - [Knot Atlas](https://followorbounce.github.io/knots/): 3D knot-tying guide (own llms.txt: https://followorbounce.github.io/knots/llms.txt)
