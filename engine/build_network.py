@@ -380,6 +380,12 @@ def render_index(graph):
     gen_css = open(os.path.join(HERE, "gen-canvas.css"), encoding="utf-8").read()
     gen_html = open(os.path.join(HERE, "gen-canvas.html"), encoding="utf-8").read()
     gen_js = open(os.path.join(HERE, "gen-canvas.js"), encoding="utf-8").read()
+    # Intro mascots: Dima + Claude, ported from /git/animation/3d (engine/mascot.js = characters + stage,
+    # engine/mascot-hero.* = the first-screen widget that replaces the old one-line lede)
+    mascot_js = open(os.path.join(HERE, "mascot.js"), encoding="utf-8").read()
+    mh_css = open(os.path.join(HERE, "mascot-hero.css"), encoding="utf-8").read()
+    mh_html = open(os.path.join(HERE, "mascot-hero.html"), encoding="utf-8").read()
+    mh_js = open(os.path.join(HERE, "mascot-hero.js"), encoding="utf-8").read()
     # Open data dashboard (see engine/open-data.*):
     od_css = open(os.path.join(HERE, "open-data.css"), encoding="utf-8").read()
     od_html = open(os.path.join(HERE, "open-data.html"), encoding="utf-8").read()
@@ -596,6 +602,7 @@ header .brand{{
 {el_css}
 {cubes_css}
 {ed_css}
+{mh_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
 .cats-grid{{
@@ -669,7 +676,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <div class="ed-intro" data-hide-when-search>
   <div class="wrap ed-intro-row">
     <h1 class="ed-title">Follow or Bounce</h1>
-    <p class="ed-lede">A personal index of experiments, field guides, dictionaries and instruments &mdash; with something new every day.</p>
+{mh_html}
   </div>
 </div>
 {cal_html}
@@ -817,6 +824,10 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {el_js}
 <script>
 {ed_js}
+</script>
+<script>
+{mascot_js}
+{mh_js}
 </script>
 <script>
 {gen_js}

@@ -1,0 +1,14 @@
+/* ---- Intro mascots (2026-10-27): Dima + Claude live on the first screen (engine/mascot.js + mascot-hero.js) ---- */
+/* the title column keeps the edition's 1.3fr so "FOLLOW OR / BOUNCE" stays on two lines; the stage takes the lede's place */
+.ed-intro-row{align-items:start;}
+.mh{min-width:0;}
+.mh-frame{border:1px solid var(--ink); background:var(--card-bg,#fff); overflow:hidden;}
+.mh-frame canvas{display:block; width:100%; height:clamp(240px,24vw,300px); touch-action:pan-y; cursor:default;}
+.mh-bar{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
+.mh-bar .mascot-g{display:flex; gap:4px; flex-wrap:wrap;}
+.mh-hint{margin-top:6px; font-family:var(--font-mono); font-size:9.5px; letter-spacing:.08em; text-transform:uppercase; color:var(--mid);}
+@media (max-width:640px){
+  .ed-intro-row{grid-template-columns:minmax(0,1fr);}
+  .mh-frame canvas{height:290px;}
+}
+@media (pointer:coarse){.mh-bar .gen-mode{min-height:44px; padding-inline:12px;}}
