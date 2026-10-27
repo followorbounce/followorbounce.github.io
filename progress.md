@@ -156,3 +156,6 @@
 - Renamed "The Logic of a Prompt & Life"; calmer hero motion; Play again fixed; now in es-419, ru, zh-Hans, ja (translated with AI, each independently reviewed; a native-speaker check is still open).
 - Listed under Design & Experience; homepage Today gets an "Element of the day" card (engine/element-of-day.*, data from assets/prompt-elements.json).
 - 2026-10-24: Signal of the day + Knot of the day moved from Today to a new "06 More of the day" section under the Index (owner request); Today = art task + Creative network / terms + element of the day.
+
+## 2026-10-27 — Mascots on the homepage first screen
+- Dima + Claude from /git/animation/3d replace the intro lede (engine/mascot.js + mascot-hero.*; parity-checked by animation/3d/web_parity.py): moods, 6 scenarios, 5 scenes. Owner-approved from a local preview and pushed (bb94fb2).
