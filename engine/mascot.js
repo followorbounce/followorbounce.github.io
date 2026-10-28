@@ -29,7 +29,7 @@ function box(M,a,b,col,cells,glow){return {M:M,a:a,b:b,c:typeof col==='string'?h
 function g(o,k,d){return (o&&o[k]!==undefined)?o[k]:d;}
 
 // ---------- characters (port of characters.py) ----------
-var SKIN='#E2A37A',SKIN2='#C98A63',HAIR='#3A2A20',BEARD='#5A3F2E',HOOD='#2C3442',HOOD2='#232A36',ORANGE='#D97757';
+var SKIN='#E2A37A',SKIN2='#C98A63',HAIR='#3A2A20',BEARD='#5A3F2E',HOOD='#5B6B82',HOOD2='#4B5970',ORANGE='#D97757';
 function blink(t,seed){var ph=(t+seed*1.7)%3.7;return ph<0.12?0.12:1.0;}
 
 function dima(t,mood,mo,gest,R){
@@ -37,7 +37,7 @@ function dima(t,mood,mo,gest,R){
   var out=[];
   var slump=g(gest,'slump',0);
   var breathe=Math.sin(t*2.1)*0.015;
-  out.push(box(R,[-0.42,0,-0.25],[-0.06,1.55,0.25],'#1E2230',4),box(R,[0.06,0,-0.25],[0.42,1.55,0.25],'#1E2230',4));
+  out.push(box(R,[-0.42,0,-0.25],[-0.06,1.55,0.25],'#3C4556',4),box(R,[0.06,0,-0.25],[0.42,1.55,0.25],'#3C4556',4));
   var Tor=mm(R,T(0,1.55,0),RX(slump*0.25));
   out.push(box(Tor,[-0.56,0,-0.3],[0.56,1.25+breathe,0.3],HOOD,6),
            box(Tor,[-0.48,1.0,-0.42],[0.48,1.3,-0.22],HOOD2,5),
@@ -74,7 +74,7 @@ function dima(t,mood,mo,gest,R){
   for(var e=0;e<2;e++){
     var ex=e?1:-1,cx=ex*0.24,eh=0.2*bl*wide,ph=Math.min(eh,0.13);
     out.push(box(He,[cx-0.12,0.82-eh/2,0.48],[cx+0.12,0.82+eh/2,0.5],'#F4F1EA'),
-             box(He,[cx-0.05+look,0.82-ph/2,0.49],[cx+0.06+look,0.82+ph/2,0.515],'#2A3550'));
+             box(He,[cx-0.05+look,0.82-ph/2,0.49],[cx+0.06+look,0.82+ph/2,0.515],'#6FB0E8'));
     var tilt=(TILT[mood]!==undefined?TILT[mood]:0.08)*-ex,lift=LIFT[mood]||0;
     out.push(box(mm(He,T(cx,1.03+lift,0.5),RZ(tilt)),[-0.15,-0.035,0],[0.15,0.035,0.04],HAIR));
     var G=mm(He,T(cx,0.82,0.56)),fr='#111318';
@@ -525,8 +525,8 @@ function scene(){
   S.halfW=a&&b?Math.min(Math.abs(a[0]),Math.abs(b[0]))*Math.cos(S.yaw):4;
   drawSky();
   var items=[],seed=0;
-  // Dima gets a little more light than the scene (owner request 2026-10-27: "make me more light, but not too much")
-  function add(list,own,base){for(var i=0;i<list.length;i++)items.push({b:list[i],own:own,seed:base+i,lit:own==='d'?1.2:1});}
+  // Dima gets a little more light than the scene (owner 2026-10-27: "make me more light, but not too much"; 1.2 -> 1.1 once his clothes were lightened)
+  function add(list,own,base){for(var i=0;i<list.length;i++)items.push({b:list[i],own:own,seed:base+i,lit:own==='d'?1.1:1});}
   // characters
   var d=S.d,c=S.c,bob=S.env==='space'?Math.sin(S.t*1.3)*0.08+0.08:0;
   d.cur=blend(d.cur,targetDima(),Math.min(1,S.dt*9));
