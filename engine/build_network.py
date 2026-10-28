@@ -509,7 +509,7 @@ def render_index(graph):
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
 :root{{
@@ -675,7 +675,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 </nav>
 <div class="ed-intro" data-hide-when-search>
   <div class="wrap ed-intro-row">
-    <h1 class="ed-title">Follow or Bounce</h1>
+    <div class="ed-brand"><h1 class="ed-title">Follow or Bounce</h1><p class="ed-tagline">Vibecoding, research &amp; development</p></div>
 {mh_html}
   </div>
 </div>
@@ -683,10 +683,10 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <div class="ed-block" id="today" data-hide-when-search>
   <div class="wrap"><div class="ed-h"><span class="ed-n">01</span><h2>Today</h2><span class="ed-sub">Changes every day</span></div></div>
   <div class="wrap ed-bento">
-    <div class="ed-cell ed-wide">{blog_html}</div>
-    <div class="ed-cell ed-stack ed-cn">{cn_html}</div>
     <div class="ed-cell ed-wide">{el_html}</div>
     <div class="ed-cell ed-terms">{tod_html}</div>
+    <div class="ed-cell ed-wide">{blog_html}</div>
+    <div class="ed-cell ed-stack ed-cn">{cn_html}</div>
   </div>
 </div>
 <div class="ed-block" id="generative" data-hide-when-search>

@@ -9,6 +9,11 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
 .ed-intro{border-bottom:1px solid var(--ink); padding-block:clamp(28px,5vw,56px) clamp(20px,3vw,32px);}
 .ed-intro-row{display:grid; grid-template-columns:minmax(0,1.3fr) minmax(0,1fr); gap:24px; align-items:end;}
 .ed-title{font-size:clamp(2.6rem,8vw,6.2rem); line-height:.88; letter-spacing:-.01em;}
+/* tagline under the title (2026-10-27): a light hairline across the title column, then one plain line in Atkinson
+   Hyperlegible (the body face of The Logic of a Prompt & Life, drawn for legibility) */
+.ed-brand{width:fit-content; max-width:100%;}
+.ed-tagline{margin-top:clamp(16px,2vw,24px); padding-top:clamp(12px,1.4vw,16px); border-top:1px solid var(--line);
+  font-family:'Atkinson Hyperlegible','IBM Plex Sans',sans-serif; font-weight:400; font-size:clamp(18px,1.9vw,23px); line-height:1.3; color:var(--ink-body,#28282a);}
 .ed-lede{font-size:clamp(15px,1.6vw,18px); color:var(--ink-body,#28282a); max-width:42ch; justify-self:end;}
 .calwin{padding-block:20px;}
 .calwin .bf-head{display:none;}
