@@ -939,9 +939,9 @@ footer{{border-top:1px solid var(--line); padding-block:18px 28px; font-family:v
 <section class="how" aria-labelledby="how-h"><div class="wrap">
   <h2 id="how-h">How it&rsquo;s counted</h2>
   <div class="how-grid">
-    <div><h3>Rows and squares</h3><p>Each row starts on that year&rsquo;s birthday, so the grid never drifts: 52 weeks of 7 days make 364 days, and the last square of each row absorbs the remaining one or two days. A 29&nbsp;February birthday is counted on 1&nbsp;March in common years.</p></div>
+    <div><h3>Rows and squares</h3><p>Each row starts on that year&rsquo;s birthday, so the grid never drifts: 52 weeks of 7 days make 364 days, and the last square of each row absorbs the remaining one or two days. A 29&nbsp;February birthday is counted on 1&nbsp;March in common years. The grid is a picture: the numbers beside it are counted from the calendar itself &mdash; weeks lived are whole 7-day weeks since your date of birth, so they run about 1.2 weeks a year ahead of the grid&rsquo;s 52 squares.</p></div>
     <div><h3>The average line</h3><p>World life expectancy at birth was about 73 years in 2023 (UN World Population Prospects 2024). It is an average over everyone born, not a forecast for you &mdash; it varies widely by country, sex and decade of birth.</p></div>
-    <div><h3>Exact figures</h3><p>Days alive and weekends come straight from the calendar. Full moons use the mean synodic month (29.530589 days); distance around the Sun uses Earth&rsquo;s mean orbital speed, 29.78&nbsp;km/s.</p></div>
+    <div><h3>Exact figures</h3><p>Days alive, weeks and weekends come straight from the calendar: days are counted between dates (so daylight-saving changes never shift them), weeks are whole 7-day weeks, and a weekend is counted by its Saturday &mdash; lived up to and including today, left after today until your 100th (or 120th) birthday. Full moons use the mean synodic month (29.530589 days); distance around the Sun uses Earth&rsquo;s mean orbital speed, 29.78&nbsp;km/s.</p></div>
     <div><h3>Body estimates</h3><p>Heartbeats (70 a minute), breaths (15), blood pumped (5 litres a minute), sleep (8 hours), blinks (15 a minute while awake) and meals (3 a day) are rough adult averages applied to every day. Children&rsquo;s hearts and lungs run faster, so treat them as order-of-magnitude.</p></div>
   </div>
 </div></section>

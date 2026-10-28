@@ -2309,7 +2309,10 @@ if(window.__anaPreserve)window.__anaDraw=function(ms){draw(ms);};
 <script>
 /* Life in weeks plugin (engine/life-weeks.*). One row per year of life, 52 squares each; a row starts on that
    year's birthday, so week squares never drift against real birthdays (the 52nd square absorbs the 1-2 extra
-   days of each year). Lived / this week / ahead, a line at the world-average life expectancy, a small gap after
+   days of each year). The grid is a picture; every number is counted from the real calendar instead: whole days
+   between local dates (rounded, so a daylight-saving hour never shifts a day), whole 7-day weeks since the date
+   of birth, Saturdays for weekends (fixed 2026-10-27: the numbers used to be read off the 52-square grid, which
+   loses about 1.2 weeks a year). Lived / this week / ahead, a line at the world-average life expectancy, a small gap after
    every decade. Calendar figures are exact; body figures are labelled averages. The date of birth stays in the
    browser (localStorage 'fob-dob' as a per-viewer convenience, try/catch). Test hook: window.__lwDob = 'YYYY-MM-DD'
    before the script pre-fills the date. */
@@ -2330,11 +2333,13 @@ function parse(v){var m=/^(\d{4})-(\d\d)-(\d\d)$/.exec(v||'');if(!m)return null;
 /* Birthday in year dob+y; a 29 Feb birthday falls on 1 Mar in common years (Date rolls over). */
 function bday(y){return new Date(dob.getFullYear()+y,dob.getMonth(),dob.getDate());}
 function addDays(d,n){return new Date(d.getFullYear(),d.getMonth(),d.getDate()+n);}
+/* whole days from a to b (both local midnights); rounding absorbs the 23/25-hour daylight-saving days */
+function dd(a,b){return Math.round((b-a)/DAY);}
 function fmt(d){return d.getDate()+' '+MON[d.getMonth()]+' '+d.getFullYear();}
 function weekStart(y,c){return addDays(bday(y),7*c);}
 function weekEnd(y,c){return c===51?addDays(bday(y+1),-1):addDays(bday(y),7*c+6);}   /* inclusive */
 function ageNow(){var t=today(),y=t.getFullYear()-dob.getFullYear();if(bday(y)>t)y--;return y;}
-function curCell(){var y=ageNow(),c=Math.min(51,Math.floor((today()-bday(y))/DAY/7));return [y,c];}
+function curCell(){var y=ageNow(),c=Math.min(51,Math.floor(dd(bday(y),today())/7));return [y,c];}
 
 /* ---------- colours (re-read on theme change) ---------- */
 function theme(){var cs=getComputedStyle(document.documentElement);
@@ -2380,9 +2385,10 @@ function draw(){
   if(WORLD_AVG<g.rows){var ly=rowY(g,WORLD_AVG)-(g.pitch-g.cell)/2-0.5;
     ctx.strokeStyle=C.acc;ctx.lineWidth=1.5;ctx.beginPath();ctx.moveTo(g.gut-4,ly);ctx.lineTo(g.gut+52*g.pitch,ly);ctx.stroke();
     ctx.fillStyle=C.acc;ctx.textAlign='right';ctx.fillText('avg',g.gut-6,ly);}
-  cv.setAttribute('aria-label',dob?'Life calendar of '+MAX+' years: '+num(lived())+' of '+num(MAX*52)+' weeks lived':'Life calendar: enter a date of birth to fill it in');
+  cv.setAttribute('aria-label',dob?'Life calendar of '+MAX+' years: '+num(lived())+' of '+num(Math.floor(dd(dob,bday(MAX))/7))+' weeks lived':'Life calendar: enter a date of birth to fill it in');
 }
-function lived(){var c=curCell();return c[0]*52+c[1];}
+/* calendar weeks: whole 7-day weeks since the date of birth (not the grid's 52 squares a year) */
+function lived(){return Math.floor(dd(dob,today())/7);}
 
 /* ---------- tooltip ---------- */
 function cellAt(e){
@@ -2419,15 +2425,15 @@ function countWeekday(a,b,wd){/* number of days with getDay()===wd in [a,b) */
 function render(){
   $('lw-empty').hidden=!!dob;$('lw-out').hidden=!dob;
   if(!dob){draw();return;}
-  var t=today(), days=Math.round((t-dob)/DAY), min=days*1440, age=ageNow(), wk=lived();
+  var t=today(), days=dd(dob,t), min=days*1440, age=ageNow(), wk=lived(), extra=days-wk*7;
   $('lw-weeks').textContent=num(wk);
-  var end=bday(MAX);
-  $('lw-line').textContent='Age '+age+' · '+num(days)+' days · '+(100*wk/(MAX*52)).toFixed(1)+'% of a '+MAX+'-year calendar'+(age<WORLD_AVG?' · '+num(WORLD_AVG*52-wk)+' weeks to the world average':'');
+  var end=bday(MAX), total=dd(dob,end), toAvg=dd(t,bday(WORLD_AVG));
+  $('lw-line').textContent='Age '+age+' · '+num(days)+' day'+(days===1?'':'s')+(extra?' ('+num(wk)+' weeks and '+extra+' day'+(extra===1?'':'s')+')':'')+' · '+(100*days/total).toFixed(1)+'% of a '+MAX+'-year calendar'+(toAvg>0?' · '+num(Math.floor(toAvg/7))+' weeks to the world average':'');
   var ex=$('lw-exact'),bo=$('lw-body'),le=$('lw-left');ex.textContent='';bo.textContent='';le.textContent='';
   stat(ex,'Days alive',num(days));
   stat(ex,'Full moons',num(days/29.530589),'one every 29.53 days');
   stat(ex,'Around the Sun',big(days*86400*29.78)+' km','with Earth, at 29.78 km/s');
-  stat(ex,'Weekends',num(countWeekday(dob,t,6)),'Saturdays lived');
+  stat(ex,'Weekends',num(countWeekday(dob,addDays(t,1),6)),'Saturdays from birth to today');
   stat(bo,'Heartbeats','≈ '+big(min*70),'at 70 beats a minute');
   stat(bo,'Breaths','≈ '+big(min*15),'at 15 a minute');
   stat(bo,'Blood pumped','≈ '+big(min*5)+' L','5 litres a minute');
@@ -2435,9 +2441,9 @@ function render(){
   stat(bo,'Blinks','≈ '+big(days*16*60*15),'15 a minute, 16 waking hours');
   stat(bo,'Meals','≈ '+num(days*3),'three a day');
   $('lw-left-h').textContent='Left on a '+MAX+'-year calendar';
-  var left=Math.max(0,MAX*52-wk);
-  stat(le,'Weeks',num(left));
-  stat(le,'Weekends',num(countWeekday(t,end,6)));
+  var leftDays=Math.max(0,dd(t,end));
+  stat(le,'Weeks',num(Math.floor(leftDays/7)),'to your '+MAX+'th birthday');
+  stat(le,'Weekends',num(countWeekday(addDays(t,1),end,6)),'Saturdays after today');
   stat(le,'Summers',num(Math.max(0,MAX-age)));
   draw();
 }

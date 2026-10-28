@@ -159,3 +159,9 @@
 
 ## 2026-10-27 — Mascots on the homepage first screen
 - Dima + Claude from /git/animation/3d replace the intro lede (engine/mascot.js + mascot-hero.*; parity-checked by animation/3d/web_parity.py): moods, 6 scenarios, 5 scenes. Owner-approved from a local preview and pushed (bb94fb2).
+
+## 2026-10-27 — Life in weeks: exact calendar numbers
+- Owner: weeks were calculated wrong. Weeks lived/left/to the average and % now come from real dates (whole days, whole 7-day
+  weeks), not from the 52-square grid (which lost ~1.2 weeks a year); the current square no longer lags a week after a spring
+  clock change; weekends = Saturdays, lived up to and including today / left after today. Homepage tab + /life-in-weeks page
+  rebuilt; How it's counted updated. 8 cases checked against Python date math: 0 mismatches.
