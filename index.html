@@ -3231,7 +3231,7 @@ function drawBoxes(ctx,cam,items,rimC,amb){
       n=[n[0]/ln,n[1]/ln,n[2]/ln];
       var mid=[ow[0]+uw[0]/2+vw[0]/2,ow[1]+uw[1]/2+vw[1]/2,ow[2]+uw[2]/2+vw[2]/2];
       if(dot(n,[cam.pos[0]-mid[0],cam.pos[1]-mid[1],cam.pos[2]-mid[2]])<=0)continue;
-      var light=(0.34+0.62*Math.max(0,dot(n,KEY))+0.16*Math.max(0,dot(n,FILL)))*amb,rim=Math.pow(Math.max(0,dot(n,RIM)),2)*0.55;
+      var light=(0.34+0.62*Math.max(0,dot(n,KEY))+0.16*Math.max(0,dot(n,FILL)))*amb*(it.lit||1),rim=Math.pow(Math.max(0,dot(n,RIM)),2)*0.55;
       var base=[bx.c[0]*light+rimC[0]*rim+bx.c[0]*bx.glow,bx.c[1]*light+rimC[1]*rim+bx.c[1]*bx.glow,bx.c[2]*light+rimC[2]*rim+bx.c[2]*bx.glow];
       var P0=cam.project(ow),P1=cam.project([ow[0]+uw[0],ow[1]+uw[1],ow[2]+uw[2]]),
           P2=cam.project([ow[0]+uw[0]+vw[0],ow[1]+uw[1]+vw[1],ow[2]+uw[2]+vw[2]]),P3=cam.project([ow[0]+vw[0],ow[1]+vw[1],ow[2]+vw[2]]);
@@ -3548,12 +3548,13 @@ function scene(){
   var W=S.W,H=S.H,env=S.env;
   var D=11.5,yaw=S.yaw+(S.shake?Math.sin(S.t*60)*S.shake*0.02:0);
   var pos=[Math.sin(yaw)*D,2.7,Math.cos(yaw)*D];
-  S.cam=new Cam(pos,[0,2.05,0],H/W>0.75?38:31,W,H);
+  S.cam=new Cam(pos,[0,2.5,0],H/W>0.75?39:32,W,H);   // aimed above the heads: room for the bubbles (owner, 2026-10-27)
   var a=S.cam.onPlane(0,H*0.75,2,0),b=S.cam.onPlane(W,H*0.75,2,0);
   S.halfW=a&&b?Math.min(Math.abs(a[0]),Math.abs(b[0]))*Math.cos(S.yaw):4;
   drawSky();
   var items=[],seed=0;
-  function add(list,own,base){for(var i=0;i<list.length;i++)items.push({b:list[i],own:own,seed:base+i});}
+  // Dima gets a little more light than the scene (owner request 2026-10-27: "make me more light, but not too much")
+  function add(list,own,base){for(var i=0;i<list.length;i++)items.push({b:list[i],own:own,seed:base+i,lit:own==='d'?1.2:1});}
   // characters
   var d=S.d,c=S.c,bob=S.env==='space'?Math.sin(S.t*1.3)*0.08+0.08:0;
   d.cur=blend(d.cur,targetDima(),Math.min(1,S.dt*9));
@@ -3807,7 +3808,7 @@ function draw(t,W,H,dpr,isDark){
   if(!S||!ctx)return;
   S.W=W;S.H=H;S.dpr=dpr;dark=!!isDark;
   var now=t/1000,dt=S.last?Math.min(0.05,now-S.last):0.016;S.last=now;S.dt=dt;
-  if(!S.cam)S.cam=new Cam([0,2.7,11.5],[0,2.05,0],31,W,H);
+  if(!S.cam)S.cam=new Cam([0,2.7,11.5],[0,2.5,0],32,W,H);
   update(dt);
   scene();
 }
