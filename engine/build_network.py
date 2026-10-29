@@ -499,7 +499,12 @@ def render_index(graph):
 <meta property="og:description" content="A personal index of {totals['pages']} pages across four repositories, centred on space, time, perception, and engineering.">
 <meta property="og:url" content="https://followorbounce.github.io/">
 <meta property="og:site_name" content="Follow or Bounce">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://followorbounce.github.io/og/index.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Follow or Bounce: Dima and Claude, the studio mascots">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://followorbounce.github.io/og/index.jpg">
 <script type="application/ld+json">
 {{"@context":"https://schema.org","@graph":[
  {{"@type":"WebSite","@id":"https://followorbounce.github.io/#site","url":"https://followorbounce.github.io/","name":"Follow or Bounce","inLanguage":"en","publisher":{{"@id":"https://followorbounce.github.io/#author"}}}},
@@ -869,6 +874,12 @@ def render_life_page():
 <meta property="og:title" content="Life in Weeks — Knowledge Network">
 <meta property="og:description" content="One row per year, 52 squares per row: every week of a life on one page.">
 <meta property="og:url" content="https://followorbounce.github.io/life-in-weeks">
+<meta property="og:image" content="https://followorbounce.github.io/og/life-in-weeks.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Life in Weeks — Knowledge Network">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://followorbounce.github.io/og/life-in-weeks.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&family=IBM+Plex+Sans+Condensed:wght@600;700&display=swap" rel="stylesheet">
@@ -997,7 +1008,12 @@ def render_archive(archived):
 <meta property="og:title" content="Archive — Follow or Bounce">
 <meta property="og:description" content="Earlier versions of tools and essays that have been superseded or retired.">
 <meta property="og:url" content="https://followorbounce.github.io/archive">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="https://followorbounce.github.io/og/archive.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Archive — Follow or Bounce">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://followorbounce.github.io/og/archive.jpg">
 <meta name="theme-color" content="#f6f6f2">
 <link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
 <script src="/assets/theme-toggle.js"></script>

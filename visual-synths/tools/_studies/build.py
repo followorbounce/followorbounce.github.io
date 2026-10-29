@@ -42,7 +42,12 @@ def page(slug):
 <meta property="og:title" content="{t} — Video Synths">
 <meta property="og:description" content="{esc(d)}">
 <meta property="og:url" content="{url}">
-<meta name="twitter:card" content="summary">
+<meta property="og:image" content="{url.replace(".io/", ".io/og/")}.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{t} — Video Synths">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="{url.replace(".io/", ".io/og/")}.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Manrope:wght@500;600;700;800&display=swap" rel="stylesheet">

@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Share card</title>
+<!-- One 1200×630 share picture (og:image). engine/og_cards.py serves this page with the card's data
+     in place of the DATA placeholder below and screenshots it with headless Firefox. Each site keeps its own
+     palette and type (the theme object); pages with art get it in the right-hand panel. -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&family=IBM+Plex+Sans+Condensed:wght@600;700&family=Barlow+Condensed:wght@600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=Spectral:wght@400;600&family=Spectral+SC:wght@600&family=Source+Sans+3:wght@400;600&family=Jost:wght@400;600&family=Archivo:wght@400;700;800&family=Space+Mono:wght@400;700&family=Space+Grotesk:wght@500;700&family=Inter:wght@400;500&family=Fraunces:opsz,wght@9..144,600&family=Bebas+Neue&family=Golos+Text:wght@400;500&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+html,body{margin:0;width:1200px;height:630px;overflow:hidden}
+body{background:var(--paper);color:var(--ink);font-family:var(--body)}
+.card{position:relative;width:1200px;height:630px;box-sizing:border-box;display:grid;grid-template-columns:1fr}
+.card.has-art{grid-template-columns:1fr 470px}
+.text{padding:62px 64px 46px;display:flex;flex-direction:column;gap:22px;min-width:0}
+.eyebrow{font-family:var(--mono);font-size:18px;letter-spacing:.16em;text-transform:uppercase;color:var(--acc);display:flex;align-items:center;gap:14px}
+.eyebrow i{display:block;width:34px;height:4px;background:var(--acc)}
+.title{font-family:var(--display);font-weight:var(--dw,700);line-height:1.02;letter-spacing:var(--dls,-.01em);text-transform:var(--dtt,none);text-wrap:balance;margin:0}
+.desc{font-size:28px;line-height:1.42;color:var(--muted);margin:0;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:3;overflow:hidden}
+.card:not(.has-art) .desc{-webkit-line-clamp:4;max-width:980px}
+.mid{margin:auto 0;display:flex;flex-direction:column;gap:22px}
+.foot{font-family:var(--mono);font-size:17px;letter-spacing:.04em;color:var(--muted);border-top:2px solid var(--line);padding-top:18px;display:flex;justify-content:space-between;gap:20px}
+.foot b{font-weight:500;color:var(--ink);white-space:nowrap}
+.foot span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.art{background:var(--raised);border-left:2px solid var(--line);display:flex;align-items:center;justify-content:center;overflow:hidden}
+.art img.cover{width:100%;height:100%;object-fit:cover;display:block}
+.art.svg{padding:34px}
+.art.contain{padding:34px}
+.art.contain img{width:100%;height:100%;object-fit:contain;display:block}
+.art.svg svg{width:100%;height:100%;display:block}
+.art.fan{gap:0;padding:0 20px}
+.art.mascot canvas{width:470px;height:630px;display:block}
+.has-art .foot b{display:none}
+.art.fan img{width:180px;border-radius:6px;box-shadow:0 8px 22px rgba(0,0,0,.28);display:block}
+.art.fan img:nth-child(1){transform:rotate(-9deg) translate(30px,14px)}
+.art.fan img:nth-child(2){transform:translateY(-10px);position:relative;z-index:2}
+.art.fan img:nth-child(3){transform:rotate(9deg) translate(-30px,14px)}
+</style>
+</head>
+<body>
+<!--SCRIPTS-->
+<div class="card" id="card">
+  <div class="text">
+    <div class="eyebrow"><i></i><span id="label"></span></div>
+    <div class="mid">
+      <h1 class="title" id="title"></h1>
+      <p class="desc" id="desc"></p>
+    </div>
+    <div class="foot"><span id="url"></span><b id="mark"></b></div>
+  </div>
+</div>
+<script>
+var D = /*DATA*/null;
+var t = D.theme, s = document.documentElement.style;
+for (var k in t) s.setProperty('--' + k, t[k]);
+document.getElementById('label').textContent = D.label;
+document.getElementById('title').textContent = D.title;
+document.getElementById('desc').textContent = D.desc || '';
+document.getElementById('url').textContent = D.url;
+document.getElementById('mark').textContent = D.mark || '';
+var card = document.getElementById('card');
+if (D.art) {
+  var a = document.createElement('div');
+  a.className = 'art ' + D.art.kind;
+  if (D.art.kind === 'svg') a.innerHTML = D.art.svg;
+  else if (D.art.kind === 'mascot') {
+    var cv = document.createElement('canvas'); cv.width = 940; cv.height = 1260; a.appendChild(cv);
+    var cx = cv.getContext('2d'); cx.setTransform(2, 0, 0, 2, 0, 0);
+    FobMascot.init(cx, cv, {});
+    for (var f = 0; f < 90; f++) FobMascot.draw(f * 16.7, 470, 630, 2, true);   // let the pose settle, as on the page after load
+  }
+  else if (D.art.kind === 'fan') D.art.src.forEach(function (u) { var i = new Image(); i.src = u; a.appendChild(i); });
+  else { var i = new Image(); i.src = D.art.src; if (D.art.kind !== 'contain') i.className = 'cover'; a.appendChild(i); }
+  card.appendChild(a); card.className = 'card has-art';
+}
+// the longest title that still fits: start big, step down until the text column has room for the description
+var h = document.getElementById('title'), size = D.art ? 76 : 92;
+h.style.fontSize = size + 'px';
+while (size > 40 && h.getBoundingClientRect().height > (D.desc ? size * 1.02 * 2 + 4 : size * 1.02 * 3 + 4)) { size -= 4; h.style.fontSize = size + 'px'; }
+</script>
+</body>
+</html>
