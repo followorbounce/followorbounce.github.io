@@ -359,6 +359,60 @@ def render_hub_category(hub, entries, extra_own=None):
     </div>'''
 
 
+# Homepage weight (2026-10-28, reach plan F7). Widgets below the first screen are written to assets/home/<name>.<hash>.js
+# and loaded by a small inline loader when their section comes within 800 px of the viewport (LAZY: section id ->
+# scripts, in order). The terms-of-the-day drawings go to a JSON file; the term ids/names/definitions stay inline
+# because Herald (herald repo: console/src/engine.js, herald.mjs, reddit/scripts/build-data.mjs, tools/cards/render.py)
+# reads `var IE = [[...]]` / `var DD` from this page. The search index is fetched on first use of the search box.
+HOME_ASSETS = os.path.join(REPO_ROOT, "assets", "home")
+
+
+def home_asset(name, ext, text):
+    """Write assets/home/<name>.<hash>.<ext> (content-hashed, so a changed file gets a new URL) and return its URL."""
+    import hashlib
+    os.makedirs(HOME_ASSETS, exist_ok=True)
+    h = hashlib.sha1(text.encode("utf-8")).hexdigest()[:10]
+    fn = "%s.%s.%s" % (name, h, ext)
+    for old in os.listdir(HOME_ASSETS):
+        if old.startswith(name + ".") and old.endswith("." + ext) and old != fn:
+            os.remove(os.path.join(HOME_ASSETS, old))
+    with open(os.path.join(HOME_ASSETS, fn), "w", encoding="utf-8") as f:
+        f.write(text)
+    return "/assets/home/" + fn
+
+
+def script_body(js):
+    """A widget file is one <script>…</script> block (or bare JS): its JavaScript."""
+    js = js.strip()
+    if js.startswith("<script>"):
+        js = js[len("<script>"):]
+        js = js[:js.rindex("</script>")]
+    return js.strip() + "\n"
+
+
+def split_terms(tod_js):
+    """term-of-day.js with the drawings moved out: [id, name, def] inline, {IE|DD: {id: svg}} in a JSON file."""
+    art = {}
+    for v in ("IE", "DD"):
+        m = re.search(r"var %s = (\[.*?\]);\n" % v, tod_js, re.S)
+        rows = json.loads(m.group(1))
+        art[v] = {r[0]: r[3] for r in rows}
+        slim = json.dumps([r[:3] for r in rows], ensure_ascii=False)
+        tod_js = tod_js[:m.start(1)] + slim + tod_js[m.end(1):]
+    url = home_asset("term-art", "json", json.dumps(art, ensure_ascii=False, separators=(",", ":")))
+    return tod_js.replace("var TOD_ART_URL = null", "var TOD_ART_URL = '%s'" % url, 1)
+
+
+def lazy_loader(groups):
+    """Inline loader: {section id: [script urls]}; a group loads (in order) when its section nears the viewport."""
+    return ("<script>\n(function(){var G=%s;\nfunction load(k){var l=G[k];if(!l)return;delete G[k];l.forEach(function(u){"
+            "var e=document.createElement('script');e.src=u;e.async=false;document.body.appendChild(e);});}\n"
+            "if(!('IntersectionObserver' in window)){Object.keys(G).forEach(load);return;}\n"
+            "var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){io.unobserve(e.target);load(e.target.id);}});},{rootMargin:'800px 0px'});\n"
+            "Object.keys(G).forEach(function(k){var el=document.getElementById(k);if(el)io.observe(el);else load(k);});\n"
+            "})();\n</script>") % json.dumps(groups)
+
+
 def render_index(graph):
     # "Latest art task" card (see engine/blog-feed.*): CSS/HTML/JS live in their own files so they
     # can be edited without escaping the f-string braces below; they are inlined into the page.
@@ -437,6 +491,16 @@ def render_index(graph):
     cb_js = open(os.path.join(HERE, "country-borders.js"), encoding="utf-8").read()
     ed_css = open(os.path.join(HERE, "edition.css"), encoding="utf-8").read()
     ed_js = open(os.path.join(HERE, "edition.js"), encoding="utf-8").read()
+    # F7: below-the-fold widgets load on approach (see home_asset/lazy_loader above); the term drawings move out
+    tod_js = split_terms(tod_js)
+    lazy_js = lazy_loader({
+        "generative": [home_asset("gen-canvas", "js", script_body(gen_js))],
+        "instruments": [home_asset("live-synth", "js", script_body(ls_js)), home_asset("anatomy-shader", "js", script_body(as_js)),
+                        "/aerospace/assets/mission-of-day.js", home_asset("life-weeks", "js", script_body(lw_js)),
+                        home_asset("country-borders", "js", script_body(cb_js))],
+        "live": [home_asset("open-data", "js", script_body(od_js))],
+        "more": [home_asset("signal-of-day", "js", script_body(sd_js)), home_asset("knot-of-day", "js", script_body(kd_js))],
+    })
     def stage(sec, key, shown=False):
         return sec.replace("<section ", '<section data-tab="%s" id="stage-%s" role="tabpanel" aria-labelledby="tab-%s"%s ' % (key, key, key, "" if shown else " hidden"), 1)
     # own-repo categories whose topic already has a sibling-repo hub card get
@@ -473,7 +537,7 @@ def render_index(graph):
     )
 
     totals = graph["totals"]
-    network_json = json.dumps(graph["entries"], ensure_ascii=False)
+    network_url = home_asset("network", "json", json.dumps(graph["entries"], ensure_ascii=False))
     from feeds import head_links          # engine/feeds.py writes the feeds; the homepage only announces them
     feed_links = head_links()
 
@@ -768,13 +832,16 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
   </div>
 </footer>
 
-<script id="network-data" type="application/json">{network_json}</script>
 <script>
 (function(){{
-  var data;
-  try {{
-    data = JSON.parse(document.getElementById('network-data').textContent);
-  }} catch(e) {{ data = []; }}
+  // the search index is a file, fetched the first time the search box is used (F7)
+  var data = [], asked = false;
+  function want(){{
+    if (asked || !window.fetch) return; asked = true;
+    fetch('{network_url}').then(function(r){{ return r.json(); }}).then(function(j){{
+      data = j; if (input.value.trim()) input.dispatchEvent(new Event('input'));
+    }}).catch(function(){{ asked = false; }});
+  }}
 
   var input = document.getElementById('network-search');
   var results = document.getElementById('search-results');
@@ -795,7 +862,9 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
     }}).join('');
   }}
 
+  input.addEventListener('focus', want);
   input.addEventListener('input', function(){{
+    want();
     var q = input.value.trim().toLowerCase();
     var active = q.length > 0;
     for (var i = 0; i < hideEls.length; i++) hideEls[i].classList.toggle('search-active', active);
@@ -820,15 +889,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {blog_js}
 {cal_js}
 {tod_js}
-{od_js}
-{ls_js}
-{as_js}
-{ae_js}
-{lw_js}
-{cb_js}
 {cn_js}
-{sd_js}
-{kd_js}
 {el_js}
 <script>
 {ed_js}
@@ -838,11 +899,9 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 {mh_js}
 </script>
 <script>
-{gen_js}
-</script>
-<script>
 {cubes_js}
 </script>
+{lazy_js}
 
 </body>
 </html>

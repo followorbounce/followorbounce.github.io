@@ -29,22 +29,30 @@
   }
   function pick(arr, seed){ return arr[Math.abs(dayHash(seed)) % arr.length]; }
   function esc(s){ return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+  /* The homepage build moves the drawings (term[3]) to a JSON file named in TOD_ART_URL and keeps id/name/definition
+     inline (Herald reads those from the page); the card shows the text at once and the drawing when the file arrives. */
+  var TOD_ART_URL = null, ART = null, shown = {};
+  function svg(prefix, term){ return term[3] || (ART && ART[prefix === 'tod-ie' ? 'IE' : 'DD'][term[0]]) || ''; }
   function show(prefix, term, base){
+    shown[prefix] = [term, base];
     var art = document.getElementById(prefix+'-art');
     var name = document.getElementById(prefix+'-name');
     var def = document.getElementById(prefix+'-def');
     var link = document.getElementById(prefix+'-link');
-    if(art) art.innerHTML = term[3];
+    if(art) art.innerHTML = svg(prefix, term);
     if(name) { name.innerHTML = ''; var a = document.createElement('a'); a.textContent = term[1]; a.href = base + '#' + term[0]; name.appendChild(a); }
     if(def) def.textContent = term[2];
     if(link) link.href = base + '#' + term[0];
     if(prefix === 'tod-ie') body(term);
     var vis = document.getElementById(prefix + '-vis');
-    if(vis){ vis.innerHTML = term[3]; vis.href = base + '#' + term[0]; vis.setAttribute('aria-label', term[1] + ': open in the dictionary'); }
+    if(vis){ vis.innerHTML = svg(prefix, term); vis.href = base + '#' + term[0]; vis.setAttribute('aria-label', term[1] + ': open in the dictionary'); }
   }
   var ieSeed = 0, ddSeed = 7;
   show('tod-ie', pick(IE, ieSeed), '/dictionary-of-inner-experience/');
   show('tod-dd', pick(DD, ddSeed), '/dictionary-of-design/');
+  if(TOD_ART_URL && window.fetch) fetch(TOD_ART_URL).then(function(r){ return r.json(); }).then(function(j){
+    ART = j; for(var k in shown) show(k, shown[k][0], shown[k][1]);
+  }).catch(function(){});
   document.querySelectorAll('.tod-refresh').forEach(function(btn){
     btn.addEventListener('click', function(){
       var t = btn.getAttribute('data-target');
