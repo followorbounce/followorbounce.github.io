@@ -165,6 +165,8 @@ def pages(site):
             h = open(path, encoding='utf-8').read()
             m = re.search(r'<link[^>]+rel=["\']canonical["\'][^>]*href=["\']([^"\']+)', h) or \
                 re.search(r'<link[^>]+href=["\']([^"\']+)["\'][^>]*rel=["\']canonical', h)
+            if '</body>' not in h.lower():
+                continue                        # a bare fragment (candidate-results/artifact.html, the claude.ai copy)
             if not m or re.search(r'http-equiv=["\']refresh', h, re.I) or re.search(r'<meta[^>]+name=["\']robots["\'][^>]+noindex', h, re.I):
                 continue
             canon = m.group(1)
