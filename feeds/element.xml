@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-10-28T00:00:00-07:00</updated>
+<updated>2026-10-29T00:00:00-07:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Points of view (Pv)</title>
+<id>tag:followorbounce.github.io,2026-10-29:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#points-of-view"/>
+<published>2026-10-29T00:00:00-07:00</published>
+<updated>2026-10-29T00:00:00-07:00</updated>
+<summary>Other people&#x27;s perspectives the answer should consider, not only yours.</summary>
+<content type="html">&lt;p&gt;Other people&amp;#x27;s perspectives the answer should consider, not only yours.&lt;/p&gt;&lt;p&gt;Looking from several standpoints tests whether a conclusion holds for everyone affected. A premise that seems obvious from one side may be false or irrelevant from another.&lt;/p&gt;&lt;p&gt;Watch out: Listing views is not the same as weighing them. Two sides shown as equal can hide that one has much better evidence.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Keywords (Kw)</title>
 <id>tag:followorbounce.github.io,2026-10-28:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-09-30T00:00:00-07:00</updated>
 <summary>A comparison with something familiar that helps explain something new.</summary>
 <content type="html">&lt;p&gt;A comparison with something familiar that helps explain something new.&lt;/p&gt;&lt;p&gt;An analogy maps the structure of a known case onto a new one. It explains and can suggest, but it never proves; test it by finding where it breaks.&lt;/p&gt;&lt;p&gt;Watch out: Every analogy breaks somewhere. Ask the model to say where its comparison stops working, so you do not carry the wrong part over.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Context (Cx)</title>
-<id>tag:followorbounce.github.io,2026-09-29:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#context"/>
-<published>2026-09-29T00:00:00-07:00</published>
-<updated>2026-09-29T00:00:00-07:00</updated>
-<summary>The background facts of your situation that the answer should build on.</summary>
-<content type="html">&lt;p&gt;The background facts of your situation that the answer should build on.&lt;/p&gt;&lt;p&gt;Context supplies the premises: the statements taken as given. A conclusion is only as good as the premises it starts from.&lt;/p&gt;&lt;p&gt;Watch out: False premises give confident nonsense. If your background facts are wrong or out of date, a well-reasoned answer is likely to be wrong too.&lt;/p&gt;</content>
 </entry>
 </feed>
