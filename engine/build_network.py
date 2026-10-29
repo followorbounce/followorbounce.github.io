@@ -260,6 +260,7 @@ def render_llms(graph):
           "- [Tarot](%s/tarot/): three public-domain tarot decks" % HOST, "",
           "## Optional", "",
           "- [Archive](%s/archive): retired experiments, kept online" % HOST,
+          "- [Feeds](%s/feeds/): Atom feeds of the daily cards (design term, emotion, prompt element, knot, signal) and of new pages" % HOST,
           "- [Design Divine Future](https://designdivinefuture.wordpress.com/): the author's art-task blog", ""]
     with open(os.path.join(REPO_ROOT, "llms.txt"), "w", encoding="utf-8") as fh:
         fh.write("\n".join(L))
@@ -473,6 +474,8 @@ def render_index(graph):
 
     totals = graph["totals"]
     network_json = json.dumps(graph["entries"], ensure_ascii=False)
+    from feeds import head_links          # engine/feeds.py writes the feeds; the homepage only announces them
+    feed_links = head_links()
 
     html = f'''<!DOCTYPE html>
 <html lang="en">
@@ -505,7 +508,7 @@ def render_index(graph):
 <meta property="og:image:alt" content="Follow or Bounce: Dima and Claude, the studio mascots">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:image" content="https://followorbounce.github.io/og/index.jpg">
-<script type="application/ld+json">
+{feed_links}<script type="application/ld+json">
 {{"@context":"https://schema.org","@graph":[
  {{"@type":"WebSite","@id":"https://followorbounce.github.io/#site","url":"https://followorbounce.github.io/","name":"Follow or Bounce","inLanguage":"en","publisher":{{"@id":"https://followorbounce.github.io/#author"}}}},
  {{"@type":"Person","@id":"https://followorbounce.github.io/#author","name":"Dmitrii V","url":"https://followorbounce.github.io/","sameAs":["https://github.com/followorbounce","https://designdivinefuture.wordpress.com/"]}}
@@ -761,7 +764,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <footer>
   <div class="wrap">
     <span>KNOWLEDGE NETWORK — followorbounce.github.io</span>
-    <span>{totals['pages']} PAGES &middot; 4 REPOS &middot; <a href="/archive" style="color:var(--mid);border-bottom:1px solid var(--line)">Archive</a> &middot; <a href="https://herald-console.followorbounce.workers.dev/feed.xml" style="color:var(--mid);border-bottom:1px solid var(--line)">RSS</a></span>
+    <span>{totals['pages']} PAGES &middot; 4 REPOS &middot; <a href="/archive" style="color:var(--mid);border-bottom:1px solid var(--line)">Archive</a> &middot; <a href="/feeds/" style="color:var(--mid);border-bottom:1px solid var(--line)">Feeds</a></span>
   </div>
 </footer>
 

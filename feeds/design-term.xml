@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title>Design term of the day · Follow or Bounce</title>
+<subtitle>One term a day from the Dictionary of Design.</subtitle>
+<id>https://followorbounce.github.io/feeds/design-term.xml</id>
+<link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
+<updated>2026-10-28T00:00:00-07:00</updated>
+<author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
+<icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Gradient</title>
+<id>tag:followorbounce.github.io,2026-10-28:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#gradient"/>
+<published>2026-10-28T00:00:00-07:00</published>
+<updated>2026-10-28T00:00:00-07:00</updated>
+<summary>A continuous, stepless transition between two visual states — most often color, value, or scale.</summary>
+</entry>
+<entry>
+<title>Rhythm</title>
+<id>tag:followorbounce.github.io,2026-10-27:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#rhythm"/>
+<published>2026-10-27T00:00:00-07:00</published>
+<updated>2026-10-27T00:00:00-07:00</updated>
+<summary>Visual tempo produced by repeating elements with controlled variation in spacing, size, or form.</summary>
+</entry>
+<entry>
+<title>Prototype</title>
+<id>tag:followorbounce.github.io,2026-10-26:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#prototype"/>
+<published>2026-10-26T00:00:00-07:00</published>
+<updated>2026-10-26T00:00:00-07:00</updated>
+<summary>An interactive or tangible model of a design used to test its functionality, flow, and user experience.</summary>
+</entry>
+<entry>
+<title>API</title>
+<id>tag:followorbounce.github.io,2026-10-25:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#api"/>
+<published>2026-10-25T00:00:00-07:00</published>
+<updated>2026-10-25T00:00:00-07:00</updated>
+<summary>An interface enabling one piece of software to interact with another — adjacent professional vocabulary a designer encounters, not a design concept in its own right.</summary>
+</entry>
+<entry>
+<title>Unity</title>
+<id>tag:followorbounce.github.io,2026-10-24:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#unity"/>
+<published>2026-10-24T00:00:00-07:00</published>
+<updated>2026-10-24T00:00:00-07:00</updated>
+<summary>The degree to which elements read as belonging to one coherent whole rather than as unrelated parts.</summary>
+</entry>
+<entry>
+<title>Module</title>
+<id>tag:followorbounce.github.io,2026-10-23:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#module"/>
+<published>2026-10-23T00:00:00-07:00</published>
+<updated>2026-10-23T00:00:00-07:00</updated>
+<summary>A single repeatable unit whose form determines the structure and proportions of a larger composition.</summary>
+</entry>
+<entry>
+<title>Abstraction</title>
+<id>tag:followorbounce.github.io,2026-10-22:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#abstraction"/>
+<published>2026-10-22T00:00:00-07:00</published>
+<updated>2026-10-22T00:00:00-07:00</updated>
+<summary>Progressive simplification of a recognizable form into essential geometric shape, retaining what makes it identifiable while discarding surface detail.</summary>
+</entry>
+<entry>
+<title>Wireframe</title>
+<id>tag:followorbounce.github.io,2026-10-21:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#wireframe"/>
+<published>2026-10-21T00:00:00-07:00</published>
+<updated>2026-10-21T00:00:00-07:00</updated>
+<summary>A simplified visual guide showing a layout&#x27;s structure and hierarchy without detailed styling.</summary>
+</entry>
+<entry>
+<title>Plasticity</title>
+<id>tag:followorbounce.github.io,2026-10-20:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#plasticity"/>
+<published>2026-10-20T00:00:00-07:00</published>
+<updated>2026-10-20T00:00:00-07:00</updated>
+<summary>The degree to which a form reads as pliable or moldable rather than rigid, judged from its contours and transitions.</summary>
+</entry>
+<entry>
+<title>Frontend / Backend</title>
+<id>tag:followorbounce.github.io,2026-10-19:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#frontend---backend"/>
+<published>2026-10-19T00:00:00-07:00</published>
+<updated>2026-10-19T00:00:00-07:00</updated>
+<summary>The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.</summary>
+</entry>
+<entry>
+<title>Scale</title>
+<id>tag:followorbounce.github.io,2026-10-18:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#scale"/>
+<published>2026-10-18T00:00:00-07:00</published>
+<updated>2026-10-18T00:00:00-07:00</updated>
+<summary>Perceived size, understood only through comparison against another object or a known reference, not as an absolute measure.</summary>
+</entry>
+<entry>
+<title>Tectonics</title>
+<id>tag:followorbounce.github.io,2026-10-17:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#tectonics"/>
+<published>2026-10-17T00:00:00-07:00</published>
+<updated>2026-10-17T00:00:00-07:00</updated>
+<summary>The expressive articulation of a structure&#x27;s logic through the treatment of its surface and form.</summary>
+</entry>
+<entry>
+<title>API</title>
+<id>tag:followorbounce.github.io,2026-10-16:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#api"/>
+<published>2026-10-16T00:00:00-07:00</published>
+<updated>2026-10-16T00:00:00-07:00</updated>
+<summary>An interface enabling one piece of software to interact with another — adjacent professional vocabulary a designer encounters, not a design concept in its own right.</summary>
+</entry>
+<entry>
+<title>Unity</title>
+<id>tag:followorbounce.github.io,2026-10-15:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#unity"/>
+<published>2026-10-15T00:00:00-07:00</published>
+<updated>2026-10-15T00:00:00-07:00</updated>
+<summary>The degree to which elements read as belonging to one coherent whole rather than as unrelated parts.</summary>
+</entry>
+<entry>
+<title>Typography System</title>
+<id>tag:followorbounce.github.io,2026-10-14:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#typography-system"/>
+<published>2026-10-14T00:00:00-07:00</published>
+<updated>2026-10-14T00:00:00-07:00</updated>
+<summary>The organized use of typefaces, styles, spacing, and hierarchy to communicate clearly and consistently across a project.</summary>
+</entry>
+<entry>
+<title>Illustration Pack</title>
+<id>tag:followorbounce.github.io,2026-10-13:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#illustration-pack"/>
+<published>2026-10-13T00:00:00-07:00</published>
+<updated>2026-10-13T00:00:00-07:00</updated>
+<summary>A collection of related illustrations sharing one style and thematic language, used consistently across a project.</summary>
+</entry>
+<entry>
+<title>Visual Identity</title>
+<id>tag:followorbounce.github.io,2026-10-12:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#visual-identity"/>
+<published>2026-10-12T00:00:00-07:00</published>
+<updated>2026-10-12T00:00:00-07:00</updated>
+<summary>The visual components of a brand or project — logo, color palette, typography, and imagery — forming one recognizable system.</summary>
+</entry>
+<entry>
+<title>PDF</title>
+<id>tag:followorbounce.github.io,2026-10-11:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#pdf"/>
+<published>2026-10-11T00:00:00-07:00</published>
+<updated>2026-10-11T00:00:00-07:00</updated>
+<summary>Portable Document Format — preserves a document&#x27;s layout, typography, and graphics identically across platforms.</summary>
+</entry>
+<entry>
+<title>Legibility</title>
+<id>tag:followorbounce.github.io,2026-10-10:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#legibility"/>
+<published>2026-10-10T00:00:00-07:00</published>
+<updated>2026-10-10T00:00:00-07:00</updated>
+<summary>Whether individual letterforms can be told apart from one another at a glance.</summary>
+</entry>
+<entry>
+<title>Collage</title>
+<id>tag:followorbounce.github.io,2026-10-09:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#collage"/>
+<published>2026-10-09T00:00:00-07:00</published>
+<updated>2026-10-09T00:00:00-07:00</updated>
+<summary>A technique of combining diverse, often unrelated visual fragments into one new, unified composition.</summary>
+</entry>
+<entry>
+<title>Rhythm</title>
+<id>tag:followorbounce.github.io,2026-10-08:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#rhythm"/>
+<published>2026-10-08T00:00:00-07:00</published>
+<updated>2026-10-08T00:00:00-07:00</updated>
+<summary>Visual tempo produced by repeating elements with controlled variation in spacing, size, or form.</summary>
+</entry>
+<entry>
+<title>Brandbook</title>
+<id>tag:followorbounce.github.io,2026-10-07:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#brandbook"/>
+<published>2026-10-07T00:00:00-07:00</published>
+<updated>2026-10-07T00:00:00-07:00</updated>
+<summary>A comprehensive document defining a project&#x27;s visual identity, typography, color palette, and guidelines for consistent application.</summary>
+</entry>
+<entry>
+<title>Composition</title>
+<id>tag:followorbounce.github.io,2026-10-06:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#composition"/>
+<published>2026-10-06T00:00:00-07:00</published>
+<updated>2026-10-06T00:00:00-07:00</updated>
+<summary>The spatial and proportional organization of elements into a coherent whole.</summary>
+</entry>
+<entry>
+<title>Light</title>
+<id>tag:followorbounce.github.io,2026-10-05:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#light"/>
+<published>2026-10-05T00:00:00-07:00</published>
+<updated>2026-10-05T00:00:00-07:00</updated>
+<summary>The degree of illumination defining an object&#x27;s visibility, and its contrast against surrounding darkness.</summary>
+</entry>
+<entry>
+<title>Raster</title>
+<id>tag:followorbounce.github.io,2026-10-04:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#raster"/>
+<published>2026-10-04T00:00:00-07:00</published>
+<updated>2026-10-04T00:00:00-07:00</updated>
+<summary>A pixel-based image format whose detail is fixed at capture or creation, distinguished from RAW by not necessarily being an unprocessed camera file.</summary>
+</entry>
+<entry>
+<title>Grading (Career Grading)</title>
+<id>tag:followorbounce.github.io,2026-10-03:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#grading-career-grading"/>
+<published>2026-10-03T00:00:00-07:00</published>
+<updated>2026-10-03T00:00:00-07:00</updated>
+<summary>A structured system defining professional levels, responsibilities, and skill growth within a discipline.</summary>
+</entry>
+<entry>
+<title>CMS</title>
+<id>tag:followorbounce.github.io,2026-10-02:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#cms"/>
+<published>2026-10-02T00:00:00-07:00</published>
+<updated>2026-10-02T00:00:00-07:00</updated>
+<summary>A software platform for creating, managing, and publishing digital content — adjacent professional vocabulary.</summary>
+</entry>
+<entry>
+<title>Composition</title>
+<id>tag:followorbounce.github.io,2026-10-01:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#composition"/>
+<published>2026-10-01T00:00:00-07:00</published>
+<updated>2026-10-01T00:00:00-07:00</updated>
+<summary>The spatial and proportional organization of elements into a coherent whole.</summary>
+</entry>
+<entry>
+<title>Affordance</title>
+<id>tag:followorbounce.github.io,2026-09-30:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#affordance"/>
+<published>2026-09-30T00:00:00-07:00</published>
+<updated>2026-09-30T00:00:00-07:00</updated>
+<summary>A property of a form&#x27;s shape that suggests, on its own, how it is meant to be used.</summary>
+</entry>
+<entry>
+<title>Digital Toolkit</title>
+<id>tag:followorbounce.github.io,2026-09-29:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/#digital-toolkit"/>
+<published>2026-09-29T00:00:00-07:00</published>
+<updated>2026-09-29T00:00:00-07:00</updated>
+<summary>The suite of software, templates, and resources used to create, edit, and manage a digital design project — absorbs what the source separately, redundantly, called Graphic Editor.</summary>
+</entry>
+</feed>

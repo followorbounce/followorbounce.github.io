@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title>Signal of the day · Reckoning</title>
+<subtitle>One International Code flag a day, with its meaning and Morse.</subtitle>
+<id>https://followorbounce.github.io/feeds/signal.xml</id>
+<link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/signal.xml"/>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/"/>
+<updated>2026-10-28T00:00:00-07:00</updated>
+<author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
+<icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>O · Oscar</title>
+<id>tag:followorbounce.github.io,2026-10-28:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-O"/>
+<published>2026-10-28T00:00:00-07:00</published>
+<updated>2026-10-28T00:00:00-07:00</updated>
+<summary>Man overboard.</summary>
+<content type="html">&lt;p&gt;Man overboard.&lt;/p&gt;&lt;p&gt;Morse: ---&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>B · Bravo</title>
+<id>tag:followorbounce.github.io,2026-10-27:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-B"/>
+<published>2026-10-27T00:00:00-07:00</published>
+<updated>2026-10-27T00:00:00-07:00</updated>
+<summary>I am taking in, or discharging, or carrying dangerous goods.</summary>
+<content type="html">&lt;p&gt;I am taking in, or discharging, or carrying dangerous goods.&lt;/p&gt;&lt;p&gt;Morse: -...&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>G · Golf</title>
+<id>tag:followorbounce.github.io,2026-10-26:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-G"/>
+<published>2026-10-26T00:00:00-07:00</published>
+<updated>2026-10-26T00:00:00-07:00</updated>
+<summary>I require a pilot.</summary>
+<content type="html">&lt;p&gt;I require a pilot.&lt;/p&gt;&lt;p&gt;Made by fishing vessels working close together on the fishing grounds: “I am hauling nets”.&lt;/p&gt;&lt;p&gt;Morse: --.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>L · Lima</title>
+<id>tag:followorbounce.github.io,2026-10-25:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-L"/>
+<published>2026-10-25T00:00:00-07:00</published>
+<updated>2026-10-25T00:00:00-07:00</updated>
+<summary>You should stop your vessel instantly.</summary>
+<content type="html">&lt;p&gt;You should stop your vessel instantly.&lt;/p&gt;&lt;p&gt;Morse: .-..&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Y · Yankee</title>
+<id>tag:followorbounce.github.io,2026-10-24:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-Y"/>
+<published>2026-10-24T00:00:00-07:00</published>
+<updated>2026-10-24T00:00:00-07:00</updated>
+<summary>I am dragging my anchor.</summary>
+<content type="html">&lt;p&gt;I am dragging my anchor.&lt;/p&gt;&lt;p&gt;Morse: -.--&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>V · Victor</title>
+<id>tag:followorbounce.github.io,2026-10-23:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-V"/>
+<published>2026-10-23T00:00:00-07:00</published>
+<updated>2026-10-23T00:00:00-07:00</updated>
+<summary>I require assistance.</summary>
+<content type="html">&lt;p&gt;I require assistance.&lt;/p&gt;&lt;p&gt;Morse: ...-&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Y · Yankee</title>
+<id>tag:followorbounce.github.io,2026-10-22:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-Y"/>
+<published>2026-10-22T00:00:00-07:00</published>
+<updated>2026-10-22T00:00:00-07:00</updated>
+<summary>I am dragging my anchor.</summary>
+<content type="html">&lt;p&gt;I am dragging my anchor.&lt;/p&gt;&lt;p&gt;Morse: -.--&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>B · Bravo</title>
+<id>tag:followorbounce.github.io,2026-10-21:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-B"/>
+<published>2026-10-21T00:00:00-07:00</published>
+<updated>2026-10-21T00:00:00-07:00</updated>
+<summary>I am taking in, or discharging, or carrying dangerous goods.</summary>
+<content type="html">&lt;p&gt;I am taking in, or discharging, or carrying dangerous goods.&lt;/p&gt;&lt;p&gt;Morse: -...&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>E · Echo</title>
+<id>tag:followorbounce.github.io,2026-10-20:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-E"/>
+<published>2026-10-20T00:00:00-07:00</published>
+<updated>2026-10-20T00:00:00-07:00</updated>
+<summary>I am altering my course to starboard.</summary>
+<content type="html">&lt;p&gt;I am altering my course to starboard.&lt;/p&gt;&lt;p&gt;Morse: .&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>K · Kilo</title>
+<id>tag:followorbounce.github.io,2026-10-19:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-K"/>
+<published>2026-10-19T00:00:00-07:00</published>
+<updated>2026-10-19T00:00:00-07:00</updated>
+<summary>I wish to communicate with you.</summary>
+<content type="html">&lt;p&gt;I wish to communicate with you.&lt;/p&gt;&lt;p&gt;Morse: -.-&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>P · Papa</title>
+<id>tag:followorbounce.github.io,2026-10-18:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-P"/>
+<published>2026-10-18T00:00:00-07:00</published>
+<updated>2026-10-18T00:00:00-07:00</updated>
+<summary>In harbour: all persons should report on board, as the vessel is about to proceed to sea.</summary>
+<content type="html">&lt;p&gt;In harbour: all persons should report on board, as the vessel is about to proceed to sea.&lt;/p&gt;&lt;p&gt;At sea, made by fishing vessels: “My nets have come fast upon an obstruction”. Traditionally called the Blue Peter.&lt;/p&gt;&lt;p&gt;Morse: .--.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>C · Charlie</title>
+<id>tag:followorbounce.github.io,2026-10-17:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-C"/>
+<published>2026-10-17T00:00:00-07:00</published>
+<updated>2026-10-17T00:00:00-07:00</updated>
+<summary>Affirmative: “yes”, or the previous group is to be read as affirmative.</summary>
+<content type="html">&lt;p&gt;Affirmative: “yes”, or the previous group is to be read as affirmative.&lt;/p&gt;&lt;p&gt;Morse: -.-.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>N · November</title>
+<id>tag:followorbounce.github.io,2026-10-16:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-N"/>
+<published>2026-10-16T00:00:00-07:00</published>
+<updated>2026-10-16T00:00:00-07:00</updated>
+<summary>Negative: “no”, or the previous group is to be read as negative.</summary>
+<content type="html">&lt;p&gt;Negative: “no”, or the previous group is to be read as negative.&lt;/p&gt;&lt;p&gt;Visual or sound signalling only; by voice or radio the signal is “NO”.&lt;/p&gt;&lt;p&gt;Morse: -.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>G · Golf</title>
+<id>tag:followorbounce.github.io,2026-10-15:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-G"/>
+<published>2026-10-15T00:00:00-07:00</published>
+<updated>2026-10-15T00:00:00-07:00</updated>
+<summary>I require a pilot.</summary>
+<content type="html">&lt;p&gt;I require a pilot.&lt;/p&gt;&lt;p&gt;Made by fishing vessels working close together on the fishing grounds: “I am hauling nets”.&lt;/p&gt;&lt;p&gt;Morse: --.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Z · Zulu</title>
+<id>tag:followorbounce.github.io,2026-10-14:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-Z"/>
+<published>2026-10-14T00:00:00-07:00</published>
+<updated>2026-10-14T00:00:00-07:00</updated>
+<summary>I require a tug.</summary>
+<content type="html">&lt;p&gt;I require a tug.&lt;/p&gt;&lt;p&gt;Made by fishing vessels working close together on the fishing grounds: “I am shooting nets”.&lt;/p&gt;&lt;p&gt;Morse: --..&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Y · Yankee</title>
+<id>tag:followorbounce.github.io,2026-10-13:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-Y"/>
+<published>2026-10-13T00:00:00-07:00</published>
+<updated>2026-10-13T00:00:00-07:00</updated>
+<summary>I am dragging my anchor.</summary>
+<content type="html">&lt;p&gt;I am dragging my anchor.&lt;/p&gt;&lt;p&gt;Morse: -.--&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>B · Bravo</title>
+<id>tag:followorbounce.github.io,2026-10-12:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-B"/>
+<published>2026-10-12T00:00:00-07:00</published>
+<updated>2026-10-12T00:00:00-07:00</updated>
+<summary>I am taking in, or discharging, or carrying dangerous goods.</summary>
+<content type="html">&lt;p&gt;I am taking in, or discharging, or carrying dangerous goods.&lt;/p&gt;&lt;p&gt;Morse: -...&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Y · Yankee</title>
+<id>tag:followorbounce.github.io,2026-10-11:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-Y"/>
+<published>2026-10-11T00:00:00-07:00</published>
+<updated>2026-10-11T00:00:00-07:00</updated>
+<summary>I am dragging my anchor.</summary>
+<content type="html">&lt;p&gt;I am dragging my anchor.&lt;/p&gt;&lt;p&gt;Morse: -.--&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>R · Romeo</title>
+<id>tag:followorbounce.github.io,2026-10-10:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-R"/>
+<published>2026-10-10T00:00:00-07:00</published>
+<updated>2026-10-10T00:00:00-07:00</updated>
+<summary>No meaning as a single flag.</summary>
+<content type="html">&lt;p&gt;No meaning as a single flag.&lt;/p&gt;&lt;p&gt;Before 1969 it meant “The way is off my ship; you may feel your way past me”.&lt;/p&gt;&lt;p&gt;Morse: .-.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>P · Papa</title>
+<id>tag:followorbounce.github.io,2026-10-09:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-P"/>
+<published>2026-10-09T00:00:00-07:00</published>
+<updated>2026-10-09T00:00:00-07:00</updated>
+<summary>In harbour: all persons should report on board, as the vessel is about to proceed to sea.</summary>
+<content type="html">&lt;p&gt;In harbour: all persons should report on board, as the vessel is about to proceed to sea.&lt;/p&gt;&lt;p&gt;At sea, made by fishing vessels: “My nets have come fast upon an obstruction”. Traditionally called the Blue Peter.&lt;/p&gt;&lt;p&gt;Morse: .--.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>M · Mike</title>
+<id>tag:followorbounce.github.io,2026-10-08:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-M"/>
+<published>2026-10-08T00:00:00-07:00</published>
+<updated>2026-10-08T00:00:00-07:00</updated>
+<summary>My vessel is stopped and making no way through the water.</summary>
+<content type="html">&lt;p&gt;My vessel is stopped and making no way through the water.&lt;/p&gt;&lt;p&gt;Morse: --&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>J · Juliett</title>
+<id>tag:followorbounce.github.io,2026-10-07:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-J"/>
+<published>2026-10-07T00:00:00-07:00</published>
+<updated>2026-10-07T00:00:00-07:00</updated>
+<summary>I am on fire and have dangerous cargo on board: keep well clear of me, or I am leaking dangerous cargo.</summary>
+<content type="html">&lt;p&gt;I am on fire and have dangerous cargo on board: keep well clear of me, or I am leaking dangerous cargo.&lt;/p&gt;&lt;p&gt;Morse: .---&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>A · Alfa</title>
+<id>tag:followorbounce.github.io,2026-10-06:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-A"/>
+<published>2026-10-06T00:00:00-07:00</published>
+<updated>2026-10-06T00:00:00-07:00</updated>
+<summary>I have a diver down; keep well clear at slow speed.</summary>
+<content type="html">&lt;p&gt;I have a diver down; keep well clear at slow speed.&lt;/p&gt;&lt;p&gt;Morse: .-&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>P · Papa</title>
+<id>tag:followorbounce.github.io,2026-10-05:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-P"/>
+<published>2026-10-05T00:00:00-07:00</published>
+<updated>2026-10-05T00:00:00-07:00</updated>
+<summary>In harbour: all persons should report on board, as the vessel is about to proceed to sea.</summary>
+<content type="html">&lt;p&gt;In harbour: all persons should report on board, as the vessel is about to proceed to sea.&lt;/p&gt;&lt;p&gt;At sea, made by fishing vessels: “My nets have come fast upon an obstruction”. Traditionally called the Blue Peter.&lt;/p&gt;&lt;p&gt;Morse: .--.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>E · Echo</title>
+<id>tag:followorbounce.github.io,2026-10-04:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-E"/>
+<published>2026-10-04T00:00:00-07:00</published>
+<updated>2026-10-04T00:00:00-07:00</updated>
+<summary>I am altering my course to starboard.</summary>
+<content type="html">&lt;p&gt;I am altering my course to starboard.&lt;/p&gt;&lt;p&gt;Morse: .&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>J · Juliett</title>
+<id>tag:followorbounce.github.io,2026-10-03:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-J"/>
+<published>2026-10-03T00:00:00-07:00</published>
+<updated>2026-10-03T00:00:00-07:00</updated>
+<summary>I am on fire and have dangerous cargo on board: keep well clear of me, or I am leaking dangerous cargo.</summary>
+<content type="html">&lt;p&gt;I am on fire and have dangerous cargo on board: keep well clear of me, or I am leaking dangerous cargo.&lt;/p&gt;&lt;p&gt;Morse: .---&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>O · Oscar</title>
+<id>tag:followorbounce.github.io,2026-10-02:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-O"/>
+<published>2026-10-02T00:00:00-07:00</published>
+<updated>2026-10-02T00:00:00-07:00</updated>
+<summary>Man overboard.</summary>
+<content type="html">&lt;p&gt;Man overboard.&lt;/p&gt;&lt;p&gt;Morse: ---&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>N · November</title>
+<id>tag:followorbounce.github.io,2026-10-01:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-N"/>
+<published>2026-10-01T00:00:00-07:00</published>
+<updated>2026-10-01T00:00:00-07:00</updated>
+<summary>Negative: “no”, or the previous group is to be read as negative.</summary>
+<content type="html">&lt;p&gt;Negative: “no”, or the previous group is to be read as negative.&lt;/p&gt;&lt;p&gt;Visual or sound signalling only; by voice or radio the signal is “NO”.&lt;/p&gt;&lt;p&gt;Morse: -.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>F · Foxtrot</title>
+<id>tag:followorbounce.github.io,2026-09-30:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-F"/>
+<published>2026-09-30T00:00:00-07:00</published>
+<updated>2026-09-30T00:00:00-07:00</updated>
+<summary>I am disabled; communicate with me.</summary>
+<content type="html">&lt;p&gt;I am disabled; communicate with me.&lt;/p&gt;&lt;p&gt;Morse: ..-.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>V · Victor</title>
+<id>tag:followorbounce.github.io,2026-09-29:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-V"/>
+<published>2026-09-29T00:00:00-07:00</published>
+<updated>2026-09-29T00:00:00-07:00</updated>
+<summary>I require assistance.</summary>
+<content type="html">&lt;p&gt;I require assistance.&lt;/p&gt;&lt;p&gt;Morse: ...-&lt;/p&gt;</content>
+</entry>
+</feed>

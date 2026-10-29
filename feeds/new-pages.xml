@@ -1,0 +1,491 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title>New pages · Follow or Bounce</title>
+<subtitle>The newest guides and pages across the Follow or Bounce sites.</subtitle>
+<id>https://followorbounce.github.io/feeds/new-pages.xml</id>
+<link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/new-pages.xml"/>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/"/>
+<updated>2026-10-24T15:45:17-07:00</updated>
+<author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
+<icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>提示词的逻辑与生活：21个要素，7类推理</title>
+<id>https://followorbounce.github.io/logic-of-a-prompt-zh</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt-zh"/>
+<published>2026-10-24T15:45:17-07:00</published>
+<updated>2026-10-24T15:45:17-07:00</updated>
+<summary>写好提示词，用的就是日常生活中清晰思考的那套逻辑：前提、范围、定义、约束、目标、证据和检验。本页面向所有人讲解提示词的21个要素，还有一个实时提示词构建器和一个小游戏。</summary>
+</entry>
+<entry>
+<title>Логика промпта и жизни — 21 часть, 7 видов рассуждения</title>
+<id>https://followorbounce.github.io/logic-of-a-prompt-ru</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt-ru"/>
+<published>2026-10-24T15:45:17-07:00</published>
+<updated>2026-10-24T15:45:17-07:00</updated>
+<summary>Хороший промпт строится на той же логике, что и ясное мышление в жизни: посылки, рамки, определения, ограничения, цель, свидетельства и проверка. Двадцать одна часть промпта простыми словами, живой конструктор промптов и игра.</summary>
+</entry>
+<entry>
+<title>プロンプトの論理と人生 — 21の要素、7種類の推論</title>
+<id>https://followorbounce.github.io/logic-of-a-prompt-ja</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt-ja"/>
+<published>2026-10-24T15:45:17-07:00</published>
+<updated>2026-10-24T15:45:17-07:00</updated>
+<summary>よいプロンプトを書くときに使うのは、日々の生活ではっきり考えるときと同じ論理です。前提、範囲、定義、制約、ゴール、根拠、検証。プロンプトの21の要素を誰にでもわかるように説明し、その場で試せるプロンプト作成ツールとゲームも用意しました。</summary>
+</entry>
+<entry>
+<title>La lógica de un prompt y de la vida — 21 partes, 7 tipos de razonamiento</title>
+<id>https://followorbounce.github.io/logic-of-a-prompt-es</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt-es"/>
+<published>2026-10-24T15:45:17-07:00</published>
+<updated>2026-10-24T15:45:17-07:00</updated>
+<summary>Escribir un buen prompt usa la misma lógica que pensar con claridad en la vida diaria: premisas, alcance, definiciones, restricciones, una meta, evidencia y pruebas. Veintiuna partes de un prompt, explicadas para todo el mundo, con un constructor de prompts en vivo y un juego.</summary>
+</entry>
+<entry>
+<title>The Logic of a Prompt &amp; Life — 21 parts, 7 kinds of reasoning</title>
+<id>https://followorbounce.github.io/logic-of-a-prompt</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
+<published>2026-10-24T15:45:17-07:00</published>
+<updated>2026-10-24T15:45:17-07:00</updated>
+<summary>Writing a good prompt uses the same logic as clear thinking in everyday life: premises, scope, definitions, constraints, a goal, evidence and tests. Twenty-one parts of a prompt, explained for everyone, with a live prompt builder and a game.</summary>
+</entry>
+<entry>
+<title>SWARM — STARLINK, ONEWEB &amp; THE MEGACONSTELLATIONS</title>
+<id>https://followorbounce.github.io/aerospace/swarm-megaconstellations</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/swarm-megaconstellations"/>
+<published>2026-10-23T22:06:43-07:00</published>
+<updated>2026-10-23T22:06:43-07:00</updated>
+<summary>An interactive field guide to satellite megaconstellations: Iridium, Globalstar and Teledesic in the 1990s, Starlink&#x27;s shells and laser links, OneWeb, Amazon Leo and China&#x27;s Guowang and Qianfan; how many satellites continuous coverage really needs, why low orbits beat geostationary ones and even fibre on latency, how satellite streaks land on a telescope image, and how often Starlink dodges collisions — with counts dated October 2026.</summary>
+</entry>
+<entry>
+<title>RELAY — TELSTAR, SYNCOM &amp; THE GEOSTATIONARY IDEA</title>
+<id>https://followorbounce.github.io/aerospace/relay-telstar-syncom</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/relay-telstar-syncom"/>
+<published>2026-10-23T22:06:43-07:00</published>
+<updated>2026-10-23T22:06:43-07:00</updated>
+<summary>An interactive field guide to communications satellites: Potočnik&#x27;s and Clarke&#x27;s orbit that keeps pace with the turning Earth, Echo 1&#x27;s 30-metre balloon, Telstar&#x27;s 12-to-44-minute passes over Andover and the radiation that killed it, Syncom 2&#x27;s figure eight and Syncom 3&#x27;s Tokyo Olympics, Early Bird, the Soviet Molniya orbit at 63.4°, and the crowded geostationary belt of today, with its 0.24-second delay.</summary>
+</entry>
+<entry>
+<title>PASSENGER — LAIKA, BELKA &amp; STRELKA, HAM AND THE BIOLOGY FLIGHTS</title>
+<id>https://followorbounce.github.io/aerospace/passenger-animals-in-space</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/passenger-animals-in-space"/>
+<published>2026-10-23T22:06:43-07:00</published>
+<updated>2026-10-23T22:06:43-07:00</updated>
+<summary>An interactive field guide to the animals that flew before people: V-2 fruit flies and the Albert monkeys, Dezik and Tsygan, Laika&#x27;s overheating cabin on Sputnik 2, Belka and Strelka&#x27;s first return from orbit, Ham&#x27;s 14.6 g overshoot on Mercury-Redstone 2, Enos, Félicette, the Zond 5 tortoises and the Bion biosatellites — what each flight proved for Gagarin and Shepard, what it could not, and the animals who died.</summary>
+</entry>
+<entry>
+<title>FORECAST — TIROS, GOES, METEOSAT &amp; WEATHER FROM ORBIT</title>
+<id>https://followorbounce.github.io/aerospace/forecast-weather-satellites</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/forecast-weather-satellites"/>
+<published>2026-10-23T22:06:43-07:00</published>
+<updated>2026-10-23T22:06:43-07:00</updated>
+<summary>An interactive field guide to weather satellites: TIROS-1&#x27;s first cloud picture in 1960, Nimbus and the Soviet Meteor system, ATS-1&#x27;s spin-scan camera and the first full-disk image, GOES and Meteosat, today&#x27;s GOES-19, Meteosat Third Generation, Himawari and Fengyun; how often geostationary and polar orbiters look at each latitude, why a 2 km pixel grows to 6 km at 60° north, and how Planck&#x27;s law turns a cloud top&#x27;s infrared glow into its temperature and height.</summary>
+</entry>
+<entry>
+<title>BUCKET — CORONA, ZENIT &amp; THE FIRST SPY SATELLITES</title>
+<id>https://followorbounce.github.io/aerospace/bucket-corona-spy-satellites</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/bucket-corona-spy-satellites"/>
+<published>2026-10-23T22:06:43-07:00</published>
+<updated>2026-10-23T22:06:43-07:00</updated>
+<summary>An interactive field guide to the first photo-reconnaissance satellites: the U-2 gap, twelve failed Discoverer launches before a film capsule was caught in mid-air over the Pacific on 19 August 1960, the CORONA panoramic cameras from KH-1 (12 m) to KH-4B (1.8 m), the Soviet Zenit that brought its whole camera home in a Vostok-type capsule, the turn to digital imaging in 1976, and the 1995 declassification that put 860,000 Cold War photographs to work in archaeology and glaciology.</summary>
+</entry>
+<entry>
+<title>Planck to Horizon — every size in nature</title>
+<id>https://followorbounce.github.io/planck-to-horizon</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/planck-to-horizon"/>
+<published>2026-10-19T21:34:28-07:00</published>
+<updated>2026-10-19T21:34:28-07:00</updated>
+<summary>A continuous zoom through 62 steps of ten, from the Planck length to the observable universe, with a mass–size map of everything in between. 175 sourced objects, where sizes meet, where a human stands, and what physics rules at each scale.</summary>
+</entry>
+<entry>
+<title>Rind — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/rind</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/rind"/>
+<published>2026-10-19T17:42:47-07:00</published>
+<updated>2026-10-19T17:42:47-07:00</updated>
+<summary>Flatten the Earth sixteen ways, move the centre anywhere, and drag the land through the stretch. Map projections on one black wall with a globe beside them: Tissot circles, area and angle heat maps, lines of no distortion, great circles and rhumb lines, carry a country to the equator. WebGL 2 instrument.</summary>
+</entry>
+<entry>
+<title>Relic — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/relic</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/relic"/>
+<published>2026-10-19T17:02:40-07:00</published>
+<updated>2026-10-19T17:02:40-07:00</updated>
+<summary>The oldest light in the universe, as Planck mapped it: the real SMICA all-sky map of the cosmic microwave background, rendered on the GPU from its HEALPix pixels. Switch on our own motion and watch the dipole swamp everything; blur it to COBE&#x27;s 7° beam; read the statistics of the actual map; hear its power spectrum as a chord.</summary>
+</entry>
+<entry>
+<title>Re-entry — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/re-entry</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/re-entry"/>
+<published>2026-10-19T17:02:40-07:00</published>
+<updated>2026-10-19T17:02:40-07:00</updated>
+<summary>A capsule&#x27;s heat shield in the plasma it makes, driven by a real entry simulation: speed, altitude and deceleration integrated step by step, stagnation heating from Sutton–Graves, the shield&#x27;s glow from its radiative-equilibrium temperature, the shock wave from Billig&#x27;s correlation. Apollo 11, Stardust, Apollo 7. WebGL 2 study with sound.</summary>
+</entry>
+<entry>
+<title>Plume — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/plume</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/plume"/>
+<published>2026-10-19T17:02:40-07:00</published>
+<updated>2026-10-19T17:02:40-07:00</updated>
+<summary>A rocket exhaust with its shock diamonds, computed from the nozzle&#x27;s area ratio and the air pressure at each altitude: over-expanded at sea level, ideal at the design altitude, ballooning in near vacuum. Isentropic flow, US Standard Atmosphere 1976, Prandtl–Meyer expansion. WebGL 2 study with sound.</summary>
+</entry>
+<entry>
+<title>Orbit Loom — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/orbit-loom</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/orbit-loom"/>
+<published>2026-10-19T17:02:40-07:00</published>
+<updated>2026-10-19T17:02:40-07:00</updated>
+<summary>A sun-synchronous satellite weaves its ground track over the Earth, one thread per orbit, crossing the equator at the same local time every time, until the pattern repeats. J2 orbital mechanics, a repeat-orbit solver checked against Landsat and Sentinel-2, live swath coverage. WebGL 2 data sculpture with sound.</summary>
+</entry>
+<entry>
+<title>Light-Day — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/light-day</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/light-day"/>
+<published>2026-10-19T17:02:40-07:00</published>
+<updated>2026-10-19T17:02:40-07:00</updated>
+<summary>A radio pulse leaves Earth every hour and travels to Voyager 1 at the speed of light, drawn in true proportion. On 18 November 2026 Voyager 1 is one light-day from Earth. Light time solved from JPL Horizons ephemerides; WebGL 2 data sculpture.</summary>
+</entry>
+<entry>
+<title>Chirp — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/chirp</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/chirp"/>
+<published>2026-10-19T17:02:40-07:00</published>
+<updated>2026-10-19T17:02:40-07:00</updated>
+<summary>Two black holes spiral together and space carries their gravitational waves outward as tightening spiral lines. Built on LIGO&#x27;s open data for GW150914 and its numerical-relativity waveform; play the real chirp, compare the simple formula with the data, try your own masses. WebGL 2 data sculpture with sound.</summary>
+</entry>
+<entry>
+<title>Upside Down — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/upside-down</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/upside-down"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>A fan of light beams falls onto a water surface and continues below it: refracted into the water and mirrored by a surface you can ripple with your hand. Each beam is a voice, detuned by the waves. WebGL 2 instrument.</summary>
+</entry>
+<entry>
+<title>Threshold — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/threshold</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/threshold"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>A field of grain with moving contour bands: paint pressure with the pointer, trigger accumulate, saturate and release events, and hear a drone shaped by the same numbers. Black, grey and red. WebGL 2 instrument.</summary>
+</entry>
+<entry>
+<title>Sensor — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/sensor</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/sensor"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>Forty-eight strata of fine lines bent by a data stream you do not see: a tide model, a machine log, your typing rhythm or your hand. Hover to reveal the raw signal; turn on sound to hear the strata. WebGL 2 instrument.</summary>
+</entry>
+<entry>
+<title>Ring — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/ring</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/ring"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>One laser circle drawn over and over in haze, leaving a fading trace on a photosensitive wall; rings tilt slowly in space, and sound (internal or your microphone) holds them together or breaks them into fragments. WebGL 2 study.</summary>
+</entry>
+<entry>
+<title>Erosion — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/erosion</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/erosion"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>A real photogrammetry scan of a city block as 225,000 points, kept with its flaws, slowly falling apart: release fronts move through it, points drop, pool like liquid at the ground, and the block rebuilds. WebGL 2 study.</summary>
+</entry>
+<entry>
+<title>Cone — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/cone</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/cone"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>Laser beams on rotating mounts sweep cones, cylinders and fans through a hazy black room. Red light, one white key beam, grain, and slow phases from calm to intense. Volumetric WebGL 2 study with optional sound.</summary>
+</entry>
+<entry>
+<title>Chain — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/chain</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/chain"/>
+<published>2026-10-18T19:49:55-07:00</published>
+<updated>2026-10-18T19:49:55-07:00</updated>
+<summary>Build a video-feedback effect from passes you can see: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade. Reorder them, read what each one does and its shader line, and paint into the loop. WebGL 2 instrument.</summary>
+</entry>
+<entry>
+<title>Flock — Video Synths</title>
+<id>https://followorbounce.github.io/visual-synths/flock</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/flock"/>
+<published>2026-10-17T18:18:09-07:00</published>
+<updated>2026-10-17T18:18:09-07:00</updated>
+<summary>Reynolds&#x27; boids in 3D: a flock of starlings or a school of sardines that forms from three local rules (separation, alignment, cohesion). Hunt it, lure it, drop objects in its path, and switch to Vectors to see every rule as a coloured force. WebGL 2.</summary>
+</entry>
+<entry>
+<title>Life in Weeks — Knowledge Network</title>
+<id>https://followorbounce.github.io/life-in-weeks</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/life-in-weeks"/>
+<published>2026-10-15T13:55:42-07:00</published>
+<updated>2026-10-15T13:55:42-07:00</updated>
+<summary>Your life as a grid of weeks: enter a date of birth and see every week lived on a 100- or 120-year calendar, with the world-average life expectancy marked, exact calendar counts and labelled body averages. Nothing leaves your browser.</summary>
+</entry>
+<entry>
+<title>Refraction and total reflection · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/refraction/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/refraction/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>Snell’s law on an exact ray tracer: refraction into and out of glass, water and diamond, Fresnel reflection, the critical angle and Brewster’s angle.</summary>
+</entry>
+<entry>
+<title>The rainbow · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/rainbow/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/rainbow/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>Rays through a drop of water: Descartes’ minimum deviation, the 42° primary bow, the 51° secondary bow and Alexander’s dark band.</summary>
+</entry>
+<entry>
+<title>Prisms and colour · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/prism/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/prism/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>A prism on an exact ray tracer: deviation, minimum deviation, measuring the index, and white light opened into a spectrum.</summary>
+</entry>
+<entry>
+<title>Mirrors · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/mirrors/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/mirrors/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>Plane, spherical, parabolic and convex mirrors traced exactly: f = R/2, spherical aberration, why telescopes use parabolas, and coma.</summary>
+</entry>
+<entry>
+<title>Lenses · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/lenses/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/lenses/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>Converging and diverging lenses traced surface by surface: focal points, the lensmaker’s formula, spherical and chromatic aberration, and the ideal thin lens.</summary>
+</entry>
+<entry>
+<title>Free bench · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/bench/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/bench/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>An optical sandbox: lenses, prisms, blocks, drops and mirrors you can place and turn, with every ray traced exactly.</summary>
+</entry>
+<entry>
+<title>Light · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/light/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/"/>
+<published>2026-10-14T19:07:49-07:00</published>
+<updated>2026-10-14T19:07:49-07:00</updated>
+<summary>An optical bench that traces rays exactly through lenses, prisms, glass blocks, water drops and mirrors.</summary>
+</entry>
+<entry>
+<title>Names from the sky · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/names/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/names/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>Greek and Roman gods and the planets, moons, weekdays, months and elements named after them.</summary>
+</entry>
+<entry>
+<title>The hull, piece by piece · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/ship/structure/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/ship/structure/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>A tappable midship section of a cargo ship with every structural part named and explained.</summary>
+</entry>
+<entry>
+<title>Stability · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/ship/stability/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/ship/stability/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>Load a hull and watch G, B, M and the righting-lever curve, with the IMO intact stability criteria.</summary>
+</entry>
+<entry>
+<title>Buoyancy and the load line · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/ship/buoyancy/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/ship/buoyancy/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>Displacement, tonnes per centimetre, fresh water allowance and the load line mark drawn to the 1966 Convention.</summary>
+</entry>
+<entry>
+<title>Ship · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/ship/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/ship/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>Ship structure, buoyancy and load lines, and an interactive stability simulator.</summary>
+</entry>
+<entry>
+<title>Supercoiling · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/life/supercoil/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/life/supercoil/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>Linking number, twist and writhe of closed DNA, computed live on a ribbon you can coil.</summary>
+</entry>
+<entry>
+<title>The IUPAC letters · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/life/iupac/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/life/iupac/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>IUPAC ambiguity letters for nucleic acids with a decoder, complements and a two-strand pattern search.</summary>
+</entry>
+<entry>
+<title>The double helix · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/life/helix/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/life/helix/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>A-, B- and Z-DNA in 3D with their helical parameters.</summary>
+</entry>
+<entry>
+<title>Bases and pairing · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/life/bases/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/life/bases/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>The four DNA bases drawn atom by atom, the nucleotide, and Watson–Crick pairing.</summary>
+</entry>
+<entry>
+<title>Code of life · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/life/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/life/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>DNA bases and pairing, the IUPAC ambiguity letters with a decoder, the A, B and Z helices, and supercoiling as topology.</summary>
+</entry>
+<entry>
+<title>Glossary · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/glossary/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/glossary/"/>
+<published>2026-10-14T09:38:16-07:00</published>
+<updated>2026-10-14T09:38:16-07:00</updated>
+<summary>Nautical terms in English, Spanish and French, and words that mean different things in different fields.</summary>
+</entry>
+<entry>
+<title>Kinds of time · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/time/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/time/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Apparent, mean, zone, sidereal time and UTC live, with the equation of time and the analemma.</summary>
+</entry>
+<entry>
+<title>Great circle and rhumb line · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/sailing/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/sailing/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Compare great-circle and rhumb-line routes between ports on Mercator and gnomonic charts.</summary>
+</entry>
+<entry>
+<title>Planets and their names · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/planets/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/planets/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Planet names, gods, symbols and discoverers, with a live orrery and the IAU rules on symbols.</summary>
+</entry>
+<entry>
+<title>Latitude and longitude · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/globe/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/globe/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>A globe you can turn and tap, with lengths of a minute of latitude and longitude on WGS 84.</summary>
+</entry>
+<entry>
+<title>The celestial sphere · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/celestial/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/celestial/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Right ascension, declination, the ecliptic, precession, and the signs against the 13 ecliptic constellations.</summary>
+</entry>
+<entry>
+<title>Sky &amp; sea · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/sky/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/sky/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Latitude and longitude, great circles and rhumb lines, the kinds of time, the celestial sphere and the planets.</summary>
+</entry>
+<entry>
+<title>Trigonometry · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/number/trig/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/number/trig/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>An interactive unit circle, exact values, angle units and a triangle solver with the ambiguous case.</summary>
+</entry>
+<entry>
+<title>Mathematical symbols · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/number/symbols/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/number/symbols/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Mathematical signs with meaning, Unicode character and first printed use.</summary>
+</entry>
+<entry>
+<title>Logarithms and the slide rule · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/number/logarithms/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/number/logarithms/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Logarithms, characteristic and mantissa, and a working slide rule with seven scales.</summary>
+</entry>
+<entry>
+<title>Greek alphabet · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/number/greek/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/number/greek/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>The 24 Greek letters, their usual meanings in science, Unicode look-alikes and a drill.</summary>
+</entry>
+<entry>
+<title>Number · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/number/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/number/"/>
+<published>2026-10-14T06:09:31-07:00</published>
+<updated>2026-10-14T06:09:31-07:00</updated>
+<summary>Mathematical symbols, the Greek alphabet, trigonometry and logarithms with a working slide rule.</summary>
+</entry>
+<entry>
+<title>Visibility · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/weather/visibility/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/weather/visibility/"/>
+<published>2026-10-14T01:12:24-07:00</published>
+<updated>2026-10-14T01:12:24-07:00</updated>
+<summary>Marine visibility terms and the difference between fog, mist and haze.</summary>
+</entry>
+<entry>
+<title>Weather symbols · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/weather/symbols/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/weather/symbols/"/>
+<published>2026-10-14T01:12:24-07:00</published>
+<updated>2026-10-14T01:12:24-07:00</updated>
+<summary>Present-weather symbols from the WMO station model: rain, drizzle, snow, showers, fog and thunder.</summary>
+</entry>
+<entry>
+<title>State of the sea · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/weather/sea-state/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/weather/sea-state/"/>
+<published>2026-10-14T01:12:24-07:00</published>
+<updated>2026-10-14T01:12:24-07:00</updated>
+<summary>The WMO sea-state code 3700 from calm (glassy) to phenomenal.</summary>
+</entry>
+<entry>
+<title>Tropical cyclones · Reckoning</title>
+<id>https://followorbounce.github.io/reckoning/weather/cyclones/</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/weather/cyclones/"/>
+<published>2026-10-14T01:12:24-07:00</published>
+<updated>2026-10-14T01:12:24-07:00</updated>
+<summary>Tropical cyclone basins, local names, seasons, and the Saffir–Simpson scale.</summary>
+</entry>
+</feed>

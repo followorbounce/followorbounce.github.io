@@ -1,0 +1,48 @@
+name: Daily feeds
+
+# Rewrites feeds/*.xml (engine/feeds.py) shortly after midnight Pacific time, so each daily feed gains today's
+# entry, and commits only when a file changed. Two runs cover both PDT (07:05 UTC) and PST (08:05 UTC);
+# the second one finds nothing new. The project repos are cloned beside this one for the new-pages feed
+# (history without file contents, plus the pages and sitemaps).
+on:
+  schedule:
+    - cron: '5 7,8 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: feeds
+  cancel-in-progress: false
+
+jobs:
+  feeds:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          path: followorbounce.github.io
+          fetch-depth: 0
+      - name: Clone the project sites beside it
+        run: |
+          set -euo pipefail
+          for r in aerospace knots machinery Maya-Calendar reckoning; do
+            git clone --quiet --filter=blob:none --no-checkout "https://github.com/followorbounce/$r.git" "$r"
+            git -C "$r" sparse-checkout set --no-cone '*.html' 'sitemap.xml' 'feed/*.json' 'assets/signal-of-day.json'
+            git -C "$r" checkout --quiet
+          done
+      - name: Write the feeds
+        working-directory: followorbounce.github.io
+        run: python3 engine/feeds.py
+      - name: Commit if changed
+        working-directory: followorbounce.github.io
+        run: |
+          set -euo pipefail
+          git add feeds
+          if git diff --cached --quiet; then echo "no change"; exit 0; fi
+          git -c user.name='github-actions[bot]' -c user.email='41898282+github-actions[bot]@users.noreply.github.com' \
+            commit --quiet -m "feeds: $(TZ=America/Los_Angeles date +%F)"
+          for i in 1 2 3; do git pull --quiet --rebase origin main && git push --quiet origin HEAD:main && exit 0; sleep 5; done
+          exit 1

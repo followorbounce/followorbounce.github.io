@@ -1,0 +1,281 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom" xml:lang="en">
+<title>Prompt element of the day · Follow or Bounce</title>
+<subtitle>One of the 21 parts of a prompt a day, from The Logic of a Prompt &amp; Life.</subtitle>
+<id>https://followorbounce.github.io/feeds/element.xml</id>
+<link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
+<updated>2026-10-28T00:00:00-07:00</updated>
+<author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
+<icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Keywords (Kw)</title>
+<id>tag:followorbounce.github.io,2026-10-28:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#keywords"/>
+<published>2026-10-28T00:00:00-07:00</published>
+<updated>2026-10-28T00:00:00-07:00</updated>
+<summary>Words or names that must appear, or that pin down the topic.</summary>
+<content type="html">&lt;p&gt;Words or names that must appear, or that pin down the topic.&lt;/p&gt;&lt;p&gt;Keywords mark the subject terms the answer must be about. They work as a relevance test: an answer that never touches them has drifted off the question.&lt;/p&gt;&lt;p&gt;Watch out: A long keyword list turns into word salad. Pick the few terms that truly matter, and check they are used correctly, not just dropped in.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Statistics (St)</title>
+<id>tag:followorbounce.github.io,2026-10-27:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#statistics"/>
+<published>2026-10-27T00:00:00-07:00</published>
+<updated>2026-10-27T00:00:00-07:00</updated>
+<summary>Numbers that support a claim, such as counts, averages or rates.</summary>
+<content type="html">&lt;p&gt;Numbers that support a claim, such as counts, averages or rates.&lt;/p&gt;&lt;p&gt;Using a number to support a general claim is a form of induction. A number supports a claim only if it is real, recent and about the right group.&lt;/p&gt;&lt;p&gt;Watch out: Models can produce precise-looking numbers with no real source. Supply your own data where possible, and trace every number to its origin before you repeat it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Call to action (Ca)</title>
+<id>tag:followorbounce.github.io,2026-10-26:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#call-to-action"/>
+<published>2026-10-26T00:00:00-07:00</published>
+<updated>2026-10-26T00:00:00-07:00</updated>
+<summary>The next step the answer should end on, for you or for the people who read it.</summary>
+<content type="html">&lt;p&gt;The next step the answer should end on, for you or for the people who read it.&lt;/p&gt;&lt;p&gt;An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.&lt;/p&gt;&lt;p&gt;Watch out: Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like &amp;#x27;only two places left&amp;#x27;.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Call to action (Ca)</title>
+<id>tag:followorbounce.github.io,2026-10-25:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#call-to-action"/>
+<published>2026-10-25T00:00:00-07:00</published>
+<updated>2026-10-25T00:00:00-07:00</updated>
+<summary>The next step the answer should end on, for you or for the people who read it.</summary>
+<content type="html">&lt;p&gt;The next step the answer should end on, for you or for the people who read it.&lt;/p&gt;&lt;p&gt;An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.&lt;/p&gt;&lt;p&gt;Watch out: Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like &amp;#x27;only two places left&amp;#x27;.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Format (Fm)</title>
+<id>tag:followorbounce.github.io,2026-10-24:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#format"/>
+<published>2026-10-24T00:00:00-07:00</published>
+<updated>2026-10-24T00:00:00-07:00</updated>
+<summary>The shape of the answer: a list, a table, steps, an email or a short paragraph.</summary>
+<content type="html">&lt;p&gt;The shape of the answer: a list, a table, steps, an email or a short paragraph.&lt;/p&gt;&lt;p&gt;Format is a constraint on form, not content. It answers Grice&amp;#x27;s advice to be orderly: the same information is easier to check in a shape you can scan.&lt;/p&gt;&lt;p&gt;Watch out: A neat table can make guesses look like facts. Format makes an answer easier to read, not more reliable.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Citations (Ci)</title>
+<id>tag:followorbounce.github.io,2026-10-23:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#citations"/>
+<published>2026-10-23T00:00:00-07:00</published>
+<updated>2026-10-23T00:00:00-07:00</updated>
+<summary>Sources the answer should point to, so you can check where each claim comes from.</summary>
+<content type="html">&lt;p&gt;Sources the answer should point to, so you can check where each claim comes from.&lt;/p&gt;&lt;p&gt;A citation links a claim to its evidence. It serves Grice&amp;#x27;s maxim of Quality: do not say things you lack adequate evidence for.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent citations that look real: plausible titles, authors and links that do not exist. Give your own sources when you can, and open every citation before trusting it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Objective (Ob)</title>
+<id>tag:followorbounce.github.io,2026-10-22:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#objective"/>
+<published>2026-10-22T00:00:00-07:00</published>
+<updated>2026-10-22T00:00:00-07:00</updated>
+<summary>What you want the answer to achieve: the point of the whole request.</summary>
+<content type="html">&lt;p&gt;What you want the answer to achieve: the point of the whole request.&lt;/p&gt;&lt;p&gt;The objective is the conclusion you are reasoning toward. Without it, relevance has no anchor, since Grice tied relevance to the purpose of the conversation.&lt;/p&gt;&lt;p&gt;Watch out: Stating a goal can tilt the answer toward it. Ask &amp;#x27;help me decide&amp;#x27; rather than &amp;#x27;convince me&amp;#x27;, unless you really want only one side.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Examples (Ex)</title>
+<id>tag:followorbounce.github.io,2026-10-21:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#examples"/>
+<published>2026-10-21T00:00:00-07:00</published>
+<updated>2026-10-21T00:00:00-07:00</updated>
+<summary>One or more samples of what a good answer looks like.</summary>
+<content type="html">&lt;p&gt;One or more samples of what a good answer looks like.&lt;/p&gt;&lt;p&gt;Examples work by induction: from a few cases the model infers a general pattern. Like any induction, the pattern it picks may not be the one you meant.&lt;/p&gt;&lt;p&gt;Watch out: Models can copy examples closely, including their accidents. If all your examples are food words, expect more food words. Vary them on purpose.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Objective (Ob)</title>
+<id>tag:followorbounce.github.io,2026-10-20:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#objective"/>
+<published>2026-10-20T00:00:00-07:00</published>
+<updated>2026-10-20T00:00:00-07:00</updated>
+<summary>What you want the answer to achieve: the point of the whole request.</summary>
+<content type="html">&lt;p&gt;What you want the answer to achieve: the point of the whole request.&lt;/p&gt;&lt;p&gt;The objective is the conclusion you are reasoning toward. Without it, relevance has no anchor, since Grice tied relevance to the purpose of the conversation.&lt;/p&gt;&lt;p&gt;Watch out: Stating a goal can tilt the answer toward it. Ask &amp;#x27;help me decide&amp;#x27; rather than &amp;#x27;convince me&amp;#x27;, unless you really want only one side.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Audience (Au)</title>
+<id>tag:followorbounce.github.io,2026-10-19:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#audience"/>
+<published>2026-10-19T00:00:00-07:00</published>
+<updated>2026-10-19T00:00:00-07:00</updated>
+<summary>Who will read or use the answer, and what they already know.</summary>
+<content type="html">&lt;p&gt;Who will read or use the answer, and what they already know.&lt;/p&gt;&lt;p&gt;Sets the shared background the answer can assume. What counts as informative enough depends on the listener, so the audience fixes how much to explain.&lt;/p&gt;&lt;p&gt;Watch out: A vague audience like &amp;#x27;beginners&amp;#x27; helps less than saying what they already know and what they need to do with the answer.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Quotes (Qu)</title>
+<id>tag:followorbounce.github.io,2026-10-18:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#quotes"/>
+<published>2026-10-18T00:00:00-07:00</published>
+<updated>2026-10-18T00:00:00-07:00</updated>
+<summary>Exact words from a real person or text, repeated word for word.</summary>
+<content type="html">&lt;p&gt;Exact words from a real person or text, repeated word for word.&lt;/p&gt;&lt;p&gt;A quotation is testimony: evidence that someone said something. It counts only if it is accurate and in context. A misquote is a false premise.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent quotations or pin real ones on the wrong person. Paste the exact words yourself, or check any quote against a reliable original.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Language (La)</title>
+<id>tag:followorbounce.github.io,2026-10-17:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#language"/>
+<published>2026-10-17T00:00:00-07:00</published>
+<updated>2026-10-17T00:00:00-07:00</updated>
+<summary>Which language to answer in, and how plain or technical the wording should be.</summary>
+<content type="html">&lt;p&gt;Which language to answer in, and how plain or technical the wording should be.&lt;/p&gt;&lt;p&gt;A statement only works if both sides read it the same way. Choosing the language and reading level avoids obscurity, which Grice&amp;#x27;s maxim of Manner warns against.&lt;/p&gt;&lt;p&gt;Watch out: A translation can sound fluent and still be wrong. For anything important, like medicine labels or contracts, ask a fluent speaker to check it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Limitations (Li)</title>
+<id>tag:followorbounce.github.io,2026-10-16:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#limitations"/>
+<published>2026-10-16T00:00:00-07:00</published>
+<updated>2026-10-16T00:00:00-07:00</updated>
+<summary>Rules the answer must obey, such as length, cost or things to avoid.</summary>
+<content type="html">&lt;p&gt;Rules the answer must obey, such as length, cost or things to avoid.&lt;/p&gt;&lt;p&gt;Limitations are necessary conditions: an answer that breaks one fails, however good it is otherwise. Meeting every limitation still does not make an answer good enough.&lt;/p&gt;&lt;p&gt;Watch out: Check the answer against each limit yourself. Models sometimes quietly break a rule, such as a word count, while sounding as if they kept it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Call to action (Ca)</title>
+<id>tag:followorbounce.github.io,2026-10-15:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#call-to-action"/>
+<published>2026-10-15T00:00:00-07:00</published>
+<updated>2026-10-15T00:00:00-07:00</updated>
+<summary>The next step the answer should end on, for you or for the people who read it.</summary>
+<content type="html">&lt;p&gt;The next step the answer should end on, for you or for the people who read it.&lt;/p&gt;&lt;p&gt;An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.&lt;/p&gt;&lt;p&gt;Watch out: Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like &amp;#x27;only two places left&amp;#x27;.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Deadline (Dl)</title>
+<id>tag:followorbounce.github.io,2026-10-14:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#deadline"/>
+<published>2026-10-14T00:00:00-07:00</published>
+<updated>2026-10-14T00:00:00-07:00</updated>
+<summary>The time frame your task, or the information you need, belongs to.</summary>
+<content type="html">&lt;p&gt;The time frame your task, or the information you need, belongs to.&lt;/p&gt;&lt;p&gt;Mostly practical, not logical. A chat model answers when asked, not on a schedule. The logical part is a time index: many claims are true only as of a date.&lt;/p&gt;&lt;p&gt;Watch out: Models have a knowledge cutoff and may not know today&amp;#x27;s date. For anything time-sensitive, give the date yourself and check recent facts elsewhere.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Quotes (Qu)</title>
+<id>tag:followorbounce.github.io,2026-10-13:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#quotes"/>
+<published>2026-10-13T00:00:00-07:00</published>
+<updated>2026-10-13T00:00:00-07:00</updated>
+<summary>Exact words from a real person or text, repeated word for word.</summary>
+<content type="html">&lt;p&gt;Exact words from a real person or text, repeated word for word.&lt;/p&gt;&lt;p&gt;A quotation is testimony: evidence that someone said something. It counts only if it is accurate and in context. A misquote is a false premise.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent quotations or pin real ones on the wrong person. Paste the exact words yourself, or check any quote against a reliable original.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Statistics (St)</title>
+<id>tag:followorbounce.github.io,2026-10-12:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#statistics"/>
+<published>2026-10-12T00:00:00-07:00</published>
+<updated>2026-10-12T00:00:00-07:00</updated>
+<summary>Numbers that support a claim, such as counts, averages or rates.</summary>
+<content type="html">&lt;p&gt;Numbers that support a claim, such as counts, averages or rates.&lt;/p&gt;&lt;p&gt;Using a number to support a general claim is a form of induction. A number supports a claim only if it is real, recent and about the right group.&lt;/p&gt;&lt;p&gt;Watch out: Models can produce precise-looking numbers with no real source. Supply your own data where possible, and trace every number to its origin before you repeat it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Deadline (Dl)</title>
+<id>tag:followorbounce.github.io,2026-10-11:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#deadline"/>
+<published>2026-10-11T00:00:00-07:00</published>
+<updated>2026-10-11T00:00:00-07:00</updated>
+<summary>The time frame your task, or the information you need, belongs to.</summary>
+<content type="html">&lt;p&gt;The time frame your task, or the information you need, belongs to.&lt;/p&gt;&lt;p&gt;Mostly practical, not logical. A chat model answers when asked, not on a schedule. The logical part is a time index: many claims are true only as of a date.&lt;/p&gt;&lt;p&gt;Watch out: Models have a knowledge cutoff and may not know today&amp;#x27;s date. For anything time-sensitive, give the date yourself and check recent facts elsewhere.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Tone (To)</title>
+<id>tag:followorbounce.github.io,2026-10-10:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#tone"/>
+<published>2026-10-10T00:00:00-07:00</published>
+<updated>2026-10-10T00:00:00-07:00</updated>
+<summary>The emotional colour of the reply: friendly, formal, firm, playful or calm.</summary>
+<content type="html">&lt;p&gt;The emotional colour of the reply: friendly, formal, firm, playful or calm.&lt;/p&gt;&lt;p&gt;Tone changes how something is said, not what is claimed. Logic separates content from expression, and tone is a request about expression.&lt;/p&gt;&lt;p&gt;Watch out: Tone can blur content. If you ask for &amp;#x27;reassuring&amp;#x27;, check the reply has not softened a fact you needed to hear plainly.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Objective (Ob)</title>
+<id>tag:followorbounce.github.io,2026-10-09:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#objective"/>
+<published>2026-10-09T00:00:00-07:00</published>
+<updated>2026-10-09T00:00:00-07:00</updated>
+<summary>What you want the answer to achieve: the point of the whole request.</summary>
+<content type="html">&lt;p&gt;What you want the answer to achieve: the point of the whole request.&lt;/p&gt;&lt;p&gt;The objective is the conclusion you are reasoning toward. Without it, relevance has no anchor, since Grice tied relevance to the purpose of the conversation.&lt;/p&gt;&lt;p&gt;Watch out: Stating a goal can tilt the answer toward it. Ask &amp;#x27;help me decide&amp;#x27; rather than &amp;#x27;convince me&amp;#x27;, unless you really want only one side.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Statistics (St)</title>
+<id>tag:followorbounce.github.io,2026-10-08:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#statistics"/>
+<published>2026-10-08T00:00:00-07:00</published>
+<updated>2026-10-08T00:00:00-07:00</updated>
+<summary>Numbers that support a claim, such as counts, averages or rates.</summary>
+<content type="html">&lt;p&gt;Numbers that support a claim, such as counts, averages or rates.&lt;/p&gt;&lt;p&gt;Using a number to support a general claim is a form of induction. A number supports a claim only if it is real, recent and about the right group.&lt;/p&gt;&lt;p&gt;Watch out: Models can produce precise-looking numbers with no real source. Supply your own data where possible, and trace every number to its origin before you repeat it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Context (Cx)</title>
+<id>tag:followorbounce.github.io,2026-10-07:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#context"/>
+<published>2026-10-07T00:00:00-07:00</published>
+<updated>2026-10-07T00:00:00-07:00</updated>
+<summary>The background facts of your situation that the answer should build on.</summary>
+<content type="html">&lt;p&gt;The background facts of your situation that the answer should build on.&lt;/p&gt;&lt;p&gt;Context supplies the premises: the statements taken as given. A conclusion is only as good as the premises it starts from.&lt;/p&gt;&lt;p&gt;Watch out: False premises give confident nonsense. If your background facts are wrong or out of date, a well-reasoned answer is likely to be wrong too.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Keywords (Kw)</title>
+<id>tag:followorbounce.github.io,2026-10-06:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#keywords"/>
+<published>2026-10-06T00:00:00-07:00</published>
+<updated>2026-10-06T00:00:00-07:00</updated>
+<summary>Words or names that must appear, or that pin down the topic.</summary>
+<content type="html">&lt;p&gt;Words or names that must appear, or that pin down the topic.&lt;/p&gt;&lt;p&gt;Keywords mark the subject terms the answer must be about. They work as a relevance test: an answer that never touches them has drifted off the question.&lt;/p&gt;&lt;p&gt;Watch out: A long keyword list turns into word salad. Pick the few terms that truly matter, and check they are used correctly, not just dropped in.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Call to action (Ca)</title>
+<id>tag:followorbounce.github.io,2026-10-05:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#call-to-action"/>
+<published>2026-10-05T00:00:00-07:00</published>
+<updated>2026-10-05T00:00:00-07:00</updated>
+<summary>The next step the answer should end on, for you or for the people who read it.</summary>
+<content type="html">&lt;p&gt;The next step the answer should end on, for you or for the people who read it.&lt;/p&gt;&lt;p&gt;An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.&lt;/p&gt;&lt;p&gt;Watch out: Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like &amp;#x27;only two places left&amp;#x27;.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Citations (Ci)</title>
+<id>tag:followorbounce.github.io,2026-10-04:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#citations"/>
+<published>2026-10-04T00:00:00-07:00</published>
+<updated>2026-10-04T00:00:00-07:00</updated>
+<summary>Sources the answer should point to, so you can check where each claim comes from.</summary>
+<content type="html">&lt;p&gt;Sources the answer should point to, so you can check where each claim comes from.&lt;/p&gt;&lt;p&gt;A citation links a claim to its evidence. It serves Grice&amp;#x27;s maxim of Quality: do not say things you lack adequate evidence for.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent citations that look real: plausible titles, authors and links that do not exist. Give your own sources when you can, and open every citation before trusting it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Audience (Au)</title>
+<id>tag:followorbounce.github.io,2026-10-03:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#audience"/>
+<published>2026-10-03T00:00:00-07:00</published>
+<updated>2026-10-03T00:00:00-07:00</updated>
+<summary>Who will read or use the answer, and what they already know.</summary>
+<content type="html">&lt;p&gt;Who will read or use the answer, and what they already know.&lt;/p&gt;&lt;p&gt;Sets the shared background the answer can assume. What counts as informative enough depends on the listener, so the audience fixes how much to explain.&lt;/p&gt;&lt;p&gt;Watch out: A vague audience like &amp;#x27;beginners&amp;#x27; helps less than saying what they already know and what they need to do with the answer.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Questions (Qs)</title>
+<id>tag:followorbounce.github.io,2026-10-02:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#questions"/>
+<published>2026-10-02T00:00:00-07:00</published>
+<updated>2026-10-02T00:00:00-07:00</updated>
+<summary>An invitation for the model to ask you what it needs before it answers.</summary>
+<content type="html">&lt;p&gt;An invitation for the model to ask you what it needs before it answers.&lt;/p&gt;&lt;p&gt;Questions turn a one-shot guess into a dialogue. Missing premises get supplied instead of assumed, so the answer can be as informative as you need.&lt;/p&gt;&lt;p&gt;Watch out: The model&amp;#x27;s questions are only as useful as your answers. Answer honestly and specifically; if you guess, it will build on your guess.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Limitations (Li)</title>
+<id>tag:followorbounce.github.io,2026-10-01:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#limitations"/>
+<published>2026-10-01T00:00:00-07:00</published>
+<updated>2026-10-01T00:00:00-07:00</updated>
+<summary>Rules the answer must obey, such as length, cost or things to avoid.</summary>
+<content type="html">&lt;p&gt;Rules the answer must obey, such as length, cost or things to avoid.&lt;/p&gt;&lt;p&gt;Limitations are necessary conditions: an answer that breaks one fails, however good it is otherwise. Meeting every limitation still does not make an answer good enough.&lt;/p&gt;&lt;p&gt;Watch out: Check the answer against each limit yourself. Models sometimes quietly break a rule, such as a word count, while sounding as if they kept it.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Analogies (An)</title>
+<id>tag:followorbounce.github.io,2026-09-30:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#analogies"/>
+<published>2026-09-30T00:00:00-07:00</published>
+<updated>2026-09-30T00:00:00-07:00</updated>
+<summary>A comparison with something familiar that helps explain something new.</summary>
+<content type="html">&lt;p&gt;A comparison with something familiar that helps explain something new.&lt;/p&gt;&lt;p&gt;An analogy maps the structure of a known case onto a new one. It explains and can suggest, but it never proves; test it by finding where it breaks.&lt;/p&gt;&lt;p&gt;Watch out: Every analogy breaks somewhere. Ask the model to say where its comparison stops working, so you do not carry the wrong part over.&lt;/p&gt;</content>
+</entry>
+<entry>
+<title>Context (Cx)</title>
+<id>tag:followorbounce.github.io,2026-09-29:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#context"/>
+<published>2026-09-29T00:00:00-07:00</published>
+<updated>2026-09-29T00:00:00-07:00</updated>
+<summary>The background facts of your situation that the answer should build on.</summary>
+<content type="html">&lt;p&gt;The background facts of your situation that the answer should build on.&lt;/p&gt;&lt;p&gt;Context supplies the premises: the statements taken as given. A conclusion is only as good as the premises it starts from.&lt;/p&gt;&lt;p&gt;Watch out: False premises give confident nonsense. If your background facts are wrong or out of date, a well-reasoned answer is likely to be wrong too.&lt;/p&gt;</content>
+</entry>
+</feed>
