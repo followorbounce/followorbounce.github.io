@@ -111,5 +111,6 @@ Separate repositories served under the same host; several publish their own llms
 ## Optional
 
 - [Archive](https://followorbounce.github.io/archive): retired experiments, kept online
+- [Dictionary term pages](https://followorbounce.github.io/sitemap-terms.xml): one page per term of both dictionaries, e.g. https://followorbounce.github.io/dictionary-of-design/affordance and https://followorbounce.github.io/dictionary-of-inner-experience/shame
 - [Feeds](https://followorbounce.github.io/feeds/): Atom feeds of the daily cards (design term, emotion, prompt element, knot, signal) and of new pages
 - [Design Divine Future](https://designdivinefuture.wordpress.com/): the author's art-task blog

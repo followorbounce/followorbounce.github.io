@@ -1,0 +1,618 @@
+{
+  "anger": {
+    "more": "Anger often arrives when something feels unfair, blocked, or disrespectful: a broken promise, being talked over, a rule ignored. It tends to bring urges to speak up, push back, or set a limit, and for many people a rush of heat in the chest and face. It can signal that something we care about has been crossed. Researchers still debate how much anger helps or harms relationships; much seems to depend on how it is expressed.",
+    "distinct": {
+      "term": "frustration",
+      "line": "Frustration is about a blocked goal and needs no one to blame; anger usually carries a sense that someone or something has done wrong."
+    },
+    "notice": "When anger rises, what does it seem to be about, and where in your body does it first show up?"
+  },
+  "disgust": {
+    "more": "Disgust shows up around spoiled food, bodily fluids, certain smells, and also around acts people judge as morally foul. It brings an urge to pull back, look away, or expel, and many people feel it in the stomach and throat. It seems to have roots in avoiding contamination, though how far that explains moral disgust is still argued over. What sets it apart is its physical, recoiling quality.",
+    "distinct": {
+      "term": "contempt",
+      "line": "Contempt looks down on someone from a cool distance; disgust recoils from something as if it could contaminate you."
+    },
+    "notice": "Notice what you turn away from almost before thinking, and whether that reaction is about the senses or about values."
+  },
+  "fear": {
+    "more": "Fear tends to appear when a threat feels close and identifiable: a car swerving, a sharp drop, a dog lunging. Attention narrows, the heart speeds up, and urges to freeze, flee, or protect take over quickly. It appears to prepare the body to deal with danger right now. Fear is usually brief and tied to a specific trigger, which helps separate it from the more spread-out, future-leaning quality of anxiety.",
+    "distinct": {
+      "term": "anxiety",
+      "line": "Fear is focused on a present, identifiable threat; anxiety lingers around possibilities that have not happened and may never happen."
+    },
+    "notice": "When something startles or frightens you, notice how quickly your attention narrows, and what it narrows onto."
+  },
+  "joy": {
+    "more": "Joy often comes in moments: good news, a reunion, a song that lands just right, a child laughing. It tends to lift posture and voice and invites sharing, play, or reaching out to others. Some researchers suggest positive feelings like joy broaden attention and help build social bonds over time, though that idea is still being tested. Joy is distinct for being tied to a particular moment rather than a lasting assessment of life.",
+    "distinct": {
+      "term": "happiness",
+      "line": "Joy is a bright, moment-bound spike; happiness is a steadier sense that life overall is going well."
+    },
+    "notice": "When a moment of joy arrives, notice whether you want to hold it alone or share it with someone."
+  },
+  "sadness": {
+    "more": "Sadness can follow losses large and small: a friendship fading, a plan falling through, a place left behind. It often slows people down, draws attention inward, and can bring tears or a heavy feeling in the chest and throat. It may signal that something mattered and invite comfort from others. Its causes and length vary widely, which is part of what separates it from more specific states like grief or disappointment.",
+    "distinct": {
+      "term": "grief",
+      "line": "Sadness can attach to almost any loss or unmet want; grief is the sustained response to a specific, usually bereavement-level loss."
+    },
+    "notice": "When sadness is present, notice what it seems to be pointing toward, and whether it wants company or quiet."
+  },
+  "surprise": {
+    "more": "Surprise is the jolt when something does not match expectation: a sudden noise, an unexpected guest, a plot twist. Attention snaps toward the event, eyebrows often lift, and activity briefly pauses. It seems to buy a moment to update what we thought was happening. Surprise usually lasts only a moment before turning into something pleasant or unpleasant, and whether it counts as an emotion at all remains disputed.",
+    "distinct": {
+      "term": "perplexity",
+      "line": "Surprise is a brief jolt at the unexpected; perplexity is the longer, puzzling effort to make sense of what surprised you."
+    },
+    "notice": "After something catches you off guard, notice which way the feeling tips in the next few seconds."
+  },
+  "antipathy": {
+    "more": "Antipathy is the quiet, settled dislike some people feel toward a person, a food, a style, or a place, often without dramatic cause. It shows up as a mild urge to keep one's distance, a slight tightening when the subject comes up, or a lack of interest in reconsidering. It may help people steer toward what suits them. Unlike stronger aversions, it rarely carries a wish for harm or a need to act.",
+    "distinct": {
+      "term": "hatred",
+      "line": "Antipathy is a mild, passive dislike that keeps its distance; hatred is intense, sustained, and often wishes the other harm or removal."
+    },
+    "notice": "Notice a settled dislike you carry, and whether you can recall where it began."
+  },
+  "anxiety": {
+    "more": "Anxiety often hums in the background before a deadline, during uncertainty about health, money, or relationships, or with no clear trigger at all. Thoughts may loop through what could go wrong, and many people feel it in the chest, stomach, and throat. In everyday doses it can help people prepare. It becomes harder to live with when it spreads across many areas and stays switched on long after any threat has passed.",
+    "distinct": {
+      "term": "fear",
+      "line": "Anxiety is diffuse and future-oriented with no single clear object; fear is a sharper response to a threat that is present now."
+    },
+    "notice": "When worry hums in the background, notice whether it has a clear object or seems to drift between topics."
+  },
+  "apprehension": {
+    "more": "Apprehension is the low, uneasy anticipation many people feel before a known event: a medical appointment, a difficult conversation, a first day somewhere new. It may show up as a slightly tight stomach or a tendency to mentally rehearse. It can nudge people to prepare without overwhelming them. What sets it apart is its modest intensity and its attachment to something roughly known and approaching.",
+    "distinct": {
+      "term": "dread",
+      "line": "Apprehension is a mild, low-intensity uneasiness about what is coming; dread is heavier and more gripping about the same kind of approaching event."
+    },
+    "notice": "Before an upcoming event, notice whether the uneasiness grows, shrinks, or stays steady as it gets closer."
+  },
+  "contempt": {
+    "more": "Contempt shows up as an eye-roll, a dismissive tone, or a sense that someone is beneath serious attention. It often follows judgments that a person is incompetent, dishonest, or unworthy, and it creates distance rather than confrontation. Some researchers who study relationships consider it especially corrosive when it becomes habitual, though that work is mostly correlational. Its cool, looking-down quality is what separates it from the heat of anger.",
+    "distinct": {
+      "term": "anger",
+      "line": "Anger is hot and moves toward confrontation; contempt is cool and creates distance by treating the other as not worth engaging."
+    },
+    "notice": "Notice moments when you dismiss someone rather than disagree with them, and what judgment sits underneath."
+  },
+  "delight": {
+    "more": "Delight often arrives with small, unexpected gifts: a surprise note, a dish better than imagined, a bird landing nearby. There is usually a bright lift, perhaps a laugh, and an urge to point it out to someone else. It seems to mark when the world exceeds what we expected. Its signature is the element of pleasant surprise, which gives it a lighter, more sparkling quality than plain joy.",
+    "distinct": {
+      "term": "joy",
+      "line": "Joy responds to something good; delight is joy sharpened by surprise, when something turns out better than you expected."
+    },
+    "notice": "Notice the small things that turn out better than you expected, and how your face responds."
+  },
+  "disappointment": {
+    "more": "Disappointment follows the gap between what we hoped for and what happened: a canceled trip, a lower grade, a gift that misses. People often replay the expected version, feel a drop in energy, and sometimes slump physically. It may help recalibrate expectations or show what mattered. Because it is built on a comparison, it can be surprisingly strong even when the actual outcome is fine on its own terms.",
+    "distinct": {
+      "term": "regret",
+      "line": "Disappointment is about an outcome falling short of expectation; regret adds the sense that your own choice could have led somewhere better."
+    },
+    "notice": "When disappointment lands, notice the expectation it reveals, and how long you had been holding it."
+  },
+  "dread": {
+    "more": "Dread tends to settle in when something unwelcome is definitely coming and the only question is when: a layoff announcement, a test result, a confrontation. It can hang over days, coloring ordinary activities, and many people feel it heavily in the chest and stomach. It keeps attention on the threat, which can aid preparation but is also exhausting. Its anchor to a specific, identified event separates it from free-floating anxiety.",
+    "distinct": {
+      "term": "anxiety",
+      "line": "Dread is tied to a specific known event still to come; anxiety is more diffuse, without one clear object."
+    },
+    "notice": "When dread hangs over a day, notice how it shapes the ordinary moments that have nothing to do with it."
+  },
+  "envy": {
+    "more": "Envy often surfaces through comparison: a colleague's promotion, a friend's home, someone's ease or talent. It can bring a pinch of pain, a wish to have what they have, and sometimes thoughts that diminish them. Some researchers distinguish a benign form that motivates effort from a malicious form that wants the other brought down, though not everyone accepts that split. No existing relationship needs to be threatened for envy to appear.",
+    "distinct": {
+      "term": "jealousy",
+      "line": "Envy wants what someone else has; jealousy fears losing what you already have to a third party."
+    },
+    "notice": "When envy pinches, notice whether it points toward something you want for yourself or toward the other person."
+  },
+  "euphoria": {
+    "more": "Euphoria can appear after a long run, a huge relief, a crowd moment at a concert, or sometimes from physiological causes such as certain substances or states. It often feels expansive and whole-body, with racing thoughts and a sense that anything is possible. It can be memorable and bonding. Because its intensity can outrun circumstances, it may also blur judgment, which is part of what separates it from ordinary joy.",
+    "distinct": {
+      "term": "joy",
+      "line": "Joy fits its moment; euphoria is joy pushed to an intensity that can feel disorienting and loosely tied to any ordinary event."
+    },
+    "notice": "If you have felt euphoria, notice what tends to bring it on and how your sense of judgment changes inside it."
+  },
+  "excitement": {
+    "more": "Excitement builds before something anticipated: a trip, a launch, a first date, a game about to start. It tends to bring restlessness, quick speech, and difficulty settling, and many people feel it in the chest and hands. It mobilizes energy toward what is coming. Its body feel overlaps a great deal with nervousness, and some research suggests people can partly read the same arousal either way.",
+    "distinct": {
+      "term": "anxiety",
+      "line": "Excitement and anxiety can feel physically similar; excitement leans toward a hoped-for outcome while anxiety leans toward what might go wrong."
+    },
+    "notice": "When your body feels charged before something, notice whether you read it as excitement, nerves, or both."
+  },
+  "frustration": {
+    "more": "Frustration flares when something blocks a goal: a jammed printer, a slow website, a skill that will not come together. It often brings muscle tension, sighing, or an urge to push harder or give up. It can signal that a strategy is not working and something needs to change. Because it is about the obstacle rather than a wrongdoer, it happens readily when no other person is involved.",
+    "distinct": {
+      "term": "anger",
+      "line": "Frustration is about a blocked goal and needs no wrongdoer; anger usually involves a sense that someone or something has done wrong."
+    },
+    "notice": "When frustration builds, notice what exactly is in the way, and whether it is a thing, a person, or yourself."
+  },
+  "hatred": {
+    "more": "Hatred is less a passing feeling than an enduring stance toward a person, group, or thing judged deeply bad. It can show up as preoccupation, a hardening when the subject is mentioned, and wishes for the other's downfall or removal. It may grow from real harm, from fear, or from group dynamics, and researchers disagree about whether it is an emotion, an attitude, or both. Its combination of intensity and duration is distinctive.",
+    "distinct": {
+      "term": "antipathy",
+      "line": "Antipathy is a mild dislike content to keep its distance; hatred is intense and persistent, often wishing the other harm."
+    },
+    "notice": "If hatred is present, notice what it keeps your attention on, and how long it has been there."
+  },
+  "impatience": {
+    "more": "Impatience shows up in lines, slow conversations, loading screens, or while waiting for news. Many people tap, fidget, check the time, or finish other people's sentences. It reflects a wish for things to move faster than they do, which can sometimes drive useful action. It is often described as an impulse state than a full emotion, and it is often a doorway into frustration or irritation if the delay continues.",
+    "distinct": {
+      "term": "frustration",
+      "line": "Impatience is about time feeling too slow; frustration is about a goal actually being blocked."
+    },
+    "notice": "When you are waiting, notice what your hands and feet are doing, and what you imagine doing once the wait ends."
+  },
+  "indignation": {
+    "more": "Indignation rises when a rule of fairness seems broken: someone cuts in line, a colleague takes credit, a vulnerable person is mistreated. It often brings a sense of righteousness and an urge to speak out or correct the wrong. It can fuel advocacy and social change. Because it is about principles rather than personal injury, people often feel it on behalf of strangers, which separates it from simple irritation.",
+    "distinct": {
+      "term": "irritation",
+      "line": "Irritation responds to minor friction; indignation responds to a perceived moral violation and can be felt on someone else's behalf."
+    },
+    "notice": "When indignation flares, notice which principle feels violated, and who you feel it on behalf of."
+  },
+  "irritation": {
+    "more": "Irritation tends to accumulate from small, repeated frictions: a dripping tap, a colleague's habit, interruptions on a tired day. It shows up as short replies, tightness around the head and shoulders, and a lower threshold for everything else. It can signal that a need such as rest, space, or quiet is not being met. Its low intensity and cumulative nature distinguish it from anger at a clear wrong.",
+    "distinct": {
+      "term": "anger",
+      "line": "Irritation is low-level and builds from repeated small frictions; anger is stronger and usually responds to a clearer wrong."
+    },
+    "notice": "Notice whether irritation today is about the thing in front of you or about a pile of smaller things."
+  },
+  "jealousy": {
+    "more": "Jealousy appears when a valued relationship seems threatened by someone else: a partner's attention drifting, a close friend's new friend, a sibling getting favor. It often mixes fear of loss, anger, and insecurity, and may bring urges to check, compare, or seek reassurance. It can reveal how much a bond matters. What defines it is the three-way structure: you, someone you value, and a perceived rival.",
+    "distinct": {
+      "term": "envy",
+      "line": "Jealousy fears losing an existing relationship to a rival; envy simply wants what another person has."
+    },
+    "notice": "When jealousy stirs, notice what you fear losing, and what you imagine the other person offers."
+  },
+  "panic": {
+    "more": "Panic can arrive suddenly, sometimes in an obvious threat and sometimes out of nowhere, in a supermarket or at night. It may bring a pounding heart, shortness of breath, dizziness, and a powerful sense that something terrible is happening. The body's alarm response appears to be firing at full strength. Its defining feature is that intensity and physical override, often out of proportion to the actual danger, which can make it frightening in itself.",
+    "distinct": {
+      "term": "fear",
+      "line": "Fear is scaled to an actual threat; panic is an intense physiological surge that often exceeds or is disconnected from the real danger."
+    },
+    "notice": "If you have known panic, notice in hindsight what your body did first, before any thought caught up."
+  },
+  "rage": {
+    "more": "Rage is anger that floods past the point of choice: shouting, slamming, or saying things one would not say on reflection. It can follow serious injustice, humiliation, or long-held strain finally breaking through. In rage, attention narrows sharply and the usual brakes stop working for a while. Many people describe it afterwards as having happened to them, which captures what sets it apart from ordinary, still-steerable anger.",
+    "distinct": {
+      "term": "anger",
+      "line": "Anger can still be steered; rage is anger at an intensity that overrides self-control."
+    },
+    "notice": "Looking back on moments of rage, notice the point at which choice seemed to slip away."
+  },
+  "rejection": {
+    "more": "Rejection is the sting of being turned down or left out by someone whose acceptance mattered: an unanswered message, a lost bid for a role, a partner leaving. It often brings replaying, self-questioning, and an urge to withdraw or win approval back. Some studies suggest social pain and physical pain share overlapping brain systems, though how far that overlap goes is debated. Its focus on a specific refusal separates it from general loneliness.",
+    "distinct": {
+      "term": "loneliness",
+      "line": "Rejection is the pain of a specific refusal or exclusion; loneliness is a broader sense of lacking wanted connection."
+    },
+    "notice": "After a rejection, notice the story you tell yourself about why it happened."
+  },
+  "relief": {
+    "more": "Relief comes when a weight lifts: test results come back clear, a lost child is found, a hard project finally ends. Many people exhale, loosen, or feel suddenly tired. It marks the end of a threat that had been occupying attention. Because it depends on what came before, relief is often tangled with leftover fear, sadness at what nearly happened, or guilt that others were not so lucky.",
+    "distinct": {
+      "term": "contentment",
+      "line": "Contentment is a quiet satisfaction that needs no backstory; relief always follows a strain and carries the mark of what has just ended."
+    },
+    "notice": "When relief arrives, notice what other feelings come along with it."
+  },
+  "resentment": {
+    "more": "Resentment builds when grievances are not resolved: unequal workloads at home, a slight never acknowledged, a pattern of being taken for granted. It often shows up as a running mental tally, coldness, or replaying old scenes. It can keep alive a sense that something unfair needs addressing. What sets it apart is its persistence; it is anger that has become a disposition, often toward one particular person.",
+    "distinct": {
+      "term": "anger",
+      "line": "Anger often burns at a single episode; resentment is anger that has settled into a lasting disposition built from accumulated unfairness."
+    },
+    "notice": "Notice whether there is someone you keep a quiet tally about, and what the first entry was."
+  },
+  "thrill": {
+    "more": "Thrill tends to show up in moments of chosen risk: a rollercoaster drop, a steep ski run, a stage entrance, a near miss that turns out fine. It brings a surge of arousal, a widening of the eyes, and sometimes laughter. Some people seek it out for the intensity of feeling fully alert. Its tie to risk, speed, or adrenaline is what narrows it within the broader family of excitement.",
+    "distinct": {
+      "term": "excitement",
+      "line": "Excitement covers any eager anticipation; thrill is its narrower form, tied specifically to risk, speed, or an adrenaline rush."
+    },
+    "notice": "Notice which kinds of risk feel thrilling to you, and which simply feel frightening."
+  },
+  "unease": {
+    "more": "Unease is the faint sense that something is off before it can be named: walking into a quiet room, an email with an odd tone, a feeling about a deal. It tends to register in the body first, perhaps as tension or a slight churn, while the mind has not yet caught up. It may be an early warning from patterns noticed below awareness, though it can also misfire. Its low elaboration sets it apart.",
+    "distinct": {
+      "term": "anxiety",
+      "line": "Unease is a faint bodily sense before any clear story; anxiety tends to be elaborated with worried thoughts about what might happen."
+    },
+    "notice": "When something feels off, notice what your body registered before you had words for it."
+  },
+  "absurdity": {
+    "more": "Absurdity can surface in a bureaucratic loop, a hospital waiting room, or late at night when daily routines suddenly look arbitrary. It holds two things at once: the wish for things to make sense and the sense that they do not. Some people meet it with dark humor, others with unease, and philosophers have long argued over whether it should be resisted, accepted, or embraced. Its mix of pull and mismatch is distinctive.",
+    "distinct": {
+      "term": "meaninglessness",
+      "line": "Meaninglessness is a flat absence of purpose; absurdity is the felt clash between still seeking meaning and not finding it confirmed."
+    },
+    "notice": "When something strikes you as absurd, notice whether you meet it with laughter, unease, or both at once."
+  },
+  "awe": {
+    "more": "Awe tends to arrive before the very large or the very intricate: a night sky, a storm, a cathedral, a mathematical proof, a newborn. People often fall quiet, feel small, and sometimes describe chills. Research suggests awe can shift attention away from the self and toward others, though findings vary across studies. What sets it apart is the sense that one's usual frame of understanding has to stretch to take something in.",
+    "distinct": {
+      "term": "wonder",
+      "line": "Wonder is curious delight at the unexplained; awe involves a vastness that overwhelms your usual frame of understanding."
+    },
+    "notice": "Notice the last time something felt too large to fit inside your usual way of seeing."
+  },
+  "curiosity": {
+    "more": "Curiosity shows up as the pull to open a box, follow a footnote, ask one more question, or take an unfamiliar path. It often involves a pleasant sense of an information gap waiting to be closed, mixed with mild tension until it is. It seems to support learning and exploration. Researchers debate whether it is best seen as an emotion, a drive, or a trait; its approach orientation separates it from wariness.",
+    "distinct": {
+      "term": "wonder",
+      "line": "Curiosity is the pull to find out; wonder is curiosity heightened by something that seems to exceed ordinary explanation."
+    },
+    "notice": "Notice what questions you return to without being asked, and what draws you toward them."
+  },
+  "despair": {
+    "more": "Despair tends to settle in after repeated setbacks, prolonged illness, loss, or long stretches of struggle that seem to lead nowhere. It often brings a sense that effort is pointless and that the future will look the same, which can make even small steps feel out of reach. It is a heavy state and deserves to be taken seriously. Hopelessness is its defining feature, which sets it apart from ordinary sadness.",
+    "distinct": {
+      "term": "sadness",
+      "line": "Sadness can coexist with expecting things to improve; despair adds the belief that the situation cannot get better."
+    },
+    "notice": "If despair is near, notice where its weight sits in your body, and what it tells you about the future."
+  },
+  "existential-dread": {
+    "more": "Existential dread can arrive at a birthday, a funeral, in a sleepless hour, or while reading about deep time or the size of the universe. It concerns mortality, freedom, or the bare fact of existing, rather than any specific upcoming event. Some people feel it as a cold drop, others as a background weight. Thinkers have long debated whether it is a burden to manage or an opening toward reflection.",
+    "distinct": {
+      "term": "dread",
+      "line": "Ordinary dread fears a specific upcoming event; existential dread concerns one's own finitude or the structure of existence itself."
+    },
+    "notice": "Notice when thoughts of finitude arrive, and what you were doing or seeing just before."
+  },
+  "hope": {
+    "more": "Hope appears when a wanted outcome seems possible but not assured: waiting on a job offer, recovery from illness, a reconciliation. It often brings a forward lean of attention, imagined scenarios, and a willingness to keep acting. Some psychologists describe it as combining goals, pathways, and a sense of agency. The uncertainty is part of what makes it hope; once an outcome feels assured, hope tends to give way to plain expectation.",
+    "distinct": {
+      "term": "optimism",
+      "line": "Optimism expects things to turn out well; hope reaches toward a wanted outcome that is possible but uncertain, and can hold on even when the odds are low."
+    },
+    "notice": "Notice what you are hoping for right now, and what keeps that hope alive."
+  },
+  "longing": {
+    "more": "Longing can attach to a distant person, a place never visited, a different kind of life, or something hard to name. It often shows up as a persistent ache, daydreaming, or a restless pull toward elsewhere. It may reveal what someone values or misses most. Unlike nostalgia, it is not specifically about the past; its object can be in the future, far away, or simply out of reach.",
+    "distinct": {
+      "term": "nostalgia",
+      "line": "Nostalgia looks back toward a fondly remembered past; longing reaches for something distant or unattainable, whatever its place in time."
+    },
+    "notice": "Notice where your mind drifts when it is free to wander, and what it seems to be reaching for."
+  },
+  "meaninglessness": {
+    "more": "Meaninglessness can creep in during repetitive work, after a major goal is reached, in long illness, or when old beliefs no longer hold. Activities that once mattered may feel empty or arbitrary, and motivation can drain away. It is a painful state for many people and not simply laziness or a lack of willpower. Its focus on purpose and significance distinguishes it from low energy or simple boredom.",
+    "distinct": {
+      "term": "boredom",
+      "line": "Boredom comes from a lack of engaging stimulation in the moment; meaninglessness is a deeper sense that activities or existence lack purpose."
+    },
+    "notice": "Notice which activities still feel like they matter, even slightly, and which have gone flat."
+  },
+  "nostalgia": {
+    "more": "Nostalgia is often stirred by a smell, an old song, a photograph, or a return to a childhood place. It mixes warmth for what was with an ache that it cannot be revisited. Earlier writers treated it as a kind of illness; more recent research suggests it can support a sense of continuity and connection, though it can also tip into sadness. Its genuine bittersweet mix is its defining character.",
+    "distinct": {
+      "term": "longing",
+      "line": "Longing can reach toward anything distant; nostalgia looks specifically toward a fondly remembered past that is no longer available."
+    },
+    "notice": "When nostalgia arrives, notice what it was that set it off, and which part feels sweet and which aches."
+  },
+  "transcendence": {
+    "more": "Transcendence is reported in many settings: meditation, prayer, music, nature, love, deep concentration, and sometimes crisis. People describe the edges of the self loosening and a sense of connection to something larger, whether people, nature, or the sacred, and such moments are often remembered as significant. Researchers disagree about how best to study and interpret them, and accounts vary widely across cultures and traditions. Its defining feature is that softened self-boundary.",
+    "distinct": {
+      "term": "awe",
+      "line": "Awe responds to something vast outside you; transcendence is the feeling that the boundaries of the self have loosened or been exceeded."
+    },
+    "notice": "Notice moments when your sense of where you end and the world begins feels less sharp than usual."
+  },
+  "void": {
+    "more": "Void describes a deep, lasting absence of meaning that does not seem to trace back to any particular event and has no obvious end in sight. People may describe going through the motions while feeling nothing underneath, or a hollow at the center of things. It can be distressing and isolating, and it is not a failure of character. Its chronic, causeless quality is what separates it from post-event emptiness.",
+    "distinct": {
+      "term": "emptiness",
+      "line": "Emptiness usually follows something and passes; void is a chronic absence of meaning with no clear cause and no clear endpoint."
+    },
+    "notice": "If void feels present, notice whether anything at all, however small, still registers as texture or contrast."
+  },
+  "wonder": {
+    "more": "Wonder often shows up in front of a spider's web, a magic trick, a child's question, or an elegant idea. It combines puzzlement with pleasure and an urge to look closer or ask how. It seems to keep people open to learning. Wonder is usually gentler than awe; it can live comfortably at small scales, without the overwhelming vastness that awe tends to involve.",
+    "distinct": {
+      "term": "awe",
+      "line": "Wonder can be found at small scales and invites closer looking; awe involves a vastness that overwhelms your usual frame."
+    },
+    "notice": "Notice the small things that still make you ask how they work."
+  },
+  "yearning": {
+    "more": "Yearning is longing turned up: aching for a person far away, a homeland, a child, a calling, or a life that feels just out of reach. Many people describe it as felt in the body, a pull or hollow in the chest. It can be painful and also clarifying, showing what matters most. Its greater intensity and physical quality are what separate it from the gentler, more diffuse ache of longing.",
+    "distinct": {
+      "term": "longing",
+      "line": "Longing is a sustained wanting for something distant; yearning is its more intense, often bodily-felt form."
+    },
+    "notice": "When yearning arises, notice where you feel it, and what it seems to be reaching toward."
+  },
+  "affection": {
+    "more": "Affection appears in small warm moments: a hand on a shoulder, a fond nickname, pleasure at a friend's text, warmth toward a pet. It tends to bring softness in the voice and an urge to be near or to look after. It may help keep everyday bonds alive. Affection can be light and casual, without the depth, commitment, or history that love usually involves.",
+    "distinct": {
+      "term": "love",
+      "line": "Love is a durable, deep orientation toward another; affection is lighter, warmer fondness that needs no depth or long history."
+    },
+    "notice": "Notice the small gestures of fondness you give and receive in an ordinary day."
+  },
+  "alienation": {
+    "more": "Alienation can show up when a workplace's values feel foreign, when returning to a hometown that has changed, or when one's own reactions feel distant and unfamiliar. People may feel like an outsider looking in, even among others. It can be a painful signal of a mismatch between person and setting. It can reach beyond people to a whole setting, or even to oneself, which makes it wider than a lonely moment.",
+    "distinct": {
+      "term": "loneliness",
+      "line": "Loneliness is missing wanted connection; alienation is feeling like a stranger to a group, a place, or even yourself."
+    },
+    "notice": "Notice settings where you feel like an observer rather than a participant, and what makes them feel that way."
+  },
+  "attachment": {
+    "more": "Attachment is the bond that makes someone a safe base: the person you call with news, whose absence you notice, whose voice can settle you. It is often felt most clearly in separation or reunion rather than everyday moments. Attachment research describes different patterns of security and insecurity, though how stable those patterns are over life is still discussed. It is distinct for being a bond rather than a momentary feeling.",
+    "distinct": {
+      "term": "love",
+      "line": "Love includes active care and valuing; attachment is the underlying bond and security, which can persist even while you are angry."
+    },
+    "notice": "Notice whose presence or absence changes how settled you feel."
+  },
+  "belonging": {
+    "more": "Belonging can be felt in a team that has your back, a neighborhood where people know your name, or a family table where your seat is assumed. It tends to bring ease, lower vigilance, and freedom to be oneself. Many researchers treat it as a basic human need. It differs from a passing moment of connection in being more like a standing condition, something you can rely on being there.",
+    "distinct": {
+      "term": "attachment",
+      "line": "Attachment is a bond to particular people; belonging is a stable sense of being an accepted part of a group or place."
+    },
+    "notice": "Notice where you can arrive without having to explain or prove yourself."
+  },
+  "compassion": {
+    "more": "Compassion often arises on seeing someone struggle: a friend grieving, a stranger falling, news of distant hardship. It combines feeling for their pain with a pull to help or ease it. Some researchers distinguish it from empathic distress, where sharing another's pain becomes overwhelming; compassion seems to involve warmth rather than only shared suffering, though the distinction is still debated. Its motivation to help is what defines it.",
+    "distinct": {
+      "term": "empathy",
+      "line": "Empathy is feeling along with someone's pain; compassion adds warmth and a wish to help, without needing to take on the pain fully."
+    },
+    "notice": "When you see someone struggling, notice whether you feel pulled toward them, overwhelmed, or both."
+  },
+  "desire": {
+    "more": "Desire can be for a person, food, rest, an object, an achievement, or a sensation. It often shows up as focused attention, imagining having the thing, and a pull to move toward it. Desire seems to energize pursuit of what we value or need. Because it works more like a pull than a settled feeling, it can feel urgent and then fade quickly once satisfied.",
+    "distinct": {
+      "term": "love",
+      "line": "Love is lasting care for another person; desire is wanting, and it can show up with love, without it, or for things that are not people at all."
+    },
+    "notice": "Notice how desire changes your attention, and what happens to it once the thing is near."
+  },
+  "devotion": {
+    "more": "Devotion shows up in sustained acts of commitment: caring for an aging parent, practicing a craft for decades, showing up for a cause, a faith, or a partner through hard seasons. It is often more visible in action than in feeling. It can give life structure and meaning. What distinguishes it is its persistence, since it can continue steadily through periods when the felt intensity of love is low.",
+    "distinct": {
+      "term": "love",
+      "line": "Love can rise and fall in felt intensity; devotion is the sustained commitment and action that can outlast those fluctuations."
+    },
+    "notice": "Notice what you keep showing up for, even on days when the feeling is quiet."
+  },
+  "gratitude": {
+    "more": "Gratitude appears when someone has done something for us, or when circumstances turn out kindly: a neighbor's help, a teacher's patience, a safe journey home. It often brings warmth and an urge to thank or give back. Some studies link a habit of noticing gratitude with greater well-being, though the size of that effect varies across studies. Its recognition of something given is what sets it apart from simple pleasure.",
+    "distinct": {
+      "term": "indebtedness",
+      "line": "Indebtedness feels like owing something back; gratitude is warmth toward what was given, without the sense of a bill to pay."
+    },
+    "notice": "Notice who or what you feel quietly thankful toward today, and whether they know."
+  },
+  "infatuation": {
+    "more": "Infatuation tends to flare early: in a new crush, a new friendship, sometimes even a new hobby or mentor. It often brings constant thoughts of the person, idealization, heightened energy, and sensitivity to every signal. It can be thrilling and also destabilizing. What distinguishes it from love is the absence of a track record; it runs on imagined qualities more than tested ones, and usually fades or transforms.",
+    "distinct": {
+      "term": "love",
+      "line": "Love is built on a track record and knowing someone; infatuation is intense, idealized attraction that runs ahead of that knowledge."
+    },
+    "notice": "Notice how much of what you feel draws on things you know and how much on things you imagine."
+  },
+  "isolation": {
+    "more": "Isolation describes the circumstance of being apart from others, through living alone, remote work, illness, travel, or geography. It may feel neutral, peaceful, or painful depending on whether it is chosen and how long it lasts. Research links prolonged isolation with health risks, and researchers are still working out how much comes from the circumstance itself and how much from loneliness. It names the objective condition, not the feeling.",
+    "distinct": {
+      "term": "loneliness",
+      "line": "Isolation is the objective condition of being apart; loneliness is the painful feeling of lacking wanted connection, which can occur even among people."
+    },
+    "notice": "Notice when being apart feels restful and when it begins to feel like something missing."
+  },
+  "loneliness": {
+    "more": "Loneliness can be felt in an empty apartment, in a crowded office, or within a marriage. It often involves a sense that no one really knows or sees you, and it may bring heightened sensitivity to social threat, which can make reaching out feel harder. It is very common and not a personal failing. What defines it is the subjective gap between the connection one has and the connection one wants.",
+    "distinct": {
+      "term": "isolation",
+      "line": "Isolation is simply being apart from others; loneliness is the painful sense of lacking wanted connection, alone or not."
+    },
+    "notice": "Notice the kind of connection you miss most, and whether it is about many people or one."
+  },
+  "love": {
+    "more": "Love shows up very differently across relationships: between partners, parent and child, friends, or toward a place or practice. It often involves caring about another's well-being for their own sake, wanting their presence, and being changed by them. Researchers disagree about whether love is an emotion, a set of emotions, or a commitment. What seems common is a lasting orientation of valuing that outlives any single moment.",
+    "distinct": {
+      "term": "infatuation",
+      "line": "Infatuation is intense, idealized attraction without much track record; love is a durable orientation built through knowing someone over time."
+    },
+    "notice": "Notice how love shows up in what you do for someone, not only in how you feel."
+  },
+  "solitude": {
+    "more": "Solitude is time alone that one has chosen: a solo walk, a quiet morning, a retreat, an evening with a book. Many people describe it as restorative, a chance to think, create, or simply rest from being perceived. Its effects seem to depend heavily on choice; the same hours alone can feel very different when imposed. That voluntary quality is what separates it from loneliness.",
+    "distinct": {
+      "term": "loneliness",
+      "line": "Loneliness is painful lack of wanted connection; solitude is chosen time alone that can feel restorative."
+    },
+    "notice": "Notice what you tend to do with time alone when nothing is required of you."
+  },
+  "trust": {
+    "more": "Trust shows up when people stop checking: handing over keys, sharing a secret, relying on a colleague's figures, assuming a bridge will hold. It lowers vigilance and frees attention for other things. It is often built slowly through reliability and can be lost quickly. Trust is less a momentary feeling than a settled expectation, which is why it can be present without being noticed until it is broken.",
+    "distinct": {
+      "term": "attachment",
+      "line": "Attachment is a bond to particular people; trust is an expectation of not being harmed, which can extend to strangers, institutions, or a bridge."
+    },
+    "notice": "Notice where you no longer feel the need to check, and what earned that."
+  },
+  "bewilderment": {
+    "more": "Bewilderment shows up when nothing quite adds up: a new city's transit map, a confusing official form, a sudden turn in a relationship. People may feel stuck, unsure where to begin, and reluctant to act for fear of making it worse. It can signal that one's usual maps do not apply. What sets it apart is that the confusion blocks action, rather than inviting playful puzzling.",
+    "distinct": {
+      "term": "perplexity",
+      "line": "Perplexity is an intellectual puzzle that invites working it out; bewilderment is confusion that blocks action or decision."
+    },
+    "notice": "When bewildered, notice whether the confusion is about what is happening or about what to do next."
+  },
+  "boredom": {
+    "more": "Boredom can arise in long meetings, repetitive tasks, waiting rooms, or when a once-interesting activity no longer engages. It often brings restlessness, time dragging, and a search for anything else to do. Some researchers suggest it signals that attention is not finding meaningful engagement and nudges a change. It is unpleasant yet low in activation, and it comes from a lack of engagement rather than from any loss.",
+    "distinct": {
+      "term": "meaninglessness",
+      "line": "Meaninglessness is a deep sense that things lack purpose; boredom is a narrower lack of engaging stimulation in the moment."
+    },
+    "notice": "When boredom arrives, notice what your attention starts searching for."
+  },
+  "contentment": {
+    "more": "Contentment can be felt on a quiet evening, after a good meal, in a familiar routine, or looking around at what is already here. It brings ease and a pause in striving, without much excitement. Some traditions treat it as a central aim of a good life. What sets it apart from joy is its stillness: less a burst of pleasure than a quiet pause in wanting more.",
+    "distinct": {
+      "term": "happiness",
+      "line": "Happiness is a broader evaluation of life going well; contentment is a quieter, present-moment satisfaction with little wanting."
+    },
+    "notice": "Notice moments when you are not wanting anything else, and how long they tend to last."
+  },
+  "distress": {
+    "more": "Distress shows up under pressure that feels like too much: overlapping deadlines, a sick child at night, a crisis at work, uncertain news. People may feel agitated, overwhelmed, and unable to settle or think clearly. It signals that demands are outstripping resources. It is a broad, high-activation suffering in its own right, not reducible to a specific loss or disappointment, and it deserves to be met with care.",
+    "distinct": {
+      "term": "anxiety",
+      "line": "Anxiety is diffuse worry about what might come; distress is broad suffering under pressure that is happening now."
+    },
+    "notice": "When distress rises, notice which demands are pressing most, and whether they are arriving all at once."
+  },
+  "emptiness": {
+    "more": "Emptiness often follows intensity: the day after a wedding, the end of a project, after a crisis passes, or once a long caring role ends. People describe feeling hollow, tired, and oddly flat when they expected relief or joy. It can be a sign of depletion after giving a great deal. What distinguishes it is that it has a recent cause and, for many people, eases with time and rest.",
+    "distinct": {
+      "term": "void",
+      "line": "Void is a chronic absence of meaning with no clear cause; emptiness is a reactive depletion following something specific."
+    },
+    "notice": "When emptiness follows something big, notice what you poured yourself into just before."
+  },
+  "grief": {
+    "more": "Grief tends to follow the death of someone loved, though people grieve other profound losses too, and it often comes in waves: ordinary hours, then a song or a date brings it crashing back. Relief, anger, guilt, and even laughter can sit alongside it. There is no correct timetable, and the older idea of fixed stages is now widely questioned. Its tie to a specific loss and its wave-like rhythm set it apart.",
+    "distinct": {
+      "term": "sorrow",
+      "line": "Sorrow is a quiet, sustained sadness without a specific bereavement; grief is the suffering that follows a particular loss, moving in waves."
+    },
+    "notice": "If grief is present, notice what tends to bring the waves, and what the quieter stretches between them feel like."
+  },
+  "happiness": {
+    "more": "Happiness is often less a flash than a backdrop: a sense that one's life, work, and relationships are going reasonably well. It can coexist with bad days and sad moments. Researchers measure it in different ways, as life satisfaction, frequent positive feelings, or a sense of meaning, and the findings depend on which is used. Its steadiness distinguishes it from the moment-to-moment spikes of joy.",
+    "distinct": {
+      "term": "joy",
+      "line": "Joy is a bright spike in a moment; happiness is a steadier evaluation that life overall is going well."
+    },
+    "notice": "Notice what you are weighing when you ask yourself whether you are happy."
+  },
+  "low-mood": {
+    "more": "Low mood can last hours, days, or longer, often without a clear trigger: gray weeks, tired seasons, stretches when everything feels like effort. People may notice flatness, low energy, and less interest in usual pleasures. Causes can include sleep, stress, health, circumstances, or nothing obvious. It is common and not in itself a diagnosis; what sets it apart is that it lingers and spreads without needing one clear reason.",
+    "distinct": {
+      "term": "sadness",
+      "line": "Sadness usually has an object, a loss or an unmet want; low mood is a flatter, lower-energy state that may not be about anything in particular."
+    },
+    "notice": "Notice whether low mood shifts with sleep, light, company, or time of day."
+  },
+  "melancholy": {
+    "more": "Melancholy often shows up on rainy afternoons, in autumn, with certain music, or in reflective late hours. It is a quiet, pensive sadness that may feel almost tender rather than sharp, and some people find it creatively rich. Historically the word has carried many meanings, from temperament to illness, so usage varies. It differs from sadness about an event in lacking a clear proximate cause.",
+    "distinct": {
+      "term": "sadness",
+      "line": "Sadness usually responds to a specific loss or want; melancholy is reflective sadness without a clear proximate cause."
+    },
+    "notice": "Notice what settings or sounds bring on a reflective, quiet sadness, and whether it feels heavy or tender."
+  },
+  "perplexity": {
+    "more": "Perplexity arises in front of a puzzling result, a contradictory argument, or a riddle that will not resolve. People often frown, reread, and turn the problem over in their minds. It can be productive, holding attention on a gap long enough to learn something. It mixes confusion with a trace of surprise and tends to feel more like an intellectual challenge than a block to action.",
+    "distinct": {
+      "term": "bewilderment",
+      "line": "Bewilderment blocks action because you do not know what to do; perplexity is a puzzle that invites working it out."
+    },
+    "notice": "When something puzzles you, notice whether you want to solve it or step away from it."
+  },
+  "sorrow": {
+    "more": "Sorrow is a quieter, longer-lasting sadness: over a relationship that faded, a hope that did not come true, or the state of the world. It may sit in the background rather than flaring, coloring days with a soft heaviness. Some people find it deepens empathy and reflection. It differs from grief in not being tied to a specific bereavement, and from passing sadness in its staying power.",
+    "distinct": {
+      "term": "grief",
+      "line": "Grief follows a specific loss, usually a bereavement, and moves in waves; sorrow is a quieter, sustained sadness without that specific cause."
+    },
+    "notice": "Notice whether there is a quiet sadness that travels with you, and what it seems to be about."
+  },
+  "awkwardness": {
+    "more": "Awkwardness shows up in unclear social moments: a hug-or-handshake hesitation, a silence nobody knows how to fill, an introduction where names are forgotten. People often fidget, laugh nervously, or look for an exit. It seems to signal uncertainty about the shared rules of an interaction. What distinguishes it is that no one has necessarily done anything wrong; the discomfort comes from the norms themselves being unclear.",
+    "distinct": {
+      "term": "embarrassment",
+      "line": "Embarrassment follows a specific observed misstep; awkwardness comes from an interaction whose norms are unclear, even when no one slipped up."
+    },
+    "notice": "In an awkward moment, notice whether anyone actually did anything wrong, or whether the rules were simply unclear."
+  },
+  "embarrassment": {
+    "more": "Embarrassment follows a visible slip: tripping in public, calling a teacher by the wrong name, a phone ringing at a quiet moment. Many people blush, look down, laugh, or make a self-deprecating comment. Some researchers suggest these signals help smooth things over by showing others that we care about the norm. It is brief, needs a real or imagined audience, and is lower-stakes than shame.",
+    "distinct": {
+      "term": "shame",
+      "line": "Embarrassment is a brief, light discomfort about a misstep others noticed; shame is a heavier sense that the self as a whole is deficient."
+    },
+    "notice": "After an embarrassing moment, notice how long it stays with you, and how others actually seemed to react."
+  },
+  "guilt": {
+    "more": "Guilt follows an act judged wrong: a harsh word, a broken promise, a task neglected. It often brings replaying the moment and an urge to apologize, make amends, or fix things. Many researchers see it as one of the more constructive self-conscious feelings, because it points toward repair rather than hiding. It concerns a specific action, which separates it from shame's verdict on the whole self.",
+    "distinct": {
+      "term": "shame",
+      "line": "Guilt says the action was wrong and leans toward repair; shame says the self is wrong and leans toward hiding."
+    },
+    "notice": "When guilt arises, notice whether it is focused on something you did or on who you are."
+  },
+  "humiliation": {
+    "more": "Humiliation happens when someone else lowers us in front of others: being mocked publicly, demeaned by a superior, exposed online. It often brings intense heat, a wish to disappear, and anger at the person responsible. It can leave a long mark and is associated in some research with later conflict or withdrawal. What separates it from shame is that it is imposed from outside, involuntary and other-caused.",
+    "distinct": {
+      "term": "shame",
+      "line": "Shame can arise from one's own judgment of oneself; humiliation is imposed by another's action, publicly and involuntarily."
+    },
+    "notice": "If humiliation is remembered, notice whether the anger in it points toward the person responsible or turns back toward yourself."
+  },
+  "pride": {
+    "more": "Pride appears after something achieved or a quality recognized as one's own: finishing a hard project, learning a hard new skill, standing up for a principle. Many people stand taller, share the news, or allow themselves to linger on it. Researchers often distinguish an achievement-based pride from a more inflated, self-aggrandizing form. Its essential feature is that the good thing is felt as one's own doing or quality.",
+    "distinct": {
+      "term": "arrogance",
+      "line": "Arrogance places you above others; pride can simply be warmth about something you did or are, with no one placed beneath you."
+    },
+    "notice": "Notice what you feel proud of, and whether you let yourself feel it fully or hurry past it."
+  },
+  "shame": {
+    "more": "Shame can follow a mistake, a criticism, or a moment of exposure, and sometimes appears with no clear trigger. It often brings a wish to hide, shrink, or disappear, along with heat in the face and a sense that the problem is oneself rather than one's actions. It can be very painful and isolating, and often hard to put into words or share. Its global, whole-self focus distinguishes it from guilt.",
+    "distinct": {
+      "term": "guilt",
+      "line": "Guilt focuses on a specific action and leans toward repair; shame judges the whole self as deficient and leans toward hiding."
+    },
+    "notice": "When shame appears, notice whether the voice is speaking about something you did or about who you are."
+  },
+  "avoidance": {
+    "more": "Avoidance is steering away from what feels threatening or uncomfortable: not opening a letter, skipping a party, changing the subject, staying busy to avoid a thought. In the short term it often brings relief, and avoiding real dangers is sensible. Over time, though, avoiding things that are uncomfortable but not dangerous can keep fear in place and shrink the range of life. It is something done with a feeling, not the feeling itself.",
+    "distinct": {
+      "term": "fear",
+      "line": "Fear is the feeling of threat; avoidance is the strategy of steering away from whatever triggers it."
+    },
+    "notice": "Notice something you have been steering around, and what you expect would happen if you stopped."
+  },
+  "emotional-detachment": {
+    "more": "Emotional detachment is a stance of standing back from one's own feelings: going numb in a crisis, keeping relationships at arm's length, describing hard events flatly. In acute situations, or in roles like emergency work, some distance can help people function. As a lasting pattern, it may make closeness harder and leave feelings unprocessed. It is a coping style rather than a feeling, and it can be hard to notice from inside.",
+    "distinct": {
+      "term": "suppression",
+      "line": "Suppression holds back the outward expression of a feeling that is still felt; detachment disengages from the feeling itself, often as a sustained stance."
+    },
+    "notice": "Notice moments when you describe something important as if it happened to someone else."
+  },
+  "rumination": {
+    "more": "Rumination is going over and over the same distressing thoughts: replaying a conversation, asking why something happened, rehearsing what one should have said. It can feel like problem-solving, but often circles without arriving anywhere. Research links persistent rumination with lasting low mood and anxiety, while more concrete reflection seems less harmful. It is a pattern of thinking applied to a feeling, which tends to sustain the feeling rather than resolve it.",
+    "distinct": {
+      "term": "worry",
+      "line": "Worry tends to run forward toward what might happen; rumination usually circles back over what has already happened."
+    },
+    "notice": "When a thought loops, notice whether each pass brings anything new or simply repeats."
+  },
+  "suppression": {
+    "more": "Suppression means holding back the outward signs of a feeling: keeping a straight face in a tense meeting, swallowing tears, not showing irritation to a child. It can be useful in short bursts when expression would be costly. Research suggests that relying on it habitually tends to leave the feeling intact inside, take effort, and may strain closeness, though cultural context shapes these effects. It is a strategy applied to a feeling, not a feeling.",
+    "distinct": {
+      "term": "emotional-detachment",
+      "line": "Detachment disengages from the feeling itself; suppression keeps feeling it while holding back its outward expression."
+    },
+    "notice": "Notice when you hold a feeling behind your face, and what it costs or protects in that moment."
+  }
+}

@@ -1770,6 +1770,8 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
      inline (Herald reads those from the page); the card shows the text at once and the drawing when the file arrives. */
   var TOD_ART_URL = '/assets/home/term-art.4aa0bc1f36.json', ART = null, shown = {};
   function svg(prefix, term){ return term[3] || (ART && ART[prefix === 'tod-ie' ? 'IE' : 'DD'][term[0]]) || ''; }
+  // each term has its own page (_specs/dictionaries/build_terms.py): the card id with '&' -> 'and' and runs of other characters -> '-'
+  function page(term){ return term[0].replace(/&/g, 'and').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, ''); }
   function show(prefix, term, base){
     shown[prefix] = [term, base];
     var art = document.getElementById(prefix+'-art');
@@ -1777,12 +1779,12 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     var def = document.getElementById(prefix+'-def');
     var link = document.getElementById(prefix+'-link');
     if(art) art.innerHTML = svg(prefix, term);
-    if(name) { name.innerHTML = ''; var a = document.createElement('a'); a.textContent = term[1]; a.href = base + '#' + term[0]; name.appendChild(a); }
+    if(name) { name.innerHTML = ''; var a = document.createElement('a'); a.textContent = term[1]; a.href = base + page(term); name.appendChild(a); }
     if(def) def.textContent = term[2];
-    if(link) link.href = base + '#' + term[0];
+    if(link) link.href = base + page(term);
     if(prefix === 'tod-ie') body(term);
     var vis = document.getElementById(prefix + '-vis');
-    if(vis){ vis.innerHTML = svg(prefix, term); vis.href = base + '#' + term[0]; vis.setAttribute('aria-label', term[1] + ': open in the dictionary'); }
+    if(vis){ vis.innerHTML = svg(prefix, term); vis.href = base + page(term); vis.setAttribute('aria-label', term[1] + ': open its page'); }
   }
   var ieSeed = 0, ddSeed = 7;
   show('tod-ie', pick(IE, ieSeed), '/dictionary-of-inner-experience/');

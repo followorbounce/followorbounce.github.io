@@ -1,0 +1,897 @@
+{
+  "color": {
+    "more": "For a working designer, color is never a fixed property of an object. The same red ink looks different on glossy and uncoated paper, under daylight and warm bulbs, and on two different phone screens. Designers therefore specify color within systems, such as print inks or screen values, and check it in the real setting. A cafe menu printed in deep green may turn muddy on recycled stock, which is why a test print matters.",
+    "confused": {
+      "term": "tone",
+      "line": "Color covers hue, saturation and lightness together; tone isolates only the lightness, which is why a grayscale photo keeps its tones but loses its colors."
+    },
+    "try": "Place one colored paper sample on a white sheet, then on a black sheet, and note how its apparent color shifts."
+  },
+  "gradient": {
+    "more": "A gradient blends one visual state into another with no visible steps: a sky fading from pale yellow to blue on a travel poster, or a button that darkens slightly toward its base to suggest a curve. Gradients can also run through size, as when a field of dots shrinks across a page. Long, subtle gradients can show banding, visible stripes, so designers often add a little noise to smooth them.",
+    "confused": null,
+    "try": "Fill a rectangle with a two-color gradient, then add a third color in the middle, and compare which transition looks smoother."
+  },
+  "light": {
+    "more": "Light decides what can be seen and how forms read. Designers work with it when photographing a product, rendering a 3D object or placing lamps in an exhibition. A single side light carves a chair's curves into strong shadows, while flat, even light makes the same chair look like a paper cutout. On a dark app screen, a bright card reads as nearer and more important because it stands out against the darkness.",
+    "confused": {
+      "term": "tone",
+      "line": "Light is the illumination falling on or coming from a scene; tone is the resulting lightness of a particular area as it appears in the image."
+    },
+    "try": "Photograph a mug lit by one lamp from the side, then from directly above, and compare how solid it looks."
+  },
+  "saturation": {
+    "more": "Saturation describes how vivid a hue is, from a pure, intense version to a grayed-out one, while its lightness stays a separate matter. Designers adjust it to control mood and focus. A banking app might use low-saturation blues for calm background areas and a single highly saturated orange for the one button that must be noticed. Many fully saturated colors side by side tend to vibrate and tire the eye.",
+    "confused": {
+      "term": "tone",
+      "line": "Saturation is how pure or grayed a hue is; tone is how light or dark it is, so a color can be dark yet fully saturated."
+    },
+    "try": "Lower the saturation of one photo in steps down to zero and note the step where the mood changes most."
+  },
+  "spot-color-field": {
+    "more": "In this sense, a spot is an area that holds together because its color or material differs from its surroundings, not because a line encloses it: a patch of yellow on a gray wall, or a cork inset in a white tabletop. Designers use such fields to group content without borders, as when an app card is simply a lighter rectangle on a darker page. Print production uses spot color differently, for a premixed ink.",
+    "confused": {
+      "term": "spot color",
+      "line": "Here a spot is a shape defined by color alone; in printing, a spot color is a specific premixed ink, such as a brand's exact orange."
+    },
+    "try": "Lay out three labels on a page, first with outlines, then as colored patches without lines, and see which groups more clearly."
+  },
+  "tone": {
+    "more": "Tone is how light or dark an area is, separate from its hue. Designers check it constantly because it carries most of what we read as form and contrast. A poster with a red headline on a green background may look lively in color but vanish in grayscale if both colors share the same tone. Viewing a design in grayscale quickly shows whether its tonal structure works.",
+    "confused": {
+      "term": "saturation",
+      "line": "Tone measures lightness; saturation measures how vivid a hue is, so two colors can share a tone while one looks bright and the other dull."
+    },
+    "try": "Convert a colorful poster or screenshot to grayscale and check whether the most important element still stands out."
+  },
+  "api": {
+    "more": "An API is a set of agreed requests one program can make to another, such as asking a weather service for today's forecast and receiving structured data back. Designers rarely build APIs, but they meet them often: a dashboard design depends on which data the API actually provides, how fast it arrives and what happens when it fails. Asking developers what an API returns before drawing screens avoids designing fields that cannot be filled.",
+    "confused": {
+      "term": "interface",
+      "line": "A user interface is something people operate; an API is an interface for software to talk to other software, with no visual surface at all."
+    },
+    "try": "Read a public weather service's documentation and list which data fields a forecast screen could realistically display."
+  },
+  "alpha-channel": {
+    "more": "An alpha channel is an extra set of values, stored alongside red, green and blue, that records how opaque each pixel is, from fully solid to fully see-through. It lets a product photo sit on any background without a white box around it, and lets soft edges such as hair or smoke blend smoothly. A PNG logo with an alpha channel can go on a dark or light website header; a JPEG cannot, because that format has no transparency.",
+    "confused": {
+      "term": "mask",
+      "line": "A mask is an editable tool for hiding parts of a layer while you work; an alpha channel is transparency data stored inside the image file itself."
+    },
+    "try": "Export a logo with a transparent background as PNG and JPEG, place both on a dark background, and compare their edges."
+  },
+  "asset": {
+    "more": "An asset is any single reusable piece that goes into a design: a photo, an icon, a font file, a short sound, a logo in several versions. Treating these as named, versioned assets rather than loose files means a team can find the correct one quickly and update it in one place. For an app, assets might include the launch icon at every required size, the empty-inbox illustration and the brand typeface.",
+    "confused": {
+      "term": "asset-library",
+      "line": "An asset is one element; an asset library is the organized collection where many assets are stored, named and shared."
+    },
+    "try": "List every asset in a recent project folder and mark the ones you could not identify by file name alone."
+  },
+  "asset-library": {
+    "more": "An asset library keeps a team's reusable pieces in one organized, searchable place, often shared inside the design tool so everyone pulls from the same source. Good libraries have clear names, categories, versions and notes on usage. A studio working for a restaurant chain might keep approved photos, menu icons and logo files in one library, so a new designer never picks up an outdated logo.",
+    "confused": {
+      "term": "asset",
+      "line": "An asset library is the shared collection; an asset is a single item in it, such as one icon or one photo."
+    },
+    "try": "Sort ten files into a small library with consistent names and folders, then ask someone to find one quickly."
+  },
+  "cms": {
+    "more": "A content management system lets people add and edit the text, images and pages of a website without touching code, through forms and editors. It matters to designers because real content will be entered by editors for years, not by the designer: headlines may run longer than in the mockup, and images may arrive in odd shapes. Designing an article page means planning for the shortest and longest headline the CMS allows.",
+    "confused": {
+      "term": "template",
+      "line": "A CMS is the software that stores and publishes content; a template is a layout that the CMS fills with that content."
+    },
+    "try": "Rewrite the headline of a website mockup at three times its length and check whether the layout still holds."
+  },
+  "clipping-path": {
+    "more": "A clipping path is a closed vector outline drawn around the part of an image you want to keep, so everything outside it is hidden. It is common in catalog and packaging work: a shoe photographed against a gray backdrop gets a precise path along its outline so it can sit on a white page or over a colored panel. Because the path is a vector shape, its edge is crisp, which suits hard-edged products better than hair or fur.",
+    "confused": {
+      "term": "mask",
+      "line": "A clipping path is always a hard-edged vector outline; a mask can also hold soft, partial transparency for fuzzy edges."
+    },
+    "try": "Trace a simple object in a photo with a pen or path tool, then place it on a new colored background."
+  },
+  "composition-file": {
+    "more": "A composition file is the working document a designer keeps, with layers, text, effects and linked images still editable, as opposed to a flattened export. It is the file you return to when a client asks to change a date on a poster or swap a photo. Keeping it organized, with named layers and grouped elements, means someone else can open it months later and make the change without rebuilding the design.",
+    "confused": {
+      "term": "exported file",
+      "line": "A composition file stays layered and editable; an exported file, such as a JPEG or PDF, is a flattened copy made from it for delivery."
+    },
+    "try": "Open an old working file, rename and group its layers clearly, then time how long a simple text change takes."
+  },
+  "dpi": {
+    "more": "DPI counts how many dots of ink or toner a printer or other output device places in one inch. It describes the machine, not the image file. An office laser printer might work at 600 dpi and the platesetter that makes printing plates at 2400 dpi or more; higher dpi gives finer edges on type and dots. When a print shop asks for 300 dpi images, they usually mean the image's pixel density, which is properly called PPI.",
+    "confused": {
+      "term": "ppi",
+      "line": "DPI describes a printer's ink dots per inch; PPI describes how many of an image's pixels fall into each inch of its printed size."
+    },
+    "try": "Print one line of very small text at your printer's draft and best quality settings, then compare the letter edges with a magnifier."
+  },
+  "digital-toolkit": {
+    "more": "A digital toolkit is the full working set a designer relies on for a project: layout and drawing applications, image editors, prototyping tools, fonts, templates, plugins and shared libraries. Choosing it is a practical decision about who else must open the files and what the final output is. A small studio building a website might agree on one interface tool, one image editor and a shared font set, so files pass between people without conversion.",
+    "confused": {
+      "term": "plugin",
+      "line": "A plugin is one add-on inside a tool; a digital toolkit is the whole set of tools, plugins, templates and resources used on a project."
+    },
+    "try": "List every application, font and template from your last project, and mark the ones a collaborator would also need installed."
+  },
+  "export-settings": {
+    "more": "Export settings decide what a working file becomes when it leaves the design tool: file type, pixel size, resolution, color mode, compression and whether transparency is kept. The same artwork needs different settings for different uses. A poster might be exported as a print PDF with bleed and CMYK color, while its web version becomes a compressed RGB JPEG 1600 pixels wide, small enough to load quickly on a phone.",
+    "confused": {
+      "term": "format",
+      "line": "Export settings include the file type, such as JPEG or PDF; format, in this dictionary, means the size and proportions of the designed object, such as A4."
+    },
+    "try": "Export one image as a JPEG at three quality levels, compare the file sizes, and find where the loss becomes visible."
+  },
+  "frontend---backend": {
+    "more": "The frontend is the part of a website or app that runs in front of the user: screens, buttons, animations. The backend runs on servers, storing data, checking passwords and doing calculations. Designers work mostly with the frontend but need to understand the backend's limits. A search screen may look simple, yet whether it can show results instantly as someone types depends on how fast the backend can answer.",
+    "confused": {
+      "term": "user-interface-ui",
+      "line": "UI is the designed layer of controls a person uses; the frontend is the code that builds and runs that layer in a browser or app."
+    },
+    "try": "Pick an app you use and list which of its features need data from a server and which still work offline."
+  },
+  "layer": {
+    "more": "A layer is one element, or group of elements, stacked in a composition so it can be moved, edited, hidden or styled without disturbing the rest. Layers also set stacking order: whatever sits on top covers what is below. In a social media graphic, the background photo, a darkening overlay, the headline and the logo each sit on their own layer, so the headline can change without touching the photo.",
+    "confused": {
+      "term": "plane",
+      "line": "A layer is a software object inside a file; a plane is a flat surface the viewer perceives in the composition, which may be built from several layers."
+    },
+    "try": "Rebuild a simple poster with every element on its own named layer, then hide them one at a time to see the stacking."
+  },
+  "mask": {
+    "more": "A mask controls visibility without deleting anything: some areas of the mask let the layer show, others hide it, and gray areas make it partly visible. Because the original pixels stay intact, the decision can be refined or undone later. A designer might mask a city photo into the shape of large headline letters, or use a soft-edged mask to fade a product photo gently into its background.",
+    "confused": {
+      "term": "clipping-path",
+      "line": "A mask can be soft and partial, painted in shades of gray; a clipping path is a hard vector edge where each area is simply in or out."
+    },
+    "try": "Place a photo behind a large bold word and use the word as a mask so the photo shows only through the letters."
+  },
+  "pdf": {
+    "more": "A PDF packages a document's text, fonts, images and layout so it looks the same on any computer, phone or printer. Designers use it in two main ways: as a proof sent to clients for review, and as a print-ready file sent to the printer, where embedded fonts, bleed and color profile must be correct. A restaurant menu sent as a PDF with embedded fonts keeps its exact typefaces even if the reader does not own them.",
+    "confused": {
+      "term": "composition-file",
+      "line": "A PDF is a fixed delivery file meant for viewing or printing; the composition file is the layered working document it was exported from."
+    },
+    "try": "Export a document to PDF, open it on a different device, and check that fonts, images and line breaks all match."
+  },
+  "ppi": {
+    "more": "PPI describes how many of an image's pixels fill each inch when it is shown or printed at a given size. The pixel count is fixed, so PPI changes with the size chosen: a photo 3000 pixels wide is 300 ppi at 10 inches wide but only 100 ppi at 30 inches. Printers commonly want around 300 ppi at final size for material seen up close, while screens care mostly about total pixel dimensions.",
+    "confused": {
+      "term": "dpi",
+      "line": "PPI is the pixel density of the image itself; DPI is the number of ink dots a printing device lays down per inch."
+    },
+    "try": "Take one photo's pixel width and calculate its PPI if printed as a postcard, a magazine page and a poster."
+  },
+  "plugin": {
+    "more": "A plugin adds a specific function to an existing tool without changing the tool itself, much like an attachment on a kitchen mixer. Designers install plugins to automate repetitive work or bring in outside resources: generating placeholder text, checking color contrast for accessibility, or renaming hundreds of layers at once. Each plugin is also a dependency, so teams usually agree on which ones a shared file may rely on.",
+    "confused": {
+      "term": "api",
+      "line": "An API lets separate programs talk to each other; a plugin is installed inside one program to extend it, often by using that program's API."
+    },
+    "try": "Find a contrast-checking plugin or web tool and test the text colors in one of your recent designs."
+  },
+  "raw": {
+    "more": "A RAW file holds what a camera's sensor recorded, with little or no processing: with no white balance, sharpening or JPEG compression baked in yet. That leaves wide room to correct exposure and color later without visible damage. A product photographer shooting a white sneaker in RAW can recover detail in bright leather that a camera-made JPEG would already have lost. RAW files must later be developed and exported to an ordinary raster format for use.",
+    "confused": {
+      "term": "raster",
+      "line": "A RAW file is unprocessed sensor data from a camera; a raster is any pixel image, including the finished JPEG or PNG developed from that RAW."
+    },
+    "try": "If your phone or camera offers RAW, shoot one bright scene in RAW and JPEG, then try recovering the sky in each."
+  },
+  "raster": {
+    "more": "A raster image is a grid of pixels, each holding one color, like a mosaic. Photos, scans and painted digital artwork are rasters, and their detail is fixed: enlarge them beyond their pixel count and edges turn soft or blocky. A website's main photo is a raster file chosen at a size large enough for wide screens. Common raster formats include JPEG, PNG and WebP; a camera's RAW file is a special unprocessed case.",
+    "confused": {
+      "term": "vector-file",
+      "line": "A raster stores a grid of pixels with fixed detail; a vector file stores shapes as mathematical paths that stay sharp at any size."
+    },
+    "try": "Zoom a photo to 800 percent until its pixel grid appears, then zoom a vector icon the same amount and compare."
+  },
+  "render": {
+    "more": "Rendering is the computation that turns a digital scene, with its models, materials, lights and camera, into finished images or frames. Designers render to show what has not been made yet: a chair in walnut and in oak, or a lamp glowing in a dim room. Quality trades off against time; a quick preview takes seconds, while a final frame with realistic reflections and soft shadows may take minutes or hours.",
+    "confused": {
+      "term": "mockup",
+      "line": "A render is the computed image itself; a mockup is a realistic presentation of a design in context, which may or may not be produced by rendering."
+    },
+    "try": "In any free 3D tool, render one simple object under a single light, then move the light and render again."
+  },
+  "resolution": {
+    "more": "In this dictionary, resolution means how much fixed detail an image holds, usually stated as pixels per inch for the image or dots per inch for the device that outputs it. Low resolution shows up as blur or visible pixels when an image is enlarged. A logo copied from a website may look fine on screen but print fuzzy on a business card. Screen makers also use the word for a display's pixel dimensions, such as 1920 by 1080.",
+    "confused": {
+      "term": "ppi",
+      "line": "Resolution is the general idea of fixed image detail; PPI is one specific way of measuring it, as pixel density at a given size."
+    },
+    "try": "Print a small web image at business-card size and at letter size, and note where it starts to look blurry."
+  },
+  "svg": {
+    "more": "SVG is an open file format for vector graphics, written as readable text that describes shapes, paths and colors. Because browsers draw it directly, an SVG icon stays sharp on any screen, can be recolored with code and is often smaller than an equivalent pixel image. It suits logos, icons, charts and simple illustrations, but not photographs. The menu icon in a website's corner is a typical SVG.",
+    "confused": {
+      "term": "vector-file",
+      "line": "Vector file is the general category of path-based images; SVG is one specific, web-friendly vector format among several."
+    },
+    "try": "Open a simple SVG icon in a text editor, change one color value, and reload it in a browser."
+  },
+  "vector-file": {
+    "more": "A vector file describes an image as points, lines and curves defined mathematically, along with their fills and strokes. Because the shapes are recalculated at every size, one file can print a logo on a pen and on the side of a truck with equally clean edges. Designers create logos, icons, type and technical drawings as vectors, then export raster versions when a screen or platform needs pixels.",
+    "confused": {
+      "term": "raster",
+      "line": "A vector file scales cleanly because it stores shapes; a raster stores fixed pixels and loses quality when enlarged."
+    },
+    "try": "Draw the same simple shape as a vector and as a painted raster, enlarge both tenfold, and compare their edges."
+  },
+  "abstraction": {
+    "more": "Abstraction strips a recognizable form down step by step, keeping only what still lets people identify it. Designers do this constantly when making icons and pictograms: a realistic drawing of a bicycle becomes two circles, a triangular frame and a handlebar line, yet everyone still reads it as a bicycle. The skill lies in knowing which details carry the identity and which are surface noise that can go.",
+    "confused": {
+      "term": "formalization",
+      "line": "Abstraction simplifies a form toward its essential shape while keeping it recognizable; formalization simplifies a reference specifically to fit a medium's limits, such as cross-stitch or pixels."
+    },
+    "try": "Draw a cat five times, each with fewer lines, and stop at the last version a friend still recognizes."
+  },
+  "asymmetry": {
+    "more": "Asymmetry gives up mirror sameness but still aims for a composition that feels settled. Unequal elements are balanced through position, size and weight: a large photo on the left of a magazine spread can be offset by a small, dense block of text and a strong color patch near the right edge. Asymmetric layouts tend to feel more active than symmetric ones and often allow a clearer reading path.",
+    "confused": {
+      "term": "imbalance",
+      "line": "Asymmetry is deliberate and resolved, so the unequal parts still feel stable together; imbalance is when a composition simply feels as if it might tip over."
+    },
+    "try": "Arrange one large and three small paper squares off-center on a page until the whole feels stable without mirroring."
+  },
+  "balance": {
+    "more": "Balance is the sense that a composition's visual weight is spread so nothing seems about to tip. Weight comes from size, darkness, color intensity, texture and isolation. A symmetric book cover balances by mirroring; an asymmetric poster balances a big pale shape against a small dark one. Designers often check balance by squinting or flipping the design horizontally, which reveals heavy corners they had stopped noticing.",
+    "confused": {
+      "term": "symmetry",
+      "line": "Symmetry is one way to achieve balance, by mirroring; balance can also come from unequal elements arranged asymmetrically."
+    },
+    "try": "Flip one of your layouts horizontally and note whether any area suddenly looks heavier than before."
+  },
+  "composition": {
+    "more": "Composition is the overall organization of elements in a given space: where they sit, how large they are relative to each other, and how they relate. It is the decision behind everything else on the page. A concert poster might place one huge photo, the band name along the top edge and the dates clustered small at the bottom right, guiding the eye from image to name to details.",
+    "confused": {
+      "term": "layout",
+      "line": "Composition is the broader art of organizing elements into a whole, in any medium; layout is the practical arrangement of content within a specific page or screen."
+    },
+    "try": "Cut out five paper shapes, arrange them three different ways on a sheet, photograph each and choose the strongest."
+  },
+  "contrast": {
+    "more": "Contrast places strongly opposed qualities side by side so each becomes clearer: large against small, dark against light, rough against smooth, heavy type against thin. It creates focus and makes things readable. On a website, black text on white has high tonal contrast, while one red button among gray elements uses color contrast to stand out. Too little contrast makes text hard to read, especially for people with low vision.",
+    "confused": {
+      "term": "emphasis",
+      "line": "Contrast is the difference between properties; emphasis is the result of using contrast and other means to make one element the dominant point of attention."
+    },
+    "try": "Set one word in five pairs of opposites, such as big and small or bold and light, and rank which pair grabs you most."
+  },
+  "counterform-negative-space": {
+    "more": "Negative space is the empty area around and between shapes; a counterform is that emptiness when it forms a shape worth reading. The inside of the letter O and the gap between two letters are counterforms. Designers use them deliberately: a logo where the space between two letters forms an arrow, or a poster where two facing profiles appear in the white area around a vase.",
+    "confused": {
+      "term": "space",
+      "line": "Space is the whole area, filled or empty, in and around forms; a counterform is a specific empty shape that reads as meaningful in its own right."
+    },
+    "try": "Cut a shape out of black paper and look only at the hole it leaves; describe what that hole resembles."
+  },
+  "density": {
+    "more": "Density describes how packed an area is, from a few elements with plenty of room to many crowded together. Designers vary it to set mood and pace: a luxury catalog page might hold one product and a short line of text, while a train timetable is dense by necessity. Contrasting dense and sparse areas within one layout also guides attention, because the eye notices the change.",
+    "confused": {
+      "term": "mass",
+      "line": "Density is how crowded an area is with elements; mass is the perceived weight of a single solid form."
+    },
+    "try": "Design one page holding a single word and another holding fifty words, and note how that word feels on each."
+  },
+  "dynamics": {
+    "more": "Dynamics is the sense of movement in something that does not actually move. Diagonal lines, tilted shapes, forms that seem to fall or lean, and elements cut off by the edge all suggest motion. A sports poster with a tilted photo of a runner and type set on a rising diagonal feels faster than the same content arranged in level rows. Dynamics sits at the opposite end of the scale from static.",
+    "confused": {
+      "term": "motion-graphics",
+      "line": "Dynamics is motion implied within a still image; motion graphics involves actual movement over time."
+    },
+    "try": "Arrange three rectangles level, then tilt them at different angles, and compare which version feels as if it is moving."
+  },
+  "emphasis": {
+    "more": "Emphasis makes one element the clear first thing people see, the focal point. It comes from contrast, size, color, isolation or position. A sale flyer that makes the discount, the headline and the photo all equally loud has no emphasis and reads as noise; enlarging only the discount and quieting the rest gives the eye a place to land. Two competing focal points tend to cancel each other out.",
+    "confused": {
+      "term": "visual-hierarchy",
+      "line": "Emphasis creates one dominant point; visual hierarchy orders all the elements, first, second, third, through the whole composition."
+    },
+    "try": "Mark the one thing on a busy flyer that should be seen first, then redesign it so only that stands out."
+  },
+  "figurative": {
+    "more": "Figurative describes how recognizably a form still depicts a real thing. It is a scale rather than a switch: a detailed drawing of a dog is highly figurative, a simple dog pictogram on a park sign less so, and a few curves merely suggesting a dog least of all. Designers choose a level to suit the purpose, often more figurative for a children's book and more reduced for wayfinding icons.",
+    "confused": {
+      "term": "abstraction",
+      "line": "Figurative measures how recognizable a form still is; abstraction is the process of removing detail, which moves a form down that scale."
+    },
+    "try": "Sketch a tree three ways, realistic, simplified and nearly abstract, and note where it stops reading as a tree."
+  },
+  "form": {
+    "more": "Form here means an object's perceived shape and structure, considered apart from its color or texture. Designers often study form in plain gray or white to judge it honestly. A water bottle's form is its profile, the way its shoulder curves into the neck and how its body sits in the hand; painting it bright colors changes how it feels, but not its form. This sense is unrelated to a web form for entering data.",
+    "confused": {
+      "term": "form-factor",
+      "line": "Form is the full perceived shape and structure of any object; form factor is specifically the outer size and proportions of a product's housing."
+    },
+    "try": "Wrap a familiar object in white paper or foil and describe its shape without mentioning color or material."
+  },
+  "form-factor": {
+    "more": "Form factor is the outer size, shape and proportions of a product's body, the envelope that its internal parts must fit into. It is a key early decision in industrial design because it shapes everything that follows: a speaker shaped as a tall cylinder places drivers and buttons very differently from a flat puck. In electronics, the term also names standard size categories, such as laptop versus tablet.",
+    "confused": {
+      "term": "form",
+      "line": "Form factor is a product's overall outer envelope and proportions; form is the fuller perceived shape, including details and transitions between surfaces."
+    },
+    "try": "Measure three handheld devices you own and sketch each as a plain block, comparing proportions only."
+  },
+  "formalization": {
+    "more": "Formalization reduces a complex subject to essential forms that a particular medium can carry, and the medium's limits drive the simplification. A portrait cross-stitched on a 20 by 20 grid must become a few blocks of color; a landscape for a one-color screen print must become flat shapes without shading. The designer decides which features survive the translation and which give way.",
+    "confused": {
+      "term": "abstraction",
+      "line": "Formalization simplifies to fit a medium's constraints; abstraction simplifies toward essential shape whatever the medium."
+    },
+    "try": "Redraw a photo of a face on a ten by ten grid of squares using only three colors."
+  },
+  "line": {
+    "more": "A line is a trace with direction. It can describe a boundary, such as the outline of a shape; connect points, as on a route map; or suggest movement, as a sweeping curve does. Its character, thick or thin, straight or wobbly, also carries feeling. On a subway map, thick colored lines show routes and thin gray lines mark districts, so line weight alone sorts what matters.",
+    "confused": null,
+    "try": "Draw ten lines that express ten words, such as calm, angry and tired, using only shape and thickness."
+  },
+  "mass": {
+    "more": "Mass is how heavy a solid form looks or feels. Dark, large, dense and closed shapes read as heavy; pale, thin and open ones read as light. Designers use mass to anchor compositions and shape how products feel: a thick concrete bench seems immovable, while a thin wire chair seems almost weightless. On a page, a heading in black, heavy type carries more visual mass than the same words in a light weight.",
+    "confused": {
+      "term": "volume",
+      "line": "Volume is the three-dimensional space a form occupies; mass is how heavy that form appears, which also depends on darkness, density and material."
+    },
+    "try": "Set one word in the thinnest and heaviest weights of a typeface and balance them on a page by adjusting size."
+  },
+  "perspective": {
+    "more": "Perspective creates the illusion of depth on a flat surface. In linear perspective, parallel lines receding from the viewer appear to meet at vanishing points on the horizon, and objects shrink with distance. Designers use it in product sketches, architectural drawings and interface illustrations: a chair drawn in two-point perspective shows two sides receding toward points on either side, so it reads as a solid object.",
+    "confused": {
+      "term": "isometric",
+      "line": "Perspective makes distant things smaller and parallel lines converge; isometric drawing keeps parallel lines parallel and sizes constant, so nothing recedes."
+    },
+    "try": "Draw a box in one-point perspective with a single vanishing point, then add a second box farther away."
+  },
+  "plane": {
+    "more": "A plane is a flat surface that organizes a composition. In two-dimensional work, planes are areas such as a colored panel, a photo or a text block that sit in front of or behind one another; in three dimensions, they are flat sheets such as the panels of a cabinet. A website might use a gray background plane, a white card on top of it and a soft shadow to show which is nearer.",
+    "confused": {
+      "term": "layer",
+      "line": "A plane is a flat surface the viewer perceives; a layer is a software object in a file, which may or may not read as its own plane."
+    },
+    "try": "Overlap three colored paper rectangles so that one clearly reads as front, one middle and one back."
+  },
+  "plasticity": {
+    "more": "Plasticity describes how soft, moldable or flowing a form looks, judged by its contours and the way its surfaces pass into one another. Smooth, continuous curves read as plastic; sharp edges and flat faces read as rigid. A computer mouse with soft, rounded transitions looks as though a hand shaped it, while a boxy metal case does not. In lettering, rounded, swelling strokes create a similar feeling.",
+    "confused": {
+      "term": "plastic",
+      "line": "Plasticity is a visual quality of soft, moldable-looking form; it has nothing to do with whether the object is actually made of plastic."
+    },
+    "try": "Model one shape twice in clay, once with crisp edges and once smoothly blended, and compare their character."
+  },
+  "point": {
+    "more": "A point is the smallest visual unit, a mark with position but almost no size. Lines, planes and patterns can all be read as points extended or repeated. Alone, a point creates strong focus because the eye goes straight to it: a single red dot on a white book cover holds the whole page. Many points together form textures, halftone images, or a path the eye follows.",
+    "confused": null,
+    "try": "Place one dot on a blank sheet at the center, in a corner and near an edge, and note how the page's feeling changes."
+  },
+  "proportions": {
+    "more": "Proportions are size relationships: between a part and the whole, and between parts. They explain why one chair looks elegant and another clumsy even with similar parts, or why a page with wide margins feels calm. Designers use ratios to keep proportions consistent, such as a book page of two to three, or a type scale in which each heading size is a fixed multiple of the body text.",
+    "confused": {
+      "term": "scale",
+      "line": "Proportions are internal relationships between parts and whole; scale is size judged against an outside reference, such as a human hand."
+    },
+    "try": "Measure the height and width of three book covers and a phone screen, and compare their ratios."
+  },
+  "repetition": {
+    "more": "Repetition places the same element again and again at equal spacing, without change. It creates order, consistency and recognition: identical columns on a building facade, a row of the same star icon on a rating bar, or one logo printed over and over on wrapping paper. Because nothing varies, it reads as steady and calm, and it is the base on which rhythm and pattern are built.",
+    "confused": {
+      "term": "rhythm",
+      "line": "Repetition repeats identical elements evenly; rhythm adds controlled variation in spacing, size or form to create a tempo."
+    },
+    "try": "Draw a row of ten identical squares at even spacing and describe the feeling before changing anything."
+  },
+  "rhythm": {
+    "more": "Rhythm is visual tempo: repeated elements varied in a controlled way, so the eye moves along with a beat. Spacing might widen and narrow, sizes might alternate large and small, or a shape might change gradually across a row. A magazine that alternates full-page photo spreads with quieter text pages has rhythm across the whole issue, as does a fence whose posts are grouped in twos and threes.",
+    "confused": {
+      "term": "repetition",
+      "line": "Rhythm varies its repeated elements to create tempo; repetition keeps every element identical and evenly spaced."
+    },
+    "try": "Arrange ten paper strips evenly, then in groups of two and three, and describe how the pace changes."
+  },
+  "scale": {
+    "more": "Scale is how large something seems, which can only be judged against something else: a person, a hand, a familiar object or other elements nearby. A photo of a chair beside a person tells you its scale; the same chair alone on white could be a toy. Designers play with scale for effect, for example placing a tiny figure beneath a huge headline so the words feel monumental.",
+    "confused": {
+      "term": "proportions",
+      "line": "Scale is size relative to an outside reference; proportions are size relationships among the parts within one thing."
+    },
+    "try": "Photograph a small object close up with nothing for reference, then again with a coin beside it, and compare."
+  },
+  "space": {
+    "more": "Space is the room in and around forms, whether filled or empty. On a page it includes margins, the gaps between paragraphs and the clear area around a logo; in a room or a product, it includes physical room to move. Generous space makes content easier to read and suggests calm, while tight space feels urgent or crowded. A shop window showing one bag and a lot of empty floor uses space as part of its message.",
+    "confused": {
+      "term": "counterform-negative-space",
+      "line": "Space covers all the room in and around forms; negative space, or counterform, is specifically an empty area read as a shape of its own."
+    },
+    "try": "Double the margins and line spacing on a page of text and compare how it reads and feels."
+  },
+  "spatial-forces": {
+    "more": "Spatial forces are the pulls and tensions the eye senses between elements. Two shapes placed close together seem attracted, a shape near an edge seems to press against it, and a pointing form leads the eye in its direction. Designers use these forces to link content without drawing lines. On a poster, a photo of someone looking to the right pushes attention toward a headline placed on that side.",
+    "confused": {
+      "term": "dynamics",
+      "line": "Dynamics is movement implied within forms; spatial forces are the attractions and tensions between separate elements that carry the eye from one to another."
+    },
+    "try": "Place two small circles on a page, move them closer and farther apart, and note when they stop feeling connected."
+  },
+  "static": {
+    "more": "Static describes a composition that feels at rest: horizontal and vertical lines, centered or symmetric placement, even spacing and forms resting firmly on a base. It suggests stability, authority and calm, which suits a bank statement or a formal invitation. Being static is not a flaw in itself; the problem arises only when the content needs energy and the layout gives none.",
+    "confused": {
+      "term": "dynamics",
+      "line": "Static compositions convey rest through level, settled arrangements; dynamic ones imply movement through diagonals, tilts and tension."
+    },
+    "try": "Lay out an invitation centered and level, then tilt one element slightly, and note how the mood shifts."
+  },
+  "structure": {
+    "more": "Structure is the internal organization that holds one object's or composition's parts together, often invisible from the surface. In a book, it is the sequence of chapters and headings and the page grid; in a chair, the frame that carries weight to the floor. When structure is clear, parts can be added or changed without the whole falling apart, which is why designers often settle structure before surface.",
+    "confused": {
+      "term": "system",
+      "line": "Structure organizes the parts within one object or composition; a system applies one shared rule across many distinct components of a larger whole."
+    },
+    "try": "Take a magazine page and draw only its hidden structure: columns, margins and where text lines sit."
+  },
+  "symmetry": {
+    "more": "Symmetry arranges elements as exact mirror images on either side of an axis, usually vertical. It reads as stable, formal and ordered, and it is the most straightforward way to achieve balance. A centered wedding invitation, a classical building facade and a logo shaped like a butterfly all rely on it. Designers sometimes break strict symmetry slightly so that the result feels less rigid while staying calm.",
+    "confused": {
+      "term": "balance",
+      "line": "Symmetry is mirrored sameness across an axis; balance is any stable distribution of visual weight, which symmetry is only one way to reach."
+    },
+    "try": "Fold a sheet of paper, cut a shape along the fold, and open it to see mirror symmetry appear."
+  },
+  "system": {
+    "more": "A system is a set of distinct parts that all follow one shared rule, so they belong together across a larger whole. A design system for an app defines a few spacing values, colors and component rules that every screen uses. A set of airport pictograms with the same line weight, corner radius and grid is also a system: each sign differs, yet any new one can be drawn to fit.",
+    "confused": {
+      "term": "structure",
+      "line": "A system governs many distinct components with one rule; structure is the internal organization holding a single object's own parts together."
+    },
+    "try": "Draw four simple icons, a house, cup, star and phone, using one rule: the same stroke width and rounded corners."
+  },
+  "unity": {
+    "more": "Unity is how strongly the parts of a design seem to belong to one whole. It comes from shared colors, consistent type, aligned edges, repeated shapes and a common theme. A poster in which every element uses the same three colors and two typefaces feels unified; add an unrelated clip-art image and the unity breaks. Unity is not sameness, since strong designs keep variety within a clear family.",
+    "confused": {
+      "term": "balance",
+      "line": "Balance concerns how visual weight is distributed; unity concerns whether all the parts read as one coherent family."
+    },
+    "try": "Collect five unrelated images and make them feel like a set by giving them the same color treatment and frame."
+  },
+  "visual-hierarchy": {
+    "more": "Visual hierarchy ranks every element by importance and makes that order visible through size, weight, color, position and space, so people read in the intended sequence. On a product page, the product name comes first, then the price, then the buy button, then the details. If everything is bold, nothing comes first. Designers test hierarchy by glancing at a layout for two seconds and noting what they remember.",
+    "confused": {
+      "term": "emphasis",
+      "line": "Visual hierarchy orders all elements from most to least important; emphasis singles out only the one dominant point at the top."
+    },
+    "try": "Style a plain-text event notice so a stranger reads the title, date, place and price in that order."
+  },
+  "volume": {
+    "more": "Volume is three-dimensional space, either solidly enclosed, like a box, or implied by planes that suggest its boundaries, like four thin posts that mark out a cube without walls. Industrial designers and architects shape volumes directly, while graphic designers suggest them with shading and perspective. A lamp made from two flat sheets slotted together crosswise can still read as a full volume because the planes imply it.",
+    "confused": {
+      "term": "mass",
+      "line": "Volume is the three-dimensional space a form occupies or implies; mass is how heavy that form looks or feels."
+    },
+    "try": "Build a cube from twelve straws or paper strips as edges only, with no faces, and notice it still reads as a volume."
+  },
+  "communication": {
+    "more": "Communication in design means getting a specific message and intent across through visual means: words, images, signs, color and layout working together. The test is whether the intended audience understands what was meant, not whether the designer is pleased. A hospital sign communicates well if a stressed visitor can find the emergency department at a glance, whatever its style.",
+    "confused": {
+      "term": "interpretation",
+      "line": "Communication is the sender's intended meaning being conveyed; interpretation is how each viewer personally understands it, which may differ."
+    },
+    "try": "Show a sign or poster you made to someone for five seconds, then ask what it told them to do."
+  },
+  "decorativeness": {
+    "more": "Decorativeness is the amount of added visual detail that serves feeling or beauty rather than function: ornamental borders, flourishes, patterns and embellishments. It is not a fault in itself; a wedding invitation or a chocolate box often benefits from it. The design question is fit and degree. Decoration should support the message, not bury it, as it does when an ornate frame makes a timetable hard to read.",
+    "confused": {
+      "term": "pattern",
+      "line": "Decorativeness is non-essential embellishment of any kind; a pattern is a structured repeating motif, which may be decorative or purely functional."
+    },
+    "try": "Make two versions of one greeting card, one plain and one decorated, and ask which suits a formal occasion."
+  },
+  "graphic-design": {
+    "more": "Graphic design is the practice of communicating visually by combining type, images, color and composition into things such as posters, books, packaging, signs, websites and identities. It is purpose-driven: each piece has an audience and a job, such as selling a product, explaining a process or helping someone find a gate. A cereal box is graphic design that must inform, attract and meet labeling rules all at once.",
+    "confused": {
+      "term": "illustration",
+      "line": "Illustration makes images; graphic design arranges type, images and color, including illustrations, into a piece that communicates a specific message."
+    },
+    "try": "Pick any package in your kitchen and list every job its graphic design is doing, from branding to instructions."
+  },
+  "icon": {
+    "more": "In this dictionary, an icon is a sign that works by resemblance: it looks like what it means. A small drawing of a trash can meaning delete, or an envelope meaning mail, is an icon in this sense. Many interface symbols called icons are in fact conventional, like the floppy disk for save, which many users have never seen in real life, so it now works by habit rather than resemblance.",
+    "confused": {
+      "term": "symbol",
+      "line": "An icon means something by looking like it; a symbol means something only by learned agreement, like a heart for love."
+    },
+    "try": "Draw five interface icons from memory and sort them into ones that resemble their meaning and ones that work by habit."
+  },
+  "interpretation": {
+    "more": "Interpretation is the personal understanding a viewer brings to a work, shaped by experience, culture and situation. Designers cannot fully control it, but they can anticipate it by testing with real people. A white flower on a greeting card may read as purity to one viewer and as mourning to another, depending on cultural background. Good design narrows the range of likely readings wherever clarity matters.",
+    "confused": {
+      "term": "semantics",
+      "line": "Interpretation is one viewer's personal reading; semantics is the shared meaning a sign carries through context and convention."
+    },
+    "try": "Show one abstract image to three people separately, ask what it means to each, and compare their answers."
+  },
+  "logo": {
+    "more": "A logo is the mark that identifies a company, product or project: a symbol, a word set in distinctive letters, or both. It must work small and large, in one color and full color, on screens and embroidered caps. A coffee shop logo that looks fine on a storefront may fail as a tiny browser tab icon, so designers test each version at the real sizes where it will appear.",
+    "confused": {
+      "term": "visual-identity",
+      "line": "A logo is a single mark; a visual identity is the whole system around it, including colors, typefaces, imagery and rules for use."
+    },
+    "try": "Shrink a logo you like to the size of a fingernail on screen and note which details disappear."
+  },
+  "metaphor": {
+    "more": "A visual metaphor uses one form to carry the meaning of another, so viewers transfer qualities from the first to the second. A folder on a computer desktop borrows the idea of a paper folder; an advertisement showing a car as a running cheetah suggests speed. The risks are a metaphor the audience does not share, or one so familiar that it no longer says anything new.",
+    "confused": {
+      "term": "symbol",
+      "line": "A symbol stands for a concept by fixed convention; a metaphor creates meaning by asking viewers to see one thing in terms of another."
+    },
+    "try": "Pick an abstract idea, such as patience, and sketch three objects that could carry its meaning on a poster."
+  },
+  "semantics": {
+    "more": "Semantics is the meaning a visual sign carries through its context and use, broadly shared by its audience. A red octagon at a road junction means stop to nearly every driver, while the same red in a financial chart may mean loss. Designers think semantically when they choose a color for an error message or a shape for a button, relying on meanings people already share.",
+    "confused": {
+      "term": "interpretation",
+      "line": "Semantics is the shared meaning a sign carries for its audience; interpretation is the individual reading one person brings to it."
+    },
+    "try": "List the meanings red carries on a road, on a bank statement and on a holiday card, then compare them."
+  },
+  "symbol": {
+    "more": "A symbol represents something by agreement alone; nothing in its shape resembles what it means. A heart for love, a dove for peace and a green cross for a pharmacy all have to be learned. Because the agreement is cultural, a symbol that is clear in one country can be meaningless, or mean something else, in another, so products sold internationally test their symbols with local audiences.",
+    "confused": {
+      "term": "icon",
+      "line": "A symbol works by learned convention; an icon works by resemblance, looking like what it represents."
+    },
+    "try": "Find five symbols around you and note whether a visitor from another country would understand each one."
+  },
+  "visual-identity": {
+    "more": "A visual identity is the coordinated set of visual parts that makes a brand or project recognizable: logo, color palette, typefaces, imagery style and the rules for combining them. It lets very different items, such as a delivery van, an app screen and a paper bag, read as coming from the same source. Consistency matters more than any single element; people often recognize a brand by color and type before reading its name.",
+    "confused": {
+      "term": "logo",
+      "line": "Visual identity is the whole recognizable system; the logo is only one component within it."
+    },
+    "try": "Cover the logo on three items from one brand and check whether the remaining colors and type still identify it."
+  },
+  "alignment": {
+    "more": "Alignment places elements along shared edges or centers so they read as related and ordered. Text can be aligned left, right, centered or justified, and images and buttons can line up with the edges of text. On a business card, aligning the name, title and phone number on one left edge looks far more deliberate than three items floating at slightly different positions.",
+    "confused": {
+      "term": "grid-system",
+      "line": "Alignment is lining elements up on shared edges or centers; a grid system is the full framework of columns and rows that supplies those edges."
+    },
+    "try": "Realign every element of a cluttered flyer to just two vertical edges, then compare the before and after versions."
+  },
+  "brandbook": {
+    "more": "A brandbook is the reference manual for a visual identity: how to use the logo, which colors and typefaces to use, spacing and sizing rules, image style, tone of voice, and examples of correct and incorrect use. It lets designers, printers and agencies who never met the original team produce consistent work. A good brandbook shows real applications, such as a sign or an email header, not just abstract rules.",
+    "confused": {
+      "term": "visual-identity",
+      "line": "The visual identity is the system itself; the brandbook is the document that records and explains how to use that system."
+    },
+    "try": "Write a one-page brandbook for a fictional bakery: logo rules, two colors, one typeface and one example of misuse."
+  },
+  "brief": {
+    "more": "A brief is the short document that states what a project must achieve: its goal, audience, deliverables, constraints such as budget and deadline, and how success will be judged. It is agreed before design starts and referred back to throughout. A brief for a festival poster might specify the audience, the required information, the print size, mandatory sponsor logos and the date files are due.",
+    "confused": {
+      "term": "brandbook",
+      "line": "A brief describes one project's goals and constraints; a brandbook gives lasting rules for applying a brand's identity across all projects."
+    },
+    "try": "Write a five-line brief for redesigning your phone's home screen: goal, user, constraints, deliverable and deadline."
+  },
+  "case-study": {
+    "more": "A case study tells the story of one design project from problem to result: the starting situation, the research and decisions made, the dead ends, and the outcome with evidence that it worked. Designers write them for portfolios and so teams can learn from past work. A case study of a parking app redesign might show early sketches, test findings, before-and-after screens and how many fewer people abandoned payment.",
+    "confused": {
+      "term": "portfolio",
+      "line": "A portfolio is a collection of finished work; a case study explains one project in depth, including its problem, process and outcome."
+    },
+    "try": "Pick one past project and write five sentences: the problem, two key decisions, the result, and what you would change."
+  },
+  "construction": {
+    "more": "Construction is how parts are assembled into a whole and the logic behind that assembly. It applies to physical objects, such as how a chair's legs join its seat, and to visual ones, such as how a geometric logo is built from circles and squares on a grid. Showing a logo's construction lines in a brandbook helps others redraw it accurately at any size.",
+    "confused": {
+      "term": "structure",
+      "line": "Construction is the method of assembling parts; structure is the resulting internal organization that holds those parts together."
+    },
+    "try": "Redraw a simple geometric logo using only a compass and ruler, writing down each step of its construction."
+  },
+  "deadline": {
+    "more": "A deadline is the fixed point by which work must be finished. In design it shapes the whole process: how many concepts can be explored, how many rounds of feedback fit, and when files must reach the printer or developer. A brochure due on Friday often has an earlier real deadline for print-ready files, sometimes several days before, and designers plan backward from it.",
+    "confused": {
+      "term": "milestone",
+      "line": "A deadline is the final completion date; a milestone is an intermediate checkpoint along the way, such as concept approval."
+    },
+    "try": "Take a deadline you face and plan backward, writing the date by which each step must be finished."
+  },
+  "format": {
+    "more": "In this dictionary, format means the size and proportions of the designed object or its viewing area: an A4 page, a square social post, a tall phone screen, a wide cinema screen. Format sets the frame before any layout begins, and changing it often means rethinking a design rather than just resizing it. A festival campaign might need one message as a tall poster, a wide billboard and a square post.",
+    "confused": {
+      "term": "export-settings",
+      "line": "Format here is the size and proportion of the design itself; file type, such as JPEG or PDF, is chosen within export settings."
+    },
+    "try": "Adapt one simple poster to a square, a tall phone screen and a wide banner, noting what has to move."
+  },
+  "grading-career-grading": {
+    "more": "Career grading is a structured ladder of professional levels in a design team, such as junior, mid-level, senior and lead, each describing expected skills, responsibilities and scope of decisions. It helps designers see what growth looks like and helps managers make fair, consistent decisions about promotion and pay. A grade might state that a senior designer leads client presentations and mentors juniors.",
+    "confused": {
+      "term": "color grading",
+      "line": "Career grading defines professional levels in a team; color grading is adjusting the color and tone of film footage or photos."
+    },
+    "try": "List three skills you have now and three you would need to reach the next level in your role."
+  },
+  "grid-system": {
+    "more": "A grid system divides a page or screen into columns, rows, margins and gutters that elements align to. It speeds up decisions, keeps many pages consistent and helps content adapt across sizes. A news website might use a twelve-column grid so a story spans eight columns beside a four-column sidebar on a desktop, then collapses into a single column on a phone.",
+    "confused": {
+      "term": "alignment",
+      "line": "A grid system is the framework of columns and rows; alignment is the act of lining elements up, which a grid makes easier."
+    },
+    "try": "Draw a four-column grid on a sheet and lay out a page of text and two images strictly within it."
+  },
+  "iteration": {
+    "more": "Iteration means working in repeated cycles: make a version, test or review it, learn, and make a better one. Instead of perfecting a single design in isolation, a designer might make a rough checkout screen, watch three people try it, fix what confused them and test again. Each round costs less when versions are rough, which is why early iterations are often sketches or paper.",
+    "confused": {
+      "term": "prototype",
+      "line": "Iteration is the repeated cycle of improving a design; a prototype is one testable version used within that cycle."
+    },
+    "try": "Sketch a logo idea, show it to a friend, change one thing based on their reaction, and repeat three times."
+  },
+  "layout": {
+    "more": "Layout is the practical arrangement of text, images and other elements within a specific space, such as a magazine spread, a web page or a product label. It covers placement, sizing, spacing and reading order. A recipe page might put the photo on top, the ingredients in a narrow left column and numbered steps in a wider right column, so a cook can glance back quickly while working.",
+    "confused": {
+      "term": "composition",
+      "line": "Layout arranges content within a particular page or screen; composition is the broader principle of organizing any elements into a coherent whole."
+    },
+    "try": "Lay out one recipe as a single column and again in two columns, then test which is easier to follow."
+  },
+  "license": {
+    "more": "A license is the legal permission that states how an asset such as a font, photo, icon set or piece of music may be used: in which projects and media, by how many people, and whether it may be modified or resold. Designers check licenses before use, because a font licensed for desktop printing may not cover embedding it in an app or on a website.",
+    "confused": {
+      "term": "copyright",
+      "line": "Copyright is the owner's right in a work; a license is the specific permission the owner grants others to use it."
+    },
+    "try": "Look up the license of a free font you use and note whether it allows web, app and commercial use."
+  },
+  "mind-map": {
+    "more": "A mind map is a diagram that starts from a central idea and branches out into related ideas, sub-ideas and the links between them. Designers use one at the start of a project to explore a theme quickly and find unexpected angles. For a tea brand, the central word tea might branch into ritual, steam, leaves and morning, each branch suggesting different images and names.",
+    "confused": {
+      "term": "moodboard",
+      "line": "A mind map organizes ideas and their connections, usually in words; a moodboard collects visual references to show an intended style and mood."
+    },
+    "try": "Write one project word in the middle of a sheet and branch outward for ten minutes without judging any idea."
+  },
+  "moodboard": {
+    "more": "A moodboard is a curated collection of images, colors, textures, type samples and materials that shows the feeling and direction a project is aiming for, before any final design exists. It helps a team and a client agree on direction early. A moodboard for a calm meditation app might gather misty landscapes, muted greens, rounded typefaces and linen textures.",
+    "confused": {
+      "term": "mind-map",
+      "line": "A moodboard communicates a visual direction through references; a mind map explores ideas and their relationships, usually in words."
+    },
+    "try": "Collect twelve images that express one word, such as quiet, then remove any that pull in a different direction."
+  },
+  "scenario": {
+    "more": "A scenario is a short, concrete story about a particular person trying to do something with a product, used to test or explain a design. It names the person's goal, situation and steps: a commuter with one free hand who needs to buy a train ticket on her phone in under a minute. Walking a design through such a scenario quickly reveals missing steps and awkward moments.",
+    "confused": {
+      "term": "storyboard",
+      "line": "A scenario is the written story of a person's situation and goal; a storyboard shows that story or interaction as a sequence of pictures."
+    },
+    "try": "Write a five-sentence scenario of someone using an app you know, then follow it step by step in the real app."
+  },
+  "template": {
+    "more": "A template is a ready-made layout or framework with fixed elements and placeholders, used as the starting point for many similar pieces. It saves time and keeps output consistent, especially when non-designers produce material. A university might provide a slide template with its logo, colors and title slide fixed, so every department's presentations look related while their content differs.",
+    "confused": {
+      "term": "mockup",
+      "line": "A template is a reusable framework for producing new pieces; a mockup is a realistic picture of one finished design, used to present or judge it."
+    },
+    "try": "Build a simple template for event flyers, fill it with two very different events, and note what breaks."
+  },
+  "collage": {
+    "more": "Collage combines fragments from different sources, such as photos, paper, type, fabric or found printed matter, into a new composition with its own meaning. The joins and mismatches between pieces are often part of the effect. An album cover made from cut magazine photos, ticket stubs and torn colored paper is a collage, and so is a digital poster assembled from scanned textures and photographs.",
+    "confused": {
+      "term": "photomontage",
+      "line": "Collage combines fragments of any material into one composition; photomontage is the narrower case built specifically from photographs."
+    },
+    "try": "Cut ten fragments from old magazines and arrange them into an image that none of them shows alone."
+  },
+  "module": {
+    "more": "A module is one repeatable unit whose shape and size set the rules for a larger whole. When modules repeat, the whole inherits their proportions. Modular shelving built from identical cubes, a floor of hexagonal tiles and a web page made of equal cards all depend on the module chosen first. Change the module from a square to a long rectangle and the whole composition changes character.",
+    "confused": {
+      "term": "pattern",
+      "line": "A module is the single repeatable unit; a pattern is the larger motif that emerges when units are repeated according to a rule."
+    },
+    "try": "Cut eight identical paper shapes, arrange them three ways, and note how the module limits what is possible."
+  },
+  "pattern": {
+    "more": "A pattern is a repeating motif built on its own internal logic: a unit plus a rule for how it repeats, such as a mirror flip, a rotation or a half-step offset. Because of that logic it can cover any surface seamlessly. Wallpaper, textile prints and the tiled background on a brand's packaging are typical patterns; designers check them for visible seams and for unwanted stripes that appear from a distance.",
+    "confused": {
+      "term": "repetition",
+      "line": "A pattern has its own internal logic of arrangement; repetition is the simpler case of one element recurring evenly without variation."
+    },
+    "try": "Draw one simple motif on a square, then tile it four ways: straight, flipped, rotated and offset."
+  },
+  "silhouette": {
+    "more": "A silhouette is a three-dimensional object reduced to its flat outline, filled solid, with no internal detail. It tests whether a shape is recognizable at a glance, which matters for icons, characters and products. A well-designed bottle can be identified from its silhouette alone, and a game character is often refined until its solid black outline is distinct from every other character's.",
+    "confused": {
+      "term": "form",
+      "line": "A silhouette is only the flat outline of an object; form includes its full three-dimensional shape and structure."
+    },
+    "try": "Fill the outlines of five household objects with solid black and ask someone to name each one."
+  },
+  "tectonics": {
+    "more": "Tectonics is the way a structure's logic is expressed through its visible form and surface: how joints, supports and loads are shown rather than hidden. It is a key quality in architecture and furniture. A table whose exposed wooden joints show how the top rests on the legs has strong tectonics, while one wrapped in smooth panels conceals them. Graphic designers borrow the idea when they let a layout's grid show.",
+    "confused": {
+      "term": "structure",
+      "line": "Structure is the internal organization that holds parts together; tectonics is how that structure is expressed and made readable on the surface."
+    },
+    "try": "Examine a chair or table you own and sketch where its joints and supports are visible and where they are hidden."
+  },
+  "texture-tactile-texture": {
+    "more": "Texture is the surface quality of a material: how rough, smooth, soft, grainy or glossy it is, felt by touch or inferred by sight. Designers choose it deliberately, such as uncoated paper for a warm, handmade-feeling book, a soft-touch coating on a premium box, or a fine grain on a phone case to hide fingerprints. On screen, texture can only be suggested visually, through photography or noise.",
+    "confused": {
+      "term": "pattern",
+      "line": "Texture is the quality of a surface; a pattern is a repeating motif laid onto a surface, which may or may not be tactile."
+    },
+    "try": "Collect five paper samples, close your eyes, and rank them by texture from smoothest to roughest."
+  },
+  "affordance": {
+    "more": "An affordance, as used here, is a property of an object's shape that signals how to use it without instructions. A flat metal plate on a door invites pushing; a vertical bar handle invites pulling; a round knob invites turning. When the shape suggests the wrong action, people fail, as with a door that has a pull handle but must be pushed.",
+    "confused": {
+      "term": "signifier",
+      "line": "A signifier is an added cue, such as a push label or an arrow; an affordance, as used here, is suggested by the object's own shape."
+    },
+    "try": "Find three doors nearby and decide, before touching them, whether each must be pushed or pulled; then check."
+  },
+  "animation-sequence": {
+    "more": "An animation sequence is a run of frames or movements that together create the illusion of motion or tell a small story. In interface work it might be the half-second sequence of a menu sliding in, easing to a stop and fading in its items; in a title film it is a series of shots. Designers plan the timing of each step, since a sequence that is too slow feels sluggish and one too fast goes unnoticed.",
+    "confused": {
+      "term": "motion-graphics",
+      "line": "An animation sequence is one specific run of frames or movements; motion graphics is the broader field of animated graphic elements."
+    },
+    "try": "Draw a bouncing ball across eight sticky notes, one position per note, and flip through them to see the motion."
+  },
+  "forcing-function": {
+    "more": "A forcing function blocks a mistake by making it impossible to continue until a required step is done. A car that will not shift out of park unless the brake is pressed, a microwave that stops when its door opens, and a form whose submit button stays disabled until required fields are filled are all examples. Designers use forcing functions where errors are costly, accepting a small inconvenience to prevent them.",
+    "confused": {
+      "term": "affordance",
+      "line": "An affordance suggests how something should be used; a forcing function prevents the wrong action outright until the correct step happens."
+    },
+    "try": "List three devices at home that refuse to work until you do something first, and note which error each prevents."
+  },
+  "interaction-design": {
+    "more": "Interaction design shapes how a person and a system act on each other over time: what a person can do, how the system responds, and how each step leads to the next. It covers digital screens and physical products alike. Designing a thermostat's interaction means deciding what turning the dial does, how the display responds, and how it confirms that the new temperature has been set.",
+    "confused": {
+      "term": "user-interface-ui",
+      "line": "UI designs the visible controls and screens; interaction design defines behavior, how the system responds to actions and how steps flow over time."
+    },
+    "try": "Write down every step and response when you set an alarm on your phone, then mark the most confusing one."
+  },
+  "interface": {
+    "more": "An interface is anything designed to sit between a person and a system so they can communicate: an app's screens and buttons, an oven's knobs and display, a car's dashboard. Its job is to translate between what the system can do and what a person understands. A good stove interface makes it obvious which knob controls which burner, without labels that need reading.",
+    "confused": {
+      "term": "user-interface-ui",
+      "line": "Interface is the general idea of a mediator between system and user; UI refers specifically to the interactive elements of a digital system."
+    },
+    "try": "Sketch the controls of a kitchen appliance and mark the ones whose purpose you had to learn by trial and error."
+  },
+  "mockup": {
+    "more": "A mockup is a realistic image of a design, often shown in context, used to present and judge it before it is built. It shows actual colors, type and imagery but usually does not work. Examples include a static picture of a new app screen inside a phone frame, or a label design placed on a photographed jar. Clients often find it easier to picture the final product from a mockup than from flat artwork.",
+    "confused": {
+      "term": "prototype",
+      "line": "A mockup shows how a design will look; a prototype lets people try how it works, through clicks, taps or physical use."
+    },
+    "try": "Place a flat label design onto a photo of a jar in an image editor, and compare it with the flat version."
+  },
+  "motion-graphics": {
+    "more": "Motion graphics are animated graphic elements, such as type, shapes, icons, charts and illustrations, used to explain, tell a story or set a mood over time. Common examples include a film's title sequence, an animated explainer showing how a payment app works, or a chart whose bars grow as a narrator speaks. Compared with character animation, the focus is on graphic design elements in motion.",
+    "confused": {
+      "term": "animation-sequence",
+      "line": "Motion graphics is the field of animated graphic elements; an animation sequence is one specific run of frames within any animated work."
+    },
+    "try": "Animate one word appearing letter by letter in a presentation tool, then try three different timings."
+  },
+  "prototype": {
+    "more": "A prototype is a working model of a design that people can actually use, built at whatever fidelity answers the question at hand. It can be a few paper screens a tester taps, a clickable app flow, or a foam handle shaped to test grip. Prototypes reveal problems that pictures hide: a checkout that looked clear in a mockup may confuse people the moment they try it.",
+    "confused": {
+      "term": "mockup",
+      "line": "A prototype can be used and tested for function and flow; a mockup only shows what the design will look like."
+    },
+    "try": "Draw three phone screens on paper, have a friend tap through them, and swap the sheets as they go."
+  },
+  "responsive-design": {
+    "more": "Responsive design makes one layout adapt to screens of different sizes and shapes, from a narrow phone to a wide desktop monitor, while keeping content, function and visual identity consistent. Columns stack, images resize and navigation may collapse into a menu. A news site that shows three columns on a laptop and a single scrolling column on a phone, with the same stories and style, is responsive.",
+    "confused": {
+      "term": "adaptive design",
+      "line": "Responsive layouts adjust fluidly to any width; adaptive design usually switches between a few fixed layouts made for specific screen sizes."
+    },
+    "try": "Open a website and slowly narrow the browser window, noting each point where the layout rearranges."
+  },
+  "storyboard": {
+    "more": "A storyboard is a sequence of sketches, much like a comic strip, that plans what happens frame by frame before animation, video or interface work is produced. Each panel shows a key moment, with notes on action, timing or sound. A storyboard for a thirty-second app advertisement might have twelve panels; for an interface, it might show a person at each step of booking a taxi.",
+    "confused": {
+      "term": "wireframe",
+      "line": "A storyboard shows a sequence of moments over time; a wireframe shows the structure of a single screen or page."
+    },
+    "try": "Sketch a six-panel storyboard of making a cup of tea, with a short caption under each panel."
+  },
+  "user-experience-ux": {
+    "more": "User experience covers everything a person goes through with a product or service, from first hearing about it to using it daily and getting help when something fails. It includes usefulness, ease, trust and feeling. A food delivery app's UX includes its menus and buttons, but also accurate delivery times, how refunds are handled, and whether the meal arrives warm.",
+    "confused": {
+      "term": "user-interface-ui",
+      "line": "UX is the whole end-to-end experience, including service and outcomes; UI is the specific set of screens and controls a person interacts with."
+    },
+    "try": "Map every step of your last online purchase, from search to delivery, and mark the most frustrating moment."
+  },
+  "user-interface-ui": {
+    "more": "User interface design covers the specific screens and controls a person uses in a digital product: buttons, menus, fields, icons, type and layout, including how each looks in states such as pressed, disabled or loading. Clear UI makes actions obvious and consistent. A banking app's transfer screen, with its amount field, recipient picker and confirm button, is a piece of UI design.",
+    "confused": {
+      "term": "user-experience-ux",
+      "line": "UI is the specific interactive elements on screen; UX is the person's entire experience with the product or service, of which the UI is one part."
+    },
+    "try": "Screenshot one app screen and label each element, noting its normal, pressed, disabled and error states."
+  },
+  "wireframe": {
+    "more": "A wireframe is a simple drawing of a page or screen that shows its structure and priorities, where content goes and what matters most, without colors, images or final type. Gray boxes stand in for photos and lines for text. Wireframing a product page this way lets a team agree on what goes where before anyone debates colors or fonts.",
+    "confused": {
+      "term": "mockup",
+      "line": "A wireframe shows structure and hierarchy without styling; a mockup shows the finished visual design with real colors, type and imagery."
+    },
+    "try": "In ten minutes, draw a wireframe of your favorite app's home screen using only boxes, lines and labels."
+  },
+  "illustration-pack": {
+    "more": "An illustration pack is a set of drawings made in one consistent style, with shared line weight, color palette, proportions and themes, so they can be used across a whole project. An app might use one pack for its onboarding screens, empty states and error messages, making each feel part of the same family. Packs are often licensed from others, so check what use is permitted.",
+    "confused": {
+      "term": "asset-library",
+      "line": "An asset library stores many kinds of resources; an illustration pack is one stylistically consistent set of illustrations, which might be kept in such a library."
+    },
+    "try": "Draw three simple illustrations, a cup, a key and a cloud, using the same line weight and only two colors."
+  },
+  "infographic": {
+    "more": "An infographic presents data or information visually, combining charts, icons, diagrams and short text so the main point is understood quickly. It must stay honest: a bar chart that does not start at zero, or icons scaled so their area exaggerates differences, can mislead even when the numbers are correct. A poster showing how a city's water travels from reservoir to tap is a typical infographic.",
+    "confused": {
+      "term": "data visualization",
+      "line": "Data visualization usually means charts built directly from data; an infographic combines such charts with illustration, icons and text to tell one story."
+    },
+    "try": "Turn five numbers from your week, such as hours slept each night, into a simple one-page infographic."
+  },
+  "kerning-tracking-&-leading": {
+    "more": "These three settings control space in type. Kerning adjusts the gap between one specific pair of letters, such as tightening the A and V in AVENUE. Tracking adds or removes space evenly across a whole word or line, and is often loosened for small capitals. Leading sets the vertical distance between lines of text. In a magazine headline, careful kerning removes awkward gaps, while generous leading makes body text easier to read.",
+    "confused": {
+      "term": "letter-spacing",
+      "line": "Letter-spacing, the name used in web code, is tracking: it spaces all letters evenly and does not adjust individual pairs, which is kerning."
+    },
+    "try": "Type WAVE in large letters, then adjust only the gaps between W and A and between A and V until spacing looks even."
+  },
+  "legibility": {
+    "more": "Legibility is whether individual letters can be told apart quickly. It depends on letter shapes, such as open counters and distinct forms for lowercase l, capital I and the number 1, as well as on size and contrast. Signage designers care intensely about it: a highway sign must be legible at speed and from far away, so it uses open, simple letterforms at large sizes.",
+    "confused": {
+      "term": "readability",
+      "line": "Legibility is about distinguishing single letters; readability is about how comfortably a whole passage of text can be read."
+    },
+    "try": "Type Il1 O0 rn m in five typefaces at a small size and note which keep every character distinct."
+  },
+  "lettering": {
+    "more": "Lettering is letters drawn for one specific use, as an image, rather than typed from a font. Each letter can be shaped to fit its neighbors and the space, so the same letter may take different forms within one word. Hand-painted shop signs, a book cover title drawn to curve around an illustration, and a custom script on a bottle label are all lettering.",
+    "confused": {
+      "term": "typography",
+      "line": "Typography arranges reusable letters from fonts; lettering draws custom letterforms for one piece, where each letter can be unique."
+    },
+    "try": "Hand-draw your name so it fills a rectangle exactly, reshaping letters to fit instead of typing it."
+  },
+  "readability": {
+    "more": "Readability is how comfortably a full passage of text can be read over time. It depends less on individual letter shapes than on how the type is set: size, line length, line spacing, contrast and alignment. A legible typeface can still become hard to read in very long lines set tightly in light gray on white. Book designers commonly aim for roughly 45 to 75 characters per line.",
+    "confused": {
+      "term": "legibility",
+      "line": "Readability concerns comfortable reading of a whole block of text; legibility concerns whether individual letterforms can be told apart."
+    },
+    "try": "Set one paragraph at three line lengths, short, medium and very long, and read each to compare the effort."
+  },
+  "typography": {
+    "more": "Typography is the craft of arranging type so text is legible, readable and expressive. It involves choosing typefaces, sizes, weights, spacing and line lengths, and setting them in a clear order. Typography decides whether a medicine leaflet is easy to follow and whether a concert poster feels loud or refined. Good typography often goes unnoticed; readers become aware of it mainly when it fails.",
+    "confused": {
+      "term": "font",
+      "line": "A font is a file or set of letters; typography is the practice of choosing and arranging such letters on a page or screen."
+    },
+    "try": "Set the same short paragraph in a serif and a sans serif typeface and note how its tone changes."
+  },
+  "typography-system": {
+    "more": "A typography system is a fixed set of rules for type across a whole project: which typefaces, a scale of sizes, and the weights, line spacing and colors for each role, such as headings, body text, captions and buttons. It keeps hundreds of pages or screens consistent and speeds up work. An app might define five text styles and use only those, so every screen feels related.",
+    "confused": {
+      "term": "typography",
+      "line": "Typography is the overall craft of setting type; a typography system is the specific, documented set of type rules for one project."
+    },
+    "try": "Define four text styles, title, heading, body and caption, with sizes and weights, and apply them to one page."
+  }
+}

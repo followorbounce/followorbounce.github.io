@@ -1,0 +1,4598 @@
+{
+ "dictionaries": {
+  "design": {
+   "folder": "dictionary-of-design",
+   "title": "Dictionary of Design",
+   "description": "An authored, illustrated reference for 113 art and design terms — each one built from the same small vector visual grammar, not a stock-illustration glossary.",
+   "categories": {
+    "form-composition": "Form & Composition",
+    "color-light": "Color & Light",
+    "surface-material": "Surface, Material & Pattern",
+    "meaning-communication": "Meaning & Communication",
+    "typography-image": "Typography & Image-Making",
+    "systems-interaction": "Systems & Interaction",
+    "process-practice": "Design Process & Practice",
+    "digital-production": "Digital Production"
+   }
+  },
+  "inner": {
+   "folder": "dictionary-of-inner-experience",
+   "title": "Dictionary of Inner Experience",
+   "description": "An authored vocabulary for 77 inner states — emotions, moods, and existential experiences — distinguished by real psychological criteria, not treated as interchangeable synonyms.",
+   "categories": {
+    "basic": "Basic Emotions",
+    "complex": "Complex & Blended",
+    "self-conscious": "Self-Conscious",
+    "mood": "Moods",
+    "interpersonal": "Interpersonal & Relational",
+    "existential": "Existential",
+    "regulation": "Regulation Strategies"
+   }
+  }
+ },
+ "terms": [
+  {
+   "dict": "design",
+   "id": "color",
+   "slug": "color",
+   "cat": "color-light",
+   "catLabel": "Color & Light",
+   "name": "Color",
+   "def": "Visual perception resulting from the spectral composition of light reflected or emitted by a surface.",
+   "rels": [
+    "tone",
+    "saturation",
+    "light"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"10\" y=\"24\" width=\"13\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.2\"/><rect x=\"26\" y=\"24\" width=\"13\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.38\"/><rect x=\"42\" y=\"24\" width=\"13\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.56\"/><rect x=\"58\" y=\"24\" width=\"13\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.74\"/><rect x=\"74\" y=\"24\" width=\"13\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.9199999999999999\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "gradient",
+   "slug": "gradient",
+   "cat": "color-light",
+   "catLabel": "Color & Light",
+   "name": "Gradient",
+   "def": "A continuous, stepless transition between two visual states — most often color, value, or scale.",
+   "rels": [
+    "tone"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><defs><linearGradient id=\"gA23903\" x1=\"0\" y1=\"0\" x2=\"1\" y2=\"0\"><stop offset=\"0\" stop-color=\"var(--ext)\" stop-opacity=\"0.08\"/><stop offset=\"1\" stop-color=\"var(--ext)\"/></linearGradient></defs><rect x=\"12\" y=\"24\" width=\"76\" height=\"28\" fill=\"url(#gA23903)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "light",
+   "slug": "light",
+   "cat": "color-light",
+   "catLabel": "Color & Light",
+   "name": "Light",
+   "def": "The degree of illumination defining an object's visibility, and its contrast against surrounding darkness.",
+   "rels": [
+    "color",
+    "tone"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"10\" fill=\"var(--ext)\"/><g stroke=\"var(--ext)\" stroke-width=\"1.5\" opacity=\"0.5\"><line x1=\"50\" y1=\"14\" x2=\"50\" y2=\"6\"/><line x1=\"50\" y1=\"62\" x2=\"50\" y2=\"70\"/><line x1=\"26\" y1=\"38\" x2=\"18\" y2=\"38\"/><line x1=\"74\" y1=\"38\" x2=\"82\" y2=\"38\"/></g></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "saturation",
+   "slug": "saturation",
+   "cat": "color-light",
+   "catLabel": "Color & Light",
+   "name": "Saturation",
+   "def": "The purity or intensity of a hue, independent of how light or dark it is.",
+   "rels": [
+    "tone"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"16\" cy=\"38\" r=\"9\" fill=\"var(--ext)\" opacity=\"1.0\"/><circle cx=\"33\" cy=\"38\" r=\"9\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"50\" cy=\"38\" r=\"9\" fill=\"var(--ext)\" opacity=\"0.6\"/><circle cx=\"67\" cy=\"38\" r=\"9\" fill=\"var(--ext)\" opacity=\"0.3999999999999999\"/><circle cx=\"84\" cy=\"38\" r=\"9\" fill=\"var(--ext)\" opacity=\"0.19999999999999996\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "spot-color-field",
+   "slug": "spot-color-field",
+   "cat": "color-light",
+   "catLabel": "Color & Light",
+   "name": "Spot (Color Field)",
+   "def": "An independent visual unit defined purely by color or material, without an outlined edge of its own.",
+   "rels": [
+    "color",
+    "mass"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"18\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "tone",
+   "slug": "tone",
+   "cat": "color-light",
+   "catLabel": "Color & Light",
+   "name": "Tone",
+   "def": "The relative lightness or darkness of a color or area, independent of its hue.",
+   "rels": [
+    "saturation",
+    "contrast"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"10\" y=\"24\" width=\"13\" height=\"28\" fill=\"rgb(255,255,255)\" opacity=\"1\" stroke=\"var(--ink-faint)\" stroke-width=\"0.5\"/><rect x=\"26\" y=\"24\" width=\"13\" height=\"28\" fill=\"rgb(191,191,191)\" opacity=\"1\" stroke=\"var(--ink-faint)\" stroke-width=\"0.5\"/><rect x=\"42\" y=\"24\" width=\"13\" height=\"28\" fill=\"rgb(127,127,127)\" opacity=\"1\" stroke=\"var(--ink-faint)\" stroke-width=\"0.5\"/><rect x=\"58\" y=\"24\" width=\"13\" height=\"28\" fill=\"rgb(63,63,63)\" opacity=\"1\" stroke=\"var(--ink-faint)\" stroke-width=\"0.5\"/><rect x=\"74\" y=\"24\" width=\"13\" height=\"28\" fill=\"rgb(0,0,0)\" opacity=\"1\" stroke=\"var(--ink-faint)\" stroke-width=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "api",
+   "slug": "api",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "API",
+   "def": "An interface enabling one piece of software to interact with another — adjacent professional vocabulary a designer encounters, not a design concept in its own right.",
+   "rels": [
+    "cms",
+    "plugin"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"30\" width=\"26\" height=\"16\" rx=\"3\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"41\" y=\"34\" width=\"8\" height=\"8\" fill=\"var(--ext)\"/><rect x=\"49\" y=\"30\" width=\"26\" height=\"16\" rx=\"3\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "alpha-channel",
+   "slug": "alpha-channel",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Alpha Channel",
+   "def": "A layer that stores transparency information for compositing or rendering.",
+   "rels": [
+    "mask"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"14\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"34\" y=\"14\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"56\" y=\"14\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"23\" y=\"26\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"45\" y=\"26\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"67\" y=\"26\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"12\" y=\"38\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"34\" y=\"38\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"56\" y=\"38\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"23\" y=\"50\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"45\" y=\"50\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><rect x=\"67\" y=\"50\" width=\"11\" height=\"12\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/><circle cx=\"50\" cy=\"38\" r=\"16\" fill=\"var(--ext)\" opacity=\"0.6\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "asset",
+   "slug": "asset",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Asset",
+   "def": "A single visual, typographic, or multimedia element used in the construction of a design project.",
+   "rels": [
+    "asset-library"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"30\" y=\"20\" width=\"40\" height=\"36\" fill=\"var(--ext)\" opacity=\"0.7\"/><line x1=\"30\" y1=\"62\" x2=\"70\" y2=\"62\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "asset-library",
+   "slug": "asset-library",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Asset Library",
+   "def": "An organized collection of visual or multimedia resources kept accessible across design projects.",
+   "rels": [
+    "asset",
+    "illustration-pack"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"16\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\" opacity=\"1\"/><rect x=\"30\" y=\"16\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.4\"/><rect x=\"48\" y=\"16\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.4\"/><rect x=\"66\" y=\"16\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\" opacity=\"1\"/><rect x=\"12\" y=\"40\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.4\"/><rect x=\"30\" y=\"40\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.4\"/><rect x=\"48\" y=\"40\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\" opacity=\"1\"/><rect x=\"66\" y=\"40\" width=\"14\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.4\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "cms",
+   "slug": "cms",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "CMS",
+   "def": "A software platform for creating, managing, and publishing digital content — adjacent professional vocabulary.",
+   "rels": [
+    "api"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><ellipse cx=\"50\" cy=\"20\" rx=\"24\" ry=\"7\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><path d=\"M26 20 V52 A24 7 0 0 0 74 52 V20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><ellipse cx=\"50\" cy=\"36\" rx=\"24\" ry=\"7\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "clipping-path",
+   "slug": "clipping-path",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Clipping Path",
+   "def": "A vector path used to isolate part of an image for manipulation or compositing.",
+   "rels": [
+    "mask"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"15\" width=\"70\" height=\"46\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/><path d=\"M35 25 Q50 15 65 25 Q75 40 60 52 Q45 58 35 45 Z\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "composition-file",
+   "slug": "composition-file",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Composition File",
+   "def": "An editable file containing organized layers and elements for manipulation within design software.",
+   "rels": [
+    "layer"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"22\" y=\"26\" width=\"44\" height=\"34\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><rect x=\"30\" y=\"18\" width=\"44\" height=\"34\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><rect x=\"38\" y=\"10\" width=\"44\" height=\"34\" fill=\"var(--ext)\" opacity=\"0.7\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "dpi",
+   "slug": "dpi",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "DPI",
+   "def": "Dots per inch — a measure of a print or output device's resolution.",
+   "rels": [
+    "ppi",
+    "resolution"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12.0\" y=\"12.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"31.0\" y=\"12.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"12.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"69.0\" y=\"12.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"25.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"31.0\" y=\"25.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"25.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"69.0\" y=\"25.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"38.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"31.0\" y=\"38.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"38.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"69.0\" y=\"38.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"51.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"31.0\" y=\"51.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"51.0\" width=\"18.4\" height=\"12.4\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"69.0\" y=\"51.0\" width=\"18.4\" height=\"12.4\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "digital-toolkit",
+   "slug": "digital-toolkit",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Digital Toolkit",
+   "def": "The suite of software, templates, and resources used to create, edit, and manage a digital design project.",
+   "rels": [],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"25\" cy=\"30\" r=\"8\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"45\" y=\"22\" width=\"16\" height=\"16\" fill=\"var(--ext)\" opacity=\"0.7\"/><polygon points=\"80,20 88,36 72,36\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "export-settings",
+   "slug": "export-settings",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Export Settings",
+   "def": "The configurations used to save or output a file at a specific format, size, or quality.",
+   "rels": [
+    "resolution"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"20,15 80,15 55,40 55,58 45,58 45,40\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "frontend---backend",
+   "slug": "frontend-backend",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Frontend / Backend",
+   "def": "The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.",
+   "rels": [],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"14\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"34\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"54\" y=\"20\" width=\"16\" height=\"36\" fill=\"var(--ext)\" opacity=\"0.15\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/><rect x=\"74\" y=\"20\" width=\"12\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "layer",
+   "slug": "layer",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Layer",
+   "def": "One editable element within a composition that can be manipulated independently of the others.",
+   "rels": [
+    "composition-file",
+    "mask"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"16\" width=\"60\" height=\"16\" fill=\"var(--ext)\" opacity=\"0.8\"/><rect x=\"20\" y=\"36\" width=\"60\" height=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "mask",
+   "slug": "mask",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Mask",
+   "def": "A tool or layer that defines which areas of a composition are visible and which are hidden.",
+   "rels": [
+    "layer",
+    "clipping-path"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"14\" width=\"70\" height=\"48\" fill=\"var(--ext)\" opacity=\"0.15\"/><rect x=\"35\" y=\"24\" width=\"30\" height=\"28\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "pdf",
+   "slug": "pdf",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "PDF",
+   "def": "Portable Document Format — preserves a document's layout, typography, and graphics identically across platforms.",
+   "rels": [],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"30\" y=\"10\" width=\"40\" height=\"56\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><polygon points=\"60,10 70,20 60,20\" fill=\"var(--ext)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "ppi",
+   "slug": "ppi",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "PPI",
+   "def": "Pixels per inch — a measure of an image's own density, independent of the device it's printed or displayed on.",
+   "rels": [
+    "dpi",
+    "resolution"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"15.0\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"15.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"21.6\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"28.1\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"34.7\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"41.3\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"47.9\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"54.4\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"24.4\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"33.9\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"43.3\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"62.1\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"71.6\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"61.0\" r=\"1.3\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "plugin",
+   "slug": "plugin",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Plugin",
+   "def": "A software add-on that extends the functionality of a platform or design tool — adjacent professional vocabulary.",
+   "rels": [
+    "api"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"26\" width=\"34\" height=\"24\" rx=\"3\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"54\" y=\"32\" width=\"14\" height=\"12\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "raw",
+   "slug": "raw",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "RAW",
+   "def": "An unprocessed camera sensor format retaining the maximum original image data, before any raster export decisions are applied.",
+   "rels": [
+    "raster"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"25\" y=\"20\" width=\"50\" height=\"36\" rx=\"4\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"38\" r=\"12\" fill=\"var(--ext)\" opacity=\"0.4\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "raster",
+   "slug": "raster",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Raster",
+   "def": "A pixel-based image format whose detail is fixed at capture or creation.",
+   "rels": [
+    "vector-file",
+    "raw"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12.0\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"12.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"17.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"22.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"27.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"32.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"38.0\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"43.2\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"48.4\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"53.6\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"12.0\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"19.6\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"27.2\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"34.8\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"42.4\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"50.0\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"57.6\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"65.2\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"72.8\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"none\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/><rect x=\"80.4\" y=\"58.8\" width=\"7.0\" height=\"4.6\" fill=\"var(--ext)\" opacity=\"0.6\" stroke=\"var(--ink-faint)\" stroke-width=\"0.3\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "render",
+   "slug": "render",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Render",
+   "def": "The process of generating a final image or sequence from a digital file, incorporating lighting and physical properties.",
+   "rels": [
+    "composition-file"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"20\" width=\"30\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><rect x=\"58\" y=\"20\" width=\"30\" height=\"36\" fill=\"var(--ext)\" opacity=\"0.85\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "resolution",
+   "slug": "resolution",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Resolution",
+   "def": "The measure of an image's fixed detail, usually expressed as its PPI or the DPI of its output device.",
+   "rels": [
+    "dpi",
+    "ppi"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"15.0\" cy=\"15.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"48.0\" cy=\"15.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"15.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"38.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"48.0\" cy=\"38.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"38.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"61.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"48.0\" cy=\"61.0\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"81.0\" cy=\"61.0\" r=\"3\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "svg",
+   "slug": "svg",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "SVG",
+   "def": "A scalable vector graphic format that preserves sharp edges at any output size.",
+   "rels": [
+    "vector-file"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"20,45 30,20 40,45\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/><polygon points=\"55,52 72,10 89,52\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "vector-file",
+   "slug": "vector-file",
+   "cat": "digital-production",
+   "catLabel": "Digital Production",
+   "name": "Vector File",
+   "def": "A digital image built from geometric paths rather than pixels, which can be scaled without losing quality.",
+   "rels": [
+    "svg",
+    "raster"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 50 Q30 15 50 30 Q70 45 85 15\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><circle cx=\"15\" cy=\"50\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"50\" cy=\"30\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"85\" cy=\"15\" r=\"3\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "abstraction",
+   "slug": "abstraction",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Abstraction",
+   "def": "Progressive simplification of a recognizable form into essential geometric shape, retaining what makes it identifiable while discarding surface detail.",
+   "rels": [
+    "formalization",
+    "figurative"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"12.2,26.0 22.6,32.0 22.6,44.0 12.2,50.0 1.9,44.0 1.9,32.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.6\"/><polygon points=\"34.8,28.0 44.3,34.9 40.6,46.1 28.9,46.1 25.2,34.9\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.6\"/><polygon points=\"57.2,30.0 65.2,38.0 57.2,46.0 49.2,38.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.6\"/><polygon points=\"79.8,32.0 84.9,41.0 74.6,41.0\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\" opacity=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "asymmetry",
+   "slug": "asymmetry",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Asymmetry",
+   "def": "Intentional imbalance resolved through the position and scale of unequal elements rather than mirrored correspondence.",
+   "rels": [
+    "balance",
+    "symmetry"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"16\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" opacity=\"0.55\"/><circle cx=\"70\" cy=\"38\" r=\"6\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "balance",
+   "slug": "balance",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Balance",
+   "def": "Distribution of visual weight across a composition that reads as stable, whether achieved through symmetry or through offsetting asymmetry.",
+   "rels": [
+    "symmetry",
+    "asymmetry"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"28\" cy=\"26\" r=\"10\" fill=\"var(--ext)\" opacity=\"0.85\"/><circle cx=\"72\" cy=\"46\" r=\"6\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><polygon points=\"50,58 44,68 56,68\" fill=\"var(--ink-faint)\"/><line x1=\"15\" y1=\"52\" x2=\"85\" y2=\"40\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "composition",
+   "slug": "composition",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Composition",
+   "def": "The spatial and proportional organization of elements into a coherent whole.",
+   "rels": [
+    "structure",
+    "layout"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"17.0\" y=\"18.0\" width=\"19.333333333333332\" height=\"18.0\" fill=\"var(--ext)\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"40.33333333333333\" y=\"18.0\" width=\"19.333333333333332\" height=\"18.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"63.666666666666664\" y=\"18.0\" width=\"19.333333333333332\" height=\"18.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"17.0\" y=\"40.0\" width=\"19.333333333333332\" height=\"18.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"40.33333333333333\" y=\"40.0\" width=\"19.333333333333332\" height=\"18.0\" fill=\"var(--ext)\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"63.666666666666664\" y=\"40.0\" width=\"19.333333333333332\" height=\"18.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "contrast",
+   "slug": "contrast",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Contrast",
+   "def": "Juxtaposition of strongly opposing visual properties that sharpens the perceived identity of both.",
+   "rels": [
+    "emphasis",
+    "tone"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"20\" width=\"30\" height=\"30\" fill=\"var(--ext)\"/><rect x=\"55\" y=\"20\" width=\"30\" height=\"30\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "counterform-negative-space",
+   "slug": "counterform-negative-space",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Counterform (Negative Space)",
+   "def": "A meaningful shape produced primarily by the empty area around or between positive forms, carrying real visual weight of its own.",
+   "rels": [
+    "space",
+    "silhouette"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 20 Q45 5 45 38 Q45 71 15 56 Z\" fill=\"var(--ext)\" opacity=\"0.85\"/><path d=\"M85 20 Q55 5 55 38 Q55 71 85 56 Z\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "density",
+   "slug": "density",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Density",
+   "def": "The degree of visual saturation, sparse or crowded, within a given area of a composition.",
+   "rels": [
+    "mass",
+    "texture-tactile-texture"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"36.6\" cy=\"19.8\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"61.5\" cy=\"15.8\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"52.7\" cy=\"31.0\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"16.4\" cy=\"38.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"14.8\" cy=\"34.5\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"17.3\" cy=\"16.7\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"44.3\" cy=\"55.0\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"21.4\" cy=\"23.6\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"59.7\" cy=\"61.3\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"55.9\" cy=\"32.6\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"86.2\" cy=\"14.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"77.2\" cy=\"27.1\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"23.0\" cy=\"18.1\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"35.4\" cy=\"54.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"25.7\" cy=\"42.2\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"60.6\" cy=\"31.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"53.6\" cy=\"15.3\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"16.5\" cy=\"22.7\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"63.7\" cy=\"34.2\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"35.9\" cy=\"42.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"46.4\" cy=\"27.6\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"72.4\" cy=\"48.3\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"30.6\" cy=\"41.9\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"51.9\" cy=\"57.5\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"67.4\" cy=\"27.0\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"86.5\" cy=\"18.1\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"43.8\" cy=\"51.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"23.6\" cy=\"37.4\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"15.0\" cy=\"46.7\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"70.1\" cy=\"41.8\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"78.5\" cy=\"28.3\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"64.8\" cy=\"42.9\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"56.1\" cy=\"35.7\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"75.8\" cy=\"61.1\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"48.0\" cy=\"46.5\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"16.6\" cy=\"48.5\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"61.2\" cy=\"63.6\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"74.5\" cy=\"26.8\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"41.3\" cy=\"46.8\" r=\"2.4\" fill=\"var(--ext)\"/><circle cx=\"13.7\" cy=\"36.0\" r=\"2.4\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "dynamics",
+   "slug": "dynamics",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Dynamics",
+   "def": "Perceived movement within a static composition, implied by the direction, angle, or relationship of its forms.",
+   "rels": [
+    "rhythm",
+    "static"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 55 Q45 15 85 20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><path d=\"M75 14 L85 20 L77 28\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "emphasis",
+   "slug": "emphasis",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Emphasis",
+   "def": "The deliberate creation of one dominant point of visual attention within a composition.",
+   "rels": [
+    "visual-hierarchy",
+    "contrast"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"20\" cy=\"45\" r=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/><circle cx=\"35\" cy=\"43\" r=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/><circle cx=\"50\" cy=\"41\" r=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/><circle cx=\"65\" cy=\"39\" r=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/><circle cx=\"80\" cy=\"30\" r=\"10\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "figurative",
+   "slug": "figurative",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Figurative",
+   "def": "The degree to which a form remains recognizable as, and referential to, a real-world object.",
+   "rels": [
+    "abstraction"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"35\" cy=\"24\" r=\"10\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"26\" y=\"36\" width=\"18\" height=\"24\" rx=\"4\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "form",
+   "slug": "form",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Form",
+   "def": "The perceived shape and structure of an object, independent of its color or surface texture.",
+   "rels": [
+    "form-factor",
+    "volume"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M35 15 Q55 15 55 32 Q55 42 45 45 L60 62 H30 L38 45 Q25 42 25 30 Q25 15 35 15Z\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "form-factor",
+   "slug": "form-factor",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Form Factor",
+   "def": "The physical shape and proportions of an object's outer volume, especially its housing.",
+   "rels": [
+    "form",
+    "volume"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"25\" y=\"18\" width=\"50\" height=\"40\" rx=\"14\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"35\" y=\"28\" width=\"30\" height=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "formalization",
+   "slug": "formalization",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Formalization",
+   "def": "The reduction of a complex reference to its essential forms, adapted to the constraints of the medium.",
+   "rels": [
+    "abstraction"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"16.0,26.0 27.4,34.3 23.1,47.7 8.9,47.7 4.6,34.3\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.6\"/><polygon points=\"46.0,28.0 56.0,38.0 46.0,48.0 36.0,38.0\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" opacity=\"0.6\"/><polygon points=\"76.0,30.0 82.9,42.0 69.1,42.0\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\" opacity=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "line",
+   "slug": "line",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Line",
+   "def": "A directional trace that defines movement, a boundary, or continuity between points.",
+   "rels": [
+    "point",
+    "plane"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><line x1=\"15\" y1=\"50\" x2=\"85\" y2=\"25\" stroke=\"var(--ext)\" stroke-width=\"2.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "mass",
+   "slug": "mass",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Mass",
+   "def": "The perceived visual or physical weight of a solid form.",
+   "rels": [
+    "volume",
+    "density"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"25\" y=\"18\" width=\"50\" height=\"40\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "perspective",
+   "slug": "perspective",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Perspective",
+   "def": "Representation of depth on a flat surface, typically through lines that converge toward one or more vanishing points.",
+   "rels": [
+    "space",
+    "scale"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><line x1=\"10\" y1=\"60\" x2=\"90\" y2=\"60\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><line x1=\"10\" y1=\"60\" x2=\"50\" y2=\"12\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"90\" y1=\"60\" x2=\"50\" y2=\"12\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"30\" y1=\"60\" x2=\"50\" y2=\"12\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/><line x1=\"70\" y1=\"60\" x2=\"50\" y2=\"12\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "plane",
+   "slug": "plane",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Plane",
+   "def": "A flat surface that organizes two-dimensional elements within a composition.",
+   "rels": [
+    "point",
+    "line",
+    "volume"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"15,45 55,20 85,30 45,55\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "plasticity",
+   "slug": "plasticity",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Plasticity",
+   "def": "The degree to which a form reads as pliable or moldable rather than rigid, judged from its contours and transitions.",
+   "rels": [
+    "volume",
+    "form"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 45 Q20 15 45 25 Q65 33 40 55 Q20 65 15 45 Z\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"60\" y=\"25\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "point",
+   "slug": "point",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Point",
+   "def": "The minimal, indivisible visual unit — the origin from which line, plane, and spatial relationships extend.",
+   "rels": [
+    "line",
+    "plane"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"4\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "proportions",
+   "slug": "proportions",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Proportions",
+   "def": "The size relationships between a whole and its parts, and between the parts themselves.",
+   "rels": [
+    "scale",
+    "balance"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"18\" cy=\"60\" r=\"6\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"2\"/><circle cx=\"46\" cy=\"60\" r=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"2\"/><circle cx=\"90\" cy=\"60\" r=\"22\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"10\" y1=\"62\" x2=\"90\" y2=\"62\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "repetition",
+   "slug": "repetition",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Repetition",
+   "def": "Identical elements recurring at even intervals — the simpler, unvaried base case that Rhythm builds variation on top of.",
+   "rels": [
+    "rhythm",
+    "pattern"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"24\" width=\"10\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.85\"/><rect x=\"30\" y=\"24\" width=\"10\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.85\"/><rect x=\"45\" y=\"24\" width=\"10\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.85\"/><rect x=\"60\" y=\"24\" width=\"10\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.85\"/><rect x=\"75\" y=\"24\" width=\"10\" height=\"28\" fill=\"var(--ext)\" opacity=\"0.85\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "rhythm",
+   "slug": "rhythm",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Rhythm",
+   "def": "Visual tempo produced by repeating elements with controlled variation in spacing, size, or form.",
+   "rels": [
+    "repetition",
+    "pattern"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"11\" y=\"24\" width=\"8\" height=\"28\" fill=\"var(--ext)\" opacity=\"1\"/><rect x=\"24\" y=\"24\" width=\"8\" height=\"28\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"44\" y=\"24\" width=\"8\" height=\"28\" fill=\"var(--ext)\" opacity=\"1\"/><rect x=\"57\" y=\"24\" width=\"8\" height=\"28\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"77\" y=\"24\" width=\"8\" height=\"28\" fill=\"var(--ext)\" opacity=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "scale",
+   "slug": "scale",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Scale",
+   "def": "Perceived size, understood only through comparison against another object or a known reference, not as an absolute measure.",
+   "rels": [
+    "proportions"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"18\" cy=\"60\" r=\"6\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"2\"/><circle cx=\"46\" cy=\"60\" r=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"2\"/><circle cx=\"90\" cy=\"60\" r=\"22\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"10\" y1=\"62\" x2=\"90\" y2=\"62\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "space",
+   "slug": "space",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Space",
+   "def": "The area, positive or empty, within and around a composition's forms, perceived both visually and physically.",
+   "rels": [
+    "counterform-negative-space",
+    "volume"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 15 H50 V60 H15 Z M50 15 A35 35 0 0 1 50 60 Z\" fill=\"var(--ext)\" opacity=\"0.15\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "spatial-forces",
+   "slug": "spatial-forces",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Spatial Forces",
+   "def": "Directional relationships between elements that guide the eye and imply connection or tension across a composition.",
+   "rels": [
+    "dynamics",
+    "structure"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><line x1=\"15\" y1=\"15\" x2=\"85\" y2=\"5\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" opacity=\"0.5\"/><line x1=\"15\" y1=\"28\" x2=\"85\" y2=\"38\" stroke=\"var(--ext)\" stroke-width=\"2\" opacity=\"1\"/><line x1=\"15\" y1=\"41\" x2=\"85\" y2=\"31\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" opacity=\"0.5\"/><line x1=\"15\" y1=\"54\" x2=\"85\" y2=\"64\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "static",
+   "slug": "static",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Static",
+   "def": "The absence of implied motion in a composition, conveying stability and rest.",
+   "rels": [
+    "dynamics"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"35\" y=\"18\" width=\"30\" height=\"40\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "structure",
+   "slug": "structure",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Structure",
+   "def": "The internal organization holding one object's or composition's own parts together.",
+   "rels": [
+    "system",
+    "composition"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"35\" r=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"50\" y1=\"15\" x2=\"50\" y2=\"55\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><line x1=\"30\" y1=\"35\" x2=\"70\" y2=\"35\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><line x1=\"36\" y1=\"21\" x2=\"64\" y2=\"49\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "symmetry",
+   "slug": "symmetry",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Symmetry",
+   "def": "Balance produced by exact mirrored correspondence across a central axis.",
+   "rels": [
+    "balance",
+    "asymmetry"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"25,20 40,50 15,45\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><polygon points=\"75,20 60,50 85,45\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"50\" y1=\"10\" x2=\"50\" y2=\"65\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "system",
+   "slug": "system",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "System",
+   "def": "A set of distinct components governed by one shared rule across a larger whole.",
+   "rels": [
+    "structure",
+    "module"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"22\" cy=\"20\" r=\"7\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><polygon points=\"52,13 63,26 41,26\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"70\" y=\"13\" width=\"14\" height=\"14\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><circle cx=\"22\" cy=\"52\" r=\"5\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/><polygon points=\"52,46 60,56 44,56\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/><rect x=\"72\" y=\"46\" width=\"10\" height=\"10\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "unity",
+   "slug": "unity",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Unity",
+   "def": "The degree to which elements read as belonging to one coherent whole rather than as unrelated parts.",
+   "rels": [
+    "balance",
+    "pattern"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"72.0\" cy=\"38.0\" r=\"7\" fill=\"var(--ext)\" opacity=\"0.75\"/><circle cx=\"61.0\" cy=\"57.1\" r=\"7\" fill=\"var(--ext)\" opacity=\"0.75\"/><circle cx=\"39.0\" cy=\"57.1\" r=\"7\" fill=\"var(--ext)\" opacity=\"0.75\"/><circle cx=\"28.0\" cy=\"38.0\" r=\"7\" fill=\"var(--ext)\" opacity=\"0.75\"/><circle cx=\"39.0\" cy=\"18.9\" r=\"7\" fill=\"var(--ext)\" opacity=\"0.75\"/><circle cx=\"61.0\" cy=\"18.9\" r=\"7\" fill=\"var(--ext)\" opacity=\"0.75\"/><circle cx=\"50\" cy=\"38\" r=\"7\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "visual-hierarchy",
+   "slug": "visual-hierarchy",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Visual Hierarchy",
+   "def": "The deliberate ranking of elements by visual weight so the eye is guided through a composition in a specific order.",
+   "rels": [
+    "emphasis",
+    "scale"
+   ],
+   "dims": [],
+   "badge": "Recategorized",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"20\" cy=\"30\" r=\"14\" fill=\"var(--ext)\"/><circle cx=\"50\" cy=\"42\" r=\"9\" fill=\"var(--ink-faint)\" opacity=\"0.6\"/><circle cx=\"76\" cy=\"50\" r=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.35\"/><line x1=\"20\" y1=\"30\" x2=\"76\" y2=\"50\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "volume",
+   "slug": "volume",
+   "cat": "form-composition",
+   "catLabel": "Form & Composition",
+   "name": "Volume",
+   "def": "A three-dimensional space defined by its boundaries, or implied by the relationships between the planes that suggest it.",
+   "rels": [
+    "mass",
+    "plane"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"35,15 65,15 78,25 48,25\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/><polygon points=\"35,15 48,25 48,55 35,45\" fill=\"var(--ext)\" opacity=\"0.5\"/><polygon points=\"48,25 78,25 78,55 48,55\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "communication",
+   "slug": "communication",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Communication",
+   "def": "The conveying of meaning and intent through visual signs, symbols, and systems.",
+   "rels": [
+    "semantics",
+    "graphic-design"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"20\" cy=\"38\" r=\"8\" fill=\"var(--ext)\"/><circle cx=\"80\" cy=\"38\" r=\"8\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><line x1=\"30\" y1=\"38\" x2=\"70\" y2=\"38\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\" marker-end=\"url(#ar)\"/><defs><marker id=\"ar\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--ink-faint)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "decorativeness",
+   "slug": "decorativeness",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Decorativeness",
+   "def": "The presence of non-essential visual additions that heighten emotional or aesthetic response beyond a form's function.",
+   "rels": [
+    "ornament"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"18\" width=\"50\" height=\"34\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><circle cx=\"20\" cy=\"18\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"70\" cy=\"18\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"20\" cy=\"52\" r=\"3\" fill=\"var(--ext)\"/><circle cx=\"70\" cy=\"52\" r=\"3\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "graphic-design",
+   "slug": "graphic-design",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Graphic Design",
+   "def": "The practice of visual communication through the coordinated use of typography, imagery, color, and composition.",
+   "rels": [
+    "communication",
+    "visual-identity"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"12\" fill=\"var(--ext)\"/><text x=\"48\" y=\"45\" font-family=\"Archivo, sans-serif\" font-weight=\"800\" font-size=\"26\" fill=\"var(--ink-faint)\">Aa</text></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "icon",
+   "slug": "icon",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Icon",
+   "def": "A form that represents a concept by resembling it directly, as opposed to a Symbol, which represents by convention.",
+   "rels": [
+    "symbol"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"30\" y=\"42\" width=\"40\" height=\"16\" fill=\"var(--ext)\"/><polygon points=\"50,14 62,32 38,32\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "interpretation",
+   "slug": "interpretation",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Interpretation",
+   "def": "Personal understanding and explanation shaped by experience and context.",
+   "rels": [
+    "semantics",
+    "metaphor",
+    "communication"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"26\" width=\"24\" height=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><ellipse cx=\"50\" cy=\"38\" rx=\"7\" ry=\"22\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"66\" y=\"26\" width=\"24\" height=\"24\" fill=\"var(--ext)\" transform=\"rotate(20 78 38)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "logo",
+   "slug": "logo",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Logo",
+   "def": "A graphic symbol or typographic mark that represents a brand, company, or project's identity.",
+   "rels": [
+    "visual-identity",
+    "icon"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"18\" y=\"18\" width=\"64\" height=\"40\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\" stroke-dasharray=\"2 2\"/><polygon points=\"50,26 62,50 38,50\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "metaphor",
+   "slug": "metaphor",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Metaphor",
+   "def": "A conceptual bridge in which one visual form is used to carry the meaning of another.",
+   "rels": [
+    "symbol",
+    "semantics"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"35\" cy=\"38\" r=\"16\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><polygon points=\"65,22 82,50 48,50\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "semantics",
+   "slug": "semantics",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Semantics",
+   "def": "The meaning a visual sign or symbol generates through its context and use: shared, carried by the sign itself, as opposed to Interpretation, which is a personal reading.",
+   "rels": [
+    "interpretation",
+    "symbol",
+    "icon",
+    "metaphor"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"10\" fill=\"var(--ext)\"/><rect x=\"52\" y=\"15\" width=\"34\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\" stroke-dasharray=\"2 2\"/><rect x=\"52\" y=\"45\" width=\"34\" height=\"18\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "symbol",
+   "slug": "symbol",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Symbol",
+   "def": "A form that stands for a concept by learned convention alone, without resembling it.",
+   "rels": [
+    "icon",
+    "semantics"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><polygon points=\"50,12 62,25 62,51 50,64 38,51 38,25\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"50\" y1=\"24\" x2=\"50\" y2=\"42\" stroke=\"var(--ext)\" stroke-width=\"3\"/><circle cx=\"50\" cy=\"50\" r=\"1.6\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "visual-identity",
+   "slug": "visual-identity",
+   "cat": "meaning-communication",
+   "catLabel": "Meaning & Communication",
+   "name": "Visual Identity",
+   "def": "The visual components of a brand or project — logo, color palette, typography, and imagery — forming one recognizable system.",
+   "rels": [
+    "logo",
+    "brandbook"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"24\" cy=\"24\" r=\"9\" fill=\"var(--ext)\"/><rect x=\"45\" y=\"16\" width=\"12\" height=\"16\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"62\" y=\"16\" width=\"12\" height=\"16\" fill=\"var(--ink-faint)\" opacity=\"0.3\"/><text x=\"24\" y=\"55\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"14\" fill=\"var(--ink-faint)\">Aa</text></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "alignment",
+   "slug": "alignment",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Alignment",
+   "def": "The positioning of elements relative to one another — left, right, center, or justified — to create order and clarity.",
+   "rels": [
+    "grid-system",
+    "layout"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"18\" width=\"40\" height=\"8\" fill=\"var(--ext)\" opacity=\"1\"/><rect x=\"15\" y=\"34\" width=\"60\" height=\"8\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"15\" y=\"50\" width=\"30\" height=\"8\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "brandbook",
+   "slug": "brandbook",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Brandbook",
+   "def": "A comprehensive document defining a project's visual identity, typography, color palette, and guidelines for consistent application.",
+   "rels": [
+    "visual-identity"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"16\" width=\"60\" height=\"10\" fill=\"var(--ext)\"/><rect x=\"20\" y=\"30\" width=\"60\" height=\"10\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"20\" y=\"44\" width=\"60\" height=\"10\" fill=\"var(--ink-faint)\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "brief",
+   "slug": "brief",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Brief",
+   "def": "A concise document describing a project's goals, requirements, constraints, and expectations.",
+   "rels": [
+    "case-study"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"28\" y=\"12\" width=\"44\" height=\"52\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"35\" y1=\"24\" x2=\"65\" y2=\"24\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><line x1=\"35\" y1=\"34\" x2=\"65\" y2=\"34\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><line x1=\"35\" y1=\"44\" x2=\"55\" y2=\"44\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "case-study",
+   "slug": "case-study",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Case Study",
+   "def": "A documented design project that shows the original problem, the process taken, and the final solution.",
+   "rels": [
+    "brief",
+    "iteration"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"20\" width=\"30\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><rect x=\"58\" y=\"20\" width=\"30\" height=\"36\" fill=\"var(--ext)\" opacity=\"0.85\"/><path d=\"M46 38 H54\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" marker-end=\"url(#ar2)\"/><defs><marker id=\"ar2\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--ink-faint)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "construction",
+   "slug": "construction",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Construction",
+   "def": "The method and logic by which parts are assembled into a functional or visual whole.",
+   "rels": [
+    "structure"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"45\" width=\"18\" height=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"40\" y=\"30\" width=\"18\" height=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"68\" y=\"15\" width=\"18\" height=\"14\" fill=\"var(--ext)\"/><line x1=\"30\" y1=\"52\" x2=\"40\" y2=\"37\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/><line x1=\"58\" y1=\"37\" x2=\"68\" y2=\"22\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "deadline",
+   "slug": "deadline",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Deadline",
+   "def": "The final date or time by which a task or project must be completed.",
+   "rels": [],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"22\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><path d=\"M50 38 L50 18 A20 20 0 0 1 68 30 Z\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "format",
+   "slug": "format",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Format",
+   "def": "A mode of representation defined by an object's size, proportions, or viewport.",
+   "rels": [
+    "scale"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"18\" width=\"30\" height=\"40\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"52\" y=\"26\" width=\"36\" height=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "grading-career-grading",
+   "slug": "grading-career-grading",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Grading (Career Grading)",
+   "def": "A structured system defining professional levels, responsibilities, and skill growth within a discipline.",
+   "rels": [],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"55\" width=\"14\" height=\"6\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"31\" y=\"44\" width=\"14\" height=\"17\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"47\" y=\"33\" width=\"14\" height=\"28\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"63\" y=\"22\" width=\"14\" height=\"39\" fill=\"var(--ext)\" opacity=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "grid-system",
+   "slug": "grid-system",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Grid System",
+   "def": "A structural framework of rows and columns used to align and organize a layout's content.",
+   "rels": [
+    "alignment",
+    "module"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"17.0\" y=\"18.0\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"34.5\" y=\"18.0\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"52.0\" y=\"18.0\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"69.5\" y=\"18.0\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"17.0\" y=\"32.666666666666664\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"34.5\" y=\"32.666666666666664\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"52.0\" y=\"32.666666666666664\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"69.5\" y=\"32.666666666666664\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"17.0\" y=\"47.33333333333333\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"34.5\" y=\"47.33333333333333\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"52.0\" y=\"47.33333333333333\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><rect x=\"69.5\" y=\"47.33333333333333\" width=\"13.5\" height=\"10.666666666666666\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "iteration",
+   "slug": "iteration",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Iteration",
+   "def": "A repeated design cycle focused on refinement through feedback rather than a single final pass.",
+   "rels": [
+    "case-study"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M30 20 A20 20 0 1 0 50 58\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><polygon points=\"26,14 34,22 22,26\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "layout",
+   "slug": "layout",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Layout",
+   "def": "The arrangement of text, images, and other elements within a design's available space.",
+   "rels": [
+    "composition",
+    "grid-system"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"14\" width=\"76\" height=\"14\" fill=\"var(--ext)\" opacity=\"0.8\"/><rect x=\"12\" y=\"32\" width=\"34\" height=\"30\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"50\" y=\"32\" width=\"38\" height=\"30\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "license",
+   "slug": "license",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "License",
+   "def": "Legal permission defining how a creative asset may be used, distributed, or modified.",
+   "rels": [
+    "asset"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"34\" r=\"18\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><path d=\"M40 45 L45 62 L50 55 L55 62 L60 45\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "mind-map",
+   "slug": "mind-map",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Mind Map",
+   "def": "A visual diagram used to organize ideas, concepts, and the relationships between them.",
+   "rels": [
+    "moodboard"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"8\" fill=\"var(--ext)\"/><g stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"><line x1=\"50\" y1=\"30\" x2=\"30\" y2=\"15\"/><line x1=\"50\" y1=\"30\" x2=\"70\" y2=\"15\"/><line x1=\"50\" y1=\"46\" x2=\"25\" y2=\"55\"/><line x1=\"50\" y1=\"46\" x2=\"75\" y2=\"58\"/></g><g fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"><circle cx=\"30\" cy=\"15\" r=\"4\"/><circle cx=\"70\" cy=\"15\" r=\"4\"/><circle cx=\"25\" cy=\"55\" r=\"4\"/><circle cx=\"75\" cy=\"58\" r=\"4\"/></g></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "moodboard",
+   "slug": "moodboard",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Moodboard",
+   "def": "A curated collection of visual references used to convey a project's intended style, mood, and concept.",
+   "rels": [
+    "mind-map"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"14\" y=\"16\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.2\"/><rect x=\"32\" y=\"16\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.35\"/><rect x=\"50\" y=\"16\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.5\"/><rect x=\"68\" y=\"16\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.6499999999999999\"/><rect x=\"14\" y=\"40\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.8\"/><rect x=\"32\" y=\"40\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.2\"/><rect x=\"50\" y=\"40\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.35\"/><rect x=\"68\" y=\"40\" width=\"14\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "scenario",
+   "slug": "scenario",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Scenario",
+   "def": "A described situation used in design research to test or explain how a person moves through a product or interface.",
+   "rels": [
+    "storyboard",
+    "user-experience-ux"
+   ],
+   "dims": [],
+   "badge": "Revised",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"10\" y=\"30\" width=\"14\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><line x1=\"26\" y1=\"37\" x2=\"32\" y2=\"37\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"32\" y=\"30\" width=\"14\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><line x1=\"48\" y1=\"37\" x2=\"54\" y2=\"37\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"54\" y=\"30\" width=\"14\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><line x1=\"70\" y1=\"37\" x2=\"76\" y2=\"37\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"76\" y=\"30\" width=\"14\" height=\"14\" rx=\"2\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "template",
+   "slug": "template",
+   "cat": "process-practice",
+   "catLabel": "Design Process & Practice",
+   "name": "Template",
+   "def": "A pre-designed layout or framework used as a starting point for consistent production.",
+   "rels": [
+    "grid-system"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"18\" y=\"14\" width=\"64\" height=\"48\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\" stroke-dasharray=\"4 3\"/><rect x=\"28\" y=\"26\" width=\"44\" height=\"8\" fill=\"var(--ink-faint)\" opacity=\"0.2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "collage",
+   "slug": "collage",
+   "cat": "surface-material",
+   "catLabel": "Surface, Material & Pattern",
+   "name": "Collage",
+   "def": "A technique of combining diverse, often unrelated visual fragments into one new, unified composition.",
+   "rels": [
+    "pattern",
+    "layer"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"30\" width=\"26\" height=\"20\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\" transform=\"rotate(-8 28 40)\"/><rect x=\"40\" y=\"18\" width=\"26\" height=\"20\" fill=\"var(--ext)\" opacity=\"0.7\" transform=\"rotate(6 53 28)\"/><rect x=\"55\" y=\"40\" width=\"26\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\" transform=\"rotate(-4 68 50)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "module",
+   "slug": "module",
+   "cat": "surface-material",
+   "catLabel": "Surface, Material & Pattern",
+   "name": "Module",
+   "def": "A single repeatable unit whose form determines the structure and proportions of a larger composition.",
+   "rels": [
+    "pattern",
+    "system"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"14\" y=\"14\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/><rect x=\"38\" y=\"14\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/><rect x=\"62\" y=\"14\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/><rect x=\"14\" y=\"40\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/><rect x=\"38\" y=\"40\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/><rect x=\"62\" y=\"40\" width=\"20\" height=\"20\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "pattern",
+   "slug": "pattern",
+   "cat": "surface-material",
+   "catLabel": "Surface, Material & Pattern",
+   "name": "Pattern",
+   "def": "A repeating structural motif, distinguished from plain Repetition by having its own internal modular logic.",
+   "rels": [
+    "module",
+    "texture-tactile-texture"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"10\" cy=\"14\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"26\" cy=\"14\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"42\" cy=\"14\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"58\" cy=\"14\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"74\" cy=\"14\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"18\" cy=\"36\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"34\" cy=\"36\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"50\" cy=\"36\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"66\" cy=\"36\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"82\" cy=\"36\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"10\" cy=\"58\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"26\" cy=\"58\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"42\" cy=\"58\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"58\" cy=\"58\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"74\" cy=\"58\" r=\"4\" fill=\"var(--ext)\" opacity=\"0.8\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "silhouette",
+   "slug": "silhouette",
+   "cat": "surface-material",
+   "catLabel": "Surface, Material & Pattern",
+   "name": "Silhouette",
+   "def": "The flattened outline of a volumetric object, shown without internal depth, detail, or texture.",
+   "rels": [
+    "form",
+    "counterform-negative-space"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M35 15 Q55 15 55 32 Q55 42 45 45 L60 62 H30 L38 45 Q25 42 25 30 Q25 15 35 15Z\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "tectonics",
+   "slug": "tectonics",
+   "cat": "surface-material",
+   "catLabel": "Surface, Material & Pattern",
+   "name": "Tectonics",
+   "def": "The expressive articulation of a structure's logic through the treatment of its surface and form.",
+   "rels": [
+    "structure",
+    "texture-tactile-texture"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 55 L30 25 L45 45 L60 20 L75 40 L85 55 Z\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\" stroke-linejoin=\"round\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "texture-tactile-texture",
+   "slug": "texture-tactile-texture",
+   "cat": "surface-material",
+   "catLabel": "Surface, Material & Pattern",
+   "name": "Texture (Tactile Texture)",
+   "def": "A surface's tangible structure, perceived visually or by touch, distinguished from Pattern by describing surface quality rather than a repeating motif.",
+   "rels": [
+    "pattern",
+    "material"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><line x1=\"29.9\" y1=\"19.2\" x2=\"32.9\" y2=\"22.2\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"42.1\" y1=\"21.7\" x2=\"45.1\" y2=\"24.7\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"17.1\" y1=\"34.1\" x2=\"20.1\" y2=\"37.1\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"81.8\" y1=\"54.0\" x2=\"84.8\" y2=\"57.0\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"70.2\" y1=\"25.1\" x2=\"73.2\" y2=\"28.1\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"52.8\" y1=\"27.8\" x2=\"55.8\" y2=\"30.8\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"25.1\" y1=\"19.3\" x2=\"28.1\" y2=\"22.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"28.3\" y1=\"60.4\" x2=\"31.3\" y2=\"63.4\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"75.0\" y1=\"54.3\" x2=\"78.0\" y2=\"57.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"72.8\" y1=\"23.7\" x2=\"75.8\" y2=\"26.7\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"35.5\" y1=\"45.3\" x2=\"38.5\" y2=\"48.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"67.6\" y1=\"56.7\" x2=\"70.6\" y2=\"59.7\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"78.9\" y1=\"18.3\" x2=\"81.9\" y2=\"21.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"58.0\" y1=\"47.6\" x2=\"61.0\" y2=\"50.6\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"50.5\" y1=\"22.9\" x2=\"53.5\" y2=\"25.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"48.0\" y1=\"18.5\" x2=\"51.0\" y2=\"21.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"83.0\" y1=\"57.3\" x2=\"86.0\" y2=\"60.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"53.6\" y1=\"29.0\" x2=\"56.6\" y2=\"32.0\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"81.1\" y1=\"42.6\" x2=\"84.1\" y2=\"45.6\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"79.1\" y1=\"56.4\" x2=\"82.1\" y2=\"59.4\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"50.6\" y1=\"34.7\" x2=\"53.6\" y2=\"37.7\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"57.5\" y1=\"35.6\" x2=\"60.5\" y2=\"38.6\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"24.3\" y1=\"29.3\" x2=\"27.3\" y2=\"32.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"73.8\" y1=\"16.2\" x2=\"76.8\" y2=\"19.2\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"15.5\" y1=\"45.3\" x2=\"18.5\" y2=\"48.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"33.3\" y1=\"40.7\" x2=\"36.3\" y2=\"43.7\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"47.8\" y1=\"31.1\" x2=\"50.8\" y2=\"34.1\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"87.8\" y1=\"23.8\" x2=\"90.8\" y2=\"26.8\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"43.4\" y1=\"24.1\" x2=\"46.4\" y2=\"27.1\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"60.1\" y1=\"27.8\" x2=\"63.1\" y2=\"30.8\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"39.0\" y1=\"51.3\" x2=\"42.0\" y2=\"54.3\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"36.4\" y1=\"41.9\" x2=\"39.4\" y2=\"44.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"80.7\" y1=\"19.0\" x2=\"83.7\" y2=\"22.0\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"16.7\" y1=\"25.4\" x2=\"19.7\" y2=\"28.4\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"70.2\" y1=\"44.8\" x2=\"73.2\" y2=\"47.8\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"30.0\" y1=\"30.6\" x2=\"33.0\" y2=\"33.6\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"25.5\" y1=\"37.0\" x2=\"28.5\" y2=\"40.0\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"15.3\" y1=\"48.9\" x2=\"18.3\" y2=\"51.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"80.1\" y1=\"61.7\" x2=\"83.1\" y2=\"64.7\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"67.9\" y1=\"62.0\" x2=\"70.9\" y2=\"65.0\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"13.4\" y1=\"28.4\" x2=\"16.4\" y2=\"31.4\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"85.4\" y1=\"52.8\" x2=\"88.4\" y2=\"55.8\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"43.2\" y1=\"61.2\" x2=\"46.2\" y2=\"64.2\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"59.2\" y1=\"54.9\" x2=\"62.2\" y2=\"57.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"34.3\" y1=\"23.6\" x2=\"37.3\" y2=\"26.6\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"45.8\" y1=\"20.8\" x2=\"48.8\" y2=\"23.8\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"41.0\" y1=\"62.1\" x2=\"44.0\" y2=\"65.1\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"37.2\" y1=\"14.5\" x2=\"40.2\" y2=\"17.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"15.4\" y1=\"22.5\" x2=\"18.4\" y2=\"25.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"71.6\" y1=\"32.1\" x2=\"74.6\" y2=\"35.1\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"34.1\" y1=\"18.9\" x2=\"37.1\" y2=\"21.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"86.6\" y1=\"35.2\" x2=\"89.6\" y2=\"38.2\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"27.8\" y1=\"17.0\" x2=\"30.8\" y2=\"20.0\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"16.2\" y1=\"22.4\" x2=\"19.2\" y2=\"25.4\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"63.4\" y1=\"21.5\" x2=\"66.4\" y2=\"24.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"15.1\" y1=\"38.5\" x2=\"18.1\" y2=\"41.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"30.9\" y1=\"63.9\" x2=\"33.9\" y2=\"66.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"21.3\" y1=\"40.5\" x2=\"24.3\" y2=\"43.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"70.8\" y1=\"34.5\" x2=\"73.8\" y2=\"37.5\" stroke=\"var(--ext)\" stroke-width=\"1\"/><line x1=\"87.1\" y1=\"37.9\" x2=\"90.1\" y2=\"40.9\" stroke=\"var(--ext)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "affordance",
+   "slug": "affordance",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Affordance",
+   "def": "A property of a form's shape that suggests, on its own, how it is meant to be used.",
+   "rels": [
+    "interaction-design",
+    "forcing-function"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"20\" width=\"60\" height=\"36\" rx=\"4\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"70\" y=\"30\" width=\"18\" height=\"16\" rx=\"8\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "animation-sequence",
+   "slug": "animation-sequence",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Animation Sequence",
+   "def": "A series of frames or movements that together create the illusion of motion or narrative.",
+   "rels": [
+    "motion-graphics",
+    "storyboard"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"14\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"34\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"54\" y=\"20\" width=\"16\" height=\"36\" fill=\"var(--ext)\" opacity=\"0.15\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/><rect x=\"74\" y=\"20\" width=\"12\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "forcing-function",
+   "slug": "forcing-function",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Forcing Function",
+   "def": "A design feature that makes a specific error physically impossible until a required step is completed.",
+   "rels": [
+    "affordance"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"26\" width=\"34\" height=\"20\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"55\" y=\"26\" width=\"30\" height=\"20\" fill=\"var(--ext)\" opacity=\"0.15\" stroke=\"var(--ext)\" stroke-width=\"2\"/><line x1=\"49\" y1=\"36\" x2=\"55\" y2=\"36\" stroke=\"var(--ext)\" stroke-width=\"2\" stroke-dasharray=\"3 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "interaction-design",
+   "slug": "interaction-design",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Interaction Design",
+   "def": "The creation and structuring of interactive behavior between users and a digital or physical system.",
+   "rels": [
+    "interface",
+    "affordance"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"55\" cy=\"38\" r=\"16\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\"/><polygon points=\"20,20 34,50 38,36 52,32\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "interface",
+   "slug": "interface",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Interface",
+   "def": "A designed mediator that enables interaction and communication between a system and its user.",
+   "rels": [
+    "interaction-design",
+    "user-interface-ui"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"15\" width=\"70\" height=\"46\" rx=\"4\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><circle cx=\"50\" cy=\"38\" r=\"9\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "mockup",
+   "slug": "mockup",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Mockup",
+   "def": "A realistic visual representation of a design, used for presentation and evaluation before it is built.",
+   "rels": [
+    "wireframe",
+    "prototype"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"18\" y=\"14\" width=\"64\" height=\"48\" rx=\"3\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"2\"/><rect x=\"26\" y=\"22\" width=\"48\" height=\"8\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/><rect x=\"26\" y=\"34\" width=\"30\" height=\"18\" fill=\"var(--ext)\" opacity=\"0.3\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "motion-graphics",
+   "slug": "motion-graphics",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Motion Graphics",
+   "def": "Animated visual elements used to convey information, narrative, or aesthetic expression over time.",
+   "rels": [
+    "animation-sequence"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"20\" cy=\"45\" r=\"6\" fill=\"var(--ext)\" opacity=\"0.25\"/><circle cx=\"40\" cy=\"35\" r=\"6\" fill=\"var(--ext)\" opacity=\"0.5\"/><circle cx=\"60\" cy=\"25\" r=\"6\" fill=\"var(--ext)\" opacity=\"0.8\"/><circle cx=\"78\" cy=\"18\" r=\"6\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "prototype",
+   "slug": "prototype",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Prototype",
+   "def": "An interactive or tangible model of a design used to test its functionality, flow, and user experience.",
+   "rels": [
+    "wireframe",
+    "mockup"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"16\" width=\"70\" height=\"44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><rect x=\"22\" y=\"23\" width=\"40\" height=\"8\" fill=\"var(--ink-faint)\" opacity=\"0.3\"/><polygon points=\"60,42 72,58 65,56 60,64\" fill=\"var(--ext)\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "responsive-design",
+   "slug": "responsive-design",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Responsive Design",
+   "def": "A design approach that keeps visual and functional consistency across devices and screen sizes of different proportions.",
+   "rels": [
+    "wireframe"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"16\" width=\"18\" height=\"44\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\"/><rect x=\"38\" y=\"20\" width=\"26\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/><rect x=\"72\" y=\"24\" width=\"16\" height=\"28\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "storyboard",
+   "slug": "storyboard",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Storyboard",
+   "def": "A sequential visual plan depicting scenes or interactions ahead of animation, video, or interface production.",
+   "rels": [
+    "animation-sequence",
+    "scenario"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"12\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" opacity=\"0.6\"/><rect x=\"32\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" opacity=\"0.6\"/><rect x=\"52\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" opacity=\"0.6\"/><rect x=\"72\" y=\"20\" width=\"16\" height=\"36\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"1.5\" opacity=\"1\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "user-experience-ux",
+   "slug": "user-experience-ux",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "User Experience (UX)",
+   "def": "The overall experience and satisfaction of a person interacting with a product, system, or service, end to end.",
+   "rels": [
+    "user-interface-ui",
+    "prototype"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"15\" cy=\"55\" r=\"6\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><circle cx=\"38\" cy=\"25\" r=\"6\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><line x1=\"15\" y1=\"55\" x2=\"38\" y2=\"25\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/><circle cx=\"62\" cy=\"48\" r=\"6\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><line x1=\"38\" y1=\"25\" x2=\"62\" y2=\"48\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/><circle cx=\"85\" cy=\"18\" r=\"6\" fill=\"var(--ext)\" opacity=\"1\"/><line x1=\"62\" y1=\"48\" x2=\"85\" y2=\"18\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "user-interface-ui",
+   "slug": "user-interface-ui",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "User Interface (UI)",
+   "def": "The design of the specific interactive elements through which a person engages with a digital system.",
+   "rels": [
+    "user-experience-ux",
+    "interface"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"18\" y=\"18\" width=\"64\" height=\"40\" rx=\"3\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><circle cx=\"32\" cy=\"38\" r=\"6\" fill=\"var(--ext)\"/><rect x=\"48\" y=\"30\" width=\"24\" height=\"6\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/><rect x=\"48\" y=\"42\" width=\"16\" height=\"6\" fill=\"var(--ink-faint)\" opacity=\"0.4\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "wireframe",
+   "slug": "wireframe",
+   "cat": "systems-interaction",
+   "catLabel": "Systems & Interaction",
+   "name": "Wireframe",
+   "def": "A simplified visual guide showing a layout's structure and hierarchy without detailed styling.",
+   "rels": [
+    "mockup",
+    "prototype"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"16\" width=\"70\" height=\"10\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"15\" y=\"32\" width=\"30\" height=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><rect x=\"49\" y=\"32\" width=\"36\" height=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "illustration-pack",
+   "slug": "illustration-pack",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Illustration Pack",
+   "def": "A collection of related illustrations sharing one style and thematic language, used consistently across a project.",
+   "rels": [
+    "asset-library"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"26\" r=\"9\" fill=\"var(--ext)\"/><polygon points=\"55,16 66,32 44,32\" fill=\"var(--ext)\" opacity=\"0.7\"/><rect x=\"65\" y=\"42\" width=\"16\" height=\"16\" fill=\"var(--ext)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "infographic",
+   "slug": "infographic",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Infographic",
+   "def": "A visual representation of data or information — using charts, icons, and diagrams — designed for quick, clear understanding.",
+   "rels": [
+    "typography-system"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"35\" width=\"10\" height=\"25\" fill=\"var(--ext)\"/><rect x=\"30\" y=\"20\" width=\"10\" height=\"40\" fill=\"var(--ext)\" opacity=\"0.7\"/><rect x=\"45\" y=\"45\" width=\"10\" height=\"15\" fill=\"var(--ext)\" opacity=\"0.5\"/><circle cx=\"72\" cy=\"34\" r=\"16\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "kerning-tracking-&-leading",
+   "slug": "kerning-tracking-and-leading",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Kerning, Tracking & Leading",
+   "def": "The three basic units of typographic spacing: the space between one specific letter pair, the space applied evenly across a run of letters, and the vertical space between lines.",
+   "rels": [
+    "typography",
+    "typography-system"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><text x=\"15\" y=\"50\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"28\" fill=\"var(--ext)\">AV</text><line x1=\"43\" y1=\"20\" x2=\"43\" y2=\"55\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/><line x1=\"15\" y1=\"60\" x2=\"85\" y2=\"60\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/><line x1=\"15\" y1=\"12\" x2=\"15\" y2=\"60\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"1 2\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "legibility",
+   "slug": "legibility",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Legibility",
+   "def": "Whether individual letterforms can be told apart from one another at a glance.",
+   "rels": [
+    "readability",
+    "typography"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><text x=\"15\" y=\"50\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"30\" letter-spacing=\"4\" fill=\"var(--ext)\">IlL1</text></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "lettering",
+   "slug": "lettering",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Lettering",
+   "def": "Custom-drawn letterforms that function as an independent visual image rather than as reusable type.",
+   "rels": [
+    "typography"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M20 55 Q20 15 50 15 Q80 15 78 40 Q76 60 55 55 L60 45\" fill=\"none\" stroke=\"var(--ext)\" stroke-width=\"4\" stroke-linecap=\"round\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "readability",
+   "slug": "readability",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Readability",
+   "def": "Whether continuous text can be comfortably read over a passage, a property of a full block of type rather than of single letterforms.",
+   "rels": [
+    "legibility"
+   ],
+   "dims": [],
+   "badge": "New",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"14\" width=\"70\" height=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"15\" y=\"24\" width=\"55\" height=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"15\" y=\"34\" width=\"70\" height=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"15\" y=\"44\" width=\"55\" height=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/><rect x=\"15\" y=\"54\" width=\"70\" height=\"5\" fill=\"var(--ink-faint)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "typography",
+   "slug": "typography",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Typography",
+   "def": "Letterforms treated as a visual system, balancing legibility, rhythm, and expressive form.",
+   "rels": [
+    "lettering",
+    "legibility"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><text x=\"12\" y=\"55\" font-family=\"Archivo, sans-serif\" font-weight=\"800\" font-size=\"14\" fill=\"var(--ink-faint)\">Aa</text><text x=\"27.400000000000002\" y=\"55\" font-family=\"Archivo, sans-serif\" font-weight=\"800\" font-size=\"20\" fill=\"var(--ink-faint)\">Aa</text><text x=\"49.400000000000006\" y=\"55\" font-family=\"Archivo, sans-serif\" font-weight=\"800\" font-size=\"28\" fill=\"var(--ink-faint)\">Aa</text><text x=\"80.20000000000002\" y=\"55\" font-family=\"Archivo, sans-serif\" font-weight=\"800\" font-size=\"38\" fill=\"var(--ext)\">Aa</text></svg>"
+  },
+  {
+   "dict": "design",
+   "id": "typography-system",
+   "slug": "typography-system",
+   "cat": "typography-image",
+   "catLabel": "Typography & Image-Making",
+   "name": "Typography System",
+   "def": "The organized use of typefaces, styles, spacing, and hierarchy to communicate clearly and consistently across a project.",
+   "rels": [
+    "typography",
+    "grid-system"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><text x=\"12\" y=\"55\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"12\" fill=\"var(--ink-faint)\">Aa</text><text x=\"24.6\" y=\"55\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"16\" fill=\"var(--ink-faint)\">Aa</text><text x=\"41.400000000000006\" y=\"55\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"22\" fill=\"var(--ink-faint)\">Aa</text><text x=\"64.5\" y=\"55\" font-family=\"Archivo\" font-weight=\"700\" font-size=\"30\" fill=\"var(--ext)\">Aa</text></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "anger",
+   "slug": "anger",
+   "cat": "basic",
+   "catLabel": "Basic Emotions",
+   "name": "Anger",
+   "def": "A response to a perceived wrong, obstacle, or violation, oriented toward confrontation.",
+   "rels": [
+    "frustration",
+    "indignation",
+    "rage"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"28\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><circle cx=\"72\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><path d=\"M44 30 L52 38 L44 46 M56 30 L48 38 L56 46\" stroke=\"var(--int)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "disgust",
+   "slug": "disgust",
+   "cat": "basic",
+   "catLabel": "Basic Emotions",
+   "name": "Disgust",
+   "def": "A visceral aversive reaction to something perceived as contaminating or unacceptable, with a genuinely bodily signature distinguishing it from Contempt's coolness.",
+   "rels": [
+    "contempt",
+    "antipathy"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"65\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><path d=\"M50 38 H35\" stroke=\"var(--int)\" stroke-width=\"2\" marker-end=\"url(#rc)\"/><defs><marker id=\"rc\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--int)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "fear",
+   "slug": "fear",
+   "cat": "basic",
+   "catLabel": "Basic Emotions",
+   "name": "Fear",
+   "def": "A rapid response to a perceived immediate, identifiable threat.",
+   "rels": [
+    "anxiety",
+    "dread",
+    "panic"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><path d=\"M42 38 H80\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><path d=\"M72 32 L82 38 L72 44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "joy",
+   "slug": "joy",
+   "cat": "basic",
+   "catLabel": "Basic Emotions",
+   "name": "Joy",
+   "def": "A response to something appraised as good, moderate to high in activation, and tied to a specific moment rather than sustained.",
+   "rels": [
+    "delight",
+    "happiness",
+    "euphoria"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"42\" r=\"8\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"20\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.3\" opacity=\"0.5\"/><circle cx=\"50\" cy=\"42\" r=\"30\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "sadness",
+   "slug": "sadness",
+   "cat": "basic",
+   "catLabel": "Basic Emotions",
+   "name": "Sadness",
+   "def": "A response to loss or an unmet want, broad in cause and duration.",
+   "rels": [
+    "grief",
+    "disappointment",
+    "sorrow"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"24\" r=\"10\" fill=\"var(--int)\" opacity=\"0.5\"/><path d=\"M50 34 V58\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><circle cx=\"50\" cy=\"62\" r=\"6\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "surprise",
+   "slug": "surprise",
+   "cat": "basic",
+   "catLabel": "Basic Emotions",
+   "name": "Surprise",
+   "def": "A brief orienting reaction to an unexpected event, valence-neutral until appraisal resolves it toward pleasant or unpleasant. Its status as a true emotion versus a pre-emotional reflex is genuinely disputed in the literature.",
+   "rels": [
+    "bewilderment",
+    "perplexity"
+   ],
+   "dims": [
+    "ambivalent",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"26\" r=\"9\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"6\" fill=\"var(--int)\" opacity=\"0.7\"/><circle cx=\"68\" cy=\"24\" r=\"4\" fill=\"var(--int)\" opacity=\"0.4\"/><circle cx=\"70\" cy=\"52\" r=\"3\" fill=\"var(--int)\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "antipathy",
+   "slug": "antipathy",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Antipathy",
+   "def": "A settled dislike or aversion toward someone or something, milder and more passive than Hatred.",
+   "rels": [
+    "hatred",
+    "contempt"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><path d=\"M42 38 H80\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><path d=\"M72 32 L82 38 L72 44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "anxiety",
+   "slug": "anxiety",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Anxiety",
+   "def": "A sustained state of tension and worry without one clear, immediate object — diffuse, future-oriented, and cognitively elaborated, unlike Fear's sharp present focus.",
+   "rels": [
+    "unease",
+    "dread",
+    "worry"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 38 Q30 15 45 38 Q60 61 75 38 Q83 26 90 38\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "apprehension",
+   "slug": "apprehension",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Apprehension",
+   "def": "Dread's quieter sibling — a low-intensity anticipatory discomfort about a known-ish upcoming event.",
+   "rels": [
+    "dread"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M25 42 Q40 28 55 42 Q68 54 78 42\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" opacity=\"0.7\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "contempt",
+   "slug": "contempt",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Contempt",
+   "def": "A cool, dismissive sense of superiority toward someone judged unworthy — low activation compared to Anger, defined by distance rather than heat.",
+   "rels": [
+    "disgust",
+    "indignation"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"65\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><path d=\"M50 38 H35\" stroke=\"var(--int)\" stroke-width=\"2\" marker-end=\"url(#rc)\"/><defs><marker id=\"rc\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--int)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "delight",
+   "slug": "delight",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Delight",
+   "def": "Joy intensified by a violated positive expectation — something better than hoped for.",
+   "rels": [
+    "joy",
+    "excitement"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"42\" r=\"8\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"20\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.3\" opacity=\"0.5\"/><circle cx=\"50\" cy=\"42\" r=\"30\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "disappointment",
+   "slug": "disappointment",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Disappointment",
+   "def": "Sadness from an expectation that was violated — inherently comparative between what happened and what was expected.",
+   "rels": [
+    "sadness",
+    "regret"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"24\" r=\"10\" fill=\"var(--int)\" opacity=\"0.5\"/><path d=\"M50 34 V58\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><circle cx=\"50\" cy=\"62\" r=\"6\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "dread",
+   "slug": "dread",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Dread",
+   "def": "Fear's anticipatory register — the threat is specific and identified, only its timing is still to come.",
+   "rels": [
+    "fear",
+    "apprehension"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"72\" cy=\"38\" r=\"5\" fill=\"var(--int)\"/><path d=\"M20 38 H62\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><path d=\"M52 32 L62 38 L52 44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><path d=\"M50 20 L50 56\" stroke=\"var(--ink-faint)\" stroke-width=\"0.8\" stroke-dasharray=\"1 3\" opacity=\"0.4\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "envy",
+   "slug": "envy",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Envy",
+   "def": "Wanting a quality, possession, or standing that someone else has, with no existing relationship at stake — the pain is purely comparative, unlike Jealousy.",
+   "rels": [
+    "jealousy",
+    "admiration"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"42\" r=\"10\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><circle cx=\"66\" cy=\"30\" r=\"16\" fill=\"var(--int)\"/><path d=\"M40 40 H50\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "euphoria",
+   "slug": "euphoria",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Euphoria",
+   "def": "Joy at an intensity that can feel disorienting, often driven by exertion, relief, or a physiological cause rather than an ordinary event.",
+   "rels": [
+    "joy"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"42\" r=\"8\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"20\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.3\" opacity=\"0.5\"/><circle cx=\"50\" cy=\"42\" r=\"30\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "excitement",
+   "slug": "excitement",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Excitement",
+   "def": "High-activation positive anticipation, forward-looking rather than reactive.",
+   "rels": [
+    "thrill",
+    "joy"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"42\" r=\"8\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"20\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.3\" opacity=\"0.5\"/><circle cx=\"50\" cy=\"42\" r=\"30\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "frustration",
+   "slug": "frustration",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Frustration",
+   "def": "Tension from a blocked goal specifically — the appraisal is 'something is stopping me,' not 'someone wronged me,' and can occur with no other person involved.",
+   "rels": [
+    "anger",
+    "impatience"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><path d=\"M35 38 H55\" stroke=\"var(--int)\" stroke-width=\"2\"/><rect x=\"55\" y=\"20\" width=\"6\" height=\"36\" fill=\"var(--ink-faint)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "hatred",
+   "slug": "hatred",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Hatred",
+   "def": "An intense, sustained aversion toward a person or thing, combining anger and disgust with a wish for their harm or removal.",
+   "rels": [
+    "antipathy",
+    "contempt",
+    "rage"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"28\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><circle cx=\"72\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><path d=\"M44 30 L52 38 L44 46 M56 30 L48 38 L56 46\" stroke=\"var(--int)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "impatience",
+   "slug": "impatience",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Impatience",
+   "def": "A low tolerance for delay — an impulse state rather than a discrete emotion, oriented toward wanting time itself to move faster.",
+   "rels": [
+    "frustration"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"10\" fill=\"var(--int)\"/><path d=\"M42 38 H86\" stroke=\"var(--int)\" stroke-width=\"2\" marker-end=\"url(#di)\"/><defs><marker id=\"di\" markerWidth=\"7\" markerHeight=\"7\" refX=\"3.5\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L7,3.5 L0,7 Z\" fill=\"var(--int)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "indignation",
+   "slug": "indignation",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Indignation",
+   "def": "Anger specifically about a perceived moral violation — a fairness or rule breach — which is why it can be felt on someone else's behalf, unlike Irritation.",
+   "rels": [
+    "anger",
+    "contempt"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"10\" fill=\"var(--int)\"/><path d=\"M42 38 H86\" stroke=\"var(--int)\" stroke-width=\"2\" marker-end=\"url(#di)\"/><defs><marker id=\"di\" markerWidth=\"7\" markerHeight=\"7\" refX=\"3.5\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L7,3.5 L0,7 Z\" fill=\"var(--int)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "irritation",
+   "slug": "irritation",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Irritation",
+   "def": "Anger at low intensity, usually triggered by repeated minor friction rather than one clear wrong.",
+   "rels": [
+    "anger",
+    "impatience"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><path d=\"M35 38 H55\" stroke=\"var(--int)\" stroke-width=\"2\"/><rect x=\"55\" y=\"20\" width=\"6\" height=\"36\" fill=\"var(--ink-faint)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "jealousy",
+   "slug": "jealousy",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Jealousy",
+   "def": "A blend of fear of loss, anger, and insecurity, requiring a third party who threatens an existing relationship or possession.",
+   "rels": [
+    "envy",
+    "insecurity"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"32\" cy=\"34\" r=\"10\" fill=\"var(--int)\" opacity=\"0.5\"/><circle cx=\"48\" cy=\"34\" r=\"10\" fill=\"var(--int)\" opacity=\"0.5\"/><circle cx=\"76\" cy=\"46\" r=\"8\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><path d=\"M64 42 L70 44\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "panic",
+   "slug": "panic",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Panic",
+   "def": "An acute fear response defined by intensity and physiological override, often disproportionate to or disconnected from the actual threat level.",
+   "rels": [
+    "fear",
+    "dread"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"10\" fill=\"var(--int)\"/><g stroke=\"var(--int)\" stroke-width=\"1.5\"><line x1=\"50\" y1=\"18\" x2=\"50\" y2=\"10\"/><line x1=\"50\" y1=\"58\" x2=\"50\" y2=\"66\"/><line x1=\"30\" y1=\"38\" x2=\"22\" y2=\"38\"/><line x1=\"70\" y1=\"38\" x2=\"78\" y2=\"38\"/><line x1=\"36\" y1=\"24\" x2=\"30\" y2=\"18\"/><line x1=\"64\" y1=\"24\" x2=\"70\" y2=\"18\"/><line x1=\"36\" y1=\"52\" x2=\"30\" y2=\"58\"/><line x1=\"64\" y1=\"52\" x2=\"70\" y2=\"58\"/></g></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "rage",
+   "slug": "rage",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Rage",
+   "def": "Anger at an intensity that overrides self-control.",
+   "rels": [
+    "anger",
+    "indignation"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"28\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><circle cx=\"72\" cy=\"38\" r=\"14\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><path d=\"M44 30 L52 38 L44 46 M56 30 L48 38 L56 46\" stroke=\"var(--int)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "rejection",
+   "slug": "rejection",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Rejection",
+   "def": "The painful appraisal of having been excluded or refused by someone whose acceptance mattered.",
+   "rels": [
+    "loneliness",
+    "shame"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><circle cx=\"74\" cy=\"38\" r=\"9\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "relief",
+   "slug": "relief",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Relief",
+   "def": "A release following the resolution or removal of a sustained threat or burden — it structurally requires a preceding negative state, and is often mixed with sadness or guilt.",
+   "rels": [
+    "calm"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"50\" r=\"18\" fill=\"var(--int)\" opacity=\"0.15\" stroke=\"var(--int)\" stroke-width=\"1.3\"/><circle cx=\"50\" cy=\"24\" r=\"7\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "resentment",
+   "slug": "resentment",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Resentment",
+   "def": "Anger that has moved from a single episode into a lasting disposition, usually directed at a specific person with a sense of accumulated unfairness.",
+   "rels": [
+    "anger",
+    "indignation"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"35\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><circle cx=\"66\" cy=\"38\" r=\"6\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><path d=\"M44 38 H58\" stroke=\"var(--int)\" stroke-width=\"1\" stroke-dasharray=\"1 3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "thrill",
+   "slug": "thrill",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Thrill",
+   "def": "Excitement's narrower, risk- or adrenaline-specific variant.",
+   "rels": [
+    "excitement"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"10\" fill=\"var(--int)\"/><path d=\"M42 38 H86\" stroke=\"var(--int)\" stroke-width=\"2\" marker-end=\"url(#di)\"/><defs><marker id=\"di\" markerWidth=\"7\" markerHeight=\"7\" refX=\"3.5\" refY=\"3.5\" orient=\"auto\"><path d=\"M0,0 L7,3.5 L0,7 Z\" fill=\"var(--int)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "unease",
+   "slug": "unease",
+   "cat": "complex",
+   "catLabel": "Complex & Blended",
+   "name": "Unease",
+   "def": "Anxiety's least cognitively elaborated cousin — a bodily signal felt before it is understood.",
+   "rels": [
+    "anxiety"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M25 42 Q40 28 55 42 Q68 54 78 42\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" opacity=\"0.7\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "absurdity",
+   "slug": "absurdity",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Absurdity",
+   "def": "The felt clash between a search for meaning and a world that offers no confirming answer.",
+   "rels": [
+    "meaninglessness"
+   ],
+   "dims": [
+    "ambivalent",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"30\" width=\"24\" height=\"24\" fill=\"var(--int)\"/><circle cx=\"70\" cy=\"30\" r=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" transform=\"rotate(20 70 30)\"/><path d=\"M62 55 L78 60\" stroke=\"var(--ink-faint)\" stroke-width=\"1\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "awe",
+   "slug": "awe",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Awe",
+   "def": "A response to something perceived as vast, overwhelming one's current frame of understanding — combining high valence with a genuine cognitive frame-shift.",
+   "rels": [
+    "wonder",
+    "admiration"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"56\" r=\"5\" fill=\"var(--int)\"/><path d=\"M12 14 Q50 -6 88 14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\"/><path d=\"M20 24 Q50 8 80 24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "curiosity",
+   "slug": "curiosity",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Curiosity",
+   "def": "An orientation toward an unknown that motivates approach and inquiry rather than avoidance.",
+   "rels": [
+    "wonder"
+   ],
+   "dims": [
+    "ambivalent",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"8\" fill=\"var(--int)\"/><path d=\"M40 34 Q55 20 68 30\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><circle cx=\"72\" cy=\"34\" r=\"4\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "despair",
+   "slug": "despair",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Despair",
+   "def": "Sadness combined with the belief that the situation cannot improve — the hopelessness itself is what separates it from ordinary sadness.",
+   "rels": [
+    "sadness",
+    "grief"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"20\" r=\"9\" fill=\"var(--int)\" opacity=\"0.5\"/><path d=\"M50 29 V54\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><circle cx=\"50\" cy=\"60\" r=\"8\" fill=\"var(--int)\"/><rect x=\"20\" y=\"66\" width=\"60\" height=\"3\" fill=\"var(--ink-faint)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "existential-dread",
+   "slug": "existential-dread",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Existential Dread",
+   "def": "Dread's register when its object is one's own finitude or the structure of existence itself, rather than a specific upcoming event.",
+   "rels": [
+    "dread",
+    "meaninglessness"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"24\" r=\"10\" fill=\"var(--int)\" opacity=\"0.5\"/><path d=\"M50 34 V58\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><circle cx=\"50\" cy=\"62\" r=\"6\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "hope",
+   "slug": "hope",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Hope",
+   "def": "An orientation toward a desired future outcome perceived as possible, though not certain.",
+   "rels": [
+    "trust"
+   ],
+   "dims": [
+    "pleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"52\" r=\"7\" fill=\"var(--int)\"/><path d=\"M30 45 Q30 15 75 20\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" stroke-dasharray=\"3 3\"/><circle cx=\"75\" cy=\"20\" r=\"4\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "longing",
+   "slug": "longing",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Longing",
+   "def": "A sustained wanting directed at something distant or unattainable, without Nostalgia's specific orientation to the past.",
+   "rels": [
+    "yearning",
+    "nostalgia"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"22\" cy=\"38\" r=\"8\" fill=\"var(--int)\"/><path d=\"M32 38 Q55 38 55 20\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><circle cx=\"72\" cy=\"16\" r=\"5\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "meaninglessness",
+   "slug": "meaninglessness",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Meaninglessness",
+   "def": "A state in which one's activities or existence are experienced as lacking purpose or significance.",
+   "rels": [
+    "alienation",
+    "absurdity"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"20\" width=\"60\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"3 3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "nostalgia",
+   "slug": "nostalgia",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Nostalgia",
+   "def": "A bittersweet longing for a fondly remembered, simultaneously unavailable past — genuinely ambivalent, not reducible to either sadness or happiness.",
+   "rels": [
+    "longing",
+    "melancholy"
+   ],
+   "dims": [
+    "ambivalent",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"38\" cy=\"38\" r=\"16\" fill=\"var(--int)\" opacity=\"0.85\"/><circle cx=\"58\" cy=\"38\" r=\"16\" fill=\"var(--int)\" opacity=\"0.35\"/><circle cx=\"74\" cy=\"38\" r=\"16\" fill=\"var(--int)\" opacity=\"0.12\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "transcendence",
+   "slug": "transcendence",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Transcendence",
+   "def": "A state in which ordinary self-boundaries feel temporarily dissolved or exceeded, often experienced as connection to something larger.",
+   "rels": [
+    "awe"
+   ],
+   "dims": [
+    "pleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"35\" y=\"46\" width=\"16\" height=\"16\" fill=\"var(--int)\" opacity=\"0.3\"/><path d=\"M43 46 V14\" stroke=\"var(--int)\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\"/><circle cx=\"43\" cy=\"10\" r=\"5\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "void",
+   "slug": "void",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Void",
+   "def": "A chronic, existential absence of meaning — distinguished from Emptiness by having no proximate cause and no clear endpoint.",
+   "rels": [
+    "emptiness",
+    "meaninglessness"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"20\" width=\"60\" height=\"36\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"3 3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "wonder",
+   "slug": "wonder",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Wonder",
+   "def": "Curiosity intensified by something that exceeds ordinary explanation, without Awe's overwhelming scale.",
+   "rels": [
+    "awe",
+    "curiosity"
+   ],
+   "dims": [
+    "pleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"35\" cy=\"46\" r=\"8\" fill=\"var(--int)\"/><path d=\"M35 38 Q35 15 60 20 Q75 24 68 40\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "yearning",
+   "slug": "yearning",
+   "cat": "existential",
+   "catLabel": "Existential",
+   "name": "Yearning",
+   "def": "Longing's more intense, often bodily-felt register.",
+   "rels": [
+    "longing"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"22\" cy=\"38\" r=\"8\" fill=\"var(--int)\"/><path d=\"M32 38 Q55 38 55 20\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><circle cx=\"72\" cy=\"16\" r=\"5\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "affection",
+   "slug": "affection",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Affection",
+   "def": "A lighter, warmer, lower-stakes fondness than Love, without requiring its depth or duration.",
+   "rels": [
+    "love"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"42\" cy=\"38\" r=\"12\" fill=\"var(--int)\" opacity=\"0.6\"/><circle cx=\"60\" cy=\"38\" r=\"12\" fill=\"var(--int)\" opacity=\"0.6\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "alienation",
+   "slug": "alienation",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Alienation",
+   "def": "A sense of estrangement from a group, place, or one's own experience, broader and more existential than momentary Loneliness.",
+   "rels": [
+    "isolation",
+    "meaninglessness"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"20\" cy=\"20\" r=\"6\" fill=\"var(--int)\" opacity=\"0.6\"/><circle cx=\"42\" cy=\"18\" r=\"6\" fill=\"var(--int)\" opacity=\"0.6\"/><circle cx=\"64\" cy=\"24\" r=\"6\" fill=\"var(--int)\" opacity=\"0.6\"/><circle cx=\"30\" cy=\"60\" r=\"7\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "attachment",
+   "slug": "attachment",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Attachment",
+   "def": "Security and bond rather than active positive feeling in the moment — you can be attached to someone you are currently angry at.",
+   "rels": [
+    "love",
+    "belonging"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"42\" cy=\"38\" r=\"17\" fill=\"var(--int)\" opacity=\"0.55\"/><circle cx=\"62\" cy=\"38\" r=\"17\" fill=\"var(--int)\" opacity=\"0.55\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "belonging",
+   "slug": "belonging",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Belonging",
+   "def": "A stable sense of being an accepted, secure part of a group or place — closer to a standing condition than a momentary connection.",
+   "rels": [
+    "attachment",
+    "trust"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"24\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><circle cx=\"42\" cy=\"34\" r=\"6\" fill=\"var(--int)\" opacity=\"0.6\"/><circle cx=\"58\" cy=\"42\" r=\"6\" fill=\"var(--int)\" opacity=\"0.6\"/><circle cx=\"50\" cy=\"46\" r=\"6\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "compassion",
+   "slug": "compassion",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Compassion",
+   "def": "A feeling of concern for another's suffering paired with a motivation to help.",
+   "rels": [
+    "trust"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"35\" cy=\"42\" r=\"10\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><circle cx=\"60\" cy=\"34\" r=\"10\" fill=\"var(--int)\"/><path d=\"M45 40 Q50 44 55 38\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "desire",
+   "slug": "desire",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Desire",
+   "def": "Wanting, which can exist with or without Love and is closer to an impulse than a discrete emotion.",
+   "rels": [
+    "infatuation",
+    "love"
+   ],
+   "dims": [
+    "ambivalent",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"72\" cy=\"38\" r=\"15\" fill=\"var(--int)\" opacity=\"0.35\"/><circle cx=\"24\" cy=\"38\" r=\"7\" fill=\"var(--int)\"/><path d=\"M33 38 H55\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\" marker-end=\"url(#pt)\"/><defs><marker id=\"pt\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--ink-faint)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "devotion",
+   "slug": "devotion",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Devotion",
+   "def": "Sustained commitment and action toward someone or something, which can outlast the felt intensity of Love itself.",
+   "rels": [
+    "love",
+    "pride"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"8\" fill=\"var(--int)\"/><path d=\"M40 38 H86\" stroke=\"var(--int)\" stroke-width=\"1.5\"/><circle cx=\"86\" cy=\"38\" r=\"4\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "gratitude",
+   "slug": "gratitude",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Gratitude",
+   "def": "A positive feeling toward a specific person or circumstance recognized as having given something of value.",
+   "rels": [
+    "relief",
+    "joy"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"8\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><path d=\"M40 38 H60\" stroke=\"var(--int)\" stroke-width=\"1.5\" marker-end=\"url(#gt)\"/><defs><marker id=\"gt\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--int)\"/></marker></defs><circle cx=\"70\" cy=\"38\" r=\"10\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "infatuation",
+   "slug": "infatuation",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Infatuation",
+   "def": "High-intensity, idealized, early-stage attraction — Love without the track record, usually short-lived.",
+   "rels": [
+    "love",
+    "desire"
+   ],
+   "dims": [
+    "pleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"45\" cy=\"38\" r=\"18\" fill=\"var(--int)\"/><circle cx=\"45\" cy=\"38\" r=\"24\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1\" opacity=\"0.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "isolation",
+   "slug": "isolation",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Isolation",
+   "def": "A circumstantial state of being separated from others, which can be neutral rather than painful — the objective condition Loneliness names the felt version of.",
+   "rels": [
+    "loneliness",
+    "alienation"
+   ],
+   "dims": [
+    "ambivalent",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"10\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><rect x=\"20\" y=\"16\" width=\"60\" height=\"44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" stroke-dasharray=\"2 3\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "loneliness",
+   "slug": "loneliness",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Loneliness",
+   "def": "The painful, subjective sense of lacking wanted connection — unlike Isolation, which can be neutral, and Solitude, which can be chosen.",
+   "rels": [
+    "isolation",
+    "alienation"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"72\" cy=\"30\" r=\"6\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><circle cx=\"22\" cy=\"52\" r=\"4\" fill=\"var(--int)\"/><circle cx=\"32\" cy=\"52\" r=\"4\" fill=\"var(--int)\"/><circle cx=\"27\" cy=\"60\" r=\"4\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "love",
+   "slug": "love",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Love",
+   "def": "A durable orientation combining care, valuing another's existence, and — variably — desire, attachment, and devotion.",
+   "rels": [
+    "attachment",
+    "affection",
+    "devotion"
+   ],
+   "dims": [
+    "pleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"42\" cy=\"38\" r=\"17\" fill=\"var(--int)\" opacity=\"0.55\"/><circle cx=\"62\" cy=\"38\" r=\"17\" fill=\"var(--int)\" opacity=\"0.55\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "solitude",
+   "slug": "solitude",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Solitude",
+   "def": "A chosen, often restorative state of being alone, without the pain that defines Loneliness.",
+   "rels": [
+    "loneliness"
+   ],
+   "dims": [
+    "ambivalent",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"14\" stroke=\"var(--int)\" stroke-width=\"1.5\" fill=\"none\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "trust",
+   "slug": "trust",
+   "cat": "interpersonal",
+   "catLabel": "Interpersonal & Relational",
+   "name": "Trust",
+   "def": "A settled expectation that another person or system will not cause harm, allowing reliance without constant vigilance.",
+   "rels": [
+    "belonging",
+    "attachment"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"35\" cy=\"38\" r=\"12\" fill=\"var(--int)\" opacity=\"0.5\"/><circle cx=\"65\" cy=\"38\" r=\"12\" fill=\"var(--int)\" opacity=\"0.5\"/><path d=\"M43 38 H57\" stroke=\"var(--int)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "bewilderment",
+   "slug": "bewilderment",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Bewilderment",
+   "def": "Confusion that blocks action or decision — you don't know what to do next.",
+   "rels": [
+    "perplexity"
+   ],
+   "dims": [
+    "ambivalent",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"26\" r=\"9\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"6\" fill=\"var(--int)\" opacity=\"0.7\"/><circle cx=\"68\" cy=\"24\" r=\"4\" fill=\"var(--int)\" opacity=\"0.4\"/><circle cx=\"70\" cy=\"52\" r=\"3\" fill=\"var(--int)\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "boredom",
+   "slug": "boredom",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Boredom",
+   "def": "A genuinely distinct low-activation unpleasant state arising from a lack of engaging stimulation, not from any specific loss.",
+   "rels": [
+    "low-mood"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"34\" width=\"60\" height=\"8\" fill=\"var(--int)\" opacity=\"0.6\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "contentment",
+   "slug": "contentment",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Contentment",
+   "def": "A low-activation, present-oriented satisfaction — closer to the absence of wanting than to Joy's active positive charge.",
+   "rels": [
+    "happiness",
+    "relief"
+   ],
+   "dims": [
+    "pleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"16\" fill=\"var(--int)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "distress",
+   "slug": "distress",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Distress",
+   "def": "A state of general suffering under pressure — its own thing, not merely a restatement of Disappointment or Grief.",
+   "rels": [
+    "anxiety"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 38 Q30 15 45 38 Q60 61 75 38 Q83 26 90 38\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "emptiness",
+   "slug": "emptiness",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Emptiness",
+   "def": "A reactive, often post-intensity depletion — tired and hollow after something, with a proximate cause, unlike Void's chronic and causeless register.",
+   "rels": [
+    "void"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><circle cx=\"74\" cy=\"38\" r=\"9\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "grief",
+   "slug": "grief",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Grief",
+   "def": "Sustained emotional suffering with a specific loss — usually bereavement — as its cause, moving in waves rather than sitting at one constant level. Often mixed with relief, anger, or guilt in the same episode.",
+   "rels": [
+    "sorrow",
+    "despair"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"15\" y=\"46\" width=\"18\" height=\"14\" fill=\"var(--int)\"/><rect x=\"37\" y=\"46\" width=\"18\" height=\"14\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><rect x=\"59\" y=\"46\" width=\"18\" height=\"14\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "happiness",
+   "slug": "happiness",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Happiness",
+   "def": "A sustained evaluation of one's life or circumstances as good — closer to a mood or trait-like state than to Joy's moment-to-moment spike.",
+   "rels": [
+    "joy",
+    "contentment"
+   ],
+   "dims": [
+    "pleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"38\" r=\"16\" fill=\"var(--int)\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "low-mood",
+   "slug": "low-mood",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Low Mood",
+   "def": "A sustained, diffuse state of low energy and flat affect with an open causal story, distinct from the regulation strategy of Suppression.",
+   "rels": [
+    "melancholy",
+    "sorrow"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><rect x=\"20\" y=\"34\" width=\"60\" height=\"8\" fill=\"var(--int)\" opacity=\"0.6\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "melancholy",
+   "slug": "melancholy",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Melancholy",
+   "def": "Sadness without a clear proximate cause — reflective and low-activation, closer to a mood than an event-response.",
+   "rels": [
+    "sorrow",
+    "nostalgia"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"42\" r=\"14\" fill=\"var(--int)\" opacity=\"0.35\"/><path d=\"M20 60 Q50 50 80 60\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1\" opacity=\"0.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "perplexity",
+   "slug": "perplexity",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Perplexity",
+   "def": "Confusion combined with surprise — more intellectual puzzle than paralysis, unlike Bewilderment.",
+   "rels": [
+    "bewilderment"
+   ],
+   "dims": [
+    "ambivalent",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"26\" cy=\"26\" r=\"9\" fill=\"var(--int)\"/><circle cx=\"50\" cy=\"42\" r=\"6\" fill=\"var(--int)\" opacity=\"0.7\"/><circle cx=\"68\" cy=\"24\" r=\"4\" fill=\"var(--int)\" opacity=\"0.4\"/><circle cx=\"70\" cy=\"52\" r=\"3\" fill=\"var(--int)\" opacity=\"0.25\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "sorrow",
+   "slug": "sorrow",
+   "cat": "mood",
+   "catLabel": "Moods",
+   "name": "Sorrow",
+   "def": "A quieter, more sustained register of Sadness, without Grief's specific bereavement-related cause.",
+   "rels": [
+    "sadness",
+    "grief"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"24\" r=\"10\" fill=\"var(--int)\" opacity=\"0.5\"/><path d=\"M50 34 V58\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 2\"/><circle cx=\"50\" cy=\"62\" r=\"6\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "awkwardness",
+   "slug": "awkwardness",
+   "cat": "self-conscious",
+   "catLabel": "Self-Conscious",
+   "name": "Awkwardness",
+   "def": "A milder social friction than Embarrassment — discomfort from an interaction whose norms are unclear, rather than from a specific misstep.",
+   "rels": [
+    "embarrassment"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"34\" r=\"12\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" opacity=\"0.7\"/><circle cx=\"50\" cy=\"34\" r=\"5\" fill=\"var(--int)\" opacity=\"0.6\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "embarrassment",
+   "slug": "embarrassment",
+   "cat": "self-conscious",
+   "catLabel": "Self-Conscious",
+   "name": "Embarrassment",
+   "def": "A light, socially-triggered discomfort from an imagined or actual observed misstep — inherently requires an audience, briefer and lower-stakes than Shame.",
+   "rels": [
+    "shame",
+    "awkwardness"
+   ],
+   "dims": [
+    "unpleasant",
+    "low activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"34\" r=\"12\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\" opacity=\"0.7\"/><circle cx=\"50\" cy=\"34\" r=\"5\" fill=\"var(--int)\" opacity=\"0.6\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "guilt",
+   "slug": "guilt",
+   "cat": "self-conscious",
+   "catLabel": "Self-Conscious",
+   "name": "Guilt",
+   "def": "A response to a specific action judged wrong, oriented toward repair rather than hiding.",
+   "rels": [
+    "shame",
+    "remorse"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"70\" cy=\"52\" r=\"6\" fill=\"var(--int)\"/><path d=\"M70 46 C70 20 30 20 30 40\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.5\" marker-end=\"url(#gr)\"/><defs><marker id=\"gr\" markerWidth=\"6\" markerHeight=\"6\" refX=\"3\" refY=\"3\" orient=\"auto\"><path d=\"M0,0 L6,3 L0,6 Z\" fill=\"var(--ink-faint)\"/></marker></defs></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "humiliation",
+   "slug": "humiliation",
+   "cat": "self-conscious",
+   "catLabel": "Self-Conscious",
+   "name": "Humiliation",
+   "def": "Shame imposed from outside by another's action — involuntary, public, and other-caused, often carrying anger at the humiliator alongside the shame.",
+   "rels": [
+    "shame"
+   ],
+   "dims": [
+    "unpleasant",
+    "high activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"34\" r=\"16\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><circle cx=\"50\" cy=\"34\" r=\"6\" fill=\"var(--int)\"/><path d=\"M25 12 L36 22 M75 12 L64 22\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "pride",
+   "slug": "pride",
+   "cat": "self-conscious",
+   "catLabel": "Self-Conscious",
+   "name": "Pride",
+   "def": "A sense of the self's expansion or elevation following a valued achievement or quality, recognized as one's own.",
+   "rels": [
+    "devotion"
+   ],
+   "dims": [
+    "pleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"46\" r=\"12\" fill=\"var(--int)\"/><path d=\"M50 34 V16\" stroke=\"var(--int)\" stroke-width=\"1.5\"/><path d=\"M44 22 L50 14 L56 22\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"1.5\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "shame",
+   "slug": "shame",
+   "cat": "self-conscious",
+   "catLabel": "Self-Conscious",
+   "name": "Shame",
+   "def": "A painful sense that the self as a whole is deficient, prompting a wish to hide — global and self-directed, unlike Guilt's action-specific focus.",
+   "rels": [
+    "guilt",
+    "embarrassment",
+    "humiliation"
+   ],
+   "dims": [
+    "unpleasant",
+    "moderate activation"
+   ],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"50\" cy=\"34\" r=\"18\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/><path d=\"M50 52 V64\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/><circle cx=\"50\" cy=\"34\" r=\"7\" fill=\"var(--int)\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "avoidance",
+   "slug": "avoidance",
+   "cat": "regulation",
+   "catLabel": "Regulation Strategies",
+   "name": "Avoidance",
+   "def": "Steering away from a feared or uncomfortable situation, thought, or feeling — a behavioral strategy, not the fear itself.",
+   "rels": [
+    "fear"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><path d=\"M42 38 H80\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><path d=\"M72 32 L82 38 L72 44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "emotional-detachment",
+   "slug": "emotional-detachment",
+   "cat": "regulation",
+   "catLabel": "Regulation Strategies",
+   "name": "Emotional Detachment",
+   "def": "A sustained defensive stance of disengaging from felt emotion — an interpersonal style or coping strategy, not a discrete feeling in its own right.",
+   "rels": [
+    "suppression"
+   ],
+   "dims": [],
+   "badge": "Not a feeling",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"9\" fill=\"var(--int)\"/><path d=\"M42 38 H80\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/><path d=\"M72 32 L82 38 L72 44\" fill=\"none\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "rumination",
+   "slug": "rumination",
+   "cat": "regulation",
+   "catLabel": "Regulation Strategies",
+   "name": "Rumination",
+   "def": "Repetitive, unresolved dwelling on a distressing thought or event, which sustains rather than processes the feeling behind it.",
+   "rels": [
+    "anxiety",
+    "worry"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><path d=\"M15 38 Q30 15 45 38 Q60 61 75 38 Q83 26 90 38\" fill=\"none\" stroke=\"var(--int)\" stroke-width=\"2\"/></svg>"
+  },
+  {
+   "dict": "inner",
+   "id": "suppression",
+   "slug": "suppression",
+   "cat": "regulation",
+   "catLabel": "Regulation Strategies",
+   "name": "Suppression",
+   "def": "Deliberately inhibiting the outward expression of a felt emotion — a strategy applied to a feeling, not a feeling itself.",
+   "rels": [
+    "low-mood"
+   ],
+   "dims": [],
+   "badge": "",
+   "svg": "<svg viewBox=\"0 0 100 76\"><circle cx=\"30\" cy=\"38\" r=\"12\" fill=\"var(--int)\" opacity=\"0.8\"/><rect x=\"52\" y=\"20\" width=\"6\" height=\"36\" fill=\"var(--ink-faint)\"/><path d=\"M30 38 H50\" stroke=\"var(--ink-faint)\" stroke-width=\"1.3\" stroke-dasharray=\"2 3\"/></svg>"
+  }
+ ],
+ "bodyMap": {
+  "anger": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "head",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.8
+   },
+   {
+    "r": "arms",
+    "i": 0.7
+   },
+   {
+    "r": "hands",
+    "i": 0.7
+   },
+   {
+    "r": "shoulders",
+    "i": 0.5
+   }
+  ],
+  "disgust": [
+   {
+    "r": "stomach",
+    "i": 0.9
+   },
+   {
+    "r": "throat",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "chest",
+    "i": 0.4
+   }
+  ],
+  "fear": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.8
+   },
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "throat",
+    "i": 0.6
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   },
+   {
+    "r": "legs",
+    "i": 0.4
+   }
+  ],
+  "joy": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "face",
+    "i": 0.9
+   },
+   {
+    "r": "whole-body",
+    "i": 0.6
+   },
+   {
+    "r": "arms",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.4
+   }
+  ],
+  "sadness": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "throat",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   }
+  ],
+  "surprise": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.8
+   },
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "hands",
+    "i": 0.4
+   }
+  ],
+  "antipathy": [
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "chest",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "anxiety": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.8
+   },
+   {
+    "r": "throat",
+    "i": 0.7
+   },
+   {
+    "r": "head",
+    "i": 0.6
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   },
+   {
+    "r": "shoulders",
+    "i": 0.4
+   }
+  ],
+  "apprehension": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "throat",
+    "i": 0.4
+   },
+   {
+    "r": "hands",
+    "i": 0.3
+   }
+  ],
+  "contempt": [
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "chest",
+    "i": 0.4
+   },
+   {
+    "r": "head",
+    "i": 0.3
+   }
+  ],
+  "delight": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.8
+   },
+   {
+    "r": "hands",
+    "i": 0.4
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "disappointment": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "shoulders",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "dread": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.9
+   },
+   {
+    "r": "throat",
+    "i": 0.7
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "whole-body",
+    "i": 0.4
+   }
+  ],
+  "envy": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   },
+   {
+    "r": "head",
+    "i": 0.3
+   }
+  ],
+  "euphoria": [
+   {
+    "r": "whole-body",
+    "i": 0.9
+   },
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "head",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "arms",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   }
+  ],
+  "excitement": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "hands",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   }
+  ],
+  "frustration": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "arms",
+    "i": 0.6
+   },
+   {
+    "r": "hands",
+    "i": 0.6
+   },
+   {
+    "r": "shoulders",
+    "i": 0.5
+   }
+  ],
+  "hatred": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "arms",
+    "i": 0.4
+   }
+  ],
+  "impatience": [
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   },
+   {
+    "r": "legs",
+    "i": 0.3
+   }
+  ],
+  "indignation": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "shoulders",
+    "i": 0.4
+   }
+  ],
+  "irritation": [
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "shoulders",
+    "i": 0.4
+   }
+  ],
+  "jealousy": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "throat",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "panic": [
+   {
+    "r": "chest",
+    "i": 1
+   },
+   {
+    "r": "throat",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.8
+   },
+   {
+    "r": "head",
+    "i": 0.8
+   },
+   {
+    "r": "hands",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.6
+   }
+  ],
+  "rage": [
+   {
+    "r": "chest",
+    "i": 1
+   },
+   {
+    "r": "head",
+    "i": 0.9
+   },
+   {
+    "r": "face",
+    "i": 0.9
+   },
+   {
+    "r": "arms",
+    "i": 0.8
+   },
+   {
+    "r": "hands",
+    "i": 0.8
+   },
+   {
+    "r": "whole-body",
+    "i": 0.6
+   }
+  ],
+  "rejection": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "throat",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "relief": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "shoulders",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   }
+  ],
+  "resentment": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "shoulders",
+    "i": 0.4
+   }
+  ],
+  "thrill": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.6
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   }
+  ],
+  "unease": [
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "throat",
+    "i": 0.4
+   },
+   {
+    "r": "shoulders",
+    "i": 0.3
+   }
+  ],
+  "absurdity": [
+   {
+    "r": "head",
+    "i": 0.6
+   },
+   {
+    "r": "chest",
+    "i": 0.3
+   }
+  ],
+  "awe": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   },
+   {
+    "r": "head",
+    "i": 0.4
+   }
+  ],
+  "curiosity": [
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "chest",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "despair": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   },
+   {
+    "r": "throat",
+    "i": 0.5
+   },
+   {
+    "r": "head",
+    "i": 0.4
+   }
+  ],
+  "existential-dread": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.8
+   },
+   {
+    "r": "head",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   }
+  ],
+  "hope": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "head",
+    "i": 0.4
+   }
+  ],
+  "longing": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "throat",
+    "i": 0.5
+   },
+   {
+    "r": "arms",
+    "i": 0.3
+   }
+  ],
+  "meaninglessness": [
+   {
+    "r": "chest",
+    "i": 0.5
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "nostalgia": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   },
+   {
+    "r": "throat",
+    "i": 0.4
+   },
+   {
+    "r": "face",
+    "i": 0.3
+   }
+  ],
+  "transcendence": [
+   {
+    "r": "whole-body",
+    "i": 0.8
+   },
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "head",
+    "i": 0.6
+   }
+  ],
+  "void": [
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "wonder": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "head",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.4
+   }
+  ],
+  "yearning": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "throat",
+    "i": 0.5
+   },
+   {
+    "r": "arms",
+    "i": 0.4
+   }
+  ],
+  "affection": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "arms",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "alienation": [
+   {
+    "r": "chest",
+    "i": 0.5
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   },
+   {
+    "r": "whole-body",
+    "i": 0.2
+   }
+  ],
+  "attachment": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   },
+   {
+    "r": "arms",
+    "i": 0.4
+   }
+  ],
+  "belonging": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   },
+   {
+    "r": "stomach",
+    "i": 0.3
+   }
+  ],
+  "compassion": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   },
+   {
+    "r": "throat",
+    "i": 0.3
+   }
+  ],
+  "desire": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.6
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   }
+  ],
+  "devotion": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "arms",
+    "i": 0.4
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "gratitude": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "whole-body",
+    "i": 0.4
+   }
+  ],
+  "infatuation": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "head",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   }
+  ],
+  "isolation": [
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   },
+   {
+    "r": "whole-body",
+    "i": 0.2
+   }
+  ],
+  "loneliness": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "throat",
+    "i": 0.4
+   }
+  ],
+  "love": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.6
+   },
+   {
+    "r": "arms",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   }
+  ],
+  "solitude": [
+   {
+    "r": "chest",
+    "i": 0.4
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "trust": [
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.4
+   },
+   {
+    "r": "face",
+    "i": 0.3
+   }
+  ],
+  "bewilderment": [
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "chest",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "boredom": [
+   {
+    "r": "head",
+    "i": 0.4
+   },
+   {
+    "r": "chest",
+    "i": 0.3
+   },
+   {
+    "r": "whole-body",
+    "i": 0.2
+   }
+  ],
+  "contentment": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   }
+  ],
+  "distress": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "throat",
+    "i": 0.6
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   }
+  ],
+  "emptiness": [
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "grief": [
+   {
+    "r": "chest",
+    "i": 0.9
+   },
+   {
+    "r": "throat",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.6
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   }
+  ],
+  "happiness": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   },
+   {
+    "r": "arms",
+    "i": 0.3
+   }
+  ],
+  "low-mood": [
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "shoulders",
+    "i": 0.5
+   },
+   {
+    "r": "head",
+    "i": 0.4
+   },
+   {
+    "r": "whole-body",
+    "i": 0.3
+   }
+  ],
+  "melancholy": [
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "throat",
+    "i": 0.5
+   },
+   {
+    "r": "face",
+    "i": 0.4
+   },
+   {
+    "r": "stomach",
+    "i": 0.3
+   }
+  ],
+  "perplexity": [
+   {
+    "r": "head",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "chest",
+    "i": 0.3
+   }
+  ],
+  "sorrow": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "throat",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   }
+  ],
+  "awkwardness": [
+   {
+    "r": "face",
+    "i": 0.8
+   },
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.5
+   }
+  ],
+  "embarrassment": [
+   {
+    "r": "face",
+    "i": 0.9
+   },
+   {
+    "r": "chest",
+    "i": 0.6
+   },
+   {
+    "r": "stomach",
+    "i": 0.5
+   },
+   {
+    "r": "hands",
+    "i": 0.3
+   }
+  ],
+  "guilt": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "face",
+    "i": 0.5
+   },
+   {
+    "r": "throat",
+    "i": 0.4
+   }
+  ],
+  "humiliation": [
+   {
+    "r": "face",
+    "i": 0.9
+   },
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.5
+   }
+  ],
+  "pride": [
+   {
+    "r": "chest",
+    "i": 0.8
+   },
+   {
+    "r": "face",
+    "i": 0.6
+   },
+   {
+    "r": "head",
+    "i": 0.5
+   },
+   {
+    "r": "shoulders",
+    "i": 0.4
+   }
+  ],
+  "shame": [
+   {
+    "r": "face",
+    "i": 0.9
+   },
+   {
+    "r": "chest",
+    "i": 0.7
+   },
+   {
+    "r": "stomach",
+    "i": 0.7
+   },
+   {
+    "r": "whole-body",
+    "i": 0.4
+   }
+  ],
+  "avoidance": [
+   {
+    "r": "chest",
+    "i": 0.2
+   },
+   {
+    "r": "stomach",
+    "i": 0.2
+   }
+  ],
+  "emotional-detachment": [],
+  "rumination": [
+   {
+    "r": "head",
+    "i": 0.4
+   },
+   {
+    "r": "chest",
+    "i": 0.3
+   }
+  ],
+  "suppression": [
+   {
+    "r": "chest",
+    "i": 0.3
+   },
+   {
+    "r": "throat",
+    "i": 0.3
+   },
+   {
+    "r": "shoulders",
+    "i": 0.2
+   }
+  ]
+ },
+ "silhouette": "<svg class=\"body-silhouette\" viewBox=\"0 0 200 460\" xmlns=\"http://www.w3.org/2000/svg\">\n        <path class=\"bm-region\" data-region=\"head\" d=\"M85 8 Q85 0 100 0 Q115 0 115 8 L118 30 Q118 42 100 45 Q82 42 82 30 Z\"/>\n        <path class=\"bm-region\" data-region=\"face\" d=\"M88 15 Q88 10 100 10 Q112 10 112 15 L113 32 Q113 40 100 42 Q87 40 87 32 Z\"/>\n        <path class=\"bm-region\" data-region=\"throat\" d=\"M92 45 L108 45 L110 58 Q100 62 90 58 Z\"/>\n        <path class=\"bm-region\" data-region=\"shoulders\" d=\"M60 62 L90 58 L92 72 L62 72 Z M108 58 L140 62 L138 72 L108 72 Z\"/>\n        <path class=\"bm-region\" data-region=\"chest\" d=\"M78 62 L122 62 L126 110 Q100 116 74 110 Z\"/>\n        <path class=\"bm-region\" data-region=\"stomach\" d=\"M74 110 Q100 116 126 110 L128 160 Q100 168 72 160 Z\"/>\n        <path class=\"bm-region\" data-region=\"arms\" d=\"M58 72 L78 72 L76 140 L56 140 Z M122 72 L142 72 L144 140 L124 140 Z\"/>\n        <path class=\"bm-region\" data-region=\"hands\" d=\"M52 140 L76 140 L78 172 Q65 178 50 172 Z M124 140 L148 140 L150 172 Q135 178 122 172 Z\"/>\n        <path class=\"bm-region\" data-region=\"back\" d=\"M80 62 L120 62 L124 160 Q100 165 76 160 Z\" opacity=\"0.3\"/>\n        <path class=\"bm-region\" data-region=\"legs\" d=\"M72 160 Q100 168 128 160 L130 290 Q118 295 110 290 L108 260 Q100 256 92 260 L90 290 Q82 295 70 290 Z\"/>\n        <path class=\"bm-region\" data-region=\"feet\" d=\"M68 290 L92 290 L94 310 Q80 316 66 310 Z M108 290 L132 290 L134 310 Q120 316 106 310 Z\"/>\n        <ellipse class=\"bm-region\" data-region=\"whole-body\" cx=\"100\" cy=\"155\" rx=\"58\" ry=\"155\" opacity=\"0.15\"/>\n      </svg>",
+ "bodyMapSource": "Based on Nummenmaa et al. (2014), bodily maps of emotions, and related research."
+}

@@ -190,6 +190,15 @@ def clean_title(t, cfg):
     return t
 
 
+# The dictionaries' dark-theme colours, for the term drawings on the (dark) homepage card
+DICT_DARK = {
+    'dictionary-of-design': {'ink': '#eeece6', 'paper': '#141412', 'paper-raised': '#1c1b18', 'ink-muted': '#a5a39b', 'ink-faint': '#726f66',
+                             'line': '#2c2a26', 'line-strong': '#3d3a34', 'ext': '#7c95f2', 'ext-soft': '#1b2340'},
+    'dictionary-of-inner-experience': {'ink': '#eee9e4', 'paper': '#161311', 'paper-raised': '#1e1a17', 'ink-muted': '#a89e97', 'ink-faint': '#726862',
+                                       'line': '#2e2925', 'line-strong': '#403933', 'int': '#e08a9c', 'int-soft': '#3a1e24'},
+}
+
+
 def art(site, p):
     h, root = p['html'], os.path.join(ROOT, site)
     if site == 'knots':                 # the finished knot, as the site's own thumbnail file (it carries its object colours)
@@ -204,6 +213,13 @@ def art(site, p):
         m = re.match(r'visual-synths/([a-z0-9-]+)$', p['slug'])
         if m and os.path.exists(os.path.join(root, 'visual-synths/thumbs', m.group(1) + '.jpg')):
             return {'kind': 'img', 'src': '/f/%s/visual-synths/thumbs/%s.jpg' % (site, m.group(1))}
+        m = re.match(r'(dictionary-of-design|dictionary-of-inner-experience)/[a-z0-9-]+$', p['slug'])
+        art = re.search(r'<figure class="art"[^>]*>(<svg[\s\S]*?</svg>)</figure>', h) if m else None
+        if art:                         # a dictionary term page: its own drawing, coloured as in the dictionary's dark theme
+            svg = art.group(1)
+            for k, v in DICT_DARK[m.group(1)].items():
+                svg = svg.replace('var(--%s)' % k, v)
+            return {'kind': 'svg', 'svg': svg}
     if site == 'tarot':
         return {'kind': 'fan', 'src': ['/f/tarot/images/' + f for f in ('egyptian/01.png', 'rws/major_00.jpg', 'solabusca/00.jpg')
                                        if os.path.exists(os.path.join(root, 'images', f))]}

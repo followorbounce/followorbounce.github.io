@@ -152,7 +152,7 @@ def daily(today):
         iso, at = d.isoformat(), stamp(d)
         for key, arr, seed, base in (('design-term', dd, 7, '/dictionary-of-design/'), ('emotion', ie, 0, '/dictionary-of-inner-experience/')):
             t = arr[term_index(d, seed, len(arr))]
-            streams[key][3].append({'title': t[1], 'summary': t[2], 'url': HOST + base + '#' + t[0], 'date': at,
+            streams[key][3].append({'title': t[1], 'summary': t[2], 'url': HOST + base + re.sub(r'[^a-z0-9]+', '-', t[0].replace('&', 'and').lower()).strip('-'), 'date': at,
                                     'id': 'tag:followorbounce.github.io,%s:%s' % (iso, key)})
         p = el['parts'][fnv_index(d, 'element', len(el['parts']))]
         streams['element'][3].append({'title': '%s (%s)' % (p['name'], p['sym']), 'summary': p['line'], 'date': at,

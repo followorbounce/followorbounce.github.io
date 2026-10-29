@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Frontend / Backend: meaning in art and design · Dictionary of Design</title>
+<meta name="description" content="The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.">
+<link rel="canonical" href="https://followorbounce.github.io/dictionary-of-design/frontend-backend">
+<meta property="og:type" content="article">
+<meta property="og:site_name" content="Dictionary of Design">
+<meta property="og:title" content="Frontend / Backend · Dictionary of Design">
+<meta property="og:description" content="The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.">
+<meta property="og:url" content="https://followorbounce.github.io/dictionary-of-design/frontend-backend">
+<meta property="og:image" content="https://followorbounce.github.io/og/dictionary-of-design/frontend-backend.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Frontend / Backend — Dictionary of Design — Follow or Bounce">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:image" content="https://followorbounce.github.io/og/dictionary-of-design/frontend-backend.jpg">
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"DefinedTerm","name":"Frontend / Backend","description":"The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.","url":"https://followorbounce.github.io/dictionary-of-design/frontend-backend","termCode":"frontend-backend","inDefinedTermSet":{"@type":"DefinedTermSet","name":"Dictionary of Design","url":"https://followorbounce.github.io/dictionary-of-design/"}}</script>
+<script type="application/ld+json">{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Follow or Bounce","item":"https://followorbounce.github.io/"},{"@type":"ListItem","position":2,"name":"Dictionary of Design","item":"https://followorbounce.github.io/dictionary-of-design/"},{"@type":"ListItem","position":3,"name":"Frontend / Backend","item":"https://followorbounce.github.io/dictionary-of-design/frontend-backend"}]}</script>
+<link rel="icon" href="/assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="/assets/theme-toggle.js"></script>
+<style>
+:root{--ink:#141414;--paper:#f4f4f1;--paper-raised:#ffffff;--ink-muted:#5c5c58;--ink-faint:#9a9892;--line:#dcdbd4;--line-strong:#c3c1b8;--ext:#2545c9;--ext-soft:#e3e7fa;--acc:var(--ext);--acc-soft:var(--ext-soft);--font-display:'Archivo',system-ui,sans-serif;--font-mono:'IBM Plex Mono',ui-monospace,monospace;--font-body:var(--font-mono);--body-size:14px;--edge:clamp(16px,4vw,56px);--maxw:1080px}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--ink:#eeece6;--paper:#141412;--paper-raised:#1c1b18;--ink-muted:#a5a39b;--ink-faint:#726f66;--line:#2c2a26;--line-strong:#3d3a34;--ext:#7c95f2;--ext-soft:#1b2340}}
+:root[data-theme="dark"]{--ink:#eeece6;--paper:#141412;--paper-raised:#1c1b18;--ink-muted:#a5a39b;--ink-faint:#726f66;--line:#2c2a26;--line-strong:#3d3a34;--ext:#7c95f2;--ext-soft:#1b2340}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--font-body);font-size:var(--body-size);line-height:1.65}
+.wrap{max-width:var(--maxw);margin:0 auto;padding-inline:max(var(--edge),env(safe-area-inset-left)) max(var(--edge),env(safe-area-inset-right))}
+a{color:inherit}
+h1,h2,h3{margin:0;font-family:var(--font-display);font-weight:700}
+header{border-bottom:1px solid var(--ink);padding-block:14px;position:sticky;top:0;background:var(--paper);z-index:5;padding-top:max(14px,env(safe-area-inset-top))}
+header .wrap{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+header .brand{font-family:var(--font-mono);font-size:12px;letter-spacing:.14em;border:1px solid var(--ink);padding:6px 10px;text-decoration:none}
+header .pair{font-family:var(--font-mono);font-size:11px;color:var(--ink-faint)}
+header .pair a{color:var(--acc);text-decoration:none}
+header .back{font-family:var(--font-mono);font-size:12px;text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.crumbs{font-family:var(--font-mono);font-size:12px;color:var(--ink-faint);padding-top:22px}
+.crumbs a{color:var(--ink-muted);text-decoration:none}
+.crumbs a:hover{text-decoration:underline}
+.head{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);align-items:center;padding-block:22px 34px;border-bottom:1px solid var(--ink)}
+.eyebrow{font-family:var(--font-mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--ink-faint);margin-bottom:12px}
+.eyebrow a{color:var(--acc);text-decoration:none}
+.eyebrow .badge{margin-left:8px;border:1px solid var(--line-strong);padding:1px 6px;letter-spacing:.06em}
+h1{font-size:clamp(2.3rem,7vw,4rem);line-height:1;letter-spacing:-.01em}
+.def{font-family:var(--font-display);font-size:clamp(1.15rem,2.4vw,1.4rem);line-height:1.45;margin:18px 0 0;max-width:36em}
+.dims{display:flex;flex-wrap:wrap;gap:6px;margin-top:14px}
+.dims span{font-family:var(--font-mono);font-size:11px;border:1px solid var(--line-strong);border-radius:12px;padding:3px 10px;color:var(--ink-muted)}
+.art{background:var(--paper-raised);border:1px solid var(--line);aspect-ratio:100/76;padding:6%}
+.art svg{display:block;width:100%;height:100%}
+.body{display:grid;grid-template-columns:minmax(0,1.5fr) minmax(0,1fr);gap:clamp(20px,4vw,48px);padding-block:30px}
+.body h2{font-size:13px;font-family:var(--font-mono);font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--ink-faint);margin:0 0 8px}
+.block{margin-bottom:26px;max-width:40em}
+.block p{margin:0}
+.more p{font-size:1.06em}
+.aside{display:grid;gap:22px;align-content:start}
+.note{border-left:3px solid var(--acc);padding:10px 14px;background:var(--acc-soft)}
+.bm{display:grid;grid-template-columns:120px 1fr;gap:16px;align-items:center;border:1px solid var(--line);background:var(--paper-raised);padding:14px}
+.bm svg{width:100%;height:auto;max-height:230px;display:block}
+.bm .bm-region{fill:transparent;stroke:var(--line-strong);stroke-width:.6}
+.bm .bm-region.lit{fill:var(--acc);stroke:var(--acc);stroke-width:1}
+.bm p{margin:0 0 6px}
+.bm small{display:block;font-family:var(--font-mono);font-size:10.5px;color:var(--ink-faint);line-height:1.5}
+.rel{display:grid;gap:10px}
+.rel a{display:block;border:1px solid var(--line);background:var(--paper-raised);padding:12px 14px;text-decoration:none;min-height:44px}
+.rel a b{display:block;font-family:var(--font-display);font-size:1.08rem}
+.rel a span{display:block;font-size:.92em;color:var(--ink-muted);line-height:1.5;margin-top:2px}
+.rel a:hover{border-color:var(--acc)}
+.cat{display:flex;flex-wrap:wrap;gap:6px}
+.cat a,.cat span{font-family:var(--font-mono);font-size:12px;border:1px solid var(--line-strong);padding:9px 11px;text-decoration:none;color:var(--ink-muted);min-height:44px;display:inline-flex;align-items:center}
+.cat span{border-color:var(--acc);color:var(--acc)}
+.cat a:hover{border-color:var(--acc);color:var(--ink)}
+.pn{display:flex;justify-content:space-between;gap:12px;border-top:1px solid var(--ink);padding-block:18px;font-family:var(--font-mono);font-size:13px}
+.pn a{text-decoration:none;min-height:44px;display:inline-flex;align-items:center}
+.pn a:hover{text-decoration:underline}
+footer{border-top:1px solid var(--line);padding-block:22px calc(22px + env(safe-area-inset-bottom));font-family:var(--font-mono);font-size:12px;color:var(--ink-faint)}
+footer a{color:var(--ink-muted)}
+@media (max-width:760px){.head,.body{grid-template-columns:1fr}.art{max-width:360px}}
+</style>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="/">KNOWLEDGE NETWORK</a>
+    <span class="pair">Design of the external world · paired with <a href="/dictionary-of-inner-experience/">Dictionary of Inner Experience →</a></span>
+    <a class="back" href="/dictionary-of-design/#frontend---backend">← All 113 terms</a>
+  </div>
+</header>
+<main class="wrap">
+  <nav class="crumbs" aria-label="Breadcrumb"><a href="/">Follow or Bounce</a> / <a href="/dictionary-of-design/">Dictionary of Design</a> / Frontend / Backend</nav>
+  <div class="head">
+    <div>
+      <div class="eyebrow"><a href="/dictionary-of-design/#frontend---backend">Digital Production</a></div>
+      <h1>Frontend / Backend</h1>
+      <p class="def">The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.</p>
+      
+    </div>
+    <figure class="art" style="margin:0" aria-hidden="true"><svg viewBox="0 0 100 76"><rect x="14" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="34" y="20" width="16" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/><rect x="54" y="20" width="16" height="36" fill="var(--ext)" opacity="0.15" stroke="var(--ext)" stroke-width="1.5"/><rect x="74" y="20" width="12" height="36" fill="none" stroke="var(--ink-faint)" stroke-width="1.2"/></svg></figure>
+  </div>
+  <div class="body">
+    <div><div class="block more"><h2>In practice</h2><p>The frontend is the part of a website or app that runs in front of the user: screens, buttons, animations. The backend runs on servers, storing data, checking passwords and doing calculations. Designers work mostly with the frontend but need to understand the backend&#x27;s limits. A search screen may look simple, yet whether it can show results instantly as someone types depends on how fast the backend can answer.</p></div><div class="block"><h2>Often confused with <a href="user-interface-ui">User Interface (UI)</a></h2><p>UI is the designed layer of controls a person uses; the frontend is the code that builds and runs that layer in a browser or app.</p></div><div class="block"><h2>Try this</h2><p class="note">Pick an app you use and list which of its features need data from a server and which still work offline.</p></div></div>
+    <div class="aside"><div><h2>More in Digital Production</h2><div class="cat"><a href="api">API</a><a href="alpha-channel">Alpha Channel</a><a href="asset">Asset</a><a href="asset-library">Asset Library</a><a href="cms">CMS</a><a href="clipping-path">Clipping Path</a><a href="composition-file">Composition File</a><a href="dpi">DPI</a><a href="digital-toolkit">Digital Toolkit</a><a href="export-settings">Export Settings</a><span aria-current="page">Frontend / Backend</span><a href="layer">Layer</a><a href="mask">Mask</a><a href="pdf">PDF</a><a href="ppi">PPI</a><a href="plugin">Plugin</a><a href="raw">RAW</a><a href="raster">Raster</a><a href="render">Render</a><a href="resolution">Resolution</a><a href="svg">SVG</a><a href="vector-file">Vector File</a></div></div></div>
+  </div>
+  <nav class="pn" aria-label="Previous and next term"><a href="export-settings">← Export Settings</a><a href="layer">Layer →</a></nav>
+</main>
+<footer>
+  <div class="wrap"><p>From the <a href="/dictionary-of-design/">Dictionary of Design</a>, part of <a href="/">Follow or Bounce</a>. Drawings and text are original.</p></div>
+</footer>
+</body>
+</html>

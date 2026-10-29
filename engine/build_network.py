@@ -223,7 +223,8 @@ def render_sitemaps(own_entries, archived_entries):
     body = "".join("  <url><loc>%s</loc>%s</url>\n" % (esc(u), "<lastmod>%s</lastmod>" % lm if lm else "") for u, lm in rows)
     with open(os.path.join(REPO_ROOT, "sitemap-home.xml"), "w", encoding="utf-8") as fh:
         fh.write('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n' + body + "</urlset>\n")
-    maps = ["%s/sitemap-home.xml" % HOST] + ["%s/%s/sitemap.xml" % (HOST, p) for p in PROJECT_SITEMAPS
+    # sitemap-terms.xml: the 190 dictionary term pages, written by _specs/dictionaries/build_terms.py
+    maps = ["%s/sitemap-home.xml" % HOST, "%s/sitemap-terms.xml" % HOST] + ["%s/%s/sitemap.xml" % (HOST, p) for p in PROJECT_SITEMAPS
                                               if os.path.isfile(os.path.join(GIT_ROOT, p, "sitemap.xml"))]
     with open(os.path.join(REPO_ROOT, "sitemap.xml"), "w", encoding="utf-8") as fh:
         fh.write('<?xml version="1.0" encoding="UTF-8"?>\n<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
@@ -264,6 +265,7 @@ def render_llms(graph):
           "- [Thirteen months of 28 days](%s/world-calendar-explorer/thirteen-months): the 13-month International Fixed Calendar, today in it, pros and cons" % HOST, "",
           "## Optional", "",
           "- [Archive](%s/archive): retired experiments, kept online" % HOST,
+          "- [Dictionary term pages](%s/sitemap-terms.xml): one page per term of both dictionaries, e.g. %s/dictionary-of-design/affordance and %s/dictionary-of-inner-experience/shame" % (HOST, HOST, HOST),
           "- [Feeds](%s/feeds/): Atom feeds of the daily cards (design term, emotion, prompt element, knot, signal) and of new pages" % HOST,
           "- [Design Divine Future](https://designdivinefuture.wordpress.com/): the author's art-task blog", ""]
     with open(os.path.join(REPO_ROOT, "llms.txt"), "w", encoding="utf-8") as fh:
