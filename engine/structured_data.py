@@ -66,20 +66,21 @@ def git_dates(repo):
 
 def aerospace(rel, h, dates):
     canon = canonical(h)
-    home = 'https://followorbounce.github.io/aerospace/'
+    ru = rel.startswith('ru/')                               # the Russian edition (aerospace _tools/ru_pages.py)
+    home = 'https://followorbounce.github.io/aerospace/' + ('ru/' if ru else '')
+    site = 'Аэрокосмический справочник' if ru else 'Aerospace Knowledge Hub'
     if canon.rstrip('/') == home.rstrip('/'):
-        return [{'@type': 'WebSite', 'name': 'Aerospace Knowledge Hub', 'url': home, 'inLanguage': ['en', 'ru'], 'publisher': NET}]
+        return [{'@type': 'WebSite', 'name': site, 'url': home, 'inLanguage': 'ru' if ru else 'en', 'publisher': NET}]
     t = meta(h, 'property', 'og:title') or title(h)
     head = re.split(r'\s+/\s+', t)[0].strip()               # "BOUNCE — MARS PATHFINDER & SOJOURNER / «…»" -> English half
-    head = re.sub(r'\s*[—|-]\s*Aerospace Knowledge Hub$', '', head)
+    head = re.sub(r'\s*[—|-]\s*(Aerospace Knowledge Hub|Аэрокосмический справочник)$', '', head)
     first, last = dates.get(rel, (None, None))
     art = {'@type': 'Article', 'headline': head[:110], 'description': meta(h, 'name', 'description'), 'url': canon,
            'mainEntityOfPage': canon, 'image': meta(h, 'property', 'og:image'), 'author': NET, 'publisher': NET,
-           'inLanguage': ['en', 'ru'] if re.search('[а-яА-Я]', h) else 'en',
-           'isPartOf': {'@type': 'WebSite', 'name': 'Aerospace Knowledge Hub', 'url': home}}
+           'inLanguage': 'ru' if ru else 'en', 'isPartOf': {'@type': 'WebSite', 'name': site, 'url': home}}
     if first:
         art.update(datePublished=first, dateModified=last)
-    return [art, crumbs(('Aerospace Knowledge Hub', home), (head, canon))]
+    return [art, crumbs((site, home), (head, canon))]
 
 
 def hub(rel, h, dates):

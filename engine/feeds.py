@@ -211,7 +211,7 @@ def new_pages(now):
         base = HOST + '/' if site == 'followorbounce.github.io' else '%s/%s/' % (HOST, site)
         dates = first_dates(repo)
         for loc in re.findall(r'<loc>([^<]+)</loc>', open(smap, encoding='utf-8').read()):
-            if not loc.startswith(base):
+            if not loc.startswith(base) or loc.startswith(HOST + '/aerospace/ru/'):   # editions of existing guides, not new pages
                 continue
             f = page_file(repo, loc[len(base):])
             if not f or f not in dates:
