@@ -26,7 +26,7 @@ HOST = 'https://followorbounce.github.io'
 TZ = ZoneInfo('America/Los_Angeles')
 DAYS = 30
 NEW_PAGES = 60
-PROJECTS = ['aerospace', 'knots', 'machinery', 'Maya-Calendar', 'reckoning']
+PROJECTS = ['aerospace', 'knots', 'machinery', 'Maya-Calendar', 'reckoning', 'series']
 OFFLINE = '--offline' in sys.argv
 E = lambda s: html.escape(str(s), quote=True)
 

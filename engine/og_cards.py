@@ -42,6 +42,8 @@ SITES = {
         theme=dict(PLEX, paper='#f6f6f2', raised='#ffffff', ink='#0b0b0c', muted='#55554f', line='#c9c9c1', acc='#c2572b', dtt='uppercase', dls='0')),
     'knots': dict(base='https://followorbounce.github.io/knots/', label='Knot Atlas', mark=NET, suffix=['Knot Atlas'],
         theme=dict(PLEX, display="'Barlow Condensed',sans-serif", paper='#eceee9', raised='#f7f8f4', ink='#172326', muted='#536165', line='#cfd5cf', acc='#b47a16', dtt='uppercase', dls='0')),
+    'series': dict(base='https://followorbounce.github.io/series/', label='Claude & Dima', mark=NET, suffix=['Claude & Dima', 'Follow or Bounce'],
+        theme=dict(PLEX, paper='#0f1115', raised='#171a21', ink='#e9e6df', muted='#a3a09a', line='#2a2e38', acc='#e08a5f')),
     'machinery': dict(base='https://followorbounce.github.io/machinery/', label='Heavy Machinery Encyclopedia', mark=NET,
         suffix=['Heavy Machinery Encyclopedia'],
         theme=dict(PLEX, paper='#f5f5f1', raised='#ffffff', ink='#151a1f', muted='#5b6672', line='#dbdfe2', acc='#c1541d')),
@@ -74,6 +76,7 @@ HUB = 'https://followorbounce.github.io/'
 PLACES = {
     'aerospace': ('Aerospace Knowledge Hub', 'aerospace/', 'Field guides to spaceflight history and engineering'),
     'knots': ('Knot Atlas', 'knots/', 'Knots in 3D, tied step by step'),
+    'series': ('Claude & Dima', 'series/', 'A comedy series about vibe coding, one minute an episode'),
     'machinery': ('Heavy Machinery Encyclopedia', 'machinery/', 'The largest machines and the physics behind them'),
     'reckoning': ('Reckoning', 'reckoning/', 'Units, sky and sea, signals, weather and ships'),
     'maya': ("Ju'un K'in", 'Maya-Calendar/', 'The Classic Maya calendar, computed live'),
@@ -89,6 +92,7 @@ PLACES = {
     'feelings': ('Dictionary of Inner Experience', 'dictionary-of-inner-experience/', 'Emotions, and where they are felt in the body'),
     'perception': ('Perception', 'perception-illusions', 'Illusions as evidence of a brain that guesses'),
     'scale': ('Planck to Horizon', 'planck-to-horizon', 'Every size in nature, in one zoom'),
+    'prompt': ('The Logic of a Prompt & Life', 'logic-of-a-prompt', 'Twenty-one parts of a clear request'),
 }
 RELATED = {
     'aerospace': ('scale', 'reckoning', 'machinery'),
@@ -102,6 +106,7 @@ RELATED = {
     'world-calendar-explorer': ('maya', 'life', 'country'),
     'us-states-atlas': ('country', 'calendars', 'aerospace'),
     'soundos': ('audio', 'video', 'music'),
+    'series': ('prompt', 'knots', 'life'),
     'candidate-results': ('states', 'country', 'feelings'),
 }
 # Full-screen apps, where a block under the page would be out of sight: (mode, the text the block goes in front of).
@@ -220,6 +225,11 @@ def art(site, p):
             for k, v in DICT_DARK[m.group(1)].items():
                 svg = svg.replace('var(--%s)' % k, v)
             return {'kind': 'svg', 'svg': svg}
+    if site == 'series':                # the episode's poster frame (the hub: the first episode's)
+        m = re.match(r'([0-9]{3}-[a-z0-9-]+)$', p['slug'])
+        poster = (m.group(1) if m else '001-production-old-do-not-delete') + '.jpg'
+        if os.path.exists(os.path.join(root, 'posters', poster)):
+            return {'kind': 'img', 'src': '/f/series/posters/' + poster}
     if site == 'tarot':
         return {'kind': 'fan', 'src': ['/f/tarot/images/' + f for f in ('egyptian/01.png', 'rws/major_00.jpg', 'solabusca/00.jpg')
                                        if os.path.exists(os.path.join(root, 'images', f))]}

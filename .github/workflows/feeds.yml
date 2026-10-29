@@ -28,7 +28,7 @@ jobs:
       - name: Clone the project sites beside it
         run: |
           set -euo pipefail
-          for r in aerospace knots machinery Maya-Calendar reckoning; do
+          for r in aerospace knots machinery Maya-Calendar reckoning series; do
             git clone --quiet --filter=blob:none --no-checkout "https://github.com/followorbounce/$r.git" "$r"
             git -C "$r" sparse-checkout set --no-cone '*.html' 'sitemap.xml' 'feed/*.json' 'assets/signal-of-day.json'
             git -C "$r" checkout --quiet

@@ -716,6 +716,8 @@ html{scroll-behavior:smooth; scroll-padding-top:56px;}
   .mh-frame canvas{height:290px;}
 }
 @media (pointer:coarse){.mh-bar .gen-mode{min-height:44px; padding-inline:12px;}}
+.mh-series{display:inline-flex;align-items:center;min-height:44px;font-family:var(--font-mono,ui-monospace,monospace);font-size:12px;letter-spacing:.04em;color:inherit;text-decoration:none;border-bottom:1px solid currentColor;margin-top:6px}
+.mh-series:hover{opacity:.75}
 
 
 .cats{padding-block:clamp(48px,8vw,88px);}
@@ -793,6 +795,7 @@ footer .wrap{display:flex; justify-content:space-between; flex-wrap:wrap; gap:12
     <div class="mh" id="mascots">
       <div class="mh-frame"><canvas id="mh-cv" role="img" aria-label="Dima and Claude, two voxel characters, on a small stage. Poke them, drag and throw Claude, play a scenario or change the scene with the buttons below."></canvas></div>
       <div class="mh-bar" id="mh-bar"></div>
+      <a class="mh-series" href="/series/">Watch them: <b>Claude &amp; Dima</b>, a series in 29 one-minute episodes &rarr;</a>
       <p class="mh-hint" id="mh-hint">Tap a character to poke &middot; drag Claude to throw &middot; tap the floor to send Claude &middot; drag sideways to turn</p>
     </div>
 
