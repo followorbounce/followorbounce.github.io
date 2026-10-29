@@ -105,6 +105,8 @@ Separate repositories served under the same host; several publish their own llms
 - [Knot Atlas](https://followorbounce.github.io/knots/): 3D knot-tying guide (own llms.txt: https://followorbounce.github.io/knots/llms.txt)
 - [Reckoning](https://followorbounce.github.io/reckoning/): interactive handbook of measure, shape, signals, weather, sky, ships and light
 - [Tarot](https://followorbounce.github.io/tarot/): three public-domain tarot decks
+- [Today in every calendar](https://followorbounce.github.io/world-calendar-explorer/today): today's date in 29 calendar systems, updated daily
+- [Thirteen months of 28 days](https://followorbounce.github.io/world-calendar-explorer/thirteen-months): the 13-month International Fixed Calendar, today in it, pros and cons
 
 ## Optional
 

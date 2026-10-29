@@ -166,7 +166,8 @@ HOST = "https://followorbounce.github.io"
 PROJECT_SITEMAPS = ["aerospace", "knots", "machinery", "Maya-Calendar", "reckoning"]
 # Project pages with no sitemap of their own and not listed in own-pages.json.
 EXTRA_URLS = [
-    "/tarot/", "/tarot/deck", "/us-states-atlas/government", "/world-calendar-explorer/timezones",
+    "/tarot/", "/tarot/deck", "/us-states-atlas/government", "/world-calendar-explorer/timezones", "/world-calendar-explorer/today",
+    "/world-calendar-explorer/thirteen-months",
     "/BayCurrentDiving/", "/archive",
     "/logic-of-a-prompt-es", "/logic-of-a-prompt-ru", "/logic-of-a-prompt-zh", "/logic-of-a-prompt-ja",   # translations of /logic-of-a-prompt
 ]
@@ -257,7 +258,9 @@ def render_llms(graph):
         L.append("- [%s](%s): %d pages" % (h["title"], h["url"], h["count"]))
     L += ["- [Knot Atlas](%s/knots/): 3D knot-tying guide (own llms.txt: %s/knots/llms.txt)" % (HOST, HOST),
           "- [Reckoning](%s/reckoning/): interactive handbook of measure, shape, signals, weather, sky, ships and light" % HOST,
-          "- [Tarot](%s/tarot/): three public-domain tarot decks" % HOST, "",
+          "- [Tarot](%s/tarot/): three public-domain tarot decks" % HOST,
+          "- [Today in every calendar](%s/world-calendar-explorer/today): today's date in 29 calendar systems, updated daily" % HOST,
+          "- [Thirteen months of 28 days](%s/world-calendar-explorer/thirteen-months): the 13-month International Fixed Calendar, today in it, pros and cons" % HOST, "",
           "## Optional", "",
           "- [Archive](%s/archive): retired experiments, kept online" % HOST,
           "- [Feeds](%s/feeds/): Atom feeds of the daily cards (design term, emotion, prompt element, knot, signal) and of new pages" % HOST,
