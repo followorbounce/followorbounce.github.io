@@ -2,13 +2,11 @@
 # Crawlers read robots.txt only at the host root, so this file also covers every
 # project site served under this host (/aerospace/, /knots/, /country-atlas/, ...).
 # Everything is open to search engines and AI crawlers. /engine/ holds the
-# homepage generator's source fragments (not pages), so it is kept out of results;
-# /candidate-results/src/ is that site's page template (placeholders, not a page).
+# homepage generator's source fragments (not pages), so it is kept out of results.
 
 User-agent: *
 Allow: /
 Disallow: /engine/
-Disallow: /candidate-results/src/
 
 # Named for clarity: search, AI-search and assistant crawlers are all welcome.
 # (A crawler that matches a named group ignores the * group, so the rules repeat.)
@@ -35,6 +33,5 @@ User-agent: MistralAI-User
 User-agent: cohere-ai
 Allow: /
 Disallow: /engine/
-Disallow: /candidate-results/src/
 
 Sitemap: https://followorbounce.github.io/sitemap.xml

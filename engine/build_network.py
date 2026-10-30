@@ -169,7 +169,6 @@ PROJECT_SITEMAPS = ["aerospace", "knots", "machinery", "Maya-Calendar", "reckoni
 EXTRA_URLS = [
     "/tarot/", "/tarot/deck", "/us-states-atlas/government", "/world-calendar-explorer/timezones", "/world-calendar-explorer/today",
     "/world-calendar-explorer/thirteen-months",
-    "/candidate-results/", "/candidate-results/ru.html",
     "/BayCurrentDiving/", "/archive",
     "/logic-of-a-prompt-es", "/logic-of-a-prompt-ru", "/logic-of-a-prompt-zh", "/logic-of-a-prompt-ja",   # translations of /logic-of-a-prompt
 ]

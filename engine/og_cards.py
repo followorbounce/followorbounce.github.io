@@ -16,7 +16,7 @@ Cards are engine/og-card.html screenshotted with headless Firefox, one isolated 
 (the only reliable mode on this machine); og/manifest.json keeps a hash per card, so unchanged cards are
 not rendered again. --check only reports pages without the tags.
 
-Generated pages (knots, machinery, reckoning, newer aerospace guides, the homepage, candidate-results)
+Generated pages (knots, machinery, reckoning, newer aerospace guides, the homepage)
 also get these tags from their own generator templates, so a rebuild keeps them; run this after a build
 to render any new cards.
 """
@@ -66,8 +66,6 @@ SITES = {
         theme=dict(display="'Fraunces',serif", body="'Inter',sans-serif", mono="'IBM Plex Mono',monospace", dw='600', paper='#f6f2e9', raised='#ffffff', ink='#1c2430', muted='#5c6470', line='#cfc6ae', acc='#b0863c')),
     'soundos': dict(base='https://followorbounce.github.io/soundos/', label='SoundOS', mark=NET, suffix=[],
         theme=dict(display="'Space Mono',monospace", body="'Space Mono',monospace", mono="'Space Mono',monospace", paper='#0a0a0a', raised='#000000', ink='#f5f5f0', muted='#9a9a94', line='#262626', acc='#f5f5f0', dls='-.03em')),
-    'candidate-results': dict(base='https://followorbounce.github.io/candidate-results/', label='Candidate · audience votes', mark='', suffix=[],
-        theme=dict(display="'Bebas Neue',sans-serif", body="'Golos Text',sans-serif", mono="'IBM Plex Mono',monospace", dw='400', paper='#ffffff', raised='#f2c400', ink='#0d0c0c', muted='#4d4a4a', line='#e6e2e1', acc='#d42a20', dls='.01em')),
     'marinewoodcraft.com': dict(base='https://marinewoodcraft.com/', label='Marine Wood Craft', mark='', suffix=['Marine Wood Craft'],
         theme=dict(display="'Bebas Neue',sans-serif", body="'DM Sans',sans-serif", mono="'IBM Plex Mono',monospace", dw='400', paper='#1b1510', raised='#2a2119', ink='#f3ead9', muted='#c9b89c', line='#4a3a2a', acc='#c49a6c', dls='.01em')),
 }
@@ -108,7 +106,6 @@ RELATED = {
     'us-states-atlas': ('country', 'calendars', 'aerospace'),
     'soundos': ('audio', 'video', 'music'),
     'series': ('prompt', 'knots', 'life'),
-    'candidate-results': ('states', 'country', 'feelings'),
 }
 # Full-screen apps, where a block under the page would be out of sight: (mode, the text the block goes in front of).
 NET_PLACE = {
