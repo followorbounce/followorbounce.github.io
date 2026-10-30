@@ -12,6 +12,8 @@ import html, json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
+sys.path.insert(0, os.path.join(ROOT, 'engine'))
+from ga import apply as ga_apply   # the Google Analytics tag (engine/ga.py)
 SITE = 'https://followorbounce.github.io/'
 
 LATIN_FONTS = ('https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900'
@@ -201,7 +203,7 @@ def build(lang, slug, hl, locale, C, langs_built):
     if left:
         sys.exit('[%s] unfilled placeholders: %s' % (lang, ', '.join(sorted(set(left)))))
     out = os.path.join(ROOT, slug + '.html')
-    open(out, 'w', encoding='utf-8').write(page)
+    open(out, 'w', encoding='utf-8').write(ga_apply(page))
     print('wrote', os.path.relpath(out, ROOT), len(page), 'bytes')
 
 def main():

@@ -12,11 +12,13 @@ DefinedTerm + BreadcrumbList JSON-LD. Also writes sitemap-terms.xml (listed in t
 engine/build_network.py) and links every card's name in the two dictionaries to its page.
 The share cards come from engine/og_cards.py (run it after this). Never edit the generated pages.
 """
-import html, json, os, re
+import html, json, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(os.path.dirname(HERE))
 HOST = 'https://followorbounce.github.io'
+sys.path.insert(0, os.path.join(REPO, 'engine'))
+from ga import apply as ga_apply   # the Google Analytics tag (engine/ga.py)
 E = lambda s: html.escape(str(s), quote=True)
 
 THEME = {
@@ -247,7 +249,7 @@ def main():
         order = [t for t in data['terms'] if t['dict'] == key]
         for t in order:
             out = os.path.join(REPO, d['folder'], t['slug'] + '.html')
-            open(out, 'w', encoding='utf-8').write(page(t, data, extra[key], by_id, order))
+            open(out, 'w', encoding='utf-8').write(ga_apply(page(t, data, extra[key], by_id, order)))
             urls.append('%s/%s/%s' % (HOST, d['folder'], t['slug']))
         missing = [t['id'] for t in order if t['id'] not in extra[key]]
         print('%s: %d pages, %d without written extra%s' % (d['folder'], len(order), len(missing), (': ' + ', '.join(missing[:6])) if missing else ''))

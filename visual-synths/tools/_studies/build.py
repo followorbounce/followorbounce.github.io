@@ -8,6 +8,8 @@ Run: python3 visual-synths/tools/_studies/build.py [slug ...]
 """
 import json, os, sys, re
 HERE = os.path.dirname(os.path.abspath(__file__))
+sys.path.insert(0, os.path.join(HERE, '..', '..', '..', 'engine'))
+from ga import apply as ga_apply   # the Google Analytics tag (engine/ga.py)
 OUT = os.path.abspath(os.path.join(HERE, '..', '..'))
 css = open(os.path.join(HERE, '_chrome.css')).read()
 kit = open(os.path.join(HERE, '_kit.js')).read()
@@ -76,7 +78,7 @@ def page(slug):
 '''
     i = body.index('<script>')
     html = head + body[:i] + foot + '\n<script>\n' + kit + '\n' + kitx + '\n</script>\n' + body[i:].rstrip() + '\n</body>\n</html>\n'
-    open(os.path.join(OUT, slug + '.html'), 'w').write(html)
+    open(os.path.join(OUT, slug + '.html'), 'w').write(ga_apply(html))
     print('wrote', slug + '.html', len(html))
 
 slugs = sys.argv[1:] or sorted(f[:-9] for f in os.listdir(HERE) if f.endswith('.src.html'))

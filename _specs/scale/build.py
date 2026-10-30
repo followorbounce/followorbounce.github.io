@@ -2,9 +2,11 @@
 """Build /planck-to-horizon.html from page.src.html + objects.json (the checked catalogue).
 Adds display fields (form, importance, drawn size, aliases) and inlines the data as JSON.
 Run: python3 _specs/scale/build.py   (from the repo root or anywhere)."""
-import json, os, re
+import json, os, re, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.abspath(os.path.join(HERE, '..', '..'))
+sys.path.insert(0, os.path.join(ROOT, 'engine'))
+from ga import apply as ga_apply   # the Google Analytics tag (engine/ga.py)
 d = json.load(open(os.path.join(HERE, 'objects.json')))
 
 # objects the tour and chapters lean on, and the ones worth a label first
@@ -45,5 +47,5 @@ data = json.dumps(out, ensure_ascii=False, separators=(',', ':'))
 src = open(os.path.join(HERE, 'page.src.html')).read()
 assert '__OBJECTS__' in src
 html = src.replace('__OBJECTS__', data.replace('</', '<\\/'))
-open(os.path.join(ROOT, 'planck-to-horizon.html'), 'w').write(html)
+open(os.path.join(ROOT, 'planck-to-horizon.html'), 'w').write(ga_apply(html))
 print('wrote planck-to-horizon.html', len(html), 'bytes,', len(out), 'objects')

@@ -18,6 +18,7 @@ otherwise from the live site.
 """
 import datetime, html, json, os, re, subprocess, sys, urllib.request
 from zoneinfo import ZoneInfo
+from ga import apply as ga_apply   # the Google Analytics tag (engine/ga.py)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -299,7 +300,7 @@ def main():
     items = '\n'.join('<li><b>%s</b><a href="/feeds/%s.xml">Atom feed</a><code>%s/feeds/%s.xml</code></li>' % (E(t), s, HOST, s) for s, t in FEEDS)
     items += ('\n<li><b>Everything posted daily, in one feed</b><a href="%s">RSS feed</a><code>%s</code></li>' % (HERALD, HERALD))
     with open(os.path.join(d, 'index.html'), 'w', encoding='utf-8') as f:
-        f.write(INDEX % (head_links(), DAYS, items))
+        f.write(ga_apply(INDEX % (head_links(), DAYS, items)))
     print('feeds for %s: %s; new-pages from %d dated pages' % (today, ', '.join(sorted(out)), n))
 
 

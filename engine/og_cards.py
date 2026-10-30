@@ -24,6 +24,7 @@ import hashlib, html, io, json, os, re, subprocess, sys, tempfile, threading, ur
 from functools import partial
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from PIL import Image
+from ga import GA_SITES, apply as ga_apply          # the Google Analytics tag rides along with the share tags
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 REPO = os.path.dirname(HERE)
@@ -269,8 +270,11 @@ def inject(site, p, img, alt, foot):
             i = h.lower().index('</head>')
             h = h[:i] + block + h[i:]
     h = NET_BLOCK.sub('', h)
+    h = ga_apply(h, GA_SITES.get(site))
     if foot:
         place = NET_PLACE.get(site)
+        if place and place[1] not in h and place[1].lstrip('\n') in h:     # the old inline block took the newline with it
+            h = h.replace(place[1].lstrip('\n'), place[1], 1)
         i = h.index(place[1]) if place else h.lower().rindex('</body>')
         h = h[:i] + foot + h[i:]
     if h != p['html']:

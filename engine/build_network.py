@@ -20,6 +20,7 @@ per-article template/build pipeline is tracked as future work in
 ROADMAP-2.md ("Phase 2 — Knowledge Network Engine, content migration").
 """
 import json
+from ga import apply as ga_apply   # the Google Analytics tag (engine/ga.py)
 import re
 import subprocess
 import os
@@ -914,7 +915,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 </html>
 '''
     with open(INDEX_OUT, "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(ga_apply(html))
 
 
 ARCHIVE_OUT = os.path.join(REPO_ROOT, "archive.html")
@@ -1032,7 +1033,7 @@ footer{{border-top:1px solid var(--line); padding-block:18px 28px; font-family:v
 </html>
 """
     with open(LIFE_OUT, "w", encoding="utf-8") as f:
-        f.write(page)
+        f.write(ga_apply(page))
 
 
 def render_archive(archived):
@@ -1144,7 +1145,7 @@ footer a{{color:var(--accent);}}
 </html>
 '''
     with open(ARCHIVE_OUT, "w", encoding="utf-8") as f:
-        f.write(html)
+        f.write(ga_apply(html))
 
 
 if __name__ == "__main__":
