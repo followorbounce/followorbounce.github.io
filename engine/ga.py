@@ -11,6 +11,10 @@ NETWORK_ID = 'G-CE86H6X7Z7'                        # the followorbounce.github.i
 GA_SITES = {s: NETWORK_ID for s in ('followorbounce.github.io', 'series', 'world-calendar-explorer', 'aerospace', 'soundos',
                                     'anatomy-explorer', 'us-states-atlas', 'country-atlas', 'tarot', 'Maya-Calendar',
                                     'machinery', 'reckoning', 'knots')}
+# Sites with a property of their own (created from Herald's Analytics page, 2026-10-29); their tags were added once by hand
+# (marinewoodcraft.com pages carry their own og:image, so og_cards skips them; Creative Network deploys from its own repo;
+# thefountaingrp.org's tag sits in its Jekyll layout).
+OWN_IDS = {'creative-network': 'G-FC4JQR46SK', 'marinewoodcraft.com': 'G-0KPDJ7ZR85', 'thefountaingrp.org': 'G-B17XS5C6EN'}
 BLOCK = re.compile(r'[ \t]*<!-- fob-ga -->[\s\S]*?<!-- /fob-ga -->\n?')
 
 
