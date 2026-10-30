@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-10-29T00:00:00-07:00</updated>
+<updated>2026-10-30T00:00:00-07:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Round Turn and Two Half Hitches</title>
+<id>tag:followorbounce.github.io,2026-10-30:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/round-turn-two-half-hitches/"/>
+<published>2026-10-30T00:00:00-07:00</published>
+<updated>2026-10-30T00:00:00-07:00</updated>
+<summary>A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.</summary>
+<content type="html">&lt;p&gt;A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Pass it through again, so the rope makes a full round turn on the ring.&lt;/li&gt;&lt;li&gt;Bring the end down behind the standing part and round to the front.&lt;/li&gt;&lt;li&gt;First half hitch: take the end round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Second half hitch, the same way, below the first. Tuck the end under.&lt;/li&gt;&lt;li&gt;Slide the half hitches up toward the ring and pull them snug.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Two Half Hitches</title>
 <id>tag:followorbounce.github.io,2026-10-29:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-01T00:00:00-07:00</updated>
 <summary>A long, strong doubled loop for fishing line. The loop is twisted many times, the end is wound back down over the twists, and a half hitch round one leg locks it. It keeps almost the full strength of the line.</summary>
 <content type="html">&lt;p&gt;A long, strong doubled loop for fishing line. The loop is twisted many times, the end is wound back down over the twists, and a half hitch round one leg locks it. It keeps almost the full strength of the line.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Double the line and twist the loop round itself many times.&lt;/li&gt;&lt;li&gt;Hold the loop open and let the end wind back down over the twists.&lt;/li&gt;&lt;li&gt;Lock it with a half hitch round one leg of the loop.&lt;/li&gt;&lt;li&gt;Pull the hitch snug and trim the tag.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Four-Strand Flat Braid</title>
-<id>tag:followorbounce.github.io,2026-09-30:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-braid-4/"/>
-<published>2026-09-30T00:00:00-07:00</published>
-<updated>2026-09-30T00:00:00-07:00</updated>
-<summary>A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
-<content type="html">&lt;p&gt;A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
