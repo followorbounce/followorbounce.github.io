@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-10-30T00:00:00-07:00</updated>
+<updated>2026-10-31T00:00:00-07:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Turk’s Head (4 lead, 5 bight)</title>
+<id>tag:followorbounce.github.io,2026-10-31:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/turks-head-4l5b/"/>
+<published>2026-10-31T00:00:00-07:00</published>
+<updated>2026-10-31T00:00:00-07:00</updated>
+<summary>A woven band round a pole or rail. Followed round, the single rope crosses itself in a strict over-under pattern: 4 strands lie side by side all the way round (the leads) and the band has 5 scallops on each edge (the bights).</summary>
+<content type="html">&lt;p&gt;A woven band round a pole or rail. Followed round, the single rope crosses itself in a strict over-under pattern: 4 strands lie side by side all the way round (the leads) and the band has 5 scallops on each edge (the bights).&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Wrap the rope round the pole, starting the pattern: each time it meets another part of itself it goes over, then under, then over.&lt;/li&gt;&lt;li&gt;Keep following the pattern round. Rotate the pole as you go, so you always work on the front.&lt;/li&gt;&lt;li&gt;Keep the over-under strict. One wrong crossing changes the knot.&lt;/li&gt;&lt;li&gt;When the end meets the start, the band is complete. Lay the end alongside the start to follow the pattern round again.&lt;/li&gt;&lt;li&gt;Tighten gradually all round and tuck the ends under the band.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Round Turn and Two Half Hitches</title>
 <id>tag:followorbounce.github.io,2026-10-30:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-02T00:00:00-07:00</updated>
 <summary>The two ends held together and tied as one in an overhand knot. Because the knot sits to one side, it slides over edges and snags less, which is why climbers use it to join abseil ropes.</summary>
 <content type="html">&lt;p&gt;The two ends held together and tied as one in an overhand knot. Because the knot sits to one side, it slides over edges and snags less, which is why climbers use it to join abseil ropes.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay the two ends side by side, both pointing the same way.&lt;/li&gt;&lt;li&gt;Treat them as one rope and bring them round to make a loop.&lt;/li&gt;&lt;li&gt;Take the pair behind and up through the loop, as for an overhand knot.&lt;/li&gt;&lt;li&gt;Dress the knot so the strands lie parallel, then pull each of the four strands tight.&lt;/li&gt;&lt;li&gt;Check that the tails are long and the knot is fully tightened.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Bimini Twist</title>
-<id>tag:followorbounce.github.io,2026-10-01:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/bimini-twist/"/>
-<published>2026-10-01T00:00:00-07:00</published>
-<updated>2026-10-01T00:00:00-07:00</updated>
-<summary>A long, strong doubled loop for fishing line. The loop is twisted many times, the end is wound back down over the twists, and a half hitch round one leg locks it. It keeps almost the full strength of the line.</summary>
-<content type="html">&lt;p&gt;A long, strong doubled loop for fishing line. The loop is twisted many times, the end is wound back down over the twists, and a half hitch round one leg locks it. It keeps almost the full strength of the line.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Double the line and twist the loop round itself many times.&lt;/li&gt;&lt;li&gt;Hold the loop open and let the end wind back down over the twists.&lt;/li&gt;&lt;li&gt;Lock it with a half hitch round one leg of the loop.&lt;/li&gt;&lt;li&gt;Pull the hitch snug and trim the tag.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

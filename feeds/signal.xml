@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/signal.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/signal.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/"/>
-<updated>2026-10-30T00:00:00-07:00</updated>
+<updated>2026-10-31T00:00:00-07:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>U · Uniform</title>
+<id>tag:followorbounce.github.io,2026-10-31:signal</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-U"/>
+<published>2026-10-31T00:00:00-07:00</published>
+<updated>2026-10-31T00:00:00-07:00</updated>
+<summary>You are running into danger.</summary>
+<content type="html">&lt;p&gt;You are running into danger.&lt;/p&gt;&lt;p&gt;Morse: ..-&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>V · Victor</title>
 <id>tag:followorbounce.github.io,2026-10-30:signal</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-02T00:00:00-07:00</updated>
 <summary>Man overboard.</summary>
 <content type="html">&lt;p&gt;Man overboard.&lt;/p&gt;&lt;p&gt;Morse: ---&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>N · November</title>
-<id>tag:followorbounce.github.io,2026-10-01:signal</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/signal/flags/#flag-N"/>
-<published>2026-10-01T00:00:00-07:00</published>
-<updated>2026-10-01T00:00:00-07:00</updated>
-<summary>Negative: “no”, or the previous group is to be read as negative.</summary>
-<content type="html">&lt;p&gt;Negative: “no”, or the previous group is to be read as negative.&lt;/p&gt;&lt;p&gt;Visual or sound signalling only; by voice or radio the signal is “NO”.&lt;/p&gt;&lt;p&gt;Morse: -.&lt;/p&gt;</content>
 </entry>
 </feed>
