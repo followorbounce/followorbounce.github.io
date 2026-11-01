@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-10-31T00:00:00-07:00</updated>
+<updated>2026-11-01T00:00:00-07:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Surgeon’s Knot with Second Tuck</title>
+<id>tag:followorbounce.github.io,2026-11-01:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/surgeons-knot-second-tuck/"/>
+<published>2026-11-01T00:00:00-07:00</published>
+<updated>2026-11-01T00:00:00-07:00</updated>
+<summary>The surgeon’s knot with the extra twist in both halves. It is bulkier, but grips better still in slippery line.</summary>
+<content type="html">&lt;p&gt;The surgeon’s knot with the extra twist in both halves. It is bulkier, but grips better still in slippery line.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Cross the two ends and twist them round each other twice.&lt;/li&gt;&lt;li&gt;Pull the double twist snug.&lt;/li&gt;&lt;li&gt;Cross the ends the opposite way and twist them twice again.&lt;/li&gt;&lt;li&gt;Pull all four ends to tighten.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Turk’s Head (4 lead, 5 bight)</title>
 <id>tag:followorbounce.github.io,2026-10-31:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-03T00:00:00-07:00</updated>
 <summary>A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.</summary>
 <content type="html">&lt;p&gt;A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Pass it through again, so the rope makes a full round turn on the ring.&lt;/li&gt;&lt;li&gt;Bring the end down behind the standing part and round to the front.&lt;/li&gt;&lt;li&gt;First half hitch: take the end round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Second half hitch, the same way, below the first. Tuck the end under.&lt;/li&gt;&lt;li&gt;Slide the half hitches up toward the ring and pull them snug.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Flat Overhand Bend</title>
-<id>tag:followorbounce.github.io,2026-10-02:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-overhand-bend/"/>
-<published>2026-10-02T00:00:00-07:00</published>
-<updated>2026-10-02T00:00:00-07:00</updated>
-<summary>The two ends held together and tied as one in an overhand knot. Because the knot sits to one side, it slides over edges and snags less, which is why climbers use it to join abseil ropes.</summary>
-<content type="html">&lt;p&gt;The two ends held together and tied as one in an overhand knot. Because the knot sits to one side, it slides over edges and snags less, which is why climbers use it to join abseil ropes.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay the two ends side by side, both pointing the same way.&lt;/li&gt;&lt;li&gt;Treat them as one rope and bring them round to make a loop.&lt;/li&gt;&lt;li&gt;Take the pair behind and up through the loop, as for an overhand knot.&lt;/li&gt;&lt;li&gt;Dress the knot so the strands lie parallel, then pull each of the four strands tight.&lt;/li&gt;&lt;li&gt;Check that the tails are long and the knot is fully tightened.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
