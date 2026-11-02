@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-01T00:00:00-07:00</updated>
+<updated>2026-11-02T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Examples (Ex)</title>
+<id>tag:followorbounce.github.io,2026-11-02:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#examples"/>
+<published>2026-11-02T00:00:00-08:00</published>
+<updated>2026-11-02T00:00:00-08:00</updated>
+<summary>One or more samples of what a good answer looks like.</summary>
+<content type="html">&lt;p&gt;One or more samples of what a good answer looks like.&lt;/p&gt;&lt;p&gt;Examples work by induction: from a few cases the model infers a general pattern. Like any induction, the pattern it picks may not be the one you meant.&lt;/p&gt;&lt;p&gt;Watch out: Models can copy examples closely, including their accidents. If all your examples are food words, expect more food words. Vary them on purpose.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Keywords (Kw)</title>
 <id>tag:followorbounce.github.io,2026-11-01:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-04T00:00:00-07:00</updated>
 <summary>Sources the answer should point to, so you can check where each claim comes from.</summary>
 <content type="html">&lt;p&gt;Sources the answer should point to, so you can check where each claim comes from.&lt;/p&gt;&lt;p&gt;A citation links a claim to its evidence. It serves Grice&amp;#x27;s maxim of Quality: do not say things you lack adequate evidence for.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent citations that look real: plausible titles, authors and links that do not exist. Give your own sources when you can, and open every citation before trusting it.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Audience (Au)</title>
-<id>tag:followorbounce.github.io,2026-10-03:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#audience"/>
-<published>2026-10-03T00:00:00-07:00</published>
-<updated>2026-10-03T00:00:00-07:00</updated>
-<summary>Who will read or use the answer, and what they already know.</summary>
-<content type="html">&lt;p&gt;Who will read or use the answer, and what they already know.&lt;/p&gt;&lt;p&gt;Sets the shared background the answer can assume. What counts as informative enough depends on the listener, so the audience fixes how much to explain.&lt;/p&gt;&lt;p&gt;Watch out: A vague audience like &amp;#x27;beginners&amp;#x27; helps less than saying what they already know and what they need to do with the answer.&lt;/p&gt;</content>
 </entry>
 </feed>

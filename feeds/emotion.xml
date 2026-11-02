@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/emotion.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/emotion.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/"/>
-<updated>2026-11-01T00:00:00-07:00</updated>
+<updated>2026-11-02T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Anxiety</title>
+<id>tag:followorbounce.github.io,2026-11-02:emotion</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/anxiety"/>
+<published>2026-11-02T00:00:00-08:00</published>
+<updated>2026-11-02T00:00:00-08:00</updated>
+<summary>A sustained state of tension and worry without one clear, immediate object — diffuse, future-oriented, and cognitively elaborated, unlike Fear&#x27;s sharp present focus.</summary>
+</entry>
 <entry>
 <title>Rejection</title>
 <id>tag:followorbounce.github.io,2026-11-01:emotion</id>
@@ -239,13 +247,5 @@
 <published>2026-10-04T00:00:00-07:00</published>
 <updated>2026-10-04T00:00:00-07:00</updated>
 <summary>Sustained emotional suffering with a specific loss — usually bereavement — as its cause, moving in waves rather than sitting at one constant level. Often mixed with relief, anger, or guilt in the same episode.</summary>
-</entry>
-<entry>
-<title>Boredom</title>
-<id>tag:followorbounce.github.io,2026-10-03:emotion</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/boredom"/>
-<published>2026-10-03T00:00:00-07:00</published>
-<updated>2026-10-03T00:00:00-07:00</updated>
-<summary>A genuinely distinct low-activation unpleasant state arising from a lack of engaging stimulation, not from any specific loss.</summary>
 </entry>
 </feed>
