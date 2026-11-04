@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/design-term.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
-<updated>2026-11-03T00:00:00-08:00</updated>
+<updated>2026-11-04T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Structure</title>
+<id>tag:followorbounce.github.io,2026-11-04:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/structure"/>
+<published>2026-11-04T00:00:00-08:00</published>
+<updated>2026-11-04T00:00:00-08:00</updated>
+<summary>The internal organization holding one object&#x27;s or composition&#x27;s own parts together.</summary>
+</entry>
 <entry>
 <title>Density</title>
 <id>tag:followorbounce.github.io,2026-11-03:design-term</id>
@@ -239,13 +247,5 @@
 <published>2026-10-06T00:00:00-07:00</published>
 <updated>2026-10-06T00:00:00-07:00</updated>
 <summary>The spatial and proportional organization of elements into a coherent whole.</summary>
-</entry>
-<entry>
-<title>Light</title>
-<id>tag:followorbounce.github.io,2026-10-05:design-term</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/light"/>
-<published>2026-10-05T00:00:00-07:00</published>
-<updated>2026-10-05T00:00:00-07:00</updated>
-<summary>The degree of illumination defining an object&#x27;s visibility, and its contrast against surrounding darkness.</summary>
 </entry>
 </feed>

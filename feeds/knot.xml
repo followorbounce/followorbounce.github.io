@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-03T00:00:00-08:00</updated>
+<updated>2026-11-04T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Surgeon’s Knot</title>
+<id>tag:followorbounce.github.io,2026-11-04:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/surgeons-knot/"/>
+<published>2026-11-04T00:00:00-08:00</published>
+<updated>2026-11-04T00:00:00-08:00</updated>
+<summary>A square knot with an extra twist in the first half. The double twist grips while you tie the second half, so the knot does not loosen in between.</summary>
+<content type="html">&lt;p&gt;A square knot with an extra twist in the first half. The double twist grips while you tie the second half, so the knot does not loosen in between.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Cross the two ends and twist them round each other twice.&lt;/li&gt;&lt;li&gt;Pull the double twist snug: it holds by itself.&lt;/li&gt;&lt;li&gt;Cross the ends the opposite way and twist them once.&lt;/li&gt;&lt;li&gt;Pull all four ends to tighten.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Seven-Strand Flat Braid</title>
 <id>tag:followorbounce.github.io,2026-11-03:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-06T00:00:00-07:00</updated>
 <summary>The carrick bend’s weave closed into a flat oval and followed round twice. A small mat, coaster or base for a decoration, and the simplest of the woven mats.</summary>
 <content type="html">&lt;p&gt;The carrick bend’s weave closed into a flat oval and followed round twice. A small mat, coaster or base for a decoration, and the simplest of the woven mats.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay out the carrick pattern loosely on a table: loops crossing strictly over and under.&lt;/li&gt;&lt;li&gt;Close the pattern: the end meets the start.&lt;/li&gt;&lt;li&gt;Follow the pattern round a second time, beside the first pass.&lt;/li&gt;&lt;li&gt;Complete the second pass and work out the slack so the mat lies flat. Tuck the ends underneath.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Turk’s Head (3 lead, 4 bight)</title>
-<id>tag:followorbounce.github.io,2026-10-05:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/turks-head-3l4b/"/>
-<published>2026-10-05T00:00:00-07:00</published>
-<updated>2026-10-05T00:00:00-07:00</updated>
-<summary>A woven band round a pole or rail. Followed round, the single rope crosses itself in a strict over-under pattern: 3 strands lie side by side all the way round (the leads) and the band has 4 scallops on each edge (the bights).</summary>
-<content type="html">&lt;p&gt;A woven band round a pole or rail. Followed round, the single rope crosses itself in a strict over-under pattern: 3 strands lie side by side all the way round (the leads) and the band has 4 scallops on each edge (the bights).&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Wrap the rope round the pole, starting the pattern: each time it meets another part of itself it goes over, then under, then over.&lt;/li&gt;&lt;li&gt;Keep following the pattern round. Rotate the pole as you go, so you always work on the front.&lt;/li&gt;&lt;li&gt;Keep the over-under strict. One wrong crossing changes the knot.&lt;/li&gt;&lt;li&gt;When the end meets the start, the band is complete. Lay the end alongside the start to follow the pattern round again.&lt;/li&gt;&lt;li&gt;Tighten gradually all round and tuck the ends under the band.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

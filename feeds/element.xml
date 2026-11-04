@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-03T00:00:00-08:00</updated>
+<updated>2026-11-04T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Format (Fm)</title>
+<id>tag:followorbounce.github.io,2026-11-04:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#format"/>
+<published>2026-11-04T00:00:00-08:00</published>
+<updated>2026-11-04T00:00:00-08:00</updated>
+<summary>The shape of the answer: a list, a table, steps, an email or a short paragraph.</summary>
+<content type="html">&lt;p&gt;The shape of the answer: a list, a table, steps, an email or a short paragraph.&lt;/p&gt;&lt;p&gt;Format is a constraint on form, not content. It answers Grice&amp;#x27;s advice to be orderly: the same information is easier to check in a shape you can scan.&lt;/p&gt;&lt;p&gt;Watch out: A neat table can make guesses look like facts. Format makes an answer easier to read, not more reliable.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Format (Fm)</title>
 <id>tag:followorbounce.github.io,2026-11-03:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-06T00:00:00-07:00</updated>
 <summary>Words or names that must appear, or that pin down the topic.</summary>
 <content type="html">&lt;p&gt;Words or names that must appear, or that pin down the topic.&lt;/p&gt;&lt;p&gt;Keywords mark the subject terms the answer must be about. They work as a relevance test: an answer that never touches them has drifted off the question.&lt;/p&gt;&lt;p&gt;Watch out: A long keyword list turns into word salad. Pick the few terms that truly matter, and check they are used correctly, not just dropped in.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Call to action (Ca)</title>
-<id>tag:followorbounce.github.io,2026-10-05:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#call-to-action"/>
-<published>2026-10-05T00:00:00-07:00</published>
-<updated>2026-10-05T00:00:00-07:00</updated>
-<summary>The next step the answer should end on, for you or for the people who read it.</summary>
-<content type="html">&lt;p&gt;The next step the answer should end on, for you or for the people who read it.&lt;/p&gt;&lt;p&gt;An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.&lt;/p&gt;&lt;p&gt;Watch out: Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like &amp;#x27;only two places left&amp;#x27;.&lt;/p&gt;</content>
 </entry>
 </feed>
