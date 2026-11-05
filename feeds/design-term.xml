@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/design-term.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
-<updated>2026-11-04T00:00:00-08:00</updated>
+<updated>2026-11-05T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Asset Library</title>
+<id>tag:followorbounce.github.io,2026-11-05:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/asset-library"/>
+<published>2026-11-05T00:00:00-08:00</published>
+<updated>2026-11-05T00:00:00-08:00</updated>
+<summary>An organized collection of visual or multimedia resources kept accessible across design projects.</summary>
+</entry>
 <entry>
 <title>Structure</title>
 <id>tag:followorbounce.github.io,2026-11-04:design-term</id>
@@ -239,13 +247,5 @@
 <published>2026-10-07T00:00:00-07:00</published>
 <updated>2026-10-07T00:00:00-07:00</updated>
 <summary>A comprehensive document defining a project&#x27;s visual identity, typography, color palette, and guidelines for consistent application.</summary>
-</entry>
-<entry>
-<title>Composition</title>
-<id>tag:followorbounce.github.io,2026-10-06:design-term</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/composition"/>
-<published>2026-10-06T00:00:00-07:00</published>
-<updated>2026-10-06T00:00:00-07:00</updated>
-<summary>The spatial and proportional organization of elements into a coherent whole.</summary>
 </entry>
 </feed>

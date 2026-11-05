@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-04T00:00:00-08:00</updated>
+<updated>2026-11-05T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Scope (Sc)</title>
+<id>tag:followorbounce.github.io,2026-11-05:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#scope"/>
+<published>2026-11-05T00:00:00-08:00</published>
+<updated>2026-11-05T00:00:00-08:00</updated>
+<summary>What the answer should cover, and what it should leave out.</summary>
+<content type="html">&lt;p&gt;What the answer should cover, and what it should leave out.&lt;/p&gt;&lt;p&gt;Scope sets the domain of discourse: the set of things the conversation is about. Claims are judged inside that domain, so a fuzzy domain gives fuzzy answers.&lt;/p&gt;&lt;p&gt;Watch out: A scope that is too narrow can hide what matters. Invite the model to flag anything important just outside your boundary.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Format (Fm)</title>
 <id>tag:followorbounce.github.io,2026-11-04:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-07T00:00:00-07:00</updated>
 <summary>The background facts of your situation that the answer should build on.</summary>
 <content type="html">&lt;p&gt;The background facts of your situation that the answer should build on.&lt;/p&gt;&lt;p&gt;Context supplies the premises: the statements taken as given. A conclusion is only as good as the premises it starts from.&lt;/p&gt;&lt;p&gt;Watch out: False premises give confident nonsense. If your background facts are wrong or out of date, a well-reasoned answer is likely to be wrong too.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Keywords (Kw)</title>
-<id>tag:followorbounce.github.io,2026-10-06:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#keywords"/>
-<published>2026-10-06T00:00:00-07:00</published>
-<updated>2026-10-06T00:00:00-07:00</updated>
-<summary>Words or names that must appear, or that pin down the topic.</summary>
-<content type="html">&lt;p&gt;Words or names that must appear, or that pin down the topic.&lt;/p&gt;&lt;p&gt;Keywords mark the subject terms the answer must be about. They work as a relevance test: an answer that never touches them has drifted off the question.&lt;/p&gt;&lt;p&gt;Watch out: A long keyword list turns into word salad. Pick the few terms that truly matter, and check they are used correctly, not just dropped in.&lt;/p&gt;</content>
 </entry>
 </feed>

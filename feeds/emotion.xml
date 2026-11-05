@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/emotion.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/emotion.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/"/>
-<updated>2026-11-04T00:00:00-08:00</updated>
+<updated>2026-11-05T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Pride</title>
+<id>tag:followorbounce.github.io,2026-11-05:emotion</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/pride"/>
+<published>2026-11-05T00:00:00-08:00</published>
+<updated>2026-11-05T00:00:00-08:00</updated>
+<summary>A sense of the self&#x27;s expansion or elevation following a valued achievement or quality, recognized as one&#x27;s own.</summary>
+</entry>
 <entry>
 <title>Surprise</title>
 <id>tag:followorbounce.github.io,2026-11-04:emotion</id>
@@ -239,13 +247,5 @@
 <published>2026-10-07T00:00:00-07:00</published>
 <updated>2026-10-07T00:00:00-07:00</updated>
 <summary>A sense of estrangement from a group, place, or one&#x27;s own experience, broader and more existential than momentary Loneliness.</summary>
-</entry>
-<entry>
-<title>Void</title>
-<id>tag:followorbounce.github.io,2026-10-06:emotion</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/void"/>
-<published>2026-10-06T00:00:00-07:00</published>
-<updated>2026-10-06T00:00:00-07:00</updated>
-<summary>A chronic, existential absence of meaning — distinguished from Emptiness by having no proximate cause and no clear endpoint.</summary>
 </entry>
 </feed>

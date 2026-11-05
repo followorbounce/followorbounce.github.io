@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-04T00:00:00-08:00</updated>
+<updated>2026-11-05T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Round Turn and Two Half Hitches</title>
+<id>tag:followorbounce.github.io,2026-11-05:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/round-turn-two-half-hitches/"/>
+<published>2026-11-05T00:00:00-08:00</published>
+<updated>2026-11-05T00:00:00-08:00</updated>
+<summary>A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.</summary>
+<content type="html">&lt;p&gt;A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Pass it through again, so the rope makes a full round turn on the ring.&lt;/li&gt;&lt;li&gt;Bring the end down behind the standing part and round to the front.&lt;/li&gt;&lt;li&gt;First half hitch: take the end round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Second half hitch, the same way, below the first. Tuck the end under.&lt;/li&gt;&lt;li&gt;Slide the half hitches up toward the ring and pull them snug.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Surgeon’s Knot</title>
 <id>tag:followorbounce.github.io,2026-11-04:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-07T00:00:00-07:00</updated>
 <summary>Each rope ties a double overhand round the other. Pull the two standing parts and the two knots slide together and lock. It is the usual way to join cord into a closed loop.</summary>
 <content type="html">&lt;p&gt;Each rope ties a double overhand round the other. Pull the two standing parts and the two knots slide together and lock. It is the usual way to join cord into a closed loop.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay the two ends alongside each other, pointing in opposite directions.&lt;/li&gt;&lt;li&gt;Wrap the yellow end twice round both ropes, working back toward its own standing part.&lt;/li&gt;&lt;li&gt;Tuck the end back through the inside of both wraps and pull it snug.&lt;/li&gt;&lt;li&gt;Do the same with the blue end round the yellow rope: two wraps toward its own standing part...&lt;/li&gt;&lt;li&gt;...and tuck it back through the wraps.&lt;/li&gt;&lt;li&gt;Pull the two standing parts so the knots slide together and lock.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Carrick Mat</title>
-<id>tag:followorbounce.github.io,2026-10-06:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/carrick-mat/"/>
-<published>2026-10-06T00:00:00-07:00</published>
-<updated>2026-10-06T00:00:00-07:00</updated>
-<summary>The carrick bend’s weave closed into a flat oval and followed round twice. A small mat, coaster or base for a decoration, and the simplest of the woven mats.</summary>
-<content type="html">&lt;p&gt;The carrick bend’s weave closed into a flat oval and followed round twice. A small mat, coaster or base for a decoration, and the simplest of the woven mats.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay out the carrick pattern loosely on a table: loops crossing strictly over and under.&lt;/li&gt;&lt;li&gt;Close the pattern: the end meets the start.&lt;/li&gt;&lt;li&gt;Follow the pattern round a second time, beside the first pass.&lt;/li&gt;&lt;li&gt;Complete the second pass and work out the slack so the mat lies flat. Tuck the ends underneath.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
