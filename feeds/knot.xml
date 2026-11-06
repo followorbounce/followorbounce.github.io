@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-05T00:00:00-08:00</updated>
+<updated>2026-11-06T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Three-Strand Flat Braid</title>
+<id>tag:followorbounce.github.io,2026-11-06:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-braid-3/"/>
+<published>2026-11-06T00:00:00-08:00</published>
+<updated>2026-11-06T00:00:00-08:00</updated>
+<summary>A flat braid of 3 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
+<content type="html">&lt;p&gt;A flat braid of 3 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Round Turn and Two Half Hitches</title>
 <id>tag:followorbounce.github.io,2026-11-05:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-08T00:00:00-07:00</updated>
 <summary>The simplest knot there is, and the first move of many others. It makes a small lump in the rope that stops an end slipping through a hole or out of your grip.</summary>
 <content type="html">&lt;p&gt;The simplest knot there is, and the first move of many others. It makes a small lump in the rope that stops an end slipping through a hole or out of your grip.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Hold the rope with the standing part on the left. The working end on the right is the part that moves.&lt;/li&gt;&lt;li&gt;Bring the working end up and round to make a loop, crossing the standing part.&lt;/li&gt;&lt;li&gt;Take the end behind the standing part and up through the loop.&lt;/li&gt;&lt;li&gt;Pull both ends to draw the knot up. Work the slack out a little at a time so it sits neat.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Double Fisherman’s Knot</title>
-<id>tag:followorbounce.github.io,2026-10-07:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/double-fishermans-knot/"/>
-<published>2026-10-07T00:00:00-07:00</published>
-<updated>2026-10-07T00:00:00-07:00</updated>
-<summary>Each rope ties a double overhand round the other. Pull the two standing parts and the two knots slide together and lock. It is the usual way to join cord into a closed loop.</summary>
-<content type="html">&lt;p&gt;Each rope ties a double overhand round the other. Pull the two standing parts and the two knots slide together and lock. It is the usual way to join cord into a closed loop.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay the two ends alongside each other, pointing in opposite directions.&lt;/li&gt;&lt;li&gt;Wrap the yellow end twice round both ropes, working back toward its own standing part.&lt;/li&gt;&lt;li&gt;Tuck the end back through the inside of both wraps and pull it snug.&lt;/li&gt;&lt;li&gt;Do the same with the blue end round the yellow rope: two wraps toward its own standing part...&lt;/li&gt;&lt;li&gt;...and tuck it back through the wraps.&lt;/li&gt;&lt;li&gt;Pull the two standing parts so the knots slide together and lock.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
