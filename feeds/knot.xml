@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-06T00:00:00-08:00</updated>
+<updated>2026-11-07T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Half Hitch</title>
+<id>tag:followorbounce.github.io,2026-11-07:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/half-hitch/"/>
+<published>2026-11-07T00:00:00-08:00</published>
+<updated>2026-11-07T00:00:00-08:00</updated>
+<summary>The simplest hitch: the end goes round the standing part and across itself. On its own it is not secure, but it is the building block of many hitches and the usual way to finish one.</summary>
+<content type="html">&lt;p&gt;The simplest hitch: the end goes round the standing part and across itself. On its own it is not secure, but it is the building block of many hitches and the usual way to finish one.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Bring it down behind the standing part.&lt;/li&gt;&lt;li&gt;Bring it round to the front of the standing part.&lt;/li&gt;&lt;li&gt;Take it round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Pull the end snug against the standing part.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Three-Strand Flat Braid</title>
 <id>tag:followorbounce.github.io,2026-11-06:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-09T00:00:00-07:00</updated>
 <summary>A bight of rope dropped round a rail with both legs pulled through it. It is the standard way to fix a loop of cord or a sling to a ring, rail or harness.</summary>
 <content type="html">&lt;p&gt;A bight of rope dropped round a rail with both legs pulled through it. It is the standard way to fix a loop of cord or a sling to a ring, rail or harness.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;One leg hangs down behind the rail.&lt;/li&gt;&lt;li&gt;Going up, it climbs the back of the rail, comes over the top towards you, down the front and back under the rail.&lt;/li&gt;&lt;li&gt;Behind the rail it crosses behind both legs: this is the bight that holds them against the rail.&lt;/li&gt;&lt;li&gt;On the other side it comes forward under the rail, up the front, over the top, and down the back between the rail and the bight as the second leg.&lt;/li&gt;&lt;li&gt;Pull both legs and the bight closes on them. Tied with a bight it is quicker: put the bight round the rail and pull both legs through it.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Overhand Knot</title>
-<id>tag:followorbounce.github.io,2026-10-08:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/overhand-knot/"/>
-<published>2026-10-08T00:00:00-07:00</published>
-<updated>2026-10-08T00:00:00-07:00</updated>
-<summary>The simplest knot there is, and the first move of many others. It makes a small lump in the rope that stops an end slipping through a hole or out of your grip.</summary>
-<content type="html">&lt;p&gt;The simplest knot there is, and the first move of many others. It makes a small lump in the rope that stops an end slipping through a hole or out of your grip.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Hold the rope with the standing part on the left. The working end on the right is the part that moves.&lt;/li&gt;&lt;li&gt;Bring the working end up and round to make a loop, crossing the standing part.&lt;/li&gt;&lt;li&gt;Take the end behind the standing part and up through the loop.&lt;/li&gt;&lt;li&gt;Pull both ends to draw the knot up. Work the slack out a little at a time so it sits neat.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
