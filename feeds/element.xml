@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-07T00:00:00-08:00</updated>
+<updated>2026-11-08T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Scope (Sc)</title>
+<id>tag:followorbounce.github.io,2026-11-08:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#scope"/>
+<published>2026-11-08T00:00:00-08:00</published>
+<updated>2026-11-08T00:00:00-08:00</updated>
+<summary>What the answer should cover, and what it should leave out.</summary>
+<content type="html">&lt;p&gt;What the answer should cover, and what it should leave out.&lt;/p&gt;&lt;p&gt;Scope sets the domain of discourse: the set of things the conversation is about. Claims are judged inside that domain, so a fuzzy domain gives fuzzy answers.&lt;/p&gt;&lt;p&gt;Watch out: A scope that is too narrow can hide what matters. Invite the model to flag anything important just outside your boundary.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Audience (Au)</title>
 <id>tag:followorbounce.github.io,2026-11-07:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-10T00:00:00-07:00</updated>
 <summary>The emotional colour of the reply: friendly, formal, firm, playful or calm.</summary>
 <content type="html">&lt;p&gt;The emotional colour of the reply: friendly, formal, firm, playful or calm.&lt;/p&gt;&lt;p&gt;Tone changes how something is said, not what is claimed. Logic separates content from expression, and tone is a request about expression.&lt;/p&gt;&lt;p&gt;Watch out: Tone can blur content. If you ask for &amp;#x27;reassuring&amp;#x27;, check the reply has not softened a fact you needed to hear plainly.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Objective (Ob)</title>
-<id>tag:followorbounce.github.io,2026-10-09:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#objective"/>
-<published>2026-10-09T00:00:00-07:00</published>
-<updated>2026-10-09T00:00:00-07:00</updated>
-<summary>What you want the answer to achieve: the point of the whole request.</summary>
-<content type="html">&lt;p&gt;What you want the answer to achieve: the point of the whole request.&lt;/p&gt;&lt;p&gt;The objective is the conclusion you are reasoning toward. Without it, relevance has no anchor, since Grice tied relevance to the purpose of the conversation.&lt;/p&gt;&lt;p&gt;Watch out: Stating a goal can tilt the answer toward it. Ask &amp;#x27;help me decide&amp;#x27; rather than &amp;#x27;convince me&amp;#x27;, unless you really want only one side.&lt;/p&gt;</content>
 </entry>
 </feed>

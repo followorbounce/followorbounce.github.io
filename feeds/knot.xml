@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-07T00:00:00-08:00</updated>
+<updated>2026-11-08T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Double Sheet Bend</title>
+<id>tag:followorbounce.github.io,2026-11-08:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/double-sheet-bend/"/>
+<published>2026-11-08T00:00:00-08:00</published>
+<updated>2026-11-08T00:00:00-08:00</updated>
+<summary>A sheet bend with a second turn of the thinner rope round the bight. Use it when the two ropes differ a lot in size, or when the rope is slippery.</summary>
+<content type="html">&lt;p&gt;A sheet bend with a second turn of the thinner rope round the bight. Use it when the two ropes differ a lot in size, or when the rope is slippery.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make a bight in the thicker rope (yellow).&lt;/li&gt;&lt;li&gt;Bring the thinner rope (blue) up through the bight from behind.&lt;/li&gt;&lt;li&gt;Take it round behind both legs of the bight, then round a second time beside the first turn.&lt;/li&gt;&lt;li&gt;Bring it across the front and tuck it under itself both times, not into the bight.&lt;/li&gt;&lt;li&gt;Hold the bight and pull the blue standing part to set the knot.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Half Hitch</title>
 <id>tag:followorbounce.github.io,2026-11-07:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-10T00:00:00-07:00</updated>
 <summary>The classic way to tie line to a hook, lure or swivel: through the eye, five twists round the line, then back through the small loop by the eye.</summary>
 <content type="html">&lt;p&gt;The classic way to tie line to a hook, lure or swivel: through the eye, five twists round the line, then back through the small loop by the eye.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end of the line through the eye of the hook.&lt;/li&gt;&lt;li&gt;Bring it back up alongside the line.&lt;/li&gt;&lt;li&gt;Twist the end round the line five times, working away from the hook.&lt;/li&gt;&lt;li&gt;Bring the end back down and through the small loop just above the eye.&lt;/li&gt;&lt;li&gt;Wet it, then pull the line so the twists slide down onto the eye. Trim the end.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Cow Hitch</title>
-<id>tag:followorbounce.github.io,2026-10-09:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/cow-hitch/"/>
-<published>2026-10-09T00:00:00-07:00</published>
-<updated>2026-10-09T00:00:00-07:00</updated>
-<summary>A bight of rope dropped round a rail with both legs pulled through it. It is the standard way to fix a loop of cord or a sling to a ring, rail or harness.</summary>
-<content type="html">&lt;p&gt;A bight of rope dropped round a rail with both legs pulled through it. It is the standard way to fix a loop of cord or a sling to a ring, rail or harness.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;One leg hangs down behind the rail.&lt;/li&gt;&lt;li&gt;Going up, it climbs the back of the rail, comes over the top towards you, down the front and back under the rail.&lt;/li&gt;&lt;li&gt;Behind the rail it crosses behind both legs: this is the bight that holds them against the rail.&lt;/li&gt;&lt;li&gt;On the other side it comes forward under the rail, up the front, over the top, and down the back between the rail and the bight as the second leg.&lt;/li&gt;&lt;li&gt;Pull both legs and the bight closes on them. Tied with a bight it is quicker: put the bight round the rail and pull both legs through it.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
