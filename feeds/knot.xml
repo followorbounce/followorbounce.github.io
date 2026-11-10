@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-09T00:00:00-08:00</updated>
+<updated>2026-11-10T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Three-Strand Flat Braid</title>
+<id>tag:followorbounce.github.io,2026-11-10:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-braid-3/"/>
+<published>2026-11-10T00:00:00-08:00</published>
+<updated>2026-11-10T00:00:00-08:00</updated>
+<summary>A flat braid of 3 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
+<content type="html">&lt;p&gt;A flat braid of 3 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Seven-Strand Flat Braid</title>
 <id>tag:followorbounce.github.io,2026-11-09:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-12T00:00:00-07:00</updated>
 <summary>A hitch on a carabiner or bar that lets rope run under control. Both strands leave on the same side of the bar, and the rope rubs on itself and the bar. It reverses neatly: pull the other strand and the hitch flips through the bar and runs the other way.</summary>
 <content type="html">&lt;p&gt;A hitch on a carabiner or bar that lets rope run under control. Both strands leave on the same side of the bar, and the rope rubs on itself and the bar. It reverses neatly: pull the other strand and the hitch flips through the bar and runs the other way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;The loaded strand comes up to the bar.&lt;/li&gt;&lt;li&gt;Take it over the bar and round, as for a cow hitch.&lt;/li&gt;&lt;li&gt;Bring it across the front, over one leg and under the other.&lt;/li&gt;&lt;li&gt;Round the bar again: both strands now leave on the same side.&lt;/li&gt;&lt;li&gt;Hold the free strand to control the rope as it runs round the bar.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Granny Knot</title>
-<id>tag:followorbounce.github.io,2026-10-11:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/granny-knot/"/>
-<published>2026-10-11T00:00:00-07:00</published>
-<updated>2026-10-11T00:00:00-07:00</updated>
-<summary>The square knot tied wrong: both halves twisted the same way. It is shown here so you can recognise it and retie it. It either slips or jams, and it sits twisted across the knot instead of lying flat.</summary>
-<content type="html">&lt;p&gt;The square knot tied wrong: both halves twisted the same way. It is shown here so you can recognise it and retie it. It either slips or jams, and it sits twisted across the knot instead of lying flat.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make a bight in the left-hand end (yellow).&lt;/li&gt;&lt;li&gt;Bring the blue end in from the right, under the yellow curve and over the lower leg.&lt;/li&gt;&lt;li&gt;Take it round the neck of the yellow bight: over one yellow leg and under the other.&lt;/li&gt;&lt;li&gt;Bring it back out. Its two parts now come out on opposite faces of the yellow bight.&lt;/li&gt;&lt;li&gt;Pulled tight, the knot twists across its own length instead of lying flat. That is the sign of a granny.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
