@@ -448,6 +448,12 @@ def render_index(graph):
     mh_css = open(os.path.join(HERE, "mascot-hero.css"), encoding="utf-8").read()
     mh_html = open(os.path.join(HERE, "mascot-hero.html"), encoding="utf-8").read()
     mh_js = open(os.path.join(HERE, "mascot-hero.js"), encoding="utf-8").read()
+    # Studio mark (2026-11-11, owner request): the followorbounce logo animated in the intro (engine/studio-mark.*); the Dima +
+    # Claude stage moved from the intro to the Index, into the free space beside Philosophy, under Maya Basics and Machinery
+    # (span 2 of the 3 columns; full width when the grid has fewer columns). Its scripts now load with #index (lazy).
+    sm_css = open(os.path.join(HERE, "studio-mark.css"), encoding="utf-8").read()
+    sm_html = open(os.path.join(HERE, "studio-mark.html"), encoding="utf-8").read()
+    sm_js = open(os.path.join(HERE, "studio-mark.js"), encoding="utf-8").read()
     # Open data dashboard (see engine/open-data.*):
     od_css = open(os.path.join(HERE, "open-data.css"), encoding="utf-8").read()
     od_html = open(os.path.join(HERE, "open-data.html"), encoding="utf-8").read()
@@ -483,6 +489,10 @@ def render_index(graph):
     el_css = open(os.path.join(HERE, "element-of-day.css"), encoding="utf-8").read()
     el_html = open(os.path.join(HERE, "element-of-day.html"), encoding="utf-8").read()
     el_js = open(os.path.join(HERE, "element-of-day.js"), encoding="utf-8").read()
+    # The Middle of Everything, Season One banner (2026-11-11, owner request): the studio's own animated series, a full-width band
+    # between the calendar window and Today; two links (show website, YouTube channel). Copy from animated-ip/marketing/copy.json.
+    tm_css = open(os.path.join(HERE, "tmoe-banner.css"), encoding="utf-8").read()
+    tm_html = open(os.path.join(HERE, "tmoe-banner.html"), encoding="utf-8").read()
     # Edition layout (2026-10-14): sticky section bar, intro, the "of the day" widgets in a Today bento, the
     # Generative canvas on its own (2026-10-16), the other four instruments behind tabs, then Live data and the Index. Widgets keep their own markup; edition.css only
     # re-frames them (see engine/edition.*).
@@ -506,6 +516,7 @@ def render_index(graph):
                         "/aerospace/assets/mission-of-day.js", home_asset("life-weeks", "js", script_body(lw_js)),
                         home_asset("country-borders", "js", script_body(cb_js))],
         "live": [home_asset("open-data", "js", script_body(od_js))],
+        "index": [home_asset("mascot", "js", script_body(mascot_js)), home_asset("mascot-hero", "js", script_body(mh_js))],
         "more": [home_asset("signal-of-day", "js", script_body(sd_js)), home_asset("knot-of-day", "js", script_body(kd_js))],
     })
     def stage(sec, key, shown=False):
@@ -679,9 +690,11 @@ header .brand{{
 {sd_css}
 {kd_css}
 {el_css}
+{tm_css}
 {cubes_css}
 {ed_css}
 {mh_css}
+{sm_css}
 
 .cats{{padding-block:clamp(48px,8vw,88px);}}
 .cats-grid{{
@@ -754,11 +767,12 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 </nav>
 <div class="ed-intro" data-hide-when-search>
   <div class="wrap ed-intro-row">
-    <div class="ed-brand"><h1 class="ed-title">Follow or Bounce</h1><p class="ed-tagline">Vibecoding, research &amp; development</p></div>
-{mh_html}
+    <div class="ed-brand"><h1 class="ed-title">Follow or<br>Bounce</h1><p class="ed-tagline">Software, Research &amp; Development</p></div>
+{sm_html}
   </div>
 </div>
 {cal_html}
+{tm_html}
 <div class="ed-block" id="today" data-hide-when-search>
   <div class="wrap"><div class="ed-h"><span class="ed-n">01</span><h2>Today</h2><span class="ed-sub">Changes every day</span></div></div>
   <div class="wrap ed-bento">
@@ -816,6 +830,11 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
         <li><a href="https://followorbounce.com/p/signal-noise"><span class="tag">Read</span><span class="name">Free Will — Signal &amp; Noise</span></a></li>
         <li class="soon"><span><span class="tag">Soon</span><span class="name">Ethics</span></span></li>
       </ul>
+    </div>
+
+    <div class="cat cat-mascots" data-hide-when-search>
+      <h2>Claude &amp; Dima</h2>
+{mh_html}
     </div>
 
 
@@ -901,10 +920,7 @@ footer .wrap{{display:flex; justify-content:space-between; flex-wrap:wrap; gap:1
 <script>
 {ed_js}
 </script>
-<script>
-{mascot_js}
-{mh_js}
-</script>
+{sm_js}
 <script>
 {cubes_js}
 </script>

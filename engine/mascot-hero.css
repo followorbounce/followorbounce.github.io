@@ -14,3 +14,7 @@
 @media (pointer:coarse){.mh-bar .gen-mode{min-height:44px; padding-inline:12px;}}
 .mh-series{display:inline-flex;align-items:center;min-height:44px;font-family:var(--font-mono,ui-monospace,monospace);font-size:12px;letter-spacing:.04em;color:inherit;text-decoration:none;border-bottom:1px solid currentColor;margin-top:6px}
 .mh-series:hover{opacity:.75}
+/* 2026-11-11: the stage lives in the Index now (.cat-mascots), beside Philosophy: two of the three columns, full width below that */
+.cat-mascots{grid-column:span 2; min-width:0;}
+.cat-mascots .mh{margin-top:10px;}
+@media (max-width:1000px){.cat-mascots{grid-column:1 / -1;}}

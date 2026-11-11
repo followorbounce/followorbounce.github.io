@@ -1,0 +1,16 @@
+/* ---- Studio mark (2026-11-11, owner request): the followorbounce logo (assets/favicon.svg: a ring, a dot on top) animated on the
+   first screen, where the Dima + Claude stage was (that stage moved to the Index). The dot follows the ring, then bounces.
+   Set as a lockup with the title, from the font's measured metrics (IBM Plex Sans Condensed 700, Chrome 2026-11-11): cap height
+   0.698 em, ascent 1.025 em, descent 0.275 em. With line-height .88 the first cap line sits 0.117 em below the title's top and the
+   second baseline 1.695 em below it, so the mark (viewBox = the resting logo's ink box) is 1.578 em tall from 0.117 em down: dot top
+   on the cap height of FOLLOW, ring bottom on the baseline of BOUNCE, right edge on the content edge. The follow loop and the
+   bounce draw outside that box (overflow visible), into the intro's padding and gutter. ---- */
+.ed-intro .ed-intro-row{grid-template-columns:minmax(0,1fr) auto; align-items:start; column-gap:clamp(16px,3vw,40px);}
+.smark{font-size:clamp(2.6rem,8vw,6.2rem); line-height:1; justify-self:end; min-width:0;}      /* = .ed-title's size, so em = the title's em */
+.sm-frame{cursor:pointer; -webkit-tap-highlight-color:transparent;}
+.sm-svg{display:block; height:1.578em; width:auto; aspect-ratio:182 / 204.6; margin-top:.117em; overflow:visible;}
+.sm-ring{fill:none; stroke:var(--ink); stroke-width:14;}
+.sm-dot{fill:var(--ink);}
+.sm-trail{fill:none; stroke:var(--accent); stroke-width:14; stroke-linecap:round;}
+/* the F and B carry a 0.068 em left side bearing: pull the title so its ink starts on the content edge with the tagline and the cards */
+.ed-title{margin-left:-.068em;}

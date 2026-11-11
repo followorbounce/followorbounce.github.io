@@ -36,7 +36,7 @@ NET = 'Follow or Bounce'
 SITES = {
     'followorbounce.github.io': dict(base='https://followorbounce.github.io/', label='Follow or Bounce', mark='',
         suffix=['Knowledge Network', 'Video Synths', 'Follow or Bounce'],
-        cards={'index': dict(desc='Vibecoding, research & development.', art={'kind': 'mascot'})},
+        cards={'index': dict(desc='Software, Research & Development.', art={'kind': 'mascot'})},
         theme=dict(PLEX, paper='#111113', raised='#1a1a1d', ink='#e8e8e4', muted='#a9a8a2', line='#333336', acc='#d4714e')),
     'aerospace': dict(base='https://followorbounce.github.io/aerospace/', label='Aerospace Knowledge Hub', mark=NET,
         suffix=['Aerospace'],
