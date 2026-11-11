@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-10T00:00:00-08:00</updated>
+<updated>2026-11-11T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Rolling Hitch</title>
+<id>tag:followorbounce.github.io,2026-11-11:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/rolling-hitch/"/>
+<published>2026-11-11T00:00:00-08:00</published>
+<updated>2026-11-11T00:00:00-08:00</updated>
+<summary>A hitch that holds against a pull along a pole or another rope, not just across it. The two crossing turns go on the side the load will pull toward.</summary>
+<content type="html">&lt;p&gt;A hitch that holds against a pull along a pole or another rope, not just across it. The two crossing turns go on the side the load will pull toward.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;The standing part hangs in front of the pole.&lt;/li&gt;&lt;li&gt;Take the end up in front, over the pole, and round underneath. Cross it over the standing part.&lt;/li&gt;&lt;li&gt;Make a second turn the same way, beside the first, also crossing the standing part.&lt;/li&gt;&lt;li&gt;Go round once more on the far side and tuck the end under the second crossing turn, like the finish of a clove hitch.&lt;/li&gt;&lt;li&gt;Pull the knot tight and load the standing part along the pole, toward the two turns.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Three-Strand Flat Braid</title>
 <id>tag:followorbounce.github.io,2026-11-10:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-13T00:00:00-07:00</updated>
 <summary>Two turns round a post with the second crossing over the first. It is quick to tie, easy to adjust, and it starts most lashings.</summary>
 <content type="html">&lt;p&gt;Two turns round a post with the second crossing over the first. It is quick to tie, easy to adjust, and it starts most lashings.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bring the working end across the front of the post.&lt;/li&gt;&lt;li&gt;Take it round behind the post and back to the front, above the standing part.&lt;/li&gt;&lt;li&gt;Cross it diagonally over the first turn and round behind the post again.&lt;/li&gt;&lt;li&gt;Bring the end round to the front and tuck it under the diagonal, so it leaves in the opposite direction to the standing part.&lt;/li&gt;&lt;li&gt;Pull both ends to snug the turns against the post.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Italian Hitch</title>
-<id>tag:followorbounce.github.io,2026-10-12:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/italian-hitch/"/>
-<published>2026-10-12T00:00:00-07:00</published>
-<updated>2026-10-12T00:00:00-07:00</updated>
-<summary>A hitch on a carabiner or bar that lets rope run under control. Both strands leave on the same side of the bar, and the rope rubs on itself and the bar. It reverses neatly: pull the other strand and the hitch flips through the bar and runs the other way.</summary>
-<content type="html">&lt;p&gt;A hitch on a carabiner or bar that lets rope run under control. Both strands leave on the same side of the bar, and the rope rubs on itself and the bar. It reverses neatly: pull the other strand and the hitch flips through the bar and runs the other way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;The loaded strand comes up to the bar.&lt;/li&gt;&lt;li&gt;Take it over the bar and round, as for a cow hitch.&lt;/li&gt;&lt;li&gt;Bring it across the front, over one leg and under the other.&lt;/li&gt;&lt;li&gt;Round the bar again: both strands now leave on the same side.&lt;/li&gt;&lt;li&gt;Hold the free strand to control the rope as it runs round the bar.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

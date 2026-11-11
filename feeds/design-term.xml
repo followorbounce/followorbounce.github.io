@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/design-term.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
-<updated>2026-11-10T00:00:00-08:00</updated>
+<updated>2026-11-11T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Render</title>
+<id>tag:followorbounce.github.io,2026-11-11:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/render"/>
+<published>2026-11-11T00:00:00-08:00</published>
+<updated>2026-11-11T00:00:00-08:00</updated>
+<summary>The process of generating a final image or sequence from a digital file, incorporating lighting and physical properties.</summary>
+</entry>
 <entry>
 <title>Plugin</title>
 <id>tag:followorbounce.github.io,2026-11-10:design-term</id>
@@ -239,13 +247,5 @@
 <published>2026-10-13T00:00:00-07:00</published>
 <updated>2026-10-13T00:00:00-07:00</updated>
 <summary>A collection of related illustrations sharing one style and thematic language, used consistently across a project.</summary>
-</entry>
-<entry>
-<title>Visual Identity</title>
-<id>tag:followorbounce.github.io,2026-10-12:design-term</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/visual-identity"/>
-<published>2026-10-12T00:00:00-07:00</published>
-<updated>2026-10-12T00:00:00-07:00</updated>
-<summary>The visual components of a brand or project — logo, color palette, typography, and imagery — forming one recognizable system.</summary>
 </entry>
 </feed>
