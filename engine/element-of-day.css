@@ -5,8 +5,11 @@
 .el-card .bf-sum{-webkit-line-clamp:3;}
 /* buttons pinned to the bottom of a card sized for the longest element (element-of-day.js), so "Another element" stays put */
 .el-card .bf-body{display:flex; flex-direction:column;}
-.el-card .bf-meta{margin-top:auto;}
-.el-card .bf-read{margin-left:auto;}
+.el-card .bf-meta{margin-top:auto; padding-top:4px; display:grid; grid-template-columns:repeat(auto-fit, minmax(170px, 1fr)); gap:10px;}
+/* the two buttons are one pair: same height, type and centring; side by side when they fit, stacked full width when not */
+.el-card .bf-meta > #el-shuffle,.el-card .bf-meta > .bf-read{margin:0; box-sizing:border-box; min-height:44px; padding:0 10px;
+  display:flex; align-items:center; justify-content:center; text-align:center; white-space:nowrap;
+  font-family:var(--font-mono); font-size:12px; letter-spacing:.08em; line-height:1; text-transform:uppercase; border:1px solid var(--ink);}
 .el-maxim{color:var(--mid);}
 .el-flip{border:1px dashed var(--line); padding:10px 12px; margin:0 0 12px; display:grid; gap:6px; max-width:72ch;}
 .el-flip p{margin:0; display:grid; grid-template-columns:4.5em minmax(0,1fr); gap:10px; align-items:baseline; font-family:var(--font-mono); font-size:13px; line-height:1.5;}

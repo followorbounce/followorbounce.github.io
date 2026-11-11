@@ -165,3 +165,8 @@
   weeks), not from the 52-square grid (which lost ~1.2 weeks a year); the current square no longer lags a week after a spring
   clock change; weekends = Saturdays, lived up to and including today / left after today. Homepage tab + /life-in-weeks page
   rebuilt; How it's counted updated. 8 cases checked against Python date math: 0 mismatches.
+
+## 2026-11-11 — Element of the day: buttons aligned
+- Owner: "Another element" and "Read the element" didn't line up. They are now one pair (engine/element-of-day.css): same 44 px
+  height, mono 12 px type, centred; side by side when the card fits two 170 px columns, stacked full width when not.
+  Checked at 1440 / 1100 / 820 / 390 px.
