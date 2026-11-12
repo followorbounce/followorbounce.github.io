@@ -99,7 +99,7 @@ Sitemap: https://followorbounce.github.io/sitemap.xml
 
 Separate repositories served under the same host; several publish their own llms.txt.
 
-- [Aerospace Knowledge Hub](https://followorbounce.github.io/aerospace/): 83 pages
+- [Aerospace Knowledge Hub](https://followorbounce.github.io/aerospace/): 88 pages
 - [Ju'un K'in](https://followorbounce.github.io/Maya-Calendar/): 7 pages
 - [Heavy Machinery Encyclopedia](https://followorbounce.github.io/machinery/): 31 pages
 - [Knot Atlas](https://followorbounce.github.io/knots/): 3D knot-tying guide (own llms.txt: https://followorbounce.github.io/knots/llms.txt)

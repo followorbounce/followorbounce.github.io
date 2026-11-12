@@ -6,7 +6,7 @@
       "repo_label": "Aerospace",
       "title": "Aerospace Knowledge Hub",
       "url": "https://followorbounce.github.io/aerospace/",
-      "count": 83
+      "count": 88
     },
     {
       "repo": "maya",
@@ -24,10 +24,10 @@
     }
   ],
   "totals": {
-    "pages": 175,
+    "pages": 180,
     "repos": 4,
     "own": 54,
-    "aerospace": 83,
+    "aerospace": 88,
     "maya": 7,
     "machinery": 31
   },
@@ -960,6 +960,36 @@
     {
       "repo": "aerospace",
       "repo_label": "Aerospace",
+      "category": "Moon Exploration",
+      "title": "Ranger, Surveyor & the Ground under Apollo",
+      "description": "Moon Exploration — FOOTING",
+      "url": "https://followorbounce.github.io/aerospace/footing-ranger-surveyor.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Moon Exploration",
+      "title": "Mascons & GRAIL: the Moon's Lumpy Gravity",
+      "description": "Moon Exploration — MASCON",
+      "url": "https://followorbounce.github.io/aerospace/mascon-grail-lunar-gravity.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Moon Exploration",
+      "title": "The New Lunar Landers, 2019–2026",
+      "description": "Moon Exploration — TOUCHDOWN",
+      "url": "https://followorbounce.github.io/aerospace/touchdown-commercial-lunar-landers.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
       "category": "Mars Exploration",
       "title": "Viking & Mars",
       "description": "Mars Exploration — ARRIVAL",
@@ -1024,6 +1054,26 @@
       "title": "Earth to Mars: The Transfer",
       "description": "Mars Exploration — TRANSFER",
       "url": "https://followorbounce.github.io/aerospace/transfer-earth-to-mars.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Mars Exploration",
+      "title": "InSight & Marsquakes",
+      "description": "Mars Exploration — QUAKE",
+      "url": "https://followorbounce.github.io/aerospace/quake-insight-mars.html",
+      "tag": "Read",
+      "interactive": true
+    },
+    {
+      "repo": "aerospace",
+      "repo_label": "Aerospace",
+      "category": "Mars Exploration",
+      "title": "MAVEN & Where Mars's Air Went",
+      "description": "Mars Exploration — ESCAPE",
+      "url": "https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere.html",
       "tag": "Read",
       "interactive": true
     },
