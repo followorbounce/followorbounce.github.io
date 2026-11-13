@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-12T00:00:00-08:00</updated>
+<updated>2026-11-13T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Prusik Knot</title>
+<id>tag:followorbounce.github.io,2026-11-13:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/prusik-knot/"/>
+<published>2026-11-13T00:00:00-08:00</published>
+<updated>2026-11-13T00:00:00-08:00</updated>
+<summary>A loop of thinner cord wrapped round a rope. It slides when it is loose and grips when it is loaded, in either direction. Named after Karl Prusik, who described it in 1931.</summary>
+<content type="html">&lt;p&gt;A loop of thinner cord wrapped round a rope. It slides when it is loose and grips when it is loaded, in either direction. Named after Karl Prusik, who described it in 1931.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Hold the loop of cord across the main rope (blue). The two legs of the loop point away from you.&lt;/li&gt;&lt;li&gt;Wrap the cord round the main rope, working away from the legs, passing it through the inside of the loop each time.&lt;/li&gt;&lt;li&gt;Three wraps sit above and three below. The bight of the loop lies across the legs.&lt;/li&gt;&lt;li&gt;Dress the wraps so they lie neat and parallel, then pull the legs to set the knot.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Bimini Twist</title>
 <id>tag:followorbounce.github.io,2026-11-12:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-15T00:00:00-07:00</updated>
 <summary>Turns of thin twine bound round a rope end to stop it unravelling. Both ends of the twine are buried under the turns.</summary>
 <content type="html">&lt;p&gt;Turns of thin twine bound round a rope end to stop it unravelling. Both ends of the twine are buried under the turns.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay a bight of twine along the rope, with the loop pointing to the end of the rope.&lt;/li&gt;&lt;li&gt;Wrap the twine round the rope and over the bight, working toward the end. Pull each turn tight.&lt;/li&gt;&lt;li&gt;Pass the end through the loop of the bight.&lt;/li&gt;&lt;li&gt;Pull the other end of the twine to draw the loop and the end under the turns. Trim both ends.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Round Turn and Two Half Hitches</title>
-<id>tag:followorbounce.github.io,2026-10-14:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/round-turn-two-half-hitches/"/>
-<published>2026-10-14T00:00:00-07:00</published>
-<updated>2026-10-14T00:00:00-07:00</updated>
-<summary>A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.</summary>
-<content type="html">&lt;p&gt;A round turn on a ring or post takes the load while you finish with two half hitches round the standing part. It is secure, and it can be untied even with the rope under strain.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Pass it through again, so the rope makes a full round turn on the ring.&lt;/li&gt;&lt;li&gt;Bring the end down behind the standing part and round to the front.&lt;/li&gt;&lt;li&gt;First half hitch: take the end round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Second half hitch, the same way, below the first. Tuck the end under.&lt;/li&gt;&lt;li&gt;Slide the half hitches up toward the ring and pull them snug.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

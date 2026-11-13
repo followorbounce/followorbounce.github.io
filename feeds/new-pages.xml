@@ -5,9 +5,49 @@
 <id>https://followorbounce.github.io/feeds/new-pages.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/new-pages.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/"/>
-<updated>2026-10-28T23:20:00-07:00</updated>
+<updated>2026-11-12T11:22:40-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>TOUCHDOWN — THE NEW LUNAR LANDERS, 2019–2026</title>
+<id>https://followorbounce.github.io/aerospace/touchdown-commercial-lunar-landers</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/touchdown-commercial-lunar-landers"/>
+<published>2026-11-12T11:22:40-08:00</published>
+<updated>2026-11-12T11:22:40-08:00</updated>
+<summary>An interactive field guide to the lunar landing attempts of 2019–2025: Beresheet&#x27;s restart command, HAKUTO-R&#x27;s altitude filter and five-kilometre fall, Luna-25&#x27;s long burn, Peregrine&#x27;s valve, SLIM&#x27;s pinpoint landing and why it ended upside down, Odysseus and Athena tipping over, Blue Ghost&#x27;s upright success and Resilience&#x27;s late rangefinder, with a descent budget, a landing ellipse on a crater field, a tip-over envelope and a dated scorecard of every attempt.</summary>
+</entry>
+<entry>
+<title>QUAKE — INSIGHT &amp; THE INSIDE OF MARS</title>
+<id>https://followorbounce.github.io/aerospace/quake-insight-mars</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/quake-insight-mars"/>
+<published>2026-11-12T11:22:40-08:00</published>
+<updated>2026-11-12T11:22:40-08:00</updated>
+<summary>An interactive field guide to NASA&#x27;s InSight lander (2018–2022): the SEIS seismometer under its wind and thermal shield, 1,319 marsquakes and the magnitude 4.7 S1222a, meteoroid impacts heard by SEIS and found by MRO, the crust, mantle and a liquid core revised from 1,830 km to about 1,650–1,675 km, the HP³ mole that could not dig, and the dust that ended the mission.</summary>
+</entry>
+<entry>
+<title>MASCON — GRAIL &amp; THE LUMPY GRAVITY OF THE MOON</title>
+<id>https://followorbounce.github.io/aerospace/mascon-grail-lunar-gravity</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/mascon-grail-lunar-gravity"/>
+<published>2026-11-12T11:22:40-08:00</published>
+<updated>2026-11-12T11:22:40-08:00</updated>
+<summary>An interactive field guide to lunar gravity: Muller and Sjogren&#x27;s 1968 discovery of mascons under the lunar seas, why low lunar orbits are unstable (PFS-2 fell after 35 days; frozen orbits at 27°, 50°, 76° and 86°), the GRAIL twins Ebb and Flow and their Ka-band ranging to 0.05 micrometres per second, gravity fields from degree 420 to 1800, and the thin, fractured crust they revealed.</summary>
+</entry>
+<entry>
+<title>FOOTING — RANGER, SURVEYOR &amp; THE GROUND UNDER APOLLO</title>
+<id>https://followorbounce.github.io/aerospace/footing-ranger-surveyor</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/footing-ranger-surveyor"/>
+<published>2026-11-12T11:22:40-08:00</published>
+<updated>2026-11-12T11:22:40-08:00</updated>
+<summary>An interactive field guide to how NASA learned the Moon would hold a lander: six Ranger failures, then Ranger 7–9&#x27;s cameras sharpening to 0.3 m in the last seconds before impact, Surveyor&#x27;s retro rocket and three verniers bringing it to a free fall from 12 feet, footpads that answered “will the LM sink?”, Lunar Orbiter&#x27;s 1-metre maps, and Apollo 12 walking over to Surveyor 3 — with the bacteria story told honestly.</summary>
+</entry>
+<entry>
+<title>ESCAPE — WHERE MARS&#x27;S AIR WENT: MAVEN &amp; ATMOSPHERIC LOSS</title>
+<id>https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/escape-maven-mars-atmosphere"/>
+<published>2026-11-12T11:22:40-08:00</published>
+<updated>2026-11-12T11:22:40-08:00</updated>
+<summary>An interactive field guide to how Mars lost its air: scale height and the exobase, Jeans escape of hydrogen, hot oxygen from recombination, ion pickup and sputtering, why gravity matters more than the missing magnetic field, NASA&#x27;s MAVEN orbiter (2014–2025) and its 2–3 kg/s loss budget, solar storms, argon and deuterium isotopes, and four billion years of leak.</summary>
+</entry>
 <entry>
 <title>Only you know how to want</title>
 <id>https://followorbounce.github.io/series/029-only-you-can-want</id>
@@ -447,45 +487,5 @@
 <published>2026-10-18T19:49:55-07:00</published>
 <updated>2026-10-18T19:49:55-07:00</updated>
 <summary>Build a video-feedback effect from passes you can see: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade. Reorder them, read what each one does and its shader line, and paint into the loop. WebGL 2 instrument.</summary>
-</entry>
-<entry>
-<title>Flock — Video Synths</title>
-<id>https://followorbounce.github.io/visual-synths/flock</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/flock"/>
-<published>2026-10-17T18:18:09-07:00</published>
-<updated>2026-10-17T18:18:09-07:00</updated>
-<summary>Reynolds&#x27; boids in 3D: a flock of starlings or a school of sardines that forms from three local rules (separation, alignment, cohesion). Hunt it, lure it, drop objects in its path, and switch to Vectors to see every rule as a coloured force. WebGL 2.</summary>
-</entry>
-<entry>
-<title>Life in Weeks — Knowledge Network</title>
-<id>https://followorbounce.github.io/life-in-weeks</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/life-in-weeks"/>
-<published>2026-10-15T13:55:42-07:00</published>
-<updated>2026-10-15T13:55:42-07:00</updated>
-<summary>Your life as a grid of weeks: enter a date of birth and see every week lived on a 100- or 120-year calendar, with the world-average life expectancy marked, exact calendar counts and labelled body averages. Nothing leaves your browser.</summary>
-</entry>
-<entry>
-<title>Refraction and total reflection · Reckoning</title>
-<id>https://followorbounce.github.io/reckoning/light/refraction/</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/refraction/"/>
-<published>2026-10-14T19:07:49-07:00</published>
-<updated>2026-10-14T19:07:49-07:00</updated>
-<summary>Snell’s law on an exact ray tracer: refraction into and out of glass, water and diamond, Fresnel reflection, the critical angle and Brewster’s angle.</summary>
-</entry>
-<entry>
-<title>The rainbow · Reckoning</title>
-<id>https://followorbounce.github.io/reckoning/light/rainbow/</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/rainbow/"/>
-<published>2026-10-14T19:07:49-07:00</published>
-<updated>2026-10-14T19:07:49-07:00</updated>
-<summary>Rays through a drop of water: Descartes’ minimum deviation, the 42° primary bow, the 51° secondary bow and Alexander’s dark band.</summary>
-</entry>
-<entry>
-<title>Prisms and colour · Reckoning</title>
-<id>https://followorbounce.github.io/reckoning/light/prism/</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/reckoning/light/prism/"/>
-<published>2026-10-14T19:07:49-07:00</published>
-<updated>2026-10-14T19:07:49-07:00</updated>
-<summary>A prism on an exact ray tracer: deviation, minimum deviation, measuring the index, and white light opened into a spectrum.</summary>
 </entry>
 </feed>
