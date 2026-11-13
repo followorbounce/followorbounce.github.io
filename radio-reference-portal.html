@@ -1,0 +1,1304 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Radio Reference Portal — USA & Hawaii</title>
+<meta name="description" content="Complete radio monitoring reference: Marine VHF, HAM, Satellite, Aviation, Emergency, NOAA Weather, and Digital modes for US and Hawaii.">
+<meta property="og:title" content="Radio Reference Portal — USA & Hawaii">
+<meta property="og:description" content="Marine VHF, HAM, Satellite, Aviation, Emergency, NOAA, and Digital radio frequencies.">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Follow or Bounce">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Radio Reference Portal — USA & Hawaii">
+<meta name="twitter:description" content="Complete radio monitoring reference for US and Hawaii.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;500;600&display=swap">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --c-marine:#22d3ee;--c-ham:#fb923c;--c-sat:#a78bfa;--c-avi:#60a5fa;
+  --c-noaa:#34d399;--c-emrg:#f87171;--c-dig:#2dd4bf;
+  --d-marine:rgba(34,211,238,.10);--d-ham:rgba(251,146,60,.10);
+  --d-sat:rgba(167,139,250,.10);--d-avi:rgba(96,165,250,.10);
+  --d-noaa:rgba(52,211,153,.10);--d-emrg:rgba(248,113,113,.12);
+  --d-dig:rgba(45,212,191,.10);
+  --bg:#020b18;--bg-1:#040f22;--bg-2:#071830;--bg-3:#0d2545;
+  --white:#f0f6ff;--w70:rgba(240,246,255,.70);--w40:rgba(240,246,255,.40);
+  --w12:rgba(240,246,255,.12);--w06:rgba(240,246,255,.06);
+  --glass:rgba(7,24,48,.75);
+  --safe-top:env(safe-area-inset-top,0px);--safe-bottom:env(safe-area-inset-bottom,0px);
+  --safe-left:env(safe-area-inset-left,0px);--safe-right:env(safe-area-inset-right,0px);
+  --accent:var(--c-marine);
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;text-size-adjust:100%;}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--white);max-width:100vw;overflow-x:hidden;line-height:1.6;}
+::-webkit-scrollbar{width:3px;}
+::-webkit-scrollbar-track{background:var(--bg-1);}
+::-webkit-scrollbar-thumb{background:var(--accent);border-radius:2px;}
+a,button{-webkit-tap-highlight-color:transparent;}
+
+/* NAV */
+#nav{
+  position:fixed;top:0;left:0;right:0;z-index:200;
+  padding:calc(11px + var(--safe-top)) calc(16px + var(--safe-right)) 11px calc(16px + var(--safe-left));
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  -webkit-backdrop-filter:blur(20px) saturate(160%);backdrop-filter:blur(20px) saturate(160%);
+  background:rgba(2,11,24,.9);border-bottom:1px solid var(--w06);
+  -webkit-transform:translateZ(0);transform:translateZ(0);will-change:transform;
+}
+.nav-brand{display:flex;align-items:center;gap:9px;text-decoration:none;color:var(--white);flex-shrink:0;}
+.nav-logo{width:26px;height:26px;}
+.nav-wm{font-family:'Space Mono',monospace;font-size:.7rem;font-weight:700;color:var(--c-marine);letter-spacing:.06em;}
+.nav-tabs{display:flex;gap:2px;overflow-x:auto;-webkit-overflow-scrolling:touch;scrollbar-width:none;padding:2px 0;}
+.nav-tabs::-webkit-scrollbar{display:none;}
+.nav-tab{
+  font-family:'Space Mono',monospace;font-size:.56rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;white-space:nowrap;
+  padding:5px 11px;border-radius:6px;border:1px solid transparent;
+  cursor:pointer;min-height:34px;display:flex;align-items:center;gap:4px;
+  color:var(--w40);background:transparent;
+  transition:color .2s,background .2s,border-color .2s;
+}
+.nav-tab.active{color:var(--white);background:var(--w06);border-color:var(--w12);}
+.nav-tab[data-section="marine"].active{color:var(--c-marine);}
+.nav-tab[data-section="ham"].active{color:var(--c-ham);}
+.nav-tab[data-section="satellite"].active{color:var(--c-sat);}
+.nav-tab[data-section="aviation"].active{color:var(--c-avi);}
+.nav-tab[data-section="noaa"].active{color:var(--c-noaa);}
+.nav-tab[data-section="emergency"].active{color:var(--c-emrg);}
+.nav-tab[data-section="digital"].active{color:var(--c-dig);}
+@media(hover:hover){.nav-tab:hover{color:var(--white);background:var(--w06);}}
+.nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.utc-clock{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--c-marine);letter-spacing:.1em;white-space:nowrap;}
+.theme-btn{
+  width:32px;height:32px;border-radius:7px;border:1px solid var(--w12);
+  background:transparent;cursor:pointer;color:var(--w70);font-size:.8rem;
+  display:flex;align-items:center;justify-content:center;min-height:32px;
+  transition:border-color .2s,color .2s;
+}
+@media(hover:hover){.theme-btn:hover{border-color:var(--w40);color:var(--white);}}
+body.light-mode{
+  --bg:#f4f7fb;--bg-1:#e8eef7;--bg-2:#dde5f0;
+  --white:#0d1829;--w70:rgba(13,24,41,.70);--w40:rgba(13,24,41,.40);
+  --w12:rgba(13,24,41,.12);--w06:rgba(13,24,41,.06);
+  --glass:rgba(232,238,247,.85);
+}
+body.light-mode #nav{background:rgba(244,247,251,.92);}
+
+/* HERO */
+#hero{
+  position:relative;min-height:100vh;min-height:100svh;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:110px 24px 80px;text-align:center;overflow:clip;
+}
+.hero-bg{
+  position:absolute;inset:0;z-index:0;
+  background:
+    radial-gradient(ellipse 70% 50% at 50% 0%,rgba(34,211,238,.07),transparent 60%),
+    radial-gradient(ellipse 50% 40% at 15% 80%,rgba(96,165,250,.06),transparent 50%),
+    radial-gradient(ellipse 40% 35% at 85% 70%,rgba(167,139,250,.05),transparent 50%),
+    linear-gradient(180deg,var(--bg-1),var(--bg));
+}
+.hero-grid{
+  position:absolute;inset:0;z-index:0;
+  background-image:linear-gradient(rgba(34,211,238,.03) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(34,211,238,.03) 1px,transparent 1px);
+  background-size:50px 50px;
+  -webkit-mask-image:radial-gradient(ellipse 75% 75% at 50% 50%,black 20%,transparent 100%);
+  mask-image:radial-gradient(ellipse 75% 75% at 50% 50%,black 20%,transparent 100%);
+}
+.sig-lines{position:absolute;inset:0;z-index:0;pointer-events:none;overflow:hidden;}
+.sig-line{
+  position:absolute;bottom:0;width:1px;
+  background:linear-gradient(to top,transparent,rgba(34,211,238,.18),transparent);
+  -webkit-animation:sigRise 4s ease-in-out infinite;animation:sigRise 4s ease-in-out infinite;
+}
+@-webkit-keyframes sigRise{0%{height:0;opacity:0;bottom:10%;}40%{opacity:1;}100%{height:55%;opacity:0;bottom:60%;}}
+@keyframes sigRise{0%{height:0;opacity:0;bottom:10%;}40%{opacity:1;}100%{height:55%;opacity:0;bottom:60%;}}
+.rings{position:absolute;inset:0;z-index:0;display:flex;align-items:center;justify-content:center;pointer-events:none;}
+.ring{position:absolute;border-radius:50%;border:1px solid rgba(34,211,238,.07);-webkit-animation:rp 7s ease-out infinite;animation:rp 7s ease-out infinite;}
+.ring:nth-child(1){width:280px;height:280px;-webkit-animation-delay:0s;animation-delay:0s;}
+.ring:nth-child(2){width:480px;height:480px;-webkit-animation-delay:1.75s;animation-delay:1.75s;}
+.ring:nth-child(3){width:680px;height:680px;-webkit-animation-delay:3.5s;animation-delay:3.5s;}
+.ring:nth-child(4){width:880px;height:880px;-webkit-animation-delay:5.25s;animation-delay:5.25s;}
+@-webkit-keyframes rp{0%{opacity:.5;-webkit-transform:scale(.9);transform:scale(.9);}100%{opacity:0;-webkit-transform:scale(1.1);transform:scale(1.1);}}
+@keyframes rp{0%{opacity:.5;transform:scale(.9);}100%{opacity:0;transform:scale(1.1);}}
+.hero-content{position:relative;z-index:1;max-width:800px;}
+.hero-eyebrow{
+  font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--c-marine);
+  margin-bottom:18px;display:flex;align-items:center;justify-content:center;gap:12px;
+  -webkit-animation:fadeUp .8s .1s both;animation:fadeUp .8s .1s both;
+}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';width:36px;height:1px;background:var(--c-marine);opacity:.4;}
+.hero-title{
+  font-family:'Space Mono',monospace;font-size:clamp(2rem,6vw,3.8rem);font-weight:700;
+  line-height:1.05;letter-spacing:-.025em;color:var(--white);margin-bottom:18px;
+  -webkit-animation:fadeUp .8s .2s both;animation:fadeUp .8s .2s both;
+}
+.hi{background:linear-gradient(135deg,var(--c-marine),var(--c-sat));-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{
+  font-size:clamp(.85rem,1.8vw,.98rem);font-weight:300;color:var(--w70);
+  max-width:560px;margin:0 auto 36px;line-height:1.8;
+  -webkit-animation:fadeUp .8s .3s both;animation:fadeUp .8s .3s both;
+}
+.hero-badges{
+  display:flex;justify-content:center;flex-wrap:wrap;gap:8px;
+  -webkit-animation:fadeUp .8s .4s both;animation:fadeUp .8s .4s both;
+}
+.hbadge{
+  font-family:'Space Mono',monospace;font-size:.56rem;font-weight:700;
+  letter-spacing:.07em;text-transform:uppercase;padding:7px 13px;border-radius:8px;
+  border:1px solid;cursor:pointer;min-height:34px;display:flex;align-items:center;gap:5px;
+  transition:-webkit-transform .15s;transition:transform .15s;
+}
+@media(hover:hover){.hbadge:hover{-webkit-transform:translateY(-2px);transform:translateY(-2px);}}
+.hb-m{background:var(--d-marine);color:var(--c-marine);border-color:rgba(34,211,238,.25);}
+.hb-h{background:var(--d-ham);color:var(--c-ham);border-color:rgba(251,146,60,.25);}
+.hb-s{background:var(--d-sat);color:var(--c-sat);border-color:rgba(167,139,250,.25);}
+.hb-a{background:var(--d-avi);color:var(--c-avi);border-color:rgba(96,165,250,.25);}
+.hb-n{background:var(--d-noaa);color:var(--c-noaa);border-color:rgba(52,211,153,.25);}
+.hb-e{background:var(--d-emrg);color:var(--c-emrg);border-color:rgba(248,113,113,.25);}
+.hb-d{background:var(--d-dig);color:var(--c-dig);border-color:rgba(45,212,191,.25);}
+.hero-scroll{
+  position:absolute;bottom:30px;left:50%;-webkit-transform:translateX(-50%);transform:translateX(-50%);
+  z-index:1;display:flex;flex-direction:column;align-items:center;gap:6px;opacity:.4;
+  -webkit-animation:fadeUp .8s .6s both;animation:fadeUp .8s .6s both;
+}
+.scroll-bar{width:1px;height:34px;background:linear-gradient(to bottom,var(--c-marine),transparent);
+  -webkit-animation:sb 2s ease-in-out infinite;animation:sb 2s ease-in-out infinite;}
+@-webkit-keyframes sb{0%,100%{opacity:.3;-webkit-transform:scaleY(.5);transform:scaleY(.5);}50%{opacity:1;-webkit-transform:scaleY(1);transform:scaleY(1);}}
+@keyframes sb{0%,100%{opacity:.3;transform:scaleY(.5);}50%{opacity:1;transform:scaleY(1);}}
+.scroll-txt{font-family:'Space Mono',monospace;font-size:.53rem;letter-spacing:.2em;text-transform:uppercase;color:var(--w40);}
+@-webkit-keyframes fadeUp{from{opacity:0;-webkit-transform:translateY(20px);transform:translateY(20px);}to{opacity:1;-webkit-transform:translateY(0);transform:translateY(0);}}
+@keyframes fadeUp{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+
+/* SPECTRUM BAR */
+#spec-bar-section{
+  background:var(--bg-1);border-top:1px solid var(--w06);border-bottom:1px solid var(--w06);
+  padding:22px 24px;
+}
+.spec-top{display:flex;justify-content:space-between;align-items:center;max-width:1200px;margin:0 auto 12px;}
+.spec-title{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--w70);}
+.spec-range{font-family:'Space Mono',monospace;font-size:.56rem;color:var(--w40);letter-spacing:.07em;}
+.spec-wrap{max-width:1200px;margin:0 auto;position:relative;height:52px;}
+.spec-bg{width:100%;height:26px;background:var(--bg-2);border-radius:5px;position:absolute;top:13px;overflow:hidden;border:1px solid var(--w06);}
+.spec-noise{
+  position:absolute;inset:0;
+  background:repeating-linear-gradient(90deg,transparent 0,transparent 2px,rgba(34,211,238,.03) 2px,rgba(34,211,238,.03) 3px);
+  -webkit-animation:sn 3s linear infinite;animation:sn 3s linear infinite;
+}
+@-webkit-keyframes sn{0%{-webkit-transform:translateX(0);transform:translateX(0);}100%{-webkit-transform:translateX(-6px);transform:translateX(-6px);}}
+@keyframes sn{0%{transform:translateX(0);}100%{transform:translateX(-6px);}}
+.spec-seg{position:absolute;top:0;height:100%;cursor:pointer;transition:filter .2s;opacity:.5;}
+@media(hover:hover){.spec-seg:hover{filter:brightness(1.5);opacity:.75;}}
+.spec-ticks{position:absolute;bottom:0;width:100%;}
+.spec-tick{position:absolute;bottom:0;font-family:'Space Mono',monospace;font-size:.5rem;color:var(--w40);-webkit-transform:translateX(-50%);transform:translateX(-50%);white-space:nowrap;}
+
+/* GLOBAL SEARCH */
+.global-search-wrap{max-width:1200px;margin:0 auto;padding:28px 24px 0;}
+.controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center;}
+.search-wrap{position:relative;flex:1;min-width:220px;}
+.s-icon{position:absolute;left:13px;top:50%;-webkit-transform:translateY(-50%);transform:translateY(-50%);color:var(--w40);font-size:.9rem;pointer-events:none;}
+.s-input{
+  width:100%;background:var(--glass);border:1px solid var(--w12);border-radius:10px;
+  padding:11px 16px 11px 38px;color:var(--white);font-family:'DM Sans',sans-serif;font-size:.875rem;
+  min-height:44px;outline:none;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  transition:border-color .2s;
+}
+.s-input::placeholder{color:var(--w40);}
+.s-input:focus{border-color:rgba(34,211,238,.35);}
+.fav-btn{
+  font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;letter-spacing:.07em;
+  text-transform:uppercase;padding:10px 14px;border-radius:8px;border:1px solid var(--w12);
+  background:var(--glass);color:var(--w40);cursor:pointer;min-height:44px;
+  display:flex;align-items:center;gap:6px;transition:all .2s;
+}
+.fav-btn.active{background:rgba(245,158,11,.1);color:#fcd34d;border-color:rgba(245,158,11,.3);}
+@media(hover:hover){.fav-btn:hover{border-color:var(--w40);color:var(--white);}}
+
+/* SECTION */
+.radio-section{max-width:1200px;margin:0 auto;padding:56px 24px;display:none;}
+.radio-section.active{display:block;}
+.sec-top{margin-bottom:28px;}
+.lbl{font-family:'Space Mono',monospace;font-size:.62rem;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--accent);margin-bottom:10px;}
+.sec-h2{font-family:'Space Mono',monospace;font-size:clamp(1.3rem,3vw,1.9rem);font-weight:700;color:var(--white);letter-spacing:-.02em;line-height:1.15;}
+.sec-h2 span{color:var(--accent);}
+.sec-intro{font-size:.87rem;font-weight:300;color:var(--w70);max-width:600px;line-height:1.75;margin-top:9px;}
+
+/* INFO CARDS */
+.info-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:13px;margin-bottom:28px;}
+.info-card{
+  background:var(--glass);border:1px solid var(--w06);border-radius:13px;
+  padding:18px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);
+  transition:border-color .2s,-webkit-transform .2s;transition:border-color .2s,transform .2s;
+}
+@media(hover:hover){.info-card:hover{-webkit-transform:translateY(-2px);transform:translateY(-2px);border-color:var(--w12);}}
+.info-icon{font-size:1.2rem;margin-bottom:9px;}
+.info-card h3{font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;color:var(--accent);margin-bottom:6px;letter-spacing:.04em;}
+.info-card p{font-size:.8rem;color:var(--w70);line-height:1.65;font-weight:300;}
+
+/* TABLE */
+.tbl-outer{border-radius:14px;overflow:hidden;border:1px solid var(--w06);}
+.tbl-scroll{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+table{width:100%;border-collapse:collapse;background:var(--glass);min-width:560px;}
+thead tr{background:rgba(13,37,69,.95);}
+body.light-mode thead tr{background:rgba(200,215,235,.95);}
+thead th{
+  font-family:'Space Mono',monospace;font-size:.58rem;font-weight:700;
+  letter-spacing:.11em;text-transform:uppercase;color:var(--w40);
+  padding:13px 16px;text-align:left;border-bottom:1px solid var(--w06);white-space:nowrap;
+}
+tbody tr{border-bottom:1px solid rgba(240,246,255,.04);transition:background .15s;}
+tbody tr:last-child{border-bottom:none;}
+@media(hover:hover){tbody tr:hover{background:rgba(240,246,255,.03);}}
+tbody tr.er{background:rgba(248,113,113,.05);}
+@media(hover:hover){tbody tr.er:hover{background:rgba(248,113,113,.09);}}
+tbody td{padding:11px 16px;font-size:.83rem;color:var(--white);vertical-align:middle;}
+.ch-num{font-family:'Space Mono',monospace;font-size:.9rem;font-weight:700;}
+.fc{font-family:'Space Mono',monospace;font-size:.76rem;color:var(--w70);white-space:nowrap;}
+.nc{font-size:.78rem;color:var(--w70);font-weight:300;max-width:250px;}
+.uc{font-weight:500;}
+/* badges */
+.badge{
+  display:inline-flex;align-items:center;gap:4px;
+  font-family:'Space Mono',monospace;font-size:.52rem;font-weight:700;
+  letter-spacing:.06em;text-transform:uppercase;padding:3px 8px;border-radius:5px;white-space:nowrap;
+}
+.bm{background:var(--d-marine);color:var(--c-marine);border:1px solid rgba(34,211,238,.2);}
+.bh{background:var(--d-ham);color:var(--c-ham);border:1px solid rgba(251,146,60,.2);}
+.bs{background:var(--d-sat);color:var(--c-sat);border:1px solid rgba(167,139,250,.2);}
+.ba{background:var(--d-avi);color:var(--c-avi);border:1px solid rgba(96,165,250,.2);}
+.bn{background:var(--d-noaa);color:var(--c-noaa);border:1px solid rgba(52,211,153,.2);}
+.be{background:var(--d-emrg);color:var(--c-emrg);border:1px solid rgba(248,113,113,.2);}
+.bd{background:var(--d-dig);color:var(--c-dig);border:1px solid rgba(45,212,191,.2);}
+.bport{background:rgba(245,158,11,.1);color:#fcd34d;border:1px solid rgba(245,158,11,.2);}
+.bgov{background:rgba(20,184,166,.1);color:#5eead4;border:1px solid rgba(20,184,166,.2);}
+.bcg{background:rgba(248,113,113,.08);color:#fca5a5;border:1px solid rgba(248,113,113,.18);}
+.brec{background:rgba(52,211,153,.1);color:#6ee7b7;border:1px solid rgba(52,211,153,.2);}
+.bbrg{background:rgba(168,85,247,.1);color:#d8b4fe;border:1px solid rgba(168,85,247,.2);}
+/* emergency dot */
+.edot{width:6px;height:6px;border-radius:50%;background:var(--c-emrg);display:inline-block;
+  -webkit-animation:ep 2s ease-in-out infinite;animation:ep 2s ease-in-out infinite;margin-right:5px;flex-shrink:0;}
+@-webkit-keyframes ep{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(248,113,113,.4);}50%{opacity:.7;box-shadow:0 0 0 5px transparent;}}
+@keyframes ep{0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(248,113,113,.4);}50%{opacity:.7;box-shadow:0 0 0 5px transparent;}}
+/* copy */
+.copy-btn{
+  background:transparent;border:1px solid var(--w12);border-radius:5px;
+  padding:4px 9px;color:var(--w40);font-family:'Space Mono',monospace;font-size:.52rem;
+  letter-spacing:.05em;cursor:pointer;min-height:28px;transition:all .18s;text-transform:uppercase;
+}
+@media(hover:hover){.copy-btn:hover{border-color:var(--accent);color:var(--accent);background:rgba(34,211,238,.07);}}
+.copy-btn.ok{border-color:var(--c-noaa)!important;color:var(--c-noaa)!important;background:var(--d-noaa)!important;}
+/* fav star */
+.fav-star{
+  background:transparent;border:none;cursor:pointer;color:var(--w40);
+  font-size:.85rem;padding:3px;min-height:28px;min-width:26px;
+  transition:color .18s,-webkit-transform .18s;transition:color .18s,transform .18s;
+}
+@media(hover:hover){.fav-star:hover{color:#fbbf24;}}
+.fav-star.starred{color:#fbbf24;-webkit-transform:scale(1.2);transform:scale(1.2);}
+/* no results */
+.no-res{display:none;text-align:center;padding:44px;color:var(--w40);font-size:.82rem;font-family:'Space Mono',monospace;letter-spacing:.1em;}
+.no-res.show{display:block;}
+
+/* MODE BADGE */
+.mbadge{
+  font-family:'Space Mono',monospace;font-size:.5rem;font-weight:700;letter-spacing:.06em;
+  text-transform:uppercase;padding:2px 7px;border-radius:4px;white-space:nowrap;
+  background:rgba(240,246,255,.06);color:var(--w70);border:1px solid var(--w06);
+}
+
+/* MOBILE CARDS */
+.card-grid{display:none;gap:10px;flex-direction:column;}
+.ch-card{background:var(--glass);border:1px solid var(--w06);border-radius:13px;padding:15px;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);}
+.ch-card.er{border-color:rgba(248,113,113,.22);background:rgba(248,113,113,.04);}
+.ct{display:flex;justify-content:space-between;align-items:center;margin-bottom:7px;}
+.cc{font-family:'Space Mono',monospace;font-size:1.1rem;font-weight:700;}
+.cf{font-family:'Space Mono',monospace;font-size:.68rem;color:var(--w70);}
+.cu{font-weight:500;font-size:.88rem;margin-bottom:4px;}
+.cn-card{font-size:.78rem;color:var(--w70);font-weight:300;line-height:1.6;margin-bottom:10px;}
+.cfoot{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap;}
+
+/* SATELLITE VIZ */
+.orbit-viz{
+  position:relative;width:100%;max-width:380px;height:190px;margin:0 auto 32px;
+  display:flex;align-items:center;justify-content:center;
+}
+.oearth{
+  width:56px;height:56px;border-radius:50%;
+  background:radial-gradient(circle at 35% 35%,#1e40af,#1e3a5f,#0f1e38);
+  box-shadow:0 0 18px rgba(96,165,250,.3),inset -8px -8px 14px rgba(0,0,0,.5);
+  position:relative;z-index:2;flex-shrink:0;
+}
+.oring{position:absolute;border-radius:50%;border:1px solid rgba(167,139,250,.14);}
+.oring:nth-child(1){width:110px;height:110px;}
+.oring:nth-child(2){width:170px;height:170px;}
+.oring:nth-child(3){width:230px;height:230px;}
+.oring:nth-child(4){width:290px;height:290px;}
+.osat{
+  position:absolute;width:7px;height:7px;border-radius:50%;background:var(--c-sat);
+  box-shadow:0 0 7px var(--c-sat);
+  -webkit-animation:orb 6s linear infinite;animation:orb 6s linear infinite;
+  top:50%;left:50%;
+}
+.osat:nth-child(6){-webkit-animation-duration:9s;animation-duration:9s;-webkit-animation-delay:-3s;animation-delay:-3s;background:var(--c-noaa);box-shadow:0 0 7px var(--c-noaa);}
+.osat:nth-child(7){-webkit-animation-duration:14s;animation-duration:14s;-webkit-animation-delay:-7s;animation-delay:-7s;background:var(--c-ham);box-shadow:0 0 7px var(--c-ham);}
+@-webkit-keyframes orb{0%{-webkit-transform:rotate(0deg) translateX(55px);transform:rotate(0deg) translateX(55px);}100%{-webkit-transform:rotate(360deg) translateX(55px);transform:rotate(360deg) translateX(55px);}}
+@keyframes orb{0%{transform:rotate(0deg) translateX(55px);}100%{transform:rotate(360deg) translateX(55px);}}
+
+/* RADAR VIZ */
+.radar-viz{
+  width:110px;height:110px;border-radius:50%;
+  border:1px solid rgba(96,165,250,.22);
+  background:radial-gradient(circle,rgba(96,165,250,.04),transparent 70%);
+  position:relative;margin:0 auto 28px;
+  display:flex;align-items:center;justify-content:center;
+  box-shadow:0 0 18px rgba(96,165,250,.1);
+}
+.radar-grid-el{position:absolute;inset:0;border-radius:50%;overflow:hidden;}
+.radar-grid-el::before{
+  content:'';position:absolute;inset:0;
+  background:
+    radial-gradient(circle,transparent 33%,rgba(96,165,250,.07) 33.5%,transparent 34%),
+    radial-gradient(circle,transparent 66%,rgba(96,165,250,.04) 66.5%,transparent 67%),
+    linear-gradient(rgba(96,165,250,.04) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(96,165,250,.04) 1px,transparent 1px);
+  background-size:100%,100%,28px 28px,28px 28px;
+}
+.radar-sweep{
+  position:absolute;inset:0;border-radius:50%;overflow:hidden;
+  -webkit-animation:rsweep 4s linear infinite;animation:rsweep 4s linear infinite;
+}
+.radar-sweep::after{
+  content:'';position:absolute;top:50%;left:50%;
+  width:50%;height:2px;margin-top:-1px;transform-origin:0 50%;
+  background:linear-gradient(to right,rgba(96,165,250,.6),transparent);
+}
+@-webkit-keyframes rsweep{from{-webkit-transform:rotate(0deg);transform:rotate(0deg);}to{-webkit-transform:rotate(360deg);transform:rotate(360deg);}}
+@keyframes rsweep{from{transform:rotate(0deg);}to{transform:rotate(360deg);}}
+.radar-dot{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--c-avi);box-shadow:0 0 5px var(--c-avi);}
+.radar-center{width:6px;height:6px;border-radius:50%;background:var(--c-avi);box-shadow:0 0 9px var(--c-avi);z-index:1;}
+
+/* BASICS */
+.basics-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:11px;}
+.basic-item{border:1px solid var(--w06);border-radius:11px;overflow:hidden;background:var(--glass);}
+.basic-trigger{
+  width:100%;background:transparent;border:none;cursor:pointer;
+  padding:14px 16px;display:flex;align-items:center;justify-content:space-between;
+  color:var(--white);font-family:'DM Sans',sans-serif;font-size:.84rem;font-weight:500;
+  min-height:48px;text-align:left;gap:8px;transition:background .15s;
+}
+@media(hover:hover){.basic-trigger:hover{background:var(--w06);}}
+.basic-arr{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--w40);transition:-webkit-transform .25s;transition:transform .25s;flex-shrink:0;}
+.basic-trigger.open .basic-arr{-webkit-transform:rotate(180deg);transform:rotate(180deg);}
+.basic-body{max-height:0;overflow:hidden;transition:max-height .35s ease;}
+.basic-body.open{max-height:300px;}
+.basic-inner{padding:0 16px 15px;font-size:.8rem;color:var(--w70);line-height:1.75;font-weight:300;}
+
+/* LEGAL */
+.legal{
+  background:rgba(248,113,113,.06);border:1px solid rgba(248,113,113,.2);
+  border-radius:11px;padding:16px 18px;margin-top:22px;
+  font-size:.8rem;color:var(--w70);line-height:1.7;font-weight:300;
+}
+.legal strong{color:var(--c-emrg);font-weight:500;}
+
+/* FADE */
+.fu{opacity:0;-webkit-transform:translateY(20px);transform:translateY(20px);transition:opacity .55s ease,-webkit-transform .55s ease;transition:opacity .55s ease,transform .55s ease;}
+.fu.vis{opacity:1;-webkit-transform:translateY(0);transform:translateY(0);}
+
+/* FOOTER */
+footer{padding:44px 24px calc(32px + var(--safe-bottom));border-top:1px solid var(--w06);background:var(--bg-1);}
+.footer-inner{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;flex-wrap:wrap;gap:28px;}
+.footer-brand{font-family:'Space Mono',monospace;font-size:.68rem;font-weight:700;color:var(--c-marine);margin-bottom:9px;}
+.disclaimer{font-size:.76rem;color:var(--w40);line-height:1.75;max-width:420px;}
+.disclaimer strong{color:#fcd34d;font-weight:500;}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:5px;}
+.footer-links a{font-size:.76rem;color:var(--w40);text-decoration:none;min-height:44px;display:flex;align-items:center;transition:color .2s;}
+@media(hover:hover){.footer-links a:hover{color:var(--c-marine);}}
+.footer-copy{font-family:'Space Mono',monospace;font-size:.56rem;color:var(--w12);margin-top:18px;letter-spacing:.1em;}
+
+/* RESPONSIVE */
+@media(max-width:900px){.info-grid{grid-template-columns:1fr 1fr;}.basics-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:640px){
+  .info-grid{grid-template-columns:1fr;}
+  .basics-grid{grid-template-columns:1fr;}
+  .tbl-outer{display:none;}
+  .card-grid{display:flex;}
+  .footer-inner{flex-direction:column;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{-webkit-animation-duration:.01ms!important;animation-duration:.01ms!important;transition-duration:.01ms!important;}
+}
+</style>
+<link rel="canonical" href="https://followorbounce.github.io/radio-reference-portal">
+<meta property="og:url" content="https://followorbounce.github.io/radio-reference-portal">
+<script>
+/* Back link + credit for pages moved from followorbounce.com (2026-10-16; replaces its p-chrome.js). */
+(function(){
+  var HOME="https://followorbounce.github.io/";
+  function mount(){
+    var st=document.createElement("style");
+    st.textContent=".pchrome-home{position:fixed;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));z-index:2147483000;font:500 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;text-decoration:none;color:#fff;background:rgba(13,12,10,.78);padding:14px 12px;border:1px solid rgba(255,255,255,.22);border-radius:2px;}.pchrome-home:hover{background:#a13a2f;border-color:#a13a2f;}.pchrome-foot{margin:0;padding:26px 16px 64px;text-align:center;font:400 11px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#8a857a;}.pchrome-foot a{color:inherit;}@media print{.pchrome-home{display:none;}}";
+    document.head.appendChild(st);
+    var a=document.createElement("a"); a.className="pchrome-home"; a.href=HOME; a.textContent="\u2190 Follow or Bounce"; document.body.appendChild(a);
+    var p=document.createElement("p"); p.className="pchrome-foot"; p.innerHTML="\u00a9 "+new Date().getFullYear()+' Follow or Bounce \u00b7 <a href="'+HOME+'">followorbounce.github.io</a>'; document.body.appendChild(p);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mount); else mount();
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#hero" class="nav-brand">
+    <svg class="nav-logo" viewBox="0 0 26 26" fill="none">
+      <circle cx="13" cy="13" r="11" stroke="#22d3ee" stroke-width="1.1" opacity=".5"/>
+      <circle cx="13" cy="13" r="6"  stroke="#22d3ee" stroke-width="1"   opacity=".7"/>
+      <circle cx="13" cy="13" r="1.6" fill="#22d3ee"/>
+      <line x1="13" y1="2"  x2="13" y2="6.5" stroke="#22d3ee" stroke-width="1.3"/>
+      <line x1="13" y1="19.5" x2="13" y2="24" stroke="#22d3ee" stroke-width="1" opacity=".4"/>
+      <line x1="24" y1="13" x2="19.5" y2="13" stroke="#22d3ee" stroke-width="1" opacity=".4"/>
+      <line x1="2"  y1="13" x2="6.5"  y2="13" stroke="#22d3ee" stroke-width="1" opacity=".4"/>
+    </svg>
+    <span class="nav-wm">RF·REF</span>
+  </a>
+  <div class="nav-tabs" id="navTabs">
+    <button class="nav-tab active" data-section="marine">📡 Marine</button>
+    <button class="nav-tab" data-section="ham">📻 HAM</button>
+    <button class="nav-tab" data-section="satellite">🛸 Satellite</button>
+    <button class="nav-tab" data-section="aviation">✈ Aviation</button>
+    <button class="nav-tab" data-section="noaa">🌦 NOAA</button>
+    <button class="nav-tab" data-section="emergency">🔴 Emergency</button>
+    <button class="nav-tab" data-section="digital">⚡ Digital</button>
+    <button class="nav-tab" data-section="basics">📖 Basics</button>
+    <button class="nav-tab" data-section="spectrum">〰 Spectrum</button>
+  </div>
+  <div class="nav-right">
+    <span class="utc-clock" id="utcClock">--:--:-- UTC</span>
+    <button class="theme-btn" id="themeBtn" title="Light mode">☾</button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="sig-lines" id="sigLines"></div>
+  <div class="rings"><div class="ring"></div><div class="ring"></div><div class="ring"></div><div class="ring"></div></div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">USA &amp; Hawaii · Radio Monitoring Reference</p>
+    <h1 class="hero-title">Complete <span class="hi">RF Reference</span> Portal</h1>
+    <p class="hero-sub">Marine VHF, HAM radio, satellite downlinks, aviation airband, NOAA weather, emergency channels, and digital modes — all in one place.</p>
+    <div class="hero-badges">
+      <button class="hbadge hb-m" onclick="switchSection('marine')">📡 Marine</button>
+      <button class="hbadge hb-h" onclick="switchSection('ham')">📻 HAM</button>
+      <button class="hbadge hb-s" onclick="switchSection('satellite')">🛸 Satellite</button>
+      <button class="hbadge hb-a" onclick="switchSection('aviation')">✈ Aviation</button>
+      <button class="hbadge hb-n" onclick="switchSection('noaa')">🌦 NOAA</button>
+      <button class="hbadge hb-e" onclick="switchSection('emergency')">🔴 Emergency</button>
+      <button class="hbadge hb-d" onclick="switchSection('digital')">⚡ Digital</button>
+    </div>
+    <p style="margin-top:22px; font-family:'Space Mono',monospace; font-size:.68rem; color:var(--w70); text-align:center; opacity:0; animation:fadeUp .8s .6s both;">New to any of this? <a href="https://followorbounce.github.io/radio-communications" style="color:inherit; text-decoration:underline;">Radio Communications</a> covers the theory — modulation, propagation, spectrum — behind every table here.</p>
+  </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div><span class="scroll-txt">Scroll</span></div>
+</section>
+
+<!-- SPECTRUM BAR -->
+<div id="spec-bar-section">
+  <div class="spec-top">
+    <span class="spec-title">// RF SPECTRUM OVERVIEW</span>
+    <span class="spec-range">HF · VHF · UHF · L-Band</span>
+  </div>
+  <div class="spec-wrap">
+    <div class="spec-bg"><div class="spec-noise"></div><div id="specSegs"></div></div>
+    <div class="spec-ticks" id="specTicks"></div>
+  </div>
+</div>
+
+<!-- GLOBAL SEARCH -->
+<div class="global-search-wrap">
+  <div class="controls">
+    <div class="search-wrap">
+      <span class="s-icon">⌕</span>
+      <input class="s-input" id="globalSearch" aria-label="Search all services" type="text" placeholder="Search all services — frequency, channel, mode, usage…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+    <button class="fav-btn" id="favBtn">☆ Favorites</button>
+  </div>
+</div>
+
+<!-- MARINE -->
+<section class="radio-section active" data-sec="marine" id="sec-marine">
+  <div class="sec-top fu">
+    <p class="lbl">// Marine VHF · USA &amp; Hawaii</p>
+    <h2 class="sec-h2">Marine VHF <span>Channels</span></h2>
+    <p class="sec-intro">Commonly monitored frequencies for recreational boaters, commercial traffic, harbor operations, Coast Guard, and NOAA weather in US and Hawaii waters.</p>
+  </div>
+  <div class="info-grid fu">
+    <div class="info-card"><div class="info-icon">📡</div><h3>Always Monitor CH 16</h3><p>156.800 MHz is the international distress and calling frequency. All VHF-equipped vessels must monitor it at all times.</p></div>
+    <div class="info-card"><div class="info-icon">🌊</div><h3>Working Channels</h3><p>Establish contact on a hailing channel, then move to a working channel. Keeps hailing channels clear for emergencies.</p></div>
+    <div class="info-card"><div class="info-icon">🌺</div><h3>Hawaii Notes</h3><p>CH 14 (156.700 MHz) is used by Honolulu VTS. WX1 (162.550 MHz) is typically the clearest NOAA signal on Oahu.</p></div>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>CH</th><th>Frequency</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-marine"></tbody>
+    </table>
+    <div class="no-res" id="nr-marine">No channels match.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-marine"></div>
+</section>
+
+<!-- HAM -->
+<section class="radio-section" data-sec="ham" id="sec-ham">
+  <div class="sec-top fu">
+    <p class="lbl">// Amateur Radio · HAM</p>
+    <h2 class="sec-h2">HAM Radio <span>Frequencies</span></h2>
+    <p class="sec-intro">Key amateur radio frequencies across HF, VHF, and UHF bands. FCC license required to transmit. Anyone may listen.</p>
+  </div>
+  <div class="info-grid fu">
+    <div class="info-card"><div class="info-icon">📻</div><h3>Licensing</h3><p>Three tiers: Technician, General, Extra. Each grants more band privileges. Get licensed at arrl.org.</p></div>
+    <div class="info-card"><div class="info-icon">🔁</div><h3>Repeaters</h3><p>VHF/UHF repeaters extend range dramatically. Most require a CTCSS/PL tone. Hawaii has an active network island-wide.</p></div>
+    <div class="info-card"><div class="info-icon">🌍</div><h3>HF Propagation</h3><p>HF bands (3–30 MHz) bounce off the ionosphere for worldwide contacts. Conditions vary with solar activity and time.</p></div>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Frequency</th><th>Band</th><th>Mode</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-ham"></tbody>
+    </table>
+    <div class="no-res" id="nr-ham">No results.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-ham"></div>
+</section>
+
+<!-- SATELLITE -->
+<section class="radio-section" data-sec="satellite" id="sec-satellite">
+  <div class="sec-top fu">
+    <p class="lbl">// Satellite &amp; Space</p>
+    <h2 class="sec-h2">Satellite <span>Frequencies</span></h2>
+    <p class="sec-intro">Satellite and space-related frequencies monitorable with consumer radios and SDR receivers. No license required to listen.</p>
+  </div>
+  <div class="orbit-viz fu">
+    <div class="oring"></div><div class="oring"></div><div class="oring"></div><div class="oring"></div>
+    <div class="oearth"></div>
+    <div class="osat"></div><div class="osat"></div><div class="osat"></div>
+  </div>
+  <div class="info-grid fu">
+    <div class="info-card"><div class="info-icon">📡</div><h3>SDR Recommended</h3><p>A $25 RTL-SDR dongle covers most of these. Use SDR# or GQRX. A V-dipole antenna is enough for 137 MHz satellites.</p></div>
+    <div class="info-card"><div class="info-icon">🌍</div><h3>APT Weather Images</h3><p>NOAA satellites broadcast analog images at 137 MHz. Receive and decode live weather photos with free software.</p></div>
+    <div class="info-card"><div class="info-icon">🚀</div><h3>Doppler Shift</h3><p>ISS moves at 7.7 km/s — causes ±3.5 kHz shift on 145 MHz. Gpredict can auto-correct during a pass.</p></div>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>Name / CH</th><th>Frequency</th><th>Band</th><th>Mode</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-satellite"></tbody>
+    </table>
+    <div class="no-res" id="nr-satellite">No results.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-satellite"></div>
+</section>
+
+<!-- AVIATION -->
+<section class="radio-section" data-sec="aviation" id="sec-aviation">
+  <div class="sec-top fu">
+    <p class="lbl">// Aviation &amp; Airband</p>
+    <h2 class="sec-h2">Aviation <span>Frequencies</span></h2>
+    <p class="sec-intro">Civil and military aviation uses AM on 118–136.975 MHz. Monitor only — transmitting requires an aeronautical license.</p>
+  </div>
+  <div class="radar-viz fu">
+    <div class="radar-grid-el"></div>
+    <div class="radar-sweep"></div>
+    <div class="radar-dot" style="top:24%;left:62%;"></div>
+    <div class="radar-dot" style="top:64%;left:31%;opacity:.6;"></div>
+    <div class="radar-dot" style="top:42%;left:76%;opacity:.4;"></div>
+    <div class="radar-center"></div>
+  </div>
+  <div class="info-grid fu">
+    <div class="info-card"><div class="info-icon">🛫</div><h3>AM Modulation</h3><p>Aviation uses AM, not FM. Ensure your receiver supports AM for the airband — most SDRs and scanners do.</p></div>
+    <div class="info-card"><div class="info-icon">🗼</div><h3>Honolulu Airport</h3><p>HNL Tower: 118.100 MHz · Ground: 121.900 · Approach: 119.100 · ATIS: 127.900. Verify with current NOTAMs.</p></div>
+    <div class="info-card"><div class="info-icon">⚠</div><h3>Guard — 121.500</h3><p>International emergency frequency. All military aircraft monitor continuously. Also used for ELT beacon detection.</p></div>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>CH / Name</th><th>Frequency</th><th>Band</th><th>Mode</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-aviation"></tbody>
+    </table>
+    <div class="no-res" id="nr-aviation">No results.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-aviation"></div>
+</section>
+
+<!-- NOAA -->
+<section class="radio-section" data-sec="noaa" id="sec-noaa">
+  <div class="sec-top fu">
+    <p class="lbl">// NOAA Weather Radio</p>
+    <h2 class="sec-h2">NOAA <span>Weather Broadcasts</span></h2>
+    <p class="sec-intro">NOAA Weather Radio All Hazards broadcasts continuous forecasts, warnings, and emergency alerts 24/7. No license required to receive.</p>
+  </div>
+  <div class="info-grid fu">
+    <div class="info-card"><div class="info-icon">🌦</div><h3>WX1 — Oahu Primary</h3><p>162.550 MHz is typically the clearest signal in the Honolulu/Oahu region. First channel to check in Hawaii waters.</p></div>
+    <div class="info-card"><div class="info-icon">🔔</div><h3>SAME Alerts</h3><p>NOAA uses SAME encoding to broadcast county-targeted warnings. Radios with SAME can filter for your area.</p></div>
+    <div class="info-card"><div class="info-icon">📻</div><h3>All Hazards</h3><p>Not just weather — NOAA WR also carries AMBER alerts, Presidential EAS alerts, and local emergency notifications.</p></div>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>CH</th><th>Frequency</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-noaa"></tbody>
+    </table>
+    <div class="no-res" id="nr-noaa">No results.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-noaa"></div>
+</section>
+
+<!-- EMERGENCY -->
+<section class="radio-section" data-sec="emergency" id="sec-emergency">
+  <div class="sec-top fu">
+    <p class="lbl">// Emergency &amp; Public Safety</p>
+    <h2 class="sec-h2">Emergency <span>Channels</span></h2>
+    <p class="sec-intro">Key emergency, safety, and public service frequencies. Monitor only — never transmit unless in genuine distress.</p>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>CH / Name</th><th>Frequency</th><th>Band</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-emergency"></tbody>
+    </table>
+    <div class="no-res" id="nr-emergency">No results.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-emergency"></div>
+  <div class="legal fu"><strong>⚠ Legal Notice:</strong> Many US public safety systems now use encrypted digital trunked radio (P25 Phase II, DMR, NXDN) — not monitorable with standard scanners or SDR. Always verify local system type. Transmitting on emergency frequencies without cause is a federal offense.</div>
+</section>
+
+<!-- DIGITAL -->
+<section class="radio-section" data-sec="digital" id="sec-digital">
+  <div class="sec-top fu">
+    <p class="lbl">// Digital Modes &amp; Data</p>
+    <h2 class="sec-h2">Digital Radio <span>Modes</span></h2>
+    <p class="sec-intro">Digital signals sound like noise to the ear but carry structured data. Most can be decoded with free software and an SDR or audio cable.</p>
+  </div>
+  <div class="info-grid fu">
+    <div class="info-card"><div class="info-icon">📶</div><h3>FT8 — Weak Signal</h3><p>Decodes 20 dB below noise floor. Wildly popular on HF — thousands of stations active worldwide at any moment.</p></div>
+    <div class="info-card"><div class="info-icon">📍</div><h3>APRS — Position Data</h3><p>GPS positions, weather data, messages over packet radio. 144.390 MHz is the North American network. Track at aprs.fi.</p></div>
+    <div class="info-card"><div class="info-icon">🚢</div><h3>AIS — Vessel ID</h3><p>Ships broadcast ID, position, course, speed on 161.975 and 162.025 MHz. Decode with any SDR + OpenCPN.</p></div>
+  </div>
+  <div class="tbl-outer fu"><div class="tbl-scroll">
+    <table>
+      <thead><tr><th>CH / Name</th><th>Frequency</th><th>Band</th><th>Mode</th><th>Category</th><th>Usage</th><th>Notes</th><th>★</th><th>Copy</th></tr></thead>
+      <tbody id="tb-digital"></tbody>
+    </table>
+    <div class="no-res" id="nr-digital">No results.</div>
+  </div></div>
+  <div class="card-grid fu" id="cg-digital"></div>
+</section>
+
+<!-- BASICS -->
+<section class="radio-section" data-sec="basics" id="sec-basics">
+  <div class="sec-top fu">
+    <p class="lbl">// Radio Fundamentals</p>
+    <h2 class="sec-h2">Radio <span>Basics</span></h2>
+    <p class="sec-intro">Quick explanations of key radio concepts, terminology, and technologies used across all services in this reference.</p>
+  </div>
+  <div class="basics-grid fu" id="basicsGrid"></div>
+</section>
+
+<!-- SPECTRUM -->
+<section class="radio-section" data-sec="spectrum" id="sec-spectrum">
+  <div class="sec-top fu">
+    <p class="lbl">// Interactive Spectrum</p>
+    <h2 class="sec-h2">Frequency <span>Band Map</span></h2>
+    <p class="sec-intro">Visual overview of major RF allocations in this reference. Click any bar segment above to jump to that service.</p>
+  </div>
+  <div style="max-width:900px;margin:0 auto;" class="fu" id="spectrumDetails"></div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <p class="footer-brand">RF·REFERENCE PORTAL</p>
+      <p class="disclaimer"><strong>⚠ Disclaimer:</strong> For informational and educational purposes only. Follow FCC regulations and USCG procedures. Transmit only on frequencies for which you hold a valid license.</p>
+      <p class="footer-copy">© 2026 · RADIO REFERENCE PORTAL · USA &amp; HAWAII</p>
+    </div>
+    <ul class="footer-links">
+      <li><a href="https://www.navcen.uscg.gov/" target="_blank" rel="noopener">USCG Navigation Center ↗</a></li>
+      <li><a href="https://www.weather.gov/marine/" target="_blank" rel="noopener">NOAA Marine Forecasts ↗</a></li>
+      <li><a href="https://www.fcc.gov/consumers/guides/marine-radio" target="_blank" rel="noopener">FCC Marine Radio Guide ↗</a></li>
+      <li><a href="https://www.arrl.org/" target="_blank" rel="noopener">ARRL — Amateur Radio ↗</a></li>
+      <li><a href="https://www.amsat.org/" target="_blank" rel="noopener">AMSAT — Satellite Amateur ↗</a></li>
+    </ul>
+  </div>
+</footer>
+
+<!-- expose switchSection before IIFE so hero-badge onclicks work -->
+<script>
+var switchSection;
+(function(){
+'use strict';
+
+/* ==============================
+   DATA — every field matches column definitions exactly
+============================== */
+var DB = {
+
+/* ---------- MARINE ---------- */
+marine:[
+  {ch:'06',  freq:'156.300',band:'VHF',mode:'FM', cat:'emergency',badge:'be',   usage:'Intership Safety',       notes:'Safety communication between vessels'},
+  {ch:'09',  freq:'156.450',band:'VHF',mode:'FM', cat:'rec',      badge:'brec', usage:'Boater Calling',         notes:'Popular recreational hailing channel'},
+  {ch:'10',  freq:'156.500',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Commercial',             notes:'Commercial vessel operations'},
+  {ch:'11',  freq:'156.550',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'VTS / Commercial',       notes:'Harbor traffic and coordination'},
+  {ch:'12',  freq:'156.600',band:'VHF',mode:'FM', cat:'port',     badge:'bport',usage:'Port Operations',        notes:'Harbor and port control'},
+  {ch:'13',  freq:'156.650',band:'VHF',mode:'FM', cat:'com',      badge:'bbrg', usage:'Bridge-to-Bridge',       notes:'Navigation safety and maneuvering'},
+  {ch:'14',  freq:'156.700',band:'VHF',mode:'FM', cat:'port',     badge:'bport',usage:'Port Ops / VTS',         notes:'Harbor operations in Honolulu'},
+  {ch:'16',  freq:'156.800',band:'VHF',mode:'FM', cat:'emergency',badge:'be',   usage:'Emergency / Distress',   notes:'MAYDAY · Coast Guard · International hailing'},
+  {ch:'17',  freq:'156.850',band:'VHF',mode:'FM', cat:'gov',      badge:'bgov', usage:'Government',             notes:'Government marine operations'},
+  {ch:'18A', freq:'156.900',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Commercial',             notes:'Commercial working traffic'},
+  {ch:'19A', freq:'156.950',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Commercial',             notes:'Tugboats and working traffic'},
+  {ch:'20A', freq:'157.000',band:'VHF',mode:'FM', cat:'port',     badge:'bport',usage:'Port Operations',        notes:'Harbor communications'},
+  {ch:'21A', freq:'157.050',band:'VHF',mode:'FM', cat:'cg',       badge:'bcg',  usage:'US Coast Guard',         notes:'Operational liaison'},
+  {ch:'22A', freq:'157.100',band:'VHF',mode:'FM', cat:'cg',       badge:'bcg',  usage:'Coast Guard Liaison',    notes:'Follow-up after CH 16 contact'},
+  {ch:'23A', freq:'157.150',band:'VHF',mode:'FM', cat:'cg',       badge:'bcg',  usage:'US Coast Guard',         notes:'Operational traffic'},
+  {ch:'24',  freq:'157.200',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Public Correspondence',  notes:'Former marine telephone usage'},
+  {ch:'68',  freq:'156.425',band:'VHF',mode:'FM', cat:'rec',      badge:'brec', usage:'Recreational',           notes:'Fishing and casual chatter'},
+  {ch:'69',  freq:'156.475',band:'VHF',mode:'FM', cat:'rec',      badge:'brec', usage:'Recreational',           notes:'Boat-to-boat communication'},
+  {ch:'71',  freq:'156.575',band:'VHF',mode:'FM', cat:'rec',      badge:'brec', usage:'Recreational',           notes:'Marina and private boat traffic'},
+  {ch:'72',  freq:'156.625',band:'VHF',mode:'FM', cat:'rec',      badge:'brec', usage:'Non-commercial Intership',notes:'Active boat-to-boat channel'},
+  {ch:'73',  freq:'156.675',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Port / Commercial',      notes:'Local operations'},
+  {ch:'78A', freq:'156.925',band:'VHF',mode:'FM', cat:'rec',      badge:'brec', usage:'Recreational',           notes:'Sailing and regatta traffic'},
+  {ch:'79A', freq:'156.975',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Commercial',             notes:'Working traffic'},
+  {ch:'80A', freq:'157.025',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Commercial',             notes:'Harbor operations'},
+  {ch:'81A', freq:'157.075',band:'VHF',mode:'FM', cat:'com',      badge:'bm',   usage:'Commercial / Coast',     notes:'Coastal working traffic'},
+  {ch:'82A', freq:'157.125',band:'VHF',mode:'FM', cat:'gov',      badge:'bgov', usage:'Gov / Coast Guard',      notes:'Government operations'},
+  {ch:'83A', freq:'157.175',band:'VHF',mode:'FM', cat:'cg',       badge:'bcg',  usage:'Coast Guard / Gov',      notes:'Coast Guard operations'},
+  {ch:'AIS1',freq:'161.975',band:'VHF',mode:'Data',cat:'digital', badge:'bd',   usage:'AIS Data',               notes:'Automatic vessel ID · receive only'},
+  {ch:'AIS2',freq:'162.025',band:'VHF',mode:'Data',cat:'digital', badge:'bd',   usage:'AIS Data',               notes:'Automatic vessel ID · receive only'},
+  {ch:'WX1', freq:'162.550',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Primary · best in Hawaii (Oahu)'},
+  {ch:'WX2', freq:'162.400',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Weather broadcasts'},
+  {ch:'WX3', freq:'162.475',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Weather broadcasts'},
+  {ch:'WX4', freq:'162.425',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Weather broadcasts'},
+  {ch:'WX5', freq:'162.450',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Weather broadcasts'},
+  {ch:'WX6', freq:'162.500',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Weather broadcasts'},
+  {ch:'WX7', freq:'162.525',band:'VHF',mode:'FM', cat:'noaa',     badge:'bn',   usage:'NOAA Weather',           notes:'Weather broadcasts'}
+],
+
+/* ---------- HAM ---------- */
+ham:[
+  {ch:'160m',    freq:'1.900',  band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF Top Band',          notes:'Long-wave night DX, limited Technician privileges'},
+  {ch:'80m',     freq:'3.750',  band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF 80 Meters',         notes:'Regional and DX; heavy night activity'},
+  {ch:'40m',     freq:'7.150',  band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF 40 Meters',         notes:'Very popular; worldwide at night'},
+  {ch:'20m',     freq:'14.225', band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF 20 Meters',         notes:'Primary DX band; open most days'},
+  {ch:'17m',     freq:'18.150', band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF 17 Meters',         notes:'Less congested; good DX window'},
+  {ch:'15m',     freq:'21.300', band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF 15 Meters',         notes:'Good DX at solar peak'},
+  {ch:'10m',     freq:'28.400', band:'HF',   mode:'SSB/CW',cat:'ham',badge:'bh',usage:'HF 10 Meters',         notes:'Excellent DX at solar maximum'},
+  {ch:'6m',      freq:'52.525', band:'VHF',  mode:'FM/SSB',cat:'ham',badge:'bh',usage:'VHF 6 Meters',         notes:'"Magic Band" — sporadic E propagation'},
+  {ch:'2m SSB',  freq:'144.200',band:'VHF',  mode:'SSB',   cat:'ham',badge:'bh',usage:'2m SSB Calling',        notes:'National 2m SSB weak-signal calling'},
+  {ch:'APRS',    freq:'144.390',band:'VHF',  mode:'Data',  cat:'digital',badge:'bd',usage:'APRS Digipeater',   notes:'North American APRS network — GPS/telemetry'},
+  {ch:'2m Simp', freq:'146.520',band:'VHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'National Simplex',      notes:'Most monitored VHF simplex frequency'},
+  {ch:'HNL Rpt1',freq:'146.940',band:'VHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'Honolulu Repeater',     notes:'-0.6 MHz offset · local Hawaii activity'},
+  {ch:'HNL Rpt2',freq:'147.000',band:'VHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'Honolulu Repeater',     notes:'+0.6 MHz offset · Hawaii region'},
+  {ch:'Pkt Radio',freq:'145.090',band:'VHF', mode:'Data',  cat:'digital',badge:'bd',usage:'Packet Radio',      notes:'Local packet radio operations'},
+  {ch:'HAM Simp',freq:'145.500',band:'VHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'HAM Simplex Alt',       notes:'Alternate simplex calling frequency'},
+  {ch:'EmComm',  freq:'146.490',band:'VHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'EmComm Alt',            notes:'Emergency communications alternate'},
+  {ch:'1.25m',   freq:'223.500',band:'VHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'Simplex Calling',       notes:'1.25m band — less congested'},
+  {ch:'70cm SSB',freq:'432.100',band:'UHF',  mode:'SSB',   cat:'ham',badge:'bh',usage:'UHF SSB Calling',       notes:'432 MHz weak signal SSB'},
+  {ch:'UHF Simp',freq:'446.000',band:'UHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'70cm Simplex',          notes:'National 70cm simplex calling'},
+  {ch:'HNL UHF', freq:'446.500',band:'UHF',  mode:'NFM',   cat:'ham',badge:'bh',usage:'Hawaii UHF Repeater',   notes:'Local Hawaii UHF activity'}
+],
+
+/* ---------- SATELLITE ---------- */
+satellite:[
+  {ch:'CH 049',    freq:'145.800',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'ISS Voice Downlink',    notes:'ISS voice · school contacts · ARISS · TX licensed only'},
+  {ch:'CH 056',    freq:'145.800',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'ISS Voice (Monitor)',    notes:'High-gain antenna recommended · RX only'},
+  {ch:'CH 057',    freq:'145.990',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'ISS Packet (varies)',    notes:'ISS packet/APRS — frequency may vary'},
+  {ch:'CH 050',    freq:'144.390',band:'VHF',mode:'Data',cat:'satellite',badge:'bd',usage:'APRS Digipeater',        notes:'ISS acts as APRS relay · RX only'},
+  {ch:'ISS APRS',  freq:'145.825',band:'VHF',mode:'Data',cat:'satellite',badge:'bd',usage:'ISS Packet/APRS',       notes:'Primary ISS APRS/packet frequency'},
+  {ch:'CH 058',    freq:'145.825',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'HAM Sat Voice Alt',     notes:'LEO satellite voice window — varies by pass'},
+  {ch:'CH 062',    freq:'145.200',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'Sat Simplex Experimental',notes:'Experimental satellite simplex'},
+  {ch:'CH 063',    freq:'145.950',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'ISS Alt Pass Freq',     notes:'Alternate ISS pass frequency'},
+  {ch:'CH 065',    freq:'145.800',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'ISS Redundant Track',   notes:'SQL: 1 — redundant monitoring slot'},
+  {ch:'CH 068',    freq:'145.825',band:'VHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'Mixed HAM Sat Window',  notes:'HAM satellite voice activity window'},
+  {ch:'NOAA APT-1',freq:'137.100',band:'VHF',mode:'APT', cat:'satellite',badge:'bn',usage:'NOAA-19 Weather Sat',   notes:'Analog weather image downlink — SDR receivable'},
+  {ch:'NOAA APT-2',freq:'137.620',band:'VHF',mode:'APT', cat:'satellite',badge:'bn',usage:'NOAA-15 Weather Sat',   notes:'Polar-orbit APT weather imagery'},
+  {ch:'NOAA APT-3',freq:'137.912',band:'VHF',mode:'APT', cat:'satellite',badge:'bn',usage:'NOAA-18 Weather Sat',   notes:'Polar-orbit weather satellite'},
+  {ch:'Meteor-M2', freq:'137.900',band:'VHF',mode:'LRPT',cat:'satellite',badge:'bs',usage:'Russian Weather Sat',   notes:'QPSK digital imaging — decode with SatDump'},
+  {ch:'CubeSat',   freq:'437.500',band:'UHF',mode:'Data',cat:'satellite',badge:'bh',usage:'Amateur Satellite',     notes:'Variable amateur CubeSat traffic'},
+  {ch:'CH 059',    freq:'436.800',band:'UHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'FO-29 / Sat Voice',     notes:'When active — verify current TLE'},
+  {ch:'CH 060',    freq:'437.800',band:'UHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'LEO Sat Downlink Alt',  notes:'LEO satellite downlink monitoring'},
+  {ch:'CH 061',    freq:'436.500',band:'UHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'Sat Pass Monitor',      notes:'General satellite pass monitoring'},
+  {ch:'CH 064',    freq:'437.550',band:'UHF',mode:'Data',cat:'satellite',badge:'bs',usage:'Sat Data Downlink',     notes:'Satellite telemetry/data downlink'},
+  {ch:'CH 066',    freq:'436.700',band:'UHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'LEO Sat Monitor 2',     notes:'Secondary LEO monitoring frequency'},
+  {ch:'CH 067',    freq:'437.100',band:'UHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'Sat UHF Pass',          notes:'UHF satellite pass monitoring'},
+  {ch:'CH 069',    freq:'436.900',band:'UHF',mode:'NFM', cat:'satellite',badge:'bs',usage:'Sat Experimental',      notes:'Experimental satellite frequency'},
+  {ch:'AO-91/SO-50',freq:'435.250',band:'UHF',mode:'NFM',cat:'satellite',badge:'bh',usage:'FM Repeater Satellite', notes:'FM repeater satellite · uplink varies'},
+  {ch:'SATCOM UHF',freq:'243.000', band:'UHF',mode:'AM', cat:'satellite',badge:'bs',usage:'Military SATCOM',       notes:'Military/emergency aviation monitoring'},
+  {ch:'GOES HRIT', freq:'1694.100',band:'L',  mode:'Data',cat:'satellite',badge:'bn',usage:'Weather Data Downlink', notes:'Advanced NOAA data · dish + LNA required'}
+],
+
+/* ---------- AVIATION ---------- */
+aviation:[
+  {ch:'CH 041',freq:'121.500',band:'VHF',mode:'AM',cat:'emergency',badge:'be',  usage:'Aviation Emergency',     notes:'Guard frequency · all aircraft monitor · ELT beacons · SQL:2 TX:OFF'},
+  {ch:'CH 042',freq:'118.100',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'HNL Tower',              notes:'Honolulu International tower control'},
+  {ch:'CH 043',freq:'121.900',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'Ground',                 notes:'Honolulu ground control'},
+  {ch:'CH 044',freq:'119.100',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'Approach',               notes:'Honolulu approach control'},
+  {ch:'CH 045',freq:'127.900',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'ATIS Info',              notes:'Automatic Terminal Information Service — HNL'},
+  {ch:'CH 046',freq:'122.800',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'General Aviation',       notes:'General aviation CTAF/unicom'},
+  {ch:'CH 047',freq:'125.900',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'Alt Air Traffic',        notes:'Alternate ATC frequency'},
+  {ch:'CH 048',freq:'118.300',band:'VHF',mode:'AM',cat:'aviation', badge:'ba',  usage:'Mil/Air Alt',            notes:'Military and civil alternate'},
+  {ch:'Air-to-Air',freq:'123.450',band:'VHF',mode:'AM',cat:'aviation',badge:'ba',usage:'Pilot Chat',            notes:'Unofficial air-to-air communication'},
+  {ch:'ATC 135', freq:'135.000',band:'VHF',mode:'AM',cat:'aviation',badge:'ba', usage:'ATC Regional',          notes:'ARTCC en-route control example'},
+  {ch:'Mil Guard',freq:'243.000',band:'UHF',mode:'AM',cat:'emergency',badge:'be',usage:'Military Emergency',    notes:'NATO UHF guard · all military aircraft monitor'}
+],
+
+/* ---------- NOAA ---------- */
+noaa:[
+  {ch:'WX1',  freq:'162.550',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Primary · best Oahu/Hawaii coverage'},
+  {ch:'WX2',  freq:'162.400',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Secondary national broadcast'},
+  {ch:'WX3',  freq:'162.475',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Regional weather broadcast'},
+  {ch:'WX4',  freq:'162.425',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Regional weather broadcast'},
+  {ch:'WX5',  freq:'162.450',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Regional weather broadcast'},
+  {ch:'WX6',  freq:'162.500',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Regional weather broadcast'},
+  {ch:'WX7',  freq:'162.525',band:'VHF',mode:'FM',cat:'noaa',badge:'bn',usage:'NOAA Weather All Hazards',notes:'Regional weather broadcast'},
+  {ch:'APT-1',freq:'137.620',band:'VHF',mode:'APT',cat:'noaa',badge:'bn',usage:'NOAA-15 Satellite APT',   notes:'Analog weather image · receivable with SDR'},
+  {ch:'APT-2',freq:'137.100',band:'VHF',mode:'APT',cat:'noaa',badge:'bn',usage:'NOAA-19 Satellite APT',   notes:'Polar-orbit image downlink'},
+  {ch:'APT-3',freq:'137.912',band:'VHF',mode:'APT',cat:'noaa',badge:'bn',usage:'NOAA-18 Satellite APT',   notes:'Polar-orbit weather satellite'},
+  {ch:'GOES', freq:'1694.100',band:'L', mode:'Data',cat:'noaa',badge:'bn',usage:'GOES HRIT/EMWIN',         notes:'Advanced data · dish antenna required'}
+],
+
+/* ---------- EMERGENCY ---------- */
+emergency:[
+  {ch:'Marine 16',    freq:'156.800',band:'VHF',cat:'emergency',badge:'be',  usage:'Marine Distress',       notes:'MAYDAY · international calling · all vessels monitor'},
+  {ch:'CH 041',       freq:'121.500',band:'VHF',cat:'emergency',badge:'be',  usage:'Aviation Emergency',    notes:'Guard · all aircraft monitor · ELT beacons'},
+  {ch:'Mil Guard',    freq:'243.000',band:'UHF',cat:'emergency',badge:'be',  usage:'Military Emergency',    notes:'NATO UHF guard frequency'},
+  {ch:'GMRS Emrg',    freq:'462.675',band:'UHF',cat:'emergency',badge:'be',  usage:'GMRS Calling / Emrg',  notes:'GMRS calling channel · repeater input'},
+  {ch:'EMS',          freq:'155.340',band:'VHF',cat:'emergency',badge:'be',  usage:'EMS Coordination',     notes:'Emergency medical services (varies locally)'},
+  {ch:'Fire Mutual',  freq:'154.280',band:'VHF',cat:'emergency',badge:'be',  usage:'Fire Mutual Aid',      notes:'Fire service mutual aid (varies by region)'},
+  {ch:'CERT/RACES',   freq:'147.555',band:'VHF',cat:'emergency',badge:'bh',  usage:'CERT / RACES',         notes:'Hawaii CERT and RACES emergency amateur radio'},
+  {ch:'SHARES HF',    freq:'4.724',  band:'HF', cat:'emergency',badge:'be',  usage:'HF Emergency',         notes:'FEMA SHARES HF backup network'}
+],
+
+/* ---------- DIGITAL ---------- */
+digital:[
+  {ch:'APRS N.Am', freq:'144.390',band:'VHF',mode:'Data',cat:'digital',badge:'bd',usage:'APRS',              notes:'North American APRS · GPS positions and messages'},
+  {ch:'ISS APRS',  freq:'145.825',band:'VHF',mode:'Data',cat:'digital',badge:'bd',usage:'ISS APRS',          notes:'Packet radio relay via ISS'},
+  {ch:'FT8 40m',   freq:'7.074',  band:'HF', mode:'FT8', cat:'digital',badge:'bd',usage:'FT8',               notes:'Most active HF FT8 band · weak signal'},
+  {ch:'FT8 20m',   freq:'14.074', band:'HF', mode:'FT8', cat:'digital',badge:'bd',usage:'FT8',               notes:'Worldwide HF digital · very busy'},
+  {ch:'FT8 17m',   freq:'18.100', band:'HF', mode:'FT8', cat:'digital',badge:'bd',usage:'FT8',               notes:'Less congested · good DX'},
+  {ch:'WSPR 20m',  freq:'14.0956',band:'HF', mode:'WSPR',cat:'digital',badge:'bd',usage:'WSPR Beacon',       notes:'Propagation reporter — receive only typical'},
+  {ch:'SSTV 20m',  freq:'14.230', band:'HF', mode:'SSTV',cat:'digital',badge:'bd',usage:'SSTV',              notes:'Slow Scan TV · image transmission over HF'},
+  {ch:'JS8Call',   freq:'14.078', band:'HF', mode:'JS8', cat:'digital',badge:'bd',usage:'JS8 / Store-fwd',   notes:'HF messaging · store-and-forward capable'},
+  {ch:'AIS CH 1',  freq:'161.975',band:'VHF',mode:'Data',cat:'digital',badge:'bd',usage:'AIS Vessel ID',     notes:'AIS 87B · vessel tracking · receive only'},
+  {ch:'AIS CH 2',  freq:'162.025',band:'VHF',mode:'Data',cat:'digital',badge:'bd',usage:'AIS Vessel ID',     notes:'AIS 88B · vessel tracking · receive only'},
+  {ch:'ISM 433',   freq:'433.920',band:'UHF',mode:'Data',cat:'digital',badge:'bd',usage:'ISM / LoRa',        notes:'Sensors, remotes, LoRa IoT devices'},
+  {ch:'POCSAG',    freq:'152.240',band:'VHF',mode:'Data',cat:'digital',badge:'bd',usage:'Pager Protocol',    notes:'Numeric/alpha pager — widely used'},
+  {ch:'EAS/EAN',   freq:'1.140',  band:'AM', mode:'Data',cat:'digital',badge:'be',usage:'Emergency Alert',   notes:'Emergency Alert System broadcast network'}
+]
+
+}; // end DB
+
+/* ---------- BASICS ---------- */
+var BASICS = [
+  {q:'What is VHF?',         a:'Very High Frequency — 30 to 300 MHz. Line-of-sight propagation. Marine, aviation, FM broadcast, amateur. Typical range 20–50 miles depending on antenna height.'},
+  {q:'What is UHF?',         a:'Ultra High Frequency — 300 MHz to 3 GHz. Better building penetration than VHF. Used for GMRS/FRS, amateur 70cm, Wi-Fi, cellular, and many digital systems.'},
+  {q:'What is HF?',          a:'High Frequency — 3 to 30 MHz. Ionospheric skip allows worldwide communication. Amateur DX, international shortwave, aviation oceanic, military.'},
+  {q:'What is APRS?',        a:'Automatic Packet Reporting System. Digital protocol on 144.390 MHz (North America) carrying GPS positions, weather data, and messages. Visible at aprs.fi.'},
+  {q:'What is AIS?',         a:'Automatic Identification System. Vessels transmit ID, position, speed, course on 161.975 and 162.025 MHz. Receivable with any SDR + free OpenCPN software.'},
+  {q:'What is a repeater?',  a:'Receives a signal on one frequency and retransmits it at higher power on another. Extends portable radio range dramatically. Most require a CTCSS/PL tone.'},
+  {q:'What is simplex?',     a:'Direct radio-to-radio communication on a single frequency, no repeater. Range-limited to line-of-sight. 146.520 MHz is the national 2m simplex calling frequency.'},
+  {q:'What is SDR?',         a:'Software Defined Radio. A USB dongle (~$25) that lets a computer process radio signals. Covers 500 kHz – 1.7 GHz. Use SDR#, GQRX, or SDR++ software.'},
+  {q:'What is trunking?',    a:'A system where users share a pool of frequencies assigned dynamically by a controller. Most modern public safety is trunked (P25, DMR). Often encrypted.'},
+  {q:'What is Doppler shift?',a:'Fast-moving satellites cause frequency shift — higher as approaching, lower as receding. ISS causes ±3.5 kHz shift on 145 MHz. Gpredict compensates automatically.'},
+  {q:'Why does a signal sound like noise?',a:'Digital modes, spread spectrum, and encrypted signals carry data, not audio — they sound like hiss or chirps. Software decoders (WSJT-X, DSD+) can extract the content.'},
+  {q:'What is FT8?',         a:'8-FSK weak-signal mode decoding 20 dB below noise. 15-second exchanges. Wildly popular on HF. Decoded in free WSJT-X software. Thousands active at any time.'},
+  {q:'What is AM vs FM?',    a:'AM (Amplitude Modulation) — aviation and HF voice. FM (Frequency Modulation) — marine, amateur VHF/UHF, broadcast. SDRs support both. Aviation scanners need AM mode.'},
+  {q:'What is a CubeSat?',   a:'Small standardized satellites (10×10×10 cm = 1U). Amateur CubeSats operate in the 435–438 MHz range. Many are receivable with a cheap SDR and yagi antenna.'}
+];
+
+/* ==============================
+   COLUMN DEFINITIONS — matches thead exactly
+   Each section: {cols: display columns, searchFields: fields to search}
+============================== */
+var SECTIONS = {
+  marine:    {cols:['ch','freq','badge','usage','notes','fav','copy'], search:['ch','freq','usage','notes']},
+  ham:       {cols:['freq','band','mode','badge','usage','notes','fav','copy'], search:['ch','freq','band','usage','notes','mode']},
+  satellite: {cols:['ch','freq','band','mode','badge','usage','notes','fav','copy'], search:['ch','freq','band','usage','notes','mode']},
+  aviation:  {cols:['ch','freq','band','mode','badge','usage','notes','fav','copy'], search:['ch','freq','usage','notes']},
+  noaa:      {cols:['ch','freq','badge','usage','notes','fav','copy'], search:['ch','freq','usage','notes']},
+  emergency: {cols:['ch','freq','band','badge','usage','notes','fav','copy'], search:['ch','freq','usage','notes']},
+  digital:   {cols:['ch','freq','band','mode','badge','usage','notes','fav','copy'], search:['ch','freq','band','usage','notes','mode']}
+};
+
+var BADGE_LABELS = {
+  bm:'Marine', bh:'HAM', bs:'Satellite', ba:'Aviation', bn:'NOAA',
+  be:'Emergency', bd:'Digital', bport:'Port Ops', bgov:'Government',
+  bcg:'Coast Guard', brec:'Recreational', bbrg:'Bridge-to-Bridge'
+};
+
+/* ==============================
+   STATE
+============================== */
+var favorites    = {};
+var showFavOnly  = false;
+var currentSec   = 'marine';
+var globalQuery  = '';
+
+/* ==============================
+   UTC CLOCK
+============================== */
+var clockEl = document.getElementById('utcClock');
+function tick(){
+  var n=new Date();
+  clockEl.textContent=
+    String(n.getUTCHours()).padStart(2,'0')+':'+
+    String(n.getUTCMinutes()).padStart(2,'0')+':'+
+    String(n.getUTCSeconds()).padStart(2,'0')+' UTC';
+}
+tick();
+setInterval(function(){tick();}, 1000);
+
+/* ==============================
+   THEME
+============================== */
+document.getElementById('themeBtn').addEventListener('click', function(){
+  var dark = !document.body.classList.contains('light-mode');
+  document.body.classList.toggle('light-mode', dark);
+  this.textContent = dark ? '☀' : '☾';
+});
+
+/* ==============================
+   SIGNAL LINES
+============================== */
+var slEl = document.getElementById('sigLines');
+for(var _i=0; _i<18; _i++){
+  var sl=document.createElement('div');
+  sl.className='sig-line';
+  sl.style.left=(3+_i*5.5)+'%';
+  sl.style.animationDelay=(Math.random()*4)+'s';
+  sl.style.animationDuration=(3+Math.random()*3)+'s';
+  sl.style.opacity=(0.3+Math.random()*0.5).toFixed(2);
+  slEl.appendChild(sl);
+}
+
+/* ==============================
+   SPECTRUM BAR
+============================== */
+var specData=[
+  {tip:'HAM HF',    pct:10,color:'var(--c-ham)',   sec:'ham'},
+  {tip:'Aviation',  pct:12,color:'var(--c-avi)',   sec:'aviation'},
+  {tip:'Sat 137',   pct:5, color:'var(--c-noaa)',  sec:'satellite'},
+  {tip:'HAM 2m',    pct:5, color:'var(--c-ham)',   sec:'ham'},
+  {tip:'Marine VHF',pct:12,color:'var(--c-marine)',sec:'marine'},
+  {tip:'NOAA WX',   pct:4, color:'var(--c-noaa)',  sec:'noaa'},
+  {tip:'EmComm',    pct:8, color:'var(--c-emrg)',  sec:'emergency'},
+  {tip:'HAM 70cm',  pct:7, color:'var(--c-ham)',   sec:'ham'},
+  {tip:'Sat UHF',   pct:7, color:'var(--c-sat)',   sec:'satellite'},
+  {tip:'GMRS/FRS',  pct:5, color:'var(--c-emrg)',  sec:'emergency'},
+  {tip:'Digital',   pct:8, color:'var(--c-dig)',   sec:'digital'},
+  {tip:'L-Band Sat',pct:6, color:'var(--c-sat)',   sec:'satellite'},
+  {tip:'ISM',       pct:5, color:'var(--c-dig)',   sec:'digital'},
+  {tip:'AM/BC',     pct:6, color:'#475569',         sec:'basics'}
+];
+var tot=specData.reduce(function(a,b){return a+b.pct;},0);
+var segWrap=document.getElementById('specSegs');
+var tickWrap=document.getElementById('specTicks');
+var off=0;
+specData.forEach(function(s){
+  var pct=(s.pct/tot*100).toFixed(2);
+  var div=document.createElement('div');
+  div.className='spec-seg';
+  div.style.left=off+'%';
+  div.style.width=pct+'%';
+  div.style.background=s.color;
+  div.title=s.tip;
+  div.addEventListener('click',function(){ switchSection(s.sec); });
+  segWrap.appendChild(div);
+  if(s.pct>5){
+    var tk=document.createElement('span');
+    tk.className='spec-tick';
+    tk.style.left=(off+parseFloat(pct)/2)+'%';
+    tk.textContent=s.tip;
+    tickWrap.appendChild(tk);
+  }
+  off+=parseFloat(pct);
+});
+
+/* ==============================
+   HELPERS
+============================== */
+function isEmrg(r){ return r.cat==='emergency'; }
+
+function badge(b){
+  return '<span class="badge '+b+'">'+(BADGE_LABELS[b]||b)+'</span>';
+}
+function modeBadge(m){
+  return m ? '<span class="mbadge">'+m+'</span>' : '';
+}
+function copyBtn(freq){
+  return '<button class="copy-btn" data-freq="'+freq+'">COPY</button>';
+}
+function favStar(sec,key){
+  return '<button class="fav-star'+(favorites[key]?' starred':'')+'" data-key="'+key+'" data-sec="'+sec+'">★</button>';
+}
+function flashCopy(btn,freq){
+  var orig=btn.textContent;
+  function flash(){ btn.textContent='✓ OK'; btn.classList.add('ok'); setTimeout(function(){ btn.textContent=orig; btn.classList.remove('ok'); },1400); }
+  if(navigator.clipboard&&navigator.clipboard.writeText){ navigator.clipboard.writeText(freq+' MHz').then(flash).catch(flash); }
+  else { flash(); }
+}
+function attachBtns(wrap,sec){
+  if(!wrap) return;
+  wrap.querySelectorAll('.copy-btn').forEach(function(old){
+    var n=old.cloneNode(true); old.parentNode.replaceChild(n,old);
+    n.addEventListener('click',function(){ flashCopy(n,n.getAttribute('data-freq')); });
+  });
+  wrap.querySelectorAll('.fav-star').forEach(function(old){
+    var n=old.cloneNode(true); old.parentNode.replaceChild(n,old);
+    n.addEventListener('click',function(){
+      var k=n.getAttribute('data-key');
+      favorites[k]=!favorites[k];
+      renderSection(n.getAttribute('data-sec'));
+    });
+  });
+}
+
+/* ==============================
+   FILTER
+============================== */
+function filterData(arr,fields,sec){
+  var q=globalQuery.toLowerCase();
+  return arr.filter(function(r){
+    if(showFavOnly){
+      var k=sec+'-'+(r.ch||r.freq);
+      if(!favorites[k]) return false;
+    }
+    if(!q) return true;
+    return fields.some(function(f){ return r[f]&&String(r[f]).toLowerCase().indexOf(q)>-1; });
+  });
+}
+
+/* ==============================
+   RENDER — generic, driven by SECTIONS config
+============================== */
+function renderSection(sec){
+  var def=SECTIONS[sec];
+  if(!def){ renderSpecial(sec); return; }
+
+  var data=filterData(DB[sec], def.search, sec);
+  var tb=document.getElementById('tb-'+sec);
+  var cg=document.getElementById('cg-'+sec);
+  if(!tb||!cg) return;
+  tb.innerHTML=''; cg.innerHTML='';
+
+  data.forEach(function(r){
+    var e=isEmrg(r);
+    var key=sec+'-'+(r.ch||r.freq);
+    /* --- table row --- */
+    var tr=document.createElement('tr');
+    if(e) tr.classList.add('er');
+    var cells='';
+    def.cols.forEach(function(col){
+      switch(col){
+        case 'ch':
+          var dot=e?'<span class="edot"></span>':'';
+          var clr=r.cat==='noaa'?'var(--c-noaa)':r.cat==='digital'?'var(--c-dig)':e?'var(--c-emrg)':'var(--accent)';
+          cells+='<td>'+dot+'<span class="ch-num" style="color:'+clr+'">'+r.ch+'</span></td>';
+          break;
+        case 'freq':
+          cells+='<td class="fc">'+r.freq+'<span style="font-size:.58rem;opacity:.5"> MHz</span></td>';
+          break;
+        case 'band':
+          cells+='<td><span style="font-family:Space Mono,monospace;font-size:.7rem;color:var(--w70)">'+(r.band||'—')+'</span></td>';
+          break;
+        case 'mode':
+          cells+='<td>'+modeBadge(r.mode||'')+'</td>';
+          break;
+        case 'badge':
+          cells+='<td>'+badge(r.badge)+'</td>';
+          break;
+        case 'usage':
+          cells+='<td class="uc">'+(r.usage||'')+'</td>';
+          break;
+        case 'notes':
+          cells+='<td class="nc">'+(r.notes||'')+'</td>';
+          break;
+        case 'fav':
+          cells+='<td>'+favStar(sec,key)+'</td>';
+          break;
+        case 'copy':
+          cells+='<td>'+copyBtn(r.freq)+'</td>';
+          break;
+        default:
+          cells+='<td>'+(r[col]||'')+'</td>';
+      }
+    });
+    tr.innerHTML=cells;
+    tb.appendChild(tr);
+
+    /* --- mobile card --- */
+    var clr2=r.cat==='noaa'?'var(--c-noaa)':r.cat==='digital'?'var(--c-dig)':e?'var(--c-emrg)':'var(--accent)';
+    var card=document.createElement('div');
+    card.className='ch-card'+(e?' er':'');
+    card.innerHTML=
+      '<div class="ct"><span class="cc" style="color:'+clr2+'">'+(r.ch||r.freq)+'</span>'+
+      '<span class="cf">'+r.freq+' MHz'+(r.mode?' · '+r.mode:'')+'</span></div>'+
+      '<div class="cu">'+(r.usage||'')+'</div>'+
+      '<div class="cn-card">'+(r.notes||'')+'</div>'+
+      '<div class="cfoot">'+badge(r.badge)+'<div style="display:flex;gap:7px">'+favStar(sec,key)+copyBtn(r.freq)+'</div></div>';
+    cg.appendChild(card);
+  });
+
+  var nr=document.getElementById('nr-'+sec);
+  if(nr) nr.className='no-res'+(data.length===0?' show':'');
+  attachBtns(document.getElementById('sec-'+sec), sec);
+}
+
+/* ==============================
+   SPECIAL SECTIONS (basics, spectrum)
+============================== */
+function renderSpecial(sec){
+  if(sec==='basics')   renderBasics();
+  if(sec==='spectrum') renderSpectrum();
+}
+
+function renderBasics(){
+  var grid=document.getElementById('basicsGrid');
+  if(!grid||grid.childElementCount) return;
+  BASICS.forEach(function(b,i){
+    var item=document.createElement('div');
+    item.className='basic-item';
+    item.innerHTML=
+      '<button class="basic-trigger" aria-expanded="false">'+
+      '<span>'+b.q+'</span><span class="basic-arr">▼</span></button>'+
+      '<div class="basic-body"><div class="basic-inner">'+b.a+'</div></div>';
+    grid.appendChild(item);
+    item.querySelector('.basic-trigger').addEventListener('click',function(){
+      var body=item.querySelector('.basic-body');
+      var trigger=item.querySelector('.basic-trigger');
+      var open=body.classList.contains('open');
+      body.classList.toggle('open',!open);
+      trigger.classList.toggle('open',!open);
+      trigger.setAttribute('aria-expanded',String(!open));
+    });
+  });
+}
+
+function renderSpectrum(){
+  var el=document.getElementById('spectrumDetails');
+  if(!el||el.childElementCount) return;
+  var bands=[
+    {range:'3–30 MHz (HF)',      color:'var(--c-ham)',    label:'HAM HF Bands',      desc:'160m–10m amateur · worldwide propagation · SSB, CW, FT8, SSTV, WSPR'},
+    {range:'108–137 MHz (VHF)',  color:'var(--c-avi)',    label:'Aviation Airband',   desc:'Civil aviation AM · 118–136.975 MHz · approach, tower, ATIS, CTAF, guard'},
+    {range:'137–138 MHz (VHF)',  color:'var(--c-noaa)',   label:'Weather Satellites', desc:'NOAA APT 137.100 / 137.620 / 137.912 · Meteor-M2 137.900 · SDR + dipole'},
+    {range:'144–148 MHz (VHF)',  color:'var(--c-ham)',    label:'HAM 2m Band',        desc:'146.520 simplex · APRS 144.390 · Hawaii repeaters 146.940 / 147.000'},
+    {range:'145.8–145.9 MHz',    color:'var(--c-sat)',    label:'ISS / Satellite Voice',desc:'ISS voice 145.800 · ISS APRS 145.825 · various LEO sat passes'},
+    {range:'156–163 MHz (VHF)',  color:'var(--c-marine)', label:'Marine VHF',         desc:'CH 16 at 156.800 · working channels · NOAA WX 162.4–162.55 MHz'},
+    {range:'430–440 MHz (UHF)',  color:'var(--c-sat)',    label:'Amateur Satellites',  desc:'CubeSats and FM repeater sats 435–438 MHz · AO-91, SO-50, FO-29'},
+    {range:'430–450 MHz (UHF)',  color:'var(--c-ham)',    label:'HAM 70cm Band',      desc:'446.000 simplex · SSB 432.100 · local repeaters · EmComm'},
+    {range:'460–470 MHz (UHF)',  color:'var(--c-emrg)',   label:'GMRS / FRS / Safety', desc:'GMRS repeaters · FRS simplex · some public safety in this range'},
+    {range:'1694.1 MHz (L-Band)',color:'var(--c-sat)',    label:'GOES Weather Data',   desc:'GOES HRIT/EMWIN · advanced NOAA data · requires dish + LNA'}
+  ];
+  bands.forEach(function(b){
+    var div=document.createElement('div');
+    div.style.cssText='background:var(--glass);border:1px solid var(--w06);border-left:3px solid '+b.color+';border-radius:10px;padding:14px 18px;margin-bottom:10px;';
+    div.innerHTML=
+      '<div style="display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px;margin-bottom:5px;">'+
+      '<span style="font-family:Space Mono,monospace;font-size:.75rem;font-weight:700;color:'+b.color+'">'+b.label+'</span>'+
+      '<span style="font-family:Space Mono,monospace;font-size:.58rem;color:var(--w40);letter-spacing:.06em">'+b.range+'</span></div>'+
+      '<p style="font-size:.79rem;color:var(--w70);font-weight:300;line-height:1.65">'+b.desc+'</p>';
+    el.appendChild(div);
+  });
+}
+
+/* ==============================
+   SECTION SWITCHING
+============================== */
+var ACCENT_MAP={
+  marine:'--c-marine',ham:'--c-ham',satellite:'--c-sat',aviation:'--c-avi',
+  noaa:'--c-noaa',emergency:'--c-emrg',digital:'--c-dig',basics:'--white',spectrum:'--c-ham'
+};
+
+switchSection = function(sec){
+  currentSec=sec;
+  document.querySelectorAll('.radio-section').forEach(function(s){
+    s.classList.toggle('active', s.getAttribute('data-sec')===sec);
+  });
+  document.querySelectorAll('.nav-tab').forEach(function(t){
+    t.classList.toggle('active', t.getAttribute('data-section')===sec);
+  });
+  document.documentElement.style.setProperty('--accent','var('+(ACCENT_MAP[sec]||'--c-marine')+')');
+  renderSection(sec);
+  var el=document.getElementById('sec-'+sec);
+  if(el){ setTimeout(function(){ el.scrollIntoView({behavior:'smooth',block:'start'}); },60); }
+};
+
+/* ==============================
+   NAV TABS
+============================== */
+document.getElementById('navTabs').querySelectorAll('.nav-tab').forEach(function(tab){
+  tab.addEventListener('click',function(){ switchSection(tab.getAttribute('data-section')); });
+});
+
+/* ==============================
+   GLOBAL SEARCH
+============================== */
+document.getElementById('globalSearch').addEventListener('input',function(){
+  globalQuery=this.value;
+  renderSection(currentSec);
+});
+
+/* ==============================
+   FAVORITES
+============================== */
+document.getElementById('favBtn').addEventListener('click',function(){
+  showFavOnly=!showFavOnly;
+  this.classList.toggle('active',showFavOnly);
+  this.textContent=showFavOnly?'★ Favorites':'☆ Favorites';
+  renderSection(currentSec);
+});
+
+/* ==============================
+   INTERSECTION OBSERVER
+============================== */
+var fuEls=document.querySelectorAll('.fu');
+if(!('IntersectionObserver' in window)){
+  fuEls.forEach(function(el){el.classList.add('vis');});
+}else{
+  var obs=new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target);}
+    });
+  },{threshold:.06,rootMargin:'0px 0px -16px 0px'});
+  fuEls.forEach(function(el){obs.observe(el);});
+}
+
+/* ==============================
+   SMOOTH SCROLL
+============================== */
+document.querySelectorAll('a[href^="#"]').forEach(function(a){
+  a.addEventListener('click',function(e){
+    var t=document.querySelector(a.getAttribute('href'));
+    if(!t)return;
+    e.preventDefault();
+    t.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+
+/* ==============================
+   PASSIVE SCROLL
+============================== */
+var passiveOk=false;
+try{var _o=Object.defineProperty({},'passive',{get:function(){passiveOk=true;}});window.addEventListener('_t',null,_o);window.removeEventListener('_t',null,_o);}catch(e_){}
+window.addEventListener('scroll',function(){},passiveOk?{passive:true}:false);
+
+/* ==============================
+   INIT
+============================== */
+renderSection('marine');
+
+}()); // end IIFE
+</script>
+</body>
+</html>

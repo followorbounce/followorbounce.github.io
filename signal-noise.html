@@ -1,0 +1,783 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Signal &amp; Noise — A Manifesto on Human Communication</title>
+  <meta name="description" content="A philosophical inquiry into smartphone dependence, digital normality, and the ancient frequencies that connect us as a species." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Signal & Noise — A Manifesto on Human Communication" />
+  <meta property="og:description" content="A philosophical inquiry into smartphone dependence, digital normality, and the ancient frequencies that connect us as a species." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://followorbounce.github.io/assets/p/signal-noise.svg" />
+  <meta property="og:site_name" content="Follow or Bounce" />
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Signal & Noise — A Manifesto on Human Communication" />
+  <meta name="twitter:description" content="A philosophical inquiry into smartphone dependence, digital normality, and the ancient frequencies that connect us as a species." />
+  <meta name="twitter:image" content="https://followorbounce.github.io/assets/p/signal-noise.svg" />
+
+  <!-- Bootstrap 5 -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/css/bootstrap.min.css" />
+
+  <style>
+    /* ── Design tokens ── */
+    :root {
+      --ink:    #0d0d0d;
+      --paper:  #f4f1eb;
+      --ash:    #b8b3aa;
+      --faint:  #e2ded6;
+      --accent: #c8392b;
+      --mono:   'Courier New', Courier, monospace;
+    }
+
+    /* ── Base ── */
+    html, body {
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      background: var(--paper);
+      color: var(--ink);
+      font-family: Georgia, 'Times New Roman', serif;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    /* ── Noise grain overlay ── */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      opacity: 0.022;
+      pointer-events: none;
+      z-index: 9000;
+    }
+
+    /* ── Typography ── */
+    h1, h2, h3, .mono { font-family: var(--mono); font-weight: 400; }
+
+    .eyebrow {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--accent);
+    }
+
+    .section-label {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    hr.rule {
+      border: none;
+      border-top: 1px solid var(--faint);
+      margin: 2.5rem 0;
+    }
+
+    /* ── Reveal animation ── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.85s cubic-bezier(.22,.61,.36,1),
+                  transform 0.85s cubic-bezier(.22,.61,.36,1);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-d1 { transition-delay: 0.1s; }
+    .reveal-d2 { transition-delay: 0.22s; }
+    .reveal-d3 { transition-delay: 0.36s; }
+    .reveal-d4 { transition-delay: 0.5s; }
+
+    /* ────────────────────────────────
+       NAV
+    ──────────────────────────────── */
+    .site-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1050;
+      background: rgba(244, 241, 235, 0.93);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--faint);
+      padding: 0.9rem 0;
+    }
+
+    .site-nav .nav-logo {
+      font-family: var(--mono);
+      font-size: 0.75rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ink);
+      text-decoration: none;
+    }
+
+    .site-nav .nav-tag {
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    /* ────────────────────────────────
+       HERO
+    ──────────────────────────────── */
+    #hero {
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 72px;   /* nav height */
+      padding-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+      background: var(--paper);
+    }
+
+    /* iOS Safari fix */
+    @supports (-webkit-touch-callout: none) {
+      #hero { min-height: -webkit-fill-available; }
+    }
+
+    #hero h1 {
+      font-size: clamp(2.2rem, 7vw, 5rem);
+      line-height: 1.07;
+      letter-spacing: -0.04em;
+      margin-bottom: 1.25rem;
+    }
+
+    #hero h1 em { font-style: normal; color: var(--ash); }
+
+    #hero .hero-sub {
+      font-size: clamp(0.95rem, 2.2vw, 1.15rem);
+      color: #555;
+      line-height: 1.7;
+      margin-bottom: 1.75rem;
+    }
+
+    .scroll-hint {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+    .scroll-hint .sh-line { width: 36px; height: 1px; background: var(--ash); }
+
+    /* animated waveform at hero bottom */
+    .hero-wave {
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 100%;
+      height: 100px;
+      opacity: 0.1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .hero-wave svg { width: 100%; height: 100%; }
+
+    /* ────────────────────────────────
+       STAT STRIP
+    ──────────────────────────────── */
+    .stat-strip {
+      background: var(--ink);
+      color: var(--paper);
+      padding: 3rem 0;
+    }
+
+    .stat-num {
+      font-family: var(--mono);
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .stat-num .accent { color: var(--accent); }
+
+    .stat-desc {
+      font-size: 0.82rem;
+      color: #888;
+      line-height: 1.5;
+    }
+
+    .stat-divider {
+      width: 1px;
+      background: #222;
+      align-self: stretch;
+    }
+
+    /* ────────────────────────────────
+       MANIFESTO
+    ──────────────────────────────── */
+    #manifesto { padding: clamp(3rem, 8vw, 6rem) 0; }
+
+    #manifesto p { margin-bottom: 1.5rem; color: #2a2a2a; }
+
+    .pull-quote {
+      border-left: 3px solid var(--accent);
+      padding: 0.75rem 0 0.75rem 1.5rem;
+      margin: 2.5rem 0;
+      font-size: clamp(1.05rem, 2.5vw, 1.3rem);
+      line-height: 1.5;
+      font-style: italic;
+      color: var(--ink);
+    }
+
+    /* wave vis inside manifesto */
+    .wave-vis { margin: 2.5rem 0; }
+    .wave-vis svg { width: 100%; height: auto; display: block; }
+    .wave-caption {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: var(--ash);
+      margin-top: 0.6rem;
+      text-align: center;
+    }
+
+    /* ────────────────────────────────
+       CONCEPT CARDS
+    ──────────────────────────────── */
+    #concept { background: #f0ece4; padding: clamp(3rem, 8vw, 6rem) 0; }
+
+    #concept h2 {
+      font-size: clamp(1.6rem, 4vw, 2.5rem);
+      line-height: 1.15;
+      letter-spacing: -0.03em;
+      margin: 1rem 0 0.4rem;
+    }
+
+    .concept-card {
+      border-top: 1px solid var(--faint);
+      padding-top: 1.5rem;
+      margin-top: 2rem;
+    }
+
+    .concept-icon {
+      font-size: 1.5rem;
+      color: var(--ash);
+      margin-bottom: 0.75rem;
+      line-height: 1;
+    }
+
+    .concept-card h3 {
+      font-family: var(--mono);
+      font-size: 0.95rem;
+      font-weight: 400;
+      letter-spacing: -0.01em;
+      margin-bottom: 0.6rem;
+    }
+
+    .concept-card p {
+      font-size: 0.9rem;
+      color: #555;
+      line-height: 1.65;
+      margin: 0;
+    }
+
+    /* ────────────────────────────────
+       CTA / CHALLENGE
+    ──────────────────────────────── */
+    #cta {
+      background: var(--ink);
+      color: var(--paper);
+      padding: clamp(3rem, 8vw, 6rem) 0;
+    }
+
+    #cta .section-label { color: #555; }
+
+    #cta h2 {
+      font-size: clamp(1.9rem, 5vw, 3.2rem);
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin: 1rem 0 2.5rem;
+    }
+
+    #cta h2 em { font-style: normal; color: var(--accent); }
+
+    .step {
+      border-top: 1px solid #222;
+      padding: 1.5rem 0;
+      transition: background 0.25s;
+    }
+    .step:last-of-type { border-bottom: 1px solid #222; }
+
+    .step-num {
+      font-family: var(--mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: #555;
+      padding-top: 0.25rem;
+    }
+
+    .step-title {
+      font-family: var(--mono);
+      font-size: clamp(1.3rem, 4vw, 2rem);
+      letter-spacing: -0.03em;
+      line-height: 1;
+      margin-bottom: 0.4rem;
+    }
+    .step-title .accent { color: var(--accent); }
+
+    .step-desc { font-size: 0.88rem; color: #777; line-height: 1.65; margin: 0; }
+
+    .cta-footnote { font-size: 0.87rem; color: #666; line-height: 1.7; margin-top: 2rem; }
+
+    /* ────────────────────────────────
+       CLOSING
+    ──────────────────────────────── */
+    #closing {
+      padding: clamp(4rem, 10vw, 8rem) 0;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .closing-big {
+      font-family: var(--mono);
+      font-size: clamp(5rem, 22vw, 10rem);
+      line-height: 1;
+      letter-spacing: -0.05em;
+      color: var(--faint);
+      margin-bottom: 0.5rem;
+      user-select: none;
+    }
+
+    .closing-statement {
+      font-size: clamp(1rem, 2.5vw, 1.4rem);
+      max-width: 500px;
+      margin: 0 auto 1rem;
+      line-height: 1.55;
+    }
+    .closing-statement strong { color: var(--accent); }
+
+    .closing-sub {
+      font-family: var(--mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      color: var(--ash);
+    }
+
+    /* ────────────────────────────────
+       FOOTER
+    ──────────────────────────────── */
+    footer {
+      background: var(--ink);
+      color: #444;
+      padding: 1.75rem 0;
+      font-family: var(--mono);
+      font-size: 0.65rem;
+      letter-spacing: 0.1em;
+    }
+
+    footer a { color: #555; text-decoration: none; }
+    footer a:hover { color: #ccc; }
+  </style>
+<link rel="canonical" href="https://followorbounce.github.io/signal-noise">
+<meta property="og:url" content="https://followorbounce.github.io/signal-noise">
+<script>
+/* Back link + credit for pages moved from followorbounce.com (2026-10-16; replaces its p-chrome.js). */
+(function(){
+  var HOME="https://followorbounce.github.io/";
+  function mount(){
+    var st=document.createElement("style");
+    st.textContent=".pchrome-home{position:fixed;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));z-index:2147483000;font:500 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;text-decoration:none;color:#fff;background:rgba(13,12,10,.78);padding:14px 12px;border:1px solid rgba(255,255,255,.22);border-radius:2px;}.pchrome-home:hover{background:#a13a2f;border-color:#a13a2f;}.pchrome-foot{margin:0;padding:26px 16px 64px;text-align:center;font:400 11px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#8a857a;}.pchrome-foot a{color:inherit;}@media print{.pchrome-home{display:none;}}";
+    document.head.appendChild(st);
+    var a=document.createElement("a"); a.className="pchrome-home"; a.href=HOME; a.textContent="\u2190 Follow or Bounce"; document.body.appendChild(a);
+    var p=document.createElement("p"); p.className="pchrome-foot"; p.innerHTML="\u00a9 "+new Date().getFullYear()+' Follow or Bounce \u00b7 <a href="'+HOME+'">followorbounce.github.io</a>'; document.body.appendChild(p);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mount); else mount();
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav class="site-nav">
+  <div class="container-fluid px-3 px-md-4 d-flex justify-content-between align-items-center">
+    <a href="#" class="nav-logo">Signal / Noise</a>
+    <span class="nav-tag d-none d-sm-inline">A Manifesto — 2026</span>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section id="hero">
+  <div class="container px-3 px-md-4">
+    <div class="row">
+      <div class="col-12 col-md-10 col-lg-8">
+        <p class="eyebrow reveal mb-3">Philosophical Inquiry</p>
+        <h1 class="reveal reveal-d1">
+          Is refusing<br>
+          a smartphone<br>
+          <em>deviation</em><br>
+          or clarity?
+        </h1>
+        <p class="hero-sub reveal reveal-d2">
+          The technology we call "normal" is 20 years old.<br>
+          The species using it is 300,000 years old.<br>
+          Something does not add up.
+        </p>
+        <div class="scroll-hint reveal reveal-d3">
+          <span class="sh-line"></span>
+          <span>Read the manifesto</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- animated waveform -->
+  <div class="hero-wave" aria-hidden="true">
+    <svg viewBox="0 0 1440 100" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path id="wave-path"
+        d="M0,50 C180,10 360,90 540,50 C720,10 900,90 1080,50 C1260,10 1440,90 1440,50 L1440,100 L0,100 Z"
+        fill="#0d0d0d"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ── STAT STRIP ── -->
+<div class="stat-strip w-100">
+  <div class="container px-3 px-md-4">
+    <div class="row g-0 align-items-start">
+
+      <div class="col-12 col-sm-4 pe-sm-4 pb-4 pb-sm-0 reveal">
+        <div class="stat-num">~<span class="accent">20</span></div>
+        <div class="stat-desc">Years since the smartphone<br>became "normal"</div>
+      </div>
+
+      <div class="d-none d-sm-block col-sm-auto stat-divider mx-3 reveal reveal-d1"></div>
+
+      <div class="col-12 col-sm-4 pe-sm-4 pb-4 pb-sm-0 reveal reveal-d1">
+        <div class="stat-num"><span class="accent">300,000</span></div>
+        <div class="stat-desc">Years of human communication<br>without a screen</div>
+      </div>
+
+      <div class="d-none d-sm-block col-sm-auto stat-divider mx-3 reveal reveal-d2"></div>
+
+      <div class="col-12 col-sm-3 reveal reveal-d2">
+        <div class="stat-num"><span class="accent">∞</span></div>
+        <div class="stat-desc">Unmeasured bandwidth of<br>direct human presence</div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ── MANIFESTO ── -->
+<section id="manifesto">
+  <div class="container px-3 px-md-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+
+        <p class="section-label reveal">I. The Question of Normal</p>
+        <hr class="rule" />
+
+        <p class="reveal">
+          What does it mean to be normal in the 21st century? The question seems obvious
+          until you notice that the standard being applied — constant connectivity through
+          a glass rectangle in your pocket — has existed for roughly two decades. The telephone
+          as a concept is two centuries old. Widespread mobile internet, in its current
+          saturation, is barely ten years mature. We are measuring human behavior against
+          an instrument younger than most graduate students.
+        </p>
+
+        <p class="reveal">
+          To refuse this instrument is, in clinical and social language, increasingly coded
+          as deviation. The person without a smartphone becomes the one who must explain
+          themselves. Yet ask yourself: by what authority does a technology adopted within
+          a single generation become the baseline of human normalcy?
+        </p>
+
+        <div class="pull-quote reveal">
+          "We are a species 300,000 years old, judging ourselves by the habits of the last 20."
+        </div>
+
+        <p class="section-label reveal mt-5">II. Signal Before Interface</p>
+        <hr class="rule" />
+
+        <p class="reveal">
+          At its foundation, all telecommunications is the same act: a human modulates a wave.
+          Sound encoded into electromagnetic frequency, transmitted, received, decoded. Radio,
+          telephone, video call, data stream — these are not categorically different technologies.
+          They are iterations of the same discovery: that the air between us can carry meaning,
+          if you know the frequency.
+        </p>
+
+        <p class="reveal">
+          The codec changes. The medium evolves. But the act of two minds reaching across
+          distance toward each other — that is ancient. That is the thing that predates every
+          interface we have ever built to approximate it.
+        </p>
+
+        <p class="reveal">
+          What if the interface is not the communication — but the approximation of it?
+          What if what we call a phone call, a message, a video chat, is not connection
+          but a compressed, lossy rendering of something far more complete?
+        </p>
+
+        <!-- Wave vis — uses viewBox so scales freely -->
+        <div class="wave-vis reveal">
+          <svg viewBox="0 0 660 80" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <polyline fill="none" stroke="#c8392b" stroke-width="1.8" opacity="0.75"
+              points="0,40 30,10 60,70 90,15 120,65 150,20 180,60 210,25 240,55 270,30 300,50 330,35 360,45 390,38 420,42 450,40 480,41 510,39 540,40 570,41 600,40 630,40 660,40"/>
+            <polyline fill="none" stroke="#0d0d0d" stroke-width="1" opacity="0.3"
+              points="0,40 0,15 55,15 55,65 110,65 110,15 165,15 165,65 220,65 220,40 275,40 275,20 330,20 330,60 385,60 385,40 440,40 495,40 550,40 605,40 660,40"/>
+          </svg>
+          <p class="wave-caption">Human signal (red) — Digital approximation (black)</p>
+        </div>
+
+        <p class="section-label reveal mt-5">III. The Unmeasured Channel</p>
+        <hr class="rule" />
+
+        <p class="reveal">
+          Science is, by definition, the study of what can be measured. This is not a flaw —
+          it is a necessary constraint. But it means that what resists measurement also
+          resists legitimacy in the scientific framework. The channel of direct human
+          communication — physical presence, shared breath, the particular quality of
+          attention one person pays another in a room — has not been fully characterized.
+          Not because it does not exist, but because our instruments are not yet adequate
+          to the task.
+        </p>
+
+        <p class="reveal">
+          It is far easier, and epistemically safer, to study the artificial channel. The one
+          we built. The one with documentation, protocols, packet headers. The measurable one.
+        </p>
+
+        <p class="reveal">
+          The result is that we have optimized the interface while leaving the underlying
+          communication almost entirely unexplored. We have built faster roads without asking
+          whether the destination was worth reaching.
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONCEPT ── -->
+<section id="concept">
+  <div class="container px-3 px-md-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+        <p class="section-label reveal">IV. Frequencies</p>
+        <h2 class="reveal reveal-d1">Four signals.<br>One question.</h2>
+        <p class="reveal reveal-d2" style="color:#666;">
+          What are we actually transmitting when we are together?
+        </p>
+      </div>
+    </div>
+
+    <div class="row justify-content-center mt-2">
+      <div class="col-12 col-md-10 col-lg-8">
+        <div class="row g-0">
+
+          <div class="col-12 col-sm-6 pe-sm-4">
+            <div class="concept-card reveal">
+              <div class="concept-icon">〰</div>
+              <h3>Presence as Bandwidth</h3>
+              <p>Physical co-presence transmits information across channels science has not yet
+                 catalogued. Posture, micro-expression, breath rhythm, autonomic synchrony.
+                 The bandwidth of being in the same room vastly exceeds any data connection we have built.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 ps-sm-4">
+            <div class="concept-card reveal reveal-d1">
+              <div class="concept-icon">◈</div>
+              <h3>Noise as Interference</h3>
+              <p>Every notification, every scroll, every ambient ping is noise competing with signal.
+                 Information overload does not merely distract. It degrades the receiver's ability
+                 to tune — to be present, to attend, to actually hear.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 pe-sm-4">
+            <div class="concept-card reveal reveal-d2">
+              <div class="concept-icon">⟲</div>
+              <h3>The Codec Problem</h3>
+              <p>Compression always loses something. Text strips tone. Video strips touch.
+                 A phone call strips the room. We have become so fluent in compressed communication
+                 that we have forgotten what lossless feels like.</p>
+            </div>
+          </div>
+
+          <div class="col-12 col-sm-6 ps-sm-4">
+            <div class="concept-card reveal reveal-d3">
+              <div class="concept-icon">◉</div>
+              <h3>Tuning as Practice</h3>
+              <p>To be without a screen is not deprivation. It is a return to a wider bandwidth.
+                 The world is not quieter without a phone. It is fuller. The signal was always
+                 there — we had simply filled the frequency with static.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CTA ── -->
+<section id="cta">
+  <div class="container px-3 px-md-4">
+    <div class="row justify-content-center">
+      <div class="col-12 col-md-10 col-lg-8">
+
+        <p class="section-label reveal">V. An Invitation</p>
+        <h2 class="reveal reveal-d1">
+          Put it down.<br>
+          <em>Just for now.</em>
+        </h2>
+
+        <!-- Steps -->
+        <div class="reveal reveal-d2">
+
+          <div class="step">
+            <div class="row g-0 align-items-start">
+              <div class="col-auto pe-3">
+                <div class="step-num">01 / Day</div>
+              </div>
+              <div class="col">
+                <div class="step-title">One <span class="accent">day.</span></div>
+                <p class="step-desc">No phone. No screen. Trust that anything truly important will find you.
+                  Walk outside. Look at the sky. Notice what your nervous system does when it is not
+                  waiting for a notification.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="row g-0 align-items-start">
+              <div class="col-auto pe-3">
+                <div class="step-num">02 / Week</div>
+              </div>
+              <div class="col">
+                <div class="step-title">One <span class="accent">week.</span></div>
+                <p class="step-desc">Something changes around day four. A quiet arrives that is not emptiness.
+                  Conversations feel different. Time moves differently. You begin to remember what attention
+                  felt like before it was monetized.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="row g-0 align-items-start">
+              <div class="col-auto pe-3">
+                <div class="step-num">03 / Year</div>
+              </div>
+              <div class="col">
+                <div class="step-title">One <span class="accent">year.</span></div>
+                <p class="step-desc">This is the challenge. Live a year without a smartphone. Not in rejection
+                  of the world — but in inquiry. Discover what your life actually consists of when you are
+                  present enough to perceive it.</p>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <p class="cta-footnote reveal">
+          This is not Luddism. It is not nostalgia. It is an experiment.<br>
+          The hypothesis: you are more connected when you are not connected.<br>
+          Prove it wrong if you can.
+        </p>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── CLOSING ── -->
+<section id="closing">
+  <div class="container px-3 px-md-4">
+    <div class="row justify-content-center text-center">
+      <div class="col-12">
+        <p class="closing-big reveal" id="closing-num">20</p>
+        <p class="closing-statement reveal reveal-d1">
+          The smartphone is <strong>twenty years old.</strong><br>
+          You are not a deviation for questioning it.<br>
+          You are a species remembering itself.
+        </p>
+        <p class="closing-sub reveal reveal-d2">Signal / Noise — A Manifesto — 2026</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="container px-3 px-md-4">
+    <div class="row justify-content-between align-items-center g-2">
+      <div class="col-auto">Signal &amp; Noise — Philosophical Manifesto</div>
+      <div class="col-auto">followorbounce.github.io</div>
+      <div class="col-auto">2026</div>
+    </div>
+  </div>
+</footer>
+
+<!-- Bootstrap JS (optional, for any BS components) -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.3/js/bootstrap.bundle.min.js"></script>
+
+<script>
+  /* ── Scroll reveal ── */
+  const revealEls = document.querySelectorAll('.reveal');
+  const revealObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        revealObs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+  revealEls.forEach(el => revealObs.observe(el));
+
+  /* ── Count-up on closing number ── */
+  const closingNum = document.getElementById('closing-num');
+  let counted = false;
+  new IntersectionObserver(entries => {
+    if (entries[0].isIntersecting && !counted) {
+      counted = true;
+      let n = 0;
+      const tick = () => {
+        n++;
+        closingNum.textContent = n;
+        if (n < 20) requestAnimationFrame(() => setTimeout(tick, 45));
+      };
+      tick();
+    }
+  }, { threshold: 0.5 }).observe(closingNum);
+
+  /* ── Hero waveform animation ── */
+  const wavePath = document.getElementById('wave-path');
+  if (wavePath) {
+    let t = 0;
+    (function animate() {
+      t += 0.007;
+      const o = Math.sin(t) * 14;
+      const o2 = Math.sin(t * 1.4) * 9;
+      wavePath.setAttribute('d',
+        `M0,${50+o} C180,${10+o2} 360,${90-o} 540,${50+o} C720,${10+o2} 900,${90-o} 1080,${50+o} C1260,${10+o2} 1440,${90-o} 1440,${50+o} L1440,100 L0,100 Z`
+      );
+      requestAnimationFrame(animate);
+    })();
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>Marine VHF Channels — USA & Hawaii</title>
+<meta name="description" content="Complete reference of Marine VHF radio channels for US and Hawaii waters. Emergency, Coast Guard, NOAA weather, recreational, and commercial frequencies.">
+<meta property="og:title" content="Marine VHF Channels — USA & Hawaii">
+<meta property="og:description" content="Complete reference of Marine VHF radio channels for US and Hawaii waters.">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Marine VHF Channels — USA & Hawaii">
+<meta name="twitter:description" content="Complete reference of Marine VHF radio channels for US and Hawaii waters.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap">
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  --navy-950: #020b18;
+  --navy-900: #040f22;
+  --navy-800: #071830;
+  --navy-700: #0d2545;
+  --navy-600: #143360;
+  --cyan-400: #22d3ee;
+  --cyan-300: #67e8f9;
+  --cyan-200: #a5f3fc;
+  --cyan-dim: rgba(34,211,238,0.12);
+  --cyan-glow: rgba(34,211,238,0.25);
+  --white: #f0f6ff;
+  --white-dim: rgba(240,246,255,0.7);
+  --white-faint: rgba(240,246,255,0.12);
+  --amber: #f59e0b;
+  --amber-dim: rgba(245,158,11,0.15);
+  --red: #ef4444;
+  --red-dim: rgba(239,68,68,0.15);
+  --red-glow: rgba(239,68,68,0.3);
+  --green: #10b981;
+  --green-dim: rgba(16,185,129,0.12);
+  --purple: #8b5cf6;
+  --purple-dim: rgba(139,92,246,0.12);
+  --teal: #14b8a6;
+  --teal-dim: rgba(20,184,166,0.12);
+  --sky: #0ea5e9;
+  --sky-dim: rgba(14,165,233,0.12);
+  --glass: rgba(7,24,48,0.7);
+  --glass-border: rgba(34,211,238,0.15);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background-color: var(--navy-950);
+  color: var(--white);
+  max-width: 100vw;
+  overflow-x: hidden;
+  line-height: 1.6;
+}
+
+/* ===== SCROLLBAR ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--navy-900); }
+::-webkit-scrollbar-thumb { background: var(--cyan-400); border-radius: 2px; }
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-top: calc(14px + var(--safe-top));
+  padding-bottom: 14px;
+  padding-left: calc(24px + var(--safe-left));
+  padding-right: calc(24px + var(--safe-right));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  -webkit-backdrop-filter: blur(20px) saturate(180%);
+  backdrop-filter: blur(20px) saturate(180%);
+  background: rgba(2,11,24,0.85);
+  border-bottom: 1px solid var(--glass-border);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  transition: background 0.3s;
+}
+
+.nav-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  text-decoration: none;
+  color: var(--white);
+}
+
+.nav-logo {
+  width: 32px;
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.nav-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cyan-300);
+  letter-spacing: 0.05em;
+}
+
+.nav-links {
+  display: flex;
+  gap: 6px;
+  list-style: none;
+}
+
+.nav-links a {
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--white-dim);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s, border-color 0.2s, background 0.2s;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+@media (hover: hover) {
+  .nav-links a:hover {
+    color: var(--cyan-300);
+    border-color: var(--glass-border);
+    background: var(--cyan-dim);
+  }
+}
+
+.utc-clock {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--cyan-400);
+  letter-spacing: 0.1em;
+  opacity: 0.85;
+  white-space: nowrap;
+}
+
+/* ===== HERO ===== */
+.hero {
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 24px 80px;
+  text-align: center;
+  overflow: clip;
+}
+
+.hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(34,211,238,0.08) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 40% at 20% 80%, rgba(14,165,233,0.06) 0%, transparent 50%),
+    linear-gradient(180deg, var(--navy-900) 0%, var(--navy-950) 100%);
+  z-index: 0;
+}
+
+/* Grid overlay */
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(34,211,238,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,211,238,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black 30%, transparent 100%);
+}
+
+/* Animated wave rings */
+.hero-rings {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  pointer-events: none;
+}
+
+.ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1px solid rgba(34,211,238,0.08);
+  -webkit-animation: ringPulse 6s ease-out infinite;
+  animation: ringPulse 6s ease-out infinite;
+}
+.ring:nth-child(1) { width: 300px; height: 300px; -webkit-animation-delay: 0s; animation-delay: 0s; }
+.ring:nth-child(2) { width: 500px; height: 500px; -webkit-animation-delay: 1.5s; animation-delay: 1.5s; }
+.ring:nth-child(3) { width: 700px; height: 700px; -webkit-animation-delay: 3s; animation-delay: 3s; }
+.ring:nth-child(4) { width: 900px; height: 900px; -webkit-animation-delay: 4.5s; animation-delay: 4.5s; }
+
+@-webkit-keyframes ringPulse {
+  0%   { opacity: 0.6; -webkit-transform: scale(0.9); transform: scale(0.9); }
+  50%  { opacity: 0.2; }
+  100% { opacity: 0; -webkit-transform: scale(1.1); transform: scale(1.1); }
+}
+@keyframes ringPulse {
+  0%   { opacity: 0.6; transform: scale(0.9); }
+  50%  { opacity: 0.2; }
+  100% { opacity: 0; transform: scale(1.1); }
+}
+
+.hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 760px;
+}
+
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan-400);
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  -webkit-animation: fadeUp 0.8s 0.1s both;
+  animation: fadeUp 0.8s 0.1s both;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  width: 40px;
+  height: 1px;
+  background: var(--cyan-400);
+  opacity: 0.5;
+}
+
+.hero-title {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(2rem, 6vw, 3.8rem);
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.02em;
+  color: var(--white);
+  margin-bottom: 24px;
+  -webkit-animation: fadeUp 0.8s 0.2s both;
+  animation: fadeUp 0.8s 0.2s both;
+}
+
+.hero-title span {
+  color: var(--cyan-400);
+}
+
+.hero-sub {
+  font-size: clamp(0.9rem, 2vw, 1.05rem);
+  font-weight: 300;
+  color: var(--white-dim);
+  max-width: 580px;
+  margin: 0 auto 40px;
+  line-height: 1.75;
+  -webkit-animation: fadeUp 0.8s 0.3s both;
+  animation: fadeUp 0.8s 0.3s both;
+}
+
+.hero-stats {
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  flex-wrap: wrap;
+  -webkit-animation: fadeUp 0.8s 0.4s both;
+  animation: fadeUp 0.8s 0.4s both;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--cyan-300);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 0.72rem;
+  font-weight: 500;
+  color: var(--white-dim);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.hero-scroll {
+  position: absolute;
+  bottom: 36px;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+  transform: translateX(-50%);
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.5;
+  -webkit-animation: fadeUp 0.8s 0.6s both;
+  animation: fadeUp 0.8s 0.6s both;
+}
+
+.scroll-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--cyan-400), transparent);
+  -webkit-animation: scrollLine 2s ease-in-out infinite;
+  animation: scrollLine 2s ease-in-out infinite;
+}
+
+@-webkit-keyframes scrollLine {
+  0%, 100% { opacity: 0.3; -webkit-transform: scaleY(0.5) translateY(-10px); transform: scaleY(0.5) translateY(-10px); }
+  50%       { opacity: 1; -webkit-transform: scaleY(1) translateY(0); transform: scaleY(1) translateY(0); }
+}
+@keyframes scrollLine {
+  0%, 100% { opacity: 0.3; transform: scaleY(0.5) translateY(-10px); }
+  50%       { opacity: 1; transform: scaleY(1) translateY(0); }
+}
+
+.scroll-text {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--white-dim);
+}
+
+@-webkit-keyframes fadeUp {
+  from { opacity: 0; -webkit-transform: translateY(20px); transform: translateY(20px); }
+  to   { opacity: 1; -webkit-transform: translateY(0);    transform: translateY(0); }
+}
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ===== INTRO ===== */
+.intro-section {
+  padding: 80px 24px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--cyan-400);
+  margin-bottom: 16px;
+}
+
+.intro-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+  margin-top: 40px;
+}
+
+.intro-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  padding: 24px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s, -webkit-transform 0.2s;
+  transition: border-color 0.2s, transform 0.2s;
+}
+
+@media (hover: hover) {
+  .intro-card:hover {
+    border-color: var(--cyan-dim);
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+  }
+}
+
+.intro-card-icon {
+  font-size: 1.5rem;
+  margin-bottom: 12px;
+}
+
+.intro-card h3 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cyan-300);
+  margin-bottom: 8px;
+  letter-spacing: 0.05em;
+}
+
+.intro-card p {
+  font-size: 0.85rem;
+  color: var(--white-dim);
+  line-height: 1.65;
+  font-weight: 300;
+}
+
+/* ===== COLLAPSIBLE ===== */
+.collapsible-section {
+  max-width: 1100px;
+  margin: 0 auto 48px;
+  padding: 0 24px;
+}
+
+.collapsible-trigger {
+  width: 100%;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 12px;
+  padding: 18px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.9rem;
+  font-weight: 500;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s;
+}
+
+@media (hover: hover) {
+  .collapsible-trigger:hover { border-color: rgba(34,211,238,0.3); }
+}
+
+.collapsible-arrow {
+  font-size: 0.7rem;
+  color: var(--cyan-400);
+  transition: -webkit-transform 0.3s; 
+  transition: transform 0.3s;
+  font-family: 'Space Mono', monospace;
+  letter-spacing: 0.1em;
+}
+
+.collapsible-trigger.open .collapsible-arrow {
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
+.collapsible-body {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.4s ease;
+}
+
+.collapsible-body.open {
+  max-height: 600px;
+}
+
+.collapsible-inner {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-top: none;
+  border-radius: 0 0 12px 12px;
+  padding: 24px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+.collapsible-inner p {
+  font-size: 0.875rem;
+  color: var(--white-dim);
+  line-height: 1.75;
+  font-weight: 300;
+  margin-bottom: 16px;
+}
+
+.collapsible-inner p:last-child { margin-bottom: 0; }
+
+/* ===== CHANNELS SECTION ===== */
+.channels-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 80px;
+}
+
+.channels-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  margin-bottom: 32px;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.channels-header h2 {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1.5rem, 3vw, 2rem);
+  font-weight: 700;
+  color: var(--white);
+  letter-spacing: -0.02em;
+}
+
+/* ===== CONTROLS ===== */
+.controls {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  align-items: center;
+}
+
+.search-wrap {
+  position: relative;
+  flex: 1;
+  min-width: 200px;
+}
+
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  color: var(--cyan-400);
+  opacity: 0.6;
+  font-size: 0.85rem;
+  pointer-events: none;
+}
+
+#searchInput {
+  width: 100%;
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 10px;
+  padding: 12px 16px 12px 42px;
+  color: var(--white);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.875rem;
+  min-height: 44px;
+  outline: none;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s;
+}
+
+#searchInput::placeholder { color: rgba(240,246,255,0.3); }
+#searchInput:focus { border-color: rgba(34,211,238,0.4); }
+
+.filter-chips {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.chip {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 8px 14px;
+  border-radius: 8px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  -webkit-tap-highlight-color: transparent;
+  background: var(--glass);
+  color: var(--white-dim);
+  border-color: var(--glass-border);
+  transition: all 0.2s;
+}
+
+.chip.active-all   { background: var(--cyan-dim); color: var(--cyan-300); border-color: rgba(34,211,238,0.3); }
+.chip.active-emergency { background: var(--red-dim); color: #fca5a5; border-color: rgba(239,68,68,0.3); }
+.chip.active-cg    { background: rgba(239,68,68,0.1); color: #fca5a5; border-color: rgba(239,68,68,0.25); }
+.chip.active-noaa  { background: rgba(14,165,233,0.12); color: #7dd3fc; border-color: rgba(14,165,233,0.3); }
+.chip.active-ais   { background: var(--purple-dim); color: #c4b5fd; border-color: rgba(139,92,246,0.3); }
+.chip.active-rec   { background: var(--green-dim); color: #6ee7b7; border-color: rgba(16,185,129,0.3); }
+.chip.active-com   { background: var(--sky-dim); color: #7dd3fc; border-color: rgba(14,165,233,0.3); }
+
+/* ===== TABLE ===== */
+.table-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid var(--glass-border);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  background: var(--glass);
+}
+
+thead tr {
+  background: rgba(13,37,69,0.9);
+}
+
+thead th {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cyan-400);
+  padding: 16px 20px;
+  text-align: left;
+  border-bottom: 1px solid var(--glass-border);
+  white-space: nowrap;
+}
+
+tbody tr {
+  border-bottom: 1px solid rgba(34,211,238,0.06);
+  transition: background 0.15s;
+}
+
+tbody tr:last-child { border-bottom: none; }
+
+@media (hover: hover) {
+  tbody tr:hover { background: rgba(34,211,238,0.04); }
+}
+
+tbody tr.emergency-row {
+  background: rgba(239,68,68,0.06);
+}
+
+@media (hover: hover) {
+  tbody tr.emergency-row:hover { background: rgba(239,68,68,0.1); }
+}
+
+tbody td {
+  padding: 14px 20px;
+  font-size: 0.875rem;
+  color: var(--white);
+  vertical-align: middle;
+}
+
+.ch-num {
+  font-family: 'Space Mono', monospace;
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cyan-300);
+}
+
+.ch-num.emergency { color: #f87171; }
+.ch-num.noaa      { color: #7dd3fc; }
+.ch-num.ais       { color: #c4b5fd; }
+
+.freq {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  color: var(--white-dim);
+  white-space: nowrap;
+}
+
+.usage-cell {
+  font-weight: 500;
+  color: var(--white);
+}
+
+.emergency-row .usage-cell { color: #fca5a5; }
+
+.notes-cell {
+  font-size: 0.82rem;
+  color: var(--white-dim);
+  font-weight: 300;
+  max-width: 280px;
+}
+
+/* Category badge */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  padding: 4px 10px;
+  border-radius: 6px;
+  white-space: nowrap;
+}
+
+.badge-emergency { background: var(--red-dim); color: #fca5a5; border: 1px solid rgba(239,68,68,0.25); }
+.badge-cg        { background: rgba(239,68,68,0.08); color: #fca5a5; border: 1px solid rgba(239,68,68,0.2); }
+.badge-noaa      { background: var(--sky-dim); color: #7dd3fc; border: 1px solid rgba(14,165,233,0.25); }
+.badge-ais       { background: var(--purple-dim); color: #c4b5fd; border: 1px solid rgba(139,92,246,0.25); }
+.badge-rec       { background: var(--green-dim); color: #6ee7b7; border: 1px solid rgba(16,185,129,0.25); }
+.badge-com       { background: var(--sky-dim); color: #7dd3fc; border: 1px solid rgba(14,165,233,0.2); }
+.badge-gov       { background: var(--teal-dim); color: #5eead4; border: 1px solid rgba(20,184,166,0.2); }
+.badge-port      { background: rgba(245,158,11,0.1); color: #fcd34d; border: 1px solid rgba(245,158,11,0.2); }
+.badge-bridge    { background: rgba(168,85,247,0.1); color: #d8b4fe; border: 1px solid rgba(168,85,247,0.2); }
+
+/* Copy button */
+.copy-btn {
+  background: transparent;
+  border: 1px solid var(--glass-border);
+  border-radius: 6px;
+  padding: 6px 10px;
+  color: var(--white-dim);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  min-height: 32px;
+  -webkit-tap-highlight-color: transparent;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+@media (hover: hover) {
+  .copy-btn:hover {
+    border-color: var(--cyan-400);
+    color: var(--cyan-300);
+    background: var(--cyan-dim);
+  }
+}
+
+.copy-btn.copied {
+  border-color: var(--green);
+  color: var(--green);
+  background: var(--green-dim);
+}
+
+/* Emergency pulse */
+.emergency-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--red);
+  display: inline-block;
+  -webkit-animation: pulse 2s ease-in-out infinite;
+  animation: pulse 2s ease-in-out infinite;
+}
+
+@-webkit-keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--red-glow); }
+  50%       { opacity: 0.8; box-shadow: 0 0 0 6px transparent; }
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; box-shadow: 0 0 0 0 var(--red-glow); }
+  50%       { opacity: 0.8; box-shadow: 0 0 0 6px transparent; }
+}
+
+.no-results {
+  display: none;
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--white-dim);
+  font-size: 0.875rem;
+}
+
+.no-results.show { display: block; }
+
+/* ===== MOBILE CARDS ===== */
+.cards-container {
+  display: none;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.channel-card {
+  background: var(--glass);
+  border: 1px solid var(--glass-border);
+  border-radius: 14px;
+  padding: 18px;
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s;
+}
+
+.channel-card.emergency-card {
+  border-color: rgba(239,68,68,0.25);
+  background: rgba(239,68,68,0.04);
+}
+
+.card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.card-ch {
+  font-family: 'Space Mono', monospace;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: var(--cyan-300);
+}
+
+.card-ch.emergency { color: #f87171; }
+.card-ch.noaa      { color: #7dd3fc; }
+.card-ch.ais       { color: #c4b5fd; }
+
+.card-freq {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--white-dim);
+}
+
+.card-usage {
+  font-weight: 500;
+  font-size: 0.95rem;
+  margin-bottom: 6px;
+}
+
+.emergency-card .card-usage { color: #fca5a5; }
+
+.card-notes {
+  font-size: 0.82rem;
+  color: var(--white-dim);
+  font-weight: 300;
+  line-height: 1.6;
+  margin-bottom: 12px;
+}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* ===== FOOTER ===== */
+footer {
+  padding: 48px 24px calc(32px + var(--safe-bottom));
+  border-top: 1px solid var(--glass-border);
+  background: var(--navy-900);
+}
+
+.footer-inner {
+  max-width: 1100px;
+  margin: 0 auto;
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.footer-title {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--cyan-300);
+}
+
+.disclaimer {
+  font-size: 0.8rem;
+  color: var(--white-dim);
+  font-weight: 300;
+  line-height: 1.75;
+  max-width: 480px;
+  border-left: 2px solid var(--glass-border);
+  padding-left: 16px;
+}
+
+.disclaimer strong {
+  color: var(--amber);
+  font-weight: 500;
+}
+
+.footer-right {
+  text-align: right;
+}
+
+.footer-links {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: flex-end;
+}
+
+.footer-links a {
+  font-size: 0.8rem;
+  color: var(--white-dim);
+  text-decoration: none;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+}
+
+@media (hover: hover) {
+  .footer-links a:hover { color: var(--cyan-300); }
+}
+
+.footer-copy {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: rgba(240,246,255,0.3);
+  margin-top: 24px;
+  letter-spacing: 0.08em;
+}
+
+/* ===== COMPASS ===== */
+.compass-wrap {
+  display: flex;
+  justify-content: center;
+  margin: -20px 0 40px;
+  opacity: 0.15;
+  pointer-events: none;
+}
+
+.compass-svg {
+  width: 80px;
+  height: 80px;
+  -webkit-animation: compassSpin 20s linear infinite;
+  animation: compassSpin 20s linear infinite;
+}
+
+@-webkit-keyframes compassSpin {
+  from { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  to   { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes compassSpin {
+  from { transform: rotate(0deg); }
+  to   { transform: rotate(360deg); }
+}
+
+/* ===== VISIBILITY ANIMATION ===== */
+.fade-up {
+  opacity: 0;
+  -webkit-transform: translateY(24px);
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, -webkit-transform 0.6s ease;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.fade-up.is-visible {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 900px) {
+  .intro-grid { grid-template-columns: 1fr 1fr; }
+}
+
+@media (max-width: 760px) {
+  .nav-links { display: none; }
+  .intro-grid { grid-template-columns: 1fr; }
+  .table-wrap { display: none; }
+  .cards-container { display: flex; }
+  .footer-inner { flex-direction: column; }
+  .footer-right { text-align: left; }
+  .footer-links { align-items: flex-start; }
+  .channels-header { flex-direction: column; align-items: flex-start; }
+  .filter-chips { gap: 6px; }
+  .chip { font-size: 0.6rem; padding: 7px 10px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    -webkit-animation-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+</style>
+<link rel="canonical" href="https://followorbounce.github.io/marine-vhf-channels">
+<meta property="og:url" content="https://followorbounce.github.io/marine-vhf-channels">
+<script>
+/* Back link + credit for pages moved from followorbounce.com (2026-10-16; replaces its p-chrome.js). */
+(function(){
+  var HOME="https://followorbounce.github.io/";
+  function mount(){
+    var st=document.createElement("style");
+    st.textContent=".pchrome-home{position:fixed;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));z-index:2147483000;font:500 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;text-decoration:none;color:#fff;background:rgba(13,12,10,.78);padding:14px 12px;border:1px solid rgba(255,255,255,.22);border-radius:2px;}.pchrome-home:hover{background:#a13a2f;border-color:#a13a2f;}.pchrome-foot{margin:0;padding:26px 16px 64px;text-align:center;font:400 11px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#8a857a;}.pchrome-foot a{color:inherit;}@media print{.pchrome-home{display:none;}}";
+    document.head.appendChild(st);
+    var a=document.createElement("a"); a.className="pchrome-home"; a.href=HOME; a.textContent="\u2190 Follow or Bounce"; document.body.appendChild(a);
+    var p=document.createElement("p"); p.className="pchrome-foot"; p.innerHTML="\u00a9 "+new Date().getFullYear()+' Follow or Bounce \u00b7 <a href="'+HOME+'">followorbounce.github.io</a>'; document.body.appendChild(p);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mount); else mount();
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <a href="#" class="nav-brand">
+    <svg class="nav-logo" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="14" stroke="#22d3ee" stroke-width="1.5" opacity="0.4"/>
+      <circle cx="16" cy="16" r="8" stroke="#22d3ee" stroke-width="1.5" opacity="0.6"/>
+      <circle cx="16" cy="16" r="2" fill="#22d3ee"/>
+      <line x1="16" y1="2" x2="16" y2="8" stroke="#22d3ee" stroke-width="1.5"/>
+      <line x1="16" y1="24" x2="16" y2="30" stroke="#22d3ee" stroke-width="1.5" opacity="0.4"/>
+      <line x1="30" y1="16" x2="24" y2="16" stroke="#22d3ee" stroke-width="1.5" opacity="0.4"/>
+      <line x1="2" y1="16" x2="8" y2="16" stroke="#22d3ee" stroke-width="1.5" opacity="0.4"/>
+    </svg>
+    <span class="nav-title">VHF REFERENCE</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#channels">Channels</a></li>
+    <li><a href="#how-to">How to Use</a></li>
+  </ul>
+  <div class="utc-clock" id="utcClock">--:--:-- UTC</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-grid"></div>
+  <div class="hero-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+  <div class="hero-content">
+    <p class="hero-eyebrow">United States &amp; Hawaii Waters</p>
+    <h1 class="hero-title">Marine VHF<br><span>Channel Reference</span></h1>
+    <p class="hero-sub">The most commonly monitored and used marine radio frequencies for recreational boaters, commercial traffic, harbor operations, Coast Guard communication, and NOAA weather broadcasts.</p>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">37</div>
+        <div class="stat-label">Channels</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">6</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">7</div>
+        <div class="stat-label">NOAA Weather</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">156–162</div>
+        <div class="stat-label">MHz Band</div>
+      </div>
+    </div>
+    <p style="margin-top:24px; font-size:0.78rem; color:var(--white-dim); text-align:center;">Want to understand VHF propagation itself, not just the channel list? <a href="https://followorbounce.github.io/radio-communications" style="color:inherit; text-decoration:underline;">Radio Communications</a> on the Knowledge Network.</p>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    <span class="scroll-text">Scroll</span>
+  </div>
+</section>
+
+<!-- INTRO -->
+<section class="intro-section fade-up" id="about">
+  <p class="section-label">// Marine Radio Overview</p>
+  <div class="intro-grid">
+    <div class="intro-card">
+      <div class="intro-card-icon">📡</div>
+      <h3>Always Monitor CH 16</h3>
+      <p>Channel 16 (156.800 MHz) is the international distress, safety, and calling frequency. All vessels must monitor it at all times when equipped with a VHF radio.</p>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-icon">🌊</div>
+      <h3>Working Channels</h3>
+      <p>After establishing contact on a hailing channel, vessels move to a working channel to conduct their communication, keeping hailing channels clear.</p>
+    </div>
+    <div class="intro-card">
+      <div class="intro-card-icon">⚡</div>
+      <h3>FCC Licensing</h3>
+      <p>A Ship Station License is required for US vessels traveling internationally. Domestic recreational boaters operating in US waters generally do not need a license for their radio.</p>
+    </div>
+  </div>
+</section>
+
+<!-- COLLAPSIBLE -->
+<div class="collapsible-section fade-up" id="how-to">
+  <button class="collapsible-trigger" id="howToTrigger" aria-expanded="false">
+    <span>How Marine VHF Channels Are Used</span>
+    <span class="collapsible-arrow">▼</span>
+  </button>
+  <div class="collapsible-body" id="howToBody">
+    <div class="collapsible-inner">
+      <p>Marine VHF radio operates on the Very High Frequency band between approximately 156–174 MHz. It provides reliable line-of-sight communication typically ranging from 5 to 20 nautical miles depending on antenna height and conditions.</p>
+      <p>Channels are divided by function: <strong style="color:#f87171">emergency</strong> channels like CH 16 must always be monitored, <strong style="color:#6ee7b7">recreational</strong> channels are used for casual boater-to-boater traffic, <strong style="color:#7dd3fc">commercial</strong> channels handle working vessel traffic, and <strong style="color:#7dd3fc">NOAA weather</strong> channels broadcast continuous forecasts.</p>
+      <p>In Hawaii, Channel 14 (156.700 MHz) is actively used by Honolulu harbor operations and the Vessel Traffic Service. NOAA weather broadcasts on WX1 (162.550 MHz) are typically the clearest signal in the Oahu region. Always consult the current USCG local notice to mariners for area-specific frequency usage.</p>
+    </div>
+  </div>
+</div>
+
+<!-- CHANNELS TABLE -->
+<section class="channels-section" id="channels">
+  <div class="channels-header fade-up">
+    <div>
+      <p class="section-label">// Channel Directory</p>
+      <h2>VHF Channel Reference</h2>
+    </div>
+  </div>
+
+  <div class="controls fade-up">
+    <div class="search-wrap">
+      <span class="search-icon">⌕</span>
+      <input type="text" id="searchInput" aria-label="Search channels" placeholder="Search channel, frequency, or usage…" autocomplete="off" autocorrect="off" spellcheck="false">
+    </div>
+  </div>
+
+  <div class="filter-chips fade-up" id="filterChips">
+    <button class="chip active-all" data-filter="all">⊞ All</button>
+    <button class="chip" data-filter="emergency">🔴 Emergency</button>
+    <button class="chip" data-filter="cg">⚓ Coast Guard</button>
+    <button class="chip" data-filter="noaa">🌦 NOAA</button>
+    <button class="chip" data-filter="ais">📶 AIS</button>
+    <button class="chip" data-filter="rec">⛵ Recreational</button>
+    <button class="chip" data-filter="com">🚢 Commercial</button>
+  </div>
+
+  <!-- DESKTOP TABLE -->
+  <div class="table-wrap fade-up">
+    <table id="channelTable">
+      <thead>
+        <tr>
+          <th>Channel</th>
+          <th>Frequency</th>
+          <th>Category</th>
+          <th>Usage</th>
+          <th>Notes</th>
+          <th>Copy</th>
+        </tr>
+      </thead>
+      <tbody id="tableBody"></tbody>
+    </table>
+    <div class="no-results" id="noResults">No channels match your search.</div>
+  </div>
+
+  <!-- MOBILE CARDS -->
+  <div class="cards-container fade-up" id="cardsContainer"></div>
+</section>
+
+<!-- COMPASS DECORATION -->
+<div class="compass-wrap">
+  <svg class="compass-svg" viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="40" cy="40" r="38" stroke="#22d3ee" stroke-width="1"/>
+    <circle cx="40" cy="40" r="28" stroke="#22d3ee" stroke-width="0.5" opacity="0.5"/>
+    <line x1="40" y1="4" x2="40" y2="14" stroke="#22d3ee" stroke-width="1.5"/>
+    <line x1="40" y1="66" x2="40" y2="76" stroke="#22d3ee" stroke-width="1"/>
+    <line x1="4" y1="40" x2="14" y2="40" stroke="#22d3ee" stroke-width="1"/>
+    <line x1="66" y1="40" x2="76" y2="40" stroke="#22d3ee" stroke-width="1"/>
+    <polygon points="40,12 37,40 40,36 43,40" fill="#22d3ee"/>
+    <polygon points="40,68 37,40 40,44 43,40" fill="#22d3ee" opacity="0.4"/>
+    <text x="38" y="7" fill="#22d3ee" font-size="5" font-family="monospace">N</text>
+    <circle cx="40" cy="40" r="3" fill="#22d3ee"/>
+  </svg>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brand">
+        <svg width="24" height="24" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="16" r="14" stroke="#22d3ee" stroke-width="1.5" opacity="0.5"/>
+          <circle cx="16" cy="16" r="2" fill="#22d3ee"/>
+          <line x1="16" y1="2" x2="16" y2="8" stroke="#22d3ee" stroke-width="1.5"/>
+        </svg>
+        <span class="footer-title">MARINE VHF REFERENCE</span>
+      </div>
+      <p class="disclaimer"><strong>⚠ Disclaimer:</strong> This page is provided for informational and educational purposes only. Always follow FCC regulations and official US Coast Guard communication procedures. Channel usage may vary by region. Verify current assignments with USCG or FCC publications before operating.</p>
+    </div>
+    <div class="footer-right">
+      <ul class="footer-links">
+        <li><a href="https://www.navcen.uscg.gov/" target="_blank" rel="noopener">USCG Navigation Center ↗</a></li>
+        <li><a href="https://www.weather.gov/marine/" target="_blank" rel="noopener">NOAA Marine Forecasts ↗</a></li>
+        <li><a href="https://www.fcc.gov/consumers/guides/marine-radio" target="_blank" rel="noopener">FCC Marine Radio Guide ↗</a></li>
+      </ul>
+      <p class="footer-copy">© 2026 — VHF CHANNEL REFERENCE</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===== DATA ===== */
+  var channels = [
+    { ch:'06',  freq:'156.300', cat:'emergency', usage:'Intership Safety',         notes:'Safety communication between vessels',               badge:'emergency' },
+    { ch:'09',  freq:'156.450', cat:'rec',       usage:'Boater Calling',            notes:'Popular recreational hailing channel',               badge:'rec' },
+    { ch:'10',  freq:'156.500', cat:'com',       usage:'Commercial',                notes:'Commercial vessel operations',                       badge:'com' },
+    { ch:'11',  freq:'156.550', cat:'com',       usage:'VTS / Commercial',          notes:'Harbor traffic and coordination',                    badge:'com' },
+    { ch:'12',  freq:'156.600', cat:'com',       usage:'Port Operations',           notes:'Harbor and port control',                            badge:'port' },
+    { ch:'13',  freq:'156.650', cat:'com',       usage:'Bridge-to-Bridge',          notes:'Navigation safety and maneuvering',                  badge:'bridge' },
+    { ch:'14',  freq:'156.700', cat:'com',       usage:'Port Operations / VTS',     notes:'Harbor operations in Honolulu',                      badge:'port' },
+    { ch:'16',  freq:'156.800', cat:'emergency', usage:'Emergency / Distress',      notes:'MAYDAY, Coast Guard, international hailing',         badge:'emergency' },
+    { ch:'17',  freq:'156.850', cat:'gov',       usage:'Government',                notes:'Government marine operations',                       badge:'gov' },
+    { ch:'18A', freq:'156.900', cat:'com',       usage:'Commercial',                notes:'Commercial working traffic',                         badge:'com' },
+    { ch:'19A', freq:'156.950', cat:'com',       usage:'Commercial',                notes:'Tugboats and working traffic',                       badge:'com' },
+    { ch:'20A', freq:'157.000', cat:'com',       usage:'Port Operations',           notes:'Harbor communications',                              badge:'port' },
+    { ch:'21A', freq:'157.050', cat:'cg',        usage:'US Coast Guard',            notes:'Operational liaison',                                badge:'cg' },
+    { ch:'22A', freq:'157.100', cat:'cg',        usage:'Coast Guard Liaison',       notes:'Follow-up after Channel 16 contact',                 badge:'cg' },
+    { ch:'23A', freq:'157.150', cat:'cg',        usage:'US Coast Guard',            notes:'Operational traffic',                                badge:'cg' },
+    { ch:'24',  freq:'157.200', cat:'com',       usage:'Public Correspondence',     notes:'Former marine telephone usage',                      badge:'com' },
+    { ch:'68',  freq:'156.425', cat:'rec',       usage:'Recreational',              notes:'Fishing and casual chatter',                         badge:'rec' },
+    { ch:'69',  freq:'156.475', cat:'rec',       usage:'Recreational',              notes:'Boat-to-boat communication',                         badge:'rec' },
+    { ch:'71',  freq:'156.575', cat:'rec',       usage:'Recreational',              notes:'Marina and private boat traffic',                    badge:'rec' },
+    { ch:'72',  freq:'156.625', cat:'rec',       usage:'Non-commercial Intership',  notes:'Active boat-to-boat channel',                        badge:'rec' },
+    { ch:'73',  freq:'156.675', cat:'com',       usage:'Port / Commercial',         notes:'Local operations',                                   badge:'com' },
+    { ch:'78A', freq:'156.925', cat:'rec',       usage:'Recreational',              notes:'Sailing and regatta traffic',                        badge:'rec' },
+    { ch:'79A', freq:'156.975', cat:'com',       usage:'Commercial',                notes:'Working traffic',                                    badge:'com' },
+    { ch:'80A', freq:'157.025', cat:'com',       usage:'Commercial',                notes:'Harbor operations',                                  badge:'com' },
+    { ch:'81A', freq:'157.075', cat:'com',       usage:'Commercial / Coast Areas',  notes:'Coastal working traffic',                            badge:'com' },
+    { ch:'82A', freq:'157.125', cat:'gov',       usage:'Government / Coast Guard',  notes:'Government operations',                              badge:'gov' },
+    { ch:'83A', freq:'157.175', cat:'cg',        usage:'Coast Guard / Government',  notes:'Coast Guard operations',                             badge:'cg' },
+    { ch:'WX1', freq:'162.550', cat:'noaa',      usage:'NOAA Weather',              notes:'Primary weather broadcast — best in Hawaii',         badge:'noaa' },
+    { ch:'WX2', freq:'162.400', cat:'noaa',      usage:'NOAA Weather',              notes:'Weather broadcasts',                                 badge:'noaa' },
+    { ch:'WX3', freq:'162.475', cat:'noaa',      usage:'NOAA Weather',              notes:'Weather broadcasts',                                 badge:'noaa' },
+    { ch:'WX4', freq:'162.425', cat:'noaa',      usage:'NOAA Weather',              notes:'Weather broadcasts',                                 badge:'noaa' },
+    { ch:'WX5', freq:'162.450', cat:'noaa',      usage:'NOAA Weather',              notes:'Weather broadcasts',                                 badge:'noaa' },
+    { ch:'WX6', freq:'162.500', cat:'noaa',      usage:'NOAA Weather',              notes:'Weather broadcasts',                                 badge:'noaa' },
+    { ch:'WX7', freq:'162.525', cat:'noaa',      usage:'NOAA Weather',              notes:'Weather broadcasts',                                 badge:'noaa' },
+    { ch:'AIS1',freq:'161.975', cat:'ais',       usage:'AIS Data',                  notes:'Automatic vessel identification — receive only',     badge:'ais' },
+    { ch:'AIS2',freq:'162.025', cat:'ais',       usage:'AIS Data',                  notes:'Automatic vessel identification — receive only',     badge:'ais' }
+  ];
+
+  var badgeLabels = {
+    emergency: '🔴 Emergency',
+    cg:        '⚓ Coast Guard',
+    noaa:      '🌦 NOAA Weather',
+    ais:       '📶 AIS Data',
+    rec:       '⛵ Recreational',
+    com:       '🚢 Commercial',
+    gov:       '🛡 Government',
+    port:      '⚙ Port Ops',
+    bridge:    '🌉 Bridge-to-Bridge'
+  };
+
+  var chClass = {
+    emergency: 'emergency',
+    noaa: 'noaa',
+    ais: 'ais'
+  };
+
+  function getBadgeClass(b) { return 'badge badge-' + b; }
+  function getChClass(cat)  { return chClass[cat] || ''; }
+  function isEmergency(ch)  { return ch.cat === 'emergency'; }
+
+  /* ===== UTC CLOCK ===== */
+  var clockEl = document.getElementById('utcClock');
+  function updateClock() {
+    var now = new Date();
+    var h = String(now.getUTCHours()).padStart(2,'0');
+    var m = String(now.getUTCMinutes()).padStart(2,'0');
+    var s = String(now.getUTCSeconds()).padStart(2,'0');
+    clockEl.textContent = h + ':' + m + ':' + s + ' UTC';
+  }
+  updateClock();
+  setInterval(function () { updateClock(); }, 1000);
+
+  /* ===== RENDER ===== */
+  var tableBody     = document.getElementById('tableBody');
+  var cardsContainer = document.getElementById('cardsContainer');
+  var noResults     = document.getElementById('noResults');
+  var searchInput   = document.getElementById('searchInput');
+  var filterChips   = document.querySelectorAll('#filterChips .chip');
+  var currentFilter = 'all';
+  var currentSearch = '';
+
+  function renderTable(list) {
+    tableBody.innerHTML = '';
+    noResults.classList.remove('show');
+    if (list.length === 0) {
+      noResults.classList.add('show');
+      return;
+    }
+    list.forEach(function (ch) {
+      var tr = document.createElement('tr');
+      if (isEmergency(ch)) tr.classList.add('emergency-row');
+      var cls = getChClass(ch.cat);
+      var emergDot = isEmergency(ch) ? '<span class="emergency-dot" style="margin-right:6px"></span>' : '';
+      tr.innerHTML =
+        '<td>' + emergDot + '<span class="ch-num ' + cls + '">' + ch.ch + '</span></td>' +
+        '<td><span class="freq">' + ch.freq + ' MHz</span></td>' +
+        '<td><span class="' + getBadgeClass(ch.badge) + '">' + (badgeLabels[ch.badge] || ch.badge) + '</span></td>' +
+        '<td class="usage-cell">' + ch.usage + '</td>' +
+        '<td class="notes-cell">' + ch.notes + '</td>' +
+        '<td><button class="copy-btn" data-freq="' + ch.freq + '">COPY</button></td>';
+      tableBody.appendChild(tr);
+    });
+    tableBody.querySelectorAll('.copy-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var freq = btn.getAttribute('data-freq');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(freq + ' MHz').then(function () { flashCopy(btn); });
+        } else {
+          flashCopy(btn);
+        }
+      });
+    });
+  }
+
+  function renderCards(list) {
+    cardsContainer.innerHTML = '';
+    list.forEach(function (ch) {
+      var div = document.createElement('div');
+      div.className = 'channel-card' + (isEmergency(ch) ? ' emergency-card' : '');
+      var cls = getChClass(ch.cat);
+      div.innerHTML =
+        '<div class="card-top">' +
+          '<span class="card-ch ' + cls + '">' + ch.ch + '</span>' +
+          '<span class="card-freq">' + ch.freq + ' MHz</span>' +
+        '</div>' +
+        '<div class="card-usage">' + ch.usage + '</div>' +
+        '<div class="card-notes">' + ch.notes + '</div>' +
+        '<div class="card-footer">' +
+          '<span class="' + getBadgeClass(ch.badge) + '">' + (badgeLabels[ch.badge] || ch.badge) + '</span>' +
+          '<button class="copy-btn" data-freq="' + ch.freq + '">COPY</button>' +
+        '</div>';
+      cardsContainer.appendChild(div);
+    });
+    cardsContainer.querySelectorAll('.copy-btn').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        var freq = btn.getAttribute('data-freq');
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(freq + ' MHz').then(function () { flashCopy(btn); });
+        } else {
+          flashCopy(btn);
+        }
+      });
+    });
+  }
+
+  function flashCopy(btn) {
+    btn.textContent = 'COPIED ✓';
+    btn.classList.add('copied');
+    setTimeout(function () {
+      btn.textContent = 'COPY';
+      btn.classList.remove('copied');
+    }, 1500);
+  }
+
+  function filterAndRender() {
+    var q = currentSearch.toLowerCase();
+    var filtered = channels.filter(function (ch) {
+      var matchCat = currentFilter === 'all' || ch.cat === currentFilter;
+      var matchSearch = !q ||
+        ch.ch.toLowerCase().indexOf(q) > -1 ||
+        ch.freq.indexOf(q) > -1 ||
+        ch.usage.toLowerCase().indexOf(q) > -1 ||
+        ch.notes.toLowerCase().indexOf(q) > -1 ||
+        ch.badge.toLowerCase().indexOf(q) > -1;
+      return matchCat && matchSearch;
+    });
+    renderTable(filtered);
+    renderCards(filtered);
+  }
+
+  /* ===== FILTER CHIPS ===== */
+  filterChips.forEach(function (chip) {
+    chip.addEventListener('click', function () {
+      currentFilter = chip.getAttribute('data-filter');
+      filterChips.forEach(function (c) {
+        c.className = 'chip';
+      });
+      chip.className = 'chip active-' + currentFilter;
+      filterAndRender();
+    });
+  });
+
+  /* ===== SEARCH ===== */
+  searchInput.addEventListener('input', function () {
+    currentSearch = searchInput.value;
+    filterAndRender();
+  }, false);
+
+  /* ===== COLLAPSIBLE ===== */
+  var trigger = document.getElementById('howToTrigger');
+  var body    = document.getElementById('howToBody');
+  trigger.addEventListener('click', function () {
+    var isOpen = body.classList.contains('open');
+    body.classList.toggle('open');
+    trigger.classList.toggle('open');
+    trigger.setAttribute('aria-expanded', String(!isOpen));
+  });
+
+  /* ===== SMOOTH SCROLL ===== */
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      var target = document.querySelector(anchor.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* ===== INTERSECTION OBSERVER ===== */
+  var fadeEls = document.querySelectorAll('.fade-up');
+  if (!('IntersectionObserver' in window)) {
+    fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
+    fadeEls.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ===== PASSIVE SCROLL — NAV ===== */
+  var passiveSupported = false;
+  try {
+    var opts = Object.defineProperty({}, 'passive', {
+      get: function () { passiveSupported = true; }
+    });
+    window.addEventListener('_t', null, opts);
+    window.removeEventListener('_t', null, opts);
+  } catch (e) {}
+  var PASSIVE = passiveSupported ? { passive: true } : false;
+
+  /* ===== INIT ===== */
+  filterAndRender();
+
+}());
+</script>
+</body>
+</html>

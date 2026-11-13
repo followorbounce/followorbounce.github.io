@@ -1,0 +1,1734 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="description" content="Pass the FCC Amateur Radio Technician License Exam in 7 days. Interactive crash course, cheat sheet, and practice quiz for HAM radio beginners.">
+<meta property="og:title" content="FCC Technician License Crash Course — Pass in 7 Days">
+<meta property="og:description" content="Interactive cheat sheet and quiz to pass your HAM radio Technician exam fast. No prior experience needed.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://followorbounce.github.io/assets/p/ham-technician-crash-course.svg">
+<meta property="og:site_name" content="Follow or Bounce">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="FCC Technician License Crash Course — Pass in 7 Days">
+<meta name="twitter:description" content="Interactive cheat sheet and quiz to pass your HAM radio Technician exam fast.">
+<meta name="twitter:image" content="https://followorbounce.github.io/assets/p/ham-technician-crash-course.svg">
+<title>FCC Technician License Crash Course</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Syne:wght@400;600;700;800&display=swap">
+
+<style>
+/* ===== RESET & BASE ===== */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+:root {
+  --bg: #080c10;
+  --bg2: #0d1117;
+  --bg3: #111820;
+  --surface: #141c26;
+  --surface2: #1a2535;
+  --border: rgba(0,210,255,0.12);
+  --accent: #00d2ff;
+  --accent2: #00ff88;
+  --accent3: #ff6b35;
+  --accent4: #c77dff;
+  --text: #e8f4f8;
+  --text2: #8ba8bf;
+  --text3: #4a6680;
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-left: env(safe-area-inset-left, 0px);
+  --safe-right: env(safe-area-inset-right, 0px);
+}
+
+html {
+  scroll-behavior: smooth;
+  background: var(--bg);
+}
+
+body {
+  font-family: 'Syne', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  max-width: 100vw;
+  overflow-x: hidden;
+  line-height: 1.6;
+  padding-bottom: calc(24px + var(--safe-bottom));
+}
+
+/* ===== NOISE TEXTURE OVERLAY ===== */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 0;
+  opacity: 0.4;
+}
+
+/* ===== NAV ===== */
+nav {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  padding-top: calc(12px + var(--safe-top));
+  padding-bottom: 12px;
+  padding-left: calc(20px + var(--safe-left));
+  padding-right: calc(20px + var(--safe-right));
+  background: rgba(8, 12, 16, 0.85);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--border);
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.nav-logo {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  color: var(--accent);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.nav-links {
+  display: flex;
+  gap: 4px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  flex: 1;
+  justify-content: flex-end;
+}
+
+.nav-links::-webkit-scrollbar { display: none; }
+
+.nav-links a {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text2);
+  text-decoration: none;
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid transparent;
+  white-space: nowrap;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  -webkit-tap-highlight-color: transparent;
+  transition: color 0.2s, border-color 0.2s;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+@media (hover: hover) {
+  .nav-links a:hover {
+    color: var(--accent);
+    border-color: var(--border);
+  }
+}
+
+/* ===== PROGRESS BAR ===== */
+#progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  z-index: 200;
+  width: 0%;
+  transition: width 0.3s ease;
+}
+
+/* ===== SECTIONS ===== */
+section {
+  position: relative;
+  overflow: clip;
+  padding: 80px 20px 60px;
+}
+
+@media (min-width: 768px) {
+  section { padding: 100px 40px 80px; }
+}
+
+.section-inner {
+  max-width: 900px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 1;
+}
+
+/* ===== HERO ===== */
+#hero {
+  min-height: 100vh;
+  min-height: 100svh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-top: calc(80px + var(--safe-top));
+  background: radial-gradient(ellipse 80% 60% at 50% 0%, rgba(0,210,255,0.08) 0%, transparent 70%);
+}
+
+.hero-eyebrow {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--accent);
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  opacity: 0;
+  -webkit-animation: fadeUp 0.7s 0.1s forwards;
+  animation: fadeUp 0.7s 0.1s forwards;
+}
+
+.hero-title {
+  font-size: clamp(2.2rem, 8vw, 5rem);
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin-bottom: 20px;
+  opacity: 0;
+  -webkit-animation: fadeUp 0.7s 0.2s forwards;
+  animation: fadeUp 0.7s 0.2s forwards;
+}
+
+.hero-title .hl {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-sub {
+  font-size: clamp(1rem, 3vw, 1.3rem);
+  color: var(--text2);
+  margin-bottom: 36px;
+  max-width: 500px;
+  margin-left: auto;
+  margin-right: auto;
+  opacity: 0;
+  -webkit-animation: fadeUp 0.7s 0.3s forwards;
+  animation: fadeUp 0.7s 0.3s forwards;
+}
+
+.hero-cta {
+  display: inline-block;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #080c10;
+  font-family: 'Space Mono', monospace;
+  font-weight: 700;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 16px 36px;
+  border-radius: 50px;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  opacity: 0;
+  -webkit-animation: fadeUp 0.7s 0.4s forwards;
+  animation: fadeUp 0.7s 0.4s forwards;
+  transition: -webkit-transform 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+
+@media (hover: hover) {
+  .hero-cta:hover {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,210,255,0.3);
+  }
+}
+
+.hero-disclaimer {
+  margin-top: 20px;
+  font-size: 0.72rem;
+  color: var(--text3);
+  font-family: 'Space Mono', monospace;
+  opacity: 0;
+  -webkit-animation: fadeUp 0.7s 0.5s forwards;
+  animation: fadeUp 0.7s 0.5s forwards;
+}
+
+/* ===== SECTION LABELS ===== */
+.section-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.section-label::before {
+  content: '';
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  background: var(--accent);
+}
+
+.section-title {
+  font-size: clamp(1.6rem, 5vw, 2.8rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+  margin-bottom: 40px;
+}
+
+/* ===== CARDS ===== */
+.card-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+@media (min-width: 600px) {
+  .card-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (min-width: 900px) {
+  .card-grid-3 { grid-template-columns: repeat(3, 1fr); }
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  position: relative;
+  transition: border-color 0.3s, -webkit-transform 0.3s, transform 0.3s;
+  overflow: clip;
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  opacity: 0;
+  transition: opacity 0.3s;
+  pointer-events: none;
+}
+
+@media (hover: hover) {
+  .card:hover {
+    -webkit-transform: translateY(-2px);
+    transform: translateY(-2px);
+    border-color: rgba(0,210,255,0.3);
+  }
+  .card:hover::before { opacity: 1; }
+}
+
+.card-accent-blue::before  { background: radial-gradient(circle at top left, rgba(0,210,255,0.05), transparent 60%); }
+.card-accent-green::before { background: radial-gradient(circle at top left, rgba(0,255,136,0.05), transparent 60%); }
+.card-accent-orange::before{ background: radial-gradient(circle at top left, rgba(255,107,53,0.05), transparent 60%); }
+.card-accent-purple::before{ background: radial-gradient(circle at top left, rgba(199,125,255,0.05), transparent 60%); }
+
+.card-icon {
+  font-size: 1.6rem;
+  margin-bottom: 14px;
+  display: block;
+}
+
+.card-title {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  letter-spacing: -0.01em;
+}
+
+.card-body {
+  font-size: 0.85rem;
+  color: var(--text2);
+  line-height: 1.65;
+}
+
+.tag {
+  display: inline-block;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  padding: 3px 10px;
+  border-radius: 20px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+}
+
+.tag-blue   { background: rgba(0,210,255,0.12); color: var(--accent); }
+.tag-green  { background: rgba(0,255,136,0.12); color: var(--accent2); }
+.tag-orange { background: rgba(255,107,53,0.12); color: var(--accent3); }
+.tag-purple { background: rgba(199,125,255,0.12); color: var(--accent4); }
+
+/* ===== MARK AS LEARNED ===== */
+.learn-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 16px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  width: fit-content;
+}
+
+.learn-toggle input[type="checkbox"] {
+  display: none;
+}
+
+.learn-box {
+  width: 18px;
+  height: 18px;
+  border: 1.5px solid var(--text3);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s, border-color 0.2s;
+  flex-shrink: 0;
+}
+
+.learn-box svg {
+  opacity: 0;
+  transition: opacity 0.2s;
+}
+
+.learn-toggle input:checked ~ .learn-box {
+  background: var(--accent2);
+  border-color: var(--accent2);
+}
+
+.learn-toggle input:checked ~ .learn-box svg { opacity: 1; }
+
+.learn-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: color 0.2s;
+}
+
+.learn-toggle input:checked ~ .learn-label { color: var(--accent2); }
+
+.card.learned {
+  border-color: rgba(0,255,136,0.25);
+  background: rgba(0,255,136,0.03);
+}
+
+/* ===== FREQUENCY SPECTRUM BAR ===== */
+.spectrum-bar {
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  margin: 32px 0;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+
+.spectrum-labels {
+  display: flex;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.6rem;
+  color: var(--text2);
+  padding: 8px 12px 0;
+  justify-content: space-between;
+  letter-spacing: 0.05em;
+}
+
+.spectrum-track {
+  display: flex;
+  height: 32px;
+  margin: 8px 12px 4px;
+  border-radius: 8px;
+  overflow: hidden;
+  gap: 2px;
+}
+
+.spec-hf    { flex: 3; background: rgba(199,125,255,0.6); display: flex; align-items: center; justify-content: center; }
+.spec-vhf   { flex: 2; background: rgba(0,210,255,0.6); display: flex; align-items: center; justify-content: center; }
+.spec-uhf   { flex: 1.5; background: rgba(0,255,136,0.6); display: flex; align-items: center; justify-content: center; }
+.spec-shf   { flex: 1; background: rgba(255,107,53,0.4); display: flex; align-items: center; justify-content: center; }
+
+.spec-label {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: rgba(0,0,0,0.8);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+}
+
+.spectrum-freqs {
+  display: flex;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.58rem;
+  color: var(--text3);
+  padding: 4px 12px 12px;
+  justify-content: space-between;
+}
+
+.tech-priv-bar {
+  margin: 0 12px 12px;
+  background: rgba(0,210,255,0.08);
+  border: 1px dashed rgba(0,210,255,0.3);
+  border-radius: 6px;
+  padding: 6px 10px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--accent);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ===== FORMULA BLOCK ===== */
+.formula-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 12px;
+}
+
+.formula-eq {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(1.4rem, 5vw, 2.2rem);
+  font-weight: 700;
+  color: var(--accent);
+  letter-spacing: 0.05em;
+  background: rgba(0,210,255,0.06);
+  padding: 16px 32px;
+  border-radius: 12px;
+  border: 1px solid rgba(0,210,255,0.15);
+}
+
+.formula-eq.green { color: var(--accent2); background: rgba(0,255,136,0.06); border-color: rgba(0,255,136,0.15); }
+
+.formula-meaning {
+  font-size: 0.8rem;
+  color: var(--text2);
+  max-width: 320px;
+  font-family: 'Space Mono', monospace;
+  line-height: 1.7;
+}
+
+/* ===== QUIZ ===== */
+#quiz {
+  background: linear-gradient(180deg, var(--bg) 0%, var(--bg3) 100%);
+}
+
+.quiz-progress-wrap {
+  background: var(--surface);
+  border-radius: 8px;
+  height: 6px;
+  overflow: hidden;
+  margin-bottom: 32px;
+}
+
+.quiz-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  border-radius: 8px;
+  transition: width 0.4s ease;
+  width: 0%;
+}
+
+.quiz-score-display {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text2);
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.score-num {
+  font-size: 1.1rem;
+  color: var(--accent2);
+  font-weight: 700;
+}
+
+.quiz-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 28px;
+  margin-bottom: 20px;
+}
+
+.q-number {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.62rem;
+  color: var(--text3);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.q-text {
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.4;
+  margin-bottom: 20px;
+  letter-spacing: -0.01em;
+}
+
+.q-options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.q-option {
+  background: var(--bg3);
+  border: 1.5px solid var(--border);
+  border-radius: 12px;
+  padding: 14px 16px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  color: var(--text);
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.2s, background 0.2s;
+  min-height: 44px;
+  text-align: left;
+  width: 100%;
+  font-family: 'Syne', sans-serif;
+}
+
+@media (hover: hover) {
+  .q-option:not(.answered):hover {
+    border-color: rgba(0,210,255,0.4);
+    background: rgba(0,210,255,0.04);
+  }
+}
+
+.q-option.correct {
+  border-color: var(--accent2);
+  background: rgba(0,255,136,0.08);
+  color: var(--accent2);
+}
+
+.q-option.wrong {
+  border-color: var(--accent3);
+  background: rgba(255,107,53,0.08);
+  color: var(--accent3);
+}
+
+.q-option-letter {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.7rem;
+  color: var(--text3);
+  font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: color 0.2s;
+}
+
+.q-option.correct .q-option-letter { color: var(--accent2); }
+.q-option.wrong   .q-option-letter { color: var(--accent3); }
+
+.q-explanation {
+  margin-top: 16px;
+  background: rgba(0,210,255,0.06);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 10px 10px 0;
+  padding: 12px 16px;
+  font-size: 0.82rem;
+  color: var(--text2);
+  display: none;
+  line-height: 1.6;
+}
+
+.q-explanation.show { display: block; }
+
+.quiz-btn {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #080c10;
+  border: none;
+  border-radius: 50px;
+  padding: 14px 32px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  transition: opacity 0.2s, -webkit-transform 0.2s, transform 0.2s;
+  display: block;
+  margin: 24px auto 0;
+}
+
+@media (hover: hover) {
+  .quiz-btn:hover {
+    -webkit-transform: translateY(-1px);
+    transform: translateY(-1px);
+    opacity: 0.9;
+  }
+}
+
+.quiz-result {
+  text-align: center;
+  padding: 40px 20px;
+  display: none;
+}
+
+.quiz-result.show { display: block; }
+
+.result-score {
+  font-family: 'Space Mono', monospace;
+  font-size: clamp(3rem, 12vw, 5rem);
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1;
+  margin-bottom: 8px;
+}
+
+.result-msg {
+  font-size: 1.1rem;
+  color: var(--text2);
+  margin-bottom: 24px;
+}
+
+/* ===== TRAPS ===== */
+.trap-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  border-left: 3px solid var(--accent3);
+}
+
+.trap-mistake {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent3);
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.trap-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 10px;
+  text-decoration: line-through;
+  text-decoration-color: rgba(255,107,53,0.5);
+  color: var(--text2);
+}
+
+.trap-correct {
+  font-size: 0.85rem;
+  color: var(--accent2);
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+
+.trap-trick {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.72rem;
+  color: var(--text3);
+  padding: 8px 12px;
+  background: rgba(0,255,136,0.05);
+  border-radius: 8px;
+  border-left: 2px solid var(--accent2);
+  line-height: 1.5;
+}
+
+/* ===== REVIEW MODE ===== */
+#review {
+  background: var(--bg2);
+}
+
+.review-toggle-btn {
+  background: transparent;
+  border: 1.5px solid var(--accent);
+  color: var(--accent);
+  border-radius: 50px;
+  padding: 12px 28px;
+  font-family: 'Space Mono', monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  min-height: 44px;
+  -webkit-tap-highlight-color: transparent;
+  margin-bottom: 28px;
+  transition: background 0.2s, color 0.2s;
+  display: block;
+}
+
+@media (hover: hover) {
+  .review-toggle-btn:hover { background: rgba(0,210,255,0.08); }
+}
+
+.review-sheet {
+  columns: 1;
+  gap: 24px;
+}
+
+@media (min-width: 700px) {
+  .review-sheet { columns: 2; }
+}
+
+.review-block {
+  break-inside: avoid;
+  margin-bottom: 24px;
+  background: var(--surface);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+  padding: 18px 20px;
+}
+
+.review-block h4 {
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--accent);
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+}
+
+.review-block ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.review-block li {
+  font-size: 0.8rem;
+  color: var(--text2);
+  padding-left: 14px;
+  position: relative;
+  line-height: 1.5;
+}
+
+.review-block li::before {
+  content: '›';
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+}
+
+/* ===== FOOTER ===== */
+footer {
+  text-align: center;
+  padding: 32px 20px;
+  padding-bottom: calc(32px + var(--safe-bottom));
+  border-top: 1px solid var(--border);
+  font-family: 'Space Mono', monospace;
+  font-size: 0.65rem;
+  color: var(--text3);
+  letter-spacing: 0.08em;
+}
+
+/* ===== ANIMATIONS ===== */
+@-webkit-keyframes fadeUp {
+  from { opacity: 0; -webkit-transform: translateY(20px); transform: translateY(20px); }
+  to   { opacity: 1; -webkit-transform: translateY(0); transform: translateY(0); }
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  opacity: 0;
+  -webkit-transform: translateY(24px);
+  transform: translateY(24px);
+  transition: opacity 0.6s ease, -webkit-transform 0.6s ease, transform 0.6s ease;
+}
+
+.fade-in.is-visible {
+  opacity: 1;
+  -webkit-transform: translateY(0);
+  transform: translateY(0);
+}
+
+/* ===== UTILITY ===== */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+  margin: 0;
+}
+
+.mono { font-family: 'Space Mono', monospace; }
+
+.hl-blue   { color: var(--accent); }
+.hl-green  { color: var(--accent2); }
+.hl-orange { color: var(--accent3); }
+.hl-purple { color: var(--accent4); }
+
+.antenna-diagram {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+}
+
+.antenna-diagram svg {
+  max-width: 100%;
+  overflow: visible;
+}
+
+/* ===== REDUCED MOTION ===== */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    -webkit-animation-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ===== SCROLLBAR STYLING ===== */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--text3); border-radius: 4px; }
+</style>
+<link rel="canonical" href="https://followorbounce.github.io/ham-technician-crash-course">
+<meta property="og:url" content="https://followorbounce.github.io/ham-technician-crash-course">
+<script>
+/* Back link + credit for pages moved from followorbounce.com (2026-10-16; replaces its p-chrome.js). */
+(function(){
+  var HOME="https://followorbounce.github.io/";
+  function mount(){
+    var st=document.createElement("style");
+    st.textContent=".pchrome-home{position:fixed;left:max(12px,env(safe-area-inset-left));bottom:max(12px,env(safe-area-inset-bottom));z-index:2147483000;font:500 11px/1 ui-monospace,Menlo,monospace;letter-spacing:.04em;text-decoration:none;color:#fff;background:rgba(13,12,10,.78);padding:14px 12px;border:1px solid rgba(255,255,255,.22);border-radius:2px;}.pchrome-home:hover{background:#a13a2f;border-color:#a13a2f;}.pchrome-foot{margin:0;padding:26px 16px 64px;text-align:center;font:400 11px/1.5 ui-monospace,Menlo,monospace;letter-spacing:.06em;color:#8a857a;}.pchrome-foot a{color:inherit;}@media print{.pchrome-home{display:none;}}";
+    document.head.appendChild(st);
+    var a=document.createElement("a"); a.className="pchrome-home"; a.href=HOME; a.textContent="\u2190 Follow or Bounce"; document.body.appendChild(a);
+    var p=document.createElement("p"); p.className="pchrome-foot"; p.innerHTML="\u00a9 "+new Date().getFullYear()+' Follow or Bounce \u00b7 <a href="'+HOME+'">followorbounce.github.io</a>'; document.body.appendChild(p);
+  }
+  if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",mount); else mount();
+})();
+</script>
+<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token": "bba4e16a7d9b4d9985eda0cda2624e60"}'></script>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<nav>
+  <span class="nav-logo">📡 HAM·TECH</span>
+  <div class="nav-links">
+    <a href="#cheatsheet">Cheat Sheet</a>
+    <a href="#quiz">Quiz</a>
+    <a href="#traps">Traps</a>
+    <a href="#formulas">Formulas</a>
+    <a href="#review">Review</a>
+  </div>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section id="hero">
+  <div class="section-inner" style="z-index:1;">
+    <p class="hero-eyebrow">Amateur Radio · Technician Class</p>
+    <h1 class="hero-title">FCC Technician<br><span class="hl">License Crash Course</span></h1>
+    <p class="hero-sub">Pass your HAM radio exam in 7 days or less — no prior experience needed.</p>
+    <a href="#cheatsheet" class="hero-cta">Start Learning →</a>
+    <p class="hero-disclaimer">Based on official FCC Technician Question Pool</p>
+    <p class="hero-disclaimer" style="animation-delay:0.65s;">Want the physics and math behind the exam, not just the answers? <a href="https://followorbounce.github.io/radio-communications" style="color:inherit; text-decoration:underline;">Radio Communications</a> on the Knowledge Network.</p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CHEAT SHEET ===== -->
+<section id="cheatsheet">
+  <div class="section-inner">
+    <p class="section-label">Core Concepts</p>
+    <h2 class="section-title">The Exam Cheat Sheet</h2>
+
+    <!-- Spectrum visual -->
+    <div class="fade-in">
+      <div class="spectrum-bar">
+        <div class="spectrum-labels">
+          <span>← Lower Frequency</span>
+          <span>Higher Frequency →</span>
+        </div>
+        <div class="spectrum-track">
+          <div class="spec-hf"><span class="spec-label">HF</span></div>
+          <div class="spec-vhf"><span class="spec-label">VHF</span></div>
+          <div class="spec-uhf"><span class="spec-label">UHF</span></div>
+          <div class="spec-shf"><span class="spec-label">SHF+</span></div>
+        </div>
+        <div class="spectrum-freqs">
+          <span>3 MHz</span>
+          <span>30 MHz</span>
+          <span>300 MHz</span>
+          <span>3 GHz</span>
+          <span>30 GHz+</span>
+        </div>
+        <div class="tech-priv-bar">
+          ⭐ Technician privileges: VHF + UHF (full) + 10m HF (limited voice)
+        </div>
+      </div>
+    </div>
+
+    <!-- Frequency Bands -->
+    <div class="card-grid card-grid-3 fade-in" style="margin-bottom:16px;">
+      <div class="card card-accent-purple">
+        <span class="tag tag-purple">HF</span>
+        <div class="card-title hl-purple">3 – 30 MHz</div>
+        <div class="card-body">Long-distance communication via ionospheric skip. Techs have <strong>limited access</strong> — mainly 10 meters (28 MHz).</div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+
+      <div class="card card-accent-blue">
+        <span class="tag tag-blue">VHF</span>
+        <div class="card-title hl-blue">30 – 300 MHz</div>
+        <div class="card-body">Best for open terrain, mountains, rural. Line-of-sight. 2-meter band (144 MHz) is the most popular Technician band.</div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+
+      <div class="card card-accent-green">
+        <span class="tag tag-green">UHF</span>
+        <div class="card-title hl-green">300 – 3000 MHz</div>
+        <div class="card-body">Penetrates buildings better. Best for cities, indoors. 70-cm band (440 MHz) is widely used for repeaters.</div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- 10m + Key Rules -->
+    <div class="card-grid fade-in" style="margin-bottom:16px;">
+      <div class="card card-accent-orange">
+        <span class="tag tag-orange">Critical: 10 Meter</span>
+        <div class="card-title">28.300 – 28.500 MHz</div>
+        <div class="card-body">
+          Technicians can use <strong class="hl-orange">voice (SSB/phone)</strong> on this HF segment only. Everything below 28.300 MHz on 10m is CW (Morse code) only for Techs — no voice.
+          <br><br>
+          <span class="mono" style="font-size:0.7rem;color:var(--text3);">28.000–28.300 → CW only · 28.300–28.500 → voice allowed</span>
+        </div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+
+      <div class="card card-accent-blue">
+        <span class="tag tag-blue">FCC ID Rules</span>
+        <div class="card-title">Call Sign Timing</div>
+        <div class="card-body">
+          You must give your call sign:<br><br>
+          <strong class="hl-blue">① At the start</strong> of a communication<br>
+          <strong class="hl-blue">② Every 10 minutes</strong> during a contact<br>
+          <strong class="hl-blue">③ At the end</strong> of the last transmission<br><br>
+          ❌ No music, no advertising, no obscene language.
+        </div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- VHF vs UHF + Range -->
+    <div class="card-grid fade-in" style="margin-bottom:16px;">
+      <div class="card card-accent-green">
+        <span class="card-icon">🏙️</span>
+        <div class="card-title">UHF vs VHF — Where Each Wins</div>
+        <div class="card-body">
+          <strong class="hl-green">UHF (cities):</strong> Shorter wavelength → passes through walls and buildings better. Use in urban environments.<br><br>
+          <strong class="hl-blue">VHF (open):</strong> Longer wavelength → travels farther over open terrain. Use on mountains, rural areas.
+        </div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+
+      <div class="card card-accent-blue">
+        <span class="card-icon">📶</span>
+        <div class="card-title">Range: Height &gt; Power</div>
+        <div class="card-body">
+          VHF/UHF signals travel <strong>line of sight</strong>. The single most effective way to extend range is to:<br><br>
+          <strong class="hl-accent">↑ Raise antenna height</strong><br><br>
+          More power helps, but height matters more. A hilltop antenna at 5W beats a valley antenna at 50W.
+        </div>
+        <label class="learn-toggle">
+          <input type="checkbox" onchange="markLearned(this)">
+          <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+          <span class="learn-label">Mark learned</span>
+        </label>
+      </div>
+    </div>
+
+    <!-- Antenna Diagram -->
+    <div class="antenna-diagram fade-in">
+      <p class="section-label" style="justify-content:center;margin-bottom:16px;">Line-of-Sight Illustration</p>
+      <svg width="500" height="160" viewBox="0 0 500 160" aria-label="Line of sight diagram showing two radio operators with radio waves traveling between them">
+        <!-- Ground -->
+        <line x1="0" y1="140" x2="500" y2="140" stroke="rgba(0,210,255,0.15)" stroke-width="1"/>
+        <!-- Tower 1 -->
+        <rect x="60" y="70" width="6" height="70" fill="rgba(0,210,255,0.4)" rx="2"/>
+        <polygon points="63,55 55,75 71,75" fill="rgba(0,210,255,0.6)"/>
+        <text x="63" y="155" fill="rgba(0,210,255,0.6)" font-size="10" text-anchor="middle" font-family="monospace">TX</text>
+        <text x="63" y="48" fill="rgba(0,210,255,0.8)" font-size="9" text-anchor="middle" font-family="monospace">HIGH</text>
+        <!-- Tower 2 short -->
+        <rect x="240" y="115" width="4" height="25" fill="rgba(255,107,53,0.4)" rx="1"/>
+        <polygon points="242,108 237,118 247,118" fill="rgba(255,107,53,0.6)"/>
+        <text x="242" y="155" fill="rgba(255,107,53,0.6)" font-size="10" text-anchor="middle" font-family="monospace">BLOCKED</text>
+        <!-- Hill -->
+        <ellipse cx="200" cy="145" rx="80" ry="30" fill="rgba(20,28,38,0.8)" stroke="rgba(0,210,255,0.1)" stroke-width="1"/>
+        <text x="200" y="144" fill="rgba(0,210,255,0.4)" font-size="10" text-anchor="middle" font-family="monospace">TERRAIN</text>
+        <!-- Tower 3 high -->
+        <rect x="430" y="60" width="6" height="80" fill="rgba(0,255,136,0.5)" rx="2"/>
+        <polygon points="433,45 425,65 441,65" fill="rgba(0,255,136,0.7)"/>
+        <text x="433" y="155" fill="rgba(0,255,136,0.6)" font-size="10" text-anchor="middle" font-family="monospace">RX</text>
+        <text x="433" y="38" fill="rgba(0,255,136,0.8)" font-size="9" text-anchor="middle" font-family="monospace">HIGH</text>
+        <!-- Line of sight TX to RX -->
+        <line x1="63" y1="58" x2="433" y2="48" stroke="rgba(0,255,136,0.5)" stroke-width="1.5" stroke-dasharray="6,4"/>
+        <!-- Radio waves from TX -->
+        <path d="M 75 62 Q 90 55 75 48" stroke="rgba(0,210,255,0.5)" stroke-width="1.2" fill="none"/>
+        <path d="M 82 62 Q 102 52 82 42" stroke="rgba(0,210,255,0.4)" stroke-width="1" fill="none"/>
+        <path d="M 90 63 Q 115 50 90 37" stroke="rgba(0,210,255,0.3)" stroke-width="0.8" fill="none"/>
+        <text x="240" y="28" fill="rgba(0,255,136,0.7)" font-size="10" text-anchor="middle" font-family="monospace">LINE OF SIGHT = CLEAR PATH</text>
+      </svg>
+      <p style="font-size:0.75rem;color:var(--text3);margin-top:12px;font-family:'Space Mono',monospace;">Higher antenna → clears terrain → longer range · Power is secondary</p>
+    </div>
+
+    <!-- License Classes -->
+    <div class="card fade-in" style="margin-top:16px;">
+      <span class="tag tag-blue">License Tiers</span>
+      <div class="card-title">3 License Classes (Exam Focus: Technician)</div>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px;">
+        <div style="text-align:center;padding:14px;background:rgba(0,210,255,0.08);border-radius:10px;border:1px solid rgba(0,210,255,0.2);">
+          <div style="font-weight:700;color:var(--accent);margin-bottom:4px;">Technician</div>
+          <div style="font-size:0.72rem;color:var(--text2);">Entry level · VHF/UHF + limited HF</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(0,255,136,0.06);border-radius:10px;border:1px solid rgba(0,255,136,0.15);">
+          <div style="font-weight:700;color:var(--accent2);margin-bottom:4px;">General</div>
+          <div style="font-size:0.72rem;color:var(--text2);">More HF bands · worldwide contacts</div>
+        </div>
+        <div style="text-align:center;padding:14px;background:rgba(199,125,255,0.06);border-radius:10px;border:1px solid rgba(199,125,255,0.15);">
+          <div style="font-weight:700;color:var(--accent4);margin-bottom:4px;">Amateur Extra</div>
+          <div style="font-size:0.72rem;color:var(--text2);">All privileges · all bands</div>
+        </div>
+      </div>
+      <label class="learn-toggle" style="margin-top:16px;">
+        <input type="checkbox" onchange="markLearned(this)">
+        <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <span class="learn-label">Mark learned</span>
+      </label>
+    </div>
+
+    <!-- Band Plan quick ref -->
+    <div class="card fade-in" style="margin-top:16px;">
+      <span class="tag tag-green">Key Frequencies to Know</span>
+      <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg3);border-radius:8px;">
+          <span style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent);">144–148 MHz</span>
+          <span style="font-size:0.8rem;color:var(--text2);">2m band — most popular Tech VHF</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg3);border-radius:8px;">
+          <span style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent2);">420–450 MHz</span>
+          <span style="font-size:0.8rem;color:var(--text2);">70cm band — UHF, repeaters</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg3);border-radius:8px;">
+          <span style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent4);">28.000–28.300 MHz</span>
+          <span style="font-size:0.8rem;color:var(--text2);">10m CW only for Techs</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg3);border-radius:8px;">
+          <span style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--accent3);">28.300–28.500 MHz</span>
+          <span style="font-size:0.8rem;color:var(--text2);">10m voice (SSB) for Techs ✓</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 14px;background:var(--bg3);border-radius:8px;">
+          <span style="font-family:'Space Mono',monospace;font-size:0.75rem;color:var(--text2);">146.520 MHz</span>
+          <span style="font-size:0.8rem;color:var(--text2);">National 2m FM simplex calling freq</span>
+        </div>
+      </div>
+      <label class="learn-toggle" style="margin-top:16px;">
+        <input type="checkbox" onchange="markLearned(this)">
+        <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <span class="learn-label">Mark learned</span>
+      </label>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== FORMULAS ===== -->
+<section id="formulas">
+  <div class="section-inner">
+    <p class="section-label">Electronics Basics</p>
+    <h2 class="section-title">Essential Formulas Only</h2>
+
+    <div class="card-grid fade-in">
+      <div class="formula-card">
+        <span class="tag tag-blue">Ohm's Law</span>
+        <div class="formula-eq">V = I × R</div>
+        <div class="formula-meaning">
+          V = Voltage (volts) · I = Current (amps) · R = Resistance (ohms)<br><br>
+          <strong style="color:var(--text);">Intuition:</strong> Resistance squeezes current — more squeeze = more voltage needed to push the same current through.
+        </div>
+      </div>
+
+      <div class="formula-card">
+        <span class="tag tag-green">Power Formula</span>
+        <div class="formula-eq green">P = V × I</div>
+        <div class="formula-meaning">
+          P = Power (watts) · V = Voltage · I = Current<br><br>
+          <strong style="color:var(--text);">Intuition:</strong> Power is how fast energy is used. Double the current → double the watts consumed.
+        </div>
+      </div>
+    </div>
+
+    <div class="card fade-in" style="margin-top:16px;">
+      <span class="tag tag-orange">Circuit Rules — Quick Reference</span>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:12px;">
+        <div>
+          <div style="font-weight:700;color:var(--accent);margin-bottom:8px;font-size:0.85rem;">Series Circuit</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
+            <li style="font-size:0.8rem;color:var(--text2);">› Same current through all</li>
+            <li style="font-size:0.8rem;color:var(--text2);">› Voltage divides across parts</li>
+            <li style="font-size:0.8rem;color:var(--text2);">› Total R = R1 + R2 + …</li>
+            <li style="font-size:0.8rem;color:var(--text2);">› One break = all off</li>
+          </ul>
+        </div>
+        <div>
+          <div style="font-weight:700;color:var(--accent2);margin-bottom:8px;font-size:0.85rem;">Parallel Circuit</div>
+          <ul style="list-style:none;display:flex;flex-direction:column;gap:5px;">
+            <li style="font-size:0.8rem;color:var(--text2);">› Same voltage across all</li>
+            <li style="font-size:0.8rem;color:var(--text2);">› Current divides into branches</li>
+            <li style="font-size:0.8rem;color:var(--text2);">› Total R is LESS than smallest R</li>
+            <li style="font-size:0.8rem;color:var(--text2);">› One break = others still work</li>
+          </ul>
+        </div>
+      </div>
+      <label class="learn-toggle" style="margin-top:16px;">
+        <input type="checkbox" onchange="markLearned(this)">
+        <div class="learn-box"><svg width="10" height="8" viewBox="0 0 10 8" fill="none"><path d="M1 4L3.5 6.5L9 1" stroke="#080c10" stroke-width="1.8" stroke-linecap="round"/></svg></div>
+        <span class="learn-label">Mark learned</span>
+      </label>
+    </div>
+
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== QUIZ ===== -->
+<section id="quiz">
+  <div class="section-inner">
+    <p class="section-label">Practice Test</p>
+    <h2 class="section-title">Interactive Quiz</h2>
+
+    <div class="quiz-score-display fade-in">
+      <span>Score: <span class="score-num" id="score-num">0 / 0</span></span>
+      <span id="q-counter" style="font-size:0.7rem;">Question 1 of 15</span>
+    </div>
+
+    <div class="quiz-progress-wrap fade-in">
+      <div class="quiz-progress-fill" id="quiz-prog"></div>
+    </div>
+
+    <div id="quiz-container" class="fade-in"></div>
+    <div class="quiz-result" id="quiz-result">
+      <div class="result-score" id="result-score"></div>
+      <div class="result-msg" id="result-msg"></div>
+      <button class="quiz-btn" onclick="restartQuiz()">Retake Quiz →</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== TRAPS ===== -->
+<section id="traps">
+  <div class="section-inner">
+    <p class="section-label">Watch Out</p>
+    <h2 class="section-title">Common Exam Traps</h2>
+
+    <div class="card-grid fade-in" id="traps-grid">
+
+      <div class="trap-card">
+        <div class="trap-mistake">Trap #1</div>
+        <div class="trap-title">"UHF travels farther than VHF"</div>
+        <div class="trap-correct">✓ VHF travels farther over open terrain. UHF is better for urban/indoor penetration.</div>
+        <div class="trap-trick">🧠 Memory: "UHF = Urban Hi-Freq" — buildings don't stop it, but it's shorter range.</div>
+      </div>
+
+      <div class="trap-card">
+        <div class="trap-mistake">Trap #2</div>
+        <div class="trap-title">"More power = more range"</div>
+        <div class="trap-correct">✓ Antenna height is more effective than power for extending VHF/UHF range.</div>
+        <div class="trap-trick">🧠 Memory: "Go HIGH before going LOUD."</div>
+      </div>
+
+      <div class="trap-card">
+        <div class="trap-mistake">Trap #3</div>
+        <div class="trap-title">"Parallel circuits have higher total resistance"</div>
+        <div class="trap-correct">✓ Parallel resistors DECREASE total resistance — always less than the smallest resistor alone.</div>
+        <div class="trap-trick">🧠 Memory: "More paths = less resistance." Like adding lanes to a highway.</div>
+      </div>
+
+      <div class="trap-card">
+        <div class="trap-mistake">Trap #4</div>
+        <div class="trap-title">"ID every 15 minutes"</div>
+        <div class="trap-correct">✓ FCC requires call sign every 10 minutes and at the END of the last transmission.</div>
+        <div class="trap-trick">🧠 Memory: "10 minutes, 10 fingers. Count your fingers, say your call sign."</div>
+      </div>
+
+      <div class="trap-card">
+        <div class="trap-mistake">Trap #5</div>
+        <div class="trap-title">"Technicians can use all of 10 meters for voice"</div>
+        <div class="trap-correct">✓ Voice (phone) only from 28.300–28.500 MHz. Below 28.300 is CW (Morse) only.</div>
+        <div class="trap-trick">🧠 Memory: "28.3 is the gate — phone above, code below."</div>
+      </div>
+
+      <div class="trap-card">
+        <div class="trap-mistake">Trap #6</div>
+        <div class="trap-title">"Technicians can use all HF bands"</div>
+        <div class="trap-correct">✓ Techs only have HF privileges on 10 meters (28 MHz). All other HF bands require General or Extra.</div>
+        <div class="trap-trick">🧠 Memory: "Technician = 10m only on HF. Everything else = VHF and above."</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== 10-MINUTE REVIEW ===== -->
+<section id="review">
+  <div class="section-inner">
+    <p class="section-label">Final Prep</p>
+    <h2 class="section-title">10-Minute Final Review</h2>
+    <p style="color:var(--text2);margin-bottom:28px;font-size:0.9rem;">Skim this the morning of your exam. Everything you need, nothing you don't.</p>
+
+    <div class="review-sheet">
+
+      <div class="review-block">
+        <h4>📡 Frequency Bands</h4>
+        <ul>
+          <li>HF: 3–30 MHz (long distance, skip)</li>
+          <li>VHF: 30–300 MHz (open terrain)</li>
+          <li>UHF: 300–3000 MHz (buildings/cities)</li>
+          <li>Tech: full VHF + UHF privileges</li>
+          <li>Tech: 10m HF only (28 MHz)</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>🎙️ 10-Meter Technician Privileges</h4>
+        <ul>
+          <li>28.000–28.300 → CW (code) only</li>
+          <li>28.300–28.500 → voice (SSB/phone) ✓</li>
+          <li>NO voice below 28.300 MHz</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>🪪 FCC ID Rules</h4>
+        <ul>
+          <li>Give call sign at START of contact</li>
+          <li>Every 10 minutes during contact</li>
+          <li>At END of last transmission</li>
+          <li>No music, no advertising</li>
+          <li>No obscene or indecent language</li>
+          <li>English is OK; other languages OK too</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>📶 VHF/UHF Range</h4>
+        <ul>
+          <li>Line-of-sight propagation</li>
+          <li>Height beats power for range</li>
+          <li>VHF = open areas, mountains</li>
+          <li>UHF = urban, indoor, better penetration</li>
+          <li>Repeaters extend range dramatically</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>⚡ Ohm's Law</h4>
+        <ul>
+          <li>V = I × R (voltage = current × resistance)</li>
+          <li>I = V / R (current = voltage / resistance)</li>
+          <li>R = V / I (resistance = voltage / current)</li>
+          <li>P = V × I (power = volts × amps)</li>
+          <li>P = I² × R (power from current + resistance)</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>🔌 Circuits</h4>
+        <ul>
+          <li>Series: same current, voltage divides</li>
+          <li>Series: R total = R1 + R2 + R3…</li>
+          <li>Parallel: same voltage, current divides</li>
+          <li>Parallel: R total is LESS than smallest R</li>
+          <li>Series break = all off; Parallel break = others stay on</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>📻 Key Frequencies</h4>
+        <ul>
+          <li>2m band: 144–148 MHz (most popular)</li>
+          <li>70cm band: 420–450 MHz (UHF repeaters)</li>
+          <li>146.520 MHz = 2m national calling freq</li>
+          <li>446.000 MHz = UHF national simplex</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>🪝 Safety & Emergency</h4>
+        <ul>
+          <li>Antenna safety: never transmit into open connector</li>
+          <li>MAYDAY = life-threatening emergency</li>
+          <li>Monitor 146.520 while mobile</li>
+          <li>Phonetic alphabet: Alpha, Bravo, Charlie…</li>
+          <li>RF exposure: more power = more caution needed</li>
+        </ul>
+      </div>
+
+      <div class="review-block">
+        <h4>📋 Exam Format</h4>
+        <ul>
+          <li>35 multiple-choice questions</li>
+          <li>26 correct needed to pass (74%)</li>
+          <li>Question pool publicly available</li>
+          <li>$15 exam fee (VEC administered)</li>
+          <li>License valid for 10 years</li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<footer>
+  <p>HAM·TECH Crash Course · Based on FCC Technician Question Pool · Study hard, key up. 📡</p>
+  <p style="margin-top:6px;">Not affiliated with the FCC or ARRL. Educational use only.</p>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ===== PASSIVE SCROLL DETECTION ===== */
+  var passiveSupported = false;
+  try {
+    var opts = Object.defineProperty({}, 'passive', {
+      get: function () { passiveSupported = true; }
+    });
+    window.addEventListener('_t', null, opts);
+    window.removeEventListener('_t', null, opts);
+  } catch (e) {}
+  var PASSIVE = passiveSupported ? { passive: true } : false;
+
+  /* ===== READING PROGRESS BAR ===== */
+  var progressBar = document.getElementById('progress-bar');
+  function updateProgress() {
+    var scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+    var docH = document.documentElement.scrollHeight - window.innerHeight;
+    var pct = docH > 0 ? (scrollTop / docH) * 100 : 0;
+    progressBar.style.width = pct + '%';
+  }
+  window.addEventListener('scroll', updateProgress, PASSIVE);
+
+  /* ===== INTERSECTION OBSERVER FOR FADE-IN ===== */
+  var fadeEls = document.querySelectorAll('.fade-in');
+  if (!('IntersectionObserver' in window)) {
+    fadeEls.forEach(function (el) { el.classList.add('is-visible'); });
+  } else {
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -10px 0px' });
+    fadeEls.forEach(function (el) { observer.observe(el); });
+  }
+
+  /* ===== MARK AS LEARNED ===== */
+  window.markLearned = function (checkbox) {
+    var card = checkbox.closest('.card');
+    if (!card) return;
+    if (checkbox.checked) {
+      card.classList.add('learned');
+    } else {
+      card.classList.remove('learned');
+    }
+  };
+
+  /* ===== QUIZ DATA ===== */
+  var allQuestions = [
+    {
+      q: "Which frequency band gives Technician licensees full privileges?",
+      opts: ["HF (3–30 MHz)", "VHF (30–300 MHz) and UHF (300–3000 MHz)", "Only HF below 30 MHz", "All amateur bands"],
+      ans: 1,
+      exp: "Technicians have full privileges on VHF and UHF bands. HF access is limited to the 10-meter band only."
+    },
+    {
+      q: "A Technician licensee wants to use voice on the 10-meter band. Which frequency range is permitted?",
+      opts: ["28.000–28.300 MHz", "28.300–28.500 MHz", "Anywhere on 10 meters", "10 meters is not available to Technicians"],
+      ans: 1,
+      exp: "Technicians may use phone (voice/SSB) on 10m only between 28.300 and 28.500 MHz. Below that is CW only."
+    },
+    {
+      q: "How often must you transmit your call sign during an amateur radio contact?",
+      opts: ["Every 5 minutes", "Every 15 minutes", "Every 10 minutes and at the end", "Only at the beginning"],
+      ans: 2,
+      exp: "FCC rules require station identification at the start of a contact, every 10 minutes during, and at the end of the last transmission."
+    },
+    {
+      q: "What is the primary advantage of increasing antenna height for VHF/UHF communication?",
+      opts: ["It reduces power consumption", "It extends line-of-sight range", "It improves audio quality", "It allows HF frequencies to be used"],
+      ans: 1,
+      exp: "VHF/UHF signals travel line-of-sight. A higher antenna clears terrain and obstacles, dramatically extending range — more effectively than increasing transmitter power."
+    },
+    {
+      q: "Which frequency band is generally better for communication in urban areas with many buildings?",
+      opts: ["HF", "VHF", "UHF", "ELF"],
+      ans: 2,
+      exp: "UHF signals (300–3000 MHz) have shorter wavelengths that penetrate buildings better, making them superior for urban and indoor communication."
+    },
+    {
+      q: "Using Ohm's Law, if a circuit has a voltage of 12V and a resistance of 4 ohms, what is the current?",
+      opts: ["48 amps", "3 amps", "0.33 amps", "16 amps"],
+      ans: 1,
+      exp: "I = V / R = 12 / 4 = 3 amps. This is Ohm's Law: I = V ÷ R."
+    },
+    {
+      q: "What happens to total resistance when resistors are connected in parallel?",
+      opts: ["It increases", "It stays the same", "It decreases below the smallest resistor", "It equals the sum of all resistors"],
+      ans: 2,
+      exp: "Parallel resistors always produce a total resistance LESS than the smallest individual resistor. Adding more paths always reduces total resistance."
+    },
+    {
+      q: "What is the power consumed by a circuit with 12 volts and 2 amps of current?",
+      opts: ["6 watts", "14 watts", "24 watts", "0.17 watts"],
+      ans: 2,
+      exp: "P = V × I = 12 × 2 = 24 watts. The power formula: watts equals volts times amps."
+    },
+    {
+      q: "Which FCC rule applies to music on an amateur radio transmission?",
+      opts: ["Music is allowed if it is original", "Music is never permitted on amateur frequencies", "Music is allowed with a third-party agreement", "Music is allowed only on 10 meters"],
+      ans: 1,
+      exp: "FCC regulations strictly prohibit broadcasting music on amateur radio frequencies. Amateur radio is a two-way communication service, not a broadcasting service."
+    },
+    {
+      q: "What is the most popular VHF band used by Technician-class operators?",
+      opts: ["6 meters (50 MHz)", "2 meters (144 MHz)", "70 cm (440 MHz)", "23 cm (1240 MHz)"],
+      ans: 1,
+      exp: "The 2-meter band (144–148 MHz) is the most widely used VHF band for Technician operators, with extensive repeater coverage across the US."
+    },
+    {
+      q: "If a series circuit has one component fail (open circuit), what happens?",
+      opts: ["Only that component stops working", "The entire circuit stops working", "Other components work harder", "Nothing changes"],
+      ans: 1,
+      exp: "In a series circuit, current must flow through every component. One break stops current flow completely — the entire circuit stops."
+    },
+    {
+      q: "What does 'line-of-sight' mean for VHF/UHF propagation?",
+      opts: ["Signals travel around the Earth", "Signals generally travel in straight paths and are blocked by terrain", "Signals can penetrate any obstacle", "Signals bounce off the ionosphere"],
+      ans: 1,
+      exp: "VHF/UHF signals travel in straight lines and cannot bend around the Earth or large terrain features. They are typically blocked by mountains and large buildings."
+    },
+    {
+      q: "A Technician wants to make a contact across the country. Which option is MOST reliable?",
+      opts: ["Use high power on VHF simplex", "Use a VHF/UHF linked repeater system or HF 10m band", "Use UHF in a city", "Increase antenna height in a valley"],
+      ans: 1,
+      exp: "For long-distance contacts, Technicians should use linked repeater networks, digital modes (like D-STAR/APRS), or the 10m HF band during good conditions."
+    },
+    {
+      q: "What is the HF frequency range?",
+      opts: ["300 kHz – 3 MHz", "3 MHz – 30 MHz", "30 MHz – 300 MHz", "300 MHz – 3 GHz"],
+      ans: 1,
+      exp: "HF (High Frequency) spans 3 to 30 MHz. It's known for long-distance communication via skywave/ionospheric propagation."
+    },
+    {
+      q: "Which license class provides the highest level of operating privileges?",
+      opts: ["Technician", "General", "Amateur Extra", "Advanced"],
+      ans: 2,
+      exp: "Amateur Extra is the highest-class FCC amateur radio license, granting full privileges on all amateur bands and modes."
+    }
+  ];
+
+  var currentQ = 0;
+  var score = 0;
+  var answered = 0;
+  var questionOrder = [];
+
+  function shuffle(arr) {
+    var a = arr.slice();
+    for (var i = a.length - 1; i > 0; i--) {
+      var j = Math.floor(Math.random() * (i + 1));
+      var tmp = a[i]; a[i] = a[j]; a[j] = tmp;
+    }
+    return a;
+  }
+
+  function initQuiz() {
+    questionOrder = shuffle(allQuestions);
+    currentQ = 0;
+    score = 0;
+    answered = 0;
+    document.getElementById('quiz-result').classList.remove('show');
+    document.getElementById('quiz-container').style.display = 'block';
+    updateScoreDisplay();
+    renderQuestion();
+  }
+
+  function updateScoreDisplay() {
+    document.getElementById('score-num').textContent = score + ' / ' + answered;
+    document.getElementById('q-counter').textContent = 'Question ' + (currentQ + 1) + ' of ' + questionOrder.length;
+    var pct = (currentQ / questionOrder.length) * 100;
+    document.getElementById('quiz-prog').style.width = pct + '%';
+  }
+
+  function renderQuestion() {
+    var container = document.getElementById('quiz-container');
+    if (currentQ >= questionOrder.length) {
+      showResult();
+      return;
+    }
+    var qData = questionOrder[currentQ];
+    var letters = ['A', 'B', 'C', 'D'];
+    var html = '<div class="quiz-card">';
+    html += '<div class="q-number">Question ' + (currentQ + 1) + ' of ' + questionOrder.length + '</div>';
+    html += '<div class="q-text">' + qData.q + '</div>';
+    html += '<div class="q-options">';
+    qData.opts.forEach(function (opt, i) {
+      html += '<button class="q-option" data-index="' + i + '" onclick="selectAnswer(this,' + i + ')">';
+      html += '<span class="q-option-letter">' + letters[i] + '</span>';
+      html += '<span>' + opt + '</span>';
+      html += '</button>';
+    });
+    html += '</div>';
+    html += '<div class="q-explanation" id="q-exp">' + qData.exp + '</div>';
+    if (currentQ < questionOrder.length - 1) {
+      html += '<button class="quiz-btn" id="next-btn" onclick="nextQuestion()" style="display:none;">Next Question →</button>';
+    } else {
+      html += '<button class="quiz-btn" id="next-btn" onclick="showResult()" style="display:none;">See Results →</button>';
+    }
+    html += '</div>';
+    container.innerHTML = html;
+  }
+
+  window.selectAnswer = function (btn, idx) {
+    var qData = questionOrder[currentQ];
+    var options = document.querySelectorAll('.q-option');
+    options.forEach(function (o) {
+      o.classList.add('answered');
+      o.onclick = null;
+    });
+    answered++;
+    if (idx === qData.ans) {
+      btn.classList.add('correct');
+      score++;
+    } else {
+      btn.classList.add('wrong');
+      options[qData.ans].classList.add('correct');
+    }
+    document.getElementById('q-exp').classList.add('show');
+    var nextBtn = document.getElementById('next-btn');
+    if (nextBtn) nextBtn.style.display = 'block';
+    updateScoreDisplay();
+  };
+
+  window.nextQuestion = function () {
+    currentQ++;
+    updateScoreDisplay();
+    renderQuestion();
+  };
+
+  function showResult() {
+    document.getElementById('quiz-container').style.display = 'none';
+    var result = document.getElementById('quiz-result');
+    result.classList.add('show');
+    document.getElementById('quiz-prog').style.width = '100%';
+    var pct = Math.round((score / questionOrder.length) * 100);
+    document.getElementById('result-score').textContent = score + '/' + questionOrder.length;
+    var msg = '';
+    if (pct >= 90) msg = '🏆 Excellent! You\'re ready for the exam.';
+    else if (pct >= 74) msg = '✅ Passing score! Review weak areas.';
+    else if (pct >= 50) msg = '📖 Getting there — keep studying.';
+    else msg = '💪 Keep going — revisit the cheat sheet.';
+    document.getElementById('result-msg').textContent = msg + ' (' + pct + '%)';
+  }
+
+  window.restartQuiz = function () {
+    initQuiz();
+  };
+
+  window.showResult = showResult;
+
+  /* ===== SMOOTH SCROLL ===== */
+  document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+    anchor.addEventListener('click', function (e) {
+      var target = document.querySelector(this.getAttribute('href'));
+      if (!target) return;
+      e.preventDefault();
+      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  /* ===== INIT ===== */
+  initQuiz();
+  updateProgress();
+
+}());
+</script>
+</body>
+</html>

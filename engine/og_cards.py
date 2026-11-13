@@ -93,6 +93,14 @@ PLACES = {
     'scale': ('Planck to Horizon', 'planck-to-horizon', 'Every size in nature, in one zoom'),
     'prompt': ('The Logic of a Prompt & Life', 'logic-of-a-prompt', 'Twenty-one parts of a clear request'),
 }
+# Russian names for the footer on Russian-edition pages (<html data-edition="ru">, aerospace/ru/). The linked sites are in
+# English, so each line says so. Only the places a Russian edition links to need an entry; others fall back to English.
+PLACES_RU = {
+    'scale': ('От Планка до горизонта', 'Все размеры в природе в одном масштабе (на английском)'),
+    'reckoning': ('Reckoning', 'Единицы, небо и море, сигналы, погода и суда (на английском)'),
+    'machinery': ('Энциклопедия тяжёлой техники', 'Самые большие машины и физика, на которой они держатся (на английском)'),
+    'aerospace': ('Аэрокосмический справочник', 'Справочники по истории и технике космических полётов'),
+}
 RELATED = {
     'aerospace': ('scale', 'reckoning', 'machinery'),
     'knots': ('reckoning', 'machinery', 'aerospace'),
@@ -127,7 +135,7 @@ NET_CSS = (
     '.fob-net a:focus-visible{outline:2px solid currentColor;outline-offset:3px}')
 
 
-def footer(site):
+def footer(site, ru=False):
     if site not in RELATED:
         return ''
     mode = NET_PLACE.get(site, ('block',))[0]
@@ -138,6 +146,14 @@ def footer(site):
         links = ' · '.join('<a href="%s%s">%s</a>' % (HUB, PLACES[k][1], html.escape(PLACES[k][0])) for k in RELATED[site])
         return ('<!-- fob-network --><p style="margin:8px 0 0">More from <a href="%s">Follow or Bounce</a>: %s</p>'
                 '<!-- /fob-network -->' % (HUB, links))
+    if ru:
+        name = lambda k: PLACES_RU.get(k, PLACES[k][:1])[0]
+        desc = lambda k: PLACES_RU[k][1] if k in PLACES_RU else PLACES[k][2]
+        items = ''.join('<li><a href="%s%s"><b>%s</b><span>%s</span></a></li>' % (HUB, PLACES[k][1], html.escape(name(k)), html.escape(desc(k)))
+                        for k in RELATED[site])
+        return ('<!-- fob-network -->\n<aside class="fob-net" aria-label="Ещё от Follow or Bounce" lang="ru"><style>%s</style><div>'
+                '<p><a href="%s">Follow or Bounce</a> · ещё от студии</p><ul>%s</ul></div></aside>\n<!-- /fob-network -->\n'
+                % (NET_CSS, HUB, items))
     items = ''.join('<li><a href="%s%s"><b>%s</b><span>%s</span></a></li>' % (HUB, PLACES[k][1], html.escape(PLACES[k][0]), html.escape(PLACES[k][2]))
                     for k in RELATED[site])
     return ('<!-- fob-network -->\n<aside class="fob-net" aria-label="More from Follow or Bounce"><style>%s</style><div>'
@@ -252,6 +268,8 @@ def card_data(site, p):
 def inject(site, p, img, alt, foot):
     """The page with its share tags and network block in place; written only when something changed."""
     h = p['html']
+    if foot and 'data-edition="ru"' in h:
+        foot = footer(site, ru=True)            # the Russian edition gets the block in Russian
     if not (meta(h, 'property', 'og:image') == img and meta(h, 'name', 'twitter:image') == img):
         block = ('<meta property="og:image" content="%s">\n<meta property="og:image:width" content="%d">\n'
                  '<meta property="og:image:height" content="%d">\n<meta property="og:image:alt" content="%s">\n'
@@ -335,7 +353,7 @@ def main():
             if '--check' in flags:
                 problems = [w for w, bad in (('tags', own != img),
                                              ('picture', not os.path.exists(os.path.join(root, 'og', p['slug'] + '.jpg'))),
-                                             ('network block', bool(foot) and foot not in p['html'])) if bad]
+                                             ('network block', bool(foot) and (footer(site, ru=True) if 'data-edition="ru"' in p['html'] else foot) not in p['html'])) if bad]
                 if problems:
                     missing += 1; print('  %s %s: no %s' % (site, p['slug'], ', '.join(problems)))
                 continue

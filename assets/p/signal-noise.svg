@@ -1,0 +1,130 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1536 1024" width="1536" height="1024" shape-rendering="geometricPrecision" text-rendering="geometricPrecision">
+  <defs>
+    <!-- Paper texture via noise filter -->
+    <filter id="grain" x="0%" y="0%" width="100%" height="100%">
+      <feTurbulence type="fractalNoise" baseFrequency="0.85" numOctaves="4" stitchTiles="stitch" result="noise"/>
+      <feColorMatrix type="saturate" values="0" in="noise" result="grayNoise"/>
+      <feBlend in="SourceGraphic" in2="grayNoise" mode="multiply" result="blended"/>
+      <feComposite in="blended" in2="SourceGraphic" operator="in"/>
+    </filter>
+
+    <!-- Subtle vignette -->
+    <radialGradient id="vignette" cx="50%" cy="50%" r="70%">
+      <stop offset="0%" stop-color="transparent"/>
+      <stop offset="100%" stop-color="#0d0d0d" stop-opacity="0.35"/>
+    </radialGradient>
+
+    <!-- Signal line gradient -->
+    <linearGradient id="sigGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#c8392b" stop-opacity="0"/>
+      <stop offset="20%" stop-color="#c8392b" stop-opacity="0.9"/>
+      <stop offset="80%" stop-color="#c8392b" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#c8392b" stop-opacity="0"/>
+    </linearGradient>
+
+    <linearGradient id="noiseGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1a1a1a" stop-opacity="0"/>
+      <stop offset="15%" stop-color="#1a1a1a" stop-opacity="0.5"/>
+      <stop offset="85%" stop-color="#1a1a1a" stop-opacity="0.5"/>
+      <stop offset="100%" stop-color="#1a1a1a" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Background — paper -->
+  <rect width="1536" height="1024" fill="#f4f1eb"/>
+
+  <!-- Grain overlay rect -->
+  <rect width="1536" height="1024" fill="#d4cfc7" opacity="0.18" filter="url(#grain)"/>
+
+  <!-- ─── Background decorative elements ─── -->
+
+  <!-- Large faint "20" watermark -->
+  <text x="768" y="620" font-family="'Courier New', monospace" font-size="680" font-weight="400"
+        fill="#e2ded6" text-anchor="middle" dominant-baseline="middle" letter-spacing="-40">20</text>
+
+  <!-- Horizontal rule lines — editorial feel -->
+  <line x1="80" y1="140" x2="1456" y2="140" stroke="#c8c3ba" stroke-width="0.8"/>
+  <line x1="80" y1="884" x2="1456" y2="884" stroke="#c8c3ba" stroke-width="0.8"/>
+
+  <!-- ─── Waveform zone (centered, occupying mid section) ─── -->
+  <g transform="translate(0, 512)">
+    <!-- Grid lines (very faint) -->
+    <line x1="80" y1="-120" x2="1456" y2="-120" stroke="#ddd8cf" stroke-width="0.5" stroke-dasharray="4,8"/>
+    <line x1="80" y1="-60" x2="1456" y2="-60" stroke="#ddd8cf" stroke-width="0.5" stroke-dasharray="4,8"/>
+    <line x1="80" y1="0" x2="1456" y2="0" stroke="#c8c3ba" stroke-width="1"/>
+    <line x1="80" y1="60" x2="1456" y2="60" stroke="#ddd8cf" stroke-width="0.5" stroke-dasharray="4,8"/>
+    <line x1="80" y1="120" x2="1456" y2="120" stroke="#ddd8cf" stroke-width="0.5" stroke-dasharray="4,8"/>
+
+    <!-- Digital/square wave — mechanical, cold -->
+    <polyline fill="none" stroke="url(#noiseGrad)" stroke-width="1.5" opacity="0.5"
+      points="80,0 80,-90 170,-90 170,90 260,90 260,-90 350,-90 350,90 440,90 440,-45 530,-45 530,45 620,45 620,-20 710,-20 710,20 800,20 800,-10 890,-10 890,10 980,10 980,0 1070,0 1160,0 1250,0 1340,0 1456,0"/>
+
+    <!-- Natural / human wave — organic, red signal -->
+    <polyline fill="none" stroke="url(#sigGrad)" stroke-width="2.5"
+      points="80,0 130,-95 190,78 255,-108 320,92 385,-72 455,110 520,-88 590,65 660,-115 730,98 800,-55 870,85 940,-40 1010,70 1080,-30 1150,50 1220,-18 1290,30 1360,-10 1410,15 1456,0"/>
+
+    <!-- Label: HUMAN SIGNAL -->
+    <text x="168" y="-108" font-family="'Courier New', monospace" font-size="11" fill="#c8392b"
+          letter-spacing="2" text-anchor="middle">HUMAN SIGNAL</text>
+    <!-- small tick -->
+    <line x1="168" y1="-100" x2="168" y2="-95" stroke="#c8392b" stroke-width="1"/>
+
+    <!-- Label: DIGITAL APPROXIMATION -->
+    <text x="350" y="108" font-family="'Courier New', monospace" font-size="11" fill="#888"
+          letter-spacing="2" text-anchor="middle">DIGITAL APPROXIMATION</text>
+    <line x1="350" y1="100" x2="350" y2="90" stroke="#888" stroke-width="1"/>
+  </g>
+
+  <!-- ─── Typography ─── -->
+
+  <!-- Eyebrow -->
+  <text x="80" y="115" font-family="'Courier New', monospace" font-size="13" fill="#b8b3aa"
+        letter-spacing="5" text-anchor="start">PHILOSOPHICAL MANIFESTO — 2026</text>
+
+  <!-- Main headline -->
+  <text x="80" y="260" font-family="'Courier New', monospace" font-size="98" font-weight="400"
+        fill="#0d0d0d" letter-spacing="-4" text-anchor="start">Signal</text>
+  <text x="80" y="370" font-family="'Courier New', monospace" font-size="98" font-weight="400"
+        fill="#0d0d0d" letter-spacing="-4" text-anchor="start">&amp; Noise</text>
+
+  <!-- Accent slash -->
+  <rect x="80" y="398" width="240" height="3" fill="#c8392b"/>
+
+  <!-- Subheadline -->
+  <text x="80" y="450" font-family="Georgia, 'Times New Roman', serif" font-size="22" fill="#555"
+        text-anchor="start" font-style="italic">
+    Is refusing a smartphone deviation — or clarity?
+  </text>
+
+  <!-- Bottom left stat -->
+  <text x="80" y="910" font-family="'Courier New', monospace" font-size="13" fill="#b8b3aa"
+        letter-spacing="3">SMARTPHONES: ~20 YEARS OLD</text>
+
+  <!-- Bottom right stat -->
+  <text x="1456" y="910" font-family="'Courier New', monospace" font-size="13" fill="#b8b3aa"
+        letter-spacing="3" text-anchor="end">HUMANITY: 300,000 YEARS OLD</text>
+
+  <!-- Bottom center: site -->
+  <text x="768" y="975" font-family="'Courier New', monospace" font-size="11" fill="#c8c3ba"
+        letter-spacing="4" text-anchor="middle">ID.FOLLOWORBOUNCE.COM / PAGES / SIGNAL-NOISE</text>
+
+  <!-- Right side vertical text -->
+  <g transform="translate(1490, 512) rotate(90)">
+    <text font-family="'Courier New', monospace" font-size="11" fill="#c8c3ba"
+          letter-spacing="5" text-anchor="middle">
+      THE CHANNEL BETWEEN US IS OLDER THAN ANY INTERFACE
+    </text>
+  </g>
+
+  <!-- Small decorative dots — frequency markers -->
+  <g fill="#c8392b" opacity="0.7">
+    <circle cx="80" cy="512" r="3"/>
+    <circle cx="1456" cy="512" r="3"/>
+    <circle cx="768" cy="512" r="3"/>
+    <circle cx="424" cy="512" r="2"/>
+    <circle cx="1112" cy="512" r="2"/>
+  </g>
+
+  <!-- Vignette -->
+  <rect width="1536" height="1024" fill="url(#vignette)"/>
+</svg>
