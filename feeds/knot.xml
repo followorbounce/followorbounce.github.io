@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-13T00:00:00-08:00</updated>
+<updated>2026-11-14T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Clinch Knot</title>
+<id>tag:followorbounce.github.io,2026-11-14:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/clinch-knot/"/>
+<published>2026-11-14T00:00:00-08:00</published>
+<updated>2026-11-14T00:00:00-08:00</updated>
+<summary>The classic way to tie line to a hook, lure or swivel: through the eye, five twists round the line, then back through the small loop by the eye.</summary>
+<content type="html">&lt;p&gt;The classic way to tie line to a hook, lure or swivel: through the eye, five twists round the line, then back through the small loop by the eye.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end of the line through the eye of the hook.&lt;/li&gt;&lt;li&gt;Bring it back up alongside the line.&lt;/li&gt;&lt;li&gt;Twist the end round the line five times, working away from the hook.&lt;/li&gt;&lt;li&gt;Bring the end back down and through the small loop just above the eye.&lt;/li&gt;&lt;li&gt;Wet it, then pull the line so the twists slide down onto the eye. Trim the end.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Prusik Knot</title>
 <id>tag:followorbounce.github.io,2026-11-13:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-16T00:00:00-07:00</updated>
 <summary>A bowline with its tail tied in an overhand knot round the leg of the eye beside it, so the bowline cannot shake loose when it is not loaded.</summary>
 <content type="html">&lt;p&gt;A bowline with its tail tied in an overhand knot round the leg of the eye beside it, so the bowline cannot shake loose when it is not loaded.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Tie a bowline: the standing part runs up.&lt;/li&gt;&lt;li&gt;Make the small loop.&lt;/li&gt;&lt;li&gt;Form the eye.&lt;/li&gt;&lt;li&gt;Up through the small loop.&lt;/li&gt;&lt;li&gt;Round behind the standing part.&lt;/li&gt;&lt;li&gt;Back down through the small loop.&lt;/li&gt;&lt;li&gt;Take the tail round the leg of the eye beside it and tie an overhand knot.&lt;/li&gt;&lt;li&gt;Pull the overhand snug up against the bowline.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Common Whipping</title>
-<id>tag:followorbounce.github.io,2026-10-15:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/common-whipping/"/>
-<published>2026-10-15T00:00:00-07:00</published>
-<updated>2026-10-15T00:00:00-07:00</updated>
-<summary>Turns of thin twine bound round a rope end to stop it unravelling. Both ends of the twine are buried under the turns.</summary>
-<content type="html">&lt;p&gt;Turns of thin twine bound round a rope end to stop it unravelling. Both ends of the twine are buried under the turns.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Lay a bight of twine along the rope, with the loop pointing to the end of the rope.&lt;/li&gt;&lt;li&gt;Wrap the twine round the rope and over the bight, working toward the end. Pull each turn tight.&lt;/li&gt;&lt;li&gt;Pass the end through the loop of the bight.&lt;/li&gt;&lt;li&gt;Pull the other end of the twine to draw the loop and the end under the turns. Trim both ends.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

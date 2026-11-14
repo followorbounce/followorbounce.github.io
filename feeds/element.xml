@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-13T00:00:00-08:00</updated>
+<updated>2026-11-14T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Quotes (Qu)</title>
+<id>tag:followorbounce.github.io,2026-11-14:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#quotes"/>
+<published>2026-11-14T00:00:00-08:00</published>
+<updated>2026-11-14T00:00:00-08:00</updated>
+<summary>Exact words from a real person or text, repeated word for word.</summary>
+<content type="html">&lt;p&gt;Exact words from a real person or text, repeated word for word.&lt;/p&gt;&lt;p&gt;A quotation is testimony: evidence that someone said something. It counts only if it is accurate and in context. A misquote is a false premise.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent quotations or pin real ones on the wrong person. Paste the exact words yourself, or check any quote against a reliable original.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Scope (Sc)</title>
 <id>tag:followorbounce.github.io,2026-11-13:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-16T00:00:00-07:00</updated>
 <summary>Rules the answer must obey, such as length, cost or things to avoid.</summary>
 <content type="html">&lt;p&gt;Rules the answer must obey, such as length, cost or things to avoid.&lt;/p&gt;&lt;p&gt;Limitations are necessary conditions: an answer that breaks one fails, however good it is otherwise. Meeting every limitation still does not make an answer good enough.&lt;/p&gt;&lt;p&gt;Watch out: Check the answer against each limit yourself. Models sometimes quietly break a rule, such as a word count, while sounding as if they kept it.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Call to action (Ca)</title>
-<id>tag:followorbounce.github.io,2026-10-15:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#call-to-action"/>
-<published>2026-10-15T00:00:00-07:00</published>
-<updated>2026-10-15T00:00:00-07:00</updated>
-<summary>The next step the answer should end on, for you or for the people who read it.</summary>
-<content type="html">&lt;p&gt;The next step the answer should end on, for you or for the people who read it.&lt;/p&gt;&lt;p&gt;An argument can end in a practical conclusion: a decision about what to do. A call to action turns the reasoning into one clear next step.&lt;/p&gt;&lt;p&gt;Watch out: Pushy calls to action backfire. Ask for one clear, honest next step, not pressure or invented urgency like &amp;#x27;only two places left&amp;#x27;.&lt;/p&gt;</content>
 </entry>
 </feed>
