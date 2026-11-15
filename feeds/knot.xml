@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-14T00:00:00-08:00</updated>
+<updated>2026-11-15T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Cow Hitch</title>
+<id>tag:followorbounce.github.io,2026-11-15:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/cow-hitch/"/>
+<published>2026-11-15T00:00:00-08:00</published>
+<updated>2026-11-15T00:00:00-08:00</updated>
+<summary>A bight of rope dropped round a rail with both legs pulled through it. It is the standard way to fix a loop of cord or a sling to a ring, rail or harness.</summary>
+<content type="html">&lt;p&gt;A bight of rope dropped round a rail with both legs pulled through it. It is the standard way to fix a loop of cord or a sling to a ring, rail or harness.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;One leg hangs down behind the rail.&lt;/li&gt;&lt;li&gt;Going up, it climbs the back of the rail, comes over the top towards you, down the front and back under the rail.&lt;/li&gt;&lt;li&gt;Behind the rail it crosses behind both legs: this is the bight that holds them against the rail.&lt;/li&gt;&lt;li&gt;On the other side it comes forward under the rail, up the front, over the top, and down the back between the rail and the bight as the second leg.&lt;/li&gt;&lt;li&gt;Pull both legs and the bight closes on them. Tied with a bight it is quicker: put the bight round the rail and pull both legs through it.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Clinch Knot</title>
 <id>tag:followorbounce.github.io,2026-11-14:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-17T00:00:00-07:00</updated>
 <summary>A square knot with an extra twist in the first half. The double twist grips while you tie the second half, so the knot does not loosen in between.</summary>
 <content type="html">&lt;p&gt;A square knot with an extra twist in the first half. The double twist grips while you tie the second half, so the knot does not loosen in between.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Cross the two ends and twist them round each other twice.&lt;/li&gt;&lt;li&gt;Pull the double twist snug: it holds by itself.&lt;/li&gt;&lt;li&gt;Cross the ends the opposite way and twist them once.&lt;/li&gt;&lt;li&gt;Pull all four ends to tighten.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Bowline with Stopper</title>
-<id>tag:followorbounce.github.io,2026-10-16:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/bowline-with-stopper/"/>
-<published>2026-10-16T00:00:00-07:00</published>
-<updated>2026-10-16T00:00:00-07:00</updated>
-<summary>A bowline with its tail tied in an overhand knot round the leg of the eye beside it, so the bowline cannot shake loose when it is not loaded.</summary>
-<content type="html">&lt;p&gt;A bowline with its tail tied in an overhand knot round the leg of the eye beside it, so the bowline cannot shake loose when it is not loaded.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Tie a bowline: the standing part runs up.&lt;/li&gt;&lt;li&gt;Make the small loop.&lt;/li&gt;&lt;li&gt;Form the eye.&lt;/li&gt;&lt;li&gt;Up through the small loop.&lt;/li&gt;&lt;li&gt;Round behind the standing part.&lt;/li&gt;&lt;li&gt;Back down through the small loop.&lt;/li&gt;&lt;li&gt;Take the tail round the leg of the eye beside it and tie an overhand knot.&lt;/li&gt;&lt;li&gt;Pull the overhand snug up against the bowline.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
