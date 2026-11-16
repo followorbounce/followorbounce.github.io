@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/new-pages.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/new-pages.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/"/>
-<updated>2026-11-12T11:22:40-08:00</updated>
+<updated>2026-11-15T20:44:27-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>ELEMENTS — ORBITAL ELEMENTS &amp; GROUND TRACKS</title>
+<id>https://followorbounce.github.io/aerospace/elements-orbital-elements-ground-tracks</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/aerospace/elements-orbital-elements-ground-tracks"/>
+<published>2026-11-15T20:44:27-08:00</published>
+<updated>2026-11-15T20:44:27-08:00</updated>
+<summary>Interactive guide to the six orbital elements: decode real two-line element sets, draw ground tracks and see how Earth&#x27;s bulge turns every orbit.</summary>
+</entry>
 <entry>
 <title>TOUCHDOWN — THE NEW LUNAR LANDERS, 2019–2026</title>
 <id>https://followorbounce.github.io/aerospace/touchdown-commercial-lunar-landers</id>
@@ -479,13 +487,5 @@
 <published>2026-10-18T19:49:55-07:00</published>
 <updated>2026-10-18T19:49:55-07:00</updated>
 <summary>Laser beams on rotating mounts sweep cones, cylinders and fans through a hazy black room. Red light, one white key beam, grain, and slow phases from calm to intense. Volumetric WebGL 2 study with optional sound.</summary>
-</entry>
-<entry>
-<title>Chain — Video Synths</title>
-<id>https://followorbounce.github.io/visual-synths/chain</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/visual-synths/chain"/>
-<published>2026-10-18T19:49:55-07:00</published>
-<updated>2026-10-18T19:49:55-07:00</updated>
-<summary>Build a video-feedback effect from passes you can see: transform, blur, displace, melt, threshold, edge, kaleidoscope, mirror, hue and fade. Reorder them, read what each one does and its shader line, and paint into the loop. WebGL 2 instrument.</summary>
 </entry>
 </feed>

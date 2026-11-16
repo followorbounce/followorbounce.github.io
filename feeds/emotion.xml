@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/emotion.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/emotion.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/"/>
-<updated>2026-11-15T00:00:00-08:00</updated>
+<updated>2026-11-16T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Perplexity</title>
+<id>tag:followorbounce.github.io,2026-11-16:emotion</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/perplexity"/>
+<published>2026-11-16T00:00:00-08:00</published>
+<updated>2026-11-16T00:00:00-08:00</updated>
+<summary>Confusion combined with surprise — more intellectual puzzle than paralysis, unlike Bewilderment.</summary>
+</entry>
 <entry>
 <title>Envy</title>
 <id>tag:followorbounce.github.io,2026-11-15:emotion</id>
@@ -239,13 +247,5 @@
 <published>2026-10-18T00:00:00-07:00</published>
 <updated>2026-10-18T00:00:00-07:00</updated>
 <summary>A reactive, often post-intensity depletion — tired and hollow after something, with a proximate cause, unlike Void&#x27;s chronic and causeless register.</summary>
-</entry>
-<entry>
-<title>Joy</title>
-<id>tag:followorbounce.github.io,2026-10-17:emotion</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/joy"/>
-<published>2026-10-17T00:00:00-07:00</published>
-<updated>2026-10-17T00:00:00-07:00</updated>
-<summary>A response to something appraised as good, moderate to high in activation, and tied to a specific moment rather than sustained.</summary>
 </entry>
 </feed>

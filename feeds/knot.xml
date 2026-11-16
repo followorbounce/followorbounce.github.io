@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-15T00:00:00-08:00</updated>
+<updated>2026-11-16T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Turk’s Head (3 lead, 4 bight)</title>
+<id>tag:followorbounce.github.io,2026-11-16:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/turks-head-3l4b/"/>
+<published>2026-11-16T00:00:00-08:00</published>
+<updated>2026-11-16T00:00:00-08:00</updated>
+<summary>A woven band round a pole or rail. Followed round, the single rope crosses itself in a strict over-under pattern: 3 strands lie side by side all the way round (the leads) and the band has 4 scallops on each edge (the bights).</summary>
+<content type="html">&lt;p&gt;A woven band round a pole or rail. Followed round, the single rope crosses itself in a strict over-under pattern: 3 strands lie side by side all the way round (the leads) and the band has 4 scallops on each edge (the bights).&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Wrap the rope round the pole, starting the pattern: each time it meets another part of itself it goes over, then under, then over.&lt;/li&gt;&lt;li&gt;Keep following the pattern round. Rotate the pole as you go, so you always work on the front.&lt;/li&gt;&lt;li&gt;Keep the over-under strict. One wrong crossing changes the knot.&lt;/li&gt;&lt;li&gt;When the end meets the start, the band is complete. Lay the end alongside the start to follow the pattern round again.&lt;/li&gt;&lt;li&gt;Tighten gradually all round and tuck the ends under the band.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Cow Hitch</title>
 <id>tag:followorbounce.github.io,2026-11-15:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-18T00:00:00-07:00</updated>
 <summary>A Figure-Eight Knot tied in a doubled rope. It makes a strong fixed eye that is easy to check by eye, which is why climbers use it.</summary>
 <content type="html">&lt;p&gt;A Figure-Eight Knot tied in a doubled rope. It makes a strong fixed eye that is easy to check by eye, which is why climbers use it.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Double the end of the rope into a long bight. You tie with the doubled rope.&lt;/li&gt;&lt;li&gt;Bring the bight up and across the doubled standing part to make a loop.&lt;/li&gt;&lt;li&gt;Carry it on round, behind the standing part.&lt;/li&gt;&lt;li&gt;Bring it back down through the first loop.&lt;/li&gt;&lt;li&gt;Pull the bight through to make the eye. Dress every strand so it runs parallel.&lt;/li&gt;&lt;li&gt;Hold the eye and pull each of the four strands in turn to set the knot.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Surgeon’s Knot</title>
-<id>tag:followorbounce.github.io,2026-10-17:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/surgeons-knot/"/>
-<published>2026-10-17T00:00:00-07:00</published>
-<updated>2026-10-17T00:00:00-07:00</updated>
-<summary>A square knot with an extra twist in the first half. The double twist grips while you tie the second half, so the knot does not loosen in between.</summary>
-<content type="html">&lt;p&gt;A square knot with an extra twist in the first half. The double twist grips while you tie the second half, so the knot does not loosen in between.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Cross the two ends and twist them round each other twice.&lt;/li&gt;&lt;li&gt;Pull the double twist snug: it holds by itself.&lt;/li&gt;&lt;li&gt;Cross the ends the opposite way and twist them once.&lt;/li&gt;&lt;li&gt;Pull all four ends to tighten.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
