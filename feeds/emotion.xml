@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/emotion.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/emotion.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/"/>
-<updated>2026-11-17T00:00:00-08:00</updated>
+<updated>2026-11-18T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Emptiness</title>
+<id>tag:followorbounce.github.io,2026-11-18:emotion</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/emptiness"/>
+<published>2026-11-18T00:00:00-08:00</published>
+<updated>2026-11-18T00:00:00-08:00</updated>
+<summary>A reactive, often post-intensity depletion — tired and hollow after something, with a proximate cause, unlike Void&#x27;s chronic and causeless register.</summary>
+</entry>
 <entry>
 <title>Meaninglessness</title>
 <id>tag:followorbounce.github.io,2026-11-17:emotion</id>
@@ -239,13 +247,5 @@
 <published>2026-10-20T00:00:00-07:00</published>
 <updated>2026-10-20T00:00:00-07:00</updated>
 <summary>Shame imposed from outside by another&#x27;s action — involuntary, public, and other-caused, often carrying anger at the humiliator alongside the shame.</summary>
-</entry>
-<entry>
-<title>Irritation</title>
-<id>tag:followorbounce.github.io,2026-10-19:emotion</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-inner-experience/irritation"/>
-<published>2026-10-19T00:00:00-07:00</published>
-<updated>2026-10-19T00:00:00-07:00</updated>
-<summary>Anger at low intensity, usually triggered by repeated minor friction rather than one clear wrong.</summary>
 </entry>
 </feed>

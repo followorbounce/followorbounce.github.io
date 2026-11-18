@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-17T00:00:00-08:00</updated>
+<updated>2026-11-18T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Double Sheet Bend</title>
+<id>tag:followorbounce.github.io,2026-11-18:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/double-sheet-bend/"/>
+<published>2026-11-18T00:00:00-08:00</published>
+<updated>2026-11-18T00:00:00-08:00</updated>
+<summary>A sheet bend with a second turn of the thinner rope round the bight. Use it when the two ropes differ a lot in size, or when the rope is slippery.</summary>
+<content type="html">&lt;p&gt;A sheet bend with a second turn of the thinner rope round the bight. Use it when the two ropes differ a lot in size, or when the rope is slippery.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make a bight in the thicker rope (yellow).&lt;/li&gt;&lt;li&gt;Bring the thinner rope (blue) up through the bight from behind.&lt;/li&gt;&lt;li&gt;Take it round behind both legs of the bight, then round a second time beside the first turn.&lt;/li&gt;&lt;li&gt;Bring it across the front and tuck it under itself both times, not into the bight.&lt;/li&gt;&lt;li&gt;Hold the bight and pull the blue standing part to set the knot.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Overhand Loop</title>
 <id>tag:followorbounce.github.io,2026-11-17:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-20T00:00:00-07:00</updated>
 <summary>The standard stopper. It is bulkier than the Overhand, harder to pull through a hole, and it can usually be undone even after a heavy load. Its shape makes it easy to check at a glance.</summary>
 <content type="html">&lt;p&gt;The standard stopper. It is bulkier than the Overhand, harder to pull through a hole, and it can usually be undone even after a heavy load. Its shape makes it easy to check at a glance.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Hold the standing part at the top. The working end hangs below and does all the moving.&lt;/li&gt;&lt;li&gt;Bring the end up and across the standing part to make a loop.&lt;/li&gt;&lt;li&gt;Carry the end on round, behind the standing part.&lt;/li&gt;&lt;li&gt;Bring it back down through the first loop.&lt;/li&gt;&lt;li&gt;Pull the end and the standing part apart to draw the knot into its figure-eight shape.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Two Half Hitches</title>
-<id>tag:followorbounce.github.io,2026-10-19:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/two-half-hitches/"/>
-<published>2026-10-19T00:00:00-07:00</published>
-<updated>2026-10-19T00:00:00-07:00</updated>
-<summary>A turn through a ring or round a post, then two half hitches round the standing part, both the same way. Together the half hitches form a clove hitch on the standing part.</summary>
-<content type="html">&lt;p&gt;A turn through a ring or round a post, then two half hitches round the standing part, both the same way. Together the half hitches form a clove hitch on the standing part.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Bring it down behind the standing part.&lt;/li&gt;&lt;li&gt;Bring it round to the front.&lt;/li&gt;&lt;li&gt;First half hitch: round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Second half hitch, the same way, below the first. Tuck the end under.&lt;/li&gt;&lt;li&gt;Slide the hitches up to the ring and pull them snug.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

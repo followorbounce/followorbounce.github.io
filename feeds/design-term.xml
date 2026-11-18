@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/design-term.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
-<updated>2026-11-17T00:00:00-08:00</updated>
+<updated>2026-11-18T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Counterform (Negative Space)</title>
+<id>tag:followorbounce.github.io,2026-11-18:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/counterform-negative-space"/>
+<published>2026-11-18T00:00:00-08:00</published>
+<updated>2026-11-18T00:00:00-08:00</updated>
+<summary>A meaningful shape produced primarily by the empty area around or between positive forms, carrying real visual weight of its own.</summary>
+</entry>
 <entry>
 <title>Case Study</title>
 <id>tag:followorbounce.github.io,2026-11-17:design-term</id>
@@ -239,13 +247,5 @@
 <published>2026-10-20T00:00:00-07:00</published>
 <updated>2026-10-20T00:00:00-07:00</updated>
 <summary>The degree to which a form reads as pliable or moldable rather than rigid, judged from its contours and transitions.</summary>
-</entry>
-<entry>
-<title>Frontend / Backend</title>
-<id>tag:followorbounce.github.io,2026-10-19:design-term</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/frontend-backend"/>
-<published>2026-10-19T00:00:00-07:00</published>
-<updated>2026-10-19T00:00:00-07:00</updated>
-<summary>The two halves of a digital system: frontend is what a user sees, backend is the server-side logic and data behind it — adjacent professional vocabulary.</summary>
 </entry>
 </feed>
