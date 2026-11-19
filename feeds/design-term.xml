@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/design-term.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
-<updated>2026-11-18T00:00:00-08:00</updated>
+<updated>2026-11-19T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Wireframe</title>
+<id>tag:followorbounce.github.io,2026-11-19:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/wireframe"/>
+<published>2026-11-19T00:00:00-08:00</published>
+<updated>2026-11-19T00:00:00-08:00</updated>
+<summary>A simplified visual guide showing a layout&#x27;s structure and hierarchy without detailed styling.</summary>
+</entry>
 <entry>
 <title>Counterform (Negative Space)</title>
 <id>tag:followorbounce.github.io,2026-11-18:design-term</id>
@@ -239,13 +247,5 @@
 <published>2026-10-21T00:00:00-07:00</published>
 <updated>2026-10-21T00:00:00-07:00</updated>
 <summary>A simplified visual guide showing a layout&#x27;s structure and hierarchy without detailed styling.</summary>
-</entry>
-<entry>
-<title>Plasticity</title>
-<id>tag:followorbounce.github.io,2026-10-20:design-term</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/plasticity"/>
-<published>2026-10-20T00:00:00-07:00</published>
-<updated>2026-10-20T00:00:00-07:00</updated>
-<summary>The degree to which a form reads as pliable or moldable rather than rigid, judged from its contours and transitions.</summary>
 </entry>
 </feed>

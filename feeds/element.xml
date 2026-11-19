@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-18T00:00:00-08:00</updated>
+<updated>2026-11-19T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Points of view (Pv)</title>
+<id>tag:followorbounce.github.io,2026-11-19:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#points-of-view"/>
+<published>2026-11-19T00:00:00-08:00</published>
+<updated>2026-11-19T00:00:00-08:00</updated>
+<summary>Other people&#x27;s perspectives the answer should consider, not only yours.</summary>
+<content type="html">&lt;p&gt;Other people&amp;#x27;s perspectives the answer should consider, not only yours.&lt;/p&gt;&lt;p&gt;Looking from several standpoints tests whether a conclusion holds for everyone affected. A premise that seems obvious from one side may be false or irrelevant from another.&lt;/p&gt;&lt;p&gt;Watch out: Listing views is not the same as weighing them. Two sides shown as equal can hide that one has much better evidence.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Points of view (Pv)</title>
 <id>tag:followorbounce.github.io,2026-11-18:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-21T00:00:00-07:00</updated>
 <summary>One or more samples of what a good answer looks like.</summary>
 <content type="html">&lt;p&gt;One or more samples of what a good answer looks like.&lt;/p&gt;&lt;p&gt;Examples work by induction: from a few cases the model infers a general pattern. Like any induction, the pattern it picks may not be the one you meant.&lt;/p&gt;&lt;p&gt;Watch out: Models can copy examples closely, including their accidents. If all your examples are food words, expect more food words. Vary them on purpose.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Objective (Ob)</title>
-<id>tag:followorbounce.github.io,2026-10-20:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#objective"/>
-<published>2026-10-20T00:00:00-07:00</published>
-<updated>2026-10-20T00:00:00-07:00</updated>
-<summary>What you want the answer to achieve: the point of the whole request.</summary>
-<content type="html">&lt;p&gt;What you want the answer to achieve: the point of the whole request.&lt;/p&gt;&lt;p&gt;The objective is the conclusion you are reasoning toward. Without it, relevance has no anchor, since Grice tied relevance to the purpose of the conversation.&lt;/p&gt;&lt;p&gt;Watch out: Stating a goal can tilt the answer toward it. Ask &amp;#x27;help me decide&amp;#x27; rather than &amp;#x27;convince me&amp;#x27;, unless you really want only one side.&lt;/p&gt;</content>
 </entry>
 </feed>
