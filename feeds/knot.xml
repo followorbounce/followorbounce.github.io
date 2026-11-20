@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-19T00:00:00-08:00</updated>
+<updated>2026-11-20T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Figure-Eight Knot</title>
+<id>tag:followorbounce.github.io,2026-11-20:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/figure-eight-knot/"/>
+<published>2026-11-20T00:00:00-08:00</published>
+<updated>2026-11-20T00:00:00-08:00</updated>
+<summary>The standard stopper. It is bulkier than the Overhand, harder to pull through a hole, and it can usually be undone even after a heavy load. Its shape makes it easy to check at a glance.</summary>
+<content type="html">&lt;p&gt;The standard stopper. It is bulkier than the Overhand, harder to pull through a hole, and it can usually be undone even after a heavy load. Its shape makes it easy to check at a glance.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Hold the standing part at the top. The working end hangs below and does all the moving.&lt;/li&gt;&lt;li&gt;Bring the end up and across the standing part to make a loop.&lt;/li&gt;&lt;li&gt;Carry the end on round, behind the standing part.&lt;/li&gt;&lt;li&gt;Bring it back down through the first loop.&lt;/li&gt;&lt;li&gt;Pull the end and the standing part apart to draw the knot into its figure-eight shape.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Carrick Mat</title>
 <id>tag:followorbounce.github.io,2026-11-19:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-22T00:00:00-07:00</updated>
 <summary>Lashes two poles side by side, to lengthen a pole or to make sheer legs (an A-frame). Start with a clove hitch, wrap round both poles, tighten with frapping turns between them, finish with a clove hitch.</summary>
 <content type="html">&lt;p&gt;Lashes two poles side by side, to lengthen a pole or to make sheer legs (an A-frame). Start with a clove hitch, wrap round both poles, tighten with frapping turns between them, finish with a clove hitch.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Tie a clove hitch round one pole.&lt;/li&gt;&lt;li&gt;Wrap the rope round both poles, six or more turns, working along them. Keep the turns snug and side by side.&lt;/li&gt;&lt;li&gt;Take two frapping turns between the poles, round the lashing turns, and pull them hard.&lt;/li&gt;&lt;li&gt;Finish with a clove hitch round the other pole.&lt;/li&gt;&lt;li&gt;Check that the poles cannot slide against each other.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Improved Clinch Knot</title>
-<id>tag:followorbounce.github.io,2026-10-21:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/improved-clinch-knot/"/>
-<published>2026-10-21T00:00:00-07:00</published>
-<updated>2026-10-21T00:00:00-07:00</updated>
-<summary>A clinch knot with one extra tuck: after going through the small loop by the eye, the end goes back through the big loop it has just made. The tuck stops the knot slipping in thin or slippery line.</summary>
-<content type="html">&lt;p&gt;A clinch knot with one extra tuck: after going through the small loop by the eye, the end goes back through the big loop it has just made. The tuck stops the knot slipping in thin or slippery line.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end of the line through the eye of the hook.&lt;/li&gt;&lt;li&gt;Bring it back up alongside the line.&lt;/li&gt;&lt;li&gt;Twist the end round the line five times, working away from the hook.&lt;/li&gt;&lt;li&gt;Bring the end back down and through the small loop just above the eye.&lt;/li&gt;&lt;li&gt;Then tuck it back through the big loop you have just made.&lt;/li&gt;&lt;li&gt;Wet it and pull the line steadily so the twists close onto the eye. Trim the end.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
