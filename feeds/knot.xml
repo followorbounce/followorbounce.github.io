@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-20T00:00:00-08:00</updated>
+<updated>2026-11-21T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Four-Strand Flat Braid</title>
+<id>tag:followorbounce.github.io,2026-11-21:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-braid-4/"/>
+<published>2026-11-21T00:00:00-08:00</published>
+<updated>2026-11-21T00:00:00-08:00</updated>
+<summary>A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
+<content type="html">&lt;p&gt;A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Figure-Eight Knot</title>
 <id>tag:followorbounce.github.io,2026-11-20:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-23T00:00:00-07:00</updated>
 <summary>A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
 <content type="html">&lt;p&gt;A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Sheer Lashing</title>
-<id>tag:followorbounce.github.io,2026-10-22:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/sheer-lashing/"/>
-<published>2026-10-22T00:00:00-07:00</published>
-<updated>2026-10-22T00:00:00-07:00</updated>
-<summary>Lashes two poles side by side, to lengthen a pole or to make sheer legs (an A-frame). Start with a clove hitch, wrap round both poles, tighten with frapping turns between them, finish with a clove hitch.</summary>
-<content type="html">&lt;p&gt;Lashes two poles side by side, to lengthen a pole or to make sheer legs (an A-frame). Start with a clove hitch, wrap round both poles, tighten with frapping turns between them, finish with a clove hitch.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Tie a clove hitch round one pole.&lt;/li&gt;&lt;li&gt;Wrap the rope round both poles, six or more turns, working along them. Keep the turns snug and side by side.&lt;/li&gt;&lt;li&gt;Take two frapping turns between the poles, round the lashing turns, and pull them hard.&lt;/li&gt;&lt;li&gt;Finish with a clove hitch round the other pole.&lt;/li&gt;&lt;li&gt;Check that the poles cannot slide against each other.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
