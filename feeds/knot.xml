@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-21T00:00:00-08:00</updated>
+<updated>2026-11-22T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Bow Knot</title>
+<id>tag:followorbounce.github.io,2026-11-22:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/bow-knot/"/>
+<published>2026-11-22T00:00:00-08:00</published>
+<updated>2026-11-22T00:00:00-08:00</updated>
+<summary>The knot on your shoes: a square knot with both ends slipped. Pulled tight it lies flat with the two loops sideways; pull either short end and it comes apart.</summary>
+<content type="html">&lt;p&gt;The knot on your shoes: a square knot with both ends slipped. Pulled tight it lies flat with the two loops sideways; pull either short end and it comes apart.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make the first loop in the left-hand end (yellow): a bight, with a short end left over.&lt;/li&gt;&lt;li&gt;Bring the blue end over the base of that loop and under it.&lt;/li&gt;&lt;li&gt;Take it round the neck of the yellow loop.&lt;/li&gt;&lt;li&gt;Push a bight of the blue end through, under the upper leg and over the curve, to make the second loop.&lt;/li&gt;&lt;li&gt;Pull both loops outward to tighten. They should lie flat and sideways.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Four-Strand Flat Braid</title>
 <id>tag:followorbounce.github.io,2026-11-21:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-24T00:00:00-07:00</updated>
 <summary>A flat binding knot for tying the two ends of one cord round something: a parcel, a bandage, a reefed sail. It lies flat and comes undone easily. Here it is shown as two interlocked bights, one in each end, so you can see how it is built.</summary>
 <content type="html">&lt;p&gt;A flat binding knot for tying the two ends of one cord round something: a parcel, a bandage, a reefed sail. It lies flat and comes undone easily. Here it is shown as two interlocked bights, one in each end, so you can see how it is built.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make a bight in the left-hand end (yellow). Its short leg is the working end.&lt;/li&gt;&lt;li&gt;Bring the blue end in from the right, over the curve of the yellow bight and under its lower leg.&lt;/li&gt;&lt;li&gt;Take it round outside the narrow neck of the yellow bight, over both yellow legs.&lt;/li&gt;&lt;li&gt;Bring it back under the upper yellow leg and out over the curve, beside its own standing part.&lt;/li&gt;&lt;li&gt;Pull all four parts evenly. Both parts of each rope lie side by side and come out on the same side.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Four-Strand Flat Braid</title>
-<id>tag:followorbounce.github.io,2026-10-23:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-braid-4/"/>
-<published>2026-10-23T00:00:00-07:00</published>
-<updated>2026-10-23T00:00:00-07:00</updated>
-<summary>A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
-<content type="html">&lt;p&gt;A flat braid of 4 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>

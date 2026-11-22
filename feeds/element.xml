@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-21T00:00:00-08:00</updated>
+<updated>2026-11-22T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Limitations (Li)</title>
+<id>tag:followorbounce.github.io,2026-11-22:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#limitations"/>
+<published>2026-11-22T00:00:00-08:00</published>
+<updated>2026-11-22T00:00:00-08:00</updated>
+<summary>Rules the answer must obey, such as length, cost or things to avoid.</summary>
+<content type="html">&lt;p&gt;Rules the answer must obey, such as length, cost or things to avoid.&lt;/p&gt;&lt;p&gt;Limitations are necessary conditions: an answer that breaks one fails, however good it is otherwise. Meeting every limitation still does not make an answer good enough.&lt;/p&gt;&lt;p&gt;Watch out: Check the answer against each limit yourself. Models sometimes quietly break a rule, such as a word count, while sounding as if they kept it.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Limitations (Li)</title>
 <id>tag:followorbounce.github.io,2026-11-21:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-24T00:00:00-07:00</updated>
 <summary>The shape of the answer: a list, a table, steps, an email or a short paragraph.</summary>
 <content type="html">&lt;p&gt;The shape of the answer: a list, a table, steps, an email or a short paragraph.&lt;/p&gt;&lt;p&gt;Format is a constraint on form, not content. It answers Grice&amp;#x27;s advice to be orderly: the same information is easier to check in a shape you can scan.&lt;/p&gt;&lt;p&gt;Watch out: A neat table can make guesses look like facts. Format makes an answer easier to read, not more reliable.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Citations (Ci)</title>
-<id>tag:followorbounce.github.io,2026-10-23:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#citations"/>
-<published>2026-10-23T00:00:00-07:00</published>
-<updated>2026-10-23T00:00:00-07:00</updated>
-<summary>Sources the answer should point to, so you can check where each claim comes from.</summary>
-<content type="html">&lt;p&gt;Sources the answer should point to, so you can check where each claim comes from.&lt;/p&gt;&lt;p&gt;A citation links a claim to its evidence. It serves Grice&amp;#x27;s maxim of Quality: do not say things you lack adequate evidence for.&lt;/p&gt;&lt;p&gt;Watch out: Models can invent citations that look real: plausible titles, authors and links that do not exist. Give your own sources when you can, and open every citation before trusting it.&lt;/p&gt;</content>
 </entry>
 </feed>
