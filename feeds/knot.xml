@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-22T00:00:00-08:00</updated>
+<updated>2026-11-23T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Multiple Overhand Knot</title>
+<id>tag:followorbounce.github.io,2026-11-23:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/multiple-overhand-knot/"/>
+<published>2026-11-23T00:00:00-08:00</published>
+<updated>2026-11-23T00:00:00-08:00</updated>
+<summary>An overhand knot with four or more turns. It forms a long, heavy barrel that adds weight to the end of a line and makes a striking decorative stopper.</summary>
+<content type="html">&lt;p&gt;An overhand knot with four or more turns. It forms a long, heavy barrel that adds weight to the end of a line and makes a striking decorative stopper.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make a loop by taking the working end round and under the standing part.&lt;/li&gt;&lt;li&gt;Bring the end up behind the loop to its right-hand side.&lt;/li&gt;&lt;li&gt;Wrap the end four times round that side of the loop. Every wrap goes through the loop; keep the turns side by side.&lt;/li&gt;&lt;li&gt;Lead the end out from the last wrap.&lt;/li&gt;&lt;li&gt;Hold the wraps and pull both ends a little at a time. The loop closes up and the wraps roll into a smooth barrel.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Bow Knot</title>
 <id>tag:followorbounce.github.io,2026-11-22:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-25T00:00:00-07:00</updated>
 <summary>A clove hitch with an extra tuck, which locks the two ends under the crossing turn. It grips a round object so hard that it often has to be cut off.</summary>
 <content type="html">&lt;p&gt;A clove hitch with an extra tuck, which locks the two ends under the crossing turn. It grips a round object so hard that it often has to be cut off.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bring the working end across the front of the post.&lt;/li&gt;&lt;li&gt;Take it round behind the post and back to the front, above the standing part.&lt;/li&gt;&lt;li&gt;Cross it diagonally over the first turn and round behind the post again.&lt;/li&gt;&lt;li&gt;Bring the end to the front, over the standing part and under the diagonal. The two ends now cross under it.&lt;/li&gt;&lt;li&gt;Pull both ends hard. The diagonal clamps the crossing underneath it.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Square Knot</title>
-<id>tag:followorbounce.github.io,2026-10-24:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/square-knot/"/>
-<published>2026-10-24T00:00:00-07:00</published>
-<updated>2026-10-24T00:00:00-07:00</updated>
-<summary>A flat binding knot for tying the two ends of one cord round something: a parcel, a bandage, a reefed sail. It lies flat and comes undone easily. Here it is shown as two interlocked bights, one in each end, so you can see how it is built.</summary>
-<content type="html">&lt;p&gt;A flat binding knot for tying the two ends of one cord round something: a parcel, a bandage, a reefed sail. It lies flat and comes undone easily. Here it is shown as two interlocked bights, one in each end, so you can see how it is built.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Make a bight in the left-hand end (yellow). Its short leg is the working end.&lt;/li&gt;&lt;li&gt;Bring the blue end in from the right, over the curve of the yellow bight and under its lower leg.&lt;/li&gt;&lt;li&gt;Take it round outside the narrow neck of the yellow bight, over both yellow legs.&lt;/li&gt;&lt;li&gt;Bring it back under the upper yellow leg and out over the curve, beside its own standing part.&lt;/li&gt;&lt;li&gt;Pull all four parts evenly. Both parts of each rope lie side by side and come out on the same side.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
