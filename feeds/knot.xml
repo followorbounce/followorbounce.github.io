@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-23T00:00:00-08:00</updated>
+<updated>2026-11-24T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Palomar Knot</title>
+<id>tag:followorbounce.github.io,2026-11-24:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/palomar-knot/"/>
+<published>2026-11-24T00:00:00-08:00</published>
+<updated>2026-11-24T00:00:00-08:00</updated>
+<summary>A strong knot for tying line to a hook: a bight goes through the eye, an overhand knot is tied with the doubled line, and the bight is passed over the hook so the knot closes round the shank.</summary>
+<content type="html">&lt;p&gt;A strong knot for tying line to a hook: a bight goes through the eye, an overhand knot is tied with the doubled line, and the bight is passed over the hook so the knot closes round the shank.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Double the line and push the bight through the eye of the hook.&lt;/li&gt;&lt;li&gt;Tie a loose overhand knot with the doubled line.&lt;/li&gt;&lt;li&gt;Pass the bight over the hook so it lies round the shank.&lt;/li&gt;&lt;li&gt;Pull the standing line and the tag together to close the knot on the eye.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Multiple Overhand Knot</title>
 <id>tag:followorbounce.github.io,2026-11-23:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-26T00:00:00-07:00</updated>
 <summary>A turn through a ring or round a post, then two half hitches round the standing part, both the same way. Together the half hitches form a clove hitch on the standing part.</summary>
 <content type="html">&lt;p&gt;A turn through a ring or round a post, then two half hitches round the standing part, both the same way. Together the half hitches form a clove hitch on the standing part.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Pass the end through the ring from front to back.&lt;/li&gt;&lt;li&gt;Bring it down behind the standing part.&lt;/li&gt;&lt;li&gt;Bring it round to the front.&lt;/li&gt;&lt;li&gt;First half hitch: round the standing part and across over itself.&lt;/li&gt;&lt;li&gt;Second half hitch, the same way, below the first. Tuck the end under.&lt;/li&gt;&lt;li&gt;Slide the hitches up to the ring and pull them snug.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Constrictor Knot</title>
-<id>tag:followorbounce.github.io,2026-10-25:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/constrictor-knot/"/>
-<published>2026-10-25T00:00:00-07:00</published>
-<updated>2026-10-25T00:00:00-07:00</updated>
-<summary>A clove hitch with an extra tuck, which locks the two ends under the crossing turn. It grips a round object so hard that it often has to be cut off.</summary>
-<content type="html">&lt;p&gt;A clove hitch with an extra tuck, which locks the two ends under the crossing turn. It grips a round object so hard that it often has to be cut off.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bring the working end across the front of the post.&lt;/li&gt;&lt;li&gt;Take it round behind the post and back to the front, above the standing part.&lt;/li&gt;&lt;li&gt;Cross it diagonally over the first turn and round behind the post again.&lt;/li&gt;&lt;li&gt;Bring the end to the front, over the standing part and under the diagonal. The two ends now cross under it.&lt;/li&gt;&lt;li&gt;Pull both ends hard. The diagonal clamps the crossing underneath it.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
