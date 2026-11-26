@@ -5,9 +5,17 @@
 <id>https://followorbounce.github.io/feeds/design-term.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/design-term.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/"/>
-<updated>2026-11-25T00:00:00-08:00</updated>
+<updated>2026-11-26T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Construction</title>
+<id>tag:followorbounce.github.io,2026-11-26:design-term</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/construction"/>
+<published>2026-11-26T00:00:00-08:00</published>
+<updated>2026-11-26T00:00:00-08:00</updated>
+<summary>The method and logic by which parts are assembled into a functional or visual whole.</summary>
+</entry>
 <entry>
 <title>Structure</title>
 <id>tag:followorbounce.github.io,2026-11-25:design-term</id>
@@ -239,13 +247,5 @@
 <published>2026-10-28T00:00:00-07:00</published>
 <updated>2026-10-28T00:00:00-07:00</updated>
 <summary>A continuous, stepless transition between two visual states — most often color, value, or scale.</summary>
-</entry>
-<entry>
-<title>Rhythm</title>
-<id>tag:followorbounce.github.io,2026-10-27:design-term</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/dictionary-of-design/rhythm"/>
-<published>2026-10-27T00:00:00-07:00</published>
-<updated>2026-10-27T00:00:00-07:00</updated>
-<summary>Visual tempo produced by repeating elements with controlled variation in spacing, size, or form.</summary>
 </entry>
 </feed>

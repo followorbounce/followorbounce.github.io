@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/knot.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/knot.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/"/>
-<updated>2026-11-25T00:00:00-08:00</updated>
+<updated>2026-11-26T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Bowline with Stopper</title>
+<id>tag:followorbounce.github.io,2026-11-26:knot</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/bowline-with-stopper/"/>
+<published>2026-11-26T00:00:00-08:00</published>
+<updated>2026-11-26T00:00:00-08:00</updated>
+<summary>A bowline with its tail tied in an overhand knot round the leg of the eye beside it, so the bowline cannot shake loose when it is not loaded.</summary>
+<content type="html">&lt;p&gt;A bowline with its tail tied in an overhand knot round the leg of the eye beside it, so the bowline cannot shake loose when it is not loaded.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Tie a bowline: the standing part runs up.&lt;/li&gt;&lt;li&gt;Make the small loop.&lt;/li&gt;&lt;li&gt;Form the eye.&lt;/li&gt;&lt;li&gt;Up through the small loop.&lt;/li&gt;&lt;li&gt;Round behind the standing part.&lt;/li&gt;&lt;li&gt;Back down through the small loop.&lt;/li&gt;&lt;li&gt;Take the tail round the leg of the eye beside it and tie an overhand knot.&lt;/li&gt;&lt;li&gt;Pull the overhand snug up against the bowline.&lt;/li&gt;&lt;/ol&gt;</content>
+</entry>
 <entry>
 <title>Marlinspike Hitch</title>
 <id>tag:followorbounce.github.io,2026-11-25:knot</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-28T00:00:00-07:00</updated>
 <summary>A hitch on a carabiner or bar that lets rope run under control. Both strands leave on the same side of the bar, and the rope rubs on itself and the bar. It reverses neatly: pull the other strand and the hitch flips through the bar and runs the other way.</summary>
 <content type="html">&lt;p&gt;A hitch on a carabiner or bar that lets rope run under control. Both strands leave on the same side of the bar, and the rope rubs on itself and the bar. It reverses neatly: pull the other strand and the hitch flips through the bar and runs the other way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;The loaded strand comes up to the bar.&lt;/li&gt;&lt;li&gt;Take it over the bar and round, as for a cow hitch.&lt;/li&gt;&lt;li&gt;Bring it across the front, over one leg and under the other.&lt;/li&gt;&lt;li&gt;Round the bar again: both strands now leave on the same side.&lt;/li&gt;&lt;li&gt;Hold the free strand to control the rope as it runs round the bar.&lt;/li&gt;&lt;/ol&gt;</content>
-</entry>
-<entry>
-<title>Seven-Strand Flat Braid</title>
-<id>tag:followorbounce.github.io,2026-10-27:knot</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/knots/knots/flat-braid-7/"/>
-<published>2026-10-27T00:00:00-07:00</published>
-<updated>2026-10-27T00:00:00-07:00</updated>
-<summary>A flat braid of 7 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.</summary>
-<content type="html">&lt;p&gt;A flat braid of 7 strands. Alternately from the left and the right, the outermost strand is brought to the middle, passing over and under the strands on its way.&lt;/p&gt;&lt;ol&gt;&lt;li&gt;Bind the strands together at the top and spread them flat. Bring the outer left strand to the middle, over-under the strands it passes.&lt;/li&gt;&lt;li&gt;Now the outer right strand to the middle, the same way. Then left again, then right.&lt;/li&gt;&lt;li&gt;Carry on alternating. Pull each strand snug as it reaches the middle.&lt;/li&gt;&lt;li&gt;Bind the strands together at the end.&lt;/li&gt;&lt;/ol&gt;</content>
 </entry>
 </feed>
