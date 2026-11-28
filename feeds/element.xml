@@ -5,9 +5,18 @@
 <id>https://followorbounce.github.io/feeds/element.xml</id>
 <link rel="self" type="application/atom+xml" href="https://followorbounce.github.io/feeds/element.xml"/>
 <link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt"/>
-<updated>2026-11-27T00:00:00-08:00</updated>
+<updated>2026-11-28T00:00:00-08:00</updated>
 <author><name>Follow or Bounce</name><uri>https://followorbounce.github.io/</uri></author>
 <icon>https://followorbounce.github.io/assets/favicon.svg</icon>
+<entry>
+<title>Act as (Ac)</title>
+<id>tag:followorbounce.github.io,2026-11-28:element</id>
+<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#act-as"/>
+<published>2026-11-28T00:00:00-08:00</published>
+<updated>2026-11-28T00:00:00-08:00</updated>
+<summary>A role for the model to take on, which sets its vocabulary, depth and point of view.</summary>
+<content type="html">&lt;p&gt;A role for the model to take on, which sets its vocabulary, depth and point of view.&lt;/p&gt;&lt;p&gt;Fixes the speaker&amp;#x27;s standpoint. Like choosing a perspective in an argument, it shapes which premises seem relevant and which words get used. It adds no knowledge or credentials.&lt;/p&gt;&lt;p&gt;Watch out: A role is a costume, not a qualification. A model playing a doctor is not a doctor, so check health, legal or money advice with a real one.&lt;/p&gt;</content>
+</entry>
 <entry>
 <title>Scope (Sc)</title>
 <id>tag:followorbounce.github.io,2026-11-27:element</id>
@@ -268,14 +277,5 @@
 <updated>2026-10-30T00:00:00-07:00</updated>
 <summary>Rules the answer must obey, such as length, cost or things to avoid.</summary>
 <content type="html">&lt;p&gt;Rules the answer must obey, such as length, cost or things to avoid.&lt;/p&gt;&lt;p&gt;Limitations are necessary conditions: an answer that breaks one fails, however good it is otherwise. Meeting every limitation still does not make an answer good enough.&lt;/p&gt;&lt;p&gt;Watch out: Check the answer against each limit yourself. Models sometimes quietly break a rule, such as a word count, while sounding as if they kept it.&lt;/p&gt;</content>
-</entry>
-<entry>
-<title>Points of view (Pv)</title>
-<id>tag:followorbounce.github.io,2026-10-29:element</id>
-<link rel="alternate" type="text/html" href="https://followorbounce.github.io/logic-of-a-prompt#points-of-view"/>
-<published>2026-10-29T00:00:00-07:00</published>
-<updated>2026-10-29T00:00:00-07:00</updated>
-<summary>Other people&#x27;s perspectives the answer should consider, not only yours.</summary>
-<content type="html">&lt;p&gt;Other people&amp;#x27;s perspectives the answer should consider, not only yours.&lt;/p&gt;&lt;p&gt;Looking from several standpoints tests whether a conclusion holds for everyone affected. A premise that seems obvious from one side may be false or irrelevant from another.&lt;/p&gt;&lt;p&gt;Watch out: Listing views is not the same as weighing them. Two sides shown as equal can hide that one has much better evidence.&lt;/p&gt;</content>
 </entry>
 </feed>
